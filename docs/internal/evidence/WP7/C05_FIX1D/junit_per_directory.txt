@@ -1,0 +1,24 @@
+== docs/internal/evidence/WP7/C05_FIX1D/junit_owner_all.xml
+  tests/owner/adapters: passed=13 failed=0 skipped=0 xfailed=0
+  tests/owner/api: passed=205 failed=0 skipped=0 xfailed=0
+  tests/owner/artifacts: passed=15 failed=0 skipped=0 xfailed=0
+  tests/owner/evaluation: passed=3 failed=0 skipped=0 xfailed=0
+  tests/owner/orchestration: passed=34 failed=0 skipped=0 xfailed=0
+  tests/owner/projection: passed=259 failed=0 skipped=0 xfailed=0
+  tests/owner/qa: passed=273 failed=0 skipped=1 xfailed=0
+  tests/owner/registry: passed=19 failed=0 skipped=0 xfailed=0
+  tests/owner/runner_protocol: passed=60 failed=0 skipped=0 xfailed=0
+  tests/owner/search: passed=153 failed=0 skipped=0 xfailed=0
+  tests/owner/structure_sandbox: passed=14 failed=0 skipped=0 xfailed=0
+  tests/owner/t2: passed=25 failed=0 skipped=7 xfailed=0
+  tests/owner/training: passed=18 failed=0 skipped=0 xfailed=0
+  tests/owner/unit: passed=415 failed=0 skipped=0 xfailed=0
+  tests/owner/worker: passed=41 failed=0 skipped=0 xfailed=0
+== docs/internal/evidence/WP7/C05_FIX1D/junit_public_all.xml
+  tests/public/contracts: passed=190 failed=0 skipped=0 xfailed=0
+  tests/public/infra: passed=65 failed=0 skipped=0 xfailed=0
+  tests/public/model_runtime: passed=114 failed=0 skipped=0 xfailed=0
+  tests/public/ops: passed=59 failed=0 skipped=0 xfailed=0
+  tests/public/packaging: passed=42 failed=0 skipped=0 xfailed=0
+  tests/public/runner: passed=115 failed=0 skipped=0 xfailed=0
+  tests/public/server: passed=538 failed=0 skipped=1 xfailed=0

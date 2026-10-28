@@ -1,0 +1,4 @@
+$ runtime/venv/bin/python -I -B scripts/dev/canary_scan.py --manifest docs/internal/canary/CANARY_MANIFEST.json docs/internal/evidence/WP7/FIX1C scripts/public/make_pilot_subset.py tests/public/server/test_health_allowlists_split.py tests/public/server/test_routes.py tests/public/model_runtime/test_datasets.py mbnas_server/src/mbnas_server/api/relay.py build/allowlists/public.txt build/allowlists/registration.txt build/allowlists/owner.txt
+scanned files=22 bytes=136036 containers=0 skipped=0 hits=0 failing=0 unmet=0
+canary_scan: PASS
+exit=0

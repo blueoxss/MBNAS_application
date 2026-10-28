@@ -1,0 +1,52 @@
+--- a/application/MBNAS_server/contracts/openapi.json
++++ b/application/MBNAS_server/contracts/openapi.json
+@@ -2,7 +2,7 @@
+  "openapi": "3.1.0",
+  "info": {
+   "title": "MBNAS Server API",
+-  "version": "1.4.2",
++  "version": "1.4.3",
+   "description": "Canonical web/server contract for MBNAS_server (package mbnas_server). Derived from NAS_Console_API_Contract_20261006.json v1.0.0 with backward-compatible extensions (see x-contract-changelog). Candidate row id is evaluation_id; candidate_id is stable across promotions. Values in examples are not measured results."
+  },
+  "servers": [
+@@ -2282,7 +2282,7 @@
+       }
+      },
+      "422": {
+-      "description": "Semantic validation failed: TRAINING_RECIPE_MISSING, CLASS_COUNT_MISMATCH, STRUCTURE_INVALID, EPOCH_TARGET_INVALID, MODEL_CONFIG_INVALID, BASELINE_UNAVAILABLE, path codes",
++      "description": "Semantic validation failed: TRAINING_RECIPE_MISSING, CLASS_COUNT_MISMATCH, STRUCTURE_INVALID, EPOCH_TARGET_INVALID, MODEL_CONFIG_INVALID, BASELINE_UNAVAILABLE, DEVICE_UNSUPPORTED, EVAL_ONLY_UNSUPPORTED, VALIDATION_DISABLED_UNSUPPORTED, INITIAL_WEIGHTS_REQUIRED, RESUME_SOURCE_REQUIRED (meanings in x-status-vocabulary.error_codes_note), path codes",
+       "content": {
+        "application/json": {
+         "schema": {
+@@ -12438,6 +12438,14 @@
+  ],
+  "x-contract-changelog": [
+   {
++   "version": "1.4.3",
++   "date": "2026-10-26",
++   "author": "integration 2026-10-26 (design: claude-fable-5-1; implementation: claude-sonnet-5-5)",
++   "changes": [
++    "S05 fix round 1 (wording only): POST /training-runs 422 names the five training-selection codes it already returned - DEVICE_UNSUPPORTED, EVAL_ONLY_UNSUPPORTED, VALIDATION_DISABLED_UNSUPPORTED, INITIAL_WEIGHTS_REQUIRED, RESUME_SOURCE_REQUIRED - in its response description, and x-status-vocabulary.error_codes_added (all 422) / error_codes_note list them with a one-line meaning. No path, member, required list, enum value or status code changes."
++   ]
++  },
++  {
+    "version": "1.4.2",
+    "date": "2026-10-23",
+    "author": "integration 2026-10-23 (design: claude-fable-5-1; implementation: claude-sonnet-5-5)",
+@@ -12660,9 +12668,14 @@
+   "structure_diagnostic_codes_note": "StructureReport.diagnostics[].code. GENE_REPRESENTATION_NOT_APPLICABLE: the model has no gene representation for the requested view (status UNVERIFIED, not a failure). CLASS_COUNT_UNKNOWN (1.4.1): a native candidate whose run dataset YAML cannot be read, so the check did not run (UNVERIFIED). STRUCTURE_CHECK_FAILED (1.4.1): a non-environment exception ended the build or forward (the YAML path uses it as well). CLASS_COUNT_INVALID, HEAD_INPUT_INVALID and SHAPE_MISMATCH are reused for native heads and edges.",
+   "error_codes_added": {
+    "FINAL_RETRAIN_NOT_APPLICABLE": 409,
+-   "EXTERNAL_CHECKPOINT_IMPORT_UNSUPPORTED": 409
++   "EXTERNAL_CHECKPOINT_IMPORT_UNSUPPORTED": 409,
++   "DEVICE_UNSUPPORTED": 422,
++   "EVAL_ONLY_UNSUPPORTED": 422,
++   "VALIDATION_DISABLED_UNSUPPORTED": 422,
++   "INITIAL_WEIGHTS_REQUIRED": 422,
++   "RESUME_SOURCE_REQUIRED": 422
+   },
+-  "error_codes_note": "POST /training-runs mode=resume (DD-36): a request without checkpoint is not a 409 for a missing full-state, it takes the ordinary run Resume path. EXTERNAL_CHECKPOINT_IMPORT_UNSUPPORTED (409) is raised only when a checkpoint path was sent and the candidate has no recorded training_full; RESUME_CHECKPOINT_MISMATCH (409, existing since 1.3.x) when a path was sent and differs from the latest recorded one. FINAL_RETRAIN_NOT_APPLICABLE (409): POST /runs/{id}/final-retrain on a run whose resolved console.search.evaluation_enabled is false.",
++  "error_codes_note": "POST /training-runs mode=resume (DD-36): a request without checkpoint is not a 409 for a missing full-state, it takes the ordinary run Resume path. EXTERNAL_CHECKPOINT_IMPORT_UNSUPPORTED (409) is raised only when a checkpoint path was sent and the candidate has no recorded training_full; RESUME_CHECKPOINT_MISMATCH (409, existing since 1.3.x) when a path was sent and differs from the latest recorded one. FINAL_RETRAIN_NOT_APPLICABLE (409): POST /runs/{id}/final-retrain on a run whose resolved console.search.evaluation_enabled is false. POST /training-runs 422 (training selection, named since 1.4.3): DEVICE_UNSUPPORTED - the resolved training device is not cuda:0 (the worker exposes its assigned GPU as cuda:0); EVAL_ONLY_UNSUPPORTED - mode evaluate_only is accepted only for a verified official ultralytics baseline (a baseline of another backend, a user model and a search/generated candidate are refused; candidate checkpoints are evaluated from their run); VALIDATION_DISABLED_UNSUPPORTED - validation=false is implemented for the ultralytics backend only; INITIAL_WEIGHTS_REQUIRED - mode pretrained or evaluate_only found no existing server weights file (give checkpoint for a user or candidate model; a baseline needs registered official weights); RESUME_SOURCE_REQUIRED - mode resume needs source.run_id and source.candidate_id of the existing training run.",
+   "worker_log_reason_codes_added": [
+    "CHECKPOINT_REPORT_REJECTED"
+   ],

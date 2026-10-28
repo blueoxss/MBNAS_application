@@ -1,0 +1,26 @@
+........................................................................ [ 33%]
+........................................................................ [ 66%]
+..............2026-10-28T02:49:55.844Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-fa07ae0bc4af/events status=200 request_id=2723cc9aff5940719ee50a2fbfd4c2af duration_ms=41.1 client=127.0.0.1:50000
+2026-10-28T02:49:55.845Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-fa07ae0bc4af/events status=200 request_id=2723cc9aff5940719ee50a2fbfd4c2af duration_ms=44.9 client=127.0.0.1:45486
+.2026-10-28T02:49:56.698Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-02a073cd6624/events?after_seq=0 status=200 request_id=fc72d04cddff444d8e93430001e5f3f1 duration_ms=8.6 client=127.0.0.1:50000
+2026-10-28T02:49:56.699Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-02a073cd6624/events?after_seq=0 status=200 request_id=fc72d04cddff444d8e93430001e5f3f1 duration_ms=10.7 client=127.0.0.1:49692
+.2026-10-28T02:49:57.820Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-48a25a7d368b/events?after_seq=3 status=200 request_id=e604fa1f69914c5c9a7b05259dd6b1a3 duration_ms=359.7 client=127.0.0.1:50000
+2026-10-28T02:49:57.820Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-48a25a7d368b/events?after_seq=3 status=200 request_id=e604fa1f69914c5c9a7b05259dd6b1a3 duration_ms=363.4 client=127.0.0.1:56360
+.2026-10-28T02:49:58.948Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-09e37ec61da7/events?after_seq=3 status=200 request_id=a7c723884f2f427bbf8dcfc6d65a40bd duration_ms=325.1 client=127.0.0.1:50000
+2026-10-28T02:49:58.949Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-09e37ec61da7/events?after_seq=3 status=200 request_id=a7c723884f2f427bbf8dcfc6d65a40bd duration_ms=329.0 client=127.0.0.1:56316
+.2026-10-28T02:50:00.069Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-2d642539a004/events?after_seq=3 status=200 request_id=b018347ee14741b9b37986665ba76d9b duration_ms=332.3 client=127.0.0.1:50000
+2026-10-28T02:50:00.070Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-2d642539a004/events?after_seq=3 status=200 request_id=b018347ee14741b9b37986665ba76d9b duration_ms=336.2 client=127.0.0.1:48504
+.2026-10-28T02:50:01.277Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-458c95421ec5/events?after_seq=73 status=200 request_id=b41648322c3f45cf87e83e50dacb9e77 duration_ms=13.9 client=127.0.0.1:50000
+2026-10-28T02:50:01.278Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-458c95421ec5/events?after_seq=73 status=200 request_id=b41648322c3f45cf87e83e50dacb9e77 duration_ms=17.7 client=127.0.0.1:41572
+....................................................  [100%]
+=============================== warnings summary ===============================
+tests/owner/api/test_artifact_signature_non_ascii.py::test_non_ascii_signature_is_403_access_denied[exp={exp}&sig=%C3%A9]
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/owner/api/test_training_selection.py::test_non_ultralytics_baseline_binding_records_native_structure[rf-detr-nano-rfdetr-30147076]
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/pydantic/main.py:263: PretrainWeightsCompatibilityWarning: RFDETRNanoConfig was instantiated with pretrain_weights=None. The model will be initialised from scratch, which typically produces lower accuracy than fine-tuning from the published checkpoint ('rf-detr-nano.pth').
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+215 passed, 2 warnings in 243.78s (0:04:03)

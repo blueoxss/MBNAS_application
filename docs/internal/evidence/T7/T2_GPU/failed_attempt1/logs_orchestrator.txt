@@ -1,0 +1,6 @@
+# TREE_HASH sha256:164292c6e775a52a3da02f98282257b67a282f9e84b236ded3940e592a568f2f (header added after the run; the frozen copy's installed tree)
+{"label": "new_1", "exit_code": 2, "seconds": 3.9}
+{"label": "ref", "exit_code": 2, "seconds": 3.8}
+{"label": "new_2", "exit_code": 2, "seconds": 3.9}
+{"snapshot_unchanged": true, "runs": ["new_1", "ref", "new_2"]}
+exit=1

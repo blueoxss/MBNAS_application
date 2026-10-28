@@ -1,0 +1,37 @@
++++++++++++++++++++++++++++++++++++ Timeout ++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~ Stack of AnyIO worker thread (140194229786368) ~~~~~~~~~~~~~~~~
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/threading.py", line 973, in _bootstrap
+    self._bootstrap_inner()
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 1089, in run
+    item = self.queue.get()
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/queue.py", line 171, in get
+    self.not_empty.wait()
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/threading.py", line 320, in wait
+    waiter.acquire()
+~~~~~~~~~~~~ Stack of asyncio-portal-7f81886f14b0 (140194242098944) ~~~~~~~~~~~~
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/threading.py", line 973, in _bootstrap
+    self._bootstrap_inner()
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
+    self.run()
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/threading.py", line 953, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py", line 538, in run_blocking_portal
+    run_eventloop(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/anyio/_core/_eventloop.py", line 83, in run
+    return async_backend.run(func, args, {}, backend_options)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 2548, in run
+    return runner.run(wrapper())
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/anyio/_backends/_asyncio.py", line 216, in run
+    return self._loop.run_until_complete(task)
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/asyncio/base_events.py", line 636, in run_until_complete
+    self.run_forever()
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/asyncio/base_events.py", line 603, in run_forever
+    self._run_once()
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/asyncio/base_events.py", line 1871, in _run_once
+    event_list = self._selector.select(timeout)
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/selectors.py", line 469, in select
+    fd_event_list = self._selector.poll(timeout, max_ev)
++++++++++++++++++++++++++++++++++++ Timeout ++++++++++++++++++++++++++++++++++++
+Fexit=124 dur=240s

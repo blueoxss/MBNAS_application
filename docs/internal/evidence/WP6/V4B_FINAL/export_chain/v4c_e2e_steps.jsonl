@@ -1,0 +1,28 @@
+{"at":"2026-10-27T23:12:34.249Z","step":"shot:01-server-connected","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-27T23:12:35.988Z","step":"axe:server","serious_critical":0,"violations":[],"nodes":[],"all_violations":0}
+{"at":"2026-10-27T23:12:36.150Z","step":"V4-01","policy_label":"server preset DEFAULT_BASELINE14 (design example)"}
+{"at":"2026-10-27T23:12:37.482Z","step":"shot:01-settings-preset-auto","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-27T23:12:39.803Z","step":"axe:settings","serious_critical":0,"violations":[],"nodes":[],"all_violations":0}
+{"at":"2026-10-27T23:12:42.142Z","step":"shot:02-upload-good","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-27T23:12:46.591Z","step":"V4-02","upload_sha256":"ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720","structure_status":"PASS","upload_id":"upl-ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720"}
+{"at":"2026-10-27T23:12:47.425Z","step":"shot:02-structure-pass","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-27T23:12:49.136Z","step":"axe:structure-check-dialog","serious_critical":0,"violations":[],"nodes":[],"all_violations":0}
+{"at":"2026-10-27T23:12:52.346Z","step":"V4-03","structure_status":"FAIL","diagnostic_codes_shown":["SHAPE_MISMATCH","MERGE_INPUT_MISMATCH"]}
+{"at":"2026-10-27T23:12:53.193Z","step":"shot:03-structure-fail","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-27T23:12:56.352Z","step":"shot:04-training-form","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-27T23:12:57.481Z","step":"V4-04","run_id":"train-f64352dd29b7","message":"✔ 별도 학습 run 생성: train-f64352dd29b7 · yolo11n_user.yaml source_sha256 sha256:ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720 학습 모니터링 열기"}
+{"at":"2026-10-27T23:12:58.885Z","step":"shot:04-training-created","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-27T23:13:06.221Z","step":"V4-05","run_status":"COMPLETED","candidates":[{"id":"model-b271a6289882.TRAIN.eval","candidate_id":"model-b271a6289882","status":"SEARCH_COMPLETE"}]}
+{"at":"2026-10-27T23:13:07.491Z","step":"shot:05-run-completed-server","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-27T23:13:08.739Z","step":"shot:05-run-completed-monitor","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-27T23:13:10.343Z","step":"axe:monitor","serious_critical":0,"violations":[],"nodes":[],"all_violations":0}
+{"at":"2026-10-27T23:13:12.645Z","step":"shot:06-detail-structure","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-27T23:13:12.874Z","step":"V4-06","gene_nodes":24,"block_rows":24,"architecture_yaml_section":1}
+{"at":"2026-10-27T23:13:13.773Z","step":"shot:06-detail-blocks-yaml","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-27T23:13:15.937Z","step":"axe:candidate-dialog","serious_critical":0,"violations":[],"nodes":[],"all_violations":0}
+{"at":"2026-10-27T23:13:17.322Z","step":"V4-07","kinds":["original","selected","executed"],"source_sha256":["sha256:ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720","sha256:0e47ec6b95d7f8beb17f3326730db8d709d41fd3a1d0f566fb71df91c074030e","sha256:e1d49bbe4a28ec1317c528cd5600a5b50f067fd687b309beecaf568ec9e54c21"],"revision_ids":["rev-bc331c5ce71cf73f","rev-986ed689835ae460","rev-f2c60d60088699b0"]}
+{"at":"2026-10-27T23:13:18.088Z","step":"shot:07-revisions","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-27T23:13:18.370Z","step":"V4-08","left":"rev-986ed689835ae460","right":"rev-f2c60d60088699b0","summary":"+133 행 / −26 행","add_rows":133,"del_rows":26}
+{"at":"2026-10-27T23:13:19.205Z","step":"shot:08-diff","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-27T23:13:19.561Z","step":"V4-09","downloads":[{"kind":"original","file":"model-b271a6289882-original-rev-bc331c5ce71cf73f.yaml","saved_sha256":"ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720","source_sha256":"sha256:ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720","match":true},{"kind":"selected","file":"model-b271a6289882-selected-rev-986ed689835ae460.yaml","saved_sha256":"0e47ec6b95d7f8beb17f3326730db8d709d41fd3a1d0f566fb71df91c074030e","source_sha256":"sha256:0e47ec6b95d7f8beb17f3326730db8d709d41fd3a1d0f566fb71df91c074030e","match":true},{"kind":"executed","file":"model-b271a6289882-executed-rev-f2c60d60088699b0.yaml","saved_sha256":"e1d49bbe4a28ec1317c528cd5600a5b50f067fd687b309beecaf568ec9e54c21","source_sha256":"sha256:e1d49bbe4a28ec1317c528cd5600a5b50f067fd687b309beecaf568ec9e54c21","match":true}]}
+{"at":"2026-10-27T23:13:20.422Z","step":"shot:09-download-verdict","mobile_horizontal_overflow_px":0}

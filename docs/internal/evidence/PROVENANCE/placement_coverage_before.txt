@@ -1,0 +1,17 @@
+# C01 fix round 1b (EVAL_1 D1) - BEFORE adding rows: PLACEMENT coverage of the five package source trees
+# cwd TARGET_ROOT, 2026-10-28T03:59:38+09:00
+$ CUDA_VISIBLE_DEVICES='' runtime/venv/bin/python -I -B scripts/dev/placement_coverage.py --format text
+manifest docs/internal/provenance/PLACEMENT_MANIFEST.jsonl (588 rows, sha256 d5a281db5bc5...)
+package files 221 (py 214, data 7) {'mbnas_contracts': 28, 'mbnas_model_runtime': 49, 'mbnas_core': 91, 'mbnas_runner': 23, 'mbnas_server': 30}
+covered 212/221 (py 206/214); missing 9, deleted but present 0, unrecorded deletions 0, row errors 0; recorded deletions 0; sha drift (informational) 60
+  missing: mbnas_contracts/src/mbnas_contracts/openapi/drafts/openapi-1.5.0.draft.json
+  missing: mbnas_core/src/mbnas_core/artifacts/locations.py
+  missing: mbnas_core/src/mbnas_core/console/owner_routes.py
+  missing: mbnas_core/src/mbnas_core/console/routes_revisions.py
+  missing: mbnas_core/src/mbnas_core/db/rows.py
+  missing: mbnas_core/src/mbnas_core/orchestration/config_revisions.py
+  missing: mbnas_runner/src/mbnas_runner/transfer.py
+  missing: mbnas_server/src/mbnas_server/api/artifact_routes.py
+  missing: mbnas_server/src/mbnas_server/api/gateway_inputs.py
+FINDINGS
+exit=1

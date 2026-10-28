@@ -1,0 +1,17 @@
+$ unshare -rn cat /proc/net/dev
+Inter-|   Receive                                                |  Transmit
+ face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
+    lo:       0       0    0    0    0     0          0         0        0       0    0    0    0     0       0          0
+exit=0
+$ unshare -rn python3 -c "socket.create_connection((pypi.org,443),5)"
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+exit=1
+$ unshare -rn python3 -c "socket.create_connection((1.1.1.1,443),5)"
+OSError: [Errno 101] Network is unreachable
+exit=1
+$ (cwd=<scratchpad>/t6final) unshare -rn <offline A tree>/runtime/venv/bin/python -c 'import the 4 public packages; find_spec(mbnas_core) is None'
+offline A tree imports ok (no network); mbnas_core spec None
+exit=0
+$ (cwd=<scratchpad>/t6final) unshare -rn <offline final tree>/runtime/venv/bin/python -c 'import the 4 public packages; find_spec(mbnas_core) is None'
+offline final tree imports ok (no network); mbnas_core spec None
+exit=0

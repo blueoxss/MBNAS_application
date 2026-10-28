@@ -1,0 +1,64 @@
+--- a/application/MBNAS_server/src/mbnas_server/search/structure.py
++++ b/application/MBNAS_server/src/mbnas_server/search/structure.py
+@@ -373,7 +373,6 @@
+         if _name(module) in DETECTION_MODULES and args and isinstance(args[0], int) and args[0] != genotype.yaml.get("nc"):
+             diagnostics.append(_diagnostic("HEAD_CLASS_MISMATCH", "head class count differs from model nc",
+                                            "Use nc or the same class count as the model.", index, path, "declared"))
+-    status["yaml_rows"] = "PASS"
+     status["references"] = "FAIL" if any(d["code"].startswith("FROM_") for d in diagnostics) else "PASS"
+     nc = genotype.yaml.get("nc")
+     if isinstance(nc, bool) or not isinstance(nc, int) or nc < 1 or (class_count is not None and nc != class_count):
+@@ -398,6 +397,9 @@
+         diagnostics.append(_diagnostic("ACTIVATION_REFUSED", "activation expression is outside the safe supported constructors",
+                                        "Use a supported torch.nn activation constructor.", path="activation",
+                                        evidence_level="declared"))
++    # yaml_rows covers the per-row identifier/emptiness rules and the activation expression; it is derived from the
++    # diagnostics like references/class_count/scales (INPUT_SIZE_INVALID stays attributed to the request, not to the YAML).
++    status["yaml_rows"] = "FAIL" if any(d["code"] in {"BLOCK_NAME_INVALID", "MODEL_EMPTY", "ACTIVATION_REFUSED"} for d in diagnostics) else "PASS"
+     if diagnostics:
+         return {**describe_genotype(genotype, resolve_source=True), "input_size": input_size, "status": "FAIL", "diagnostics": diagnostics,
+                 "checks": _checks_doc(status, level)}
+@@ -465,9 +467,11 @@
+     unavailable = _environment_failure(report.error)
+     code = "STRUCTURE_RUNTIME_UNAVAILABLE" if unavailable else _failure_code(report.error)
+     stage_level = "forward" if report.stage == "forward" or report.failure_kind == "forward" else "built"
++    raw_row = report.error_row if isinstance(report.error_row, int) and 0 <= report.error_row < len(rows) else None
+     diagnostics = [_diagnostic(code, _runtime_message(report.error),
+                                "Restore the configured runtime and rerun." if unavailable else "Correct this block's module, routing, channels, or merge inputs and rerun.",
+-                               report.error_row, evidence_level=stage_level)]
++                               report.error_row, _path_of(genotype, raw_row) if raw_row is not None else None,
++                               evidence_level=stage_level)]
+     if unavailable:
+         status["cpu_build"] = "NOT_CHECKED"
+         return {**describe_genotype(genotype, resolve_source=True), "input_size": input_size, "status": "UNVERIFIED",
+@@ -476,8 +480,10 @@
+     extra_effective: dict[str, Any] | None = None
+     if kind == "forward":
+         status["module_support"] = "PASS"  # the parser produced every row; the failure is in the forward loop
++        extra["module_support"] = {"rows_checked": len(rows)}
+         status["cpu_build"] = "PASS" if report.stage == "forward" else "FAIL"
+-        status["reference_forward"] = "FAIL"
++        # A constructor (stride probe) failure means the reference-size forward never ran: it is not claimed as failed.
++        status["reference_forward"] = "FAIL" if report.stage == "forward" else "NOT_CHECKED"
+         if isinstance(row, int) and 0 <= row < len(rows):
+             name, path = _name(rows[row][2]), _path_of(genotype, row)
+             inputs = (ctx or {}).get("inputs") or []
+@@ -492,6 +498,7 @@
+                                                "Give every merged source the same spatial size (and channels for Add/Sum).",
+                                                row, path, "forward"))
+                 status["merge_conditions"] = "FAIL"
++                extra["merge_conditions"] = {"rows_checked": 1}
+             elif name in DETECTION_MODULES:
+                 wrapped = (ctx or {}).get("module_class") == "Sequential"
+                 cause = ("a detection head row with repeats > 1 is built as nn.Sequential and cannot take its list of sources; "
+@@ -500,8 +507,10 @@
+                                                "Declare the head once (repeats 1) and feed it one source per scale.",
+                                                row, path, "forward"))
+                 status["head_connection"] = "FAIL"
++                extra["head_connection"] = {"rows_checked": 1}
+             elif code == "SHAPE_MISMATCH":
+                 status["channels_spatial_stride"] = "FAIL"
++                extra["channels_spatial_stride"] = {"rows_checked": 1}
+     elif kind == "parse":
+         status["module_support"] = "FAIL"
+         status["cpu_build"] = "FAIL"

@@ -1,0 +1,13 @@
+"""Scratchpad-only pytest plugin: neutralise the DD-A64 claim-side reclaim (routes.sweeper.reclaim -> no-op) so the
+new regression tests can be run against the pre-fix claim behaviour without touching the project tree."""
+import types
+
+import pytest
+
+
+@pytest.fixture(autouse=True)
+def _dd_a64_without_claim_reclaim(monkeypatch):
+    from mbnas_core.runner_api import routes
+
+    monkeypatch.setattr(routes, "sweeper", types.SimpleNamespace(reclaim=lambda *a, **k: []))
+    yield

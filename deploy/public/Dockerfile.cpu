@@ -1,0 +1,83 @@
+# MBNAS Research Console 0.1.0 - PUBLIC runtime image, CPU ONLY (DD-A31, WP-7 section 1b): CPU smoke and hosts
+# without an NVIDIA GPU. Same roles as deploy/public/Dockerfile (gateway | runner), built from requirements-cpu.txt
+# (torch/torchvision +cpu builds; not the verified cu124 platform). CUDA_VISIBLE_DEVICES is empty, so a runner
+# registers as a CPU runner: training, checkpoints, structure checks and OFF generation run; evaluation latency needs
+# CUDA, so CPU evaluations stay latency_source=pending (DD-A32). No private core package, no secrets in the image.
+#
+# Build context = the unpacked public ZIP root (requirements-cpu.txt, wheels/, mbnas_web/dist):
+#   docker build -f deploy/public/Dockerfile.cpu -t mbnas-public-cpu:0.1.0 .
+# Online build = network access to PyPI and download.pytorch.org/whl/cpu (the cu124 wheelhouse does not cover it).
+# Run: deploy/public/docker-compose.yml (profile cpu), or
+#   docker run --rm --init --env-file config/public/gateway.env -p 127.0.0.1:8710:8710 mbnas-public-cpu:0.1.0 gateway
+#   docker run --rm --init --shm-size 2g --env-file config/public/runner.env mbnas-public-cpu:0.1.0 runner
+ARG BASE_IMAGE=python:3.10-slim
+FROM ${BASE_IMAGE}
+
+ARG MBNAS_VERSION=0.1.0
+ARG PIP_EXTRA_ARGS=""
+ARG MBNAS_UID=10001
+ARG MBNAS_GID=10001
+
+LABEL org.opencontainers.image.title="MBNAS Research Console - public runtime (CPU only)" \
+      org.opencontainers.image.version="${MBNAS_VERSION}" \
+      org.opencontainers.image.description="Roles gateway | runner (CPU). Requires a reachable MBNAS core. See THIRD_PARTY_NOTICES.md."
+
+# shared libraries of the pinned OpenCV wheels (libGL, GLib; the GLib package is libglib2.0-0t64 on Debian 13)
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends libgl1 \
+ && (apt-get install -y --no-install-recommends libglib2.0-0t64 || apt-get install -y --no-install-recommends libglib2.0-0) \
+ && rm -rf /var/lib/apt/lists/*
+
+ENV VIRTUAL_ENV=/opt/mbnas/venv \
+    PATH=/opt/mbnas/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONNOUSERSITE=1 \
+    PIP_CONFIG_FILE=/dev/null \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_NO_CACHE_DIR=1
+
+WORKDIR /opt/mbnas/install
+RUN python3.10 -m venv /opt/mbnas/venv \
+ && python -m pip install ${PIP_EXTRA_ARGS} "pip==25.3"
+
+# third-party layer first (rebuilt only when the pins change), then the project wheels on top of it
+COPY requirements-cpu.txt ./
+RUN grep -v '^\./wheels/' requirements-cpu.txt > requirements-thirdparty.txt \
+ && python -m pip install ${PIP_EXTRA_ARGS} -r requirements-thirdparty.txt
+# public wheels only, named one by one: a build from an owner tree must not copy the private core wheel into a layer
+COPY wheels/mbnas_contracts-${MBNAS_VERSION}-py3-none-any.whl \
+     wheels/mbnas_model_runtime-${MBNAS_VERSION}-py3-none-any.whl \
+     wheels/mbnas_runner-${MBNAS_VERSION}-py3-none-any.whl \
+     wheels/mbnas_server-${MBNAS_VERSION}-py3-none-any.whl \
+     ./wheels/
+RUN python -m pip install ${PIP_EXTRA_ARGS} -r requirements-cpu.txt \
+ && python -m pip check \
+ && ! python -c "import mbnas_core" 2>/dev/null
+
+COPY mbnas_web/dist/ /opt/mbnas/web/dist/
+COPY deploy/public/docker-entrypoint.sh /usr/local/bin/mbnas-entrypoint
+RUN chmod 0755 /usr/local/bin/mbnas-entrypoint \
+ && test -f /opt/mbnas/web/dist/index.html \
+ && groupadd --system --gid "${MBNAS_GID}" mbnas \
+ && useradd --system --no-log-init --uid "${MBNAS_UID}" --gid "${MBNAS_GID}" --home-dir /srv/mbnas --no-create-home \
+      --shell /usr/sbin/nologin mbnas \
+ && mkdir -p /srv/mbnas/runtime /srv/mbnas/data /tmp/mbnas-home/.config \
+ && chown -R "${MBNAS_UID}:${MBNAS_GID}" /srv/mbnas \
+ && chmod 1777 /tmp/mbnas-home /tmp/mbnas-home/.config
+
+ENV MBNAS_HOME=/srv/mbnas/runtime \
+    MBNAS_GW_HOST=0.0.0.0 \
+    MBNAS_GW_PORT=8710 \
+    MBNAS_GW_WEB_DIST=/opt/mbnas/web/dist \
+    CUDA_VISIBLE_DEVICES="" \
+    HOME=/tmp/mbnas-home \
+    MPLBACKEND=Agg \
+    YOLO_OFFLINE=1 \
+    YOLO_AUTOINSTALL=false
+
+WORKDIR /srv/mbnas
+USER ${MBNAS_UID}:${MBNAS_GID}
+EXPOSE 8710
+ENTRYPOINT ["/usr/local/bin/mbnas-entrypoint"]

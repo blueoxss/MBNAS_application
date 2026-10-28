@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.22, pytest-9.1.1, pluggy-1.6.0 -- <ROOT>/runtime/venv/bin/python
+rootdir: <ROOT>
+configfile: pyproject.toml
+plugins: anyio-4.15.1, timeout-2.4.0
+timeout: 180.0s
+timeout method: signal
+timeout func_only: False
+collecting ... collected 7 items
+
+tests/public/runner/test_runner_settings_no_db.py::test_no_core_db_or_core_credential_field[RunnerSettings] PASSED [ 14%]
+tests/public/runner/test_runner_settings_no_db.py::test_no_core_db_or_core_credential_field[GatewaySettings] PASSED [ 28%]
+tests/public/runner/test_runner_settings_no_db.py::test_secret_fields_are_exactly_the_services_own[RunnerSettings] PASSED [ 42%]
+tests/public/runner/test_runner_settings_no_db.py::test_secret_fields_are_exactly_the_services_own[GatewaySettings] PASSED [ 57%]
+tests/public/runner/test_runner_settings_no_db.py::test_env_names_stay_in_the_services_own_namespace[RunnerSettings] PASSED [ 71%]
+tests/public/runner/test_runner_settings_no_db.py::test_env_names_stay_in_the_services_own_namespace[GatewaySettings] PASSED [ 85%]
+tests/public/runner/test_runner_settings_no_db.py::test_core_variables_never_reach_runner_or_gateway_settings PASSED [100%]
+
+============================== 7 passed in 0.16s ===============================

@@ -1,0 +1,76 @@
+# static checks of the final images (roles, imports, private package presence, exact installed set vs requirements file)
+# images built from build/docker/*-context with project wheels of the source tree at 2026-10-27T14:17 (built 14:15)
+# all docker run calls: --network none, no --gpus (no GPU used); default user 10001
+== image mbnas-public-cpu:0.1.0 (requirements requirements-cpu.txt, mbnas_core expected: no)
+id=sha256:41b17ab6bf9156e6014619ded2ec4d6578c1d08c0cc7fd5dd8a54722ef05cca3 size_bytes=2972260556 created=2026-10-27T05:16:48.306844049Z user=10001:10001 entrypoint=[/usr/local/bin/mbnas-entrypoint] workdir=/srv/mbnas
+mbnas-contracts 0.1.0
+mbnas-model-runtime 0.1.0
+mbnas-runner 0.1.0
+mbnas-server 0.1.0
+torch 2.6.0+cpu
+ultralytics 8.4.173
+role version exit=0
+no role exit=64 (expected 64)
+usage: <image> gateway|runner|register|doctor|version [args...]
+python 3.10.22 torch 2.6.0+cpu cuda_available False torchvision 0.21.0+cpu ultralytics 8.4.173 cv2 5.0.0 onnxruntime 1.23.2 rfdetr 1.11.2
+openapi.json packaged: True
+mbnas_core importable: no
+imports exit=0
+console script mbnas-gateway: present
+console script mbnas-runner: present
+console script mbnas-core-api: absent
+console script mbnas-core-owner-worker: absent
+console script mbnas-core-principal: absent
+assets
+index.html
+uid=10001(mbnas) gid=10001(mbnas) groups=10001(mbnas)
+installed set vs requirements-cpu.txt: required=125 installed=127 missing=[] extra(non-tool)=[] version_mismatch=[] tools={'setuptools': '79.0.1', 'pip': '25.3', 'wheel': None}
+== image mbnas-public:0.1.0 (requirements requirements-public.txt, mbnas_core expected: no)
+id=sha256:721d42299f708ce917d030cd6fa25b5259edc24ed4fb58187f7fdf66779717e6 size_bytes=10594200216 created=2026-10-27T05:16:54.626712152Z user=10001:10001 entrypoint=[/usr/local/bin/mbnas-entrypoint] workdir=/srv/mbnas
+mbnas-contracts 0.1.0
+mbnas-model-runtime 0.1.0
+mbnas-runner 0.1.0
+mbnas-server 0.1.0
+torch 2.6.0+cu124
+ultralytics 8.4.173
+role version exit=0
+no role exit=64 (expected 64)
+usage: <image> gateway|runner|register|doctor|version [args...]
+python 3.10.12 torch 2.6.0+cu124 cuda_available False torchvision 0.21.0+cu124 ultralytics 8.4.173 cv2 5.0.0 onnxruntime 1.23.2 rfdetr 1.11.2
+openapi.json packaged: True
+mbnas_core importable: no
+imports exit=0
+console script mbnas-gateway: present
+console script mbnas-runner: present
+console script mbnas-core-api: absent
+console script mbnas-core-owner-worker: absent
+console script mbnas-core-principal: absent
+assets
+index.html
+uid=10001(mbnas) gid=10001(mbnas) groups=10001(mbnas)
+installed set vs requirements-public.txt: required=138 installed=140 missing=[] extra(non-tool)=[] version_mismatch=[] tools={'setuptools': '59.6.0', 'pip': '25.3', 'wheel': None}
+== image mbnas-owner:0.1.0 (requirements requirements-owner.txt, mbnas_core expected: yes)
+id=sha256:41c3d5d3acc180c7fa1ca3e46deced9808289ba60fc0fc3e66074c9abad59f7f size_bytes=10596101197 created=2026-10-27T05:17:01.38403911Z user=10001:10001 entrypoint=[/usr/local/bin/mbnas-entrypoint] workdir=/srv/mbnas
+mbnas-contracts 0.1.0
+mbnas-model-runtime 0.1.0
+mbnas-runner 0.1.0
+mbnas-server 0.1.0
+mbnas-core 0.1.0
+torch 2.6.0+cu124
+ultralytics 8.4.173
+role version exit=0
+no role exit=64 (expected 64)
+usage: <image> core|owner-worker|principal|core-doctor|gateway|runner|register|version [args...]
+python 3.10.12 torch 2.6.0+cu124 cuda_available False torchvision 0.21.0+cu124 ultralytics 8.4.173 cv2 5.0.0 onnxruntime 1.23.2 rfdetr 1.11.2
+openapi.json packaged: True
+mbnas_core importable: /opt/mbnas/venv/lib/python3.10/site-packages/mbnas_core/__init__.py
+imports exit=0
+console script mbnas-gateway: present
+console script mbnas-runner: present
+console script mbnas-core-api: present
+console script mbnas-core-owner-worker: present
+console script mbnas-core-principal: present
+assets
+index.html
+uid=10001(mbnas) gid=10001(mbnas) groups=10001(mbnas)
+installed set vs requirements-owner.txt: required=139 installed=141 missing=[] extra(non-tool)=[] version_mismatch=[] tools={'wheel': None, 'setuptools': '59.6.0', 'pip': '25.3'}

@@ -1,0 +1,4 @@
+$ runtime/venv/bin/python -I scripts/dev/canary_scan.py --manifest docs/internal/canary/CANARY_MANIFEST.json --profile public --json <evidence>/canary_scan_public.json dist/public/mbnas_application-0.1.0-public-runtime-linux_x86_64.zip
+scanned files=624 bytes=13826367 containers=5 skipped=0 hits=0 failing=0 unmet=0
+canary_scan: PASS
+exit=0

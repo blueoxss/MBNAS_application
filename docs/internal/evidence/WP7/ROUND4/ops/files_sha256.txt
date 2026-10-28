@@ -1,0 +1,21 @@
+sha256 of the changed scripts (after round 4) and of the same files at git HEAD (before):
+b96cf879f5b3d31d957b6e4f4ac8f44c2fbc25ca673acc1df1e8b38f38548cdf  scripts/start.sh (after)
+4fa08514cf7538560b699eeb073a0c296d027770712a6b99a03a6e6b06348a2c  scripts/start.sh (git HEAD, before)
+fc27c3ab62605283932d5d27d7b6d68a7870344493d8c7c94b98e8804a62906a  scripts/stop.sh (after)
+427f4b670f598b81e53dadb2bee18e912a123be2f27608b9ba82ba253b3fd9a2  scripts/stop.sh (git HEAD, before)
+3fa8c688fbce40724728bcbac00ea20b1f7da1f0853180c69b30917061416199  scripts/doctor.sh (after)
+ac18f4b60942476afbeb1056ee6813b14fec5b3267b4d785d5b934e5734a8081  scripts/doctor.sh (git HEAD, before)
+0da440d4b30e8e2e402f35368a4c310215e95ff020a587069eba74f4baa47d03  scripts/verify.sh (after)
+0a892debee2f6a71c0d04ffd22dd1b6267c0d86238e3de63e9375bfb74c02c73  scripts/verify.sh (git HEAD, before)
+
+new tests:
+b9d882bd0c85b97ff971d3a71ab87ffd3ecd7a5fb923c846cb00014634bf3583  tests/public/ops/test_ops_role_env.py
+857c49be427ca6a6d54ea424548be58ff02bb3ce4366f22f6d58e0fc842e92d8  tests/public/ops/test_ops_stop_identity.py
+7017452f058e67b5f375f430eefcd1c3bea6577568e39cb371bd4c4d61d0766d  tests/public/ops/test_ops_relocation_origins.py
+
+git diff --stat HEAD (scripts):
+ scripts/doctor.sh |  26 +++++++++++++
+ scripts/start.sh  |  16 ++++++--
+ scripts/stop.sh   |  77 ++++++++++++++++++++++++++++++------
+ scripts/verify.sh | 114 ++++++++++++++++++++++++++++++++++++++++++++++--------
+ 4 files changed, 202 insertions(+), 31 deletions(-)

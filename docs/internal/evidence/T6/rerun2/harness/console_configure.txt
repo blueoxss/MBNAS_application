@@ -1,0 +1,13 @@
+configured mbnas owner r2/mbnas_application/config/owner/core.env: ['MBNAS_CORE_PORT'] (values not printed)
+configured mbnas owner r2/mbnas_application/config/owner/gateway.env: ['MBNAS_GW_CORE_URL', 'MBNAS_GW_PORT'] (values not printed)
+configured mbnas owner r2/mbnas_application/config/owner/runner.env: ['MBNAS_RUNNER_CORE_URL'] (values not printed)
+public: runner id generated at install = runner-6e75dfec
+issued server principal pr-705b0e287c865a22
+issued runner principal pr-72d439deb09eb875 for runner-6e75dfec
+configured mbnas public r2/mbnas_application/config/public/gateway.env: ['MBNAS_GW_CORE_TOKEN', 'MBNAS_GW_CORE_URL', 'MBNAS_GW_OUTPUT_ROOTS', 'MBNAS_GW_PORT'] (values not printed)
+configured mbnas public r2/mbnas_application/config/public/runner.env: ['MBNAS_RUNNER_CORE_URL', 'MBNAS_RUNNER_TOKEN'] (values not printed)
+registration: runner id generated at install = runner-0a212a58
+issued server principal pr-35d50b8fe1b695c2
+issued runner principal pr-c9084c513eb26883 for runner-0a212a58
+configured mbnas registration r2/mbnas_application/config/public/gateway.env: ['MBNAS_GW_CORE_TOKEN', 'MBNAS_GW_CORE_URL', 'MBNAS_GW_OUTPUT_ROOTS', 'MBNAS_GW_PORT'] (values not printed)
+configured mbnas registration r2/mbnas_application/config/public/runner.env: ['MBNAS_RUNNER_CORE_URL', 'MBNAS_RUNNER_TOKEN'] (values not printed)

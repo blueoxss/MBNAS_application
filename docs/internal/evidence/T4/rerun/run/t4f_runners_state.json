@@ -1,0 +1,7 @@
+{
+ "gen_run": "run-04cc64e706fd",
+ "gen_arch_ok": true,
+ "upload_id": "upl-ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720",
+ "trainval_run": "train-e04ffc38bb5f",
+ "trainval_candidate": "model-6676d75f3e1e"
+}

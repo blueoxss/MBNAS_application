@@ -1,0 +1,54 @@
+# web gates (final source) 2026-10-27T18:41:31Z (mbnas_web, node v24.20.0)
+## $ npm run check:types
+> mbnas-web@0.1.0 check:types
+> node scripts/gen-types.mjs --check
+✨ openapi-typescript 7.13.0
+🚀 /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/openapi/openapi.json → /tmp/mbnas-types-yapuK7/types.gen.ts [324.2ms]
+types.gen.ts matches the contract
+exit 0
+## $ npm run typecheck
+> mbnas-web@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+exit 0
+## $ npx vitest run
+ RUN  v5.0.3 /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web
+ Test Files  45 passed (45)
+      Tests  591 passed (591)
+   Start at  03:41:42
+   Duration  12.51s (transform 34%, environment 29%, tests 28%, import 5%, setup 4%)
+  Transform  transforming modules took 68.17s · 34% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+exit 0
+## $ npm run build
+✓ 79 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.73 kB │ gzip:   0.44 kB
+dist/assets/index-CG8HuodM.css   14.68 kB │ gzip:   3.87 kB
+dist/assets/index-BnpZcnwU.js   529.54 kB │ gzip: 160.08 kB
+✓ built in 389ms
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+exit 0
+## $ npm run check:bundle
+  extra    "differs from client rule": 0
+  extra    "client template": 0
+  extra    "METRIC_NOT_FINITE": 0
+  extra    "LATENCY_NONPOSITIVE": 0
+  extra    "SIZE_NONPOSITIVE": 0
+  extra    "repair_reason": 0
+  extra    "Repair reason": 0
+  extra    "R (repair)": 0
+  extra    "old_name": 0
+  extra    "fitnessOracle": 0
+  extra    "fitness_oracle": 0
+bundle hygiene: OK (0 hits)
+exit 0
+## dist
+f2891c72186405ecef65c036b61d8af60f8b22edc5d3c926c55867943e507788  ./assets/index-BnpZcnwU.js
+1e0f94d5b6e2984c057f8522dde0a11beae25c1d5bdff42376f0211413c18da2  ./assets/index-CG8HuodM.css
+e742cf1f8c85a8c1dc2ea45b2723c4e5c58c766ac09aec7db227df79bdddf234  ./index.html

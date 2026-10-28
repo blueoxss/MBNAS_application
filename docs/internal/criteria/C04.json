@@ -1,0 +1,62 @@
+{
+ "id": "C04",
+ "name": "분산 상태",
+ "version": "1.0 (2026-10-23 22:4x, 설계자 claude-fable-5-1 고정; 변경 시 사유·버전 기록)",
+ "pass_condition": {
+  "total_score": "> 90 of 100",
+  "blocker": 0,
+  "critical": 0,
+  "mandatory_evidence": "all criteria must cite artifacts produced in TARGET_ROOT by executed commands (no source-doc reported values)"
+ },
+ "criteria": [
+  {
+   "id": "idempotent_atomic",
+   "points": 25,
+   "observable_evidence": "멱등 원자성: result commit (job,attempt)+digest, 재생/충돌/PROCESSING 처리, 단일 tx",
+   "mandatory_checks": "T3-10/11/12/22 통과",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "revision_rng",
+   "points": 25,
+   "observable_evidence": "revision·RNG: 후보 출력+RNG 상태+policy revision+멱등 응답 원자 확정(생성 journal·commit_evaluation 재생 보호)",
+   "mandatory_checks": "T3-37, tests/owner/search/test_generation_recovery_independent 통과",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "lease_fencing",
+   "points": 25,
+   "observable_evidence": "lease fencing: attempt epoch+runner_id, stale heartbeat/result 409, sweeper 회수·과금 1행",
+   "mandatory_checks": "T3-13~18 통과",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "budget_cancel",
+   "points": 25,
+   "observable_evidence": "예산·취소: timeout 불명 시 자동 환급/재청구 없음, 취소 경쟁 결정적, 동기화 미완료 run 미완료",
+   "mandatory_checks": "T3-08/09/14/16 통과; costs.record_lost_attempt 의미 테스트",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  }
+ ],
+ "notes": "점수는 자체 품질 평가이며 보안 확률·실측 성능이 아니다. 미실행 시험은 0점이고 BLOCKED_BY_ENV는 별도 표기(점수 아님)."
+}

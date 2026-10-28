@@ -1,0 +1,28 @@
+{
+ "_stderr": "",
+ "_stdout": "scanned files=151 bytes=5220211 containers=5 skipped=0 hits=0 failing=0 unmet=0\ncanary_scan: PASS\n",
+ "exit": 0,
+ "expect_present": false,
+ "expectations": [],
+ "failing_hits": 0,
+ "hits": [],
+ "hits_by_label": {},
+ "host_facts": false,
+ "manifest": null,
+ "needle_count": 7,
+ "profile": null,
+ "scanned": {
+  "bytes": 5220211,
+  "containers": 5,
+  "files": 151,
+  "min_files": 151,
+  "skipped": []
+ },
+ "schema": "mbnas.canary_scan/1",
+ "status": "PASS",
+ "targets": [
+  "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/public"
+ ],
+ "too_few_files": false,
+ "unmet_expectations": 0
+}

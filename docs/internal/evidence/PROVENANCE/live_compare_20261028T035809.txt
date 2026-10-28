@@ -1,0 +1,20 @@
+# C01 fix round 1b (EVAL_1 D2): manifest vs live original, read-only (git --no-optional-locks, lstat-only mtime scan)
+# cwd: TARGET_ROOT; started 2026-10-28T03:58:09+09:00
+$ CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 runtime/venv/bin/python -I -B scripts/dev/snapshot_compare.py --source-root /home/mgjeong/Desktop/etri_hd/etri_nas --mtime-scan --json-out docs/internal/evidence/PROVENANCE/live_compare_20261028T035809.json
+manifest rows 603
+snapshot copy: match 603, differ 0, missing 0, extra 0, pyc 0, __pycache__ 0
+delta chain: files 2, rows 57, last row == manifest 51/51, supersedes links ok 6 bad 0, summary listing mismatch 0
+summary counts == manifest: True
+live: HEAD 18c481517d43 (== snapshot HEAD: True), commits since snapshot {'18c481517d4393f5d7818aba5b37d721e15628c5': 0}, branch work/mbnas-integration-20261021, status entries 302
+live sha256: match 603, differ 0, missing 0 (of 603); git fields all match 603; mismatch {'head_blob_sha1': 0, 'index_blob_sha1': 0, 'git_status': 0, 'git_blob_sha1': 0}
+live status of rows {'tracked_clean': 416, 'tracked_modified': 93, 'untracked': 94}; rows in HEAD tree 509
+selected live files 620: new code 0, new docs 17; newest selected mtime 2026-10-26T10:28:59.383479+00:00; modified after 2026-10-26T10:40:59.774090+00:00: 0
+.git/index+HEAD unchanged during the run: True
+mtime scan: 116134 files, after first copy 551 {'application': 551}, after 2026-10-26T10:40:59.774090+00:00: 0, newest 2026-10-26T10:30:52.668669+00:00 (application/docs/integration_20261021/evidence_impl/S06_iter4_eval/run_e2e_stdout.txt), symlinks not followed 93844
+ok True (0.95 s)
+
+real	0m1.045s
+user	0m0.659s
+sys	0m0.397s
+exit=0
+# finished 2026-10-28T03:58:10+09:00

@@ -1,0 +1,7 @@
+command: <public venv>/bin/python -B -m pytest tests/public/runner/test_runner_settings_no_db.py tests/public/runner/test_runner_entrypoint_redaction.py -m 'not gpu and not live and not legacy_records and not host_data' --timeout=180 -p no:cacheprovider --basetemp <SCRATCH>/pt_pubbundle -v -rfEs
+cwd: <SCRATCH>/pubbundle (= pyproject.toml + tests/ copied from the final public ZIP's unpacked T6 tree, plus the two new files)
+interpreter: the final public tree's venv (installed public wheels; mbnas_core not installed)
+start_utc: 2026-10-27T23:45:41Z
+end_utc: 2026-10-27T23:45:42Z
+exit: 0
+find_spec(mbnas_core) from the run cwd: None

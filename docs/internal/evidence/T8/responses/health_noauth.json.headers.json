@@ -1,0 +1,13 @@
+{
+ "status": 401,
+ "headers": {
+  "date": "Tue, 27 Oct 2026 18:11:11 GMT",
+  "server": "uvicorn",
+  "www-authenticate": "Bearer",
+  "content-length": "127",
+  "content-type": "application/json",
+  "vary": "Origin",
+  "x-request-id": "c6de0807f3c44e5495d85b18f98cd322",
+  "connection": "close"
+ }
+}

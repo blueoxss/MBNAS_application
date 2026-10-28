@@ -1,0 +1,140 @@
+{
+ "schema": "mbnas.doctor/1",
+ "root": "/srv/mbnas public r2/mbnas_application",
+ "profile": "public",
+ "ok": true,
+ "counts": {
+  "PASS": 24,
+  "WARN": 1,
+  "FAIL": 0
+ },
+ "blocking": [],
+ "checks": [
+  {
+   "name": "interpreter",
+   "status": "PASS",
+   "detail": "Python 3.10.22 venv /srv/mbnas public r2/mbnas_application/runtime/venv"
+  },
+  {
+   "name": "package:mbnas-contracts",
+   "status": "PASS",
+   "detail": "0.1.0 from /srv/mbnas public r2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_contracts"
+  },
+  {
+   "name": "package:mbnas-model-runtime",
+   "status": "PASS",
+   "detail": "0.1.0 from /srv/mbnas public r2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime"
+  },
+  {
+   "name": "package:mbnas-runner",
+   "status": "PASS",
+   "detail": "0.1.0 from /srv/mbnas public r2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_runner"
+  },
+  {
+   "name": "package:mbnas-server",
+   "status": "PASS",
+   "detail": "0.1.0 from /srv/mbnas public r2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_server"
+  },
+  {
+   "name": "package:mbnas-core",
+   "status": "PASS",
+   "detail": "absent (public profile)"
+  },
+  {
+   "name": "entry_points",
+   "status": "PASS",
+   "detail": "3 console scripts in runtime/venv/bin"
+  },
+  {
+   "name": "path_strings",
+   "status": "PASS",
+   "detail": "169 files scanned, no original-host path string"
+  },
+  {
+   "name": "config:gateway",
+   "status": "PASS",
+   "detail": "core_url http://127.0.0.1:18900, listen 127.0.0.1:18910; secrets set: MBNAS_GW_API_TOKEN, MBNAS_GW_ARTIFACT_SIGNING_KEY, MBNAS_GW_CORE_TOKEN"
+  },
+  {
+   "name": "config:runner",
+   "status": "PASS",
+   "detail": "core_url http://127.0.0.1:18900, runner_id runner-6e75dfec; secrets set: MBNAS_RUNNER_TOKEN|_TOKEN_FILE"
+  },
+  {
+   "name": "process:gateway",
+   "status": "PASS",
+   "detail": "running (pid 55)"
+  },
+  {
+   "name": "process:runner",
+   "status": "PASS",
+   "detail": "running (pid 76)"
+  },
+  {
+   "name": "env:gateway",
+   "status": "PASS",
+   "detail": "pid 55: no PYTHONPATH / PYTHONHOME in its environment"
+  },
+  {
+   "name": "env:runner",
+   "status": "PASS",
+   "detail": "pid 76: no PYTHONPATH / PYTHONHOME in its environment"
+  },
+  {
+   "name": "port:gateway",
+   "status": "PASS",
+   "detail": "127.0.0.1:18910 held by this tree's gateway (pid 55)"
+  },
+  {
+   "name": "port:web",
+   "status": "PASS",
+   "detail": "127.0.0.1:8720 free"
+  },
+  {
+   "name": "gpu",
+   "status": "WARN",
+   "detail": "nvidia-smi exit 9: no GPU listed"
+  },
+  {
+   "name": "gateway:core_url",
+   "status": "PASS",
+   "detail": "loopback http"
+  },
+  {
+   "name": "gateway:core_tls",
+   "status": "PASS",
+   "detail": "plain http core_url: no TLS on this connection (see core_url)"
+  },
+  {
+   "name": "core:gateway",
+   "status": "PASS",
+   "detail": "http://127.0.0.1:18900/core/v1/console/health -> HTTP 200 status=ok"
+  },
+  {
+   "name": "gateway:store",
+   "status": "PASS",
+   "detail": "/srv/mbnas public r2/mbnas_application/runtime/gateway/artifacts"
+  },
+  {
+   "name": "gateway:log_dir",
+   "status": "PASS",
+   "detail": "/srv/mbnas public r2/mbnas_application/runtime/gateway/logs"
+  },
+  {
+   "name": "core:runner",
+   "status": "PASS",
+   "detail": "http://127.0.0.1:18900 answers (HTTP 401 without a token)"
+  },
+  {
+   "name": "disk",
+   "status": "PASS",
+   "detail": "118.4 GB free under runtime/"
+  },
+  {
+   "name": "web_dist",
+   "status": "PASS",
+   "detail": "mbnas_web/dist present (served by the gateway at /)"
+  }
+ ],
+ "at": "2026-10-28T02:01:11Z"
+}

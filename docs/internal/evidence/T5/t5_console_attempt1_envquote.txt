@@ -1,0 +1,76 @@
+=== phase setup
+[t5 2026-10-27T18:24:27Z] core.env written (0600; keys: MBNAS_HOME MBNAS_CORE_HOST MBNAS_CORE_PORT MBNAS_CORE_API_TOKEN MBNAS_CORE_ARTIFACT_SIGNING_KEY MBNAS_CORE_TICKET_KEY MBNAS_CORE_DATASET_ROOTS MBNAS_CORE_OUTPUT_ROOTS MBNAS_CORE_HEARTBEAT_S )
+=== phase setup exit=0
+=== phase core_start
+<T>/t5/core_home/core.env: 줄 8: <T>/t5/core_home/core/runs]: 그런 파일이나 디렉터리가 없습니다
+[t5 2026-10-27T18:25:29Z] core listening on 127.0.0.1:18750 (unauthenticated health -> 000) pid=
+<T>/t5/core_home/core.env: 줄 8: <T>/t5/core_home/core/runs]: 그런 파일이나 디렉터리가 없습니다
+[t5 2026-10-27T18:25:32Z] owner worker pid=
+=== phase core_start exit=0
+=== phase principals
+<T>/t5/core_home/core.env: 줄 8: <T>/t5/core_home/core/runs]: 그런 파일이나 디렉터리가 없습니다
+Traceback (most recent call last):
+  File "<T>/t4f/mbnas_application/runtime/venv/bin/mbnas-core-principal", line 8, in <module>
+    sys.exit(main())
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core/ops/principals.py", line 40, in main
+    settings = CoreSettings.load(args.env_file)
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core/config.py", line 229, in load
+    return cls(_env_file=path) if path else cls()
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/pydantic_settings/main.py", line 262, in __init__
+    super().__init__(**__pydantic_self__.__class__._settings_build_values(sources, init_kwargs))
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/pydantic/main.py", line 263, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CoreSettings
+dataset_roots
+  Value error, Expecting value: line 1 column 2 (char 1) [type=value_error, input_value='[/srv/mbnas/data]', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/value_error
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "<PY310_ENV>/lib/python3.10/json/__init__.py", line 293, in load
+    return loads(fp.read(),
+  File "<PY310_ENV>/lib/python3.10/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "<PY310_ENV>/lib/python3.10/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "<PY310_ENV>/lib/python3.10/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+<T>/t5/core_home/core.env: 줄 8: <T>/t5/core_home/core/runs]: 그런 파일이나 디렉터리가 없습니다
+Traceback (most recent call last):
+  File "<T>/t4f/mbnas_application/runtime/venv/bin/mbnas-core-principal", line 8, in <module>
+    sys.exit(main())
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core/ops/principals.py", line 40, in main
+    settings = CoreSettings.load(args.env_file)
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core/config.py", line 229, in load
+    return cls(_env_file=path) if path else cls()
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/pydantic_settings/main.py", line 262, in __init__
+    super().__init__(**__pydantic_self__.__class__._settings_build_values(sources, init_kwargs))
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/pydantic/main.py", line 263, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CoreSettings
+dataset_roots
+  Value error, Expecting value: line 1 column 2 (char 1) [type=value_error, input_value='[/srv/mbnas/data]', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/value_error
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "<PY310_ENV>/lib/python3.10/json/__init__.py", line 293, in load
+    return loads(fp.read(),
+  File "<PY310_ENV>/lib/python3.10/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "<PY310_ENV>/lib/python3.10/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "<PY310_ENV>/lib/python3.10/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+[t5 2026-10-27T18:25:33Z] principals issued (server, runner t5-cpu-runner); env files 0600: 600 <T>/t5/run/config/public/gateway.env 600 <T>/t5/run/config/public/runner.env 
+=== phase principals exit=0
+=== phase containers_start
+79a96af8f704dfb887920dad0eba6bc6626561294c03ff2236881f5e5423e40a
+[t5 2026-10-27T18:25:33Z] gateway container start exit=0
+[t5 2026-10-27T18:26:35Z] gateway answers (no token) -> 000
+50664fac1374a8d6a802b127710d26bef1441a4e63ac89a57a7f502fbc6aaa47
+[t5 2026-10-27T18:26:35Z] runner container start exit=0
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+sqlite3.OperationalError: unable to open database file
+=== phase containers_start exit=1

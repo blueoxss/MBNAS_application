@@ -1,0 +1,69 @@
+FIX5_T3_34 - fix round 5 (DD-A66; C08 EVAL_1 T3-34, D1-D5) - commands actually run and their results (2026-10-28 KST).
+All runs: cwd TARGET_ROOT, runtime/venv/bin/python -B, CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1
+PIP_CONFIG_FILE=/dev/null; pytest with -m "not gpu and not live and not legacy_records and not host_data"
+-p no:cacheprovider -q -rfEs --timeout=600 --basetemp=<session scratchpad>. No GPU, nothing under /data or etri_nas.
+Test tokens printed by failure tracebacks are redacted in the copies below (<redacted-test-token>).
+
+baseline before any edit (08:49 KST)
+  pytest tests/public/contracts tests/owner/orchestration/test_retention.py tests/owner/unit/test_db.py
+         tests/owner/unit/test_db_migration.py                                 218 passed
+
+contract regeneration
+  scripts/dev/gen_runner_openapi.py            wrote openapi_runner.json 1.1.0 (sha256 72ddb8bf...; was 8316ed7d...)
+  scripts/dev/gen_runner_openapi.py --check    exit 0 (after the last edit of runner_protocol.py)
+  public contract openapi.json                 sha256 70e0cffa... unchanged (= HEAD)    -> contract_change_runner_protocol_1.1.0.json
+
+FINAL suites (09:26-09:32 KST, after the last code edit)                 -> pytest/F*.txt (+ .meta: exit code, UTC times)
+  F1 tests/owner/runner_protocol tests/owner/artifacts           6 failed, 91 passed   (exit 1)
+     failures = test_artifact_transfer::test_local_transfer_stores_every_registered_file_with_meta,
+                test_artifact_wiring x3, test_checkpoint_artifact_id x2: they assume every registered full state stays on
+                the runner, but harness.small_protocol (PILOT_SMOKE) defaults to last_rung_end_only, which DD-A66 now
+                applies to remote runs (epoch 1 is pruned on the runner during the job). Not owned here; proposal
+                cross_package/tests_owner_{runner_protocol,artifacts}_conftest.py.proposed.diff (pin keep_all);
+                simulated with cross_package/keepall_simulation_plugin.py: 7 passed (keepall_simulation_result.txt)
+  F2 tests/owner/orchestration tests/owner/projection            309 passed            (exit 0)
+  F3 tests/public/runner tests/public/contracts                  11 failed, 332 passed, 9 deselected (exit 1)
+     failures = tests/public/contracts/test_runner_protocol.py only (pins the 1.0.0 contract: samples, HeartbeatControl
+                prune sample, version, 10 paths). Not owned here; proposal cross_package/test_runner_protocol.proposed.diff,
+                run on a scratch copy against the regenerated contract: 116 passed
+  F4 tests/owner/api                                             212 passed            (exit 0)
+     (F4 ran the first version of tests/owner/api/test_structure_report_hashes.py; its CRLF fixture was then made clean
+      CRLF (09:52, assertions unchanged) and the final file passed alone and in pytest_new_tests_verbose.txt)
+  collateral, not required:
+  F5 tests/owner/worker tests/owner/unit                         3 failed, 462 passed, 3 deselected (exit 1)
+     failures = test_db.py::test_pragmas_and_schema, test_db_migration.py x2: schema_version "5" pinned; v6 is the
+                DD-A66 additive migration ('6' == '5' assertion). Proposal cross_package/tests_owner_unit_test_db*.proposed.diff
+  F6 tests/owner/qa tests/public/server tests/public/infra       1 failed, 876 passed, 2 skipped, 30 deselected (exit 1)
+     failure = tests/public/infra/test_import_closure.py::test_no_unresolved_reference: 2 unresolved references in
+               tests/public/ops/test_ops_relocation_origins.py (another agent's new untracked file, 09:04 KST); not this fix
+
+new tests (09:4x KST)                                                    -> pytest_new_tests_verbose.txt
+  pytest -v tests/owner/runner_protocol/test_t3_34_prune_roundtrip.py tests/owner/orchestration/test_retention_remote_policy.py
+            tests/owner/api/test_structure_report_hashes.py tests/public/runner/test_prune_control.py      33 passed
+  repeat x3: test_real_daemon_prunes_on_its_own_and_keeps_the_store_copies + test_prune_control.py      15 passed x3
+                                                                         -> pytest/repeat3_daemon_and_runner_unit.txt
+negative control (D1)                                                    -> negative_control/
+  the original check_user_model re-installed in-process: test_model_path_crlf_source_sha256_is_the_file_bytes_sha FAILS
+  (final test file: reported digest = translated text cf001914..., file bytes 4d6f849d...); with the fix it passes
+
+real-process smoke (09:26:04-09:26:42 KST, final code)                   -> prune_roundtrip_smoke.txt (exit 0, PASS)
+  runtime/venv/bin/python -B docs/internal/evidence/WP7/FIX5_T3_34/fix5_prune_roundtrip_smoke.py --timeout 900
+  core + owner worker + runner + gateway as real processes (127.0.0.1, ephemeral ports), user API through the gateway only
+  A REAL ultralytics yolo11 (nc 1) CPU training, 3 epochs, 64 px, validation off, last_rung_end_only (one 3-epoch stage =
+    keep the last full state): epochs 1, 2 got prune requests at E6 (planned_by checkpoint_registered), delivered once in
+    the same lease, reported by the runner as already_absent (the ultralytics stage trainer had deleted those
+    intermediates itself one epoch later - recorded as observed), rows PRUNED, runner_local PRUNED, requests DONE; epoch 3
+    PRESENT on the runner and downloaded through the gateway: 31,600,545 B, sha256(body) == X-Artifact-Sha256 ==
+    registered digest, pre-send verification; public detail {1: PRUNED, 2: PRUNED, 3: PRESENT}; the gateway store
+    copies of epochs 1, 2 are untouched and still served (200)
+  B same request (validation on) on a second runner process with the SYNTHETIC stub trainer (payloads never deleted by
+    the trainer): the RUNNER deleted epochs 1, 2 (already_absent false, 163 B freed each), rows PRUNED, requests DONE;
+    epoch 3 downloaded through the gateway with matching digest; store copies untouched
+  an earlier run of the same smoke on the code before the last edits (09:16 KST) also passed (same outcome)
+
+import closure                                                           -> import_closure.txt
+  scripts/dev/check_import_closure.py --format text      exit 1: violations 0; unresolved 2, both in
+                                                          tests/public/ops/test_ops_relocation_origins.py (not this fix)
+placement coverage                                                       -> placement_coverage.txt
+  16 rows appended to docs/internal/provenance/PLACEMENT_MANIFEST.jsonl (11 modified + 4 new at 09:45, 1 modified test at 09:52)
+  scripts/dev/placement_coverage.py --format text         exit 0, covered 221/221, missing 0, row errors 0

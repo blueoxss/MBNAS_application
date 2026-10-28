@@ -1,0 +1,16 @@
+# TREE_HASH sha256:164292c6e775a52a3da02f98282257b67a282f9e84b236ded3940e592a568f2f
+# start_utc 2026-10-27T06:44:24.096Z
+{"variant": "production", "model": "yolo11n", "input_size": 640, "as_gib": 5, "status": "PASS", "codes": [], "code": null, "seconds": 2.17}
+{"variant": "production", "model": "yolo11n", "input_size": 640, "as_gib": 6, "status": "PASS", "codes": [], "code": null, "seconds": 2.22}
+{"variant": "production", "model": "yolo11n", "input_size": 640, "as_gib": 8, "status": "PASS", "codes": [], "code": null, "seconds": 2.07}
+{"variant": "production", "model": "yolo11x", "input_size": 1280, "as_gib": 5, "status": "SANDBOX_FAILURE", "codes": null, "code": "STRUCTURE_CHECK_RESOURCE_LIMIT", "seconds": 2.77}
+{"variant": "production", "model": "yolo11x", "input_size": 1280, "as_gib": 6, "status": "PASS", "codes": [], "code": null, "seconds": 5.44}
+{"variant": "production", "model": "yolo11x", "input_size": 1280, "as_gib": 8, "status": "PASS", "codes": [], "code": null, "seconds": 5.28}
+{"variant": "production", "model": "rt-detr-x", "input_size": 1280, "as_gib": 5, "status": "PASS", "codes": [], "code": null, "seconds": 5.19}
+{"variant": "production", "model": "rt-detr-x", "input_size": 1280, "as_gib": 6, "status": "PASS", "codes": [], "code": null, "seconds": 5.38}
+{"variant": "production", "model": "rt-detr-x", "input_size": 1280, "as_gib": 8, "status": "PASS", "codes": [], "code": null, "seconds": 5.29}
+{"variant": "cuda_visible", "model": "yolo11n", "input_size": 640, "as_gib": 6, "status": "PASS", "codes": [], "code": null, "seconds": 1.92}
+{"variant": "cuda_visible", "model": "yolo11n", "input_size": 640, "as_gib": 8, "status": "PASS", "codes": [], "code": null, "seconds": 2.02}
+{"variant": "cuda_visible", "model": "yolo11x", "input_size": 1280, "as_gib": 6, "status": "PASS", "codes": [], "code": null, "seconds": 6.09}
+{"variant": "cuda_visible", "model": "yolo11x", "input_size": 1280, "as_gib": 8, "status": "PASS", "codes": [], "code": null, "seconds": 6.19}
+exit=0 end_utc 2026-10-27T06:45:16.317Z

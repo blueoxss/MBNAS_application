@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# negative controls for the round-4 ops tests: copies of the new tests run against pre-change / mutated scripts.
+set -u -o pipefail
+REPO=<ROOT>
+NEG="$1"
+mk() {  # variant -> tree with the current scripts, tests and pyproject
+  local v="$NEG/$1"
+  rm -rf "$v"; mkdir -p "$v/scripts" "$v/tests/public/ops"
+  cp "$REPO"/scripts/{install,doctor,start,stop,verify}.sh "$v/scripts/"
+  cp "$REPO"/tests/public/ops/{conftest.py,opstest_support.py,test_ops_role_env.py,test_ops_stop_identity.py,test_ops_relocation_origins.py} "$v/tests/public/ops/"
+  cp "$REPO/pyproject.toml" "$v/"
+}
+runv() {  # variant tests... -> pytest summary
+  local v="$NEG/$1"; shift
+  ( cd "$v" && CUDA_VISIBLE_DEVICES="" PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null \
+      MBNAS_TEST_ROOT="$NEG/test_root" MBNAS_HOME="$NEG/home" timeout 900 "$REPO/runtime/venv/bin/python" -B -m pytest \
+      -p no:cacheprovider -m "not gpu and not live and not legacy_records and not host_data" --timeout=180 \
+      --basetemp="$NEG/bt_$(basename "$v")" -q -rf "$@" 2>&1 | grep -E "^(FAILED|ERROR|[0-9]+ (passed|failed))|passed|failed" | sed "s#$NEG#<NEG>#g" )
+}
+echo "== variant head: all five scripts as in git HEAD (before round 4)"
+mk head
+for s in install doctor start stop verify; do git -C "$REPO" show "HEAD:scripts/$s.sh" > "$NEG/head/scripts/$s.sh"; done
+runv head tests/public/ops
+echo "== variant mut_start: current scripts, start.sh without both unset lines"
+mk mut_start
+sed -i 's/^unset PYTHONPATH PYTHONHOME PYTHONSTARTUP PYTHONUSERBASE OLDPWD$/true/; s/&& unset OLDPWD PYTHONPATH PYTHONHOME PYTHONSTARTUP PYTHONUSERBASE \\/\\/' "$NEG/mut_start/scripts/start.sh"
+grep -c "unset .*PYTHONPATH" "$NEG/mut_start/scripts/start.sh" | sed 's/^/   unset lines left: /'
+runv mut_start tests/public/ops/test_ops_role_env.py
+echo "== variant mut_stop: current scripts, kill_verified never compares the start time"
+mk mut_stop
+sed -i 's/  elif \[ -z "\$2" \] || \[ "\$now" != "\$2" \]; then/  elif false; then/' "$NEG/mut_stop/scripts/stop.sh"
+grep -c "elif false; then" "$NEG/mut_stop/scripts/stop.sh" | sed 's/^/   mutated lines: /'
+runv mut_stop tests/public/ops/test_ops_stop_identity.py
+echo "== variant mut_doctor: current scripts, doctor.sh treats no key as shadowing"
+mk mut_doctor
+sed -i 's/^SHADOW_KEYS = ("PYTHONPATH", "PYTHONHOME")/SHADOW_KEYS = ()/' "$NEG/mut_doctor/scripts/doctor.sh"
+grep -c "^SHADOW_KEYS = ()" "$NEG/mut_doctor/scripts/doctor.sh" | sed 's/^/   mutated lines: /'
+runv mut_doctor tests/public/ops/test_ops_role_env.py
+echo "== variant mut_verify: current scripts, where() calls every origin ROOT"
+mk mut_verify
+sed -i 's/^    if under_root(path):$/    if True:/' "$NEG/mut_verify/scripts/verify.sh"
+grep -c "^    if True:$" "$NEG/mut_verify/scripts/verify.sh" | sed 's/^/   mutated lines: /'
+runv mut_verify tests/public/ops/test_ops_relocation_origins.py

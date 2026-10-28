@@ -1,0 +1,30 @@
+_____ test_registration_build_does_not_depend_on_the_file_list_placeholder _____
+
+tmp_path = PosixPath('/tmp/pytest-of-mgjeong/pytest-1087/test_registration_build_does_n0')
+
+    def test_registration_build_does_not_depend_on_the_file_list_placeholder(tmp_path: Path) -> None:
+        digests = {}
+        for label, placeholder in (("without", None), ("with", "# FILE_LIST (source placeholder)\n생성 대기\n"),
+                                   ("altered", "# a different placeholder text\n")):
+            root = make_tree(tmp_path / label)
+            if placeholder is not None:
+                (root / "docs" / "registration" / "FILE_LIST.md").write_text(placeholder, encoding="utf-8")
+            proc = run_build(root, "--profile", "registration", "--reproducible")
+>           assert proc.returncode == 0, proc.stdout[-3000:]
+E           AssertionError: 
+E           assert 2 == 0
+E            +  where 2 = CompletedProcess(args=['<ROOT>/runtime/test_root/t6/rerun2/mbnas owner r2/mbn...: /tmp/pytest-of-mgjeong/pytest-1087/test_registration_build_does_n0/without/proj/build/allowlists/registration.txt\n').returncode
+
+tests/public/packaging/test_package_contents_and_gates.py:254: AssertionError
+=============================== warnings summary ===============================
+runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1
+  <ROOT>/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/owner/adapters/test_structure_native_cpu.py::test_rfdetr_nano_matches_adapter_build_and_probe
+tests/owner/adapters/test_structure_native_cpu.py::test_rfdetr_wrong_input_size_is_a_fail_document
+tests/owner/api/test_training_selection.py::test_non_ultralytics_baseline_binding_records_native_structure[rf-detr-nano-rfdetr-30147076]
+tests/owner/search/test_block_catalog.py::test_rfdetr_document_blocks_are_catalogued
+  <ROOT>/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application/runtime/venv/lib/python3.10/site-packages/pydantic/main.py:263: PretrainWeightsCompatibilityWarning: RFDETRNanoConfig was instantiated with pretrain_weights=None. The model will be initialised from scratch, which typically produces lower accuracy than fine-tuning from the published checkpoint ('rf-detr-nano.pth').
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+

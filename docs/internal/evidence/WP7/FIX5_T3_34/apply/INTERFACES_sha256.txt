@@ -1,0 +1,1 @@
+355f68d7d1f0c0f897ecbe1dc472277f46e75cf77ec25a4493206e2a10ad7126  docs/registration/INTERFACES.md

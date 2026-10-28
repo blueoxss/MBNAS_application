@@ -1,0 +1,22 @@
+$ runtime/venv/bin/python -I docs/internal/evidence/WP7/PFINAL2/t8/zip_leak_scan.py dist/registration/mbnas_application-0.1.0-registration-runtime-linux_x86_64.zip --fixture-prefix mbnas_application/tests/ --fixture-prefix mbnas_application/mbnas_web/tests/ --fixture-prefix mbnas_application/mbnas_web/e2e/  --json <evidence>/zip_leak_scan_registration.json
+dist/registration/mbnas_application-0.1.0-registration-runtime-linux_x86_64.zip: files 633, hits 19, failing 0, by kind {'secret_assignment (test fixture)': 16, 'ipv4 (test fixture)': 3}
+  fixture secret_assignment mbnas_application/tests/_shared/stub_core.py:18 CORE_TOKEN=<mbnas_…, 49 chars>
+  fixture secret_assignment mbnas_application/tests/public/ops/opstest_support.py:36 TEST_RUNNER_TOKEN=<ops-te…, 22 chars>
+  fixture ipv4 mbnas_application/tests/public/runner/test_runner_daemon_unit.py:302 10.1.2.3
+  fixture ipv4 mbnas_application/tests/public/runner/test_runner_daemon_unit.py:307 192.168.0.5
+  fixture ipv4 mbnas_application/tests/public/runner/test_runner_daemon_unit.py:311 10.9.9.9
+  fixture secret_assignment mbnas_application/tests/public/runner/test_runner_entrypoint_redaction.py:120 late_token=<c05o2-…, 22 chars>
+  fixture secret_assignment mbnas_application/tests/public/runner/test_runner_settings_no_db.py:136 MBNAS_RUNNER_TICKET_KEY=<plante…, 31 chars>
+  fixture secret_assignment mbnas_application/tests/public/runner/test_runner_settings_no_db.py:137 MBNAS_RUNNER_ADMIN_TOKEN=<plante…, 32 chars>
+  fixture secret_assignment mbnas_application/tests/public/runner/test_runner_settings_no_db.py:139 MBNAS_GW_TICKET_KEY=<plante…, 27 chars>
+  fixture secret_assignment mbnas_application/tests/public/runner/test_runner_settings_no_db.py:140 MBNAS_GW_ADMIN_TOKEN=<plante…, 28 chars>
+  fixture secret_assignment mbnas_application/tests/public/runner/test_tls_private_ca.py:23 RUNNER_TOKEN=<runner…, 29 chars>
+  fixture secret_assignment mbnas_application/tests/public/server/test_dd_a60_access_log_gateway.py:18 TOKEN=<gw-tes…, 31 chars>
+  fixture secret_assignment mbnas_application/tests/public/server/test_dd_a60_access_log_gateway.py:74 secret=<querys…, 26 chars>
+  fixture secret_assignment mbnas_application/tests/public/server/test_gateway_skeleton.py:26 TOKEN=<gw-tes…, 24 chars>
+  fixture secret_assignment mbnas_application/tests/public/server/test_gateway_skeleton.py:289 secret=<querys…, 26 chars>
+  fixture secret_assignment mbnas_application/tests/public/server/test_health_allowlists_split.py:26 TOKEN=<gw-spl…, 32 chars>
+  fixture secret_assignment mbnas_application/tests/public/server/test_tls_private_ca.py:27 SERVICE_TOKEN=<gw-cor…, 32 chars>
+  fixture secret_assignment mbnas_application/tests/public/server/test_tls_private_ca.py:28 API_TOKEN=<gw-api…, 23 chars>
+  fixture secret_assignment mbnas_application/tests/public/server/test_wp3b_gateway_fixes.py:283 core_token=<core-s…, 22 chars>
+exit=0

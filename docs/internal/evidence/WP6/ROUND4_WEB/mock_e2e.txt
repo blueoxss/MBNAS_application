@@ -1,0 +1,41 @@
+ROUND 4 web track - mock e2e (Playwright, API mocked by e2e/mock.ts; synthetic fixtures only)
+Config: <SCRATCH>/pw_mock.config.ts = the project playwright.config.ts with (a) absolute testDir <ROOT>/mbnas_web/e2e,
+(b) outputDir <SCRATCH>/e2e_mock/test-results, (c) baseURL/webServer http://127.0.0.1:4197 = `vite preview` of the freshly
+built <ROOT>/mbnas_web/dist (index-7f__3l0I.js; no rebuild by the runner). cwd <SCRATCH>/e2e_mock/cwd, so evidence/*.png
+screenshots stay in the scratchpad. Env: CUDA_VISIBLE_DEVICES='', PLAYWRIGHT_HOST_PLATFORM_OVERRIDE=ubuntu22.04-x64,
+PLAYWRIGHT_BROWSERS_PATH=<ROOT>/runtime/pw-browsers. Script: <SCRATCH>/run_mock_e2e.sh. Port 4197 free before/after;
+the webServer was stopped by Playwright (no listener, no leftover process afterwards).
+
+1) targeted run: e2e/checkpoint_structure.spec.ts
+# round4 mock e2e 2026-10-28T08:41:12+09:00 cwd=<SCRATCH>/e2e_mock/cwd dist=<ROOT>/mbnas_web/dist args: e2e/checkpoint_structure.spec.ts
+  6 passed (7.7s)
+exit=0   [2026-10-28T08:41:22+09:00]
+
+2) full mock suite (desktop-1280 + mobile-375)
+# round4 mock e2e 2026-10-28T08:41:37+09:00 cwd=<SCRATCH>/e2e_mock/cwd dist=<ROOT>/mbnas_web/dist args: 
+  210 passed (29.7s)
+exit=0   [2026-10-28T08:42:08+09:00]
+
+per spec (passed/failed):
+  archive.spec.ts                   26 / 0
+  checkpoint_structure.spec.ts       6 / 0
+  config_upload.spec.ts              6 / 0
+  console.spec.ts                   60 / 0
+  final.spec.ts                     18 / 0
+  generation.spec.ts                16 / 0
+  hardening.spec.ts                 66 / 0
+  mobile.spec.ts                     4 / 0
+  perf.spec.ts                       2 / 0
+  weights.spec.ts                    6 / 0
+  projects: desktop-1280 103 passed, mobile-375 107 passed, failed 0
+
+before this round: 208 passed (C07 EVAL_1 re-run on the ZIP dist, 07:5x); now 210 = 208 + the new C07-D1 test x 2 projects:
+  ✓   19 [desktop-1280] › <ROOT>/mbnas_web/e2e/checkpoint_structure.spec.ts:71:3 › candidate detail: structure graph a11y + checkpoint download by id (V4-B fix) › block table: a row opens the same block detail as the graph node and the gene button (?block=, model_tab=structure) (10.0s)
+  ✓  118 [mobile-375] › <ROOT>/mbnas_web/e2e/checkpoint_structure.spec.ts:71:3 › candidate detail: structure graph a11y + checkpoint download by id (V4-B fix) › block table: a row opens the same block detail as the graph node and the gene button (?block=, model_tab=structure) (7.8s)
+
+What the new test asserts (both projects): block-row-6 has data-block-id block-0006; 9 row buttons; axe on the
+block table: no serious/critical and no nested-interactive; graph node #6 click -> selected-block '선택 블록 #6 · Concat',
+?block=block-0006; gene-6 click (after gene-0) -> identical selected-block textContent and ?block=; block-row-6 click (after
+gene-0) -> ?model_tab=structure, ?block=block-0006, model-tab-structure aria-pressed=true, identical selected-block
+textContent, gene-6 aria-pressed=true, block table hidden, focus on the selected-block <h4>.
+Screenshots (scratch only): <SCRATCH>/e2e_mock/cwd/evidence/{desktop-1280,mobile-375}-ckpt-block-table-link.png

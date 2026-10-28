@@ -1,0 +1,12 @@
+--- a/application/MBNAS_server/tests/search/test_structure_observation.py
++++ b/application/MBNAS_server/tests/search/test_structure_observation.py
+@@ -177,6 +177,9 @@
+     assert any(d["code"] == "SHAPE_MISMATCH" and d["position"] == 2 for d in result["diagnostics"])  # v1 raw forward diagnostic stays
+     assert checks(result)["merge_conditions"]["status"] == "FAIL"
+     assert checks(result)["merge_conditions"]["evidence_level"] == "forward"
++    # failing documents report how many rows each check covered, like PASS documents do
++    assert checks(result)["merge_conditions"]["rows_checked"] == 1
++    assert checks(result)["module_support"]["status"] == "PASS" and checks(result)["module_support"]["rows_checked"] == 4
+     row = result["blocks"][2]
+     assert "MERGE_INPUT_MISMATCH" in {c["code"] for c in row["checks_local"]}
+     assert [i["source"] for i in row["effective"]["inputs"]] == [0, 1]  # observed sources of the failing merge

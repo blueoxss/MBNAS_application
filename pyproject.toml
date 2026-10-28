@@ -1,0 +1,17 @@
+# Workspace root of the MBNAS Research Console (DD-A24): no build, no [project]. Each package under
+# mbnas_contracts/ mbnas_model_runtime/ mbnas_core/ mbnas_runner/ mbnas_server/ has its own pyproject.toml.
+# pytest configuration per WP-1 contract §9 (DD-A22). Gate:
+#   pytest tests/owner tests/public -m "not gpu and not live and not legacy_records and not host_data"
+[tool.pytest.ini_options]
+testpaths = ["tests/owner", "tests/public"]
+addopts = "-ra --import-mode=importlib -p no:cacheprovider"
+timeout = 600
+markers = [
+  "gpu: requires the host CUDA GPU (real-device evidence, not synthetic)",
+  "slow: longer than a few seconds",
+  "host_data: needs real host data (PILOT subset, probe/bench evidence, existing runs); skipped unless MBNAS_TEST_HOST_DATA=1",
+  "live: talks to live core/gateway/runner processes",
+  "legacy_records: record tests of the previous integration rounds; excluded from the default gate",
+  "owner_worker: runs jobs through the owner worker (mbnas_core.owner_worker)",
+  "runner_protocol: exercises the runner job protocol (mbnas_runner)",
+]

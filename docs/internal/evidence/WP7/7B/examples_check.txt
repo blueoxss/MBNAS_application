@@ -1,0 +1,11 @@
+[dataset] train: samples=4 counts={"boxes": 4, "empty_labels": 0, "images": 4, "issues": 0, "labelled": 4, "missing_labels": 0, "per_class": {"0": 4}} issues=0 duplicates=0
+[dataset] search_val: samples=4 counts={"boxes": 4, "empty_labels": 0, "images": 4, "issues": 0, "labelled": 4, "missing_labels": 0, "per_class": {"0": 4}} issues=0 duplicates=0
+[dataset] final_eval: samples=4 counts={"boxes": 4, "empty_labels": 0, "images": 4, "issues": 0, "labelled": 4, "missing_labels": 0, "per_class": {"0": 4}} issues=0 duplicates=0
+[dataset] names={0: 'drone'} nc=1 root=<examples>/synthetic4 cross_split_overlap=[]
+[structure] yolo11n_user.yaml: status=PASS codes=[] positions=[] sandbox={} -> OK
+[structure] yolo11n_user_broken.yaml: status=FAIL codes=['MERGE_INPUT_MISMATCH', 'SHAPE_MISMATCH'] positions=[(12, 'head[1]')] sandbox={} -> OK
+[protocol] committed output_root=/ABSOLUTE/PATH/TO/MBNAS_runs/cpu_generation_only
+[protocol] generator --protocol-out exit=0
+[protocol] committed (placeholder, unchanged): valid=False errors=[('console.paths.output_root', 'PATH_PLACEHOLDER')] protocol_hash=no generation_caps={'execution': 'CPU', 'structure_status': 'UNVERIFIED', 'evaluation_enabled': False}
+[protocol] filled by --protocol-out: valid=True errors=[] protocol_hash=yes generation_caps={'execution': 'CPU', 'structure_status': 'UNVERIFIED', 'evaluation_enabled': False}
+RESULT PASS

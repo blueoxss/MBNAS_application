@@ -1,0 +1,62 @@
+{
+ "id": "C12",
+ "name": "운영·최종회귀",
+ "version": "1.0 (2026-10-23 22:4x, 설계자 claude-fable-5-1 고정; 변경 시 사유·버전 기록)",
+ "pass_condition": {
+  "total_score": "> 90 of 100",
+  "blocker": 0,
+  "critical": 0,
+  "mandatory_evidence": "all criteria must cite artifacts produced in TARGET_ROOT by executed commands (no source-doc reported values)"
+ },
+ "criteria": [
+  {
+   "id": "ops_failure",
+   "points": 25,
+   "observable_evidence": "장애·종료·doctor: core 종료 시 gateway/runner 명시 대기·실패(fallback 없음), stop은 자기 pid만, doctor --strict",
+   "mandatory_checks": "T5 core 종료 시나리오 로그; stop.sh 테스트",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "model_routing",
+   "points": 25,
+   "observable_evidence": "모델 라우팅: MODEL_ROUTING.md와 REVIEW_LOG의 실제 모델 기록 일치, 미지원 ID 주장 없음",
+   "mandatory_checks": "MODEL_ROUTING.md; REVIEW_LOG.jsonl",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "evidence_complete",
+   "points": 25,
+   "observable_evidence": "증거 완결: 명령/cwd/인터프리터/lock/시각/exit code/로그 hash/ZIP digest 연결",
+   "mandatory_checks": "VALIDATION_REPORT.md 교차표",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "regression_11",
+   "points": 25,
+   "observable_evidence": "이전 11셋 회귀: 마지막 변경 후 영향 기준셋 재실행",
+   "mandatory_checks": "REVIEW_LOG 최종 회귀 라운드",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  }
+ ],
+ "notes": "점수는 자체 품질 평가이며 보안 확률·실측 성능이 아니다. 미실행 시험은 0점이고 BLOCKED_BY_ENV는 별도 표기(점수 아님)."
+}

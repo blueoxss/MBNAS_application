@@ -1,0 +1,93 @@
+--- a/tests/owner/unit/test_db.py
++++ b/tests/owner/unit/test_db.py
+@@ -44,7 +44,9 @@
+     assert {"runs", "validations", "candidates", "evaluations", "generations", "jobs", "workers", "events",
+             "artifacts", "cost_ledger", "checkpoints", "meta"} <= tables
+     connect(settings).close()  # schema re-application is idempotent
+-    assert db.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == "5"
++    assert db.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == "6"
++    # DD-A66 DB v6 (additive): the retention prune round-trip requests
++    assert "prune_requests" in tables
+     # WP-2 DB v4 (contract §1.1, design §12): the four runner-protocol tables
+     assert {"runners", "principals", "idempotent_responses", "artifact_locations"} <= tables
+     # WP-4 DB v5 (additive): configuration revisions (F5d) and the per-database salt of the opaque public ids
+--- a/tests/owner/unit/test_db_migration.py
++++ b/tests/owner/unit/test_db_migration.py
+@@ -66,10 +66,12 @@
+         assert run["kind"] == "SEARCH" and run["parent_run_id"] is None and run["finalists"] == []
+         ck = repo.list_checkpoints(conn, "run-old")[0]
+         assert ck["state"] == "PRESENT" and ck["pruned_at"] is None and ck["prune"] is None
+-        assert conn.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == SCHEMA_VERSION == "5"
++        assert conn.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == SCHEMA_VERSION == "6"
+         # WP-4 v5 (additive): the revisions table and the public-id salt exist after the forward migration
+         assert conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='config_revisions'").fetchone()
+         assert conn.execute("SELECT value FROM meta WHERE key='public_id_salt'").fetchone()[0]
++        # DD-A66 v6 (additive): the prune round-trip requests table
++        assert conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='prune_requests'").fetchone()
+         assert [e["seq"] for e in repo.get_events_after(conn, "run-old", 0)] == [1, 2]
+         with tx(conn):
+             repo.create_run(conn, id="run-child", namespace="n", protocol_hash="h", resolved_protocol={},
+@@ -105,7 +107,7 @@
+         after = [tuple(r) for r in conn.execute(
+             "SELECT run_id, seq, type, payload_json, created_at FROM events ORDER BY seq")]
+         assert after == before and len(after) == 2
+-        assert conn.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == SCHEMA_VERSION == "5"
++        assert conn.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == SCHEMA_VERSION == "6"
+         # WP-4 v5 (additive): the revisions table and the public-id salt exist after the forward migration
+         assert conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='config_revisions'").fetchone()
+         assert conn.execute("SELECT value FROM meta WHERE key='public_id_salt'").fetchone()[0]
+--- a/tests/owner/runner_protocol/conftest.py
++++ b/tests/owner/runner_protocol/conftest.py
+@@ -152,8 +152,11 @@
+     ds = make_dataset("w", counts={"train": 4, "val": 2, "test": 2})
+ 
+     def build(targets=(2,)):
+-        return harness.small_protocol(ds, str(tmp_roots["runs"] / "out"), arms=(), baselines=("yolo11n",),
+-                                      targets=targets)
++        proto = harness.small_protocol(ds, str(tmp_roots["runs"] / "out"), arms=(), baselines=("yolo11n",),
++                                       targets=targets)
++        # DD-A66: retention is exercised by test_t3_34_prune_roundtrip; these fixtures keep all states so their subject is unchanged
++        proto["console"]["retention"] = {"full_state": "keep_all"}
++        return proto
+     return build
+ 
+ 
+--- a/tests/owner/artifacts/conftest.py
++++ b/tests/owner/artifacts/conftest.py
+@@ -146,8 +146,11 @@
+     ds = make_dataset("w", counts={"train": 4, "val": 2, "test": 2})
+ 
+     def build(targets=(2,), output_root: str | None = None):
+-        return harness.small_protocol(ds, output_root or str(tmp_roots["runs"] / "out"), arms=(),
+-                                      baselines=("yolo11n",), targets=targets)
++        proto = harness.small_protocol(ds, output_root or str(tmp_roots["runs"] / "out"), arms=(),
++                                       baselines=("yolo11n",), targets=targets)
++        # DD-A66: retention is exercised by test_t3_34_prune_roundtrip; these fixtures keep all states so their subject is unchanged
++        proto["console"]["retention"] = {"full_state": "keep_all"}
++        return proto
+     return build
+ 
+ 
+--- a/scripts/dev/gen_runner_openapi.py
++++ b/scripts/dev/gen_runner_openapi.py
+@@ -8,6 +8,7 @@
+ 
+ import argparse
+ import json
++import re
+ import sys
+ from pathlib import Path
+ from typing import Any
+@@ -46,8 +47,10 @@
+         }
+         op["responses"]["401"] = body(rp.ErrorBody, "AUTH_REQUIRED")
+         op["responses"]["403"] = body(rp.ErrorBody, "ACCESS_DENIED, RUNNER_MISMATCH or TICKET_INVALID")
+-        if "{job_id}" in ep["path"]:
+-            op["parameters"] = [{"name": "job_id", "in": "path", "required": True, "schema": {"type": "string", "minLength": 1}}]
++        names = re.findall(r"\{(\w+)\}", ep["path"])  # every path template variable is a declared parameter
++        if names:
++            op["parameters"] = [{"name": n, "in": "path", "required": True, "schema": {"type": "string", "minLength": 1}}
++                                for n in names]
+         paths[rp.RUNNER_BASE_PATH + ep["path"]] = {ep["method"]: op}
+ 
+     return {

@@ -1,0 +1,362 @@
+{
+ "data": {
+  "artifact_locations": [
+   {
+    "attempt": 1,
+    "bytes": 42096674,
+    "job_id": "job-8244007ddc6c41fe",
+    "object_id": "ck-918f607b081418e7",
+    "object_kind": "checkpoint",
+    "relpath": "candidates/model-a27ba69ef9e7/ckpt/full_e0001.pt",
+    "runner_id": "t7-gpu0",
+    "sha256": "b1cebb43d4fca2f35aa56d47f95c3f3a95371324be1a88a5e5507024c345b63d",
+    "state": "PRESENT",
+    "store": "runner_local",
+    "verified_by": "runner:t7-gpu0"
+   },
+   {
+    "attempt": 1,
+    "bytes": 1318,
+    "job_id": "job-8244007ddc6c41fe",
+    "object_id": "art-0a32901b45a92a37b949",
+    "object_kind": "artifact",
+    "relpath": "candidates/model-a27ba69ef9e7/architecture.yaml",
+    "runner_id": "t7-gpu0",
+    "sha256": "e1d49bbe4a28ec1317c528cd5600a5b50f067fd687b309beecaf568ec9e54c21",
+    "state": "PRESENT",
+    "store": "runner_local",
+    "verified_by": "runner:t7-gpu0"
+   },
+   {
+    "attempt": 1,
+    "bytes": 183058,
+    "job_id": "job-8244007ddc6c41fe",
+    "object_id": "art-26d73a912e0775493f63",
+    "object_kind": "artifact",
+    "relpath": "candidates/model-a27ba69ef9e7/native/stage_e0000_e0008/labels.jpg",
+    "runner_id": "t7-gpu0",
+    "sha256": "63271eaea7a515e6cd160fb4adf288597e90ea17f65115543425d0cf4e7d1184",
+    "state": "PRESENT",
+    "store": "runner_local",
+    "verified_by": "runner:t7-gpu0"
+   },
+   {
+    "attempt": 1,
+    "bytes": 29590,
+    "job_id": "job-8244007ddc6c41fe",
+    "object_id": "art-722e168e33bb02205044",
+    "object_kind": "artifact",
+    "relpath": "candidates/model-a27ba69ef9e7/native/stage_e0000_e0008/train_batch0.jpg",
+    "runner_id": "t7-gpu0",
+    "sha256": "cad9bb71a0e8ffaa4a1d898f7d52698ca2efc3eb5a0bbd6d5b3a996448052b7b",
+    "state": "PRESENT",
+    "store": "runner_local",
+    "verified_by": "runner:t7-gpu0"
+   },
+   {
+    "attempt": 1,
+    "bytes": 27453,
+    "job_id": "job-8244007ddc6c41fe",
+    "object_id": "art-3a9c7eb31fb71b2016cd",
+    "object_kind": "artifact",
+    "relpath": "candidates/model-a27ba69ef9e7/native/stage_e0000_e0008/train_batch1.jpg",
+    "runner_id": "t7-gpu0",
+    "sha256": "403cafd3e876cf6a77a204d012fad4c0008f956bf09a7ee2908f07c51da00c2c",
+    "state": "PRESENT",
+    "store": "runner_local",
+    "verified_by": "runner:t7-gpu0"
+   },
+   {
+    "attempt": 1,
+    "bytes": 30682,
+    "job_id": "job-8244007ddc6c41fe",
+    "object_id": "art-03811942b693f5e6668d",
+    "object_kind": "artifact",
+    "relpath": "candidates/model-a27ba69ef9e7/native/stage_e0000_e0008/train_batch2.jpg",
+    "runner_id": "t7-gpu0",
+    "sha256": "34229d7caa748cb9fbb677167b9051ff935a6dd327a33f0a0d8c8d5c1c0557cc",
+    "state": "PRESENT",
+    "store": "runner_local",
+    "verified_by": "runner:t7-gpu0"
+   }
+  ],
+  "artifacts": [
+   {
+    "bytes": 975,
+    "candidate_id": "model-a27ba69ef9e7",
+    "evaluation_id": null,
+    "id": "art-d9440ee77081d4f84941",
+    "kind": "architecture",
+    "relpath": "architectures/model-a27ba69ef9e7.yaml",
+    "sha256": "0e47ec6b95d7f8beb17f3326730db8d709d41fd3a1d0f566fb71df91c074030e",
+    "state": "READY"
+   },
+   {
+    "bytes": 1318,
+    "candidate_id": "model-a27ba69ef9e7",
+    "evaluation_id": null,
+    "id": "art-0a32901b45a92a37b949",
+    "kind": "architecture",
+    "relpath": "candidates/model-a27ba69ef9e7/architecture.yaml",
+    "sha256": "e1d49bbe4a28ec1317c528cd5600a5b50f067fd687b309beecaf568ec9e54c21",
+    "state": "READY"
+   },
+   {
+    "bytes": 183058,
+    "candidate_id": "model-a27ba69ef9e7",
+    "evaluation_id": null,
+    "id": "art-26d73a912e0775493f63",
+    "kind": "other",
+    "relpath": "candidates/model-a27ba69ef9e7/native/stage_e0000_e0008/labels.jpg",
+    "sha256": "63271eaea7a515e6cd160fb4adf288597e90ea17f65115543425d0cf4e7d1184",
+    "state": "READY"
+   },
+   {
+    "bytes": 29590,
+    "candidate_id": "model-a27ba69ef9e7",
+    "evaluation_id": null,
+    "id": "art-722e168e33bb02205044",
+    "kind": "other",
+    "relpath": "candidates/model-a27ba69ef9e7/native/stage_e0000_e0008/train_batch0.jpg",
+    "sha256": "cad9bb71a0e8ffaa4a1d898f7d52698ca2efc3eb5a0bbd6d5b3a996448052b7b",
+    "state": "READY"
+   },
+   {
+    "bytes": 27453,
+    "candidate_id": "model-a27ba69ef9e7",
+    "evaluation_id": null,
+    "id": "art-3a9c7eb31fb71b2016cd",
+    "kind": "other",
+    "relpath": "candidates/model-a27ba69ef9e7/native/stage_e0000_e0008/train_batch1.jpg",
+    "sha256": "403cafd3e876cf6a77a204d012fad4c0008f956bf09a7ee2908f07c51da00c2c",
+    "state": "READY"
+   },
+   {
+    "bytes": 30682,
+    "candidate_id": "model-a27ba69ef9e7",
+    "evaluation_id": null,
+    "id": "art-03811942b693f5e6668d",
+    "kind": "other",
+    "relpath": "candidates/model-a27ba69ef9e7/native/stage_e0000_e0008/train_batch2.jpg",
+    "sha256": "34229d7caa748cb9fbb677167b9051ff935a6dd327a33f0a0d8c8d5c1c0557cc",
+    "state": "READY"
+   }
+  ],
+  "checkpoints": [
+   {
+    "bytes": 42096674,
+    "candidate_id": "model-a27ba69ef9e7",
+    "epoch": 1,
+    "id": "ck-918f607b081418e7",
+    "kind": "training_full",
+    "path": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z/runner/work/runs/train-d4c2c595346b/candidates/model-a27ba69ef9e7/ckpt/full_e0001.pt",
+    "rung": "TRAIN",
+    "sha256": "b1cebb43d4fca2f35aa56d47f95c3f3a95371324be1a88a5e5507024c345b63d",
+    "state": "PRESENT"
+   }
+  ],
+  "cost_ledger": [
+   {
+    "arm": "Baseline",
+    "attempt": 1,
+    "candidate_id": "model-a27ba69ef9e7",
+    "device_uuid": "GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9",
+    "finished_at": "2026-10-27T06:31:17.362824Z",
+    "gpu_seconds": 14.607712,
+    "job_id": "job-8244007ddc6c41fe",
+    "kind": "failed",
+    "physical": 1,
+    "started_at": "2026-10-27T06:31:02.755112Z"
+   }
+  ],
+  "evaluations": [
+   {
+    "ap": null,
+    "arm": "Baseline",
+    "candidate_id": "model-a27ba69ef9e7",
+    "checkpoint_path": null,
+    "comparison_group": "common_scratch",
+    "device": "NVIDIA RTX A6000",
+    "epochs": 8,
+    "fitness": null,
+    "gate": null,
+    "generation": 0,
+    "id": "model-a27ba69ef9e7.TRAIN.eval",
+    "immutable": 0,
+    "latency_ms": null,
+    "latency_source": "pending",
+    "raw_metrics_device_used": null,
+    "reason_code": "RUN_CANCELLED",
+    "recall": null,
+    "revision": 1,
+    "row_keys": [
+     "ap",
+     "architecture_hash",
+     "architecture_id",
+     "architecture_path",
+     "arm",
+     "artifacts",
+     "attempt",
+     "batch",
+     "blocks",
+     "candidate_id",
+     "candidate_status",
+     "checkpoint_path",
+     "checkpoint_sha256",
+     "comparison_group",
+     "cost",
+     "device",
+     "epoch_target_total",
+     "epochs",
+     "evaluation_hash",
+     "execution_mode",
+     "family",
+     "fitness",
+     "fitness_weights",
+     "gate",
+     "generation",
+     "id",
+     "job_id",
+     "latency_ms",
+     "latency_scope",
+     "latency_source",
+     "latency_statistics",
+     "metric_definitions",
+     "name",
+     "namespace",
+     "objective_hash",
+     "parents",
+     "precision",
+     "progress",
+     "protocol_hash",
+     "raw_metrics",
+     "reason_code",
+     "recall",
+     "requested_input_shape",
+     "resolved_input_shape",
+     "revision",
+     "rewards",
+     "rung",
+     "search_seed",
+     "size_mb",
+     "source_kind_legend",
+     "split_hash",
+     "status",
+     "supersedes_evaluation_id",
+     "training_seed"
+    ],
+    "rung": "TRAIN",
+    "search_seed": null,
+    "size_mb": null,
+    "status": "CANCELLED"
+   }
+  ],
+  "idempotent_responses": [
+   {
+    "acked_at": "2026-10-27T06:31:17.653434Z",
+    "attempt": 1,
+    "committed_at": "2026-10-27T06:31:17.621321Z",
+    "job_id": "job-8244007ddc6c41fe",
+    "payload_digest": "sha256:e45a5f20bebdc6623f217061ca318857efa5227ba730e4caaf6550dc2a95898d",
+    "runner_id": "t7-gpu0",
+    "state": "DONE",
+    "status_code": 200
+   }
+  ],
+  "jobs": [
+   {
+    "artifact_transfer": null,
+    "attempt": 1,
+    "candidate_id": "model-a27ba69ef9e7",
+    "cumulative_target": 8,
+    "device_used": null,
+    "error": {
+     "attempt": 1,
+     "discarded_result": {
+      "attempt": 1,
+      "exit_code": -15,
+      "finished_at": null,
+      "gpu_seconds": null,
+      "job_id": "job-8244007ddc6c41fe",
+      "message": "child exited with code -15 without a result",
+      "outputs": {
+       "artifact_transfer": {
+        "failed": [],
+        "mode": "local",
+        "ok": true,
+        "transferred": 6
+       },
+       "execution_configuration": {
+        "artifact_id": "art-0a32901b45a92a37b949",
+        "class_count": 1,
+        "sha256": "e1d49bbe4a28ec1317c528cd5600a5b50f067fd687b309beecaf568ec9e54c21",
+        "yaml_hash": "sha256:a48faaf596727b3c6d96b9f0b8bac3dadfa0db32673450065d5753418e714525",
+        "yaml_text": "backbone:\n- - -1\n  - 1\n  - Conv\n  - - 64\n    - 3\n    - 2\n- - -1\n  - 1\n  - Conv\n  - - 128\n    - 3\n    - 2\n- - -1\n  - 2\n  - C3k2\n  - - 256\n    - false\n    - 0.25\n- - -1\n  - 1\n  - Conv\n  - - 256\n    - 3\n    - 2\n- - -1\n  - 2\n  - C3k2\n  - - 512\n    - false\n    - 0.25\n- - -1\n  - 1\n  - Conv\n  - - 512\n    - 3\n    - 2\n- - -1\n  - 2\n  - C3k2\n  - - 512\n    - true\n- - -1\n  - 1\n  - Conv\n  - - 1024\n    - 3\n    - 2\n- - -1\n  - 2\n  - C3k2\n  - - 1024\n    - true\n- - -1\n  - 1\n  - SPPF\n  - - 1024\n    - 5\n- - -1\n  - 2\n  - C2PSA\n  - - 1024\nhead:\n- - -1\n  - 1\n  - nn.Upsample\n  - - None\n    - 2\n    - nearest\n- - - -1\n    - 6\n  - 1\n  - Concat\n  - - 1\n- - -1\n  - 2\n  - C3k2\n  - - 512\n    - false\n- - -1\n  - 1\n  - nn.Upsample\n  - - None\n    - 2\n    - nearest\n- - - -1\n    - 4\n  - 1\n  - Concat\n  - - 1\n- - -1\n  - 2\n  - C3k2\n  - - 256\n    - false\n- - -1\n  - 1\n  - Conv\n  - - 256\n    - 3\n    - 2\n- - - -1\n    - 13\n  - 1\n  - Concat\n  - - 1\n- - -1\n  - 2\n  - C3k2\n  - - 512\n    - false\n- - -1\n  - 1\n  - Conv\n  - - 512\n    - 3\n    - 2\n- - - -1\n    - 10\n  - 1\n  - Concat\n  - - 1\n- - -1\n  - 2\n  - C3k2\n  - - 1024\n    - true\n- - - 16\n    - 19\n    - 22\n  - 1\n  - Detect\n  - - nc\nnc: 1\nscale: n\nscales:\n  l:\n  - 1.0\n  - 1.0\n  - 512\n  m:\n  - 0.5\n  - 1.0\n  - 512\n  n:\n  - 0.5\n  - 0.25\n  - 1024\n  s:\n  - 0.5\n  - 0.5\n  - 1024\n  x:\n  - 1.0\n  - 1.5\n  - 512\n"
+       },
+       "native_image_artifact_ids": [
+        "art-26d73a912e0775493f63",
+        "art-722e168e33bb02205044",
+        "art-3a9c7eb31fb71b2016cd",
+        "art-03811942b693f5e6668d"
+       ],
+       "retryable": true
+      },
+      "reason_code": "CHILD_EXIT_NO_RESULT",
+      "started_at": "2026-10-27T06:31:02.755112Z",
+      "status": "FAILED"
+     },
+     "exit_code": -15,
+     "finished_at": "2026-10-27T06:31:17.362824Z",
+     "gpu_seconds": null,
+     "job_id": "job-8244007ddc6c41fe",
+     "message": null,
+     "outputs": {},
+     "reason_code": "RUN_CANCELLED",
+     "started_at": null,
+     "status": "CANCELLED"
+    },
+    "evaluation": {},
+    "finished_at": "2026-10-27T06:31:17.362824Z",
+    "gpu_seconds": null,
+    "id": "job-8244007ddc6c41fe",
+    "kind": "BASELINE_TRAIN",
+    "lease_owner": "t7-gpu0",
+    "max_attempts": 3,
+    "outputs_keys": [],
+    "result_message": "",
+    "result_reason": null,
+    "result_status": null,
+    "rung": "TRAIN",
+    "rung_result": {},
+    "started_at": "2026-10-27T06:31:02.755112Z",
+    "status": "CANCELLED",
+    "timings": null
+   }
+  ],
+  "run": [
+   {
+    "created_at": "2026-10-27T06:31:02.559971Z",
+    "id": "train-d4c2c595346b",
+    "kind": "SEARCH",
+    "parent_run_id": null,
+    "protocol_hash": "sha256:04ac0b607ffcbc56aa581584a56cafbda3e425f66779fda1792567a57449572d",
+    "reason_code": "CANCELLED_BY_USER",
+    "status": "CANCELLED",
+    "updated_at": "2026-10-27T06:31:17.623970Z"
+   }
+  ],
+  "runners": [
+   {
+    "device": "host-gpu-0",
+    "device_name": "NVIDIA RTX A6000",
+    "device_uuid": "GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9",
+    "id": "t7-gpu0",
+    "last_seen_at": "2026-10-27T06:31:22.827631Z",
+    "status": "ONLINE"
+   }
+  ]
+ },
+ "item": "d",
+ "saved_utc": "2026-10-27T06:31:23.056155Z",
+ "tree_hash": "sha256:164292c6e775a52a3da02f98282257b67a282f9e84b236ded3940e592a568f2f"
+}

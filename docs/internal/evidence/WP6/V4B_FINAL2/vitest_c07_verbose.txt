@@ -1,0 +1,212 @@
+
+ RUN  v5.0.3 /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web
+
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > base -> same_len 7ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > base -> longer 1ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > longer -> base 1ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > base -> changed 1ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > base -> base 1ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > base -> declared_only 1ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > the fixture covers changed rows, added / removed rows and edge differences in both directions 5ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > the edges the view derives from `from` are exactly the edges of the real report 5ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > the diff also works on the declared-only document (no observation) and never claims gene ancestry 1ms
+ ✓ tests/generated_detail_fixture.test.ts > synthetic generated-candidate detail (shared with the Playwright mock) > has an mbnas-structure/2 report whose list-from rows resolve to the expected edges 10ms
+ ✓ tests/generated_detail_fixture.test.ts > synthetic generated-candidate detail (shared with the Playwright mock) > lists the generated rows out of generation order (the table has to sort them) 1ms
+ ✓ tests/generated_detail_fixture.test.ts > synthetic generated-candidate detail (shared with the Playwright mock) > is served by installMockApi at GET /runs/{id}/candidates/{cid}; unknown ids stay 404 12ms
+ ✓ tests/structure.test.tsx > recorded model structure > resolves relative, absolute, multi-input, skip and detection edges without flattening them 10ms
+ ✓ tests/structure.test.tsx > recorded model structure > keeps missing or invalid references unresolved and does not invent a chain 4ms
+ ✓ tests/structure.test.tsx > recorded model structure > uses explicit service IDs, YAML mapping and recorded internal layers 2ms
+ ✓ tests/structure.test.tsx > recorded model structure > diffs configuration and connections by position without claiming gene ancestry 1ms
+ ✓ tests/structure.test.tsx > recorded model structure > labels operator classes and synchronizes selected gene with block details 154ms
+ ✓ tests/structure.test.tsx > recorded model structure > does not mix up declared, scaled and observed repeats (v2) and keeps the v1 meaning for v1 documents 1ms
+ ✓ tests/structure.test.tsx > recorded model structure > native blocks (no gene, no YAML row) get native labels and edges only from the report 1ms
+ ✓ tests/structure.test.tsx > recorded model structure > keeps yaml documents on their own `from` edges even when the report lists edges too 0ms
+ ✓ tests/structure.test.tsx > recorded model structure > lowest evidence level only counts checks that ran 1ms
+ ✓ tests/structure.test.tsx > recorded model structure > separates "no structure observation / unsupported" (UNVERIFIED + two codes) from FAIL 1ms
+ ✓ tests/structure.test.tsx > recorded model structure > hash verdict: file vs registered is an error when it differs, file vs canonical differing is expected 1ms
+ ✓ tests/structure.test.tsx > recorded model structure > server-shaped diff lists edges that only one document has 1ms
+ ✓ tests/registry_structure_button.test.tsx > parseInputSize > accepts empty and positive multiples of 32 only 5ms
+ ✓ tests/registry_structure_button.test.tsx > RegistryStructureButton (baseline registry id) > is disabled without a model id or a connection 39ms
+ ✓ tests/config_upload.test.tsx > client pre-check of the upload (the server stays authoritative) > accepts .yaml / .yml up to 1 MiB and names the code it would refuse with 3ms
+ ✓ tests/config_upload.test.tsx > client pre-check of the upload (the server stays authoritative) > server errors are shown with their code, the Korean hint and the location 0ms
+ ✓ tests/config_revisions.test.tsx > lineDiff (line diff of two YAML texts) > identical texts: every line is context, nothing added or removed 22ms
+ ✓ tests/config_revisions.test.tsx > lineDiff (line diff of two YAML texts) > a changed line is a removal followed by an addition, at the right line numbers, with context around it 2ms
+ ✓ tests/config_revisions.test.tsx > lineDiff (line diff of two YAML texts) > insertions and deletions keep the common lines aligned (LCS), not shifted 1ms
+ ✓ tests/config_revisions.test.tsx > lineDiff (line diff of two YAML texts) > CRLF vs LF and a missing final newline are byte differences and are reported 1ms
+ ✓ tests/config_revisions.test.tsx > lineDiff (line diff of two YAML texts) > an empty side is all additions / all removals 2ms
+ ✓ tests/config_revisions.test.tsx > lineDiff (line diff of two YAML texts) > a changed middle larger than the alignment budget is shown as a whole replacement (coarse), never truncated 4ms
+ ✓ tests/config_revisions.test.tsx > revision labels, default pair, file name, decoding and the bytes verdict > labels by position and kind; a parent outside the list is named as such 1ms
+ ✓ tests/config_revisions.test.tsx > revision labels, default pair, file name, decoding and the bytes verdict > the diff opens on selected vs executed, else the last two, else the only one 1ms
+ ✓ tests/config_revisions.test.tsx > revision labels, default pair, file name, decoding and the bytes verdict > the download file name is safe and names candidate, kind and revision 1ms
+ ✓ tests/config_revisions.test.tsx > revision labels, default pair, file name, decoding and the bytes verdict > decodes UTF-8 exactly and says so when the bytes are not UTF-8 1ms
+ ✓ tests/config_revisions.test.tsx > revision labels, default pair, file name, decoding and the bytes verdict > bytes verdict: the received bytes must hash to the recorded source_sha256 (and to the header when sent) 1ms
+ ✓ tests/model_detail_v2.test.tsx > summary header (CONTRACTS_v2 section 3) > shows backend, representation, evidence source, the lowest evidence level and the structure badge 94ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > uploads the picked bytes unchanged (raw body, file name in ?filename=) and shows upload_id, source_sha256 and the browser sha256 match 336ms
+ ✓ tests/checkpoint_download.test.tsx > checkpointDownloadId (DD-A51 c) > prefers the store artifact_id, falls back to the checkpoint id for PRESENT / READY, else nothing 30ms
+ ✓ tests/registry_structure_button.test.tsx > RegistryStructureButton (baseline registry id) > GET shows the declared-only document with its notice and without any observation 369ms
+ ✓ tests/model_detail_v2.test.tsx > summary header (CONTRACTS_v2 section 3) > a declaration-only document says there is no observation and no evidence level 10ms
+ ✓ tests/model_detail_v2.test.tsx > summary header (CONTRACTS_v2 section 3) > a v1 document keeps working: v2-only keys are optional and reported as not recorded 5ms
+ ✓ tests/generation_workflow.test.tsx > generation-only settings > defaults ON and ignores preserved evaluation-only settings when OFF 17ms
+ ✓ tests/training_panel.test.tsx > TrainingPanel evaluate_only (I4-#3) > hides the target-epoch field, explains why, and does not send epoch_target_total / epochs 177ms
+ ✓ tests/training_panel.test.tsx > TrainingPanel evaluate_only (I4-#3) > keeps sending the target epoch for scratch training 47ms
+ ✓ tests/training_panel.test.tsx > TrainingPanel evaluate_only (I4-#3) > does not offer evaluate_only for a fixed search candidate source (server: 422 EVAL_ONLY_UNSUPPORTED) 19ms
+ ✓ tests/training_panel.test.tsx > TrainingPanel evaluate_only (I4-#3) > does not offer evaluate_only for a fixed generated candidate source (server: 422 EVAL_ONLY_UNSUPPORTED) 16ms
+ ✓ tests/checkpoint_download.test.tsx > CheckpointTable downloads (V4-B defect 1) > offers "id로 다운로드" for every row the gateway can serve; only the pruned row without a store id reads 저장소 미등록 256ms
+ ✓ tests/model_detail_v2.test.tsx > summary header (CONTRACTS_v2 section 3) > CandidateView header: generation seed and order, evaluation badge, structure badge and DD-5 badge 173ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab: revision table > lists every revision with kind, source_sha256, canonical_hash, architecture_hash, created_at and parent 444ms
+ ✓ tests/generation_workflow.test.tsx > generation-only settings > checkbox OFF disables evaluation controls without erasing saved weights or recipe 299ms
+ ✓ tests/generation_workflow.test.tsx > unevaluated candidate identity and ordering > preserves first-seen seed order [42, 7] without interleaving per-seed indexes 1ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > the structure check and the training request carry upload_id + model_name and never a model_path 350ms
+ ✓ tests/registry_structure_button.test.tsx > RegistryStructureButton (baseline registry id) > runs the explicit CPU check (POST registry structure-check, input size sent only when valid) and renders the result with the same view 338ms
+ ✓ tests/registry_structure_button.test.tsx > RegistryStructureButton (baseline registry id) > shows the server error code when the model is unknown, and closes with Escape 43ms
+ ✓ tests/checkpoint_download.test.tsx > CheckpointTable downloads (V4-B defect 1) > a PRESENT row with artifact_id null downloads by its checkpoint id and verifies the bytes against the recorded sha256 246ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab: diff of two revisions (stored bytes, both sha256 checked) > opens on selected vs executed and shows the changed lines with both sides' sha256 verified 156ms
+ ✓ tests/final_retrain.test.tsx > final retrain form and run kind helpers > panel is offered only for a COMPLETED SEARCH run 19ms
+ ✓ tests/final_retrain.test.tsx > final retrain form and run kind helpers > top-k default comes from the run resolved final_retraining 2ms
+ ✓ tests/final_retrain.test.tsx > final retrain form and run kind helpers > budget is required and > 0; top-k is an optional integer >= 1; reason is trimmed or omitted 3ms
+ ✓ tests/final_retrain.test.tsx > final retrain form and run kind helpers > 409 codes are told apart; 5xx / network are retryable 2ms
+ ✓ tests/final_retrain.test.tsx > POST /runs/{id}/final-retrain idempotency (same rules as Run) > reuses ONE key across timeout / 5xx / network retries and releases it after 2xx 25ms
+ ✓ tests/final_retrain.test.tsx > POST /runs/{id}/final-retrain idempotency (same rules as Run) > 409 and 422 are definitive: key released; 401 keeps it 2ms
+ ✓ tests/final_retrain.test.tsx > POST /runs/{id}/final-retrain idempotency (same rules as Run) > a different payload (budget) is a different request and gets a different key 2ms
+ ✓ tests/final_retrain.test.tsx > final cohort > final rows (comparison_group final / rung FINAL / arm Final) never share a cohort with search rows 5ms
+ ✓ tests/final_retrain.test.tsx > final cohort > each field alone separates the final cohort from an otherwise identical search row 1ms
+ ✓ tests/final_retrain.test.tsx > final cohort > a Final row needs no search seed to be plottable, baselines still do not 1ms
+ ✓ tests/final_retrain.test.tsx > final cohort > the arm facet can pick the Final arm out of a mixed row set 1ms
+ ✓ tests/final_retrain.test.tsx > final lineage > operation 'final' has the source candidate as its single parent 1ms
+ ✓ tests/final_retrain.test.tsx > parent / child runs > lists only explicit server facts 1ms
+ ✓ tests/final_retrain.test.tsx > policy helpers for optional fields > unsetIn removes only the key and leaves the rest untouched 1ms
+ ✓ tests/final_retrain.test.tsx > policy helpers for optional fields > client pre-check: crossover_rate within [0,1]; postprocess conf/iou within [0,1], max_det integer >= 1 2ms
+ ✓ tests/final_retrain.test.tsx > policy helpers for optional fields > resolved_diff rows without a requested value are "defaulted" 0ms
+ ✓ tests/lineage_generated.test.tsx > Lineage rows include the generated candidates (F14) > appends generated candidates after the evaluated rows, once, without hiding or duplicating an evaluated candidate 23ms
+ ✓ tests/model_detail_v2.test.tsx > summary header (CONTRACTS_v2 section 3) > CandidateView shows 학습 완료 · 미평가 for an explicit validation-OFF training row (DD-5) and the raw status otherwise 117ms
+ ✓ tests/model_detail_v2.test.tsx > native backend rendering > shows the native path and never a YAML-position label 56ms
+ ✓ tests/model_detail_v2.test.tsx > native backend rendering > draws only recorded edges, styled by connection_source, with a legend of all three kinds 28ms
+ ✓ tests/generation_workflow.test.tsx > unevaluated candidate identity and ordering > keeps generation records outside evaluation rows across repeat snapshots 143ms
+ ✓ tests/generation_workflow.test.tsx > shared explicit training request > minimal generated source requires an explicit server recipe choice and preserves source 81ms
+ ✓ tests/generation_workflow.test.tsx > shared explicit training request > progress only displays recorded finite scalar metrics 1ms
+ ✓ tests/training_panel.test.tsx > TrainingPanel evaluate_only (I4-#3) > offers evaluate_only for a baseline source and drops it (and a selected evaluate_only) for a user model 31ms
+ ✓ tests/training_panel.test.tsx > TrainingPanel evaluate_only (I4-#3) > trainingProtocol(omitEpochs) also removes inherited epoch keys without touching the source policy 1ms
+ ✓ tests/training_panel.test.tsx > TrainingPanel resume banner (DD-9) > states that external full-state import is unsupported and only the latest full-state of a paused run resumes 20ms
+ ✓ tests/wp6a_badges_workers.test.tsx > training_status / evaluation_status -> UNTRAINED · UNEVALUATED > uses training_status when the server sends it (contract 1.5.0) 18ms
+ ✓ tests/wp6a_badges_workers.test.tsx > training_status / evaluation_status -> UNTRAINED · UNEVALUATED > falls back for contract 1.4.x: a generated candidate without an evaluation is UNTRAINED; other rows are not guessed 2ms
+ ✓ tests/checkpoint_download.test.tsx > CheckpointTable downloads (V4-B defect 1) > 404 ARTIFACT_NOT_READY (bytes not transferred yet) reads 아직 저장소에 없음 with the code 171ms
+ ✓ tests/block_catalog.test.tsx > catalog readers (lib/structure.ts) > reads blocks[].catalog and treats a missing key as "older document", not as unknown 20ms
+ ✓ tests/block_catalog.test.tsx > catalog readers (lib/structure.ts) > an unknown module keeps every field null (출처 미상) instead of a guess 1ms
+ ✓ tests/block_catalog.test.tsx > catalog readers (lib/structure.ts) > formats the distribution from catalog_summary: largest first, 미상 last, percent of all blocks 2ms
+ ✓ tests/block_catalog.test.tsx > catalog readers (lib/structure.ts) > no summary or zero blocks gives no distribution (a document without the key is not "all unknown") 1ms
+ ✓ tests/block_catalog.test.tsx > catalog readers (lib/structure.ts) > looks modules up in the served table: nn. prefix stripped, unknown -> null 1ms
+ ✓ tests/compare_conditions.test.tsx > conditionDifferences > flags only pairs whose recorded values differ, per key 20ms
+ ✓ tests/compare_conditions.test.tsx > conditionDifferences > never infers: a null on either side is neither equal nor different and is listed as unknown 1ms
+ ✓ tests/compare_conditions.test.tsx > conditionDifferences > a run without conditions (older server) is all unknown, never different 1ms
+ ✓ tests/final_retrain.test.tsx > worker status vocabulary > idle / busy / offline / lost render as text with a glyph (not colour only) 37ms
+ ✓ tests/registry_structure_button.test.tsx > RegistryStructureButton (user YAML on the server) > does not GET (no stored evidence) and POSTs /structure-check with the path, size and class count 200ms
+ ✓ tests/registry_structure_button.test.tsx > RegistryStructureButton (user YAML on the server) > shows a path rejection from the server (PATH_OUTSIDE_ALLOWLIST) and keeps no stale result 61ms
+ ✓ tests/checkpoint_download.test.tsx > structure graph semantics (V4-B defect 2, axe nested-interactive) > the graph is a named group (not an img) and no presentational-children role contains a focusable node 80ms
+ ✓ tests/checkpoint_download.test.tsx > structure graph semantics (V4-B defect 2, axe nested-interactive) > every gene node stays keyboard-reachable and Enter / Space select it 88ms
+ ✓ tests/training_panel.test.tsx > Settings with performance evaluation OFF (DD-17) > renders the evaluation paths disabled with their preserved values, restores them on ON, and shows one info notice 291ms
+ ✓ tests/training_panel.test.tsx > Settings with performance evaluation OFF (DD-17) > validatePolicy OFF branch does not validate preserved evaluation values but still validates generation fields 2ms
+ ✓ tests/training_panel.test.tsx > closeCandidate query cleanup (I4-#12) > removes block and model_tab with cid; a different candidate does not inherit them; the same cid keeps them 8ms
+ ✓ tests/generation_workflow.test.tsx > shared explicit training request > copies recipe, keeps generated origin, independent validation and stable retry key 75ms
+ ✓ tests/generation_workflow.test.tsx > shared explicit training request > does not alter search fitness weights when creating an explicit training recipe 1ms
+ ✓ tests/generation_workflow.test.tsx > native training image gallery > labels unmeasured training records without implying an evaluation 1ms
+ ✓ tests/training_panel.test.tsx > Workers table telemetry (I4-#9) > shows vram_mb, power_w and sm_clock_mhz columns; null or missing is a dash, never 0 124ms
+ ✓ tests/training_panel.test.tsx > DD-5 trained-not-evaluated detection > requires SEARCH_COMPLETE + performance_status NOT_EVALUATED inside an explicit training run 1ms
+ ✓ tests/training_panel.test.tsx > DD-5 trained-not-evaluated detection > DD-A63 (a): a search-arm row a CPU runner trained but could not evaluate (EVALUATION_REQUIRES_CUDA) gets the same label 1ms
+ ✓ tests/model_detail_v2.test.tsx > native backend rendering > lists the modules whose connections were not observed under "관측되지 않은 구간" 131ms
+ ✓ tests/model_detail_v2.test.tsx > native backend rendering > with no edge and no unobserved entry it says so instead of inventing a chain 30ms
+ ✓ tests/model_detail_v2.test.tsx > native backend rendering > YAML documents have no unobserved section when the list is empty 40ms
+ ✓ tests/generation_workflow.test.tsx > native training image gallery > shows actual image MIME artifacts from candidate detail, excluding other JSON/source files 160ms
+ ✓ tests/block_table_link.test.tsx > C07-D1: block-table row -> the same block detail as the graph node and the gene button > maps YAML positions to the structure view ids (report ids, else <model>#<pos>; native documents map nothing) 23ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > advanced server path: model_path only behind the toggle, exclusive with the upload 342ms
+ ✓ tests/wp6a_badges_workers.test.tsx > training_status / evaluation_status -> UNTRAINED · UNEVALUATED > GeneratedTable shows the badge on every generated row and keeps the NOT_EVALUATED text 177ms
+ ✓ tests/wp6a_badges_workers.test.tsx > training_status / evaluation_status -> UNTRAINED · UNEVALUATED > GeneratedTable shows the reported statuses instead when a 1.5.0 row says TRAINED 6ms
+ ✓ tests/block_catalog.test.tsx > ModelStructure: distribution line and block rows > shows the origin distribution under the header, from catalog_summary 146ms
+ ✓ tests/registry_structure_button.test.tsx > RegistryStructureButton (user YAML on the server) > renders an UNVERIFIED answer with the dedicated "no observation" notice, not as a failure 61ms
+ ✓ tests/block_catalog.test.tsx > ModelStructure: distribution line and block rows > block detail rows: 출처 계열 / 도입 버전 / 역할 / 참고 (link) and the installed source path 172ms
+ ✓ tests/block_catalog.test.tsx > ModelStructure: distribution line and block rows > null fields read 출처 미상 and the block is still selectable 50ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab: diff of two revisions (stored bytes, both sha256 checked) > any two revisions can be compared; the same bytes are reported as identical (sha256 equal) 392ms
+ ✓ tests/model_detail_v2.test.tsx > block detail > repeats are three separate columns: declared, scale (formula), observed 98ms
+ ✓ tests/model_detail_v2.test.tsx > block detail > an unobserved repeat count is 미관측, never replaced by the formula value 41ms
+ ✓ tests/model_detail_v2.test.tsx > block detail > a v1 document shows its depth-scaled value under scale and nothing under observed 21ms
+ ✓ tests/wp6a_badges_workers.test.tsx > training_status / evaluation_status -> UNTRAINED · UNEVALUATED > CandidateView: generated candidate -> UNTRAINED · UNEVALUATED; DD-5 row -> 학습 완료 · 미평가; evaluated row -> neither 223ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > client pre-check: a non-YAML name, an empty file or more than 1 MiB is refused without a request 181ms
+ ✓ tests/block_catalog.test.tsx > ModelStructure: distribution line and block rows > native blocks (ETRI hybrid): family from module_class / path rule; a repository path is text, not a link 57ms
+ ✓ tests/block_catalog.test.tsx > ModelStructure: distribution line and block rows > a document from before DD-38 (no catalog, no summary) shows neither the line nor the rows 40ms
+ ✓ tests/model_detail_v2.test.tsx > block detail > shows the inputs table per source, Detect head fields, and the shared mark of internal layers 145ms
+ ✓ tests/model_detail_v2.test.tsx > block detail > shows stable_id, native_path, module_class, section_basis and the per-check evidence levels 52ms
+ ✓ tests/model_detail_v2.test.tsx > UNVERIFIED (no structure observation / unsupported) is not a FAIL > GENE_REPRESENTATION_NOT_APPLICABLE with UNVERIFIED shows the dedicated notice and no failure banner 3ms
+ ✓ tests/model_detail_v2.test.tsx > UNVERIFIED (no structure observation / unsupported) is not a FAIL > STRUCTURE_RUNTIME_UNAVAILABLE with UNVERIFIED shows the dedicated notice and no failure banner 2ms
+ ✓ tests/model_detail_v2.test.tsx > UNVERIFIED (no structure observation / unsupported) is not a FAIL > UNVERIFIED with another code (STRUCTURE_CHECK_NOT_RECORDED) shows neither notice 2ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab: diff of two revisions (stored bytes, both sha256 checked) > stored bytes that do not hash to the recorded source_sha256 are flagged on that side 135ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > a server rejection 413 PAYLOAD_TOO_LARGE is shown by its code (not guessed from the status) 119ms
+ ✓ tests/wp6a_badges_workers.test.tsx > training_status / evaluation_status -> UNTRAINED · UNEVALUATED > CandidateView takes training_status from the candidate detail when the row lacks it (1.5.0 detail, any origin) 100ms
+ ✓ tests/wp6a_badges_workers.test.tsx > training_status / evaluation_status -> UNTRAINED · UNEVALUATED > CandidateView: a GA row a CPU runner trained but could not evaluate (EVALUATION_REQUIRES_CUDA) -> 학습 완료 · 미평가 (DD-A63 a) 41ms
+ ✓ tests/compare_conditions.test.tsx > Compare screen: 실행 조건 > shows every condition per run, 기록 없음 for null, and 조건 상이 when recorded values differ 516ms
+ ✓ tests/model_detail_v2.test.tsx > UNVERIFIED (no structure observation / unsupported) is not a FAIL > a real FAIL document shows the failure notice and its diagnostics, not the unsupported notice 61ms
+ ✓ tests/model_detail_v2.test.tsx > UNVERIFIED (no structure observation / unsupported) is not a FAIL > even with the unsupported code, status FAIL is never shown as "no observation" 3ms
+ ✓ tests/model_detail_v2.test.tsx > UNVERIFIED (no structure observation / unsupported) is not a FAIL > the notice also shows when only status and diagnostics are passed (candidate view props) 2ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab: diff of two revisions (stored bytes, both sha256 checked) > a revision whose bytes are not stored yet reports the server code 123ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > a server rejection 422 UPLOAD_TYPE_UNSUPPORTED is shown by its code (not guessed from the status) 113ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > a server rejection 422 UPLOAD_NOT_UTF8 is shown by its code (not guessed from the status) 76ms
+ ✓ tests/wp6a_badges_workers.test.tsx > Workers table: runner_id / device_id (contract 1.5.0) > shows the core-issued ids when present and a dash for an older server 91ms
+ ✓ tests/registry_structure_button.test.tsx > TrainingPanel integration > offers 구조 상세 next to the model field and passes the typed id / path and source kind 537ms
+ ✓ tests/registry_structure_button.test.tsx > TrainingPanel integration > is not offered when the training source is fixed (candidate detail already shows its own structure) 9ms
+ ✓ tests/compare_conditions.test.tsx > Compare screen: 실행 조건 > no warning when the recorded conditions agree 166ms
+ ✓ tests/compare_conditions.test.tsx > Compare screen: 실행 조건 > a server without conditions shows 기록 없음 everywhere and no warning (nothing is inferred) 165ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab: exact-byte download > downloads the stored bytes of a revision unchanged and checks them against source_sha256 129ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab: exact-byte download > the displayed (canonical) text download is labelled separately from the exact-byte download 63ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > a server rejection 507 STORE_UNAVAILABLE is shown by its code (not guessed from the status) 78ms
+ ✓ tests/model_detail_v2.test.tsx > downloaded file hashes > computes SHA-256 of the downloaded bytes, matches the registered one and says the canonical yaml_hash differs on purpose 177ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > a structure check that reports other bytes than the upload is flagged 169ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > a server sha256 different from the bytes the browser hashed is reported as a mismatch 63ms
+ ✓ tests/model_detail_v2.test.tsx > downloaded file hashes > a file sha256 that differs from the registered artifact sha256 is shown as an error 145ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab fallback (gateway without the revision routes) > 404 NOT_FOUND: the tab is hidden and a note explains why 62ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab fallback (gateway without the revision routes) > 404 CANDIDATE_NOT_FOUND: hidden as "no record for this candidate" 52ms
+ ✓ tests/wp6a_badges_workers.test.tsx > Monitor: the generation representative is the server value only (R6) > no "differs from client rule" badge even when the highest-fitness visible row is another candidate 443ms
+ ✓ tests/final_retrain.test.tsx > Final Retrain panel > is absent while the search run is RUNNING and present once COMPLETED 909ms
+ ✓ tests/model_detail_v2.test.tsx > downloaded file hashes > without a registered sha256 the comparison is reported as not possible (no value invented) 90ms
+ ✓ tests/model_detail_v2.test.tsx > downloaded file hashes > without WebCrypto it says so and prints no hash 87ms
+ ✓ tests/lineage_generated.test.tsx > Lineage rows include the generated candidates (F14) > the Lineage table badges every generated candidate UNTRAINED · UNEVALUATED, distinct from the evaluated rows 1027ms
+ ✓ tests/lineage_generated.test.tsx > candidate view: architecture and checkpoint files by id + sha256 (no host path) > shows the architecture artifact id + sha256 and the checkpoint ids + sha256, never a path 70ms
+ ✓ tests/block_table_link.test.tsx > C07-D1: block-table row -> the same block detail as the graph node and the gene button > graph node, gene button and block-table row give the same selected-block content and ?block=; the row switches to model_tab=structure 1083ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab fallback (gateway without the revision routes) > a remembered model_tab=config falls back to the full view while the server offers no revisions 113ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab fallback (gateway without the revision routes) > a 5xx keeps the tab with the error and a retry that loads the table 194ms
+ ✓ tests/model_detail_v2.test.tsx > model comparison > lists edges added and removed (server-shaped diff) for a two-model comparison 74ms
+ ✓ tests/model_detail_v2.test.tsx > model comparison > keeps 부모·자식 apart from 두 모델 when the server recorded the parent relation 36ms
+ ✓ tests/lineage_generated.test.tsx > candidate view: architecture and checkpoint files by id + sha256 (no host path) > downloads by artifact id and verifies the bytes against the recorded sha256 117ms
+ ✓ tests/block_table_link.test.tsx > C07-D1: block-table row -> the same block detail as the graph node and the gene button > a row whose position has no structure node keeps a plain Pos cell (no dead button) 138ms
+ ✓ tests/block_table_link.test.tsx > C07-D1: block-table row -> the same block detail as the graph node and the gene button > a native-module document gets no row buttons (no YAML row <-> module correspondence) 69ms
+ ✓ tests/block_table_link.test.tsx > C07-D2: "학습 완료 · 미평가" badge title > names the case: CPU runner without CUDA, validation OFF explicit training, generic fallback 1ms
+ ✓ tests/model_detail_v2.test.tsx > model comparison > says so when one side has no edge record instead of computing edges from nothing 27ms
+ ✓ tests/model_detail_v2.test.tsx > design-origin catalog (DD-38, real server documents of tests/block_catalog_server_fixture.json) > CandidateView header shows the same origin distribution as the structure view, from catalog_summary 68ms
+ ✓ tests/model_detail_v2.test.tsx > design-origin catalog (DD-38, real server documents of tests/block_catalog_server_fixture.json) > a candidate whose structure predates the catalog has no distribution line in the header 42ms
+ ✓ tests/lineage_generated.test.tsx > candidate view: architecture and checkpoint files by id + sha256 (no host path) > a failed download 404 ARTIFACT_NOT_READY is shown as NOT_READY (by code) 68ms
+ ✓ tests/lineage_generated.test.tsx > candidate view: architecture and checkpoint files by id + sha256 (no host path) > a failed download 409 LOAD_FAILED is shown as LOAD_FAILED (by code) 81ms
+ ✓ tests/lineage_generated.test.tsx > candidate view: architecture and checkpoint files by id + sha256 (no host path) > a failed download 403 ACCESS_DENIED is shown as ACCESS_DENIED (by code) 66ms
+ ✓ tests/lineage_generated.test.tsx > artifact download states by Error.code (DD-A39), the status only for an unknown code > the code decides: 404 ARTIFACT_NOT_READY is NOT_READY (not MISSING), 409 LOAD_FAILED is LOAD_FAILED (not NOT_READY) 1ms
+ ✓ tests/lineage_generated.test.tsx > artifact download states by Error.code (DD-A39), the status only for an unknown code > an unknown code falls back to the status (older servers), and no code at all too 1ms
+ ✓ tests/lineage_generated.test.tsx > artifact download states by Error.code (DD-A39), the status only for an unknown code > a diagnostic image (bearer fetch) follows the same rule and carries the code 2ms
+ ✓ tests/block_table_link.test.tsx > C07-D2: "학습 완료 · 미평가" badge title > candidate detail: the CPU NOT_EVALUATED row and the validation-OFF row get their own title; the badge text is unchanged 52ms
+ ✓ tests/block_catalog.test.tsx > archive candidate modal: origin beside each module > lists each histogram module with the family from the served catalog (the web holds no table) 669ms
+ ✓ tests/block_table_link.test.tsx > C07-D2: "학습 완료 · 미평가" badge title > Monitor candidate table uses the same title per row 404ms
+ ✓ tests/final_retrain.test.tsx > Final Retrain panel > requires budget > 0, then POSTs body + header with one key and shows child run id, finalist_count and a load action 666ms
+ ✓ tests/block_catalog.test.tsx > archive candidate modal: origin beside each module > a module the served catalog does not list reads 출처 미상 491ms
+ ✓ tests/block_catalog.test.tsx > archive candidate modal: origin beside each module > when the catalog request fails the modal still works and says why the origins are missing 365ms
+ ✓ tests/final_retrain.test.tsx > Final Retrain panel > timeout/5xx keeps the same Idempotency-Key for the retry, which then succeeds 389ms
+ ✓ tests/final_retrain.test.tsx > Final Retrain panel > 409 NO_FINALIST is rendered distinctly 366ms
+ ✓ tests/final_retrain.test.tsx > Final Retrain panel > 409 INVALID_STATE is rendered distinctly 355ms
+ ✓ tests/final_retrain.test.tsx > Final Retrain panel > 409 BUDGET_INVALID is rendered distinctly 340ms
+ ✓ tests/final_retrain.test.tsx > Final Retrain panel > 409 IDEMPOTENCY_CONFLICT is rendered distinctly 359ms
+ ✓ tests/final_retrain.test.tsx > loaded FINAL_RETRAIN run > Monitor header shows kind and parent link; the final cohort is drawn alone; History lists the parent 439ms
+ ✓ tests/final_retrain.test.tsx > loaded FINAL_RETRAIN run > NO_FINALIST child (empty finalists + reason) reports it and never fills in a lower rung 254ms
+ ✓ tests/final_retrain.test.tsx > loaded FINAL_RETRAIN run > candidate modal shows lineage operation final with the source candidate as its single parent 448ms
+ ✓ tests/final_retrain.test.tsx > Settings: crossover rate and benchmark postprocess > edits write crossover_rate and postprocess; clearing removes the keys; help text names the AP floor 742ms
+ ✓ tests/final_retrain.test.tsx > Settings: crossover rate and benchmark postprocess > an out-of-range crossover rate is flagged client-side 107ms
+ ✓ tests/final_retrain.test.tsx > Settings: crossover rate and benchmark postprocess > the Validate diff table shows defaulted values with a badge 81ms
+ ✓ tests/final_retrain.test.tsx > Settings: crossover rate and benchmark postprocess > S4-F4: an INVALID Validate result never renders "Requested vs resolved", even if the reply carries a diff 71ms
+
+ Test Files  16 passed (16)
+      Tests  203 passed (203)
+   Start at  10:18:16
+   Duration  8.13s (tests 45%, environment 25%, transform 18%, import 8%, setup 4%)
+

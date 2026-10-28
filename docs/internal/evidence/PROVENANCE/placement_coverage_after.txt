@@ -1,0 +1,10 @@
+# C01 fix round 1b (EVAL_1 D1) - AFTER: PLACEMENT coverage of the five package source trees
+# cwd TARGET_ROOT, 2026-10-28T04:18:13+09:00; before: placement_coverage_before.txt (212/221, 9 missing)
+$ CUDA_VISIBLE_DEVICES='' runtime/venv/bin/python -I -B scripts/dev/placement_coverage.py --format text
+manifest docs/internal/provenance/PLACEMENT_MANIFEST.jsonl (613 rows, sha256 823e91a54482...)
+package files 221 (py 215, data 6) {'mbnas_contracts': 27, 'mbnas_model_runtime': 49, 'mbnas_core': 92, 'mbnas_runner': 23, 'mbnas_server': 30}
+covered 221/221 (py 215/215); missing 0, deleted but present 0, unrecorded deletions 0, row errors 0; recorded deletions 1; sha drift (informational) 60
+ok
+exit=0
+# sha_drift (informational): files edited by later WPs after their last placement row (target_sha256 = sha at row time); see the JSON
+# history of this file: at 04:14 (606 rows) 220/220; at 04:17 the gate reported a new DD-A60(2) file without a row -> backfilled (line 613)

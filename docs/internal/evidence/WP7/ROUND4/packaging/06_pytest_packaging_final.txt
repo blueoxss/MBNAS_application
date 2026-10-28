@@ -1,0 +1,14 @@
+# final tests/public/packaging run (round-4 packager, real tree)
+>       assert (REPO / "THIRD_PARTY_NOTICES_WEB.md").is_file()  # npm notices (DD-A65); required by every allowlist
+E       AssertionError: assert False
+E        +  where False = is_file()
+E        +    where is_file = (PosixPath('<ROOT>') / 'THIRD_PARTY_NOTICES_WEB.md').is_file
+
+tests/public/packaging/test_package_contents_and_gates.py:290: AssertionError
+=========================== short test summary info ============================
+FAILED tests/public/packaging/test_package_contents_and_gates.py::test_real_allowlists_ship_licence_notices_and_contents_in_every_profile
+1 failed, 62 passed in 114.35s (0:01:54)
+exit=1
+
+# the single failure is the precondition test: <ROOT>/THIRD_PARTY_NOTICES_WEB.md did not exist yet (the parent generates it with scripts/dev/gen_npm_notices.py).
+# The same test (+ the tomli cross-check) in a scratch copy of the current inputs with a one-line stand-in notices file: 2 passed (06_precondition_with_standin.txt).

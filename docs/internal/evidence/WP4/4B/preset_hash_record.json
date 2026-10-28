@@ -1,0 +1,35 @@
+{
+ "note": "WP-4B evidence: does adding resolution.paths to RESOLUTION_HASH_EXCLUDED (and dropping etri_root / realpath from the\nvalidator's resolution) change protocol_hash? Computed for both presets (requested and validated) on a synthetic\ndataset (tests/_shared/datasets.py) with the synthetic all-AVAILABLE example registry and the A100 stub device of the\nowner tests. 1.4.3 definition = canonical sha256 without (console.label, resolution.validated_at, console.retention).\n\nRun: runtime/venv/bin/python -B <this> <out.json>\n",
+ "requested": {
+  "DEFAULT_BASELINE14": {
+   "old_definition": "sha256:deaaf14d39afc89e90d995215cd47607201dfc6c303a4d78120846c60b8c7622",
+   "new_definition": "sha256:deaaf14d39afc89e90d995215cd47607201dfc6c303a4d78120846c60b8c7622"
+  },
+  "PILOT_SMOKE": {
+   "old_definition": "sha256:971ec80e048c215875e1b33d379bba28ea6b7fee3d0d891159aac85134a8e412",
+   "new_definition": "sha256:971ec80e048c215875e1b33d379bba28ea6b7fee3d0d891159aac85134a8e412"
+  }
+ },
+ "validated": {
+  "DEFAULT_BASELINE14": {
+   "valid": true,
+   "errors": [],
+   "hash_1_5_0": "sha256:7d3699ecc39887331bea14203f0f4268c99ad7e8d0d240cea113935796753f8d",
+   "hash_1_4_3_same_request": "sha256:0a3213ed25c5134b7ff63e05648244df50354de3ff8dd82657ba110e91faf146",
+   "stored_1_4_3_doc_rehashed_by_1_5_0_definition": "sha256:90da6529efb1a3852b5b237199f809f30336c0b6cd2786d91b616cb9b0ac7819",
+   "fixed_point_1_5_0": true,
+   "hash_independent_of_realpath": true,
+   "changed_vs_1_4_3": true
+  },
+  "PILOT_SMOKE": {
+   "valid": true,
+   "errors": [],
+   "hash_1_5_0": "sha256:8be1f29344664e611bac7274c2a2030520da3ac5302d75c98a6bdd964715fbe3",
+   "hash_1_4_3_same_request": "sha256:335917fc010bb93870d56a15ebac6506e9bbdf16c7113844ace02f1ad8df5033",
+   "stored_1_4_3_doc_rehashed_by_1_5_0_definition": "sha256:5aa41626b150ab071242fd65d8b2682bbd014d28c4f964c7043240b40c0cefaa",
+   "fixed_point_1_5_0": true,
+   "hash_independent_of_realpath": true,
+   "changed_vs_1_4_3": true
+  }
+ }
+}

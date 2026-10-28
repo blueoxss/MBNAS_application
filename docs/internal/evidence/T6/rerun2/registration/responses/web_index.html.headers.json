@@ -1,0 +1,17 @@
+{
+ "status": 200,
+ "headers": {
+  "date": "Wed, 28 Oct 2026 02:01:11 GMT",
+  "server": "uvicorn",
+  "cache-control": "no-cache",
+  "x-content-type-options": "nosniff",
+  "content-type": "text/html; charset=utf-8",
+  "accept-ranges": "bytes",
+  "content-length": "733",
+  "last-modified": "Mon, 31 Dec 1979 15:00:00 GMT",
+  "etag": "\"2498a9f11272430f675575ab8beed61d\"",
+  "vary": "Origin",
+  "x-request-id": "e1b10154013b4631aafa9c1bbf81a9fc",
+  "connection": "close"
+ }
+}

@@ -1,0 +1,147 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.22, pytest-9.1.1, pluggy-1.6.0 -- /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python
+rootdir: /home/mgjeong/Desktop/etri_hd/mbnas_application
+configfile: pyproject.toml
+plugins: anyio-4.15.1, timeout-2.4.0
+timeout: 600.0s
+timeout method: signal
+timeout func_only: False
+collecting ... collected 108 items / 6 deselected / 102 selected
+
+tests/public/runner/test_benchmark_rfdetr.py::test_rfdetr_capability_is_current_and_declares_resolutions PASSED [  0%]
+tests/public/runner/test_benchmark_rfdetr.py::test_host_runtime_probe_does_not_switch_on_tf32_matmuls PASSED [  1%]
+tests/public/runner/test_benchmark_rfdetr.py::test_resolve_postprocess_defaults_overrides_and_rejects PASSED [  2%]
+tests/public/runner/test_benchmark_rfdetr.py::test_latency_operating_point_passed_only_when_the_adapter_takes_it PASSED [  3%]
+tests/public/runner/test_benchmark_rfdetr.py::test_handler_rejects_invalid_postprocess PASSED [  4%]
+tests/public/runner/test_benchmark_rfdetr.py::test_blocked_job_status_follows_the_job_schema PASSED [  5%]
+tests/public/runner/test_benchmark_rfdetr.py::test_rfdetr_unpack_maps_outputs_by_name_not_position PASSED [  6%]
+tests/public/runner/test_benchmark_rfdetr.py::test_rfdetr_raw_view_aligns_pytorch_dict_and_runtime_tuple PASSED [  7%]
+tests/public/runner/test_benchmark_rfdetr.py::test_rfdetr_runtime_view_replaces_only_the_network_and_leaves_the_original PASSED [  8%]
+tests/public/runner/test_benchmark_rfdetr.py::test_rfdetr_weights_class_from_file_name PASSED [  9%]
+tests/public/runner/test_benchmark_rfdetr.py::test_handler_routes_rfdetr_subjects PASSED [ 10%]
+tests/public/runner/test_benchmark_rfdetr.py::test_rfdetr_nano_export_and_predict_through_runtime_view_match_pytorch SKIPPED [ 11%]
+tests/public/runner/test_benchmark_rfdetr.py::test_rfdetr_eval_snapshot_subject_uses_the_trained_resolution SKIPPED [ 12%]
+tests/public/runner/test_benchmark_unit.py::test_targets_other_than_host_gpu_are_blocked PASSED [ 13%]
+tests/public/runner/test_benchmark_unit.py::test_handler_returns_blocked_result_without_numbers PASSED [ 14%]
+tests/public/runner/test_benchmark_unit.py::test_handler_rejects_output_outside_allowlist SKIPPED [ 15%]
+tests/public/runner/test_benchmark_unit.py::test_handler_rejects_wrong_job_kind PASSED [ 16%]
+tests/public/runner/test_benchmark_unit.py::test_export_torch_static_onnx_matches_torch PASSED [ 17%]
+tests/public/runner/test_benchmark_unit.py::test_export_ultralytics_raw_head_and_restores_pt_path PASSED [ 18%]
+tests/public/runner/test_benchmark_unit.py::test_trt_build_blocked_when_tensorrt_unimportable PASSED [ 19%]
+tests/public/runner/test_benchmark_unit.py::test_accuracy_deltas_and_raw_diff PASSED [ 20%]
+tests/public/runner/test_benchmark_unit.py::test_official_weights_must_match_manifest PASSED [ 21%]
+tests/public/runner/test_child_spec_file.py::test_stub_job_succeeds_with_jsonl_progress_and_a_final_result PASSED [ 22%]
+tests/public/runner/test_child_spec_file.py::test_handler_failure_is_a_failed_result_and_exit_3 PASSED [ 23%]
+tests/public/runner/test_child_spec_file.py::test_unreadable_spec_is_a_failed_result_and_exit_3[{not json] PASSED [ 24%]
+tests/public/runner/test_child_spec_file.py::test_unreadable_spec_is_a_failed_result_and_exit_3[{"job_id": "job-spec-1", "run_id": "run-spec", "kind": "NOT_A_KIND", "protocol_hash": "sha256:0123456789abcdef", "candidate_id": "run-spec.GA-G00-C000", "rung": "L0", "cumulative_target": 2, "fixed_horizon": 4, "arm": "GA", "search_seed": 1, "training_seed": 2, "attempt": 1, "params": {"note": "synthetic"}}] PASSED [ 25%]
+tests/public/runner/test_child_spec_file.py::test_propose_generation_is_not_a_runner_kind PASSED [ 26%]
+tests/public/runner/test_child_spec_file.py::test_the_child_imports_no_core_module PASSED [ 27%]
+tests/public/runner/test_resume_equivalence_script.py::test_rfdetr_load_keeps_the_loader_generator_state PASSED [ 28%]
+tests/public/runner/test_runner_daemon_unit.py::test_happy_path_claim_start_heartbeat_progress_result_ack PASSED [ 29%]
+tests/public/runner/test_runner_daemon_unit.py::test_pause_control_writes_stop_file_and_commits_paused PASSED [ 30%]
+tests/public/runner/test_runner_daemon_unit.py::test_cancel_control_terminates_child_and_reports_cancel_observed PASSED [ 31%]
+tests/public/runner/test_runner_daemon_unit.py::test_pause_withdrawal_deletes_stop_file_and_cancel_is_never_withdrawn PASSED [ 32%]
+tests/public/runner/test_runner_daemon_unit.py::test_shutdown_reports_runner_shutting_down PASSED [ 33%]
+tests/public/runner/test_runner_daemon_unit.py::test_lease_lost_heartbeat_stops_child_and_discards_result PASSED [ 34%]
+tests/public/runner/test_runner_daemon_unit.py::test_lease_expiry_watchdog_kills_child_without_renewal PASSED [ 35%]
+tests/public/runner/test_runner_daemon_unit.py::test_commit_failed_is_retried_with_the_same_digest PASSED [ 36%]
+tests/public/runner/test_runner_daemon_unit.py::test_restart_replay_started_without_result_sends_child_exit_no_result PASSED [ 37%]
+tests/public/runner/test_runner_daemon_unit.py::test_restart_replay_resends_frozen_result_then_acks PASSED [ 38%]
+tests/public/runner/test_runner_daemon_unit.py::test_restart_replay_claimed_without_start_is_discarded_when_the_lease_is_gone PASSED [ 39%]
+tests/public/runner/test_runner_daemon_unit.py::test_invalid_envelope_spec_is_started_and_committed_as_failure PASSED [ 40%]
+tests/public/runner/test_runner_daemon_unit.py::test_core_url_insecure_refused PASSED [ 41%]
+tests/public/runner/test_runner_daemon_unit.py::test_cli_exit_code_for_insecure_url PASSED [ 42%]
+tests/public/runner/test_runner_daemon_unit.py::test_client_retries_5xx_and_processing_but_raises_4xx_at_once PASSED [ 43%]
+tests/public/runner/test_runner_daemon_unit.py::test_journal_digest_matches_the_contract_digest_and_stages_advance PASSED [ 44%]
+tests/public/runner/test_runner_daemon_unit.py::test_checkpoint_tamper_rejected PASSED [ 45%]
+tests/public/runner/test_runner_daemon_unit.py::test_dataset_mounts_remap PASSED [ 46%]
+tests/public/runner/test_runner_daemon_unit.py::test_native_spec_from_envelope_for_search_candidate PASSED [ 47%]
+tests/public/runner/test_runner_daemon_unit.py::test_tick_waits_for_stale_pid_before_claiming PASSED [ 48%]
+tests/public/runner/test_runner_daemon_unit.py::test_execute_waits_before_starting_and_spawning PASSED [ 49%]
+tests/public/runner/test_runner_daemon_unit.py::test_wait_is_bounded_logged_and_a_live_foreign_pid_is_waited_for_once FAILED [ 50%]
+tests/public/runner/test_stage_trainer.py::test_resumes_from_latest_and_is_idempotent PASSED [ 50%]
+tests/public/runner/test_stage_trainer.py::test_protocol_change_blocks PASSED [ 51%]
+tests/public/runner/test_stage_trainer.py::test_all_corrupt_never_restarts_silently PASSED [ 52%]
+tests/public/runner/test_stage_trainer.py::test_target_validation PASSED [ 53%]
+tests/public/runner/test_stage_trainer.py::test_etri_cpu_resume_is_bitwise PASSED [ 54%]
+tests/public/runner/test_stage_trainer.py::test_deleted_ckpt_dir_blocks_a_later_stage PASSED [ 55%]
+tests/public/runner/test_stage_trainer.py::test_payload_deleted_sidecar_kept_blocks_a_later_stage PASSED [ 56%]
+tests/public/runner/test_stage_trainer.py::test_first_stage_scratch_start_is_allowed_and_fallback_is_noted PASSED [ 57%]
+tests/public/runner/test_stage_trainer.py::test_prior_epochs_not_reached_by_found_state_blocks PASSED [ 58%]
+tests/public/runner/test_stage_trainer.py::test_already_done_refuses_a_tampered_stored_hash[architecture] PASSED [ 59%]
+tests/public/runner/test_stage_trainer.py::test_already_done_refuses_a_tampered_stored_hash[recipe] PASSED [ 60%]
+tests/public/runner/test_stage_trainer.py::test_already_done_refuses_changed_architecture_or_recipe PASSED [ 61%]
+tests/public/runner/test_stage_trainer.py::test_recorded_sha256_mismatch_blocks_by_default PASSED [ 62%]
+tests/public/runner/test_stage_trainer.py::test_recorded_sha256_mismatch_note_mode_reports_and_logs PASSED [ 63%]
+tests/public/runner/test_stage_trainer.py::test_matching_recorded_sha256_resumes_without_note PASSED [ 64%]
+tests/public/runner/test_stage_trainer.py::test_fallback_note_distinguishes_newer_from_older PASSED [ 65%]
+tests/public/runner/test_stage_trainer.py::test_hashes_are_bound_at_the_first_checkpoint_event PASSED [ 66%]
+tests/public/runner/test_stage_trainer.py::test_unbound_binding_on_idempotent_path_is_hash_unverified PASSED [ 67%]
+tests/public/runner/test_stage_trainer.py::test_run_until_requires_explicit_stage_hints PASSED [ 68%]
+tests/public/infra/test_gpu_lock_guard.py::test_gpu_test_is_refused_while_another_process_holds_the_lock PASSED [ 69%]
+tests/public/infra/test_gpu_lock_guard.py::test_gpu_test_takes_a_free_lock_for_the_session_and_releases_it PASSED [ 70%]
+tests/public/infra/test_gpu_lock_guard.py::test_gpu_test_runs_under_the_flock_wrapper_without_deadlock[flock] PASSED [ 71%]
+tests/public/infra/test_gpu_lock_guard.py::test_gpu_test_runs_under_the_flock_wrapper_without_deadlock[flock-o] PASSED [ 72%]
+tests/public/infra/test_gpu_lock_guard.py::test_a_plain_test_that_initialises_cuda_is_an_error PASSED [ 73%]
+tests/public/infra/test_import_closure.py::test_no_boundary_violation PASSED [ 74%]
+tests/public/infra/test_import_closure.py::test_no_unresolved_reference PASSED [ 75%]
+tests/public/infra/test_import_closure.py::test_no_forbidden_string_outside_the_documented_data_exceptions PASSED [ 76%]
+tests/public/infra/test_import_closure.py::test_checker_errors_are_empty PASSED [ 77%]
+tests/public/infra/test_import_closure.py::test_every_allowance_is_one_of_the_transitional_edges_and_expires PASSED [ 78%]
+tests/public/infra/test_import_closure.py::test_public_packages_do_not_load_mbnas_core[mbnas_contracts] PASSED [ 79%]
+tests/public/infra/test_import_closure.py::test_public_packages_do_not_load_mbnas_core[mbnas_model_runtime] PASSED [ 80%]
+tests/public/infra/test_import_closure.py::test_public_packages_do_not_load_mbnas_core[mbnas_runner] PASSED [ 81%]
+tests/public/infra/test_import_closure.py::test_public_packages_do_not_load_mbnas_core[mbnas_server] PASSED [ 82%]
+tests/public/infra/test_import_closure.py::test_contracts_load_no_other_internal_package_and_no_ml_stack PASSED [ 83%]
+tests/public/infra/test_import_safety.py::test_no_module_runs_code_at_import_time[mbnas_contracts] PASSED [ 84%]
+tests/public/infra/test_import_safety.py::test_no_module_runs_code_at_import_time[mbnas_model_runtime] PASSED [ 85%]
+tests/public/infra/test_import_safety.py::test_no_module_runs_code_at_import_time[mbnas_runner] PASSED [ 86%]
+tests/public/infra/test_import_safety.py::test_no_module_runs_code_at_import_time[mbnas_server] PASSED [ 87%]
+tests/public/infra/test_import_safety.py::test_importing_every_module_returns_and_starts_no_worker[mbnas_contracts] PASSED [ 88%]
+tests/public/infra/test_import_safety.py::test_importing_every_module_returns_and_starts_no_worker[mbnas_model_runtime] PASSED [ 89%]
+tests/public/infra/test_import_safety.py::test_importing_every_module_returns_and_starts_no_worker[mbnas_runner] PASSED [ 90%]
+tests/public/infra/test_import_safety.py::test_importing_every_module_returns_and_starts_no_worker[mbnas_server] PASSED [ 91%]
+tests/public/infra/test_import_safety.py::test_python_dash_m_still_starts_the_runner_entry_point PASSED [ 92%]
+tests/public/infra/test_no_host_facts.py::test_the_scan_covers_all_five_packages PASSED [ 93%]
+tests/public/infra/test_no_host_facts.py::test_no_forbidden_string_in_package_sources PASSED [ 94%]
+tests/public/infra/test_no_host_facts.py::test_data_exceptions_are_exactly_the_two_documented_pairs PASSED [ 95%]
+tests/public/infra/test_no_host_facts.py::test_no_yolo_ga_runtime_import[mbnas_contracts] PASSED [ 96%]
+tests/public/infra/test_no_host_facts.py::test_no_yolo_ga_runtime_import[mbnas_model_runtime] PASSED [ 97%]
+tests/public/infra/test_no_host_facts.py::test_no_yolo_ga_runtime_import[mbnas_core] PASSED [ 98%]
+tests/public/infra/test_no_host_facts.py::test_no_yolo_ga_runtime_import[mbnas_runner] PASSED [ 99%]
+tests/public/infra/test_no_host_facts.py::test_no_yolo_ga_runtime_import[mbnas_server] PASSED [100%]
+
+=================================== FAILURES ===================================
+____ test_wait_is_bounded_logged_and_a_live_foreign_pid_is_waited_for_once _____
+
+env = PosixPath('/tmp/pytest-of-mgjeong/pytest-445/test_wait_is_bounded_logged_an0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fa7ece631f0>
+
+    def test_wait_is_bounded_logged_and_a_live_foreign_pid_is_waited_for_once(env, monkeypatch):
+        """test_gpu_occupancy.py::test_wait_is_bounded_logged_and_a_live_foreign_pid_is_waited_for_once, runner side
+        (assertions unchanged): bounded, logged, a live foreign pid is remembered after a full wait, a dead one is not."""
+        stale = _dead_pid()
+        live = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(30)"])
+        core = FakeCore([])
+        logs: list[str] = []
+        try:
+            d = _gpu_daemon(rsettings(env, core.url, gpu_clear_timeout_s=0.3), logs)
+            monkeypatch.setattr(gpu, "compute_pids", lambda i: [stale, live.pid])
+            t0 = time.monotonic()
+            out = d.wait_gpu_clear()
+            assert not out["cleared"] and 0.3 <= time.monotonic() - t0 < 2 and set(out["foreign"]) == {stale, live.pid}
+            text = "\n".join(logs)
+            assert "waiting up to 0.3 s" in text and "giving up the wait" in text and str(stale) in text
+            # the live foreign pid is remembered; the dead (stale) pid is still waited for
+            monkeypatch.setattr(gpu, "compute_pids", lambda i: [live.pid])
+            t1 = time.monotonic()
+>           assert d.wait_gpu_clear()["cleared"] and time.monotonic() - t1 < 0.2
+E           assert (False)
+
+tests/public/runner/test_runner_daemon_unit.py:531: AssertionError
+=========================== short test summary info ============================
+FAILED tests/public/runner/test_runner_daemon_unit.py::test_wait_is_bounded_logged_and_a_live_foreign_pid_is_waited_for_once
+SKIPPED [1] tests/public/runner/test_benchmark_rfdetr.py:235: official rf-detr-nano.pth not in the weights cache
+SKIPPED [1] tests/public/runner/test_benchmark_rfdetr.py:309: PILOT_VAL search_val images not present on this host
+SKIPPED [1] tests/public/runner/test_benchmark_unit.py:61: PILOT_VAL search_val images not present on this host
+======= 1 failed, 98 passed, 3 skipped, 6 deselected in 73.34s (0:01:13) =======

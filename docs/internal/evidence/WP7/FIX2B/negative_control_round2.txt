@@ -1,0 +1,114 @@
+FFF..                                                                    [100%]
+=================================== FAILURES ===================================
+__________ test_core_download_route_serves_a_core_local_architecture ___________
+
+split = namespace(core=<starlette.testclient.TestClient object at 0x7f15971d22c0>, settings=CoreSettings(api_token=SecretStr('...0x7f1596825a20>, headers={'Authorization': 'Bearer mbnas_server_<redacted-test-token>'})
+
+    def test_core_download_route_serves_a_core_local_architecture(split):
+        run_id = split.off_run("dd-a62-c-download")
+        run = split.q(lambda c: repo.get_run(c, run_id))
+        cands = _crafted_generation(run, split.core_runs / run_id / "architectures", n=1)
+        conn = connect(split.settings, init=False)
+        try:
+            with tx(conn):
+                engine.generation_progress(conn, _generation_job(conn, run_id), {"generated_candidate": cands[0]})
+            (art,) = _artifacts(conn, run_id).values()
+        finally:
+            conn.close()
+        r = split.core.get(f"/core/v1/console/runs/{run_id}/artifacts/{art['id']}", headers=split.headers)
+>       assert r.status_code == 200, r.text
+E       AssertionError: {"code":"ACCESS_DENIED","message":"run directory is outside the server output roots","request_id":"251c330417144fc3adb55129a868e1bf","location":"core"}
+E       assert 403 == 200
+E        +  where 403 = <Response [403 Forbidden]>.status_code
+
+tests/owner/worker/test_dd_a62_core_local_generation.py:243: AssertionError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:180 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T21:10:13.328Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=311990977b7b4eb7b2a20ccbf8f05d6e duration_ms=103.6 client=testclient:50000
+2026-10-27T21:10:13.370Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=aa3db11917d14c6cbc39c064346efa23 duration_ms=38.4 client=testclient:50000
+2026-10-27T21:10:13.455Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-f6d1e2769629/artifacts/art-5da1c8eed3bac290e7e6 status=403 request_id=251c330417144fc3adb55129a868e1bf duration_ms=44.6 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=311990977b7b4eb7b2a20ccbf8f05d6e duration_ms=103.6 client=testclient:50000
+WARNING  mbnas_core.console:routes_runs.py:186 run run-f6d1e2769629: protocol copies not written under the customer output_root on this host (PermissionError); the database keeps both protocols
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=aa3db11917d14c6cbc39c064346efa23 duration_ms=38.4 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-f6d1e2769629/artifacts/art-5da1c8eed3bac290e7e6 status=403 request_id=251c330417144fc3adb55129a868e1bf duration_ms=44.6 client=testclient:50000
+___________ test_core_download_route_applies_the_registration_guards ___________
+
+split = namespace(core=<starlette.testclient.TestClient object at 0x7f1596cd41f0>, settings=CoreSettings(api_token=SecretStr('...0x7f1595451ab0>, headers={'Authorization': 'Bearer mbnas_server_<redacted-test-token>'})
+tmp_path = PosixPath('<SCRATCH>/fix2b/pt/negctl2/test_core_download_route_appli0')
+
+    def test_core_download_route_applies_the_registration_guards(split, tmp_path):
+        """A core-local file that changed after registration (bytes, size) is LOAD_FAILED (409, the row flips to
+        LOAD_FAILED), a symlink - even one to identical bytes inside the core-local run directory - and a core_local row whose
+        path is not ``architectures/<name>.yaml`` are ACCESS_DENIED (403); a vanished file is MISSING (404): it is never looked
+        up in ``run_dir(run)`` instead."""
+        run_id = split.off_run("dd-a62-c-guards")
+        run = split.q(lambda c: repo.get_run(c, run_id))
+        local = split.core_runs / run_id
+        cands = _crafted_generation(run, local / "architectures", n=5)
+        conn = connect(split.settings, init=False)
+        try:
+            job = _generation_job(conn, run_id)
+            with tx(conn):
+                for cand in cands:
+                    engine.generation_progress(conn, job, {"generated_candidate": cand})
+                (local / "logs").mkdir()
+                (local / "logs" / "attempt.log").write_text("not an architecture\n")
+                repo.insert_artifact(conn, id="art-dd-a62-foreign", run_id=run_id, kind="other", relpath="logs/attempt.log",
+                                     evaluation_id=None, candidate_id=None,
+                                     sha256=hashlib.sha256(b"not an architecture\n").hexdigest(), mime_type="text/plain",
+                                     bytes=20, sample_id=None, split_hash=None, state="READY", meta={"location": "core_local"})
+            arts = _artifacts(conn, run_id)
+        finally:
+            conn.close()
+        path = [Path(c["row"]["architecture_path"]) for c in cands]
+        art = [arts[c["row"]["id"]] for c in cands]
+    
+        def get(artifact_id: str):
+            return split.core.get(f"/core/v1/console/runs/{run_id}/artifacts/{artifact_id}", headers=split.headers)
+    
+>       assert get(art[0]["id"]).status_code == 200
+E       AssertionError: assert 403 == 200
+E        +  where 403 = <Response [403 Forbidden]>.status_code
+E        +    where <Response [403 Forbidden]> = <function test_core_download_route_applies_the_registration_guards.<locals>.get at 0x7f15972103a0>('art-bf5139d43c0fcf824ca5')
+
+tests/owner/worker/test_dd_a62_core_local_generation.py:277: AssertionError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:180 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T21:10:13.781Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=e7917655dcab4214b2f82fafceaf5c20 duration_ms=86.9 client=testclient:50000
+2026-10-27T21:10:13.818Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=95e0a6e79f554b3296331031ebf5634b duration_ms=34.6 client=testclient:50000
+2026-10-27T21:10:13.903Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9495f78375e1/artifacts/art-bf5139d43c0fcf824ca5 status=403 request_id=51f938cbf4bc420d8812b95d4a62bc47 duration_ms=42.7 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=e7917655dcab4214b2f82fafceaf5c20 duration_ms=86.9 client=testclient:50000
+WARNING  mbnas_core.console:routes_runs.py:186 run run-9495f78375e1: protocol copies not written under the customer output_root on this host (PermissionError); the database keeps both protocols
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=95e0a6e79f554b3296331031ebf5634b duration_ms=34.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9495f78375e1/artifacts/art-bf5139d43c0fcf824ca5 status=403 request_id=51f938cbf4bc420d8812b95d4a62bc47 duration_ms=42.7 client=testclient:50000
+_____ test_env_file_is_exported_to_this_process_and_never_to_job_children ______
+
+entry_point = {'settings': CoreSettings(api_token=None, artifact_signing_key=None, cors_origins=[], db_path='<SCRATCH>/...'), 'env_file': None}
+tmp_path = PosixPath('<SCRATCH>/fix2b/pt/negctl2/test_env_file_is_exported_to_t0')
+
+    def test_env_file_is_exported_to_this_process_and_never_to_job_children(entry_point, tmp_path):
+        core_runs = tmp_path / "core-host" / "runs"
+        env = tmp_path / "core.env"
+        env.write_text(f"MBNAS_CORE_OUTPUT_ROOT={core_runs}\nMBNAS_CORE_DB_PATH={tmp_path / 'db' / 'mbnas.sqlite3'}\n")
+        assert owner_main.main(["--owner", "--env-file", str(env)]) == 0
+>       assert entry_point["env_file"] == str(env) and os.environ.get(ENV_FILE_VAR) == str(env)
+E       AssertionError: assert (None == '<SCRATCH>/fix2b/pt/negctl2/test_env_file_is_exported_to_t0/core.env')
+E        +  where '<SCRATCH>/fix2b/pt/negctl2/test_env_file_is_exported_to_t0/core.env' = str(PosixPath('<SCRATCH>/fix2b/pt/negctl2/test_env_file_is_exported_to_t0/core.env'))
+
+tests/owner/worker/test_dd_a62_owner_worker_env_file.py:51: AssertionError
+=============================== warnings summary ===============================
+tests/owner/worker/test_dd_a62_core_local_generation.py::test_core_download_route_serves_a_core_local_architecture
+  <ROOT>/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/owner/worker/test_dd_a62_core_local_generation.py::test_core_download_route_serves_a_core_local_architecture
+FAILED tests/owner/worker/test_dd_a62_core_local_generation.py::test_core_download_route_applies_the_registration_guards
+FAILED tests/owner/worker/test_dd_a62_owner_worker_env_file.py::test_env_file_is_exported_to_this_process_and_never_to_job_children
+3 failed, 2 passed, 1 warning in 1.72s
+rc=1

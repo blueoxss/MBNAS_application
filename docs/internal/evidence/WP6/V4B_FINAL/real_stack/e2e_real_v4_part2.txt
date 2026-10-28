@@ -1,0 +1,8 @@
+# 2026-10-28T08:02:54+09:00 cwd=<SCRATCH>/wp3/c07/v4/cwd base_url=http://127.0.0.1:40905 args: -g V4-12
+
+Running 1 test using 1 worker
+
+  ✓  1 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:478:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-12 stop the core process: the UI shows degraded + an explicit failure (no fallback) (5.0s)
+
+  1 passed (5.9s)
+exit 0

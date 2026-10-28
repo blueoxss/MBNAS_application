@@ -1,0 +1,4 @@
+[start] core: ready pid=75 HTTP 401 from http://127.0.0.1:8700/core/v1/console/health log=runtime/logs/core.log
+[start] owner-worker: ready pid=97 alive after 5 s log=runtime/logs/owner-worker.log
+[start] gateway: ready pid=112 HTTP 200 from http://127.0.0.1:8710/api/v1/health status=ok core=reachable log=runtime/logs/gateway.log
+[start] runner: ready pid=150 alive after 5 s log=runtime/logs/runner.log

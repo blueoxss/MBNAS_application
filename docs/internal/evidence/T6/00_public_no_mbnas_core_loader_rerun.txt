@@ -1,0 +1,1 @@
+mbnas_core: no loader, no spec, not in sys.modules after importing the public apps

@@ -1,0 +1,5 @@
+build A sha256 bbe5e29f… (offline re-check) vs FINAL public ZIP
+only in A: []
+only in final: []
+changed: ['mbnas_application/BUILD_INFO.json', 'mbnas_application/FILE_MANIFEST.jsonl', 'mbnas_application/PACKAGE_PROFILE.json']
+final PACKAGE_PROFILE install.offline_install = True ; verified_zip_sha256 = bbe5e29f4a8eb990a5b3e30e9719b4cd8ebd4c546c8abffe177206e3dcf6aa04

@@ -1,0 +1,301 @@
+{
+ "data": {
+  "locations": [
+   {
+    "object_id": "ck-7cbc84f4697cc188",
+    "object_kind": "checkpoint",
+    "runner_id": "t7-gpu0",
+    "state": "PRESENT",
+    "store": "runner_local",
+    "verified_by": "runner:t7-gpu0"
+   },
+   {
+    "object_id": "art-17087bb51bea73bc36bf",
+    "object_kind": "artifact",
+    "runner_id": "t7-gpu0",
+    "state": "PRESENT",
+    "store": "runner_local",
+    "verified_by": "runner:t7-gpu0"
+   },
+   {
+    "object_id": "art-a969aa918cc1bfe31b44",
+    "object_kind": "artifact",
+    "runner_id": "t7-gpu0",
+    "state": "PRESENT",
+    "store": "runner_local",
+    "verified_by": "runner:t7-gpu0"
+   },
+   {
+    "object_id": "art-d7e8722bdc457dafe59f",
+    "object_kind": "artifact",
+    "runner_id": "t7-gpu0",
+    "state": "PRESENT",
+    "store": "runner_local",
+    "verified_by": "runner:t7-gpu0"
+   },
+   {
+    "object_id": "art-bf35eab3d48c5109bcc6",
+    "object_kind": "artifact",
+    "runner_id": "t7-gpu0",
+    "state": "PRESENT",
+    "store": "runner_local",
+    "verified_by": "runner:t7-gpu0"
+   },
+   {
+    "object_id": "art-dfd3090291ef49c4aa83",
+    "object_kind": "artifact",
+    "runner_id": "t7-gpu0",
+    "state": "PRESENT",
+    "store": "runner_local",
+    "verified_by": "runner:t7-gpu0"
+   },
+   {
+    "object_id": "art-b0f530818209185edaa7",
+    "object_kind": "artifact",
+    "runner_id": "t7-gpu0",
+    "state": "PRESENT",
+    "store": "runner_local",
+    "verified_by": "runner:t7-gpu0"
+   },
+   {
+    "object_id": "ck-7cbc84f4697cc188",
+    "object_kind": "checkpoint",
+    "runner_id": null,
+    "state": "PRESENT",
+    "store": "server_store",
+    "verified_by": "store"
+   },
+   {
+    "object_id": "art-a969aa918cc1bfe31b44",
+    "object_kind": "artifact",
+    "runner_id": null,
+    "state": "PRESENT",
+    "store": "server_store",
+    "verified_by": "store"
+   },
+   {
+    "object_id": "art-d7e8722bdc457dafe59f",
+    "object_kind": "artifact",
+    "runner_id": null,
+    "state": "PRESENT",
+    "store": "server_store",
+    "verified_by": "store"
+   },
+   {
+    "object_id": "art-17087bb51bea73bc36bf",
+    "object_kind": "artifact",
+    "runner_id": null,
+    "state": "PRESENT",
+    "store": "server_store",
+    "verified_by": "store"
+   },
+   {
+    "object_id": "art-bf35eab3d48c5109bcc6",
+    "object_kind": "artifact",
+    "runner_id": null,
+    "state": "PRESENT",
+    "store": "server_store",
+    "verified_by": "store"
+   },
+   {
+    "object_id": "art-b0f530818209185edaa7",
+    "object_kind": "artifact",
+    "runner_id": null,
+    "state": "PRESENT",
+    "store": "server_store",
+    "verified_by": "store"
+   },
+   {
+    "object_id": "art-dfd3090291ef49c4aa83",
+    "object_kind": "artifact",
+    "runner_id": null,
+    "state": "PRESENT",
+    "store": "server_store",
+    "verified_by": "store"
+   }
+  ],
+  "states_after": {
+   "artifacts": [
+    {
+     "id": "art-566e4aad6d6743246d87",
+     "kind": "architecture",
+     "run_id": "train-649a9fcc9220",
+     "state": "READY"
+    },
+    {
+     "id": "art-bd6c1f9e87a8c403c2bb",
+     "kind": "gt",
+     "run_id": "train-649a9fcc9220",
+     "state": "READY"
+    },
+    {
+     "id": "art-7e257b6a07fde8e1d0e9",
+     "kind": "tp",
+     "run_id": "train-649a9fcc9220",
+     "state": "READY"
+    },
+    {
+     "id": "art-17087bb51bea73bc36bf",
+     "kind": "fn",
+     "run_id": "train-649a9fcc9220",
+     "state": "READY"
+    },
+    {
+     "id": "art-c64e57660585eb51d8e1",
+     "kind": "fp",
+     "run_id": "train-649a9fcc9220",
+     "state": "READY"
+    },
+    {
+     "id": "art-680de7e00cf926627f7a",
+     "kind": "gt",
+     "run_id": "train-649a9fcc9220",
+     "state": "READY"
+    },
+    {
+     "id": "art-98878f271739c0e8d2ce",
+     "kind": "tp",
+     "run_id": "train-649a9fcc9220",
+     "state": "READY"
+    },
+    {
+     "id": "art-3d037650f579c2e8087e",
+     "kind": "fn",
+     "run_id": "train-649a9fcc9220",
+     "state": "READY"
+    },
+    {
+     "id": "art-d9610f0e7bccf087967e",
+     "kind": "fp",
+     "run_id": "train-649a9fcc9220",
+     "state": "READY"
+    },
+    {
+     "id": "art-a969aa918cc1bfe31b44",
+     "kind": "other",
+     "run_id": "train-649a9fcc9220",
+     "state": "READY"
+    },
+    {
+     "id": "art-d7e8722bdc457dafe59f",
+     "kind": "architecture",
+     "run_id": "train-649a9fcc9220",
+     "state": "READY"
+    },
+    {
+     "id": "art-07da3e13dfefe0c54d36",
+     "kind": "other",
+     "run_id": "train-649a9fcc9220",
+     "state": "READY"
+    },
+    {
+     "id": "art-7e713887984e2f63f65a",
+     "kind": "other",
+     "run_id": "train-649a9fcc9220",
+     "state": "READY"
+    },
+    {
+     "id": "art-5b9013a4ec62e22c37cb",
+     "kind": "other",
+     "run_id": "train-649a9fcc9220",
+     "state": "READY"
+    },
+    {
+     "id": "art-58204e7658025269710a",
+     "kind": "other",
+     "run_id": "train-649a9fcc9220",
+     "state": "READY"
+    },
+    {
+     "id": "art-fc1174a3ead12d1d9a53",
+     "kind": "other",
+     "run_id": "train-649a9fcc9220",
+     "state": "READY"
+    },
+    {
+     "id": "art-e239508ea3bfffb3701a",
+     "kind": "architecture",
+     "run_id": "train-ef745127ed1c",
+     "state": "READY"
+    },
+    {
+     "id": "art-6f07394d38cf474414db",
+     "kind": "gt",
+     "run_id": "train-ef745127ed1c",
+     "state": "READY"
+    },
+    {
+     "id": "art-f804df4b589e4ae1db3d",
+     "kind": "tp",
+     "run_id": "train-ef745127ed1c",
+     "state": "READY"
+    },
+    {
+     "id": "art-bf35eab3d48c5109bcc6",
+     "kind": "fn",
+     "run_id": "train-ef745127ed1c",
+     "state": "READY"
+    },
+    {
+     "id": "art-dfd3090291ef49c4aa83",
+     "kind": "fp",
+     "run_id": "train-ef745127ed1c",
+     "state": "READY"
+    },
+    {
+     "id": "art-0efb4cf55c981da0b66b",
+     "kind": "gt",
+     "run_id": "train-ef745127ed1c",
+     "state": "READY"
+    },
+    {
+     "id": "art-38c54de254ba35c1b11b",
+     "kind": "tp",
+     "run_id": "train-ef745127ed1c",
+     "state": "READY"
+    },
+    {
+     "id": "art-b0f530818209185edaa7",
+     "kind": "fn",
+     "run_id": "train-ef745127ed1c",
+     "state": "READY"
+    },
+    {
+     "id": "art-cd92d194d9f9c6210eca",
+     "kind": "fp",
+     "run_id": "train-ef745127ed1c",
+     "state": "READY"
+    }
+   ],
+   "checkpoints": [
+    {
+     "id": "ck-5e7eda99b60f5760",
+     "kind": "training_full",
+     "run_id": "train-649a9fcc9220",
+     "state": "PRESENT"
+    },
+    {
+     "id": "ck-7cbc84f4697cc188",
+     "kind": "training_full",
+     "run_id": "train-649a9fcc9220",
+     "state": "PRESENT"
+    },
+    {
+     "id": "ck-590f6caee10dbcc4",
+     "kind": "eval_ema",
+     "run_id": "train-649a9fcc9220",
+     "state": "PRESENT"
+    },
+    {
+     "id": "ck-b9342821027d535a",
+     "kind": "weights_only",
+     "run_id": "train-649a9fcc9220",
+     "state": "PRESENT"
+    }
+   ]
+  }
+ },
+ "item": "f",
+ "saved_utc": "2026-10-27T18:08:18.081770Z",
+ "tree_hash": "sha256:9dafe4d021ab572058c306e596b686d3f19a1203cab7504c4c2662973fb670ea"
+}

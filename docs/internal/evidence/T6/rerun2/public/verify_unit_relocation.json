@@ -1,0 +1,83 @@
+{
+ "suite": "unit,relocation",
+ "status": "PASS",
+ "counts": {
+  "PASS": 2,
+  "FAIL": 0,
+  "NOT_APPLICABLE": 0,
+  "BLOCKED_BY_ENV": 0
+ },
+ "evidence": [
+  "runtime/logs/verify/20261028T020127Z-public"
+ ],
+ "results": [
+  {
+   "suite": "unit",
+   "status": "PASS",
+   "counts": {
+    "tests": 984,
+    "passed": 761,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 223,
+    "summary": "761 passed, 223 skipped, 44 deselected, 2 warnings in 173.78s (0:02:53)",
+    "deselected": 44
+   },
+   "evidence": [
+    "runtime/logs/verify/20261028T020127Z-public/unit.log",
+    "runtime/logs/verify/20261028T020127Z-public/unit.junit.xml"
+   ],
+   "reason": "",
+   "command": [
+    "/srv/mbnas public r2/mbnas_application/runtime/venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "-m",
+    "not gpu and not live and not legacy_records and not host_data",
+    "-p",
+    "no:cacheprovider",
+    "--junitxml=/srv/mbnas public r2/mbnas_application/runtime/logs/verify/20261028T020127Z-public/unit.junit.xml",
+    "tests/public"
+   ],
+   "exit_code": 0,
+   "duration_s": 176.1,
+   "scope": {
+    "test_dirs": [
+     "tests/public"
+    ],
+    "markers": "not gpu and not live and not legacy_records and not host_data",
+    "not_applicable": [
+     "tests/owner: owner-only tests (public profile)"
+    ]
+   },
+   "profile": "public"
+  },
+  {
+   "suite": "relocation",
+   "status": "PASS",
+   "counts": {
+    "checks": 8,
+    "passed": 8,
+    "failed": 0
+   },
+   "evidence": [
+    "runtime/logs/verify/20261028T020127Z-public/relocation.json",
+    "runtime/logs/verify/20261028T020127Z-public/relocation_doctor_external_cwd.log",
+    "runtime/logs/verify/20261028T020127Z-public/relocation_doctor_external_cwd.json",
+    "runtime/logs/verify/20261028T020127Z-public/relocation_doctor_spaced_path.log",
+    "runtime/logs/verify/20261028T020127Z-public/relocation_doctor_spaced_path.json",
+    "runtime/logs/verify/20261028T020127Z-public/relocation_help_spaced.log",
+    "runtime/logs/verify/20261028T020127Z-public/relocation_origins.tsv"
+   ],
+   "reason": "",
+   "duration_s": 2.2,
+   "profile": "public"
+  }
+ ],
+ "schema": "mbnas.verify/1",
+ "root": "/srv/mbnas public r2/mbnas_application",
+ "profile": "public",
+ "started_at": "2026-10-28T02:01:27Z",
+ "finished_at": "2026-10-28T02:04:25Z"
+}

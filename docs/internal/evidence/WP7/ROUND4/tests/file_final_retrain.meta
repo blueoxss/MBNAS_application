@@ -1,0 +1,9 @@
+command: runtime/venv/bin/python -B -m pytest tests/owner/orchestration/test_final_retrain_excludes_not_evaluated.py -m not gpu and not live and not legacy_records and not host_data --timeout=180 -v -rfEs -p no:cacheprovider --basetemp <SCRATCH>/pt_file_final_retrain
+cwd: <ROOT>
+env: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null MBNAS_TEST_ROOT=<SCRATCH>/test_root
+start_utc: 2026-10-27T23:43:12Z
+tree_hash_start: sha256:e220e72137165c57b08cd24388c11d64762b689b376a17911a774b8a3bb45236
+end_utc: 2026-10-27T23:43:16Z
+duration_s: 4
+exit: 0
+tree_hash_end: sha256:e220e72137165c57b08cd24388c11d64762b689b376a17911a774b8a3bb45236

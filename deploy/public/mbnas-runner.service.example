@@ -1,0 +1,46 @@
+# systemd unit EXAMPLE - MBNAS runner (public profile): job daemon for ONE device.
+# Adapted from the MBNAS_server mbnas-worker.service.example of the source snapshot (remote runner role).
+#
+# Assumes the pip install path (DD-A31) in /opt/mbnas = the unpacked ZIP root (requirements-public.txt; a CPU-only
+# host uses requirements-cpu.txt) and /opt/mbnas/config/public/runner.env (from config/examples/runner.env.example:
+# MBNAS_RUNNER_CORE_URL, the token issued by the core owner, MBNAS_RUNNER_RUNNER_ID; owner mbnas, mode 0600).
+# Replace /opt/mbnas and the service user, then:
+#   sudo cp mbnas-runner.service.example /etc/systemd/system/mbnas-runner.service
+#   sudo systemctl daemon-reload && sudo systemctl enable --now mbnas-runner
+# One runner per GPU: copy this unit as mbnas-runner@.service, use `--env-file /opt/mbnas/config/public/runner-%i.env`
+# and set MBNAS_RUNNER_GPU_INDEX=%i plus a distinct runner id and token in each file.
+# CPU runner: uncomment Environment=CUDA_VISIBLE_DEVICES= below (set and EMPTY = CPU runner, DD-A32).
+# Same host as mbnas-gateway.service: set MBNAS_RUNNER_ARTIFACT_TRANSFER=local and MBNAS_RUNNER_ARTIFACT_STORE_DIR =
+# the gateway's MBNAS_GW_ARTIFACT_STORE in runner.env; both units run as user mbnas, so the default
+# MBNAS_RUNNER_ARTIFACT_STORE_MODE=same-uid applies (link-0644 when the gateway runs as another user).
+# Stop: KillMode=mixed sends SIGTERM to the daemon only; it stops its job child (SIGTERM, SIGKILL after
+# MBNAS_RUNNER_KILL_GRACE_S), reports and deregisters; whatever is left gets SIGKILL after TimeoutStopSec.
+[Unit]
+Description=MBNAS runner (job daemon)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mbnas
+Group=mbnas
+WorkingDirectory=/opt/mbnas
+Environment=MBNAS_HOME=/opt/mbnas/runtime
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=YOLO_OFFLINE=1
+Environment=YOLO_AUTOINSTALL=false
+#Environment=CUDA_VISIBLE_DEVICES=
+ExecStart=/opt/mbnas/.venv/bin/mbnas-runner run --env-file /opt/mbnas/config/public/runner.env
+KillMode=mixed
+TimeoutStopSec=90
+Restart=on-failure
+RestartSec=5
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/opt/mbnas/runtime
+
+[Install]
+WantedBy=multi-user.target

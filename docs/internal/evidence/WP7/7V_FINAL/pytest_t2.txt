@@ -1,0 +1,4 @@
+$ MBNAS_TEST_T2=1 runtime/venv/bin/python -B -m pytest tests/owner/t2 -p no:cacheprovider -q -rfE --timeout=900
+................................                                         [100%]
+32 passed in 80.89s (0:01:20)
+exit=0 dur=81s

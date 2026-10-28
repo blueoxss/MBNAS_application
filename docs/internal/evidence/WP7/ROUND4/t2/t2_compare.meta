@@ -1,0 +1,6 @@
+command: runtime/venv/bin/python -B scripts/owner/t2_compare.py --out-dir <SCRATCH>/t2out --work-root <SCRATCH>/t2work
+cwd: <ROOT>; env: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null
+run: exit=0 start=2026-10-28T00:55:43Z end=2026-10-28T00:57:03Z tree_start=sha256:01c7d785347fea7e63387a650e8aef968b123bf2555dc26db5907265d334bcfd tree_end=sha256:01c7d785347fea7e63387a650e8aef968b123bf2555dc26db5907265d334bcfd
+note: full <scenario>.{ref,new}.json outputs (about 9.6 MB) stay in the session scratchpad; this folder keeps the report, summary, snapshot guard and console
+redaction: the copies of T2_REPORT.md / T2_SUMMARY.json / T2_snapshot_guard.json replace the session scratchpad prefix with <SCRATCH> (the raw files in the scratchpad keep absolute paths); nothing else changed
+T2_SUMMARY.json is not copied here: its scenario data carries original-host paths of the reference side (as in WP7/7V_FINAL/t2, owner-only); the verdict table is in T2_REPORT.md, the raw summary stays in the session scratchpad

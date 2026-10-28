@@ -1,0 +1,7 @@
+....s.......................................................s........... [ 62%]
+............................................                             [100%]
+=========================== short test summary info ============================
+SKIPPED [1] tests/public/model_runtime/test_adapters_cpu.py:92: ETRI notebook not present
+SKIPPED [1] tests/public/model_runtime/test_datasets.py: host_data: needs real host data (PILOT subset, probe/bench evidence, real runs, weights or an ETRI reference checkout); set MBNAS_TEST_HOST_DATA=1 and the MBNAS_TEST_* roots to run it
+114 passed, 2 skipped, 6 deselected in 12.08s
+exit 0

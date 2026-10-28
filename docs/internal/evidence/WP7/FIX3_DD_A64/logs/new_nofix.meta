@@ -1,0 +1,2 @@
+start 2026-10-27T23:11:51Z cwd=/home/mgjeong/Desktop/etri_hd/mbnas_application label=new_nofix args=tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py -q -rfE --timeout=180 -p dd_a64_nofix_plugin
+exit=1 dur=11s end=2026-10-27T23:12:02Z

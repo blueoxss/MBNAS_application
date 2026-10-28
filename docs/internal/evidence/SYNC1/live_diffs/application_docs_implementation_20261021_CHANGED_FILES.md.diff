@@ -1,0 +1,223 @@
+--- a/application/docs/implementation_20261021/CHANGED_FILES.md
++++ b/application/docs/implementation_20261021/CHANGED_FILES.md
+@@ -76,3 +76,220 @@
+ - `EVALUATION.md`, `criteria/*.json`: 10개 기준셋의 가중치·필수 조건·수정·검증 기록.
+ - `evidence/`: 실제 브라우저 화면과 실행 결과 JSON.
+ - `application/MBNAS_server/docs/evidence/implementation_20261021/cpu_smoke/`: 실제 CPU 학습으로 생성한 이미지와 full-state 재개 증거.
++
++
++---
++
++# 최종 변경 파일 (2026-10-23)
++
++위 본문은 2026-10-21 구현 단계(기준 `cc5f3e9`)의 목록이며 이력으로 둔다. 이 절은 통합·확장 단계(WP-S1..S8, W1..W3, C(계약 라운드 1), E(계약 라운드 2), 이후 수정 라운드)가 `HEAD 18c4815` 위에 남긴 **미커밋 수용 변경**이다. 진실의 원천은 다음 두 명령이다.
++
++```sh
++git diff 18c4815 --stat -- application/         # 이 문서 갱신 전 기준 추적 파일 84개 변경(+11028 / -2750, docs/implementation_20261021 2개 포함)
++git ls-files --others --exclude-standard -- application/   # 신규(untracked) 파일
++```
++
++아래 표는 위 결과 중 코드·테스트·계약·웹 문서 128개 경로(수정 82, 신규 46)이다. 제외한 것은 추적 변경 2개(이 절이 속한 `docs/implementation_20261021/FUNCTION_GUIDE.md`·`TEST_EVIDENCE.md`), `application/docs/integration_20261021/`(설계·증거 문서, 전부 untracked)와 DD-43 대상 루트 사본이다. 'WP'열은 해당 파일명이 `docs/integration_20261021/evidence_impl/<WP>/SUMMARY.md`에 언급된 WP(언급 기준이며 소유 WP와 같지 않을 수 있음; 정확한 변경 내용은 각 SUMMARY 참조). `0`=게이트 복구(WP0), `S1..S8`=서버 WP, `W1..W3`=웹 WP, `C`/`E`=계약 라운드 1/2, `G0C`=G0 계약 수정, `G0R`=G0 재검증, `F`=통합 검증, `S01_fix1`=기준셋 S01 1차 수정, `T`=하네스·기록.
++
++**범위 밖(이번 목록에 넣지 않음)**: `application/` 밖의 연구 캠페인 파일(`scripts/campaign12/*`, `tests/test_campaign_*.py`, `docs/visdrone_12search/*`)은 이 작업이 건드린 것이 아니다. `application/docs/` 루트의 md 4개·png 4장은 DD-43 대상(2026-10-21 20:17 사본)이며 이 작업의 변경 파일이 아니고 커밋·`git add` 대상도 아니다.
++
++신규 파일은 `신규`로 표시한다.
++
++## 1. 계약(MBNAS_server/contracts)
++
++현재 계약 버전은 **1.4.3**입니다(스냅샷 `contracts/history/openapi-1.4.3.json`, 재생 스크립트 `migrate_1.4.2_to_1.4.3.py`). 1.4.3은 `POST /training-runs`의 422 코드 5개(`DEVICE_UNSUPPORTED`, `EVAL_ONLY_UNSUPPORTED`, `VALIDATION_DISABLED_UNSUPPORTED`, `INITIAL_WEIGHTS_REQUIRED`, `RESUME_SOURCE_REQUIRED`)를 `x-status-vocabulary.error_codes_added`와 422 설명에 이름으로 적은 문구·어휘 전용 라운드이며 경로·필드·enum·상태 코드는 바뀌지 않습니다. 아래 WP 열의 `S05_fix1`은 이 라운드입니다.
++
++| 파일 | 구분 | WP |
++|---|---|---|
++| `application/MBNAS_server/contracts/history/HISTORY.json` | 수정 | C E G0C S05_fix1 |
++| `application/MBNAS_server/contracts/openapi.json` | 수정 | S6 W1 C E G0C S05_fix1 |
++| `application/MBNAS_server/contracts/history/migrate_1.3.0_to_1.4.0.py` | 신규 | C |
++| `application/MBNAS_server/contracts/history/migrate_1.4.0_to_1.4.1.py` | 신규 | E |
++| `application/MBNAS_server/contracts/history/migrate_1.4.1_to_1.4.2.py` | 신규 | G0C |
++| `application/MBNAS_server/contracts/history/migrate_1.4.2_to_1.4.3.py` | 신규 | S05_fix1 |
++| `application/MBNAS_server/contracts/history/openapi-1.4.0.json` | 신규 | C E |
++| `application/MBNAS_server/contracts/history/openapi-1.4.1.json` | 신규 | E G0C |
++| `application/MBNAS_server/contracts/history/openapi-1.4.2.json` | 신규 | G0C |
++| `application/MBNAS_server/contracts/history/openapi-1.4.3.json` | 신규 | S05_fix1 |
++
++## 2. 서버 소스
++
++| 파일 | 구분 | WP |
++|---|---|---|
++| `application/MBNAS_server/src/mbnas_server/adapters/etri_hybrid/adapter.py` | 수정 | S2 S3 S7 S8 S01_fix1 G0R |
++| `application/MBNAS_server/src/mbnas_server/adapters/rfdetr_adapter.py` | 수정 | S2 S8 |
++| `application/MBNAS_server/src/mbnas_server/adapters/ultralytics_adapter.py` | 수정 | S3 |
++| `application/MBNAS_server/src/mbnas_server/api/app.py` | 수정 | S2 S7 E S01_fix1 G0R G0C S05_fix1 |
++| `application/MBNAS_server/src/mbnas_server/api/candidate_views.py` | 수정 | S3 C |
++| `application/MBNAS_server/src/mbnas_server/api/doctor.py` | 수정 | S4 |
++| `application/MBNAS_server/src/mbnas_server/api/model_services.py` | 수정 | S2 S6 S8 E G0C |
++| `application/MBNAS_server/src/mbnas_server/api/routes_meta.py` | 수정 | E |
++| `application/MBNAS_server/src/mbnas_server/api/routes_runs.py` | 수정 | S3 C G0C |
++| `application/MBNAS_server/src/mbnas_server/api/routes_training.py` | 수정 | S3 S4 |
++| `application/MBNAS_server/src/mbnas_server/archive/scanner.py` | 수정 | S7 |
++| `application/MBNAS_server/src/mbnas_server/archive/views.py` | 수정 | S3 S5 S7 C |
++| `application/MBNAS_server/src/mbnas_server/benchmark/subjects.py` | 수정 | S4 |
++| `application/MBNAS_server/src/mbnas_server/config.py` | 수정 | S7 S01_fix1 |
++| `application/MBNAS_server/src/mbnas_server/orchestration/engine.py` | 수정 | S3 |
++| `application/MBNAS_server/src/mbnas_server/orchestration/final_retrain.py` | 수정 | S3 |
++| `application/MBNAS_server/src/mbnas_server/protocol/validator.py` | 수정 | 0 S3 |
++| `application/MBNAS_server/src/mbnas_server/registry/__init__.py` | 수정 | 0 S4 C G0C |
++| `application/MBNAS_server/src/mbnas_server/schemas/api.py` | 수정 | C E |
++| `application/MBNAS_server/src/mbnas_server/schemas/archive.py` | 수정 | S5 S7 C G0C |
++| `application/MBNAS_server/src/mbnas_server/schemas/__init__.py` | 수정 | 0 S4 C G0C |
++| `application/MBNAS_server/src/mbnas_server/schemas/protocol.py` | 수정 | S3 S8 C |
++| `application/MBNAS_server/src/mbnas_server/schemas/records.py` | 수정 | S3 C E G0C |
++| `application/MBNAS_server/src/mbnas_server/search/etri_bridge.py` | 수정 | 0 S4 |
++| `application/MBNAS_server/src/mbnas_server/search/generation.py` | 수정 | S3 C |
++| `application/MBNAS_server/src/mbnas_server/search/genotype.py` | 수정 | 0 S1 S2 |
++| `application/MBNAS_server/src/mbnas_server/search/handlers.py` | 수정 | S3 T |
++| `application/MBNAS_server/src/mbnas_server/search/structure.py` | 수정 | S1 S2 S6 S8 E F G0C |
++| `application/MBNAS_server/src/mbnas_server/training/selection.py` | 수정 | S1 S2 S3 S4 S8 W2 C E F |
++| `application/MBNAS_server/src/mbnas_server/worker/main.py` | 수정 | S3 |
++| `application/MBNAS_server/src/mbnas_server/adapters/structure_native.py` — 비-YAML backend(RF-DETR·ETRI hybrid) hook 기반 구조 관측 `observe_native_structure`. | 신규 | S2 S6 |
++| `application/MBNAS_server/src/mbnas_server/api/routes_registry_structure.py` — registry/사용자 모델 구조 route 3개(DD-19): `GET /registry/{id}/structure`(선언 전용, 빌드 없음), `POST /registry/{id}/structure-check`, `POST /structure-check`. | 신규 | S2 S6 S8 E |
++| `application/MBNAS_server/src/mbnas_server/archive/campaign.py` — 읽기 전용 캠페인 아카이브 어댑터(DD-39): `CROOT/arms/<space>/<method>/<seed>/`를 run으로 노출. | 신규 | S7 |
++| `application/MBNAS_server/src/mbnas_server/search/block_catalog.py` — 블록 설계 출처 카탈로그(DD-38): 모듈명→origin_family·introduced_in·role·reference·source_path. 표는 `_build_tables()`에서 지연 생성(import 시 코드 실행 없음). | 신규 | S6 S8 S01_fix1 G0R G0C |
++
++## 3. 서버 테스트
++
++| 파일 | 구분 | WP |
++|---|---|---|
++| `application/MBNAS_server/tests/adapters/test_adapters_cpu.py` | 수정 | 0 S1 S2 |
++| `application/MBNAS_server/tests/api/test_candidate_detail_lineage.py` | 수정 | 0 S1 S2 S8 C |
++| `application/MBNAS_server/tests/api/test_generation_multi_seed.py` | 수정 | S1 S3 S8 C G0C |
++| `application/MBNAS_server/tests/api/test_generation_real_cpu.py` | 수정 | 0 S1 |
++| `application/MBNAS_server/tests/api/test_training_selection.py` | 수정 | S1 S2 S3 S4 S8 C E F |
++| `application/MBNAS_server/tests/archive/test_perf.py` | 수정 | 0 S3 S5 S7 S8 E G0R F |
++| `application/MBNAS_server/tests/benchmark/test_benchmark_rfdetr.py` | 수정 | 0 |
++| `application/MBNAS_server/tests/benchmark/test_benchmark_unit.py` | 수정 | 0 |
++| `application/MBNAS_server/tests/conftest.py` | 수정 | 0 |
++| `application/MBNAS_server/tests/evaluation/test_evaluator_images.py` | 수정 | 0 |
++| `application/MBNAS_server/tests/registry/test_probe_registry_snapshot.py` | 수정 | 0 S4 |
++| `application/MBNAS_server/tests/registry/test_set3_registry_devices.py` | 수정 | 0 |
++| `application/MBNAS_server/tests/search/conftest.py` | 수정 | 0 |
++| `application/MBNAS_server/tests/search/test_generation_only.py` | 수정 | S3 S8 |
++| `application/MBNAS_server/tests/search/test_proposers.py` | 수정 | 0 |
++| `application/MBNAS_server/tests/search/test_repair_evidence_seed.py` | 수정 | 0 |
++| `application/MBNAS_server/tests/search/test_space_fallback_optin.py` | 수정 | 0 |
++| `application/MBNAS_server/tests/search/test_space_genotype.py` | 수정 | 0 |
++| `application/MBNAS_server/tests/search/test_space_hash_content.py` | 수정 | 0 |
++| `application/MBNAS_server/tests/search/test_structure_adversarial.py` | 수정 | S1 |
++| `application/MBNAS_server/tests/search/test_structure_cpu.py` | 수정 | S1 |
++| `application/MBNAS_server/tests/search/test_structure_runtime_cpu.py` | 수정 | S1 |
++| `application/MBNAS_server/tests/unit/test_protocol_validator.py` | 수정 | 0 |
++| `application/MBNAS_server/tests/unit/test_schemas_contract.py` | 수정 | S2 S3 S5 S7 S8 C E S01_fix1 G0C S05_fix1 |
++| `application/MBNAS_server/tests/adapters/test_structure_native_cpu.py` | 신규 | S2 S8 |
++| `application/MBNAS_server/tests/api/test_block_catalog_route.py` | 신규 | S6 S01_fix1 G0C |
++| `application/MBNAS_server/tests/api/test_error_trace_id.py` | 신규 | S01_fix1 |
++| `application/MBNAS_server/tests/api/test_off_run_guards.py` | 신규 | S3 |
++| `application/MBNAS_server/tests/api/test_registry_roots_skipped.py` | 신규 | E |
++| `application/MBNAS_server/tests/api/test_registry_structure.py` | 신규 | S2 S8 E F G0C |
++| `application/MBNAS_server/tests/api/test_structure_history.py` | 신규 | S2 C |
++| `application/MBNAS_server/tests/archive/test_campaign_adapter.py` | 신규 | S7 S01_fix1 G0R |
++| `application/MBNAS_server/tests/archive/test_compare_conditions.py` | 신규 | S5 |
++| `application/MBNAS_server/tests/registry/test_registry_unreadable_roots.py` | 신규 | S4 E F |
++| `application/MBNAS_server/tests/registry/test_weights_manifest_message.py` | 신규 | S4 |
++| `application/MBNAS_server/tests/search/test_block_catalog.py` | 신규 | S6 S01_fix1 G0C |
++| `application/MBNAS_server/tests/search/test_etri_bridge_permissions.py` | 신규 | S4 |
++| `application/MBNAS_server/tests/search/test_structure_observation.py` | 신규 | S1 |
++| `application/MBNAS_server/tests/unit/test_contract_history.py` | 신규 | C E S01_fix1 F G0C S05_fix1 |
++| `application/MBNAS_server/tests/worker/test_generation_crash.py` | 신규 | S3 F |
++| `application/MBNAS_server/tests/worker/test_worker_integrity.py` | 신규 | S3 |
++
++## 4. 서버 스크립트·문서
++
++| 파일 | 구분 | WP |
++|---|---|---|
++| `application/MBNAS_server/docs/TESTING_HOST_20261015.md` | 수정 | 0 |
++| `application/MBNAS_server/scripts/run_tests_host.sh` | 수정 | 0 S3 C E S01_fix1 G0R F |
++
++## 5. 웹 소스
++
++| 파일 | 구분 | WP |
++|---|---|---|
++| `application/MBNAS_web/src/api/client.ts` | 수정 | S6 S7 W1 |
++| `application/MBNAS_web/src/api/types.gen.ts` | 수정 | S3 S7 S8 W1 W2 C E S01_fix1 G0R F G0C S05_fix1 |
++| `application/MBNAS_web/src/api/types.ts` | 수정 | W1 W2 C E G0C |
++| `application/MBNAS_web/src/components/archive/ArchiveCandidateModal.tsx` | 수정 | S6 |
++| `application/MBNAS_web/src/components/ArtifactImage.tsx` | 수정 | W2 W3 |
++| `application/MBNAS_web/src/components/CandidateView.tsx` | 수정 | S6 W1 W2 F |
++| `application/MBNAS_web/src/components/ModelComparison.tsx` | 수정 | W1 |
++| `application/MBNAS_web/src/components/ModelStructure.tsx` | 수정 | S1 S6 W1 W2 F |
++| `application/MBNAS_web/src/components/TrainingPanel.tsx` | 수정 | W1 W2 W3 S05_fix1 |
++| `application/MBNAS_web/src/components/TrainingProgress.tsx` | 수정 | W1 |
++| `application/MBNAS_web/src/lib/structure.ts` | 수정 | S6 W1 |
++| `application/MBNAS_web/src/lib/validate.ts` | 수정 | W2 W3 |
++| `application/MBNAS_web/src/screens/Archive.tsx` | 수정 | S7 |
++| `application/MBNAS_web/src/screens/Compare.tsx` | 수정 | W1 |
++| `application/MBNAS_web/src/screens/Monitor.tsx` | 수정 | W1 W2 W3 |
++| `application/MBNAS_web/src/screens/Settings.tsx` | 수정 | W2 W3 |
++| `application/MBNAS_web/src/state/context.tsx` | 수정 | W1 W2 W3 |
++| `application/MBNAS_web/src/components/RegistryStructureButton.tsx` | 신규 | W1 |
++| `application/MBNAS_web/src/lib/evaluation.ts` | 신규 | W1 |
++
++## 6. 웹 단위 테스트(vitest)
++
++| 파일 | 구분 | WP |
++|---|---|---|
++| `application/MBNAS_web/tests/archive_screen.test.tsx` | 수정 | S7 |
++| `application/MBNAS_web/tests/components.test.tsx` | 수정 | W2 |
++| `application/MBNAS_web/tests/generation_workflow.test.tsx` | 수정 | W2 |
++| `application/MBNAS_web/tests/mockapi.ts` | 수정 | W3 |
++| `application/MBNAS_web/tests/structure.test.tsx` | 수정 | W1 |
++| `application/MBNAS_web/tests/block_catalog_server_fixture.json` | 신규 | S6 |
++| `application/MBNAS_web/tests/block_catalog.test.tsx` | 신규 | S6 |
++| `application/MBNAS_web/tests/compare_conditions.test.tsx` | 신규 | W1 |
++| `application/MBNAS_web/tests/context_restore.test.tsx` | 신규 | W1 |
++| `application/MBNAS_web/tests/detail_fixtures.ts` | 신규 | W1 W3 |
++| `application/MBNAS_web/tests/generated_detail_fixture.test.ts` | 신규 | W3 |
++| `application/MBNAS_web/tests/model_detail_v2.test.tsx` | 신규 | S6 W1 |
++| `application/MBNAS_web/tests/native_real_documents.test.tsx` | 신규 | W1 F |
++| `application/MBNAS_web/tests/registry_structure_button.test.tsx` | 신규 | S2 W1 |
++| `application/MBNAS_web/tests/settings_loss_profile.test.tsx` | 신규 | S01_fix1 |
++| `application/MBNAS_web/tests/structure_native_server_fixture.json` | 신규 | W1 E |
++| `application/MBNAS_web/tests/structure_parity.test.ts` | 신규 | S8 W1 F |
++| `application/MBNAS_web/tests/structure_v2_server_fixture.json` | 신규 | S8 W1 |
++| `application/MBNAS_web/tests/training_panel.test.tsx` | 신규 | W2 S05_fix1 |
++| `application/MBNAS_web/tests/training_progress_checkpoint.test.tsx` | 신규 | W1 |
++
++## 7. 웹 e2e
++
++| 파일 | 구분 | WP |
++|---|---|---|
++| `application/MBNAS_web/e2e/mock.ts` | 수정 | S6 W3 |
++| `application/MBNAS_web/e2e/generation.spec.ts` | 신규 | W1 W3 S05_fix1 S05_fix2 S05_fix3 |
++| `application/MBNAS_web/e2e/weights.spec.ts` | 신규 | W1 W3 |
++
++## 8. 웹 문서
++
++| 파일 | 구분 | WP |
++|---|---|---|
++| `application/MBNAS_web/README.md` | 수정 | S8 W3 T F |
++
++## S01_fix3 추가 변경 (2026-10-23)
++
++위 128개 경로 표 작성 이후 기준셋 S01 3차 수정(DD-44·DD-45 구현, 테스트 환경 결함, 문서)이 바꾼 파일이다. 위 표의 개수에는 포함하지 않았다.
++
++| 파일 | 구분 | 내용 |
++|---|---|---|
++| `application/MBNAS_web/src/components/ArtifactImage.tsx` | 수정(위 표에 있음) | 페이지 안 라이트박스(`ImageLightbox`, `stepScale`), '확대' 버튼·이미지 클릭, '원본 새 탭' 링크 유지 (DD-44) |
++| `application/MBNAS_web/src/components/ModelComparison.tsx` | 수정(위 표에 있음) | 두 후보의 기록된 실행 조건·결과 표, 조건 상이 경고, 기록 없음/미평가 (DD-45) |
++| `application/MBNAS_web/src/components/CandidateView.tsx` | 수정(위 표에 있음) | run 프로토콜의 dataset yaml을 `ModelComparison`에 전달 |
++| `application/MBNAS_web/tests/dd44_dd45.test.tsx` | 신규 | 라이트박스·조건 비교 vitest 10건 |
++| `application/MBNAS_web/tests/native_real_documents.test.tsx`, `application/MBNAS_web/tests/model_detail_v2.test.tsx` | 수정(위 표에 있음) | 조건 표 추가로 표가 둘이 되어, 기존 구조 차이 표 조회를 이름 있는 region 범위로 한정(단언 내용 불변) |
++| `application/MBNAS_server/tests/api/test_registry_structure.py` | 수정(위 표에 있음) | 드라이버 환경의 `MBNAS_TEST_ETRI_ROOT`를 빈 문자열로 두지 않고 conftest와 같은 규칙으로 결정(DD-41 단언 불변) |
++| `docs/implementation_20261021/{CHANGED_FILES,FUNCTION_GUIDE,TEST_EVIDENCE}.md` | 수정 | 범례(`0`=게이트 복구(WP0)) 정정, DD-44·DD-45 설명, S01_fix3 수치 |
++
++## S06_fix1 추가 변경 (2026-10-26)
++
++| 파일 | 구분 | 내용 |
++|---|---|---|
++| `application/MBNAS_web/src/components/Modal.tsx` | 수정 | 모달 중첩 처리: 가장 안쪽 모달만 Esc·Tab을 처리하고, 마지막 모달이 닫힐 때만 `#root`의 inert를 푼다(후보 대화상자 위 라이트박스에서 Esc가 둘 다 닫던 결함) |
++| `application/MBNAS_web/src/components/Nav.tsx` | 수정 | 'Run 비교' 라벨을 'Archive run 비교'로 변경(표시만, API 불변) |
++| `application/MBNAS_web/src/screens/Compare.tsx` | 수정 | 부제에 'NAS archive'·'읽기 전용'과 콘솔 run 후보 비교 위치 안내 |
++| `application/MBNAS_web/e2e/hardening.spec.ts` | 수정 | 라이트박스 e2e 1건(확대 → 100 % → 150 % → Esc → 초점 복귀), 콘솔 run 조건 비교 e2e 1건 |
++| `application/MBNAS_web/e2e/console.spec.ts` | 수정 | 내비게이션 라벨 단언 1줄 |
++| `application/MBNAS_web/tests/components.test.tsx`, `application/MBNAS_web/tests/archive_compare.test.tsx` | 수정 | 중첩 모달·Nav 라벨·부제 vitest |
++| `application/docs/integration_20261021/harness/verify_cpu_training_browser.mjs` | 수정 | 원본 링크·라이트박스 열기·Esc·초점 복귀를 단언하고 `original_zoom_link`를 그 결과에서 계산 |
++| `docs/implementation_20261021/{SCREENSHOTS,EVALUATION,TEST_EVIDENCE,CHANGED_FILES}.md`, `docs/implementation_20261021/evidence/` | 수정·추가 | 최종 화면 캡처 5장, 수치 갱신 |

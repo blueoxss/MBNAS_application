@@ -1,0 +1,29 @@
+WP-5C runner local artifact transfer - commands run and their results (2026-10-27 UTC). All runs: cwd TARGET_ROOT,
+interpreter runtime/venv/bin/python -B, CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null.
+
+baseline (before any WP-5C edit) -> baseline_and_repeat.txt
+  pytest tests/owner/runner_protocol -q                                   40 passed
+  pytest tests/public/runner/test_runner_daemon_unit.py test_child_spec_file.py -q   28 passed
+
+final (after the last code edit, 04:39-04:43Z)
+  pytest tests/owner/runner_protocol -q -p no:cacheprovider -rfE          42 passed (40 + 2 new)  -> pytest_owner_runner_protocol.txt
+  pytest tests/public/runner tests/public/infra -q -m "not gpu and not live and not legacy_records and not host_data"
+                                                                          118 passed, 9 deselected -> pytest_public_runner_infra.txt
+  pytest tests/public/runner/test_transfer_local.py tests/owner/runner_protocol/test_artifact_transfer.py -v
+                                                                          21 passed (19 + 2)       -> pytest_public_runner_infra.txt
+  scripts/dev/check_import_closure.py --format text                       exit 0, 0 violations     -> import_closure.txt
+  wp5c_local_transfer_smoke.py (copy in this folder; wraps the unchanged scripts/dev/wp2_two_process_smoke.py: real
+    uvicorn core + owner worker + mbnas-runner processes, REAL yolo11n CPU training 1 epoch 64 px + SYNTHETIC stub
+    runner; adds MBNAS_RUNNER_ARTIFACT_TRANSFER=local / MBNAS_RUNNER_ARTIFACT_STORE_DIR and
+    MBNAS_CORE_EXPOSE_LEGACY_API=true)                                    exit 0; 13 runner-registered rows (4 checkpoints,
+                                                                          9 artifacts) all in the store, sha re-hashed, meta
+                                                                          ok; both jobs artifact_transfer ok=true; gateway
+                                                                          ArtifactStore lists/verifies the 10 objects
+                                                                          -> two_process_local_transfer_smoke.txt,
+                                                                             two_process_local_transfer_verify.txt
+  repeat x3 of the new tests (flakiness check)                            18 passed x3 (before the store-compat additions)
+                                                                          -> baseline_and_repeat.txt
+
+note: the first smoke attempt (04:29Z) failed at core-start because WP-3A turned the core's own /api/v1 off by default
+(MBNAS_CORE_EXPOSE_LEGACY_API); the wrapper sets it for the core process only. The WP-2 smoke script itself is unchanged.
+after a docstring-only edit of mbnas_runner/config.py (04:45Z): pytest tests/public/runner/test_transfer_local.py tests/owner/runner_protocol/test_artifact_transfer.py -q -> 21 passed, 1 warning in 33.99s

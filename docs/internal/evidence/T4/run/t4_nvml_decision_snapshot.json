@@ -1,0 +1,8255 @@
+{
+ "run": {
+  "id": "run-a34f25cb5d00",
+  "status": "FAILED",
+  "protocol_hash": "sha256:5ab95c51a81ea092b7c9101720215bbd367be539903ea12559206e15720fb4c8",
+  "terminal": true,
+  "costs": {
+   "actual_gpu_seconds": 13.134134,
+   "failed_gpu_seconds": 13.134134,
+   "ga_billed_gpu_seconds": 13.134134,
+   "overshoot_gpu_seconds": 0.0,
+   "overshoot_gpu_seconds.GA.seed_101": 0.0
+  },
+  "budget": {
+   "arms": [
+    "GA"
+   ],
+   "baseline_s": 900.0,
+   "final_s": null,
+   "search_per_arm_seed_s": 2700.0,
+   "search_scope": "per_arm_per_seed",
+   "seeds": [
+    101
+   ],
+   "unit": "gpu_seconds"
+  },
+  "protocol_canonicalization": "mbnas-canon/1 sha256",
+  "kind": "SEARCH",
+  "parent_run_id": null,
+  "namespace": "pilot_smoke",
+  "execution_mode": "PILOT",
+  "purpose": "SMOKE",
+  "preset": "PILOT_SMOKE",
+  "created_at": "2026-10-27T18:22:04.165083Z",
+  "updated_at": "2026-10-27T18:22:24.124752Z",
+  "reason_code": "NO_SUCCESSFUL_EVALUATION",
+  "source_commit": "sha256:cd42e89b54d40c8913807fe05d078435626e335c79bf866b3a77b83277e61a22",
+  "resolved_protocol": {
+   "allocation": {
+    "budget_missing_or_exhausted": "eligible_but_not_admitted",
+    "eligibility_is_not_gpu_allocation": true,
+    "incomplete_rung_is_valid_result": false,
+    "queue_policy": "stable_trial_id_order"
+   },
+   "backend_capabilities_verified": false,
+   "backend_versions": null,
+   "comparison": {
+    "arms": [
+     "GA",
+     "IndependentRandom"
+    ],
+    "candidate_count": "secondary_observed_outcome",
+    "global_best_fitness_stop": false,
+    "global_stagnation_stop": false,
+    "independent_search_seed_pairs": [
+     101
+    ],
+    "physical_actual_GPU_seconds_separately_reported": true,
+    "primary_budget_unit": "arm_equivalent_billed_GPU_seconds",
+    "search_budget_GPU_hours_per_arm_per_seed": 0.75,
+    "shared_protocol_hash_required": true
+   },
+   "console": {
+    "baseline_budget_gpu_hours": 0.25,
+    "baseline_capture_rungs": true,
+    "baseline_epoch_target": 6,
+    "baseline_override": {
+     "added": [],
+     "missing_from_default": [
+      "yolo11s",
+      "yolo11m",
+      "yolo11l",
+      "yolo11x",
+      "yolo26s",
+      "yolo26m",
+      "yolo26l",
+      "yolo26x",
+      "rf-detr-small",
+      "rf-detr-medium",
+      "rf-detr-large",
+      "rt-detr-l",
+      "rt-detr-x",
+      "etri-controlled-cnn-transformer"
+     ],
+     "reason": "T4/T5 CPU decision probe: search arms only (registry baselines unverified)"
+    },
+    "baseline_override_reason": "T4/T5 CPU decision probe: search arms only (registry baselines unverified)",
+    "baselines": [
+     {
+      "enabled": false,
+      "family": "YOLO11",
+      "id": "yolo11n",
+      "name": "YOLO11N",
+      "resolved": {
+       "backend": "ultralytics",
+       "comparison_group": "common_scratch",
+       "inference_head": "native",
+       "init": "scratch",
+       "registry_status": "UNVERIFIED",
+       "requested_input_shape": [
+        64,
+        64
+       ],
+       "resolved_input_shape": null,
+       "version": null
+      },
+      "source": "Ultralytics"
+     },
+     {
+      "enabled": false,
+      "family": "YOLO26",
+      "id": "yolo26n",
+      "name": "YOLO26N",
+      "resolved": {
+       "backend": "ultralytics",
+       "comparison_group": "common_scratch",
+       "inference_head": "e2e_one2one_nms_false",
+       "init": "scratch",
+       "registry_status": "UNVERIFIED",
+       "requested_input_shape": [
+        64,
+        64
+       ],
+       "resolved_input_shape": null,
+       "version": null
+      },
+      "source": "Ultralytics"
+     },
+     {
+      "enabled": false,
+      "family": "Hybrid",
+      "id": "rt-detr-l",
+      "name": "RT-DETR-L",
+      "resolved": {
+       "backend": "ultralytics",
+       "comparison_group": "common_scratch",
+       "inference_head": "native",
+       "init": "scratch",
+       "registry_status": "UNVERIFIED",
+       "requested_input_shape": [
+        64,
+        64
+       ],
+       "resolved_input_shape": null,
+       "version": null
+      },
+      "source": "CNN + Transformer"
+     },
+     {
+      "enabled": false,
+      "family": "Transformer",
+      "id": "rf-detr-nano",
+      "name": "RF-DETR Nano",
+      "resolved": {
+       "backend": "rfdetr",
+       "comparison_group": "common_scratch",
+       "inference_head": "native_no_nms",
+       "init": "scratch",
+       "registry_status": "UNVERIFIED",
+       "requested_input_shape": [
+        64,
+        64
+       ],
+       "resolved_input_shape": null,
+       "version": null
+      },
+      "source": "Roboflow rfdetr"
+     },
+     {
+      "enabled": false,
+      "family": "Hybrid",
+      "id": "etri-controlled-cnn-transformer",
+      "name": "ETRI CNN–Transformer",
+      "resolved": {
+       "backend": "etri_hybrid",
+       "comparison_group": "common_scratch",
+       "inference_head": "native",
+       "init": "scratch",
+       "registry_status": "UNVERIFIED",
+       "requested_input_shape": [
+        64,
+        64
+       ],
+       "resolved_input_shape": null,
+       "version": null
+      },
+      "source": "ETRI controlled study (not SOTA)"
+     }
+    ],
+    "benchmark": {
+     "batch": 1,
+     "device": "host-gpu-0",
+     "device_resolved": {
+      "id": "host-gpu-0",
+      "name": "NVIDIA RTX A6000",
+      "uuid": "GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9"
+     },
+     "postprocess": {
+      "conf": 0.25,
+      "iou": 0.7,
+      "max_det": 300
+     },
+     "precision": "FP16",
+     "repeats": 100,
+     "warmup": 20
+    },
+    "execution_mode": "PILOT",
+    "label": "T4/T5 CPU decision probe (smoke values, not research results)",
+    "paths": {
+     "dataset_yaml": "<T>/t4f/mbnas_application/runtime/data/synthetic4/data.yaml",
+     "final_eval_root": "<T>/t4f/mbnas_application/runtime/data/synthetic4/images/test",
+     "output_root": "<T>/t4f/mbnas_application/runtime/core/runs/t4",
+     "search_val_root": "<T>/t4f/mbnas_application/runtime/data/synthetic4/images/val",
+     "train_root": "<T>/t4f/mbnas_application/runtime/data/synthetic4/images/train"
+    },
+    "preset": "PILOT_SMOKE",
+    "purpose": "SMOKE",
+    "retention": {
+     "full_state": "last_rung_end_only"
+    },
+    "run_namespace": "pilot_smoke",
+    "search": {
+     "allow_native_fallback": false,
+     "arms": [
+      "GA"
+     ],
+     "budget_gpu_hours": 0.75,
+     "crossover_rate": 1.0,
+     "evaluation_enabled": true,
+     "generations": 1,
+     "mutation_rate": 0.35,
+     "population": 2,
+     "search_space_resolved": {
+      "variant": "etri_mixed"
+     },
+     "seeds": [
+      101
+     ]
+    }
+   },
+   "continuation": {
+    "checkpoint_architecture_hash_must_match": true,
+    "evaluation_checkpoint": "ema_snapshot_at_exact_rung_end",
+    "missing_state_action": "block_no_silent_weights_only_fallback",
+    "mode": "full_state_resume_same_architecture",
+    "restore": [
+     "model",
+     "optimizer",
+     "scheduler_or_exact_reconstruction",
+     "amp_scaler",
+     "ema_and_updates",
+     "epoch_and_optimizer_steps",
+     "rng",
+     "sampler_data_order"
+    ],
+    "training_checkpoint": "unstripped_rung_end_state"
+   },
+   "dataset": {
+    "all_stage_same_data": true,
+    "class_handling": "explicit_filter_and_mapping_required",
+    "class_mapping_hash": "sha256:19d5b54461a80353ba7da64f39d2192f71e214e037f31a6240ad71bfd4dfbac0",
+    "counts": {
+     "final_eval": {
+      "boxes": 4,
+      "empty_labels": 0,
+      "images": 4,
+      "issues": 0,
+      "labelled": 4,
+      "missing_labels": 0,
+      "per_class": {
+       "0": 4
+      }
+     },
+     "search_val": {
+      "boxes": 4,
+      "empty_labels": 0,
+      "images": 4,
+      "issues": 0,
+      "labelled": 4,
+      "missing_labels": 0,
+      "per_class": {
+       "0": 4
+      }
+     },
+     "train": {
+      "boxes": 4,
+      "empty_labels": 0,
+      "images": 4,
+      "issues": 0,
+      "labelled": 4,
+      "missing_labels": 0,
+      "per_class": {
+       "0": 4
+      }
+     }
+    },
+    "final_evaluation_manifest_hash": "sha256:04804ed7798284bafa1bf0dea7a9da5455b4a5ef3ba51de3bee191bf4334656e",
+    "search_validation_manifest_hash": "sha256:9b23bcafa80cbeb493cb1d0b6e8cafbffae7339dec418472b73e62eaa981d7a7",
+    "test_access_during_search": false,
+    "train_fraction": 1,
+    "train_manifest_hash": "sha256:a648d24a49a94dccf2cba524899699f8548395177a4c8a7892004e55a0c1c6bc"
+   },
+   "final_retraining": {
+    "budget_GPU_hours_separate": null,
+    "epoch_target_total": 1,
+    "finalist_selection": "highest_AP_at_L2_with_measured_latency_constraint",
+    "initialization": "scratch_with_pinned_recipe",
+    "reporting": "search_metrics_and_final_retrained_metrics_separate",
+    "scheduler_horizon_epochs": 1,
+    "top_k_per_arm_per_seed": 1
+   },
+   "fitness": {
+    "accuracy_input_unit": "fraction_0_to_1",
+    "accuracy_metric": "AP_IoU_0.50_to_0.95",
+    "display_accuracy_unit": "percent",
+    "formula_version": "named_weighted_reward_v1",
+    "latency_batch": 1,
+    "latency_bounds_ms": [
+     20,
+     200
+    ],
+    "latency_device_manifest": null,
+    "latency_precision": "FP16",
+    "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+    "latency_source": "target_device_measured_or_explicit_calibrated_proxy",
+    "metric_missing_action": "pending_or_eval_failure_not_zero",
+    "normalizer_scope": "fixed_shared_preregistered_anchors",
+    "out_of_range": "clip_reward_to_0_to_1_and_keep_raw_value",
+    "recall_evaluator_version": null,
+    "recall_metric": "recall_IoU_0.50_conf_0.25_macro_class",
+    "size_bounds_MB": [
+     5,
+     100
+    ],
+    "size_definition": "pinned_weights_only_artifact_without_optimizer_decimal_MB"
+   },
+   "git_commit": null,
+   "hard_constraints": {
+    "latency_le_ms": 1000,
+    "proxy_may_certify_final_deployment": false,
+    "weights_size_le_MB": 500
+   },
+   "original_status": "PRESET_PILOT_SMOKE",
+   "proposal": {
+    "GA": {
+     "parent_objective": "L0_named_weights",
+     "parent_selection_fidelity": "L0",
+     "policy_note": "new_protocol_not_claimed_historical_GA"
+    },
+    "IndependentRandom": {
+     "candidate_proposals_use_observed_fitness": false,
+     "prior_frozen_before_search": true,
+     "source_pool_updated_from_GA_history": false
+    }
+   },
+   "protocol_id": "mbnas-pilot-smoke",
+   "resolution": {
+    "canonicalization": "mbnas-canon/1",
+    "hash_excluded": [
+     "console.label",
+     "resolution.validated_at",
+     "console.retention",
+     "resolution.paths"
+    ],
+    "paths": {
+     "dataset_yaml": {
+      "requested": "<T>/t4f/mbnas_application/runtime/data/synthetic4/data.yaml"
+     },
+     "final_eval_root": {
+      "requested": "<T>/t4f/mbnas_application/runtime/data/synthetic4/images/test"
+     },
+     "output_root": {
+      "requested": "<T>/t4f/mbnas_application/runtime/core/runs/t4"
+     },
+     "search_val_root": {
+      "requested": "<T>/t4f/mbnas_application/runtime/data/synthetic4/images/val"
+     },
+     "train_root": {
+      "requested": "<T>/t4f/mbnas_application/runtime/data/synthetic4/images/train"
+     }
+    },
+    "validated_at": "2026-10-27T18:22:04.008181Z",
+    "validator": "mbnas-validator/1"
+   },
+   "rungs": [
+    {
+     "epoch_target_total": 1,
+     "epochs_added": 1,
+     "fitness_weights": {
+      "ap": 0.2,
+      "latency_reward": 0.4,
+      "recall": 0.1,
+      "size_reward": 0.3
+     },
+     "id": "L0",
+     "promotion": null
+    }
+   ],
+   "schedule_scope": "candidate_local",
+   "schema_version": "nas-console/1.0",
+   "status": "RESOLVED_PILOT",
+   "training": {
+    "augmentation_profile": "PINNED_NATIVE_PROFILE_REQUIRED",
+    "automatic_batch_fallback": "reject_and_record",
+    "backend_resolved": {
+     "ultralytics": {
+      "accumulate": 1,
+      "batches_per_epoch": 2,
+      "nbs": 2,
+      "optimizer": {
+       "lr": 0.001,
+       "name": "AdamW",
+       "rule": "as requested"
+      },
+      "optimizer_iterations": 2,
+      "rule": "ultralytics 8.4.173 trainer",
+      "train_images": 4,
+      "warmup_iterations": 0
+     }
+    },
+    "batch_per_gpu": 2,
+    "betas": [
+     0.9,
+     0.999
+    ],
+    "candidate_early_stop": "disabled_for_search_rung_comparability",
+    "change_loss_weights_at_promotion": false,
+    "close_mosaic_epochs": 0,
+    "effective_batch": 2,
+    "fixed_horizon_epochs": 1,
+    "gpus_per_candidate": 1,
+    "gradient_accumulation": 1,
+    "initialization": "scratch",
+    "loss_profile": "model_version_native_pinned_and_exported",
+    "lr_final_ratio": 0.01,
+    "lr_initial": 0.001,
+    "nbs": 2,
+    "optimizer": "AdamW",
+    "precision": "fp32",
+    "repeat_warmup_on_promotion": false,
+    "requested_input_size": [
+     64,
+     64
+    ],
+    "resolved_input_size_required": true,
+    "scheduler": "cosine_global_search_horizon",
+    "scheduler_horizon_epochs": 1,
+    "validation_interval_epochs": 1,
+    "warmup_epochs": 0,
+    "weight_decay": 0.0005,
+    "weight_inheritance": false,
+    "workers": 0
+   },
+   "unresolved_before_real_execution": [
+    "서버 절대 경로 및 데이터 manifest 확인",
+    "backend·registry·native recipe 버전 고정",
+    "full-state pause/resume 검증",
+    "pilot epochs·weights·threshold 검증",
+    "장치 측정 조건과 예산 승인"
+   ],
+   "value_provenance": "pilot_smoke_values_for_pipeline_verification_not_research_values"
+  }
+ },
+ "candidates": [
+  {
+   "ap": null,
+   "architecture_hash": "sha256:fd0f5bc8933a76d3f460bca13e67731886508022553e70c95e29e6e8e3c01a59",
+   "architecture_id": "sha256:fd0f5bc8933a76d3f460bca13e67731886508022553e70c95e29e6e8e3c01a59",
+   "architecture_path": "architectures/run-a34f25cb5d00_GA_s101_g00_c000.yaml",
+   "arm": "GA",
+   "artifacts": [],
+   "attempt": 1,
+   "batch": 1,
+   "blocks": [
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       64,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 3,
+       "c_out": 16,
+       "h_in": 64,
+       "params": 464,
+       "stride": 2.0,
+       "w_in": 64
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo26n:native#0",
+     "position": 0,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       128,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 16,
+       "c_out": 32,
+       "h_in": 32,
+       "params": 4672,
+       "stride": 4.0,
+       "w_in": 32
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo26n:native#1",
+     "position": 1,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       256,
+       false,
+       0.25
+      ],
+      "effective": {
+       "c_in": 32,
+       "c_out": 64,
+       "h_in": 16,
+       "params": 6640,
+       "stride": 4.0,
+       "w_in": 16
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo26n:native#2",
+     "position": 2,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       256,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 64,
+       "c_out": 64,
+       "h_in": 16,
+       "params": 36992,
+       "stride": 8.0,
+       "w_in": 16
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo26n:native#3",
+     "position": 3,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       false,
+       0.25
+      ],
+      "effective": {
+       "c_in": 64,
+       "c_out": 128,
+       "h_in": 8,
+       "params": 26080,
+       "stride": 8.0,
+       "w_in": 8
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo26n:native#4",
+     "position": 4,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 128,
+       "h_in": 8,
+       "params": 147712,
+       "stride": 16.0,
+       "w_in": 8
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo26n:native#5",
+     "position": 5,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       true
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 87040,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo26n:native#6",
+     "position": 6,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 256,
+       "h_in": 4,
+       "params": 295424,
+       "stride": 32.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo26n:native#7",
+     "position": 7,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024,
+       true
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 346112,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo26n:native#8",
+     "position": 8,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "SPPF",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024,
+       5,
+       3,
+       true
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 164608,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "SPPF",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo26n:native#9",
+     "position": 9,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C2PSA",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 249728,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "C2PSA",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo26n:native#10",
+     "position": 10,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "nn.Upsample",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       "None",
+       2,
+       "nearest"
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 0,
+       "stride": 16.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "nn.Upsample",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo26n:native#11",
+     "position": 11,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Concat",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1
+      ],
+      "effective": {
+       "c_in": 384,
+       "c_out": 384,
+       "h_in": 4,
+       "params": 0,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": [
+       -1,
+       6
+      ],
+      "module": "Concat",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo26n:native#12",
+     "position": 12,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       true
+      ],
+      "effective": {
+       "c_in": 384,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 119808,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo26n:native#13",
+     "position": 13,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "nn.Upsample",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       "None",
+       2,
+       "nearest"
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 0,
+       "stride": 8.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "nn.Upsample",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo26n:native#14",
+     "position": 14,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Concat",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 8,
+       "params": 0,
+       "stride": 8.0,
+       "w_in": 8
+      },
+      "from": [
+       -1,
+       4
+      ],
+      "module": "Concat",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo26n:native#15",
+     "position": 15,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       256,
+       true
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 64,
+       "h_in": 8,
+       "params": 34304,
+       "stride": 8.0,
+       "w_in": 8
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo26n:native#16",
+     "position": 16,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       256,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 64,
+       "c_out": 64,
+       "h_in": 8,
+       "params": 36992,
+       "stride": 16.0,
+       "w_in": 8
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo26n:native#17",
+     "position": 17,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Concat",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1
+      ],
+      "effective": {
+       "c_in": 192,
+       "c_out": 192,
+       "h_in": 4,
+       "params": 0,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": [
+       -1,
+       13
+      ],
+      "module": "Concat",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo26n:native#18",
+     "position": 18,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       true
+      ],
+      "effective": {
+       "c_in": 192,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 95232,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo26n:native#19",
+     "position": 19,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 147712,
+       "stride": 32.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo26n:native#20",
+     "position": 20,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Concat",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1
+      ],
+      "effective": {
+       "c_in": 384,
+       "c_out": 384,
+       "h_in": 2,
+       "params": 0,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": [
+       -1,
+       10
+      ],
+      "module": "Concat",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo26n:native#21",
+     "position": 21,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024,
+       true,
+       0.5,
+       true
+      ],
+      "effective": {
+       "c_in": 384,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 463104,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo26n:native#22",
+     "position": 22,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Detect",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       "nc"
+      ],
+      "effective": {
+       "c_in": 448,
+       "c_out": null,
+       "h_in": 8,
+       "params": 241566,
+       "stride": null,
+       "w_in": 8
+      },
+      "from": [
+       16,
+       19,
+       22
+      ],
+      "module": "Detect",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo26n:native#23",
+     "position": 23,
+     "source": "yolo26n:native",
+     "source_kind": "random"
+    }
+   ],
+   "candidate_id": "run-a34f25cb5d00:GA:s101:g00:c000",
+   "candidate_status": "EVAL_FAILED",
+   "checkpoint_path": null,
+   "checkpoint_sha256": null,
+   "comparison_group": "common_scratch",
+   "device": "NVIDIA RTX A6000",
+   "epoch_target_total": 1,
+   "epochs": 1,
+   "evaluation_hash": "pending",
+   "execution_mode": "PILOT",
+   "family": "NAS:hybrid_backbone",
+   "fitness": null,
+   "fitness_weights": {
+    "ap": 0.2,
+    "latency_reward": 0.4,
+    "recall": 0.1,
+    "size_reward": 0.3
+   },
+   "generation": 0,
+   "id": "run-a34f25cb5d00:GA:s101:g00:c000.L0.eval",
+   "job_id": "job-11ae7493328347e0",
+   "latency_ms": null,
+   "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+   "latency_source": "pending",
+   "name": "GA-G00-C000",
+   "namespace": "pilot_smoke",
+   "objective_hash": "sha256:e373e350d018cc7b7b2d88bcb813f64f141f0e6eec7c5356cf65bd0161eccb92",
+   "parents": [],
+   "precision": "FP16",
+   "protocol_hash": "sha256:5ab95c51a81ea092b7c9101720215bbd367be539903ea12559206e15720fb4c8",
+   "reason_code": "EVAL_FAILED",
+   "recall": null,
+   "requested_input_shape": [
+    64,
+    64
+   ],
+   "resolved_input_shape": [
+    64,
+    64
+   ],
+   "revision": 1,
+   "rung": "L0",
+   "search_seed": 101,
+   "size_mb": null,
+   "split_hash": "sha256:9b23bcafa80cbeb493cb1d0b6e8cafbffae7339dec418472b73e62eaa981d7a7",
+   "status": "EVAL_FAILED",
+   "supersedes_evaluation_id": null,
+   "training_seed": 1190440756,
+   "immutable": false,
+   "checkpoint_state": null,
+   "training_status": "UNTRAINED"
+  },
+  {
+   "ap": null,
+   "architecture_hash": "sha256:f8ef8de1ddfe7a245c6316cc12acf7ccf173cd798e7349d10054f61ef4c61b66",
+   "architecture_id": "sha256:f8ef8de1ddfe7a245c6316cc12acf7ccf173cd798e7349d10054f61ef4c61b66",
+   "architecture_path": "architectures/run-a34f25cb5d00_GA_s101_g00_c001.yaml",
+   "arm": "GA",
+   "artifacts": [],
+   "attempt": 1,
+   "batch": 1,
+   "blocks": [
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       64,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 3,
+       "c_out": 16,
+       "h_in": 64,
+       "params": 464,
+       "stride": 2.0,
+       "w_in": 64
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#0",
+     "position": 0,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       128,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 16,
+       "c_out": 32,
+       "h_in": 32,
+       "params": 4672,
+       "stride": 4.0,
+       "w_in": 32
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#1",
+     "position": 1,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       256,
+       false,
+       0.25
+      ],
+      "effective": {
+       "c_in": 32,
+       "c_out": 64,
+       "h_in": 16,
+       "params": 6640,
+       "stride": 4.0,
+       "w_in": 16
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#2",
+     "position": 2,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       256,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 64,
+       "c_out": 64,
+       "h_in": 16,
+       "params": 36992,
+       "stride": 8.0,
+       "w_in": 16
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#3",
+     "position": 3,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       false,
+       0.25
+      ],
+      "effective": {
+       "c_in": 64,
+       "c_out": 128,
+       "h_in": 8,
+       "params": 26080,
+       "stride": 8.0,
+       "w_in": 8
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#4",
+     "position": 4,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "NASPatchMerge",
+     "operation": "sample",
+     "params": {
+      "args": [
+       512,
+       2
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 128,
+       "h_in": 8,
+       "params": 65920,
+       "stride": 16.0,
+       "w_in": 8
+      },
+      "from": -1,
+      "module": "NASPatchMerge",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#5",
+     "position": 5,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       true
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 87040,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#6",
+     "position": 6,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 256,
+       "h_in": 4,
+       "params": 295424,
+       "stride": 32.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#7",
+     "position": 7,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024,
+       true
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 346112,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#8",
+     "position": 8,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "SPPF",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024,
+       5
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 164608,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "SPPF",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#9",
+     "position": 9,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C2PSA",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 249728,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "C2PSA",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#10",
+     "position": 10,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "nn.Upsample",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       "None",
+       2,
+       "nearest"
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 0,
+       "stride": 16.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "nn.Upsample",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#11",
+     "position": 11,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Concat",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1
+      ],
+      "effective": {
+       "c_in": 384,
+       "c_out": 384,
+       "h_in": 4,
+       "params": 0,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": [
+       -1,
+       6
+      ],
+      "module": "Concat",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#12",
+     "position": 12,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       false
+      ],
+      "effective": {
+       "c_in": 384,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 111296,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#13",
+     "position": 13,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "nn.Upsample",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       "None",
+       2,
+       "nearest"
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 0,
+       "stride": 8.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "nn.Upsample",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#14",
+     "position": 14,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Concat",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 8,
+       "params": 0,
+       "stride": 8.0,
+       "w_in": 8
+      },
+      "from": [
+       -1,
+       4
+      ],
+      "module": "Concat",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#15",
+     "position": 15,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       256,
+       false
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 64,
+       "h_in": 8,
+       "params": 32096,
+       "stride": 8.0,
+       "w_in": 8
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#16",
+     "position": 16,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       256,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 64,
+       "c_out": 64,
+       "h_in": 8,
+       "params": 36992,
+       "stride": 16.0,
+       "w_in": 8
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#17",
+     "position": 17,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Concat",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1
+      ],
+      "effective": {
+       "c_in": 192,
+       "c_out": 192,
+       "h_in": 4,
+       "params": 0,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": [
+       -1,
+       13
+      ],
+      "module": "Concat",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#18",
+     "position": 18,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "A2C2f",
+     "operation": "sample",
+     "params": {
+      "args": [
+       512
+      ],
+      "effective": {
+       "c_in": 192,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 102912,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "A2C2f",
+      "repeats": 2,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#19",
+     "position": 19,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 147712,
+       "stride": 32.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#20",
+     "position": 20,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Concat",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1
+      ],
+      "effective": {
+       "c_in": 384,
+       "c_out": 384,
+       "h_in": 2,
+       "params": 0,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": [
+       -1,
+       10
+      ],
+      "module": "Concat",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#21",
+     "position": 21,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "NASWindowTransformer",
+     "operation": "sample",
+     "params": {
+      "args": [
+       1280
+      ],
+      "effective": {
+       "c_in": 384,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 625664,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "NASWindowTransformer",
+      "repeats": 2,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#22",
+     "position": 22,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Detect",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       "nc"
+      ],
+      "effective": {
+       "c_in": 448,
+       "c_out": null,
+       "h_in": 8,
+       "params": 430867,
+       "stride": null,
+       "w_in": 8
+      },
+      "from": [
+       16,
+       19,
+       22
+      ],
+      "module": "Detect",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#23",
+     "position": 23,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    }
+   ],
+   "candidate_id": "run-a34f25cb5d00:GA:s101:g00:c001",
+   "candidate_status": "EVAL_FAILED",
+   "checkpoint_path": null,
+   "checkpoint_sha256": null,
+   "comparison_group": "common_scratch",
+   "device": "NVIDIA RTX A6000",
+   "epoch_target_total": 1,
+   "epochs": 1,
+   "evaluation_hash": "pending",
+   "execution_mode": "PILOT",
+   "family": "NAS:hybrid_backbone",
+   "fitness": null,
+   "fitness_weights": {
+    "ap": 0.2,
+    "latency_reward": 0.4,
+    "recall": 0.1,
+    "size_reward": 0.3
+   },
+   "generation": 0,
+   "id": "run-a34f25cb5d00:GA:s101:g00:c001.L0.eval",
+   "job_id": "job-69ecb8e2064545bf",
+   "latency_ms": null,
+   "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+   "latency_source": "pending",
+   "name": "GA-G00-C001",
+   "namespace": "pilot_smoke",
+   "objective_hash": "sha256:e373e350d018cc7b7b2d88bcb813f64f141f0e6eec7c5356cf65bd0161eccb92",
+   "parents": [],
+   "precision": "FP16",
+   "protocol_hash": "sha256:5ab95c51a81ea092b7c9101720215bbd367be539903ea12559206e15720fb4c8",
+   "reason_code": "EVAL_FAILED",
+   "recall": null,
+   "requested_input_shape": [
+    64,
+    64
+   ],
+   "resolved_input_shape": [
+    64,
+    64
+   ],
+   "revision": 1,
+   "rung": "L0",
+   "search_seed": 101,
+   "size_mb": null,
+   "split_hash": "sha256:9b23bcafa80cbeb493cb1d0b6e8cafbffae7339dec418472b73e62eaa981d7a7",
+   "status": "EVAL_FAILED",
+   "supersedes_evaluation_id": null,
+   "training_seed": 1428259896,
+   "immutable": false,
+   "checkpoint_state": null,
+   "training_status": "UNTRAINED"
+  }
+ ],
+ "generations": [
+  {
+   "arm": "GA",
+   "comparison_group": "common_scratch",
+   "complete": true,
+   "evaluated_count": 0,
+   "failed_count": 2,
+   "generation": 0,
+   "not_admitted_count": 0,
+   "pending_count": 0,
+   "planned_count": 2,
+   "planning_closed": true,
+   "representative_candidate_id": null,
+   "representative_evaluation_id": null,
+   "representative_rule": "current-rung highest fitness → lower latency → stable candidate id",
+   "representative_selection_rule": "current-rung highest fitness → lower latency → stable candidate id",
+   "rung": "L0",
+   "search_seed": 101
+  }
+ ],
+ "events": [
+  {
+   "seq": 1,
+   "type": "run.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "budget": {
+     "arms": [
+      "GA"
+     ],
+     "baseline_s": 900.0,
+     "final_s": null,
+     "search_per_arm_seed_s": 2700.0,
+     "search_scope": "per_arm_per_seed",
+     "seeds": [
+      101
+     ],
+     "unit": "gpu_seconds"
+    },
+    "costs": {},
+    "created_at": "2026-10-27T18:22:04.165083Z",
+    "execution_mode": "PILOT",
+    "id": "run-a34f25cb5d00",
+    "kind": "SEARCH",
+    "namespace": "pilot_smoke",
+    "parent_run_id": null,
+    "preset": "PILOT_SMOKE",
+    "protocol_canonicalization": "mbnas-canon/1 sha256",
+    "protocol_hash": "sha256:5ab95c51a81ea092b7c9101720215bbd367be539903ea12559206e15720fb4c8",
+    "purpose": "SMOKE",
+    "reason_code": null,
+    "source_commit": "sha256:cd42e89b54d40c8913807fe05d078435626e335c79bf866b3a77b83277e61a22",
+    "status": "QUEUED",
+    "terminal": false,
+    "updated_at": "2026-10-27T18:22:04.165083Z"
+   },
+   "created_at": "2026-10-27T18:22:04.167042Z"
+  },
+  {
+   "seq": 2,
+   "type": "log",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "level": "info",
+    "message": "run created",
+    "request_id": "t4_nvml-b7d06560079c4e04bbf3",
+    "validation_id": "val-0d4572542e3a4753"
+   },
+   "created_at": "2026-10-27T18:22:04.167541Z"
+  },
+  {
+   "seq": 3,
+   "type": "run.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "budget": {
+     "arms": [
+      "GA"
+     ],
+     "baseline_s": 900.0,
+     "final_s": null,
+     "search_per_arm_seed_s": 2700.0,
+     "search_scope": "per_arm_per_seed",
+     "seeds": [
+      101
+     ],
+     "unit": "gpu_seconds"
+    },
+    "costs": {},
+    "created_at": "2026-10-27T18:22:04.165083Z",
+    "execution_mode": "PILOT",
+    "id": "run-a34f25cb5d00",
+    "kind": "SEARCH",
+    "namespace": "pilot_smoke",
+    "parent_run_id": null,
+    "preset": "PILOT_SMOKE",
+    "protocol_canonicalization": "mbnas-canon/1 sha256",
+    "protocol_hash": "sha256:5ab95c51a81ea092b7c9101720215bbd367be539903ea12559206e15720fb4c8",
+    "purpose": "SMOKE",
+    "reason_code": null,
+    "source_commit": "sha256:cd42e89b54d40c8913807fe05d078435626e335c79bf866b3a77b83277e61a22",
+    "status": "RUNNING",
+    "terminal": false,
+    "updated_at": "2026-10-27T18:22:04.954242Z"
+   },
+   "created_at": "2026-10-27T18:22:04.954674Z"
+  },
+  {
+   "seq": 4,
+   "type": "worker.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "attempt": 1,
+    "device": "cpu",
+    "device_name": "CPU structure generation",
+    "heartbeat_at": "2026-10-27T18:22:04.954885Z",
+    "id": "wrk-5bd996fbb72e62fe",
+    "job_id": "job-5a29133d2b654cfe",
+    "run_id": "run-a34f25cb5d00",
+    "status": "busy",
+    "runner_id": null,
+    "device_id": "dev-cbe7e3f3b73e63ed"
+   },
+   "created_at": "2026-10-27T18:22:04.955068Z"
+  },
+  {
+   "seq": 5,
+   "type": "candidate.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "ap": null,
+    "architecture_hash": "sha256:fd0f5bc8933a76d3f460bca13e67731886508022553e70c95e29e6e8e3c01a59",
+    "architecture_id": "sha256:fd0f5bc8933a76d3f460bca13e67731886508022553e70c95e29e6e8e3c01a59",
+    "architecture_path": "architectures/run-a34f25cb5d00_GA_s101_g00_c000.yaml",
+    "arm": "GA",
+    "artifacts": [],
+    "batch": 1,
+    "blocks": [
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        64,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 3,
+        "c_out": 16,
+        "h_in": 64,
+        "params": 464,
+        "stride": 2.0,
+        "w_in": 64
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#0",
+      "position": 0,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        128,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 16,
+        "c_out": 32,
+        "h_in": 32,
+        "params": 4672,
+        "stride": 4.0,
+        "w_in": 32
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#1",
+      "position": 1,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        false,
+        0.25
+       ],
+       "effective": {
+        "c_in": 32,
+        "c_out": 64,
+        "h_in": 16,
+        "params": 6640,
+        "stride": 4.0,
+        "w_in": 16
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#2",
+      "position": 2,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 64,
+        "h_in": 16,
+        "params": 36992,
+        "stride": 8.0,
+        "w_in": 16
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#3",
+      "position": 3,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        false,
+        0.25
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 128,
+        "h_in": 8,
+        "params": 26080,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#4",
+      "position": 4,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 8,
+        "params": 147712,
+        "stride": 16.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#5",
+      "position": 5,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        true
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 87040,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#6",
+      "position": 6,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 256,
+        "h_in": 4,
+        "params": 295424,
+        "stride": 32.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#7",
+      "position": 7,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        true
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 346112,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#8",
+      "position": 8,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "SPPF",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        5,
+        3,
+        true
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 164608,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "SPPF",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#9",
+      "position": 9,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C2PSA",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 249728,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C2PSA",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#10",
+      "position": 10,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "nn.Upsample",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "nn.Upsample",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#11",
+      "position": 11,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 384,
+        "h_in": 4,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": [
+        -1,
+        6
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#12",
+      "position": 12,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        true
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 119808,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#13",
+      "position": 13,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "nn.Upsample",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 0,
+        "stride": 8.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "nn.Upsample",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#14",
+      "position": 14,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 8,
+        "params": 0,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": [
+        -1,
+        4
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#15",
+      "position": 15,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        true
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 64,
+        "h_in": 8,
+        "params": 34304,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#16",
+      "position": 16,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 64,
+        "h_in": 8,
+        "params": 36992,
+        "stride": 16.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#17",
+      "position": 17,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 192,
+        "c_out": 192,
+        "h_in": 4,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": [
+        -1,
+        13
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#18",
+      "position": 18,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        true
+       ],
+       "effective": {
+        "c_in": 192,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 95232,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#19",
+      "position": 19,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 147712,
+        "stride": 32.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#20",
+      "position": 20,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 384,
+        "h_in": 2,
+        "params": 0,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": [
+        -1,
+        10
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#21",
+      "position": 21,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        true,
+        0.5,
+        true
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 463104,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#22",
+      "position": 22,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Detect",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "nc"
+       ],
+       "effective": {
+        "c_in": 448,
+        "c_out": null,
+        "h_in": 8,
+        "params": 241566,
+        "stride": null,
+        "w_in": 8
+       },
+       "from": [
+        16,
+        19,
+        22
+       ],
+       "module": "Detect",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#23",
+      "position": 23,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     }
+    ],
+    "candidate_id": "run-a34f25cb5d00:GA:s101:g00:c000",
+    "candidate_status": "QUEUED",
+    "checkpoint_path": null,
+    "checkpoint_sha256": null,
+    "comparison_group": "common_scratch",
+    "device": "NVIDIA RTX A6000",
+    "epoch_target_total": 1,
+    "epochs": 1,
+    "evaluation_hash": "pending",
+    "execution_mode": "PILOT",
+    "family": "NAS:hybrid_backbone",
+    "fitness": null,
+    "fitness_weights": {
+     "ap": 0.2,
+     "latency_reward": 0.4,
+     "recall": 0.1,
+     "size_reward": 0.3
+    },
+    "generation": 0,
+    "id": "run-a34f25cb5d00:GA:s101:g00:c000.L0.eval",
+    "job_id": "job-11ae7493328347e0",
+    "latency_ms": null,
+    "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+    "latency_source": "pending",
+    "name": "GA-G00-C000",
+    "namespace": "pilot_smoke",
+    "objective_hash": "sha256:e373e350d018cc7b7b2d88bcb813f64f141f0e6eec7c5356cf65bd0161eccb92",
+    "parents": [],
+    "precision": "FP16",
+    "protocol_hash": "sha256:5ab95c51a81ea092b7c9101720215bbd367be539903ea12559206e15720fb4c8",
+    "reason_code": null,
+    "recall": null,
+    "requested_input_shape": [
+     64,
+     64
+    ],
+    "resolved_input_shape": [
+     64,
+     64
+    ],
+    "revision": 1,
+    "rung": "L0",
+    "search_seed": 101,
+    "size_mb": null,
+    "split_hash": "sha256:9b23bcafa80cbeb493cb1d0b6e8cafbffae7339dec418472b73e62eaa981d7a7",
+    "status": "QUEUED",
+    "supersedes_evaluation_id": null,
+    "training_seed": 1190440756,
+    "training_status": "UNTRAINED"
+   },
+   "created_at": "2026-10-27T18:22:09.722678Z"
+  },
+  {
+   "seq": 6,
+   "type": "candidate.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "ap": null,
+    "architecture_hash": "sha256:f8ef8de1ddfe7a245c6316cc12acf7ccf173cd798e7349d10054f61ef4c61b66",
+    "architecture_id": "sha256:f8ef8de1ddfe7a245c6316cc12acf7ccf173cd798e7349d10054f61ef4c61b66",
+    "architecture_path": "architectures/run-a34f25cb5d00_GA_s101_g00_c001.yaml",
+    "arm": "GA",
+    "artifacts": [],
+    "batch": 1,
+    "blocks": [
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        64,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 3,
+        "c_out": 16,
+        "h_in": 64,
+        "params": 464,
+        "stride": 2.0,
+        "w_in": 64
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#0",
+      "position": 0,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        128,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 16,
+        "c_out": 32,
+        "h_in": 32,
+        "params": 4672,
+        "stride": 4.0,
+        "w_in": 32
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#1",
+      "position": 1,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        false,
+        0.25
+       ],
+       "effective": {
+        "c_in": 32,
+        "c_out": 64,
+        "h_in": 16,
+        "params": 6640,
+        "stride": 4.0,
+        "w_in": 16
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#2",
+      "position": 2,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 64,
+        "h_in": 16,
+        "params": 36992,
+        "stride": 8.0,
+        "w_in": 16
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#3",
+      "position": 3,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        false,
+        0.25
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 128,
+        "h_in": 8,
+        "params": 26080,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#4",
+      "position": 4,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "NASPatchMerge",
+      "operation": "sample",
+      "params": {
+       "args": [
+        512,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 8,
+        "params": 65920,
+        "stride": 16.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "NASPatchMerge",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#5",
+      "position": 5,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        true
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 87040,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#6",
+      "position": 6,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 256,
+        "h_in": 4,
+        "params": 295424,
+        "stride": 32.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#7",
+      "position": 7,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        true
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 346112,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#8",
+      "position": 8,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "SPPF",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        5
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 164608,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "SPPF",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#9",
+      "position": 9,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C2PSA",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 249728,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C2PSA",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#10",
+      "position": 10,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "nn.Upsample",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "nn.Upsample",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#11",
+      "position": 11,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 384,
+        "h_in": 4,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": [
+        -1,
+        6
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#12",
+      "position": 12,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        false
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 111296,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#13",
+      "position": 13,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "nn.Upsample",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 0,
+        "stride": 8.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "nn.Upsample",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#14",
+      "position": 14,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 8,
+        "params": 0,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": [
+        -1,
+        4
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#15",
+      "position": 15,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        false
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 64,
+        "h_in": 8,
+        "params": 32096,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#16",
+      "position": 16,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 64,
+        "h_in": 8,
+        "params": 36992,
+        "stride": 16.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#17",
+      "position": 17,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 192,
+        "c_out": 192,
+        "h_in": 4,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": [
+        -1,
+        13
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#18",
+      "position": 18,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "A2C2f",
+      "operation": "sample",
+      "params": {
+       "args": [
+        512
+       ],
+       "effective": {
+        "c_in": 192,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 102912,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "A2C2f",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#19",
+      "position": 19,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 147712,
+        "stride": 32.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#20",
+      "position": 20,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 384,
+        "h_in": 2,
+        "params": 0,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": [
+        -1,
+        10
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#21",
+      "position": 21,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "NASWindowTransformer",
+      "operation": "sample",
+      "params": {
+       "args": [
+        1280
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 625664,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "NASWindowTransformer",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#22",
+      "position": 22,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Detect",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "nc"
+       ],
+       "effective": {
+        "c_in": 448,
+        "c_out": null,
+        "h_in": 8,
+        "params": 430867,
+        "stride": null,
+        "w_in": 8
+       },
+       "from": [
+        16,
+        19,
+        22
+       ],
+       "module": "Detect",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#23",
+      "position": 23,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     }
+    ],
+    "candidate_id": "run-a34f25cb5d00:GA:s101:g00:c001",
+    "candidate_status": "QUEUED",
+    "checkpoint_path": null,
+    "checkpoint_sha256": null,
+    "comparison_group": "common_scratch",
+    "device": "NVIDIA RTX A6000",
+    "epoch_target_total": 1,
+    "epochs": 1,
+    "evaluation_hash": "pending",
+    "execution_mode": "PILOT",
+    "family": "NAS:hybrid_backbone",
+    "fitness": null,
+    "fitness_weights": {
+     "ap": 0.2,
+     "latency_reward": 0.4,
+     "recall": 0.1,
+     "size_reward": 0.3
+    },
+    "generation": 0,
+    "id": "run-a34f25cb5d00:GA:s101:g00:c001.L0.eval",
+    "job_id": "job-69ecb8e2064545bf",
+    "latency_ms": null,
+    "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+    "latency_source": "pending",
+    "name": "GA-G00-C001",
+    "namespace": "pilot_smoke",
+    "objective_hash": "sha256:e373e350d018cc7b7b2d88bcb813f64f141f0e6eec7c5356cf65bd0161eccb92",
+    "parents": [],
+    "precision": "FP16",
+    "protocol_hash": "sha256:5ab95c51a81ea092b7c9101720215bbd367be539903ea12559206e15720fb4c8",
+    "reason_code": null,
+    "recall": null,
+    "requested_input_shape": [
+     64,
+     64
+    ],
+    "resolved_input_shape": [
+     64,
+     64
+    ],
+    "revision": 1,
+    "rung": "L0",
+    "search_seed": 101,
+    "size_mb": null,
+    "split_hash": "sha256:9b23bcafa80cbeb493cb1d0b6e8cafbffae7339dec418472b73e62eaa981d7a7",
+    "status": "QUEUED",
+    "supersedes_evaluation_id": null,
+    "training_seed": 1428259896,
+    "training_status": "UNTRAINED"
+   },
+   "created_at": "2026-10-27T18:22:09.739501Z"
+  },
+  {
+   "seq": 7,
+   "type": "generation.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "arm": "GA",
+    "comparison_group": "common_scratch",
+    "complete": false,
+    "evaluated_count": 0,
+    "failed_count": 0,
+    "generation": 0,
+    "not_admitted_count": 0,
+    "pending_count": 2,
+    "planned_count": 2,
+    "planning_closed": true,
+    "representative_candidate_id": null,
+    "representative_evaluation_id": null,
+    "representative_rule": "current-rung highest fitness → lower latency → stable candidate id",
+    "representative_selection_rule": "current-rung highest fitness → lower latency → stable candidate id",
+    "rung": "L0",
+    "search_seed": 101
+   },
+   "created_at": "2026-10-27T18:22:09.747308Z"
+  },
+  {
+   "seq": 8,
+   "type": "worker.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "device": "cpu",
+    "device_name": "CPU structure generation",
+    "heartbeat_at": "2026-10-27T18:22:09.750696Z",
+    "id": "wrk-5bd996fbb72e62fe",
+    "status": "idle",
+    "runner_id": null,
+    "device_id": "dev-cbe7e3f3b73e63ed"
+   },
+   "created_at": "2026-10-27T18:22:09.750943Z"
+  },
+  {
+   "seq": 9,
+   "type": "candidate.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "ap": null,
+    "architecture_hash": "sha256:fd0f5bc8933a76d3f460bca13e67731886508022553e70c95e29e6e8e3c01a59",
+    "architecture_id": "sha256:fd0f5bc8933a76d3f460bca13e67731886508022553e70c95e29e6e8e3c01a59",
+    "architecture_path": "architectures/run-a34f25cb5d00_GA_s101_g00_c000.yaml",
+    "arm": "GA",
+    "artifacts": [],
+    "attempt": 1,
+    "batch": 1,
+    "blocks": [
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        64,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 3,
+        "c_out": 16,
+        "h_in": 64,
+        "params": 464,
+        "stride": 2.0,
+        "w_in": 64
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#0",
+      "position": 0,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        128,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 16,
+        "c_out": 32,
+        "h_in": 32,
+        "params": 4672,
+        "stride": 4.0,
+        "w_in": 32
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#1",
+      "position": 1,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        false,
+        0.25
+       ],
+       "effective": {
+        "c_in": 32,
+        "c_out": 64,
+        "h_in": 16,
+        "params": 6640,
+        "stride": 4.0,
+        "w_in": 16
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#2",
+      "position": 2,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 64,
+        "h_in": 16,
+        "params": 36992,
+        "stride": 8.0,
+        "w_in": 16
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#3",
+      "position": 3,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        false,
+        0.25
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 128,
+        "h_in": 8,
+        "params": 26080,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#4",
+      "position": 4,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 8,
+        "params": 147712,
+        "stride": 16.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#5",
+      "position": 5,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        true
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 87040,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#6",
+      "position": 6,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 256,
+        "h_in": 4,
+        "params": 295424,
+        "stride": 32.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#7",
+      "position": 7,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        true
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 346112,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#8",
+      "position": 8,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "SPPF",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        5,
+        3,
+        true
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 164608,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "SPPF",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#9",
+      "position": 9,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C2PSA",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 249728,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C2PSA",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#10",
+      "position": 10,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "nn.Upsample",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "nn.Upsample",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#11",
+      "position": 11,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 384,
+        "h_in": 4,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": [
+        -1,
+        6
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#12",
+      "position": 12,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        true
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 119808,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#13",
+      "position": 13,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "nn.Upsample",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 0,
+        "stride": 8.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "nn.Upsample",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#14",
+      "position": 14,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 8,
+        "params": 0,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": [
+        -1,
+        4
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#15",
+      "position": 15,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        true
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 64,
+        "h_in": 8,
+        "params": 34304,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#16",
+      "position": 16,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 64,
+        "h_in": 8,
+        "params": 36992,
+        "stride": 16.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#17",
+      "position": 17,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 192,
+        "c_out": 192,
+        "h_in": 4,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": [
+        -1,
+        13
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#18",
+      "position": 18,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        true
+       ],
+       "effective": {
+        "c_in": 192,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 95232,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#19",
+      "position": 19,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 147712,
+        "stride": 32.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#20",
+      "position": 20,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 384,
+        "h_in": 2,
+        "params": 0,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": [
+        -1,
+        10
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#21",
+      "position": 21,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        true,
+        0.5,
+        true
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 463104,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#22",
+      "position": 22,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Detect",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "nc"
+       ],
+       "effective": {
+        "c_in": 448,
+        "c_out": null,
+        "h_in": 8,
+        "params": 241566,
+        "stride": null,
+        "w_in": 8
+       },
+       "from": [
+        16,
+        19,
+        22
+       ],
+       "module": "Detect",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#23",
+      "position": 23,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     }
+    ],
+    "candidate_id": "run-a34f25cb5d00:GA:s101:g00:c000",
+    "candidate_status": "TRAINING",
+    "checkpoint_path": null,
+    "checkpoint_sha256": null,
+    "comparison_group": "common_scratch",
+    "device": "NVIDIA RTX A6000",
+    "epoch_target_total": 1,
+    "epochs": 1,
+    "evaluation_hash": "pending",
+    "execution_mode": "PILOT",
+    "family": "NAS:hybrid_backbone",
+    "fitness": null,
+    "fitness_weights": {
+     "ap": 0.2,
+     "latency_reward": 0.4,
+     "recall": 0.1,
+     "size_reward": 0.3
+    },
+    "generation": 0,
+    "id": "run-a34f25cb5d00:GA:s101:g00:c000.L0.eval",
+    "job_id": "job-11ae7493328347e0",
+    "latency_ms": null,
+    "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+    "latency_source": "pending",
+    "name": "GA-G00-C000",
+    "namespace": "pilot_smoke",
+    "objective_hash": "sha256:e373e350d018cc7b7b2d88bcb813f64f141f0e6eec7c5356cf65bd0161eccb92",
+    "parents": [],
+    "precision": "FP16",
+    "protocol_hash": "sha256:5ab95c51a81ea092b7c9101720215bbd367be539903ea12559206e15720fb4c8",
+    "reason_code": null,
+    "recall": null,
+    "requested_input_shape": [
+     64,
+     64
+    ],
+    "resolved_input_shape": [
+     64,
+     64
+    ],
+    "revision": 1,
+    "rung": "L0",
+    "search_seed": 101,
+    "size_mb": null,
+    "split_hash": "sha256:9b23bcafa80cbeb493cb1d0b6e8cafbffae7339dec418472b73e62eaa981d7a7",
+    "status": "TRAINING",
+    "supersedes_evaluation_id": null,
+    "training_seed": 1190440756,
+    "training_status": "UNTRAINED"
+   },
+   "created_at": "2026-10-27T18:22:09.911620Z"
+  },
+  {
+   "seq": 10,
+   "type": "worker.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "attempt": 1,
+    "candidate_id": "run-a34f25cb5d00:GA:s101:g00:c000",
+    "device": "cpu",
+    "device_name": "CPU (CUDA_VISIBLE_DEVICES='')",
+    "heartbeat_at": "2026-10-27T18:22:09.913405Z",
+    "id": "runner-t4-sandbox",
+    "job_id": "job-11ae7493328347e0",
+    "run_id": "run-a34f25cb5d00",
+    "rung": "L0",
+    "runner_id": "runner-t4-sandbox",
+    "runtime_manifest_status": "verified",
+    "status": "busy"
+   },
+   "created_at": "2026-10-27T18:22:09.913917Z"
+  },
+  {
+   "seq": 11,
+   "type": "candidate.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "ap": null,
+    "architecture_hash": "sha256:fd0f5bc8933a76d3f460bca13e67731886508022553e70c95e29e6e8e3c01a59",
+    "architecture_id": "sha256:fd0f5bc8933a76d3f460bca13e67731886508022553e70c95e29e6e8e3c01a59",
+    "architecture_path": "architectures/run-a34f25cb5d00_GA_s101_g00_c000.yaml",
+    "arm": "GA",
+    "artifacts": [],
+    "attempt": 1,
+    "batch": 1,
+    "blocks": [
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        64,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 3,
+        "c_out": 16,
+        "h_in": 64,
+        "params": 464,
+        "stride": 2.0,
+        "w_in": 64
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#0",
+      "position": 0,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        128,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 16,
+        "c_out": 32,
+        "h_in": 32,
+        "params": 4672,
+        "stride": 4.0,
+        "w_in": 32
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#1",
+      "position": 1,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        false,
+        0.25
+       ],
+       "effective": {
+        "c_in": 32,
+        "c_out": 64,
+        "h_in": 16,
+        "params": 6640,
+        "stride": 4.0,
+        "w_in": 16
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#2",
+      "position": 2,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 64,
+        "h_in": 16,
+        "params": 36992,
+        "stride": 8.0,
+        "w_in": 16
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#3",
+      "position": 3,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        false,
+        0.25
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 128,
+        "h_in": 8,
+        "params": 26080,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#4",
+      "position": 4,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 8,
+        "params": 147712,
+        "stride": 16.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#5",
+      "position": 5,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        true
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 87040,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#6",
+      "position": 6,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 256,
+        "h_in": 4,
+        "params": 295424,
+        "stride": 32.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#7",
+      "position": 7,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        true
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 346112,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#8",
+      "position": 8,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "SPPF",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        5,
+        3,
+        true
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 164608,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "SPPF",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#9",
+      "position": 9,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C2PSA",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 249728,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C2PSA",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#10",
+      "position": 10,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "nn.Upsample",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "nn.Upsample",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#11",
+      "position": 11,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 384,
+        "h_in": 4,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": [
+        -1,
+        6
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#12",
+      "position": 12,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        true
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 119808,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#13",
+      "position": 13,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "nn.Upsample",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 0,
+        "stride": 8.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "nn.Upsample",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#14",
+      "position": 14,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 8,
+        "params": 0,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": [
+        -1,
+        4
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#15",
+      "position": 15,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        true
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 64,
+        "h_in": 8,
+        "params": 34304,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#16",
+      "position": 16,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 64,
+        "h_in": 8,
+        "params": 36992,
+        "stride": 16.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#17",
+      "position": 17,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 192,
+        "c_out": 192,
+        "h_in": 4,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": [
+        -1,
+        13
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#18",
+      "position": 18,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        true
+       ],
+       "effective": {
+        "c_in": 192,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 95232,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#19",
+      "position": 19,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 147712,
+        "stride": 32.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#20",
+      "position": 20,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 384,
+        "h_in": 2,
+        "params": 0,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": [
+        -1,
+        10
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#21",
+      "position": 21,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        true,
+        0.5,
+        true
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 463104,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#22",
+      "position": 22,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Detect",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "nc"
+       ],
+       "effective": {
+        "c_in": 448,
+        "c_out": null,
+        "h_in": 8,
+        "params": 241566,
+        "stride": null,
+        "w_in": 8
+       },
+       "from": [
+        16,
+        19,
+        22
+       ],
+       "module": "Detect",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#23",
+      "position": 23,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     }
+    ],
+    "candidate_id": "run-a34f25cb5d00:GA:s101:g00:c000",
+    "candidate_status": "TRAINING",
+    "checkpoint_path": null,
+    "checkpoint_sha256": null,
+    "comparison_group": "common_scratch",
+    "device": "NVIDIA RTX A6000",
+    "epoch_target_total": 1,
+    "epochs": 1,
+    "evaluation_hash": "pending",
+    "execution_mode": "PILOT",
+    "family": "NAS:hybrid_backbone",
+    "fitness": null,
+    "fitness_weights": {
+     "ap": 0.2,
+     "latency_reward": 0.4,
+     "recall": 0.1,
+     "size_reward": 0.3
+    },
+    "generation": 0,
+    "id": "run-a34f25cb5d00:GA:s101:g00:c000.L0.eval",
+    "job_id": "job-11ae7493328347e0",
+    "latency_ms": null,
+    "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+    "latency_source": "pending",
+    "name": "GA-G00-C000",
+    "namespace": "pilot_smoke",
+    "objective_hash": "sha256:e373e350d018cc7b7b2d88bcb813f64f141f0e6eec7c5356cf65bd0161eccb92",
+    "parents": [],
+    "precision": "FP16",
+    "progress": {
+     "epoch": 1,
+     "epoch_target_total": 1,
+     "global_step": 2,
+     "learning_rate": 0.001,
+     "native_metrics": {
+      "metrics/mAP50(B)": 0.0,
+      "metrics/mAP50-95(B)": 0.0,
+      "metrics/precision(B)": 0.0,
+      "metrics/recall(B)": 0.0,
+      "val/box_loss": 4.26944,
+      "val/cls_loss": 2.90534,
+      "val/l1_loss": 0.12337
+     },
+     "samples_seen": 4
+    },
+    "protocol_hash": "sha256:5ab95c51a81ea092b7c9101720215bbd367be539903ea12559206e15720fb4c8",
+    "reason_code": null,
+    "recall": null,
+    "requested_input_shape": [
+     64,
+     64
+    ],
+    "resolved_input_shape": [
+     64,
+     64
+    ],
+    "revision": 1,
+    "rung": "L0",
+    "search_seed": 101,
+    "size_mb": null,
+    "split_hash": "sha256:9b23bcafa80cbeb493cb1d0b6e8cafbffae7339dec418472b73e62eaa981d7a7",
+    "status": "TRAINING",
+    "supersedes_evaluation_id": null,
+    "training_seed": 1190440756,
+    "training_status": "TRAINED"
+   },
+   "created_at": "2026-10-27T18:22:16.274896Z"
+  },
+  {
+   "seq": 12,
+   "type": "worker.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "attempt": 1,
+    "candidate_id": "run-a34f25cb5d00:GA:s101:g00:c000",
+    "device": "cpu",
+    "device_name": "CPU (CUDA_VISIBLE_DEVICES='')",
+    "epoch": 1,
+    "epoch_target_total": 1,
+    "global_step": 2,
+    "heartbeat_at": "2026-10-27T18:22:16.276611Z",
+    "id": "runner-t4-sandbox",
+    "job_id": "job-11ae7493328347e0",
+    "learning_rate": 0.001,
+    "run_id": "run-a34f25cb5d00",
+    "rung": "L0",
+    "runner_id": "runner-t4-sandbox",
+    "runtime_manifest_status": "verified",
+    "status": "busy"
+   },
+   "created_at": "2026-10-27T18:22:16.277194Z"
+  },
+  {
+   "seq": 13,
+   "type": "candidate.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "ap": null,
+    "architecture_hash": "sha256:fd0f5bc8933a76d3f460bca13e67731886508022553e70c95e29e6e8e3c01a59",
+    "architecture_id": "sha256:fd0f5bc8933a76d3f460bca13e67731886508022553e70c95e29e6e8e3c01a59",
+    "architecture_path": "architectures/run-a34f25cb5d00_GA_s101_g00_c000.yaml",
+    "arm": "GA",
+    "artifacts": [],
+    "attempt": 1,
+    "batch": 1,
+    "blocks": [
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        64,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 3,
+        "c_out": 16,
+        "h_in": 64,
+        "params": 464,
+        "stride": 2.0,
+        "w_in": 64
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#0",
+      "position": 0,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        128,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 16,
+        "c_out": 32,
+        "h_in": 32,
+        "params": 4672,
+        "stride": 4.0,
+        "w_in": 32
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#1",
+      "position": 1,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        false,
+        0.25
+       ],
+       "effective": {
+        "c_in": 32,
+        "c_out": 64,
+        "h_in": 16,
+        "params": 6640,
+        "stride": 4.0,
+        "w_in": 16
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#2",
+      "position": 2,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 64,
+        "h_in": 16,
+        "params": 36992,
+        "stride": 8.0,
+        "w_in": 16
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#3",
+      "position": 3,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        false,
+        0.25
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 128,
+        "h_in": 8,
+        "params": 26080,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#4",
+      "position": 4,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 8,
+        "params": 147712,
+        "stride": 16.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#5",
+      "position": 5,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        true
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 87040,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#6",
+      "position": 6,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 256,
+        "h_in": 4,
+        "params": 295424,
+        "stride": 32.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#7",
+      "position": 7,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        true
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 346112,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#8",
+      "position": 8,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "SPPF",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        5,
+        3,
+        true
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 164608,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "SPPF",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#9",
+      "position": 9,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C2PSA",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 249728,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C2PSA",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo26n:native#10",
+      "position": 10,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "nn.Upsample",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "nn.Upsample",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#11",
+      "position": 11,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 384,
+        "h_in": 4,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": [
+        -1,
+        6
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#12",
+      "position": 12,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        true
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 119808,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#13",
+      "position": 13,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "nn.Upsample",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 0,
+        "stride": 8.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "nn.Upsample",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#14",
+      "position": 14,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 8,
+        "params": 0,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": [
+        -1,
+        4
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#15",
+      "position": 15,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        true
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 64,
+        "h_in": 8,
+        "params": 34304,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#16",
+      "position": 16,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 64,
+        "h_in": 8,
+        "params": 36992,
+        "stride": 16.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#17",
+      "position": 17,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 192,
+        "c_out": 192,
+        "h_in": 4,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": [
+        -1,
+        13
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#18",
+      "position": 18,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        true
+       ],
+       "effective": {
+        "c_in": 192,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 95232,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#19",
+      "position": 19,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 147712,
+        "stride": 32.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#20",
+      "position": 20,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 384,
+        "h_in": 2,
+        "params": 0,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": [
+        -1,
+        10
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#21",
+      "position": 21,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        true,
+        0.5,
+        true
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 463104,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#22",
+      "position": 22,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Detect",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "nc"
+       ],
+       "effective": {
+        "c_in": 448,
+        "c_out": null,
+        "h_in": 8,
+        "params": 241566,
+        "stride": null,
+        "w_in": 8
+       },
+       "from": [
+        16,
+        19,
+        22
+       ],
+       "module": "Detect",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo26n:native#23",
+      "position": 23,
+      "source": "yolo26n:native",
+      "source_kind": "random"
+     }
+    ],
+    "candidate_id": "run-a34f25cb5d00:GA:s101:g00:c000",
+    "candidate_status": "EVAL_FAILED",
+    "checkpoint_path": null,
+    "checkpoint_sha256": null,
+    "comparison_group": "common_scratch",
+    "device": "NVIDIA RTX A6000",
+    "epoch_target_total": 1,
+    "epochs": 1,
+    "evaluation_hash": "pending",
+    "execution_mode": "PILOT",
+    "family": "NAS:hybrid_backbone",
+    "fitness": null,
+    "fitness_weights": {
+     "ap": 0.2,
+     "latency_reward": 0.4,
+     "recall": 0.1,
+     "size_reward": 0.3
+    },
+    "generation": 0,
+    "id": "run-a34f25cb5d00:GA:s101:g00:c000.L0.eval",
+    "job_id": "job-11ae7493328347e0",
+    "latency_ms": null,
+    "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+    "latency_source": "pending",
+    "name": "GA-G00-C000",
+    "namespace": "pilot_smoke",
+    "objective_hash": "sha256:e373e350d018cc7b7b2d88bcb813f64f141f0e6eec7c5356cf65bd0161eccb92",
+    "parents": [],
+    "precision": "FP16",
+    "protocol_hash": "sha256:5ab95c51a81ea092b7c9101720215bbd367be539903ea12559206e15720fb4c8",
+    "reason_code": "EVAL_FAILED",
+    "recall": null,
+    "requested_input_shape": [
+     64,
+     64
+    ],
+    "resolved_input_shape": [
+     64,
+     64
+    ],
+    "revision": 1,
+    "rung": "L0",
+    "search_seed": 101,
+    "size_mb": null,
+    "split_hash": "sha256:9b23bcafa80cbeb493cb1d0b6e8cafbffae7339dec418472b73e62eaa981d7a7",
+    "status": "EVAL_FAILED",
+    "supersedes_evaluation_id": null,
+    "training_seed": 1190440756,
+    "training_status": "UNTRAINED"
+   },
+   "created_at": "2026-10-27T18:22:16.901636Z"
+  },
+  {
+   "seq": 14,
+   "type": "generation.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "arm": "GA",
+    "comparison_group": "common_scratch",
+    "complete": false,
+    "evaluated_count": 0,
+    "failed_count": 1,
+    "generation": 0,
+    "not_admitted_count": 0,
+    "pending_count": 1,
+    "planned_count": 2,
+    "planning_closed": true,
+    "representative_candidate_id": null,
+    "representative_evaluation_id": null,
+    "representative_rule": "current-rung highest fitness → lower latency → stable candidate id",
+    "representative_selection_rule": "current-rung highest fitness → lower latency → stable candidate id",
+    "rung": "L0",
+    "search_seed": 101
+   },
+   "created_at": "2026-10-27T18:22:16.910687Z"
+  },
+  {
+   "seq": 15,
+   "type": "worker.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "device": "cpu",
+    "device_name": "CPU (CUDA_VISIBLE_DEVICES='')",
+    "heartbeat_at": "2026-10-27T18:22:16.912299Z",
+    "id": "runner-t4-sandbox",
+    "runner_id": "runner-t4-sandbox",
+    "runtime_manifest_status": "verified",
+    "status": "idle"
+   },
+   "created_at": "2026-10-27T18:22:16.912493Z"
+  },
+  {
+   "seq": 16,
+   "type": "log",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "candidate_id": "run-a34f25cb5d00:GA:s101:g00:c000",
+    "forced_policy": "keep_all",
+    "level": "info",
+    "message": "remote run: retention policy last_rung_end_only not applied, forced keep_all until the prune round trip (WP-5)",
+    "policy": "last_rung_end_only",
+    "reason_code": "REMOTE_RETENTION_FORCED"
+   },
+   "created_at": "2026-10-27T18:22:16.914900Z"
+  },
+  {
+   "seq": 17,
+   "type": "candidate.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "ap": null,
+    "architecture_hash": "sha256:f8ef8de1ddfe7a245c6316cc12acf7ccf173cd798e7349d10054f61ef4c61b66",
+    "architecture_id": "sha256:f8ef8de1ddfe7a245c6316cc12acf7ccf173cd798e7349d10054f61ef4c61b66",
+    "architecture_path": "architectures/run-a34f25cb5d00_GA_s101_g00_c001.yaml",
+    "arm": "GA",
+    "artifacts": [],
+    "attempt": 1,
+    "batch": 1,
+    "blocks": [
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        64,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 3,
+        "c_out": 16,
+        "h_in": 64,
+        "params": 464,
+        "stride": 2.0,
+        "w_in": 64
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#0",
+      "position": 0,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        128,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 16,
+        "c_out": 32,
+        "h_in": 32,
+        "params": 4672,
+        "stride": 4.0,
+        "w_in": 32
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#1",
+      "position": 1,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        false,
+        0.25
+       ],
+       "effective": {
+        "c_in": 32,
+        "c_out": 64,
+        "h_in": 16,
+        "params": 6640,
+        "stride": 4.0,
+        "w_in": 16
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#2",
+      "position": 2,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 64,
+        "h_in": 16,
+        "params": 36992,
+        "stride": 8.0,
+        "w_in": 16
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#3",
+      "position": 3,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        false,
+        0.25
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 128,
+        "h_in": 8,
+        "params": 26080,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#4",
+      "position": 4,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "NASPatchMerge",
+      "operation": "sample",
+      "params": {
+       "args": [
+        512,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 8,
+        "params": 65920,
+        "stride": 16.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "NASPatchMerge",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#5",
+      "position": 5,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        true
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 87040,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#6",
+      "position": 6,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 256,
+        "h_in": 4,
+        "params": 295424,
+        "stride": 32.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#7",
+      "position": 7,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        true
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 346112,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#8",
+      "position": 8,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "SPPF",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        5
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 164608,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "SPPF",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#9",
+      "position": 9,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C2PSA",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 249728,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C2PSA",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#10",
+      "position": 10,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "nn.Upsample",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "nn.Upsample",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#11",
+      "position": 11,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 384,
+        "h_in": 4,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": [
+        -1,
+        6
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#12",
+      "position": 12,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        false
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 111296,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#13",
+      "position": 13,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "nn.Upsample",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 0,
+        "stride": 8.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "nn.Upsample",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#14",
+      "position": 14,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 8,
+        "params": 0,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": [
+        -1,
+        4
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#15",
+      "position": 15,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        false
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 64,
+        "h_in": 8,
+        "params": 32096,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#16",
+      "position": 16,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 64,
+        "h_in": 8,
+        "params": 36992,
+        "stride": 16.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#17",
+      "position": 17,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 192,
+        "c_out": 192,
+        "h_in": 4,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": [
+        -1,
+        13
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#18",
+      "position": 18,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "A2C2f",
+      "operation": "sample",
+      "params": {
+       "args": [
+        512
+       ],
+       "effective": {
+        "c_in": 192,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 102912,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "A2C2f",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#19",
+      "position": 19,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 147712,
+        "stride": 32.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#20",
+      "position": 20,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 384,
+        "h_in": 2,
+        "params": 0,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": [
+        -1,
+        10
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#21",
+      "position": 21,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "NASWindowTransformer",
+      "operation": "sample",
+      "params": {
+       "args": [
+        1280
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 625664,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "NASWindowTransformer",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#22",
+      "position": 22,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Detect",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "nc"
+       ],
+       "effective": {
+        "c_in": 448,
+        "c_out": null,
+        "h_in": 8,
+        "params": 430867,
+        "stride": null,
+        "w_in": 8
+       },
+       "from": [
+        16,
+        19,
+        22
+       ],
+       "module": "Detect",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#23",
+      "position": 23,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     }
+    ],
+    "candidate_id": "run-a34f25cb5d00:GA:s101:g00:c001",
+    "candidate_status": "TRAINING",
+    "checkpoint_path": null,
+    "checkpoint_sha256": null,
+    "comparison_group": "common_scratch",
+    "device": "NVIDIA RTX A6000",
+    "epoch_target_total": 1,
+    "epochs": 1,
+    "evaluation_hash": "pending",
+    "execution_mode": "PILOT",
+    "family": "NAS:hybrid_backbone",
+    "fitness": null,
+    "fitness_weights": {
+     "ap": 0.2,
+     "latency_reward": 0.4,
+     "recall": 0.1,
+     "size_reward": 0.3
+    },
+    "generation": 0,
+    "id": "run-a34f25cb5d00:GA:s101:g00:c001.L0.eval",
+    "job_id": "job-69ecb8e2064545bf",
+    "latency_ms": null,
+    "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+    "latency_source": "pending",
+    "name": "GA-G00-C001",
+    "namespace": "pilot_smoke",
+    "objective_hash": "sha256:e373e350d018cc7b7b2d88bcb813f64f141f0e6eec7c5356cf65bd0161eccb92",
+    "parents": [],
+    "precision": "FP16",
+    "protocol_hash": "sha256:5ab95c51a81ea092b7c9101720215bbd367be539903ea12559206e15720fb4c8",
+    "reason_code": null,
+    "recall": null,
+    "requested_input_shape": [
+     64,
+     64
+    ],
+    "resolved_input_shape": [
+     64,
+     64
+    ],
+    "revision": 1,
+    "rung": "L0",
+    "search_seed": 101,
+    "size_mb": null,
+    "split_hash": "sha256:9b23bcafa80cbeb493cb1d0b6e8cafbffae7339dec418472b73e62eaa981d7a7",
+    "status": "TRAINING",
+    "supersedes_evaluation_id": null,
+    "training_seed": 1428259896,
+    "training_status": "UNTRAINED"
+   },
+   "created_at": "2026-10-27T18:22:17.136201Z"
+  },
+  {
+   "seq": 18,
+   "type": "worker.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "attempt": 1,
+    "candidate_id": "run-a34f25cb5d00:GA:s101:g00:c001",
+    "device": "cpu",
+    "device_name": "CPU (CUDA_VISIBLE_DEVICES='')",
+    "heartbeat_at": "2026-10-27T18:22:17.137812Z",
+    "id": "runner-t4-sandbox",
+    "job_id": "job-69ecb8e2064545bf",
+    "run_id": "run-a34f25cb5d00",
+    "rung": "L0",
+    "runner_id": "runner-t4-sandbox",
+    "runtime_manifest_status": "verified",
+    "status": "busy"
+   },
+   "created_at": "2026-10-27T18:22:17.138279Z"
+  },
+  {
+   "seq": 19,
+   "type": "candidate.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "ap": null,
+    "architecture_hash": "sha256:f8ef8de1ddfe7a245c6316cc12acf7ccf173cd798e7349d10054f61ef4c61b66",
+    "architecture_id": "sha256:f8ef8de1ddfe7a245c6316cc12acf7ccf173cd798e7349d10054f61ef4c61b66",
+    "architecture_path": "architectures/run-a34f25cb5d00_GA_s101_g00_c001.yaml",
+    "arm": "GA",
+    "artifacts": [],
+    "attempt": 1,
+    "batch": 1,
+    "blocks": [
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        64,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 3,
+        "c_out": 16,
+        "h_in": 64,
+        "params": 464,
+        "stride": 2.0,
+        "w_in": 64
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#0",
+      "position": 0,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        128,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 16,
+        "c_out": 32,
+        "h_in": 32,
+        "params": 4672,
+        "stride": 4.0,
+        "w_in": 32
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#1",
+      "position": 1,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        false,
+        0.25
+       ],
+       "effective": {
+        "c_in": 32,
+        "c_out": 64,
+        "h_in": 16,
+        "params": 6640,
+        "stride": 4.0,
+        "w_in": 16
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#2",
+      "position": 2,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 64,
+        "h_in": 16,
+        "params": 36992,
+        "stride": 8.0,
+        "w_in": 16
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#3",
+      "position": 3,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        false,
+        0.25
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 128,
+        "h_in": 8,
+        "params": 26080,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#4",
+      "position": 4,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "NASPatchMerge",
+      "operation": "sample",
+      "params": {
+       "args": [
+        512,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 8,
+        "params": 65920,
+        "stride": 16.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "NASPatchMerge",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#5",
+      "position": 5,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        true
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 87040,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#6",
+      "position": 6,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 256,
+        "h_in": 4,
+        "params": 295424,
+        "stride": 32.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#7",
+      "position": 7,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        true
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 346112,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#8",
+      "position": 8,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "SPPF",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        5
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 164608,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "SPPF",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#9",
+      "position": 9,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C2PSA",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 249728,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C2PSA",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#10",
+      "position": 10,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "nn.Upsample",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "nn.Upsample",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#11",
+      "position": 11,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 384,
+        "h_in": 4,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": [
+        -1,
+        6
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#12",
+      "position": 12,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        false
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 111296,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#13",
+      "position": 13,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "nn.Upsample",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 0,
+        "stride": 8.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "nn.Upsample",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#14",
+      "position": 14,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 8,
+        "params": 0,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": [
+        -1,
+        4
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#15",
+      "position": 15,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        false
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 64,
+        "h_in": 8,
+        "params": 32096,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#16",
+      "position": 16,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 64,
+        "h_in": 8,
+        "params": 36992,
+        "stride": 16.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#17",
+      "position": 17,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 192,
+        "c_out": 192,
+        "h_in": 4,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": [
+        -1,
+        13
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#18",
+      "position": 18,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "A2C2f",
+      "operation": "sample",
+      "params": {
+       "args": [
+        512
+       ],
+       "effective": {
+        "c_in": 192,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 102912,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "A2C2f",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#19",
+      "position": 19,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 147712,
+        "stride": 32.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#20",
+      "position": 20,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 384,
+        "h_in": 2,
+        "params": 0,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": [
+        -1,
+        10
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#21",
+      "position": 21,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "NASWindowTransformer",
+      "operation": "sample",
+      "params": {
+       "args": [
+        1280
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 625664,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "NASWindowTransformer",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#22",
+      "position": 22,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Detect",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "nc"
+       ],
+       "effective": {
+        "c_in": 448,
+        "c_out": null,
+        "h_in": 8,
+        "params": 430867,
+        "stride": null,
+        "w_in": 8
+       },
+       "from": [
+        16,
+        19,
+        22
+       ],
+       "module": "Detect",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#23",
+      "position": 23,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     }
+    ],
+    "candidate_id": "run-a34f25cb5d00:GA:s101:g00:c001",
+    "candidate_status": "TRAINING",
+    "checkpoint_path": null,
+    "checkpoint_sha256": null,
+    "comparison_group": "common_scratch",
+    "device": "NVIDIA RTX A6000",
+    "epoch_target_total": 1,
+    "epochs": 1,
+    "evaluation_hash": "pending",
+    "execution_mode": "PILOT",
+    "family": "NAS:hybrid_backbone",
+    "fitness": null,
+    "fitness_weights": {
+     "ap": 0.2,
+     "latency_reward": 0.4,
+     "recall": 0.1,
+     "size_reward": 0.3
+    },
+    "generation": 0,
+    "id": "run-a34f25cb5d00:GA:s101:g00:c001.L0.eval",
+    "job_id": "job-69ecb8e2064545bf",
+    "latency_ms": null,
+    "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+    "latency_source": "pending",
+    "name": "GA-G00-C001",
+    "namespace": "pilot_smoke",
+    "objective_hash": "sha256:e373e350d018cc7b7b2d88bcb813f64f141f0e6eec7c5356cf65bd0161eccb92",
+    "parents": [],
+    "precision": "FP16",
+    "progress": {
+     "epoch": 1,
+     "epoch_target_total": 1,
+     "global_step": 2,
+     "learning_rate": 0.001,
+     "native_metrics": {
+      "metrics/mAP50(B)": 0.0,
+      "metrics/mAP50-95(B)": 0.0,
+      "metrics/precision(B)": 0.0,
+      "metrics/recall(B)": 0.0,
+      "val/box_loss": 0.00013,
+      "val/cls_loss": 0.44589,
+      "val/dfl_loss": 7e-05
+     },
+     "samples_seen": 4
+    },
+    "protocol_hash": "sha256:5ab95c51a81ea092b7c9101720215bbd367be539903ea12559206e15720fb4c8",
+    "reason_code": null,
+    "recall": null,
+    "requested_input_shape": [
+     64,
+     64
+    ],
+    "resolved_input_shape": [
+     64,
+     64
+    ],
+    "revision": 1,
+    "rung": "L0",
+    "search_seed": 101,
+    "size_mb": null,
+    "split_hash": "sha256:9b23bcafa80cbeb493cb1d0b6e8cafbffae7339dec418472b73e62eaa981d7a7",
+    "status": "TRAINING",
+    "supersedes_evaluation_id": null,
+    "training_seed": 1428259896,
+    "training_status": "TRAINED"
+   },
+   "created_at": "2026-10-27T18:22:23.366764Z"
+  },
+  {
+   "seq": 20,
+   "type": "worker.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "attempt": 1,
+    "candidate_id": "run-a34f25cb5d00:GA:s101:g00:c001",
+    "device": "cpu",
+    "device_name": "CPU (CUDA_VISIBLE_DEVICES='')",
+    "epoch": 1,
+    "epoch_target_total": 1,
+    "global_step": 2,
+    "heartbeat_at": "2026-10-27T18:22:23.368495Z",
+    "id": "runner-t4-sandbox",
+    "job_id": "job-69ecb8e2064545bf",
+    "learning_rate": 0.001,
+    "run_id": "run-a34f25cb5d00",
+    "rung": "L0",
+    "runner_id": "runner-t4-sandbox",
+    "runtime_manifest_status": "verified",
+    "status": "busy"
+   },
+   "created_at": "2026-10-27T18:22:23.369036Z"
+  },
+  {
+   "seq": 21,
+   "type": "candidate.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "ap": null,
+    "architecture_hash": "sha256:f8ef8de1ddfe7a245c6316cc12acf7ccf173cd798e7349d10054f61ef4c61b66",
+    "architecture_id": "sha256:f8ef8de1ddfe7a245c6316cc12acf7ccf173cd798e7349d10054f61ef4c61b66",
+    "architecture_path": "architectures/run-a34f25cb5d00_GA_s101_g00_c001.yaml",
+    "arm": "GA",
+    "artifacts": [],
+    "attempt": 1,
+    "batch": 1,
+    "blocks": [
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        64,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 3,
+        "c_out": 16,
+        "h_in": 64,
+        "params": 464,
+        "stride": 2.0,
+        "w_in": 64
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#0",
+      "position": 0,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        128,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 16,
+        "c_out": 32,
+        "h_in": 32,
+        "params": 4672,
+        "stride": 4.0,
+        "w_in": 32
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#1",
+      "position": 1,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        false,
+        0.25
+       ],
+       "effective": {
+        "c_in": 32,
+        "c_out": 64,
+        "h_in": 16,
+        "params": 6640,
+        "stride": 4.0,
+        "w_in": 16
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#2",
+      "position": 2,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 64,
+        "h_in": 16,
+        "params": 36992,
+        "stride": 8.0,
+        "w_in": 16
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#3",
+      "position": 3,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        false,
+        0.25
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 128,
+        "h_in": 8,
+        "params": 26080,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#4",
+      "position": 4,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "NASPatchMerge",
+      "operation": "sample",
+      "params": {
+       "args": [
+        512,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 8,
+        "params": 65920,
+        "stride": 16.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "NASPatchMerge",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#5",
+      "position": 5,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        true
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 87040,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#6",
+      "position": 6,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 256,
+        "h_in": 4,
+        "params": 295424,
+        "stride": 32.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#7",
+      "position": 7,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        true
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 346112,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#8",
+      "position": 8,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "SPPF",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024,
+        5
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 164608,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "SPPF",
+       "repeats": 1,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#9",
+      "position": 9,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C2PSA",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1024
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 249728,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "C2PSA",
+       "repeats": 2,
+       "scope": "backbone"
+      },
+      "parent_block_id": "yolo11n:native#10",
+      "position": 10,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "nn.Upsample",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "nn.Upsample",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#11",
+      "position": 11,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 384,
+        "h_in": 4,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": [
+        -1,
+        6
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#12",
+      "position": 12,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        false
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 111296,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#13",
+      "position": 13,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "nn.Upsample",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 0,
+        "stride": 8.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "nn.Upsample",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#14",
+      "position": 14,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 256,
+        "h_in": 8,
+        "params": 0,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": [
+        -1,
+        4
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#15",
+      "position": 15,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "C3k2",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        false
+       ],
+       "effective": {
+        "c_in": 256,
+        "c_out": 64,
+        "h_in": 8,
+        "params": 32096,
+        "stride": 8.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "C3k2",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#16",
+      "position": 16,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 64,
+        "c_out": 64,
+        "h_in": 8,
+        "params": 36992,
+        "stride": 16.0,
+        "w_in": 8
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#17",
+      "position": 17,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 192,
+        "c_out": 192,
+        "h_in": 4,
+        "params": 0,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": [
+        -1,
+        13
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#18",
+      "position": 18,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "A2C2f",
+      "operation": "sample",
+      "params": {
+       "args": [
+        512
+       ],
+       "effective": {
+        "c_in": 192,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 102912,
+        "stride": 16.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "A2C2f",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#19",
+      "position": 19,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Conv",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "effective": {
+        "c_in": 128,
+        "c_out": 128,
+        "h_in": 4,
+        "params": 147712,
+        "stride": 32.0,
+        "w_in": 4
+       },
+       "from": -1,
+       "module": "Conv",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#20",
+      "position": 20,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Concat",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        1
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 384,
+        "h_in": 2,
+        "params": 0,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": [
+        -1,
+        10
+       ],
+       "module": "Concat",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#21",
+      "position": 21,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "NASWindowTransformer",
+      "operation": "sample",
+      "params": {
+       "args": [
+        1280
+       ],
+       "effective": {
+        "c_in": 384,
+        "c_out": 256,
+        "h_in": 2,
+        "params": 625664,
+        "stride": 32.0,
+        "w_in": 2
+       },
+       "from": -1,
+       "module": "NASWindowTransformer",
+       "repeats": 2,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#22",
+      "position": 22,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     },
+     {
+      "mutated": false,
+      "name": "Detect",
+      "operation": "inherit",
+      "params": {
+       "args": [
+        "nc"
+       ],
+       "effective": {
+        "c_in": 448,
+        "c_out": null,
+        "h_in": 8,
+        "params": 430867,
+        "stride": null,
+        "w_in": 8
+       },
+       "from": [
+        16,
+        19,
+        22
+       ],
+       "module": "Detect",
+       "repeats": 1,
+       "scope": "head"
+      },
+      "parent_block_id": "yolo11n:native#23",
+      "position": 23,
+      "source": "yolo11n:native",
+      "source_kind": "random"
+     }
+    ],
+    "candidate_id": "run-a34f25cb5d00:GA:s101:g00:c001",
+    "candidate_status": "EVAL_FAILED",
+    "checkpoint_path": null,
+    "checkpoint_sha256": null,
+    "comparison_group": "common_scratch",
+    "device": "NVIDIA RTX A6000",
+    "epoch_target_total": 1,
+    "epochs": 1,
+    "evaluation_hash": "pending",
+    "execution_mode": "PILOT",
+    "family": "NAS:hybrid_backbone",
+    "fitness": null,
+    "fitness_weights": {
+     "ap": 0.2,
+     "latency_reward": 0.4,
+     "recall": 0.1,
+     "size_reward": 0.3
+    },
+    "generation": 0,
+    "id": "run-a34f25cb5d00:GA:s101:g00:c001.L0.eval",
+    "job_id": "job-69ecb8e2064545bf",
+    "latency_ms": null,
+    "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+    "latency_source": "pending",
+    "name": "GA-G00-C001",
+    "namespace": "pilot_smoke",
+    "objective_hash": "sha256:e373e350d018cc7b7b2d88bcb813f64f141f0e6eec7c5356cf65bd0161eccb92",
+    "parents": [],
+    "precision": "FP16",
+    "protocol_hash": "sha256:5ab95c51a81ea092b7c9101720215bbd367be539903ea12559206e15720fb4c8",
+    "reason_code": "EVAL_FAILED",
+    "recall": null,
+    "requested_input_shape": [
+     64,
+     64
+    ],
+    "resolved_input_shape": [
+     64,
+     64
+    ],
+    "revision": 1,
+    "rung": "L0",
+    "search_seed": 101,
+    "size_mb": null,
+    "split_hash": "sha256:9b23bcafa80cbeb493cb1d0b6e8cafbffae7339dec418472b73e62eaa981d7a7",
+    "status": "EVAL_FAILED",
+    "supersedes_evaluation_id": null,
+    "training_seed": 1428259896,
+    "training_status": "UNTRAINED"
+   },
+   "created_at": "2026-10-27T18:22:24.104235Z"
+  },
+  {
+   "seq": 22,
+   "type": "generation.completed",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "arm": "GA",
+    "comparison_group": "common_scratch",
+    "complete": true,
+    "evaluated_count": 0,
+    "failed_count": 2,
+    "generation": 0,
+    "not_admitted_count": 0,
+    "pending_count": 0,
+    "planned_count": 2,
+    "planning_closed": true,
+    "representative_candidate_id": null,
+    "representative_evaluation_id": null,
+    "representative_rule": "current-rung highest fitness → lower latency → stable candidate id",
+    "representative_selection_rule": "current-rung highest fitness → lower latency → stable candidate id",
+    "rung": "L0",
+    "search_seed": 101
+   },
+   "created_at": "2026-10-27T18:22:24.117916Z"
+  },
+  {
+   "seq": 23,
+   "type": "run.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "budget": {
+     "arms": [
+      "GA"
+     ],
+     "baseline_s": 900.0,
+     "final_s": null,
+     "search_per_arm_seed_s": 2700.0,
+     "search_scope": "per_arm_per_seed",
+     "seeds": [
+      101
+     ],
+     "unit": "gpu_seconds"
+    },
+    "costs": {
+     "actual_gpu_seconds": 6.508779,
+     "failed_gpu_seconds": 6.508779,
+     "ga_billed_gpu_seconds": 6.508779,
+     "overshoot_gpu_seconds": 0.0,
+     "overshoot_gpu_seconds.GA.seed_101": 0.0
+    },
+    "created_at": "2026-10-27T18:22:04.165083Z",
+    "execution_mode": "PILOT",
+    "id": "run-a34f25cb5d00",
+    "kind": "SEARCH",
+    "namespace": "pilot_smoke",
+    "parent_run_id": null,
+    "preset": "PILOT_SMOKE",
+    "protocol_canonicalization": "mbnas-canon/1 sha256",
+    "protocol_hash": "sha256:5ab95c51a81ea092b7c9101720215bbd367be539903ea12559206e15720fb4c8",
+    "purpose": "SMOKE",
+    "reason_code": "NO_SUCCESSFUL_EVALUATION",
+    "source_commit": "sha256:cd42e89b54d40c8913807fe05d078435626e335c79bf866b3a77b83277e61a22",
+    "status": "FAILED",
+    "terminal": true,
+    "updated_at": "2026-10-27T18:22:24.119394Z"
+   },
+   "created_at": "2026-10-27T18:22:24.119846Z"
+  },
+  {
+   "seq": 24,
+   "type": "worker.updated",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "device": "cpu",
+    "device_name": "CPU (CUDA_VISIBLE_DEVICES='')",
+    "heartbeat_at": "2026-10-27T18:22:24.121424Z",
+    "id": "runner-t4-sandbox",
+    "runner_id": "runner-t4-sandbox",
+    "runtime_manifest_status": "verified",
+    "status": "idle"
+   },
+   "created_at": "2026-10-27T18:22:24.121703Z"
+  },
+  {
+   "seq": 25,
+   "type": "log",
+   "run_id": "run-a34f25cb5d00",
+   "payload": {
+    "candidate_id": "run-a34f25cb5d00:GA:s101:g00:c001",
+    "forced_policy": "keep_all",
+    "level": "info",
+    "message": "remote run: retention policy last_rung_end_only not applied, forced keep_all until the prune round trip (WP-5)",
+    "policy": "last_rung_end_only",
+    "reason_code": "REMOTE_RETENTION_FORCED"
+   },
+   "created_at": "2026-10-27T18:22:24.124752Z"
+  }
+ ]
+}

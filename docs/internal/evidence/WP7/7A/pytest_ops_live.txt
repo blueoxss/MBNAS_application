@@ -1,0 +1,10 @@
+# 2026-10-27T04:46:16Z MBNAS_TEST_OPS_ROOT='/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application' MBNAS_TEST_OPS_PROFILE=public pytest tests/public/ops/test_ops_live.py -m live -v
+tests/public/ops/test_ops_live.py::test_doctor_origin_checks PASSED      [ 50%]
+tests/public/ops/test_ops_live.py::test_verify_relocation PASSED         [100%]
+
+============================== 2 passed in 2.99s ===============================
+# 2026-10-27T04:46:19Z MBNAS_TEST_OPS_ROOT='/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application' MBNAS_TEST_OPS_PROFILE=owner pytest tests/public/ops/test_ops_live.py -m live -v
+tests/public/ops/test_ops_live.py::test_doctor_origin_checks PASSED      [ 50%]
+tests/public/ops/test_ops_live.py::test_verify_relocation PASSED         [100%]
+
+============================== 2 passed in 4.50s ===============================

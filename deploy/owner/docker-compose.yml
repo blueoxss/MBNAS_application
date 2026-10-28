@@ -1,0 +1,156 @@
+# MBNAS Research Console 0.1.0 - OWNER deployment (PRIVATE; DD-A31, WP-7 section 1b): core API (port 8700) + owner
+# worker (PROPOSE_GENERATION jobs, CPU). Optional profiles turn the owner host into an all-in-one host:
+#   all-in-one : gateway (user API /api/v1 + web console, port 8710)
+#   gpu        : runner on GPU ${MBNAS_RUNNER_GPU:-0} (NVIDIA Container Toolkit)
+#   cpu        : runner on the CPU (CUDA_VISIBLE_DEVICES set and empty, DD-A32)
+#
+# Files, relative to the unpacked OWNER ZIP root (the build context); per-role env files, mode 0600:
+#   config/owner/core.env     from config/examples/core.env.example (MBNAS_CORE_API_TOKEN, _ARTIFACT_SIGNING_KEY,
+#                             _TICKET_KEY, ...) - read by core and owner-worker
+#   config/owner/gateway.env  from config/examples/gateway.env.example (profile all-in-one)
+#   config/owner/runner.env   from config/examples/runner.env.example (profiles gpu / cpu)
+#   runtime/                  all state (core DB, runs, artifacts, logs, weights), writable by MBNAS_UID
+#   data/                     datasets, mounted read-only at /srv/mbnas/data in every container
+# Never use config/examples/owner-all-in-one.env.example as an env_file here: it holds the core secrets and env_file
+# would export them into the gateway and runner containers.
+#
+# Usage, from the unpacked owner ZIP root:
+#   export MBNAS_UID=$(id -u) MBNAS_GID=$(id -g)
+#   docker compose -f deploy/owner/docker-compose.yml build
+#   docker compose -f deploy/owner/docker-compose.yml up -d                          # core + owner worker
+#   docker compose -f deploy/owner/docker-compose.yml run --rm core principal create --kind server
+#   docker compose -f deploy/owner/docker-compose.yml run --rm core principal create --kind runner --runner-id <id>
+#       (tokens are printed once: put them into config/owner/gateway.env / runner.env or hand them to the customer)
+#   docker compose -f deploy/owner/docker-compose.yml --profile all-in-one --profile gpu up -d   # + gateway + GPU runner
+#   docker compose -f deploy/owner/docker-compose.yml --profile all-in-one --profile cpu up -d   # + gateway + CPU runner
+# All-in-one wiring: gateway and runners share the core container's network namespace (network_mode service:core), so
+# their core URL is loopback (http://127.0.0.1:8700), which both accept without TLS and without
+# MBNAS_GW_CORE_ALLOW_INSECURE_HTTP; the gateway port is therefore published by the core service (MBNAS_GW_PUBLISH).
+# Every container sees the datasets at /srv/mbnas/data, so the core checks the protocol paths itself (gateway dataset
+# roots empty) and the runner reads the same paths.
+# Publish the core beyond 127.0.0.1 only behind a TLS reverse proxy: remote runners require https.
+name: mbnas-owner
+
+x-mbnas-owner: &mbnas-owner
+  image: ${MBNAS_OWNER_IMAGE:-mbnas-owner:0.1.0}
+  build:
+    context: ../..
+    dockerfile: deploy/owner/Dockerfile
+  user: "${MBNAS_UID:-10001}:${MBNAS_GID:-10001}"
+  init: true
+  volumes:
+    - ../../runtime:/srv/mbnas/runtime
+    - ../../data:/srv/mbnas/data:ro
+
+x-core-env: &core-env
+  MBNAS_HOME: /srv/mbnas/runtime
+  MBNAS_CORE_HOST: 0.0.0.0
+  MBNAS_CORE_PORT: "8700"
+  MBNAS_CORE_DATASET_ROOTS: /srv/mbnas/data
+  MBNAS_CORE_DEVICE_SOURCE: runners   # no NVML inside this container: use the devices of the registered runners
+
+x-runner-env: &runner-env
+  MBNAS_HOME: /srv/mbnas/runtime
+  MBNAS_RUNNER_CORE_URL: http://127.0.0.1:8700
+  MBNAS_RUNNER_DATASET_ROOTS: /srv/mbnas/data
+  MBNAS_RUNNER_ARTIFACT_TRANSFER: local     # same-host store shared with the gateway (same runtime/ volume)
+  MBNAS_RUNNER_ARTIFACT_STORE_DIR: /srv/mbnas/runtime/gateway/artifacts
+  MBNAS_RUNNER_ARTIFACT_STORE_MODE: same-uid  # gateway and runner run as the same uid (`user:` above)
+  MBNAS_RUNNER_ALLOW_PICKLE_RESUME: "true"   # owner profile (DD-A20): the owner's own RF-DETR checkpoints
+
+services:
+  core:
+    <<: *mbnas-owner
+    command: ["core"]
+    env_file:
+      - ../../config/owner/core.env
+    environment:
+      <<: *core-env
+    ports:
+      - "${MBNAS_CORE_PUBLISH:-127.0.0.1:8700}:8700"
+      # the all-in-one gateway listens in this network namespace (unused while profile all-in-one is off)
+      - "${MBNAS_GW_PUBLISH:-127.0.0.1:8710}:8710"
+    healthcheck:
+      # liveness only: any HTTP answer below 500 (401 without a token) means the core serves requests
+      test: ["CMD", "python", "-c", "import http.client,sys; c=http.client.HTTPConnection('127.0.0.1', 8700, timeout=5); c.request('GET','/core/v1/console/health'); sys.exit(0 if c.getresponse().status < 500 else 1)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    stop_grace_period: 30s
+    restart: unless-stopped
+
+  owner-worker:
+    <<: *mbnas-owner
+    command: ["owner-worker"]
+    env_file:
+      - ../../config/owner/core.env
+    environment:
+      <<: *core-env
+    depends_on:
+      - core
+    stop_grace_period: 60s
+    restart: unless-stopped
+
+  gateway:
+    <<: *mbnas-owner
+    profiles: ["all-in-one"]
+    command: ["gateway"]
+    network_mode: "service:core"   # loopback core URL; port 8710 is published by the core service
+    env_file:
+      - ../../config/owner/gateway.env
+    environment:
+      MBNAS_HOME: /srv/mbnas/runtime
+      MBNAS_GW_HOST: 0.0.0.0
+      MBNAS_GW_PORT: "8710"
+      MBNAS_GW_WEB_DIST: /opt/mbnas/web/dist
+      MBNAS_GW_CORE_URL: http://127.0.0.1:8700
+      MBNAS_GW_ARTIFACT_STORE: /srv/mbnas/runtime/gateway/artifacts
+    depends_on:
+      - core
+    healthcheck:
+      test: ["CMD", "python", "-c", "import http.client,sys; c=http.client.HTTPConnection('127.0.0.1', 8710, timeout=5); c.request('GET','/api/v1/health'); sys.exit(0 if c.getresponse().status in (200,401) else 1)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    stop_grace_period: 30s
+    restart: unless-stopped
+
+  runner:
+    <<: *mbnas-owner
+    profiles: ["gpu"]
+    command: ["runner"]
+    network_mode: "service:core"
+    env_file:
+      - ../../config/owner/runner.env
+    environment:
+      <<: *runner-env
+    shm_size: ${MBNAS_RUNNER_SHM_SIZE:-8gb}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${MBNAS_RUNNER_GPU:-0}"]
+              capabilities: [gpu]
+    depends_on:
+      - core
+    stop_grace_period: 90s
+    restart: unless-stopped
+
+  runner-cpu:
+    <<: *mbnas-owner
+    profiles: ["cpu"]
+    command: ["runner"]
+    network_mode: "service:core"
+    env_file:
+      - ../../config/owner/runner.env
+    environment:
+      <<: *runner-env
+      CUDA_VISIBLE_DEVICES: ""
+    shm_size: ${MBNAS_RUNNER_SHM_SIZE:-2gb}
+    depends_on:
+      - core
+    stop_grace_period: 90s
+    restart: unless-stopped

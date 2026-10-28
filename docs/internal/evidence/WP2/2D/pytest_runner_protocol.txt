@@ -1,0 +1,152 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.22, pytest-9.1.1, pluggy-1.6.0 -- /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python
+rootdir: /home/mgjeong/Desktop/etri_hd/mbnas_application
+configfile: pyproject.toml
+plugins: anyio-4.15.1, timeout-2.4.0
+timeout: 600.0s
+timeout method: signal
+timeout func_only: False
+collecting ... collected 40 items
+
+tests/owner/runner_protocol/test_t3_auth.py::test_runner_token_bound_to_other_runner_id_is_403 PASSED [  2%]
+tests/owner/runner_protocol/test_t3_auth.py::test_expired_or_revoked_token_is_401 PASSED [  5%]
+tests/owner/runner_protocol/test_t3_auth.py::test_server_scope_token_cannot_call_runner_routes PASSED [  7%]
+tests/owner/runner_protocol/test_t3_auth.py::test_rotated_token_overlaps_for_grace_then_old_is_rejected PASSED [ 10%]
+tests/owner/runner_protocol/test_t3_auth.py::test_runner_refuses_plain_http_to_non_loopback_core PASSED [ 12%]
+tests/owner/runner_protocol/test_t3_auth.py::test_runner_routes_have_their_own_32mib_body_limit PASSED [ 15%]
+tests/owner/runner_protocol/test_t3_body_limit.py::test_result_body_over_limit_is_413_and_runner_externalises_per_sample FAILED [ 17%]
+tests/owner/runner_protocol/test_t3_claim.py::test_two_runners_never_claim_the_same_job PASSED [ 20%]
+tests/owner/runner_protocol/test_t3_claim.py::test_claim_rejects_kind_outside_allowlist PASSED [ 22%]
+tests/owner/runner_protocol/test_t3_claim.py::test_claim_retry_returns_same_leased_job_without_new_attempt PASSED [ 25%]
+tests/owner/runner_protocol/test_t3_claim.py::test_envelope_native_params_equal_child_load_context PASSED [ 27%]
+tests/owner/runner_protocol/test_t3_claim.py::test_lease_without_start_is_not_billed_after_sweep PASSED [ 30%]
+tests/owner/runner_protocol/test_t3_claim.py::test_owner_worker_leases_propose_generation_and_runner_never_sees_it PASSED [ 32%]
+tests/owner/runner_protocol/test_t3_claim.py::test_owner_mode_wait_gpu_clear_never_calls_nvml PASSED [ 35%]
+tests/owner/runner_protocol/test_t3_commit.py::test_result_replay_same_digest_returns_stored_response_without_side_effects PASSED [ 37%]
+tests/owner/runner_protocol/test_t3_commit.py::test_result_with_different_digest_is_409_conflict PASSED [ 40%]
+tests/owner/runner_protocol/test_t3_commit.py::test_result_processing_row_yields_202_with_retry_after_and_sweeper_clears_orphan PASSED [ 42%]
+tests/owner/runner_protocol/test_t3_commit.py::test_sweeper_reclaims_expired_lease_and_bills_lost_window PASSED [ 45%]
+tests/owner/runner_protocol/test_t3_commit.py::test_sweeper_fails_job_and_candidate_when_attempts_exhausted PASSED [ 47%]
+tests/owner/runner_protocol/test_t3_commit.py::test_stale_succeeded_result_is_discarded_and_lost_row_extended_once PASSED [ 50%]
+tests/owner/runner_protocol/test_t3_commit.py::test_lost_lease_without_reclaim_row_appends_one_lost_row PASSED [ 52%]
+tests/owner/runner_protocol/test_t3_commit.py::test_stale_attempt_of_same_runner_cannot_renew_touch_or_finish PASSED [ 55%]
+tests/owner/runner_protocol/test_t3_commit.py::test_core_restart_between_claim_and_result_preserves_lease_and_commit PASSED [ 57%]
+tests/owner/runner_protocol/test_t3_commit.py::test_commit_exception_rolls_back_and_leaves_no_idempotent_row PASSED [ 60%]
+tests/owner/runner_protocol/test_t3_commit.py::test_runner_without_heartbeat_is_reported_lost PASSED [ 62%]
+tests/owner/runner_protocol/test_t3_control.py::test_heartbeat_returns_pause_then_null_after_withdrawal PASSED [ 65%]
+tests/owner/runner_protocol/test_t3_control.py::test_pause_at_epoch_boundary_then_resume_over_http PASSED [ 67%]
+tests/owner/runner_protocol/test_t3_control.py::test_cancel_control_terminates_child_and_commits_cancelled PASSED [ 70%]
+tests/owner/runner_protocol/test_t3_control.py::test_succeeded_result_after_cancel_request_is_recorded_cancelled PASSED [ 72%]
+tests/owner/runner_protocol/test_t3_control.py::test_heartbeat_after_reclaim_is_409_lease_lost PASSED [ 75%]
+tests/owner/runner_protocol/test_t3_control.py::test_runner_shutdown_requeues_without_consuming_retry PASSED [ 77%]
+tests/owner/runner_protocol/test_t3_files.py::test_runner_recomputes_checkpoint_sha_and_rejects_tampered_file FAILED [ 80%]
+tests/owner/runner_protocol/test_t3_files.py::test_core_rejects_checkpoint_without_digest_wrong_kind_or_stale_attempt PASSED [ 82%]
+tests/owner/runner_protocol/test_t3_files.py::test_result_artifacts_resolve_to_preregistered_rows_without_hashing PASSED [ 85%]
+tests/owner/runner_protocol/test_t3_files.py::test_execution_configuration_report_updates_candidate_without_core_file_access PASSED [ 87%]
+tests/owner/runner_protocol/test_t3_files.py::test_progress_batch_touches_job_and_emits_one_candidate_updated_per_batch PASSED [ 90%]
+tests/owner/runner_protocol/test_t3_owner_generation.py::test_sigkill_mid_generation_recovers_saved_candidates_once PASSED [ 92%]
+tests/owner/runner_protocol/test_t3_restart.py::test_runner_restart_without_result_reports_child_exit_no_result_and_resumes PASSED [ 95%]
+tests/owner/runner_protocol/test_t3_restart.py::test_runner_journal_replays_result_then_ack[after] PASSED [ 97%]
+tests/owner/runner_protocol/test_t3_restart.py::test_runner_journal_replays_result_then_ack[before] PASSED [100%]
+
+=================================== FAILURES ===================================
+____ test_result_body_over_limit_is_413_and_runner_externalises_per_sample _____
+
+core = <starlette.testclient.TestClient object at 0x7f4d766aaf80>
+runner_sim = <runner_sim.RunnerSim object at 0x7f4eca7fc8b0>
+daemon_factory = <function daemon_factory.<locals>.build at 0x7f4d76694160>
+base_proto = <function base_proto.<locals>.build at 0x7f4d766944c0>
+db = <sqlite3.Connection object at 0x7f4d76d97d40>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f4d76536fb0>
+
+    def test_result_body_over_limit_is_413_and_runner_externalises_per_sample(core, runner_sim, daemon_factory, base_proto,
+                                                                              db, monkeypatch):
+        monkeypatch.setenv("MBNAS_JOB_HANDLERS_MODULE", "remote_handlers")
+        monkeypatch.setenv("MBNAS_STUB_PER_SAMPLE_BYTES", str(400 << 10))
+        run_id, _ = harness.validate_and_run(core, base_proto())
+        # (a) the core: a commit above the runner limit is 413 PAYLOAD_TOO_LARGE
+        runner_sim.register()
+        lease = runner_sim.claim()
+        out = runner_sim.run_attempt(lease, commit=False)
+        assert len(str(out["result"].outputs["evaluation"]["per_sample"])) > LIMIT
+        body = runner_sim.commit_body(lease, out["result"], artifact_ids=out["artifact_ids"])
+        r = runner_sim.result(lease, body)
+        assert r.status_code == 413 and r.json()["code"] == "PAYLOAD_TOO_LARGE"
+        assert repo.get_job(db, lease.job_id)["status"] == "RUNNING"
+        runner_sim.deregister()
+        # (b) the runner daemon on a fresh job of the same shape: the commit must get through below the limit
+        run2, _ = harness.validate_and_run(core, base_proto(), key="idem-t333")
+        d = daemon_factory("R2")
+        d.run(max_jobs=1)
+        job = repo.list_jobs(db, run2)[0]
+>       assert job["status"] == "SUCCEEDED", (job["status"], job.get("error"))
+E       AssertionError: ('RUNNING', None)
+E       assert 'RUNNING' == 'SUCCEEDED'
+E         
+E         - SUCCEEDED
+E         + RUNNING
+
+tests/owner/runner_protocol/test_t3_body_limit.py:45: AssertionError
+----------------------------- Captured stdout call -----------------------------
+library noise on stdout must not break the JSONL protocol
+----------------------------- Captured stderr call -----------------------------
+2026-10-26T12:01:54.862104Z runner R2: result refused for job-ea2a80a4c80042c5 attempt 1: HTTP 413 PAYLOAD_TOO_LARGE: request body larger than 262144 bytes
+_______ test_runner_recomputes_checkpoint_sha_and_rejects_tampered_file ________
+
+core = <starlette.testclient.TestClient object at 0x7f4d7630d570>
+daemon_factory = <function daemon_factory.<locals>.build at 0x7f4ec8c4a320>
+base_proto = <function base_proto.<locals>.build at 0x7f4ec8c4b400>
+db = <sqlite3.Connection object at 0x7f4d76712540>
+
+    def test_runner_recomputes_checkpoint_sha_and_rejects_tampered_file(core, daemon_factory, base_proto, db):
+        """T3-23 / F17 (test_worker_integrity.py:46 on the runner daemon): the daemon recomputes the file sha256; a
+        tampered file, or a report without digest, is not registered and reaches the run as a CHECKPOINT_REPORT_REJECTED
+        error log through the next progress batch; an upper-case ``sha256:``-prefixed digest is normalised."""
+        from mbnas_runner.client import JobFence
+        from mbnas_runner.daemon import _Live
+        from mbnas_runner.envelope import run_dir_for
+        from mbnas_runner.journal import AttemptJournal
+    
+        run_id, _ = harness.validate_and_run(core, base_proto())
+        d = daemon_factory()
+        d.register()
+        claim = d.client.claim(d.kinds)
+        fence = JobFence.from_claim(claim)
+        j = AttemptJournal.create(d.settings.work_root, fence.job_id, fence.attempt)
+        j.record_claim(claim)
+        assert d._start(j, fence) is not None
+        env = claim["envelope"]
+        base = run_dir_for(d.settings.work_root, run_id)
+        live = _Live()
+        good = base / "candidates" / "ck" / "full_e0001.pt"
+        good.parent.mkdir(parents=True, exist_ok=True)
+        good.write_bytes(b"A" * 4096)
+        d._checkpoint(j, fence, env, _report(good), live, base)
+        rows = repo.list_checkpoints(db, run_id)
+        assert len(rows) == 1 and rows[0]["sha256"] == hashlib.sha256(b"A" * 4096).hexdigest()
+        assert _errors(db, run_id) == []
+    
+        # Same size, different bytes: the child reported the digest of the original content.
+        tampered = base / "candidates" / "ck" / "full_e0002.pt"
+        tampered.write_bytes(b"B" * 4096)
+        report = _report(tampered, epoch=2)
+        tampered.write_bytes(b"C" * 4096)
+        d._checkpoint(j, fence, env, report, live, base)
+        d._flush_progress(j, fence, live)
+        assert [r["epoch"] for r in repo.list_checkpoints(db, run_id)] == [1], "tampered file was registered"
+        errs = _errors(db, run_id)
+        assert len(errs) == 1 and errs[0]["reason_code"] == "CHECKPOINT_REPORT_REJECTED"
+>       assert "sha256 mismatch" in errs[0]["message"]
+E       AssertionError: assert 'sha256 mismatch' in 'CHECKPOINT_REPORT_REJECTED'
+
+tests/owner/runner_protocol/test_t3_files.py:69: AssertionError
+=============================== warnings summary ===============================
+tests/owner/runner_protocol/test_t3_auth.py::test_runner_token_bound_to_other_runner_id_is_403
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/owner/runner_protocol/test_t3_body_limit.py::test_result_body_over_limit_is_413_and_runner_externalises_per_sample
+FAILED tests/owner/runner_protocol/test_t3_files.py::test_runner_recomputes_checkpoint_sha_and_rejects_tampered_file
+============== 2 failed, 38 passed, 1 warning in 84.55s (0:01:24) ==============

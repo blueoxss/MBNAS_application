@@ -1,0 +1,72 @@
+{
+ "run_id": "train-f64352dd29b7",
+ "candidate_id": "model-b271a6289882",
+ "revisions": [
+  {
+   "kind": "original",
+   "revision_id": "rev-bc331c5ce71cf73f",
+   "source_sha256": "sha256:ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720",
+   "http": 200,
+   "body_sha256": "ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720",
+   "x_artifact_sha256": "ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720"
+  },
+  {
+   "kind": "selected",
+   "revision_id": "rev-986ed689835ae460",
+   "source_sha256": "sha256:0e47ec6b95d7f8beb17f3326730db8d709d41fd3a1d0f566fb71df91c074030e",
+   "http": 200,
+   "body_sha256": "0e47ec6b95d7f8beb17f3326730db8d709d41fd3a1d0f566fb71df91c074030e",
+   "x_artifact_sha256": "0e47ec6b95d7f8beb17f3326730db8d709d41fd3a1d0f566fb71df91c074030e"
+  },
+  {
+   "kind": "executed",
+   "revision_id": "rev-f2c60d60088699b0",
+   "source_sha256": "sha256:e1d49bbe4a28ec1317c528cd5600a5b50f067fd687b309beecaf568ec9e54c21",
+   "http": 200,
+   "body_sha256": "e1d49bbe4a28ec1317c528cd5600a5b50f067fd687b309beecaf568ec9e54c21",
+   "x_artifact_sha256": "e1d49bbe4a28ec1317c528cd5600a5b50f067fd687b309beecaf568ec9e54c21"
+  }
+ ],
+ "export_http": 200,
+ "export_bytes": 22181,
+ "x_bundle_sha256_matches_body": true,
+ "members": 21,
+ "architecture_members": [
+  {
+   "name": "architectures/art-9547aa25451f8109a26a.yaml",
+   "bytes": 1318,
+   "sha256": "e1d49bbe4a28ec1317c528cd5600a5b50f067fd687b309beecaf568ec9e54c21",
+   "equals_revision": [
+    "executed"
+   ]
+  },
+  {
+   "name": "architectures/art-e4fcd0ed15f31f9cf1f3.yaml",
+   "bytes": 975,
+   "sha256": "0e47ec6b95d7f8beb17f3326730db8d709d41fd3a1d0f566fb71df91c074030e",
+   "equals_revision": [
+    "selected"
+   ]
+  }
+ ],
+ "sha256sums_all_match": true,
+ "export_objects": [
+  {
+   "id": "art-e4fcd0ed15f31f9cf1f3",
+   "kind": "architecture",
+   "name": "architectures/art-e4fcd0ed15f31f9cf1f3.yaml",
+   "included": true,
+   "reason": null,
+   "origin": null
+  },
+  {
+   "id": "art-9547aa25451f8109a26a",
+   "kind": "architecture",
+   "name": "architectures/art-9547aa25451f8109a26a.yaml",
+   "included": true,
+   "reason": null,
+   "origin": null
+  }
+ ],
+ "host_path_in_zip": false
+}

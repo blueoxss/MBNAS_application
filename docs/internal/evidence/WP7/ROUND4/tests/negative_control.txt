@@ -1,0 +1,115 @@
+ROUND 4 tests track - negative controls (scratch only; nothing in the project tree was modified to run them).
+Generated 2026-10-27T23:45:05Z. Paths: <ROOT> = TARGET_ROOT, <SCRATCH> = this track's session scratch directory.
+
+A. tests/owner/projection/test_runner_route_canary.py (C02-D2) - pytest plugin <SCRATCH>/negctl/round4_negctl_plugin.py
+   loaded with PYTHONPATH=<SCRATCH>/negctl and -p round4_negctl_plugin; it monkeypatches the running core only.
+
+--- R4_NEGCTL=nofilter
+   command: runtime/venv/bin/python -B -m pytest tests/owner/projection/test_runner_route_canary.py -p round4_negctl_plugin -m not gpu and not live and not legacy_records and not host_data --timeout=180 -v -s -p no:cacheprovider --basetemp <SCRATCH>/pt_negctl_nofilter
+   exit: 1
+   FAILED tests/owner/projection/test_runner_route_canary.py::test_runner_route_bodies_hold_no_owner_only_data
+   ==================== 1 failed, 1 passed, 1 warning in 7.09s ====================
+   first assertion: E       AssertionError: [('POST', 'POST /claim', 200), ('POST', 'POST /claim', 200), ('POST', 'POST /claim', 200), ('POST', 'POST /claim', 200), ('POST', 'POST /claim', 200), ('POST', 'POST /claim', 200), ...]
+
+--- R4_NEGCTL=allowpropose
+   command: runtime/venv/bin/python -B -m pytest tests/owner/projection/test_runner_route_canary.py -p round4_negctl_plugin -m not gpu and not live and not legacy_records and not host_data --timeout=180 -v -s -p no:cacheprovider --basetemp <SCRATCH>/pt_negctl_allowpropose
+   exit: 1
+   FAILED tests/owner/projection/test_runner_route_canary.py::test_runner_token_never_leases_the_policy_job
+   ==================== 1 failed, 1 passed, 1 warning in 7.09s ====================
+   first assertion: E       AssertionError: {"envelope":{"envelope_version":1,"job":{"job_id":"job-6b5bcce6f6de42dd","attempt":1,"kind":"PROPOSE_GENERATION","lease_expires_at":"2026-10-27T23:41:00.232326Z","leased_at":"2026-10-27T23:40:30.232326Z","spec":{"arm":"GA","candidate_id":null,"cumulative_target":null,"fixed_horizon":null,"job_id":"job-6b5bcce6f6de42dd","kind":"PROPOSE_GENERATION","params":{},"protocol_hash"
+
+   Expected and observed: nofilter -> the owner-only params seeded into jobs.spec_json reach all 18 claim envelopes and
+   test_runner_route_bodies_hold_no_owner_only_data FAILS (marker hits on POST /claim); test_runner_token_never_leases_the_policy_job
+   still passes. allowpropose -> an explicit PROPOSE_GENERATION claim is answered 200 with the policy job's envelope and
+   test_runner_token_never_leases_the_policy_job FAILS (200 != 400); the canary test still passes.
+
+B. tests/owner/orchestration/test_final_retrain_excludes_not_evaluated.py (C03-D6) - same plugin, R4_NEGCTL=finalfilter
+   (final_retrain.eligible_rows keeps every last-rung search row: status / immutability / measured-latency filters removed)
+   command: runtime/venv/bin/python -B -m pytest tests/owner/orchestration/test_final_retrain_excludes_not_evaluated.py -p round4_negctl_plugin -m not gpu and not live and not legacy_records and not host_data --timeout=180 -v -p no:cacheprovider --basetemp <SCRATCH>/pt_negctl_finalfilter
+   exit: 1
+   FAILED tests/owner/orchestration/test_final_retrain_excludes_not_evaluated.py::test_not_evaluated_rows_are_never_finalists_but_measured_rows_are
+   FAILED tests/owner/orchestration/test_final_retrain_excludes_not_evaluated.py::test_only_not_evaluated_search_rows_is_no_finalist
+   ========================= 2 failed, 1 warning in 3.50s =========================
+   assertion: E           AssertionError: assert ([{'ap': 0.0, 'architecture_hash': 'sha256:66d708209a8701360589528623ced47fc597423b691e601315e08068da176c1a', 'architecture_id': 'sha256:66d708209a8701360589528623ced47fc597423b691e601315e08068da176c1a', 'architecture_path': None, ...}, {'ap': 0.0, 'architecture_ha
+   assertion: E       AssertionError: {"run_id":"run-26cb0a8e6b63","status":"QUEUED","protocol_hash":"sha256:b2cf36de89222c549fceb267fd2ba5a4b591af0ac98679eaeef98dbae3644cbe","created":true,"parent_run_id":"run-dfdb6787cd73","finalist_count":2,"kind":"FINAL_RETRAIN"}
+   Expected and observed: both tests FAIL (the GA NOT_EVALUATED rows become eligible; with every search row NOT_EVALUATED
+   the request is 200 with 2 finalists instead of 409 NO_FINALIST).
+
+C. tests/public/runner/test_runner_settings_no_db.py (C02-D1) - <SCRATCH>/negctl/negctl_settings.py run with
+   runtime/venv/bin/python -I -B from cwd /: the test's field checks against subclasses that add a core DB path, a core
+   secret, an MBNAS_CORE_ alias and an admin token; each planted defect must trip at least one check.
+   RunnerWithDb ->
+       test_no_core_db_or_core_credential_field: AssertionError (<bare assert>)
+       test_secret_fields_are_exactly_the_services_own: passed
+       test_env_names_stay_in_the_services_own_namespace: passed
+   RunnerWithCoreKey ->
+       test_no_core_db_or_core_credential_field: AssertionError (RunnerWithCoreKey has fields that name core state or a foreign credential: ['core_ticket_secret'])
+       test_secret_fields_are_exactly_the_services_own: AssertionError (RunnerWithCoreKey secret-bearing fields changed: ['core_ticket_secret', 'gateway_upload_token_file', 'token', 'token_fil)
+       test_env_names_stay_in_the_services_own_namespace: passed
+   RunnerWithCoreAlias ->
+       test_no_core_db_or_core_credential_field: passed
+       test_secret_fields_are_exactly_the_services_own: passed
+       test_env_names_stay_in_the_services_own_namespace: AssertionError (('RunnerWithCoreAlias', 'extra_root', ['MBNAS_CORE_DB_PATH']))
+   GatewayWithAdmin ->
+       test_no_core_db_or_core_credential_field: AssertionError (<bare assert>)
+       test_secret_fields_are_exactly_the_services_own: AssertionError (GatewayWithAdmin secret-bearing fields changed: ['admin_token', 'api_token', 'artifact_signing_key', 'core_token']; revi)
+       test_env_names_stay_in_the_services_own_namespace: passed
+   real classes: all checks pass
+   every planted defect caught by at least one check: True {'RunnerWithDb': True, 'RunnerWithCoreKey': True, 'RunnerWithCoreAlias': True, 'GatewayWithAdmin': True}
+   exit=0
+
+D. tests/public/runner/test_runner_entrypoint_redaction.py (C05-O2) carries its own control:
+   test_control_without_redaction_shows_the_secrets runs the same fresh-interpreter script without install_redaction() and
+   asserts that every synthetic secret appears and no '***' does (PASSED in every run below). A scratch check
+   (<SCRATCH>/after_check/test_zz_no_leftover_redaction.py, run in the same session after the file) found no
+   RedactSecretsFilter left on httpx / httpcore / mbnas_runner / root, their handlers (pytest's capture handlers
+   included) or logging.lastResort:
+   ::test_no_leftover_filters targets 9 left []
+   ============================== 6 passed in 0.81s ===============================
+
+--- plugin source (<SCRATCH>/negctl/round4_negctl_plugin.py)
+"""Scratch negative control of the round-4 tests track (NOT part of the project tree, loaded with
+`-p round4_negctl_plugin` and PYTHONPATH=<this dir>; the project files are not modified).
+
+R4_NEGCTL=nofilter      -> mbnas_core.runner_api.envelope.filter_params becomes the identity, so the owner-only params
+                           seeded into jobs.spec_json reach the runner's claim envelopes; the canary scan must FAIL.
+R4_NEGCTL=allowpropose  -> mbnas_core.runner_api.routes.ALLOWED_KINDS gains PROPOSE_GENERATION, so a runner may ask for
+                           the policy job; the "never leases the policy job" test must FAIL.
+R4_NEGCTL=finalfilter   -> mbnas_core.orchestration.final_retrain.eligible_rows keeps every last-rung search row (status,
+                           immutability and measured-latency filters removed; missing metrics read as 0 / 1), so NOT_EVALUATED
+                           rows become eligible; both final-retrain exclusion tests must FAIL.
+"""
+import os
+
+import pytest
+
+
+@pytest.fixture(autouse=True)
+def _round4_negative_control(monkeypatch):
+    mode = os.environ.get("R4_NEGCTL", "")
+    if mode == "nofilter":
+        import mbnas_core.runner_api.envelope as env
+        monkeypatch.setattr(env, "filter_params", lambda kind, params: dict(params))
+    elif mode == "allowpropose":
+        import mbnas_core.runner_api.routes as routes
+        monkeypatch.setattr(routes, "ALLOWED_KINDS", frozenset(routes.ALLOWED_KINDS) | {"PROPOSE_GENERATION"})
+    elif mode == "finalfilter":
+        import mbnas_core.orchestration.final_retrain as fr
+        from mbnas_core.db import repo
+
+        def loose(conn, parent):
+            last = fr._last_rung_id(parent["resolved_protocol"])
+            out = []
+            for ev in repo.list_evaluations(conn, parent["id"], include_superseded=False):
+                row = dict(ev["row"])
+                if row.get("arm") in fr.SEARCH_ARMS and row.get("rung") == last:
+                    row["ap"] = 0.0 if row.get("ap") is None else row["ap"]
+                    row["latency_ms"] = 1.0 if row.get("latency_ms") is None else row["latency_ms"]
+                    row["size_mb"] = 1.0 if row.get("size_mb") is None else row["size_mb"]
+                    out.append(row)
+            return out
+
+        monkeypatch.setattr(fr, "eligible_rows", loose)
+    elif mode:
+        raise RuntimeError(f"unknown R4_NEGCTL {mode!r}")
+    yield

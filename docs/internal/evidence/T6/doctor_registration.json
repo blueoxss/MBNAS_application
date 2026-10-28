@@ -1,0 +1,125 @@
+{
+ "schema": "mbnas.doctor/1",
+ "root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas registration test/mbnas_application",
+ "profile": "public",
+ "ok": true,
+ "counts": {
+  "PASS": 22,
+  "WARN": 0,
+  "FAIL": 0
+ },
+ "blocking": [],
+ "checks": [
+  {
+   "name": "interpreter",
+   "status": "PASS",
+   "detail": "Python 3.10.22 venv /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas registration test/mbnas_application/runtime/venv"
+  },
+  {
+   "name": "package:mbnas-contracts",
+   "status": "PASS",
+   "detail": "0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas registration test/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_contracts"
+  },
+  {
+   "name": "package:mbnas-model-runtime",
+   "status": "PASS",
+   "detail": "0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas registration test/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime"
+  },
+  {
+   "name": "package:mbnas-runner",
+   "status": "PASS",
+   "detail": "0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas registration test/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_runner"
+  },
+  {
+   "name": "package:mbnas-server",
+   "status": "PASS",
+   "detail": "0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas registration test/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_server"
+  },
+  {
+   "name": "package:mbnas-core",
+   "status": "PASS",
+   "detail": "absent (public profile)"
+  },
+  {
+   "name": "entry_points",
+   "status": "PASS",
+   "detail": "3 console scripts in runtime/venv/bin"
+  },
+  {
+   "name": "path_strings",
+   "status": "PASS",
+   "detail": "169 files scanned, no original-host path string"
+  },
+  {
+   "name": "config:gateway",
+   "status": "PASS",
+   "detail": "core_url http://127.0.0.1:18700, listen 127.0.0.1:18712; secrets set: MBNAS_GW_API_TOKEN, MBNAS_GW_ARTIFACT_SIGNING_KEY, MBNAS_GW_CORE_TOKEN"
+  },
+  {
+   "name": "config:runner",
+   "status": "PASS",
+   "detail": "core_url http://127.0.0.1:18700, runner_id runner-t6-registration; secrets set: MBNAS_RUNNER_TOKEN|_TOKEN_FILE"
+  },
+  {
+   "name": "process:gateway",
+   "status": "PASS",
+   "detail": "running (pid 2827854)"
+  },
+  {
+   "name": "process:runner",
+   "status": "PASS",
+   "detail": "running (pid 2828108)"
+  },
+  {
+   "name": "port:gateway",
+   "status": "PASS",
+   "detail": "127.0.0.1:18712 held by this tree's gateway (pid 2827854)"
+  },
+  {
+   "name": "port:web",
+   "status": "PASS",
+   "detail": "127.0.0.1:8720 free"
+  },
+  {
+   "name": "gpu",
+   "status": "PASS",
+   "detail": "GPU0 NVIDIA RTX A6000 578/49140 MiB util 18%; GPU1 NVIDIA RTX A6000 18/49140 MiB util 0%"
+  },
+  {
+   "name": "gateway:core_url",
+   "status": "PASS",
+   "detail": "loopback http"
+  },
+  {
+   "name": "core:gateway",
+   "status": "PASS",
+   "detail": "http://127.0.0.1:18700/core/v1/console/health -> HTTP 200 status=ok"
+  },
+  {
+   "name": "gateway:store",
+   "status": "PASS",
+   "detail": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas registration test/mbnas_application/runtime/gateway/artifacts"
+  },
+  {
+   "name": "gateway:log_dir",
+   "status": "PASS",
+   "detail": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas registration test/mbnas_application/runtime/gateway/logs"
+  },
+  {
+   "name": "core:runner",
+   "status": "PASS",
+   "detail": "http://127.0.0.1:18700 answers (HTTP 401 without a token)"
+  },
+  {
+   "name": "disk",
+   "status": "PASS",
+   "detail": "269.7 GB free under runtime/"
+  },
+  {
+   "name": "web_dist",
+   "status": "PASS",
+   "detail": "mbnas_web/dist present (served by the gateway at /)"
+  }
+ ],
+ "at": "2026-10-27T18:21:12Z"
+}

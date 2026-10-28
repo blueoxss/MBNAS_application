@@ -1,0 +1,25 @@
+{
+ "console": {
+  "paths": {
+   "output_root": "/ABSOLUTE/PATH/TO/MBNAS_runs/cpu_generation_only"
+  },
+  "search": {
+   "allow_duplicates": false,
+   "arms": [
+    "GA"
+   ],
+   "candidate_count": 2,
+   "evaluation_enabled": false,
+   "families": [
+    "yolo11n"
+   ],
+   "input_size": 64,
+   "max_attempts": 12,
+   "nc": 1,
+   "seeds": [
+    7
+   ]
+  }
+ },
+ "schema_version": "nas-policy/1"
+}

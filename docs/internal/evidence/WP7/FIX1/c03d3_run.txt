@@ -1,0 +1,11 @@
+2026-10-28T04:06:41+09:00
+..                                                                       [100%]
+=============================== warnings summary ===============================
+tests/owner/api/test_generation_real_cpu_training_status.py::test_real_off_run_serves_every_generated_candidate_as_untrained
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2 passed, 1 warning in 13.50s
+exit=0
+2026-10-28T04:06:56+09:00

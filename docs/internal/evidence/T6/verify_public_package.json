@@ -1,0 +1,37 @@
+{
+ "suite": "package",
+ "status": "PASS",
+ "counts": {
+  "manifest": {
+   "entries": 453,
+   "ok": 453,
+   "missing": 0,
+   "mismatch": 0,
+   "invalid": 0
+  },
+  "canary_scan": {
+   "exit_code": 0,
+   "scanner": "/home/mgjeong/Desktop/etri_hd/mbnas_application/scripts/dev/canary_scan.py",
+   "expect_present": false,
+   "host_facts": true,
+   "needle_count": 12,
+   "hits": 0,
+   "failing_hits": 0,
+   "unmet_expectations": 0,
+   "too_few_files": false,
+   "status": "PASS"
+  }
+ },
+ "evidence": [
+  "runtime/logs/verify/20261027T181603Z-public/package_manifest.json",
+  "runtime/logs/verify/20261027T181603Z-public/package_canary.log",
+  "runtime/logs/verify/20261027T181603Z-public/package_canary.json"
+ ],
+ "reason": "",
+ "duration_s": 0.3,
+ "profile": "public",
+ "schema": "mbnas.verify/1",
+ "root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application",
+ "started_at": "2026-10-27T18:16:03Z",
+ "finished_at": "2026-10-27T18:16:03Z"
+}

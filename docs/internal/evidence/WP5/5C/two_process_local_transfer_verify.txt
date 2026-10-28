@@ -1,0 +1,36 @@
+# WP-5C local transfer verification of smoke root /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp5c_smoke/20261027T044238Z (smoke exit 0)
+core rows: 4 checkpoints, 13 artifacts, 2 runner jobs, 13 artifact_locations
+OK   checkpoint ck-577af1dd1e286dc2          kind=training_full    sha=78835dcad96d3ce1 bytes= 31600161 stored=True sha_ok=True meta_ok=True inode=link meta.artifact_id=ck-577af1dd1e286dc2 registered_by=smoke-runner-1
+OK   checkpoint ck-8964a11ae3e3baec          kind=eval_ema         sha=a87f757963e57dd7 bytes= 10573964 stored=True sha_ok=True meta_ok=True inode=link meta.artifact_id=ck-8964a11ae3e3baec registered_by=smoke-runner-1
+OK   checkpoint ck-128f5d41ba96f782          kind=weights_only     sha=f1621e29b3776c10 bytes=  5360396 stored=True sha_ok=True meta_ok=True inode=link meta.artifact_id=ck-128f5d41ba96f782 registered_by=smoke-runner-1
+OK   checkpoint ck-c91569687984fa1c          kind=training_full    sha=caedee061721053a bytes=      163 stored=True sha_ok=True meta_ok=True inode=link meta.artifact_id=ck-c91569687984fa1c registered_by=smoke-runner-stub
+SKIP artifact   art-a8c5d7f41b1600da2d46     kind=architecture (no runner artifact_location)
+SKIP artifact   art-50c16166972be87060a9     kind=architecture (no runner artifact_location)
+SKIP artifact   art-8cc2fe28bf088186dcb2     kind=architecture (no runner artifact_location)
+OK   artifact   art-9d7f07aee27dc25a130d     kind=architecture     sha=e1d49bbe4a28ec13 bytes=     1318 stored=True sha_ok=True meta_ok=True inode=copy meta.artifact_id=art-9d7f07aee27dc25a130d registered_by=smoke-runner-1
+OK   artifact   art-5231e3fbd39ed68ed9bb     kind=other            sha=b7bae76297a9fd10 bytes=    73072 stored=True sha_ok=True meta_ok=True inode=copy meta.artifact_id=art-5231e3fbd39ed68ed9bb registered_by=smoke-runner-1
+OK   artifact   art-4a709ff7e4d4954632e8     kind=other            sha=9f1ed8b9f4a52027 bytes=    67585 stored=True sha_ok=True meta_ok=True inode=copy meta.artifact_id=art-4a709ff7e4d4954632e8 registered_by=smoke-runner-1
+OK   artifact   art-75af78920913867fb9ba     kind=other            sha=74eeb01ce6ce949c bytes=     4505 stored=True sha_ok=True meta_ok=True inode=copy meta.artifact_id=art-75af78920913867fb9ba registered_by=smoke-runner-1
+OK   artifact   art-ff325d0a0230316acb94     kind=other            sha=4d6c80283fa3780e bytes=     3441 stored=True sha_ok=True meta_ok=True inode=copy meta.artifact_id=art-ff325d0a0230316acb94 registered_by=smoke-runner-1
+SKIP artifact   art-2ce5f702a32da7d9e831     kind=architecture (no runner artifact_location)
+OK   artifact   art-0dc25a8ad66b517b0bbf     kind=gt               sha=03705fde78090793 bytes=       77 stored=True sha_ok=True meta_ok=True inode=link meta.artifact_id=art-0dc25a8ad66b517b0bbf registered_by=smoke-runner-stub
+OK   artifact   art-d9cf12554c59ebfe6b48     kind=tp               sha=03705fde78090793 bytes=       77 stored=True sha_ok=True meta_ok=True inode=copy meta.artifact_id=art-0dc25a8ad66b517b0bbf registered_by=smoke-runner-stub
+OK   artifact   art-5703ff306c6534476417     kind=fn               sha=03705fde78090793 bytes=       77 stored=True sha_ok=True meta_ok=True inode=copy meta.artifact_id=art-0dc25a8ad66b517b0bbf registered_by=smoke-runner-stub
+OK   artifact   art-a40cb75eb18cdca2264e     kind=fp               sha=03705fde78090793 bytes=       77 stored=True sha_ok=True meta_ok=True inode=copy meta.artifact_id=art-0dc25a8ad66b517b0bbf registered_by=smoke-runner-stub
+OK   job job-3daf19e8ba92444c BASELINE_TRAIN SUCCEEDED runner=smoke-runner-1 outputs.artifact_transfer={"failed": [], "mode": "local", "ok": true, "transferred": 8}
+OK   job job-f5a0f5cbe95c4ad4 BASELINE_TRAIN SUCCEEDED runner=smoke-runner-stub outputs.artifact_transfer={"failed": [], "mode": "local", "ok": true, "transferred": 5}
+temp names left in the store: []
+store objects: 10 (distinct digests registered by runners: 10, rows: 13)
+# verification result: PASS
+# gateway-side read of /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp5c_smoke/20261027T044238Z/gateway/artifacts with mbnas_server.artifacts.store.ArtifactStore (same uid as the runner)
+gateway: 03705fde78090793 bytes=       77 verify=True mode=664 links=2 meta.kind=gt meta.source=local
+gateway: 4d6c80283fa3780e bytes=     3441 verify=True mode=644 links=1 meta.kind=other meta.source=local
+gateway: 74eeb01ce6ce949c bytes=     4505 verify=True mode=644 links=1 meta.kind=other meta.source=local
+gateway: 78835dcad96d3ce1 bytes= 31600161 verify=True mode=600 links=2 meta.kind=checkpoint meta.source=local
+gateway: 9f1ed8b9f4a52027 bytes=    67585 verify=True mode=644 links=1 meta.kind=other meta.source=local
+gateway: a87f757963e57dd7 bytes= 10573964 verify=True mode=600 links=2 meta.kind=checkpoint meta.source=local
+gateway: b7bae76297a9fd10 bytes=    73072 verify=True mode=644 links=1 meta.kind=other meta.source=local
+gateway: caedee061721053a bytes=      163 verify=True mode=644 links=2 meta.kind=checkpoint meta.source=local
+gateway: e1d49bbe4a28ec13 bytes=     1318 verify=True mode=644 links=1 meta.kind=architecture meta.source=local
+gateway: f1621e29b3776c10 bytes=  5360396 verify=True mode=600 links=2 meta.kind=checkpoint meta.source=local
+gateway: 10 objects listed; sweep_tmp(max_age_s=0) removed []

@@ -1,0 +1,68 @@
+{
+ "health": {
+  "http": 200,
+  "status": "ok",
+  "core": {
+   "status": "ok",
+   "reachable": true
+  },
+  "allowlists": {
+   "dataset_roots": [],
+   "output_roots": [
+    "/srv/outputs"
+   ],
+   "archive_roots": []
+  },
+  "devices": [
+   "host-gpu-0",
+   "host-gpu-1"
+  ]
+ },
+ "health_noauth_http": 401,
+ "presets_http": 200,
+ "web_index_http": 200,
+ "upload_http": 200,
+ "structure_check": {
+  "http": 200,
+  "status": "PASS"
+ },
+ "calls": [
+  {
+   "call": "GET /api/v1/health",
+   "http": 200,
+   "bytes": 102395,
+   "request_id": "244f82f1aa7f40448fa2f705c9732c4d"
+  },
+  {
+   "call": "GET /api/v1/health",
+   "http": 401,
+   "bytes": 127,
+   "request_id": "ff3e522994bf4b61b698621d613ac8dd"
+  },
+  {
+   "call": "GET /api/v1/protocols/presets",
+   "http": 200,
+   "bytes": 14227,
+   "request_id": "eb04ad2eff934e10921e6157e2b916d3"
+  },
+  {
+   "call": "GET /",
+   "http": 200,
+   "bytes": 733,
+   "request_id": "f9f2b46ff9b340d68ecfc5ef4d3610b8"
+  },
+  {
+   "call": "POST /api/v1/uploads/model-config",
+   "http": 200,
+   "bytes": 187,
+   "request_id": "bb4b851b310642a195716525f25c66be"
+  },
+  {
+   "call": "POST /api/v1/structure-check",
+   "http": 200,
+   "bytes": 71294,
+   "request_id": "65e1024ad90b438a932a584882e95c8f"
+  }
+ ]
+}
+exit=0

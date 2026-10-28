@@ -1,0 +1,3 @@
+tests/owner/t2/__pycache__
+tests/owner/t2/__pycache__/t2_core.cpython-310.pyc
+deleted: tests/owner/t2/__pycache__/t2_core.cpython-310.pyc + dir

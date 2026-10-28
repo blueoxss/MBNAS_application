@@ -1,0 +1,1 @@
+no stale bytecode found under mbnas_*/ tests/ scripts/ (node_modules and runtime/venv excluded); nothing deleted

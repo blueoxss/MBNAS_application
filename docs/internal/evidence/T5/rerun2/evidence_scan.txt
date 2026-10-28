@@ -1,0 +1,4 @@
+# 2026-10-28T02:41:21Z runtime/venv/bin/python -B scripts/dev/canary_scan.py --manifest docs/internal/canary/CANARY_MANIFEST.json --secrets-env <14 secret needles of this stack, temporary 0600, deleted> docs/internal/evidence/T5/rerun2  (host facts on, no profile = any hit fails; owner-string needles NOT used here because this owner-side evidence legitimately names the owner core paths in redacted form)
+scanned files=62 bytes=1709075 containers=0 skipped=0 hits=0 failing=0 unmet=0
+canary_scan: PASS
+# exit=0

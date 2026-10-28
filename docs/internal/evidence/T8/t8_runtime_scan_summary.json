@@ -1,0 +1,21 @@
+{
+ "scans": [
+  {
+   "name": "t8_runtime_raw_responses_logs",
+   "exit": 1
+  },
+  {
+   "name": "t8_runtime_raw_proc",
+   "exit": 1
+  },
+  {
+   "name": "t8_runtime_normalized_responses_logs",
+   "exit": 1
+  },
+  {
+   "name": "t8_runtime_normalized_proc",
+   "exit": 1
+  }
+ ],
+ "normalized_replacements": 37
+}

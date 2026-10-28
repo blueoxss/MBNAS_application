@@ -1,0 +1,2 @@
+79cce02a8d36eec17a24a5d43228b02fa32832ff7ca9499a9035c3c0f56d9c20  mbnas_application-0.1.0-owner-private-runtime-linux_x86_64.zip
+ce34b821806a27cd2b2ff461d8020e85e0350d846d9fae6188c15f0d09bc2a2b  mbnas_application-0.1.0-public-runtime-linux_x86_64.zip

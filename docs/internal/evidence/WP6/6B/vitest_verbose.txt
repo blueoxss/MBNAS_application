@@ -1,0 +1,598 @@
+
+ RUN  v5.0.3 <ROOT>/mbnas_web
+
+ ✓ tests/contrast.test.ts > design tokens > parsed the tokens 3ms
+ ✓ tests/contrast.test.ts > design tokens > text on bg has contrast >= 4.5:1 1ms
+ ✓ tests/contrast.test.ts > design tokens > text on surface has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > text on surface-2 has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > text-muted on bg has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > text-muted on surface has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > text-muted on surface-2 has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > sidebar-text on sidebar-bg has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > sidebar-text on sidebar-bg-hover has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > sidebar-muted on sidebar-bg has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > sidebar-muted on sidebar-bg-hover has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > accent-text on accent has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > link on surface has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > link on bg has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > danger on surface has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > danger on danger-bg has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > danger on bg has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > warn-text on warn-bg has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > ok-text on ok-bg has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > info-text on info-bg has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > pilot-text on pilot-bg has contrast >= 4.5:1 0ms
+ ✓ tests/contrast.test.ts > design tokens > chart series colours are distinguishable from the white surface (>= 3:1 non-text) 0ms
+ ✓ tests/contrast.test.ts > design tokens > focus ring and parent A/B colours reach >= 3:1 (non-text, WCAG 1.4.11) on the surfaces they sit on 0ms
+ ✓ tests/contrast.test.ts > design tokens > disabled primary button text keeps >= 4.5:1 on its background 0ms
+ ✓ tests/contrast.test.ts > design tokens > declares reduced-motion handling, 16px inputs and 44px touch targets 0ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > scans a non-trivial source tree 3ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > no "value_provenance" anywhere in src 9ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > no "illustrative_new_revision" anywhere in src 7ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > no "/root/detection" anywhere in src 6ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > no "/data/drone" anywhere in src 6ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > no "147.46." anywhere in src 5ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > no "pc2300" anywhere in src 5ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > no "/etri_nas/" anywhere in src 5ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > no "/data/mgjeong" anywhere in src 5ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > no "etri_nas_runs" anywhere in src 6ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > no "mgjeong" anywhere in src 5ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > no "NPS_YOLO" anywhere in src 4ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > no "pilot_visdrone_v1" anywhere in src 23ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > no "unresolved_before_real_execution" anywhere in src 7ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > no "DESIGN_EXAMPLE_NOT_EXECUTABLE" anywhere in src 6ms
+ ✓ tests/oracle_isolation.test.ts > the fitness oracle stays in owner-only files (DD-A43 a) > the import scan finds real imports (guards against a vacuous check) 5ms
+ ✓ tests/oracle_isolation.test.ts > the fitness oracle stays in owner-only files (DD-A43 a) > owner tree: the importer closure of the oracle is exactly the owner-only set 3ms
+ ✓ tests/oracle_isolation.test.ts > the fitness oracle stays in owner-only files (DD-A43 a) > the shared fixtures, the unit mock API and the Playwright mock are not in the closure 2ms
+ ✓ tests/oracle_isolation.test.ts > the fitness oracle stays in owner-only files (DD-A43 a) > every test file except the owner-only ones stays in the public bundle 2ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "computeFitness" stays removed 9ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "boundedReward" stays removed 12ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "metricInvalidReason" stays removed 12ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "HANDOFF_JSON" stays removed 8ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "defaultPolicy" stays removed 9ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "pilotSmokePolicy" stays removed 8ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "CLIENT_TEMPLATES" stays removed 9ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "applyTemplate" stays removed 8ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "SMOKE_WEIGHTS" stays removed 8ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "PILOT_ROOT" stays removed 8ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "Client recompute" stays removed 7ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "not computable" stays removed 7ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "differs from client rule" stays removed 5ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "client template" stays removed 5ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "repair_reason" stays removed 5ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "Repair reason" stays removed 3ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "R (repair)" stays removed 3ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > removed code "old_name" stays removed 3ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > the embedded BASELINE14 list stays removed (the order now comes from the server preset DEFAULT_BASELINE14) 7ms
+ ✓ tests/bundle_hygiene.test.ts > bundle source hygiene (src/) > src never imports the test-only fitness oracle or any fixture 4ms
+ ✓ tests/fitness_weights.test.ts > named fitness weights: input hygiene only > blocks a weights sum of .43 and never auto-normalises it 6ms
+ ✓ tests/fitness_weights.test.ts > named fitness weights: input hygiene only > accepts sums within 1e-6 and rejects just outside 1ms
+ ✓ tests/fitness_weights.test.ts > named fitness weights: input hygiene only > counts a missing or non-finite weight as 0 in the displayed sum (validate.ts reports the field itself) 0ms
+ ✓ tests/fitness_weights.test.ts > named fitness weights: input hygiene only > DD-A8: the module exports no fitness computation (server values are only displayed) 0ms
+ ✓ tests/archive_pareto.test.ts > 2D non-dominated front (mAP up, latency down) > matches a hand-computed example 5ms
+ ✓ tests/archive_pareto.test.ts > 2D non-dominated front (mAP up, latency down) > dominance is strict in at least one objective; equal points both stay 1ms
+ ✓ tests/archive_pareto.test.ts > 2D non-dominated front (mAP up, latency down) > a point with a missing objective is neither on the front nor a dominator 0ms
+ ✓ tests/archive_pareto.test.ts > 2D non-dominated front (mAP up, latency down) > agrees with the brute force definition on 300 pseudo random sets 30ms
+ ✓ tests/archive_pareto.test.ts > 2D non-dominated front (mAP up, latency down) > empty input gives an empty front 0ms
+ ✓ tests/archive_pareto.test.ts > 4D front (mAP up, small recall up, latency down, params down) > worse in one objective but better in another keeps both; strictly worse everywhere is dropped 1ms
+ ✓ tests/archive_pareto.test.ts > 4D front (mAP up, small recall up, latency down, params down) > rows missing any of the four objectives are excluded 0ms
+ ✓ tests/archive_pareto.test.ts > 4D front (mAP up, small recall up, latency down, params down) > the 2D front is a subset of the points that are not 4D-dominated by something with equal 2D coordinates 0ms
+ ✓ tests/archive_pareto.test.ts > front helpers > orderFront2d sorts by latency ascending 0ms
+ ✓ tests/archive_pareto.test.ts > front helpers > upToGeneration is cumulative and inclusive 2ms
+ ✓ tests/archive_pareto.test.ts > front helpers > frontChange reports added and removed ids 1ms
+ ✓ tests/archive_pareto.test.ts > palette > is deterministic, in #rrggbb form, starts yellow and ends dark purple 1ms
+ ✓ tests/archive_pareto.test.ts > palette > clamps out-of-range and non-finite input 0ms
+ ✓ tests/archive_pareto.test.ts > palette > genColor spreads generations over the ramp and handles a single generation 0ms
+ ✓ tests/archive_pareto.test.ts > palette > run colours cycle and are distinct for up to six runs 0ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > base -> same_len 11ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > base -> longer 1ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > longer -> base 1ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > base -> changed 1ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > base -> base 1ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > base -> declared_only 1ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > the fixture covers changed rows, added / removed rows and edge differences in both directions 6ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > the edges the view derives from `from` are exactly the edges of the real report 8ms
+ ✓ tests/structure_parity.test.ts > web structure diff == server compare_structures (same documents) > the diff also works on the declared-only document (no observation) and never claims gene ancestry 1ms
+ ✓ tests/reducer.test.ts > immutable evaluation rows > candidate.updated never clears metrics of an EVALUATED row 12ms
+ ✓ tests/reducer.test.ts > immutable evaluation rows > a second candidate.evaluated for the same evaluation id does not overwrite its metrics 4ms
+ ✓ tests/reducer.test.ts > immutable evaluation rows > provisional rows accept updates, never losing known values to null 2ms
+ ✓ tests/reducer.test.ts > immutable evaluation rows > an evaluated event completes a provisional row (same id) and adds new rows once 1ms
+ ✓ tests/reducer.test.ts > event ordering and replacement > ignores duplicates, other runs and out-of-order seqs; applies only lastSeq+1 1ms
+ ✓ tests/reducer.test.ts > event ordering and replacement > a snapshot replaces the state wholesale (polling cannot duplicate points) 2ms
+ ✓ tests/reducer.test.ts > event ordering and replacement > a resync is recorded for the History screen 1ms
+ ✓ tests/reducer.test.ts > event ordering and replacement > run.updated, generation.completed and worker.updated update their slices 2ms
+ ✓ tests/reducer.test.ts > generation.updated (contract 1.2.9) > inserts an open generation, then upserts live counts without duplicating or completing 1ms
+ ✓ tests/cohort_lines.test.ts > plot points > only EVALUATED rows with finite valid metrics become points; failed, provisional and null are not points 9ms
+ ✓ tests/cohort_lines.test.ts > plot points > rejects NaN, infinite, out-of-range and non-positive metrics 3ms
+ ✓ tests/cohort_lines.test.ts > plot points > hides superseded evaluation revisions 2ms
+ ✓ tests/cohort_lines.test.ts > cohort guard > different rung, device, precision, batch, shape, scope or latency source are different cohorts 3ms
+ ✓ tests/cohort_lines.test.ts > cohort guard > the seed is a series dimension, not a cohort dimension 1ms
+ ✓ tests/cohort_lines.test.ts > cohort guard > rows of other cohorts are not drawn with the selected cohort and never join its lines 4ms
+ ✓ tests/cohort_lines.test.ts > cohort guard > EVALUATED rows missing mandatory fields fall into UNRESOLVED_COHORT and are not drawn 2ms
+ ✓ tests/cohort_lines.test.ts > cohort guard > facet filters narrow rows 2ms
+ ✓ tests/cohort_lines.test.ts > generation completeness > requires complete && planning_closed && pending==0 && counts invariant 1ms
+ ✓ tests/cohort_lines.test.ts > lines > connects baseline family points in latency order only 1ms
+ ✓ tests/cohort_lines.test.ts > lines > draws the dotted guide only for closed generations with pending 0 2ms
+ ✓ tests/cohort_lines.test.ts > lines > refuses a dotted guide when one generation spans cohorts 1ms
+ ✓ tests/cohort_lines.test.ts > lines > representative rule: highest fitness, then lower latency, then stable candidate id 1ms
+ ✓ tests/cohort_lines.test.ts > lines > joins representatives across consecutive complete generations with a solid line 1ms
+ ✓ tests/cohort_lines.test.ts > lines > breaks the line at a missing generation (G2 absent: G1 and G3 are not joined) 1ms
+ ✓ tests/cohort_lines.test.ts > lines > breaks the line at an open generation and when the representative row is not drawn 1ms
+ ✓ tests/cohort_lines.test.ts > lines > never joins different seeds or rungs 0ms
+ ✓ tests/sse.test.ts > SseParser > parses LF and CRLF framing identically 12ms
+ ✓ tests/sse.test.ts > SseParser > handles a lone CR and CRLF split across chunks 2ms
+ ✓ tests/sse.test.ts > SseParser > joins multi-line data with newline and ignores comments / heartbeats 1ms
+ ✓ tests/sse.test.ts > SseParser > handles chunk boundaries anywhere in the stream 4ms
+ ✓ tests/sse.test.ts > SseParser > does not dispatch an event without data and strips a BOM and one leading space 1ms
+ ✓ tests/sse.test.ts > parseApiEvent / classifyEvent > rejects malformed events and accepts the contract shape 1ms
+ ✓ tests/sse.test.ts > parseApiEvent / classifyEvent > decides apply / duplicate / wrong_run / gap / snapshot 1ms
+ ✓ tests/sse.test.ts > RunSync > loads a snapshot, then streams from after_seq = last_seq and applies only new seqs once 3ms
+ ✓ tests/sse.test.ts > RunSync > ignores events of another run 1ms
+ ✓ tests/sse.test.ts > RunSync > on a seq gap fetches the authoritative snapshot instead of applying later events, then resumes from its last_seq 1ms
+ ✓ tests/sse.test.ts > RunSync > snapshot.required triggers a snapshot refetch 2ms
+ ✓ tests/sse.test.ts > RunSync > reconnects with backoff from after_seq = lastSeq after the stream drops 1ms
+ ✓ tests/sse.test.ts > RunSync > falls back to snapshot polling when streaming is unsupported, without duplicating state 1ms
+ ✓ tests/sse.test.ts > RunSync > stops on authentication errors instead of retrying forever 1ms
+ ✓ tests/sse.test.ts > RunSync > exponential backoff is capped 0ms
+ ✓ tests/sse.test.ts > generation.updated parsing > accepts generation.updated as a known event type 0ms
+ ✓ tests/fixtures_oracle.test.ts > recorded server fitness of the public fixtures (oracle re-derivation) > every RECORDED_FITNESS entry is the oracle value of its metric tuple, bit for bit 8ms
+ ✓ tests/fixtures_oracle.test.ts > recorded server fitness of the public fixtures (oracle re-derivation) > every canonical row in the metric domain carries exactly the oracle fitness (never the stand-in) 4ms
+ ✓ tests/fixtures_oracle.test.ts > recorded server fitness of the public fixtures (oracle re-derivation) > the recorded table holds only canonical tuples (no orphan values) 2ms
+ ✓ tests/fixtures_oracle.test.ts > recorded server fitness of the public fixtures (oracle re-derivation) > outside the metric domain the public stamp and the oracle both answer null; inside, the oracle is finite 1ms
+ ✓ tests/fixtures_oracle.test.ts > recorded server fitness of the public fixtures (oracle re-derivation) > candWithOracle gives arbitrary rows a metric-consistent fitness, and an explicit fitness wins 2ms
+ ✓ tests/archive_contract.test.ts > archive fixtures conform to the contract (openapi >= 1.3.0) > the contract declares the 13 archive paths 6ms
+ ✓ tests/archive_contract.test.ts > archive fixtures conform to the contract (openapi >= 1.3.0) > run list and run detail (done, running, failed) 139ms
+ ✓ tests/api.test.ts > normalizeOrigin > accepts "" 4ms
+ ✓ tests/api.test.ts > normalizeOrigin > accepts "   " 0ms
+ ✓ tests/api.test.ts > normalizeOrigin > accepts "https://nas.example.org" 0ms
+ ✓ tests/api.test.ts > normalizeOrigin > accepts "https://nas.example.org:8443/" 0ms
+ ✓ tests/api.test.ts > normalizeOrigin > accepts "http://localhost:8000" 0ms
+ ✓ tests/api.test.ts > normalizeOrigin > accepts "http://127.0.0.1:8000" 0ms
+ ✓ tests/api.test.ts > normalizeOrigin > rejects "http://nas.example.org" 0ms
+ ✓ tests/api.test.ts > normalizeOrigin > rejects "ftp://x" 0ms
+ ✓ tests/api.test.ts > normalizeOrigin > rejects "nas.example.org" 0ms
+ ✓ tests/api.test.ts > normalizeOrigin > rejects "https://user:pw@x.org" 0ms
+ ✓ tests/api.test.ts > normalizeOrigin > rejects "https://x.org/api" 0ms
+ ✓ tests/api.test.ts > normalizeOrigin > rejects "https://x.org?token=1" 0ms
+ ✓ tests/api.test.ts > normalizeOrigin > rejects "javascript:alert(1)" 0ms
+ ✓ tests/api.test.ts > ApiClient > sends the bearer token only in the Authorization header, never in the URL 8ms
+ ✓ tests/api.test.ts > ApiClient > uses relative URLs for the same-origin mode and refuses absolute foreign URLs 3ms
+ ✓ tests/api.test.ts > ApiClient > classifies network errors, timeouts and HTTP errors; retryable only for transport and 5xx 24ms
+ ✓ tests/api.test.ts > ApiClient > isApiOrigin compares scheme, host and port exactly 1ms
+ ✓ tests/api.test.ts > Run idempotency > reuses the SAME key after timeout / network error / 5xx and sends it as header and body 18ms
+ ✓ tests/api.test.ts > Run idempotency > sends the resolved protocol, its hash and the validation id (not the editor state) 3ms
+ ✓ tests/api.test.ts > Run idempotency > 409 and 422 are definitive answers: the key is released 3ms
+ ✓ tests/api.test.ts > Run idempotency > 401 keeps the key (the request may still succeed after fixing the token) 1ms
+ ✓ tests/api.test.ts > Run idempotency > refuses to submit an unvalidated or invalid response 4ms
+ ✓ tests/api.test.ts > artifact origin rule and states > bearer_fetch to the API origin carries Authorization and yields a blob URL 6ms
+ ✓ tests/api.test.ts > artifact origin rule and states > bearer_fetch to any other host is blocked and sends no request (no token leak) 2ms
+ ✓ tests/api.test.ts > artifact origin rule and states > signed_url is used as a plain image URL with no request from the client (no credentials) 1ms
+ ✓ tests/api.test.ts > artifact origin rule and states > HTTP 401 maps to ACCESS_DENIED 0ms
+ ✓ tests/api.test.ts > artifact origin rule and states > HTTP 403 maps to ACCESS_DENIED 0ms
+ ✓ tests/api.test.ts > artifact origin rule and states > HTTP 404 maps to MISSING 0ms
+ ✓ tests/api.test.ts > artifact origin rule and states > HTTP 409 maps to NOT_READY 0ms
+ ✓ tests/api.test.ts > artifact origin rule and states > HTTP 410 maps to EXPIRED 0ms
+ ✓ tests/api.test.ts > artifact origin rule and states > HTTP 500 maps to LOAD_FAILED 0ms
+ ✓ tests/api.test.ts > artifact origin rule and states > bearer 403 / 404 / 409 become ACCESS_DENIED / MISSING / NOT_READY; network failure becomes LOAD_FAILED 2ms
+ ✓ tests/api.test.ts > artifact origin rule and states > EXPIRED triggers the refresh endpoint exactly once and then shows EXPIRED if still expired 1ms
+ ✓ tests/api.test.ts > artifact origin rule and states > EXPIRED followed by a successful refresh shows the new signed URL 1ms
+ ✓ tests/api.test.ts > artifact origin rule and states > refresh failures end in ACCESS_DENIED / EXPIRED, never in an endless state 1ms
+ ✓ tests/api.test.ts > artifact origin rule and states > isExpiredAt and sampleRecall (N/A when gt = 0) 1ms
+ ✓ tests/api.test.ts > Artifact.matching (contract shape: counts {tp,fp,fn,gt}) > reads nested counts, rule and thresholds 1ms
+ ✓ tests/api.test.ts > Artifact.matching (contract shape: counts {tp,fp,fn,gt}) > missing or malformed matching gives empty counts and N/A recall (never 0) 0ms
+ ✓ tests/generated_detail_fixture.test.ts > synthetic generated-candidate detail (shared with the Playwright mock) > has an mbnas-structure/2 report whose list-from rows resolve to the expected edges 20ms
+ ✓ tests/generated_detail_fixture.test.ts > synthetic generated-candidate detail (shared with the Playwright mock) > lists the generated rows out of generation order (the table has to sort them) 1ms
+ ✓ tests/generated_detail_fixture.test.ts > synthetic generated-candidate detail (shared with the Playwright mock) > is served by installMockApi at GET /runs/{id}/candidates/{cid}; unknown ids stay 404 16ms
+ ✓ tests/validate.test.ts > server path pre-check > relative is rejected 7ms
+ ✓ tests/validate.test.ts > server path pre-check > tilde is rejected 1ms
+ ✓ tests/validate.test.ts > server path pre-check > windows drive is rejected 1ms
+ ✓ tests/validate.test.ts > server path pre-check > traversal is rejected 0ms
+ ✓ tests/validate.test.ts > server path pre-check > placeholder angle is rejected 0ms
+ ✓ tests/validate.test.ts > server path pre-check > placeholder path/to is rejected 0ms
+ ✓ tests/validate.test.ts > server path pre-check > empty is rejected 0ms
+ ✓ tests/validate.test.ts > server path pre-check > accepts an absolute Linux path 1ms
+ ✓ tests/validate.test.ts > server path pre-check > requires distinct split roots and an output root different from them 7ms
+ ✓ tests/validate.test.ts > policy rules mirrored from the server > the default example has no client errors 2ms
+ ✓ tests/validate.test.ts > policy rules mirrored from the server > blocks a weights sum of .43 without normalising 1ms
+ ✓ tests/validate.test.ts > policy rules mirrored from the server > flags negative weights, non-increasing and non-integer epochs, warmup >= L0 2ms
+ ✓ tests/validate.test.ts > policy rules mirrored from the server > requires a budget and valid thresholds, anchors, seeds 2ms
+ ✓ tests/validate.test.ts > policy rules mirrored from the server > rejects min=0 anchors (server rule 0 < min < max) 1ms
+ ✓ tests/validate.test.ts > policy rules mirrored from the server > flags a manual epochs_added that differs from the computed delta 1ms
+ ✓ tests/validate.test.ts > policy rules mirrored from the server > flags duplicate baselines 0ms
+ ✓ tests/validate.test.ts > derived values > computes added epochs and the fixed horizon from cumulative targets (10/30/90 -> +10/+20/+60, 90) 0ms
+ ✓ tests/validate.test.ts > derived values > writes the derived horizon back and keeps promotion targets consistent when rungs change 2ms
+ ✓ tests/validate.test.ts > derived values > addRung on an empty rung table starts L0 with equal weights (no embedded template weights), keeps the 0.5 / 0.05 promotion defaults 1ms
+ ✓ tests/validate.test.ts > derived values > computes effective batch = batch x accumulation x gpus 0ms
+ ✓ tests/validate.test.ts > derived values > stableStringify ignores key order 1ms
+ ✓ tests/qa_hardening.test.ts > SSE client: duplicates, out-of-order, gaps and foreign runs (RunSync + reducer) > a duplicate inside one stream, an old seq and a repeat after reconnect are applied exactly once 14ms
+ ✓ tests/qa_hardening.test.ts > SSE client: duplicates, out-of-order, gaps and foreign runs (RunSync + reducer) > an out-of-order seq after a newer one is dropped and never moves the cursor backwards 2ms
+ ✓ tests/qa_hardening.test.ts > SSE client: duplicates, out-of-order, gaps and foreign runs (RunSync + reducer) > a gap is never applied: later events are discarded, the snapshot replaces state, the stream resumes from its last_seq 2ms
+ ✓ tests/qa_hardening.test.ts > SSE client: duplicates, out-of-order, gaps and foreign runs (RunSync + reducer) > events of another run (even with the next seq) are ignored while the right run continues 1ms
+ ✓ tests/qa_hardening.test.ts > SSE client: duplicates, out-of-order, gaps and foreign runs (RunSync + reducer) > malformed frames, heartbeats, empty data, non-integer / zero / negative seqs never break the stream 3ms
+ ✓ tests/qa_hardening.test.ts > SSE client: duplicates, out-of-order, gaps and foreign runs (RunSync + reducer) > chunk boundaries inside frames do not change what is applied 2ms
+ ✓ tests/qa_hardening.test.ts > SSE client: duplicates, out-of-order, gaps and foreign runs (RunSync + reducer) > snapshot.required mid-stream replaces state; events at or below the snapshot cursor are duplicates afterwards 2ms
+ ✓ tests/qa_hardening.test.ts > SSE client: duplicates, out-of-order, gaps and foreign runs (RunSync + reducer) > a stream that dies mid-run reconnects with backoff and loses nothing 1ms
+ ✓ tests/qa_hardening.test.ts > SSE client: duplicates, out-of-order, gaps and foreign runs (RunSync + reducer) > a replayed EVALUATED event never adds a second point or changes its metrics 4ms
+ ✓ tests/qa_hardening.test.ts > SSE client: duplicates, out-of-order, gaps and foreign runs (RunSync + reducer) > 401/403 on reconnect stops with an auth error instead of looping 1ms
+ ✓ tests/qa_hardening.test.ts > SSE client: duplicates, out-of-order, gaps and foreign runs (RunSync + reducer) > parseApiEvent rejects events with an unusable seq 1ms
+ ✓ tests/qa_hardening.test.ts > token containment (memory only, header only) > every client call sends the token only as an Authorization header: never in URL, body, credentials or storage 36ms
+ ✓ tests/qa_hardening.test.ts > token containment (memory only, header only) > errors carry neither the token nor the Authorization header 23ms
+ ✓ tests/qa_hardening.test.ts > token containment (memory only, header only) > a foreign absolute URL never receives the Authorization header 5ms
+ ✓ tests/qa_hardening.test.ts > token containment (memory only, header only) > a client without a token sends no Authorization header at all 1ms
+ ✓ tests/contract.test.ts > synthetic fixtures conform to the canonical contract > Health, Run, Worker, Generation, Candidate rows, Snapshot, Preset, ValidateResponse 239ms
+ ✓ tests/structure.test.tsx > recorded model structure > resolves relative, absolute, multi-input, skip and detection edges without flattening them 13ms
+ ✓ tests/structure.test.tsx > recorded model structure > keeps missing or invalid references unresolved and does not invent a chain 4ms
+ ✓ tests/structure.test.tsx > recorded model structure > uses explicit service IDs, YAML mapping and recorded internal layers 3ms
+ ✓ tests/structure.test.tsx > recorded model structure > diffs configuration and connections by position without claiming gene ancestry 1ms
+ ✓ tests/structure.test.tsx > recorded model structure > labels operator classes and synchronizes selected gene with block details 168ms
+ ✓ tests/contract.test.ts > synthetic fixtures conform to the canonical contract > the validator really rejects a contract violation (guards against a vacuous check) 1ms
+ ✓ tests/contract.test.ts > final retraining fixtures conform to contract v1.2.0 > FINAL_RETRAIN run, finalists, final rows, RunCreated and FinalRetrainRequest 7ms
+ ✓ tests/contract.test.ts > final retraining fixtures conform to contract v1.2.0 > POST /runs/{id}/final-retrain documents the Idempotency-Key header 2ms
+ ✓ tests/contract.test.ts > the client only calls endpoints that exist in the contract > every path template used by ApiClient is declared in openapi.json 3ms
+ ✓ tests/contract.test.ts > the client only calls endpoints that exist in the contract > uses bearer security and documents the Idempotency-Key header on POST /runs 0ms
+ ✓ tests/dd44_dd45.test.tsx > stepScale > walks the fixed steps, treats fit as the natural size and clamps at both ends 7ms
+ ✓ tests/structure.test.tsx > recorded model structure > does not mix up declared, scaled and observed repeats (v2) and keeps the v1 meaning for v1 documents 1ms
+ ✓ tests/structure.test.tsx > recorded model structure > native blocks (no gene, no YAML row) get native labels and edges only from the report 1ms
+ ✓ tests/structure.test.tsx > recorded model structure > keeps yaml documents on their own `from` edges even when the report lists edges too 0ms
+ ✓ tests/structure.test.tsx > recorded model structure > lowest evidence level only counts checks that ran 1ms
+ ✓ tests/structure.test.tsx > recorded model structure > separates "no structure observation / unsupported" (UNVERIFIED + two codes) from FAIL 1ms
+ ✓ tests/structure.test.tsx > recorded model structure > hash verdict: file vs registered is an error when it differs, file vs canonical differing is expected 1ms
+ ✓ tests/structure.test.tsx > recorded model structure > server-shaped diff lists edges that only one document has 1ms
+ ✓ tests/archive_contract.test.ts > archive fixtures conform to the contract (openapi >= 1.3.0) > baselines, generations, generation detail, candidates, candidate detail 160ms
+ ✓ tests/archive_contract.test.ts > archive fixtures conform to the contract (openapi >= 1.3.0) > fidelity, confirm, live 18ms
+ ✓ tests/archive_contract.test.ts > archive fixtures conform to the contract (openapi >= 1.3.0) > the validator rejects a violation (guards against a vacuous check) 11ms
+ ✓ tests/qa_hardening.test.ts > client path pre-check mirrors the server negatives > "/data/ds/../../../etc/passwd" -> PATH_TRAVERSAL 1ms
+ ✓ tests/qa_hardening.test.ts > client path pre-check mirrors the server negatives > "/data/.." -> PATH_TRAVERSAL 0ms
+ ✓ tests/qa_hardening.test.ts > client path pre-check mirrors the server negatives > "/ABSOLUTE/path/to/data" -> PATH_PLACEHOLDER 0ms
+ ✓ tests/qa_hardening.test.ts > client path pre-check mirrors the server negatives > "/ABSOLUTE/data" -> PATH_PLACEHOLDER 0ms
+ ✓ tests/qa_hardening.test.ts > client path pre-check mirrors the server negatives > "/data/<your-dataset>" -> PATH_PLACEHOLDER 0ms
+ ✓ tests/qa_hardening.test.ts > client path pre-check mirrors the server negatives > "/data/dataset>" -> PATH_PLACEHOLDER 0ms
+ ✓ tests/qa_hardening.test.ts > client path pre-check mirrors the server negatives > "/data/YOUR_DATASET" -> PATH_PLACEHOLDER 0ms
+ ✓ tests/qa_hardening.test.ts > client path pre-check mirrors the server negatives > "datasets/ds/data.yaml" -> PATH_NOT_ABSOLUTE 0ms
+ ✓ tests/qa_hardening.test.ts > client path pre-check mirrors the server negatives > "./data.yaml" -> PATH_NOT_ABSOLUTE 0ms
+ ✓ tests/qa_hardening.test.ts > client path pre-check mirrors the server negatives > "~/data.yaml" -> PATH_NOT_ABSOLUTE 0ms
+ ✓ tests/qa_hardening.test.ts > client path pre-check mirrors the server negatives > "file:///etc/passwd" -> PATH_NOT_ABSOLUTE 0ms
+ ✓ tests/qa_hardening.test.ts > client path pre-check mirrors the server negatives > "" -> PATH_NOT_ABSOLUTE 0ms
+ ✓ tests/qa_hardening.test.ts > client path pre-check mirrors the server negatives > "/data/ds/data.yaml\u0000.png" -> PATH_PLACEHOLDER 0ms
+ ✓ tests/qa_hardening.test.ts > client path pre-check mirrors the server negatives > accepts a normal absolute path and does not flag a dotted file name 0ms
+ ✓ tests/qa_hardening.test.ts > static checks of the shipped source and build > no persistent browser storage is touched anywhere in src (token lives only in memory) 13ms
+ ✓ tests/qa_hardening.test.ts > static checks of the shipped source and build > the token is never put into a URL or history entry 18ms
+ ✓ tests/qa_hardening.test.ts > static checks of the shipped source and build > LIVE source never imports fixtures, mocks or sample data and never fabricates numbers 39ms
+ ✓ tests/qa_hardening.test.ts > static checks of the shipped source and build > the only place that builds an Authorization header is the API client 9ms
+ ✓ tests/qa_hardening.test.ts > static checks of the shipped source and build > production bundle has a reasonable size and contains no token-looking literal or fixture marker 19ms
+ ✓ tests/training_progress_checkpoint.test.tsx > latestTrainingFull > takes the highest-epoch training_full row in state PRESENT or PRUNED and ignores other kinds 7ms
+ ✓ tests/training_progress_checkpoint.test.tsx > latestTrainingFull > uses a MISSING row only when nothing else exists, and returns null without any training_full row 2ms
+ ✓ tests/context_restore.test.tsx > openCandidate({ restore: true }) > keeps ?block= and ?model_tab= when the hash has no cid (reload restore), and sets cid 79ms
+ ✓ tests/context_restore.test.tsx > openCandidate({ restore: true }) > without the option a candidate opened from a hash without cid still starts clean (I4-#12 unchanged) 5ms
+ ✓ tests/context_restore.test.tsx > openCandidate({ restore: true }) > closeCandidate still removes them after a restore 8ms
+ ✓ tests/training_progress_checkpoint.test.tsx > TrainingProgress checkpoint fallback > shows the latest training_full checkpoint (id + sha256) from the candidate checkpoint records and names the source 98ms
+ ✓ tests/training_progress_checkpoint.test.tsx > TrainingProgress checkpoint fallback > a PRUNED latest row is shown as PRUNED (the file no longer exists, and that is said) 11ms
+ ✓ tests/training_progress_checkpoint.test.tsx > TrainingProgress checkpoint fallback > a 1.5.0 row without any path is usable by its id; a 1.4.x row with only a path still shows that path 9ms
+ ✓ tests/training_progress_checkpoint.test.tsx > TrainingProgress checkpoint fallback > the evaluation row checkpoint_path wins and the detail is not even requested 6ms
+ ✓ tests/training_progress_checkpoint.test.tsx > TrainingProgress checkpoint fallback > without any recorded checkpoint it stays 미기록 and says the record is absent (no guessed path) 26ms
+ ✓ tests/training_progress_checkpoint.test.tsx > TrainingProgress checkpoint fallback > reports a failed detail request instead of hiding it 9ms
+ ✓ tests/training_progress_checkpoint.test.tsx > TrainingProgress checkpoint fallback > does nothing when there is no connection or run (no request, 미기록) 5ms
+ ✓ tests/config_upload.test.tsx > client pre-check of the upload (the server stays authoritative) > accepts .yaml / .yml up to 1 MiB and names the code it would refuse with 3ms
+ ✓ tests/config_upload.test.tsx > client pre-check of the upload (the server stays authoritative) > server errors are shown with their code, the Korean hint and the location 0ms
+ ✓ tests/registry_structure_button.test.tsx > parseInputSize > accepts empty and positive multiples of 32 only 6ms
+ ✓ tests/registry_structure_button.test.tsx > RegistryStructureButton (baseline registry id) > is disabled without a model id or a connection 59ms
+ ✓ tests/settings_loss_profile.test.tsx > loss profile vs fitness weights > shows loss_profile and change_loss_weights_at_promotion in their own section, apart from the rung fitness weights 288ms
+ ✓ tests/archive_format.test.ts > number formatting: missing is a dash, never 0 > mAP 4 decimals, latency 2 decimals, params integer with separators 51ms
+ ✓ tests/archive_format.test.ts > number formatting: missing is a dash, never 0 > null / undefined / NaN / Infinity / strings give the dash 2ms
+ ✓ tests/archive_format.test.ts > number formatting: missing is a dash, never 0 > signed deltas 1ms
+ ✓ tests/archive_format.test.ts > number formatting: missing is a dash, never 0 > FPS = 1000 / ms, non-positive latency gives the dash 0ms
+ ✓ tests/archive_format.test.ts > number formatting: missing is a dash, never 0 > durations and stamps 1ms
+ ✓ tests/archive_format.test.ts > number formatting: missing is a dash, never 0 > misc helpers 1ms
+ ✓ tests/archive_format.test.ts > fidelity tier labels > parses search and final tiers with their epochs 3ms
+ ✓ tests/archive_format.test.ts > module histogram comparison > delta = current - previous, sorted by |delta|, missing previous gives null (not cur - 0) 3ms
+ ✓ tests/archive_format.test.ts > module histogram comparison > ties are ordered by name for a stable display 0ms
+ ✓ tests/archive_format.test.ts > hash parsing and building > parses screen, run, gen, cid 1ms
+ ✓ tests/archive_format.test.ts > hash parsing and building > empty or unknown hash falls back, malformed values are dropped 1ms
+ ✓ tests/archive_format.test.ts > hash parsing and building > compare ids: deduplicated, validated and capped at six 0ms
+ ✓ tests/archive_format.test.ts > hash parsing and building > builds round-trippable hashes and never writes gen/cid without a run 1ms
+ ✓ tests/archive_format.test.ts > overview helpers > gates: FAIL first, then WARN, original order kept inside each group 1ms
+ ✓ tests/archive_format.test.ts > overview helpers > flatten keeps scalars and compact arrays, two levels deep 0ms
+ ✓ tests/archive_format.test.ts > baseline rows > judge first, anchor last, every row carries a tier label 3ms
+ ✓ tests/archive_format.test.ts > baseline rows > the contract is_judge flag decides; without it the judge name is the fallback; without both nothing is highlighted 1ms
+ ✓ tests/archive_format.test.ts > scatter points > only ok rows with finite x and y are plotted; missing values are counted, not zero-filled 1ms
+ ✓ tests/s3_f7_capabilities.test.tsx > S3-F7 server capabilities visible > device targets table shows id, name, available as text, reason 78ms
+ ✓ tests/dd44_dd45.test.tsx > ArtifactImage lightbox (DD-44) > opens from the 확대 button on the already-loaded src, zooms, shows the original link and sha256, closes with Esc and returns the focus 410ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > uploads the picked bytes unchanged (raw body, file name in ?filename=) and shows upload_id, source_sha256 and the browser sha256 match 423ms
+ ✓ tests/registry_structure_button.test.tsx > RegistryStructureButton (baseline registry id) > GET shows the declared-only document with its notice and without any observation 353ms
+ ✓ tests/config_revisions.test.tsx > lineDiff (line diff of two YAML texts) > identical texts: every line is context, nothing added or removed 22ms
+ ✓ tests/config_revisions.test.tsx > lineDiff (line diff of two YAML texts) > a changed line is a removal followed by an addition, at the right line numbers, with context around it 2ms
+ ✓ tests/config_revisions.test.tsx > lineDiff (line diff of two YAML texts) > insertions and deletions keep the common lines aligned (LCS), not shifted 1ms
+ ✓ tests/config_revisions.test.tsx > lineDiff (line diff of two YAML texts) > CRLF vs LF and a missing final newline are byte differences and are reported 1ms
+ ✓ tests/config_revisions.test.tsx > lineDiff (line diff of two YAML texts) > an empty side is all additions / all removals 1ms
+ ✓ tests/config_revisions.test.tsx > lineDiff (line diff of two YAML texts) > a changed middle larger than the alignment budget is shown as a whole replacement (coarse), never truncated 3ms
+ ✓ tests/config_revisions.test.tsx > revision labels, default pair, file name, decoding and the bytes verdict > labels by position and kind; a parent outside the list is named as such 1ms
+ ✓ tests/config_revisions.test.tsx > revision labels, default pair, file name, decoding and the bytes verdict > the diff opens on selected vs executed, else the last two, else the only one 1ms
+ ✓ tests/config_revisions.test.tsx > revision labels, default pair, file name, decoding and the bytes verdict > the download file name is safe and names candidate, kind and revision 1ms
+ ✓ tests/config_revisions.test.tsx > revision labels, default pair, file name, decoding and the bytes verdict > decodes UTF-8 exactly and says so when the bytes are not UTF-8 1ms
+ ✓ tests/config_revisions.test.tsx > revision labels, default pair, file name, decoding and the bytes verdict > bytes verdict: the received bytes must hash to the recorded source_sha256 (and to the header when sent) 1ms
+ ✓ tests/s3_f7_capabilities.test.tsx > S3-F7 server capabilities visible > registry rows show export_trt and host-gpu-0 status text, not truncated 32ms
+ ✓ tests/s3_f7_capabilities.test.tsx > S3-F7 server capabilities visible > search space state shows variant and reason 4ms
+ ✓ tests/s3_f7_capabilities.test.tsx > S3-F7 server capabilities visible > resolved variant badge reads search_space_resolved.variant of a run 4ms
+ ✓ tests/s0910_fix1.test.tsx > S8-F5 postprocess_runtime > is a cohort field: different implementations never share a cohort or label 15ms
+ ✓ tests/dd44_dd45.test.tsx > ArtifactImage lightbox (DD-44) > opens from a click on the image itself, keeps the new-tab link on the card, and says 기록 없음 without a sha256 105ms
+ ✓ tests/dd44_dd45.test.tsx > ArtifactImage lightbox (DD-44) > a lightbox image that fails to load is reported as LOAD_FAILED text 60ms
+ ✓ tests/dd44_dd45.test.tsx > evaluation conditions helpers (DD-45) > reads recorded values only; empty strings and missing fields are null 2ms
+ ✓ tests/dd44_dd45.test.tsx > evaluation conditions helpers (DD-45) > a null on either side is unknown, never different 2ms
+ ✓ tests/s3_audit_init.test.tsx > S3-F3 initialization help from registry init_modes > does not claim RF-DETR is native-pretrained only; states random-init scratch and the separate native group 3ms
+ ✓ tests/s3_audit_init.test.tsx > S3-F3 initialization help from registry init_modes > without registry data it stays generic 0ms
+ ✓ tests/training_panel.test.tsx > TrainingPanel evaluate_only (I4-#3) > hides the target-epoch field, explains why, and does not send epoch_target_total / epochs 198ms
+ ✓ tests/training_panel.test.tsx > TrainingPanel evaluate_only (I4-#3) > keeps sending the target epoch for scratch training 48ms
+ ✓ tests/training_panel.test.tsx > TrainingPanel evaluate_only (I4-#3) > does not offer evaluate_only for a fixed search candidate source (server: 422 EVAL_ONLY_UNSUPPORTED) 14ms
+ ✓ tests/training_panel.test.tsx > TrainingPanel evaluate_only (I4-#3) > does not offer evaluate_only for a fixed generated candidate source (server: 422 EVAL_ONLY_UNSUPPORTED) 12ms
+ ✓ tests/s0910_fix1.test.tsx > S8-F5 postprocess_runtime > CandidateView shows it next to latency source / scope 226ms
+ ✓ tests/s0910_fix1.test.tsx > gate op "in" > renders a list threshold and pass/fail 8ms
+ ✓ tests/s0910_fix1.test.tsx > S9-F1 skipped generation help > counts only generations of the selected cohort with the real reason 2ms
+ ✓ tests/s0910_fix1.test.tsx > S9-F1 skipped generation help > states open and mixed-cohort reasons separately 0ms
+ ✓ tests/s0910_fix1.test.tsx > S9-F2 cohort labels > differ for cohorts that differ only by a hash or comparison group, and show short hashes 1ms
+ ✓ tests/s0910_fix1.test.tsx > S10-F2 diagnostic panel hashes > shows the eval checkpoint from matching, the training state sha and the split name with the hash 15ms
+ ✓ tests/s0910_fix1.test.tsx > S10-F3 one operation label > 0-parent random for any random proposal 1ms
+ ✓ tests/s0910_fix1.test.tsx > S10-F3 one operation label > mutation for children with mutated blocks even without the server operation (Lineage table) 1ms
+ ✓ tests/model_detail_v2.test.tsx > summary header (CONTRACTS_v2 section 3) > shows backend, representation, evidence source, the lowest evidence level and the structure badge 53ms
+ ✓ tests/model_detail_v2.test.tsx > summary header (CONTRACTS_v2 section 3) > a declaration-only document says there is no observation and no evidence level 8ms
+ ✓ tests/model_detail_v2.test.tsx > summary header (CONTRACTS_v2 section 3) > a v1 document keeps working: v2-only keys are optional and reported as not recorded 6ms
+ ✓ tests/s0910_fix1.test.tsx > S10-F4 retention badge > shows pruned-by-retention next to checkpoint_path 83ms
+ ✓ tests/s0910_fix1.test.tsx > S10-F4 retention badge > MISSING and PRESENT are distinguished, absent shows nothing 84ms
+ ✓ tests/generation_workflow.test.tsx > generation-only settings > defaults ON and ignores preserved evaluation-only settings when OFF 22ms
+ ✓ tests/registry_structure_button.test.tsx > RegistryStructureButton (baseline registry id) > runs the explicit CPU check (POST registry structure-check, input size sent only when valid) and renders the result with the same view 284ms
+ ✓ tests/registry_structure_button.test.tsx > RegistryStructureButton (baseline registry id) > shows the server error code when the model is unknown, and closes with Escape 40ms
+ ✓ tests/s3_f7_capabilities.test.tsx > S3-F7 server capabilities visible > baseline candidate shows baseline (no search audit), not a dash audit panel 101ms
+ ✓ tests/s3_audit_init.test.tsx > S3-F4 candidate architecture audit > renders label, backbone estimate vs built, neck, detect conv count, variant, fallback with text badges 175ms
+ ✓ tests/dd44_dd45.test.tsx > ModelComparison recorded conditions (DD-45) > shows both rows conditions, flags differing recorded values and lists missing ones as 기록 없음 161ms
+ ✓ tests/dd44_dd45.test.tsx > ModelComparison recorded conditions (DD-45) > no warning when the recorded conditions agree; evaluated metrics are the recorded values 81ms
+ ✓ tests/s3_f7_capabilities.test.tsx > S3-F7 settings opt-in > allow_native_fallback checkbox exists, default unchecked, help text, edits field 268ms
+ ✓ tests/app.test.tsx > policy lock rule > locks in every non-terminal run state and only those 27ms
+ ✓ tests/app.test.tsx > policy lock rule > canRun requires a valid Validate of the current unchanged state 2ms
+ ✓ tests/compare_conditions.test.tsx > conditionDifferences > flags only pairs whose recorded values differ, per key 24ms
+ ✓ tests/compare_conditions.test.tsx > conditionDifferences > never infers: a null on either side is neither equal nor different and is listed as unknown 2ms
+ ✓ tests/compare_conditions.test.tsx > conditionDifferences > a run without conditions (older server) is all unknown, never different 2ms
+ ✓ tests/s3_audit_init.test.tsx > S3-F4 candidate architecture audit > flags a backbone mismatch, shows fallback_reason, and prints full Transformer only when true 157ms
+ ✓ tests/s3_audit_init.test.tsx > S3-F4 candidate architecture audit > shows an explicit absent state when the server returns no audit 56ms
+ ✓ tests/model_detail_v2.test.tsx > summary header (CONTRACTS_v2 section 3) > CandidateView header: generation seed and order, evaluation badge, structure badge and DD-5 badge 241ms
+ ✓ tests/lineage_generated.test.tsx > Lineage rows include the generated candidates (F14) > appends generated candidates after the evaluated rows, once, without hiding or duplicating an evaluated candidate 40ms
+ ✓ tests/final_retrain.test.tsx > final retrain form and run kind helpers > panel is offered only for a COMPLETED SEARCH run 25ms
+ ✓ tests/final_retrain.test.tsx > final retrain form and run kind helpers > top-k default comes from the run resolved final_retraining 2ms
+ ✓ tests/final_retrain.test.tsx > final retrain form and run kind helpers > budget is required and > 0; top-k is an optional integer >= 1; reason is trimmed or omitted 3ms
+ ✓ tests/final_retrain.test.tsx > final retrain form and run kind helpers > 409 codes are told apart; 5xx / network are retryable 2ms
+ ✓ tests/final_retrain.test.tsx > POST /runs/{id}/final-retrain idempotency (same rules as Run) > reuses ONE key across timeout / 5xx / network retries and releases it after 2xx 25ms
+ ✓ tests/final_retrain.test.tsx > POST /runs/{id}/final-retrain idempotency (same rules as Run) > 409 and 422 are definitive: key released; 401 keeps it 2ms
+ ✓ tests/final_retrain.test.tsx > POST /runs/{id}/final-retrain idempotency (same rules as Run) > a different payload (budget) is a different request and gets a different key 2ms
+ ✓ tests/final_retrain.test.tsx > final cohort > final rows (comparison_group final / rung FINAL / arm Final) never share a cohort with search rows 5ms
+ ✓ tests/final_retrain.test.tsx > final cohort > each field alone separates the final cohort from an otherwise identical search row 1ms
+ ✓ tests/final_retrain.test.tsx > final cohort > a Final row needs no search seed to be plottable, baselines still do not 1ms
+ ✓ tests/final_retrain.test.tsx > final cohort > the arm facet can pick the Final arm out of a mixed row set 1ms
+ ✓ tests/final_retrain.test.tsx > final lineage > operation 'final' has the source candidate as its single parent 1ms
+ ✓ tests/final_retrain.test.tsx > parent / child runs > lists only explicit server facts 1ms
+ ✓ tests/final_retrain.test.tsx > policy helpers for optional fields > unsetIn removes only the key and leaves the rest untouched 1ms
+ ✓ tests/final_retrain.test.tsx > policy helpers for optional fields > client pre-check: crossover_rate within [0,1]; postprocess conf/iou within [0,1], max_det integer >= 1 2ms
+ ✓ tests/final_retrain.test.tsx > policy helpers for optional fields > resolved_diff rows without a requested value are "defaulted" 1ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab: revision table > lists every revision with kind, source_sha256, canonical_hash, architecture_hash, created_at and parent 423ms
+ ✓ tests/native_real_documents.test.tsx > real RF-DETR Nano document (S2 output) > shows one button per module, labelled by native path, and no YAML-position label 280ms
+ ✓ tests/dd44_dd45.test.tsx > ModelComparison recorded conditions (DD-45) > an unevaluated candidate shows 미평가 for every result and no number is invented 119ms
+ ✓ tests/dd44_dd45.test.tsx > ModelComparison recorded conditions (DD-45) > shows nothing before a second model is chosen 4ms
+ ✓ tests/generation_workflow.test.tsx > generation-only settings > checkbox OFF disables evaluation controls without erasing saved weights or recipe 334ms
+ ✓ tests/generation_workflow.test.tsx > unevaluated candidate identity and ordering > preserves first-seen seed order [42, 7] without interleaving per-seed indexes 1ms
+ ✓ tests/training_panel.test.tsx > TrainingPanel evaluate_only (I4-#3) > offers evaluate_only for a baseline source and drops it (and a selected evaluate_only) for a user model 29ms
+ ✓ tests/training_panel.test.tsx > TrainingPanel evaluate_only (I4-#3) > trainingProtocol(omitEpochs) also removes inherited epoch keys without touching the source policy 1ms
+ ✓ tests/training_panel.test.tsx > TrainingPanel resume banner (DD-9) > states that external full-state import is unsupported and only the latest full-state of a paused run resumes 20ms
+ ✓ tests/block_catalog.test.tsx > catalog readers (lib/structure.ts) > reads blocks[].catalog and treats a missing key as "older document", not as unknown 23ms
+ ✓ tests/block_catalog.test.tsx > catalog readers (lib/structure.ts) > an unknown module keeps every field null (출처 미상) instead of a guess 1ms
+ ✓ tests/block_catalog.test.tsx > catalog readers (lib/structure.ts) > formats the distribution from catalog_summary: largest first, 미상 last, percent of all blocks 2ms
+ ✓ tests/block_catalog.test.tsx > catalog readers (lib/structure.ts) > no summary or zero blocks gives no distribution (a document without the key is not "all unknown") 1ms
+ ✓ tests/block_catalog.test.tsx > catalog readers (lib/structure.ts) > looks modules up in the served table: nn. prefix stripped, unknown -> null 1ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > the structure check and the training request carry upload_id + model_name and never a model_path 469ms
+ ✓ tests/registry_structure_button.test.tsx > RegistryStructureButton (user YAML on the server) > does not GET (no stored evidence) and POSTs /structure-check with the path, size and class count 178ms
+ ✓ tests/registry_structure_button.test.tsx > RegistryStructureButton (user YAML on the server) > shows a path rejection from the server (PATH_OUTSIDE_ALLOWLIST) and keeps no stale result 76ms
+ ✓ tests/wp6a_badges_workers.test.tsx > training_status / evaluation_status -> UNTRAINED · UNEVALUATED > uses training_status when the server sends it (contract 1.5.0) 27ms
+ ✓ tests/wp6a_badges_workers.test.tsx > training_status / evaluation_status -> UNTRAINED · UNEVALUATED > falls back for contract 1.4.x: a generated candidate without an evaluation is UNTRAINED; other rows are not guessed 3ms
+ ✓ tests/native_real_documents.test.tsx > real RF-DETR Nano document (S2 output) > draws exactly the report edges (integer endpoints resolve through the block position), styled by connection_source 234ms
+ ✓ tests/generation_workflow.test.tsx > unevaluated candidate identity and ordering > keeps generation records outside evaluation rows across repeat snapshots 145ms
+ ✓ tests/generation_workflow.test.tsx > shared explicit training request > minimal generated source requires an explicit server recipe choice and preserves source 68ms
+ ✓ tests/generation_workflow.test.tsx > shared explicit training request > progress only displays recorded finite scalar metrics 1ms
+ ✓ tests/model_detail_v2.test.tsx > summary header (CONTRACTS_v2 section 3) > CandidateView shows 학습 완료 · 미평가 for an explicit validation-OFF training row (DD-5) and the raw status otherwise 120ms
+ ✓ tests/model_detail_v2.test.tsx > native backend rendering > shows the native path and never a YAML-position label 38ms
+ ✓ tests/model_detail_v2.test.tsx > native backend rendering > draws only recorded edges, styled by connection_source, with a legend of all three kinds 28ms
+ ✓ tests/final_retrain.test.tsx > worker status vocabulary > idle / busy / offline / lost render as text with a glyph (not colour only) 46ms
+ ✓ tests/training_panel.test.tsx > Settings with performance evaluation OFF (DD-17) > renders the evaluation paths disabled with their preserved values, restores them on ON, and shows one info notice 273ms
+ ✓ tests/training_panel.test.tsx > Settings with performance evaluation OFF (DD-17) > validatePolicy OFF branch does not validate preserved evaluation values but still validates generation fields 2ms
+ ✓ tests/training_panel.test.tsx > closeCandidate query cleanup (I4-#12) > removes block and model_tab with cid; a different candidate does not inherit them; the same cid keeps them 8ms
+ ✓ tests/training_panel.test.tsx > Workers table telemetry (I4-#9) > shows vram_mb, power_w and sm_clock_mhz columns; null or missing is a dash, never 0 145ms
+ ✓ tests/training_panel.test.tsx > DD-5 trained-not-evaluated detection > requires SEARCH_COMPLETE + performance_status NOT_EVALUATED inside an explicit training run 1ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab: diff of two revisions (stored bytes, both sha256 checked) > opens on selected vs executed and shows the changed lines with both sides' sha256 verified 213ms
+ ✓ tests/block_catalog.test.tsx > ModelStructure: distribution line and block rows > shows the origin distribution under the header, from catalog_summary 143ms
+ ✓ tests/native_real_documents.test.tsx > real RF-DETR Nano document (S2 output) > lists every unobserved module under the graph 109ms
+ ✓ tests/generation_workflow.test.tsx > shared explicit training request > copies recipe, keeps generated origin, independent validation and stable retry key 59ms
+ ✓ tests/generation_workflow.test.tsx > shared explicit training request > does not alter search fitness weights when creating an explicit training recipe 1ms
+ ✓ tests/generation_workflow.test.tsx > native training image gallery > labels unmeasured training records without implying an evaluation 1ms
+ ✓ tests/registry_structure_button.test.tsx > RegistryStructureButton (user YAML on the server) > renders an UNVERIFIED answer with the dedicated "no observation" notice, not as a failure 51ms
+ ✓ tests/generation_workflow.test.tsx > native training image gallery > shows actual image MIME artifacts from candidate detail, excluding other JSON/source files 124ms
+ ✓ tests/model_detail_v2.test.tsx > native backend rendering > lists the modules whose connections were not observed under "관측되지 않은 구간" 115ms
+ ✓ tests/model_detail_v2.test.tsx > native backend rendering > with no edge and no unobserved entry it says so instead of inventing a chain 24ms
+ ✓ tests/model_detail_v2.test.tsx > native backend rendering > YAML documents have no unobserved section when the list is empty 42ms
+ ✓ tests/components.test.tsx > Modal > is a labelled modal dialog, traps Tab, closes with ESC and returns focus to the opener 357ms
+ ✓ tests/wp6a_badges_workers.test.tsx > training_status / evaluation_status -> UNTRAINED · UNEVALUATED > GeneratedTable shows the badge on every generated row and keeps the NOT_EVALUATED text 248ms
+ ✓ tests/wp6a_badges_workers.test.tsx > training_status / evaluation_status -> UNTRAINED · UNEVALUATED > GeneratedTable shows the reported statuses instead when a 1.5.0 row says TRAINED 8ms
+ ✓ tests/preset_auto_apply.test.tsx > no embedded template before connecting > starts with an empty policy, says so on Settings and offers no client template 428ms
+ ✓ tests/block_catalog.test.tsx > ModelStructure: distribution line and block rows > block detail rows: 출처 계열 / 도입 버전 / 역할 / 참고 (link) and the installed source path 199ms
+ ✓ tests/block_catalog.test.tsx > ModelStructure: distribution line and block rows > null fields read 출처 미상 and the block is still selectable 71ms
+ ✓ tests/app.test.tsx > Server screen flow > connects, shows registry status/reason, and never persists the token 414ms
+ ✓ tests/app.test.tsx > Server screen flow > shows a clear connection error and keeps working 35ms
+ ✓ tests/native_real_documents.test.tsx > real RF-DETR Nano document (S2 output) > decoder layer: repeats from dec_layers (declared 2, observed 2, no scale), bases, inputs with source paths, no shared layer 131ms
+ ✓ tests/components.test.tsx > Modal nested (candidate dialog -> image lightbox) > Esc closes only the innermost modal, focus returns to the button that opened it, the page stays inert until the last one closes 103ms
+ ✓ tests/components.test.tsx > Scatter > renders focusable points that open on click, Enter and Space 80ms
+ ✓ tests/model_detail_v2.test.tsx > block detail > repeats are three separate columns: declared, scale (formula), observed 72ms
+ ✓ tests/model_detail_v2.test.tsx > block detail > an unobserved repeat count is 미관측, never replaced by the formula value 28ms
+ ✓ tests/model_detail_v2.test.tsx > block detail > a v1 document shows its depth-scaled value under scale and nothing under observed 14ms
+ ✓ tests/archive_screen.test.tsx > connection gate and run list > shows the gate first, sends no archive request before connecting, and keeps the token out of storage and URL 447ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > advanced server path: model_path only behind the toggle, exclusive with the upload 328ms
+ ✓ tests/native_real_documents.test.tsx > real RF-DETR Nano document (S2 output) > the backbone encoder block is a 4-output module (multiple outputs are recorded, not collapsed) 159ms
+ ✓ tests/block_catalog.test.tsx > ModelStructure: distribution line and block rows > native blocks (ETRI hybrid): family from module_class / path rule; a repository path is text, not a link 77ms
+ ✓ tests/block_catalog.test.tsx > ModelStructure: distribution line and block rows > a document from before DD-38 (no catalog, no summary) shows neither the line nor the rows 52ms
+ ✓ tests/s11_fix1.test.tsx > S11-F2 unknown run id > shows an inline role=alert in the Load run card and does not enter the loaded state 576ms
+ ✓ tests/s11_fix1.test.tsx > S11-F4 / S11-F5 / S11-F1 css > btn-sm has a 24px minimum hit area with spacing 2ms
+ ✓ tests/s11_fix1.test.tsx > S11-F4 / S11-F5 / S11-F1 css > device targets reason column keeps a min width inside the scroll wrapper 1ms
+ ✓ tests/registry_structure_button.test.tsx > TrainingPanel integration > offers 구조 상세 next to the model field and passes the typed id / path and source kind 387ms
+ ✓ tests/registry_structure_button.test.tsx > TrainingPanel integration > is not offered when the training source is fixed (candidate detail already shows its own structure) 10ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab: diff of two revisions (stored bytes, both sha256 checked) > any two revisions can be compared; the same bytes are reported as identical (sha256 equal) 339ms
+ ✓ tests/components.test.tsx > Scatter > switches the x axis to FPS (1000 / latency) with relabelled axis and units 31ms
+ ✓ tests/components.test.tsx > Scatter > draws exactly the segments it is given and labels the AP axis in percent 18ms
+ ✓ tests/components.test.tsx > Nav (mobile disclosure) > on mobile the menu button controls an inert list until expanded 65ms
+ ✓ tests/components.test.tsx > Nav (mobile disclosure) > labels the archive-only compare entry so it is not read as a console-run comparison 5ms
+ ✓ tests/components.test.tsx > Nav (mobile disclosure) > on desktop the navigation is always available 4ms
+ ✓ tests/compare_conditions.test.tsx > Compare screen: 실행 조건 > shows every condition per run, 기록 없음 for null, and 조건 상이 when recorded values differ 533ms
+ ✓ tests/model_detail_v2.test.tsx > block detail > shows the inputs table per source, Detect head fields, and the shared mark of internal layers 102ms
+ ✓ tests/model_detail_v2.test.tsx > block detail > shows stable_id, native_path, module_class, section_basis and the per-check evidence levels 35ms
+ ✓ tests/model_detail_v2.test.tsx > UNVERIFIED (no structure observation / unsupported) is not a FAIL > GENE_REPRESENTATION_NOT_APPLICABLE with UNVERIFIED shows the dedicated notice and no failure banner 2ms
+ ✓ tests/model_detail_v2.test.tsx > UNVERIFIED (no structure observation / unsupported) is not a FAIL > STRUCTURE_RUNTIME_UNAVAILABLE with UNVERIFIED shows the dedicated notice and no failure banner 1ms
+ ✓ tests/model_detail_v2.test.tsx > UNVERIFIED (no structure observation / unsupported) is not a FAIL > UNVERIFIED with another code (STRUCTURE_CHECK_NOT_RECORDED) shows neither notice 1ms
+ ✓ tests/model_detail_v2.test.tsx > UNVERIFIED (no structure observation / unsupported) is not a FAIL > a real FAIL document shows the failure notice and its diagnostics, not the unsupported notice 32ms
+ ✓ tests/model_detail_v2.test.tsx > UNVERIFIED (no structure observation / unsupported) is not a FAIL > even with the unsupported code, status FAIL is never shown as "no observation" 2ms
+ ✓ tests/model_detail_v2.test.tsx > UNVERIFIED (no structure observation / unsupported) is not a FAIL > the notice also shows when only status and diagnostics are passed (candidate view props) 1ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > client pre-check: a non-YAML name, an empty file or more than 1 MiB is refused without a request 164ms
+ ✓ tests/app.test.tsx > Server screen flow > rejects a plain-http remote origin before any request 163ms
+ ✓ tests/s11_fix1.test.tsx > S11-F4 / S11-F5 / S11-F1 css > health commit hash wraps 176ms
+ ✓ tests/wp6a_badges_workers.test.tsx > training_status / evaluation_status -> UNTRAINED · UNEVALUATED > CandidateView: generated candidate -> UNTRAINED · UNEVALUATED; DD-5 row -> 학습 완료 · 미평가; evaluated row -> neither 316ms
+ ✓ tests/wp6a_badges_workers.test.tsx > training_status / evaluation_status -> UNTRAINED · UNEVALUATED > CandidateView takes training_status from the candidate detail when the row lacks it (1.5.0 detail, any origin) 70ms
+ ✓ tests/native_real_documents.test.tsx > real RF-DETR Nano document (S2 output) > check table keeps NOT_CHECKED rows (yaml_rows, merge_conditions) as 기록 없음 and the summary counts them 109ms
+ ✓ tests/native_real_documents.test.tsx > real ETRI hybrid document (S2 output) > draws the 14 recorded edges; the position buffer is connected by a native_fixed (dashed) edge 43ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab: diff of two revisions (stored bytes, both sha256 checked) > stored bytes that do not hash to the recorded source_sha256 are flagged on that side 117ms
+ ✓ tests/compare_conditions.test.tsx > Compare screen: 실행 조건 > no warning when the recorded conditions agree 157ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > a server rejection 413 PAYLOAD_TOO_LARGE is shown by its code (not guessed from the status) 104ms
+ ✓ tests/archive_compare.test.tsx > Run 비교 > lists the runs of one dataset only, needs two selections, then draws both curves, the baseline table and the finalists 704ms
+ ✓ tests/archive_screen.test.tsx > connection gate and run list > lists the runs with status text, filters by dataset and status, and warns about unreachable roots 347ms
+ ✓ tests/model_detail_v2.test.tsx > downloaded file hashes > computes SHA-256 of the downloaded bytes, matches the registered one and says the canonical yaml_hash differs on purpose 145ms
+ ✓ tests/wp6a_badges_workers.test.tsx > Workers table: runner_id / device_id (contract 1.5.0) > shows the core-issued ids when present and a dash for an older server 120ms
+ ✓ tests/compare_conditions.test.tsx > Compare screen: 실행 조건 > a server without conditions shows 기록 없음 everywhere and no warning (nothing is inferred) 188ms
+ ✓ tests/native_real_documents.test.tsx > real ETRI hybrid document (S2 output) > a stem block: 8 repeats from a Sequential container, internal layers, no scale 79ms
+ ✓ tests/native_real_documents.test.tsx > declaration-only native documents (GET /registry/{id}/structure with nothing saved) > rfdetr_nano_declared: UNVERIFIED, no blocks, says so and does not invent a graph or call it a FAIL 7ms
+ ✓ tests/native_real_documents.test.tsx > declaration-only native documents (GET /registry/{id}/structure with nothing saved) > etri_declared: UNVERIFIED, no blocks, says so and does not invent a graph or call it a FAIL 4ms
+ ✓ tests/native_real_documents.test.tsx > native candidate detail (CandidateView) with a GENE_REPRESENTATION_NOT_APPLICABLE document > shows the unsupported notice (not a FAIL) for the real declaration-only shape with that code 2ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > a server rejection 422 UPLOAD_TYPE_UNSUPPORTED is shown by its code (not guessed from the status) 101ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > a server rejection 422 UPLOAD_NOT_UTF8 is shown by its code (not guessed from the status) 76ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab: diff of two revisions (stored bytes, both sha256 checked) > a revision whose bytes are not stored yet reports the server code 139ms
+ ✓ tests/preset_auto_apply.test.tsx > connect -> presets -> DEFAULT_BASELINE14 > loads the presets automatically and applies DEFAULT_BASELINE14 with a visible label before reporting ok 457ms
+ ✓ tests/model_detail_v2.test.tsx > downloaded file hashes > a file sha256 that differs from the registered artifact sha256 is shown as an error 96ms
+ ✓ tests/archive_compare.test.tsx > Run 비교 > runs with a different dataset are flagged as not comparable but still drawn 196ms
+ ✓ tests/native_real_documents.test.tsx > native candidate detail (CandidateView) with a GENE_REPRESENTATION_NOT_APPLICABLE document > header and graph for a saved native check 124ms
+ ✓ tests/native_real_documents.test.tsx > parity with the server compare_structures on native documents > etri_checked -> etri_checked 1ms
+ ✓ tests/native_real_documents.test.tsx > parity with the server compare_structures on native documents > etri_checked -> rfdetr_nano_checked 0ms
+ ✓ tests/native_real_documents.test.tsx > parity with the server compare_structures on native documents > rfdetr_nano_checked -> etri_checked 0ms
+ ✓ tests/native_real_documents.test.tsx > parity with the server compare_structures on native documents > rfdetr_nano_checked -> rfdetr_nano_declared 0ms
+ ✓ tests/native_real_documents.test.tsx > parity with the server compare_structures on native documents > the edges the view resolves from the integer endpoints are the edges of the real report (nothing added) 1ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab: exact-byte download > downloads the stored bytes of a revision unchanged and checks them against source_sha256 146ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > a server rejection 507 STORE_UNAVAILABLE is shown by its code (not guessed from the status) 78ms
+ ✓ tests/archive_compare.test.tsx > Run 비교 > the selection is capped at six runs and a failing compare request shows a retryable error 158ms
+ ✓ tests/archive_compare.test.tsx > curveSeries > drops points without an x, keeps null y as a gap, and uses distinct styles per run 3ms
+ ✓ tests/native_real_documents.test.tsx > comparison of two real native documents > lists the server-shaped edge diff and names the native identity fields that differ (the server fields are null for native blocks) 167ms
+ ✓ tests/archive_screen.test.tsx > connection gate and run list > a failing run list shows an error banner and the page stays usable 192ms
+ ✓ tests/final_retrain.test.tsx > Final Retrain panel > is absent while the search run is RUNNING and present once COMPLETED 886ms
+ ✓ tests/model_detail_v2.test.tsx > downloaded file hashes > without a registered sha256 the comparison is reported as not possible (no value invented) 99ms
+ ✓ tests/lineage_generated.test.tsx > Lineage rows include the generated candidates (F14) > the Lineage table badges every generated candidate UNTRAINED · UNEVALUATED, distinct from the evaluated rows 941ms
+ ✓ tests/lineage_generated.test.tsx > candidate view: architecture and checkpoint files by id + sha256 (no host path) > shows the architecture artifact id + sha256 and the checkpoint ids + sha256, never a path 72ms
+ ✓ tests/wp6a_badges_workers.test.tsx > Monitor: the generation representative is the server value only (R6) > no "differs from client rule" badge even when the highest-fitness visible row is another candidate 423ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab: exact-byte download > the displayed (canonical) text download is labelled separately from the exact-byte download 68ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab fallback (gateway without the revision routes) > 404 NOT_FOUND: the tab is hidden and a note explains why 94ms
+ ✓ tests/model_detail_v2.test.tsx > downloaded file hashes > without WebCrypto it says so and prints no hash 156ms
+ ✓ tests/model_detail_v2.test.tsx > model comparison > lists edges added and removed (server-shaped diff) for a two-model comparison 76ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > a structure check that reports other bytes than the upload is flagged 216ms
+ ✓ tests/config_upload.test.tsx > TrainingPanel upload flow (F5a: upload -> upload_id -> structure-check / training-runs) > a server sha256 different from the bytes the browser hashed is reported as a mismatch 71ms
+ ✓ tests/components.test.tsx > Monitor with a loaded run > Workers table shows vram_mb / power_w / sm_clock_mhz when reported and a dash otherwise (I4-#9) 528ms
+ ✓ tests/lineage_generated.test.tsx > candidate view: architecture and checkpoint files by id + sha256 (no host path) > downloads by artifact id and verifies the bytes against the recorded sha256 180ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab fallback (gateway without the revision routes) > 404 CANDIDATE_NOT_FOUND: hidden as "no record for this candidate" 87ms
+ ✓ tests/archive_candidate.test.tsx > archive candidate modal > shows identity, per-tier evaluations, latency breakdown, architecture, lineage, checkpoint and provenance 1090ms
+ ✓ tests/model_detail_v2.test.tsx > model comparison > keeps 부모·자식 apart from 두 모델 when the server recorded the parent relation 29ms
+ ✓ tests/model_detail_v2.test.tsx > model comparison > says so when one side has no edge record instead of computing edges from nothing 29ms
+ ✓ tests/model_detail_v2.test.tsx > design-origin catalog (DD-38, real server documents of tests/block_catalog_server_fixture.json) > CandidateView header shows the same origin distribution as the structure view, from catalog_summary 82ms
+ ✓ tests/model_detail_v2.test.tsx > design-origin catalog (DD-38, real server documents of tests/block_catalog_server_fixture.json) > a candidate whose structure predates the catalog has no distribution line in the header 37ms
+ ✓ tests/preset_auto_apply.test.tsx > connect -> presets -> DEFAULT_BASELINE14 > an edit made before connecting is kept: no auto-apply over it, and the label says it is a manual edit 431ms
+ ✓ tests/lineage_generated.test.tsx > candidate view: architecture and checkpoint files by id + sha256 (no host path) > a failed download 404 ARTIFACT_NOT_READY is shown as NOT_READY (by code) 75ms
+ ✓ tests/lineage_generated.test.tsx > candidate view: architecture and checkpoint files by id + sha256 (no host path) > a failed download 409 LOAD_FAILED is shown as LOAD_FAILED (by code) 62ms
+ ✓ tests/lineage_generated.test.tsx > candidate view: architecture and checkpoint files by id + sha256 (no host path) > a failed download 403 ACCESS_DENIED is shown as ACCESS_DENIED (by code) 67ms
+ ✓ tests/lineage_generated.test.tsx > artifact download states by Error.code (DD-A39), the status only for an unknown code > the code decides: 404 ARTIFACT_NOT_READY is NOT_READY (not MISSING), 409 LOAD_FAILED is LOAD_FAILED (not NOT_READY) 1ms
+ ✓ tests/lineage_generated.test.tsx > artifact download states by Error.code (DD-A39), the status only for an unknown code > an unknown code falls back to the status (older servers), and no code at all too 0ms
+ ✓ tests/lineage_generated.test.tsx > artifact download states by Error.code (DD-A39), the status only for an unknown code > a diagnostic image (bearer fetch) follows the same rule and carries the code 1ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab fallback (gateway without the revision routes) > a remembered model_tab=config falls back to the full view while the server offers no revisions 98ms
+ ✓ tests/config_revisions.test.tsx > "구성" tab fallback (gateway without the revision routes) > a 5xx keeps the tab with the error and a retry that loads the table 138ms
+ ✓ tests/app.test.tsx > Server screen flow > Run is enabled only after a valid Validate and disabled again when the editor changes 755ms
+ ✓ tests/archive_screen.test.tsx > selected run > baseline card highlights the judge baseline with its tier, lists reference baselines and the anchor, missing as dash 435ms
+ ✓ tests/block_catalog.test.tsx > archive candidate modal: origin beside each module > lists each histogram module with the family from the served catalog (the web holds no table) 787ms
+ ✓ tests/components.test.tsx > Monitor with a loaded run > explicit validation-OFF training row shows 학습 완료 · 미평가, other SEARCH_COMPLETE rows keep the raw status (DD-5) 351ms
+ ✓ tests/app.test.tsx > Server screen flow > a timeout answer keeps the same Idempotency-Key for the retry; 409 shows the conflict 261ms
+ ✓ tests/final_retrain.test.tsx > Final Retrain panel > requires budget > 0, then POSTs body + header with one key and shows child run id, finalist_count and a load action 651ms
+ ✓ tests/archive_screen.test.tsx > selected run > overview: status, verdicts, stage timeline, gates with FAIL and WARN first, roles 308ms
+ ✓ tests/preset_auto_apply.test.tsx > connect -> presets -> DEFAULT_BASELINE14 > an edit after the auto-apply clears the "auto-applied" badge; a chosen preset gets its own label 432ms
+ ✓ tests/archive_candidate.test.tsx > archive candidate modal > a parent card navigates to that candidate; the back button returns 604ms
+ ✓ tests/block_catalog.test.tsx > archive candidate modal: origin beside each module > a module the served catalog does not list reads 출처 미상 403ms
+ ✓ tests/archive_screen.test.tsx > selected run > generation table shows the deltas and the lineage modes; the baseline delta is footnoted as a different tier 361ms
+ ✓ tests/final_retrain.test.tsx > Final Retrain panel > timeout/5xx keeps the same Idempotency-Key for the retry, which then succeeds 387ms
+ ✓ tests/block_catalog.test.tsx > archive candidate modal: origin beside each module > when the catalog request fails the modal still works and says why the origins are missing 397ms
+ ✓ tests/app.test.tsx > policy lock in the UI > a loaded RUNNING run locks the Settings screen and offers a fork; a COMPLETED run does not 446ms
+ ✓ tests/preset_auto_apply.test.tsx > connect -> presets -> DEFAULT_BASELINE14 > a reconnect never replaces a loaded run (its resolved protocol stays in the editor) 381ms
+ ✓ tests/archive_candidate.test.tsx > archive candidate modal > Esc closes the modal, removes cid from the hash and returns focus to the opener 421ms
+ ✓ tests/app.test.tsx > policy lock in the UI > a COMPLETED run leaves the policy editable 342ms
+ ✓ tests/preset_auto_apply.test.tsx > connect -> presets -> DEFAULT_BASELINE14 > a presets failure does not fail the connection: the editor stays empty and Settings says why 223ms
+ ✓ tests/components.test.tsx > Monitor with a loaded run > generation-OFF run with reason_code GENERATION_EMPTY / GENERATION_PARTIAL shows the partial banner text (DD-3) 850ms
+ ✓ tests/final_retrain.test.tsx > Final Retrain panel > 409 NO_FINALIST is rendered distinctly 363ms
+ ✓ tests/preset_auto_apply.test.tsx > connect -> presets -> DEFAULT_BASELINE14 > Validate is disabled while the connection (health + presets) is in progress 146ms
+ ✓ tests/archive_screen.test.tsx > selected run > clicking a generation opens the detail panel (hash gen=), with improvements, new fp, lineage and the module histogram delta 494ms
+ ✓ tests/preset_auto_apply.test.tsx > connect -> presets -> DEFAULT_BASELINE14 > a server without DEFAULT_BASELINE14 leaves the editor empty (nothing is substituted) 217ms
+ ✓ tests/components.test.tsx > Monitor with a loaded run > draws two charts with the points of one cohort, a cohort-guard notice, and an equivalent table 347ms
+ ✓ tests/final_retrain.test.tsx > Final Retrain panel > 409 INVALID_STATE is rendered distinctly 353ms
+ ✓ tests/archive_screen.test.tsx > selected run > a generation chart point is a keyboard button that selects the generation 312ms
+ ✓ tests/components.test.tsx > Monitor with a loaded run > opens the candidate dialog with Enter on a focused point and restores focus on ESC 390ms
+ ✓ tests/final_retrain.test.tsx > Final Retrain panel > 409 BUDGET_INVALID is rendered distinctly 355ms
+ ✓ tests/archive_screen.test.tsx > selected run > candidate table: a missing latency is a dash, failed rows keep their status, filters work, a row opens the modal 491ms
+ ✓ tests/components.test.tsx > Monitor with a loaded run > shows costs in GPU-hours with raw seconds, and a dash (not 0) for unmeasured values 269ms
+ ✓ tests/final_retrain.test.tsx > Final Retrain panel > 409 IDEMPOTENCY_CONFLICT is rendered distinctly 326ms
+ ✓ tests/components.test.tsx > Monitor with a loaded run > the FPS toggle relabels both axes and table header 350ms
+ ✓ tests/final_retrain.test.tsx > loaded FINAL_RETRAIN run > Monitor header shows kind and parent link; the final cohort is drawn alone; History lists the parent 409ms
+ ✓ tests/archive_screen.test.tsx > selected run > scatter: generation slider limits the points, point is a button that opens the candidate, table view lists the same rows 488ms
+ ✓ tests/final_retrain.test.tsx > loaded FINAL_RETRAIN run > NO_FINALIST child (empty finalists + reason) reports it and never fills in a lower rung 267ms
+ ✓ tests/archive_screen.test.tsx > selected run > y-metric selection changes the plotted values; a tier filter switches the front to the client calculation 310ms
+ ✓ tests/components.test.tsx > Monitor with a loaded run > modal shows lineage with parent A/B badges, the public block source kinds and YAML rows (no owner-only repair trace) and 4 artifact panels 463ms
+ ✓ tests/components.test.tsx > ArtifactImage states > server-reported state {"state":"NOT_READY"} is shown as text 13ms
+ ✓ tests/components.test.tsx > ArtifactImage states > server-reported state {"state":"ACCESS_DENIED"} is shown as text 2ms
+ ✓ tests/components.test.tsx > ArtifactImage states > server-reported state {"state":"MISSING"} is shown as text 3ms
+ ✓ tests/components.test.tsx > ArtifactImage states > server-reported state {"state":"LOAD_FAILED"} is shown as text 2ms
+ ✓ tests/components.test.tsx > ArtifactImage states > bearer_fetch HTTP statuses 403 / 404 / 409 end in ACCESS_DENIED / MISSING / NOT_READY (no endless spinner) 10ms
+ ✓ tests/components.test.tsx > ArtifactImage states > EXPIRED tries the refresh endpoint once and then shows EXPIRED 3ms
+ ✓ tests/components.test.tsx > ArtifactImage states > signed_url renders a plain <img> without credentials; bearer_fetch renders a blob: URL and revokes it on unmount 18ms
+ ✓ tests/components.test.tsx > ArtifactImage states > changing the artifact revokes the previous blob URL 10ms
+ ✓ tests/components.test.tsx > ArtifactImage states > shows N/A sample recall when the sample has no ground truth 8ms
+ ✓ tests/components.test.tsx > fixtures sanity > fixture generation counts satisfy the invariant used by the UI 0ms
+ ✓ tests/archive_screen.test.tsx > selected run > plots: the loaded plot is an image, the missing one says MISSING, the token only travels in the header 260ms
+ ✓ tests/final_retrain.test.tsx > loaded FINAL_RETRAIN run > candidate modal shows lineage operation final with the source candidate as its single parent 453ms
+ ✓ tests/archive_screen.test.tsx > selected run > fidelity and confirm cards show the numbers with the non-evidence label 247ms
+ ✓ tests/archive_candidate.test.tsx > archive candidate modal > Tab stays inside the dialog 2570ms
+ ✓ tests/archive_screen.test.tsx > missing data > a run without baselines, generations or candidates still renders every card with explicit messages 147ms
+ ✓ tests/archive_candidate.test.tsx > archive candidate modal > a failed candidate shows its status and error, dashes for metrics, and says the architecture is missing 295ms
+ ✓ tests/archive_screen.test.tsx > missing data > an unknown run id in the deep link shows an error banner, not a blank page 115ms
+ ✓ tests/final_retrain.test.tsx > Settings: crossover rate and benchmark postprocess > edits write crossover_rate and postprocess; clearing removes the keys; help text names the AP floor 710ms
+ ✓ tests/archive_candidate.test.tsx > archive candidate modal > a final-tier candidate carries its role badge and the final row 294ms
+ ✓ tests/archive_screen.test.tsx > deep link restore > run, generation and candidate from the hash are restored after connecting 346ms
+ ✓ tests/archive_screen.test.tsx > deep link before connecting > does not open the candidate dialog (it would cover the token form); the gate is usable 4ms
+ ✓ tests/final_retrain.test.tsx > Settings: crossover rate and benchmark postprocess > an out-of-range crossover rate is flagged client-side 106ms
+ ✓ tests/final_retrain.test.tsx > Settings: crossover rate and benchmark postprocess > the Validate diff table shows defaulted values with a badge 84ms
+ ✓ tests/archive_candidate.test.tsx > archive candidate modal > an unknown candidate id (deep link) shows the 404 error inside the dialog and can be closed 249ms
+ ✓ tests/final_retrain.test.tsx > Settings: crossover rate and benchmark postprocess > S4-F4: an INVALID Validate result never renders "Requested vs resolved", even if the reply carries a diff 75ms
+ ✓ tests/archive_screen.test.tsx > running run polling > polls every 10 s, keeps the last data when a poll fails, retries, and stops when the run is done 432ms
+ ✓ tests/archive_screen.test.tsx > running run polling > a finished run is not polled 197ms
+ ✓ tests/archive_screen.test.tsx > performance sanity (jsdom) > renders 2,000 plotted rows in both scatter charts well inside a second-scale budget and keeps the DOM bounded 679ms
+ ✓ tests/archive_screen.test.tsx > campaign runs (WP-S7: read-only 12-search adapter) > groups the arms under their campaign (not in the plain run table), sorted space / seed / method, with status and ledger progress 132ms
+ ✓ tests/archive_screen.test.tsx > campaign runs (WP-S7: read-only 12-search adapter) > collapses and expands a campaign 149ms
+ ✓ tests/archive_screen.test.tsx > campaign runs (WP-S7: read-only 12-search adapter) > a campaign row opens the run by its id (hash and detail request use the full id) 193ms
+ ✓ tests/archive_screen.test.tsx > campaign runs (WP-S7: read-only 12-search adapter) > without campaign runs there is no campaign card and the plain table is unchanged 106ms
+
+ Test Files  44 passed (44)
+      Tests  585 passed (585)
+   Start at  16:02:10
+   Duration  11.17s (transform 33%, tests 28%, environment 28%, import 7%, setup 4%)
+
+  Transform  transforming modules took 57.29s · 33% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+

@@ -1,0 +1,145 @@
+{
+ "schema": "mbnas.doctor/1",
+ "root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application",
+ "profile": "owner",
+ "ok": true,
+ "counts": {
+  "PASS": 25,
+  "WARN": 1,
+  "FAIL": 0
+ },
+ "blocking": [],
+ "checks": [
+  {
+   "name": "interpreter",
+   "status": "PASS",
+   "detail": "Python 3.10.22 venv /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/venv"
+  },
+  {
+   "name": "package:mbnas-contracts",
+   "status": "PASS",
+   "detail": "0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_contracts"
+  },
+  {
+   "name": "package:mbnas-model-runtime",
+   "status": "PASS",
+   "detail": "0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime"
+  },
+  {
+   "name": "package:mbnas-runner",
+   "status": "PASS",
+   "detail": "0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_runner"
+  },
+  {
+   "name": "package:mbnas-server",
+   "status": "PASS",
+   "detail": "0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_server"
+  },
+  {
+   "name": "package:mbnas-core",
+   "status": "PASS",
+   "detail": "0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core"
+  },
+  {
+   "name": "entry_points",
+   "status": "PASS",
+   "detail": "7 console scripts in runtime/venv/bin"
+  },
+  {
+   "name": "path_strings",
+   "status": "PASS",
+   "detail": "266 files scanned, no original-host path string"
+  },
+  {
+   "name": "config:core",
+   "status": "PASS",
+   "detail": "listen 127.0.0.1:45567, db /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/core/db/mbnas.sqlite3; secrets set: MBNAS_CORE_API_TOKEN, MBNAS_CORE_ARTIFACT_SIGNING_KEY, MBNAS_CORE_TICKET_KEY"
+  },
+  {
+   "name": "config:gateway",
+   "status": "PASS",
+   "detail": "core_url http://127.0.0.1:45567, listen 127.0.0.1:40197; secrets set: MBNAS_GW_API_TOKEN, MBNAS_GW_ARTIFACT_SIGNING_KEY, MBNAS_GW_CORE_TOKEN"
+  },
+  {
+   "name": "config:runner",
+   "status": "PASS",
+   "detail": "core_url http://127.0.0.1:45567, runner_id runner-dev1; secrets set: MBNAS_RUNNER_TOKEN|_TOKEN_FILE"
+  },
+  {
+   "name": "process:core",
+   "status": "PASS",
+   "detail": "running (pid 2253001)"
+  },
+  {
+   "name": "process:owner-worker",
+   "status": "PASS",
+   "detail": "running (pid 2253040)"
+  },
+  {
+   "name": "process:gateway",
+   "status": "PASS",
+   "detail": "running (pid 2253125)"
+  },
+  {
+   "name": "process:runner",
+   "status": "PASS",
+   "detail": "running (pid 2253174)"
+  },
+  {
+   "name": "port:core",
+   "status": "PASS",
+   "detail": "127.0.0.1:45567 held by this tree's core (pid 2253001)"
+  },
+  {
+   "name": "port:gateway",
+   "status": "PASS",
+   "detail": "127.0.0.1:40197 held by this tree's gateway (pid 2253125)"
+  },
+  {
+   "name": "port:web",
+   "status": "PASS",
+   "detail": "127.0.0.1:8720 free"
+  },
+  {
+   "name": "gpu",
+   "status": "PASS",
+   "detail": "GPU0 NVIDIA RTX A6000 23767/49140 MiB util 89%; GPU1 NVIDIA RTX A6000 6497/49140 MiB util 44%"
+  },
+  {
+   "name": "core:gateway",
+   "status": "PASS",
+   "detail": "http://127.0.0.1:45567/core/v1/console/health -> HTTP 200 status=ok"
+  },
+  {
+   "name": "gateway:store",
+   "status": "PASS",
+   "detail": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/gateway/artifacts"
+  },
+  {
+   "name": "gateway:log_dir",
+   "status": "PASS",
+   "detail": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/gateway/logs"
+  },
+  {
+   "name": "core:runner",
+   "status": "PASS",
+   "detail": "http://127.0.0.1:45567 answers (HTTP 401 without a token)"
+  },
+  {
+   "name": "core_doctor",
+   "status": "PASS",
+   "detail": "db present (schema 4); registry 17 entries (mbnas_core.registry.load_registry); free 340.3 GB"
+  },
+  {
+   "name": "disk",
+   "status": "PASS",
+   "detail": "340.3 GB free under runtime/"
+  },
+  {
+   "name": "web_dist",
+   "status": "WARN",
+   "detail": "mbnas_web/dist missing: the gateway serves the API only (bash scripts/install.sh --web builds it)"
+  }
+ ],
+ "at": "2026-10-27T04:54:07Z"
+}

@@ -1,0 +1,2 @@
+import ok
+exit=0

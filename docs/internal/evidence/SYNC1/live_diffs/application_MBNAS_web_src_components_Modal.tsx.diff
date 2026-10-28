@@ -1,0 +1,46 @@
+--- a/application/MBNAS_web/src/components/Modal.tsx
++++ b/application/MBNAS_web/src/components/Modal.tsx
+@@ -7,6 +7,10 @@
+ 
+ const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"])';
+ 
++/** Open modals, innermost last: with a modal opened from inside another one (candidate dialog -> image lightbox) only the innermost reacts to Esc/Tab, and the page stays inert until the last one closes. */
++const openModals: HTMLElement[] = [];
++let inertHolders = 0;
++
+ function focusables(root: HTMLElement): HTMLElement[] {
+   return Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE)).filter((el) => el.closest('[hidden],[inert]') === null && !(el as HTMLInputElement).disabled);
+ }
+@@ -19,14 +23,17 @@
+   useEffect(() => {
+     const opener = document.activeElement as HTMLElement | null;
+     const rootEl = document.getElementById('root');
++    inertHolders += 1;
+     rootEl?.setAttribute('inert', '');
+     const prevOverflow = document.body.style.overflow;
+     document.body.style.overflow = 'hidden';
+     const dlg = ref.current;
++    if (dlg) openModals.push(dlg);
+     dlg?.querySelector<HTMLElement>('[data-autofocus]')?.focus();
+     if (dlg && !dlg.contains(document.activeElement)) dlg.focus();
+ 
+     const onKey = (e: KeyboardEvent): void => {
++      if (dlg && openModals[openModals.length - 1] !== dlg) return; // an inner modal owns the keyboard
+       if (e.key === 'Escape') {
+         e.stopPropagation();
+         closeRef.current();
+@@ -53,7 +60,13 @@
+     document.addEventListener('keydown', onKey, true);
+     return () => {
+       document.removeEventListener('keydown', onKey, true);
+-      rootEl?.removeAttribute('inert');
++      const at = dlg ? openModals.lastIndexOf(dlg) : -1;
++      if (at >= 0) openModals.splice(at, 1);
++      inertHolders -= 1;
++      if (inertHolders <= 0) {
++        inertHolders = 0;
++        rootEl?.removeAttribute('inert');
++      }
+       document.body.style.overflow = prevOverflow;
+       if (opener && document.contains(opener)) opener.focus();
+     };

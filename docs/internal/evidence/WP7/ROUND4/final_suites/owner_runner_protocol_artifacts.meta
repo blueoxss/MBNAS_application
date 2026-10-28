@@ -1,0 +1,8 @@
+command: runtime/venv/bin/python -B -m pytest -p no:cacheprovider tests/owner/runner_protocol tests/owner/artifacts -m "not gpu and not live and not legacy_records and not host_data" --timeout=600 -q -rfEs --basetemp=<SCRATCH>/suites/owner_runner_protocol_artifacts/bt
+cwd: <ROOT>; env: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null MBNAS_TEST_ROOT/MBNAS_HOME=<SCRATCH>/suites/owner_runner_protocol_artifacts
+start_utc: 2026-10-28T00:50:02Z
+end_utc: 2026-10-28T00:53:54Z
+exit: 0
+source_tree_hash_start: sha256:01c7d785347fea7e63387a650e8aef968b123bf2555dc26db5907265d334bcfd
+source_tree_hash_end: sha256:01c7d785347fea7e63387a650e8aef968b123bf2555dc26db5907265d334bcfd
+summary: 97 passed, 1 warning in 229.55s (0:03:49)

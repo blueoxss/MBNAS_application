@@ -1,0 +1,24 @@
+{
+ "changed": [],
+ "missing": [],
+ "new": [],
+ "new_docs": [
+  "application/docs/integration_20261021/FINAL_REPORT_20261021.md",
+  "application/docs/integration_20261021/REQUIREMENTS_TRACE_v2.md",
+  "application/docs/integration_20261021/criteria/S01_iter1.json",
+  "application/docs/integration_20261021/criteria/S01_iter2.json",
+  "application/docs/integration_20261021/criteria/S01_iter3.json",
+  "application/docs/integration_20261021/criteria/S01_iter4.json",
+  "application/docs/integration_20261021/criteria/S02_iter1.json",
+  "application/docs/integration_20261021/criteria/S03_iter1.json",
+  "application/docs/integration_20261021/criteria/S04_iter1.json",
+  "application/docs/integration_20261021/criteria/S04_iter2.json",
+  "application/docs/integration_20261021/criteria/S05_iter1.json",
+  "application/docs/integration_20261021/criteria/S05_iter2.json",
+  "application/docs/integration_20261021/criteria/S05_iter3.json",
+  "application/docs/integration_20261021/criteria/S05_iter4.json",
+  "application/docs/integration_20261021/criteria/S06_iter1.json",
+  "application/docs/integration_20261021/criteria/S06_iter2.json",
+  "application/docs/integration_20261021/criteria/S06_iter3.json"
+ ]
+}

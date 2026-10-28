@@ -1,0 +1,20 @@
+........................................................................ [ 62%]
+...........................................                              [100%]
+=============================== warnings summary ===============================
+tests/public/runner/test_benchmark_unit.py::test_export_ultralytics_raw_head_and_restores_pt_path
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/ultralytics/nn/modules/head.py:222: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+    if self.dynamic or self.shape != shape:
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================= slowest 10 durations =============================
+9.55s call     tests/public/runner/test_runner_device_used.py::test_child_env_pins_cuda_device_order_to_nvml_pci_bus_order
+7.23s call     tests/public/runner/test_transfer_local.py::test_heartbeat_kicks_a_background_retry
+6.25s call     tests/public/runner/test_runner_daemon_unit.py::test_happy_path_claim_start_heartbeat_progress_result_ack
+5.31s call     tests/public/runner/test_runner_daemon_unit.py::test_pause_control_writes_stop_file_and_commits_paused
+5.14s call     tests/public/runner/test_transfer_local.py::test_daemon_transfer_failure_never_fails_the_job_and_retry_completes_later
+5.11s call     tests/public/runner/test_transfer_local.py::test_daemon_local_mode_stores_every_registered_file
+5.07s call     tests/public/runner/test_runner_daemon_unit.py::test_execute_waits_before_starting_and_spawning
+4.93s call     tests/public/runner/test_runner_device_used.py::test_cpu_only_runner_commits_device_used_cpu_without_uuid
+4.90s call     tests/public/runner/test_transfer_local.py::test_daemon_default_none_is_unchanged
+4.72s call     tests/public/runner/test_runner_daemon_unit.py::test_cancel_control_terminates_child_and_reports_cancel_observed
+115 passed, 9 deselected, 1 warning in 119.00s (0:01:58)

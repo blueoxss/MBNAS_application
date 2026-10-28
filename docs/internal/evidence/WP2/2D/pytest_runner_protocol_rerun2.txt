@@ -1,0 +1,102 @@
+......F........................F........                                 [100%]
+=================================== FAILURES ===================================
+____ test_result_body_over_limit_is_413_and_runner_externalises_per_sample _____
+
+core = <starlette.testclient.TestClient object at 0x7f4e9572ef80>
+runner_sim = <runner_sim.RunnerSim object at 0x7f4e956940d0>
+daemon_factory = <function daemon_factory.<locals>.build at 0x7f4e957445e0>
+base_proto = <function base_proto.<locals>.build at 0x7f4e95744ca0>
+db = <sqlite3.Connection object at 0x7f4e95e47640>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f4e957d3790>
+
+    def test_result_body_over_limit_is_413_and_runner_externalises_per_sample(core, runner_sim, daemon_factory, base_proto,
+                                                                              db, monkeypatch):
+        monkeypatch.setenv("MBNAS_JOB_HANDLERS_MODULE", "remote_handlers")
+        monkeypatch.setenv("MBNAS_STUB_PER_SAMPLE_BYTES", str(400 << 10))
+        run_id, _ = harness.validate_and_run(core, base_proto())
+        # (a) the core: a commit above the runner limit is 413 PAYLOAD_TOO_LARGE
+        runner_sim.register()
+        lease = runner_sim.claim()
+        out = runner_sim.run_attempt(lease, commit=False)
+        assert len(str(out["result"].outputs["evaluation"]["per_sample"])) > LIMIT
+        body = runner_sim.commit_body(lease, out["result"], artifact_ids=out["artifact_ids"])
+        r = runner_sim.result(lease, body)
+        assert r.status_code == 413 and r.json()["code"] == "PAYLOAD_TOO_LARGE"
+        assert repo.get_job(db, lease.job_id)["status"] == "RUNNING"
+        runner_sim.deregister()
+        # (b) the runner daemon on a fresh job of the same shape: the commit must get through below the limit
+        run2, _ = harness.validate_and_run(core, base_proto(), key="idem-t333")
+        d = daemon_factory("R2")
+        d.run(max_jobs=1)
+        job = repo.list_jobs(db, run2)[0]
+>       assert job["status"] == "SUCCEEDED", (job["status"], job.get("error"))
+E       AssertionError: ('RUNNING', None)
+E       assert 'RUNNING' == 'SUCCEEDED'
+E         
+E         - SUCCEEDED
+E         + RUNNING
+
+tests/owner/runner_protocol/test_t3_body_limit.py:45: AssertionError
+----------------------------- Captured stdout call -----------------------------
+library noise on stdout must not break the JSONL protocol
+----------------------------- Captured stderr call -----------------------------
+2026-10-26T12:04:41.616518Z runner R2: result refused for job-585cd7aaab1044a1 attempt 1: HTTP 413 PAYLOAD_TOO_LARGE: request body larger than 262144 bytes
+_______ test_runner_recomputes_checkpoint_sha_and_rejects_tampered_file ________
+
+core = <starlette.testclient.TestClient object at 0x7f4e956959f0>
+daemon_factory = <function daemon_factory.<locals>.build at 0x7f4fe7f35f30>
+base_proto = <function base_proto.<locals>.build at 0x7f4e95832a70>
+db = <sqlite3.Connection object at 0x7f4e95a02940>
+
+    def test_runner_recomputes_checkpoint_sha_and_rejects_tampered_file(core, daemon_factory, base_proto, db):
+        """T3-23 / F17 (test_worker_integrity.py:46 on the runner daemon): the daemon recomputes the file sha256; a
+        tampered file, or a report without digest, is not registered and reaches the run as a CHECKPOINT_REPORT_REJECTED
+        error log through the next progress batch; an upper-case ``sha256:``-prefixed digest is normalised."""
+        from mbnas_runner.client import JobFence
+        from mbnas_runner.daemon import _Live
+        from mbnas_runner.envelope import run_dir_for
+        from mbnas_runner.journal import AttemptJournal
+    
+        run_id, _ = harness.validate_and_run(core, base_proto())
+        d = daemon_factory()
+        d.register()
+        claim = d.client.claim(d.kinds)
+        fence = JobFence.from_claim(claim)
+        j = AttemptJournal.create(d.settings.work_root, fence.job_id, fence.attempt)
+        j.record_claim(claim)
+        assert d._start(j, fence) is not None
+        env = claim["envelope"]
+        base = run_dir_for(d.settings.work_root, run_id)
+        live = _Live()
+        good = base / "candidates" / "ck" / "full_e0001.pt"
+        good.parent.mkdir(parents=True, exist_ok=True)
+        good.write_bytes(b"A" * 4096)
+        d._checkpoint(j, fence, env, _report(good), live, base)
+        rows = repo.list_checkpoints(db, run_id)
+        assert len(rows) == 1 and rows[0]["sha256"] == hashlib.sha256(b"A" * 4096).hexdigest()
+        assert _errors(db, run_id) == []
+    
+        # Same size, different bytes: the child reported the digest of the original content.
+        tampered = base / "candidates" / "ck" / "full_e0002.pt"
+        tampered.write_bytes(b"B" * 4096)
+        report = _report(tampered, epoch=2)
+        tampered.write_bytes(b"C" * 4096)
+        d._checkpoint(j, fence, env, report, live, base)
+        d._flush_progress(j, fence, live)
+        assert [r["epoch"] for r in repo.list_checkpoints(db, run_id)] == [1], "tampered file was registered"
+        errs = _errors(db, run_id)
+        assert len(errs) == 1 and errs[0]["reason_code"] == "CHECKPOINT_REPORT_REJECTED"
+>       assert "sha256 mismatch" in errs[0]["message"]
+E       AssertionError: assert 'sha256 mismatch' in 'CHECKPOINT_REPORT_REJECTED'
+
+tests/owner/runner_protocol/test_t3_files.py:69: AssertionError
+=============================== warnings summary ===============================
+tests/owner/runner_protocol/test_t3_auth.py::test_runner_token_bound_to_other_runner_id_is_403
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/owner/runner_protocol/test_t3_body_limit.py::test_result_body_over_limit_is_413_and_runner_externalises_per_sample
+FAILED tests/owner/runner_protocol/test_t3_files.py::test_runner_recomputes_checkpoint_sha_and_rejects_tampered_file
+2 failed, 38 passed, 1 warning in 84.62s (0:01:24)

@@ -1,0 +1,1 @@
+{"requested":{"console":{"paths":{"output_root":"<WORK>/runs/out"},"search":{"allow_duplicates":false,"arms":["GA"],"candidate_count":2,"evaluation_enabled":false,"families":["yolo11n"],"input_size":64,"max_attempts":6,"nc":1,"seeds":[7,19]}},"schema_version":"nas-policy/1"}}

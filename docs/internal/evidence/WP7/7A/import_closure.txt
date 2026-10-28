@@ -1,0 +1,4 @@
+# 2026-10-27T04:57:37Z runtime/venv/bin/python -B scripts/dev/check_import_closure.py --format text
+import closure: OK (/home/mgjeong/Desktop/etri_hd/mbnas_application)
+counts: {"violations": 0, "unresolved": 0, "forbidden_strings": 0, "allowlisted": 0, "excepted": 2, "errors": 0, "by_rule": {}}
+transitional allowlist:

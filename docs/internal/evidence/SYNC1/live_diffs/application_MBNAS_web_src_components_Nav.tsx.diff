@@ -1,0 +1,11 @@
+--- a/application/MBNAS_web/src/components/Nav.tsx
++++ b/application/MBNAS_web/src/components/Nav.tsx
+@@ -7,7 +7,7 @@
+ 
+ export const NAV_ITEMS: { id: Screen; label: string }[] = [
+   { id: 'archive', label: 'NAS 아카이브' },
+-  { id: 'compare', label: 'Run 비교' },
++  { id: 'compare', label: 'Archive run 비교' },
+   { id: 'monitor', label: '탐색 모니터링' },
+   { id: 'settings', label: '실험 설정' },
+   { id: 'lineage', label: '모델 계보' },

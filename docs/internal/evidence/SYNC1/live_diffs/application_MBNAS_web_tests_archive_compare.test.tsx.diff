@@ -1,0 +1,10 @@
+--- a/application/MBNAS_web/tests/archive_compare.test.tsx
++++ b/application/MBNAS_web/tests/archive_compare.test.tsx
+@@ -33,6 +33,7 @@
+   it('lists the runs of one dataset only, needs two selections, then draws both curves, the baseline table and the finalists', async () => {
+     const { user, calls } = await mountCompare();
+     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Run 비교');
++    expect(screen.getByText(/읽기 전용/)).toHaveTextContent('NAS archive run');
+     const list = screen.getByTestId('compare-list');
+     expect(within(list).getAllByRole('checkbox')).toHaveLength(2); // dataset one: runs A and B
+     expect(within(list).queryByTestId(`compare-check-${RUN_C}`)).toBeNull();

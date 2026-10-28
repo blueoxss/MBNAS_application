@@ -1,0 +1,4 @@
+command: cd <ROOT> && runtime/venv/bin/python -I -B docs/internal/evidence/WP7/7C/check_docs.py
+start_utc: 2026-10-28T00:33:00Z
+end_utc: 2026-10-28T00:33:05Z
+exit: 0

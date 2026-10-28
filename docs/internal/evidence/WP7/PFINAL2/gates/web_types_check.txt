@@ -1,0 +1,3 @@
+✨ openapi-typescript 7.13.0
+🚀 /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/openapi/openapi.json → /tmp/mbnas-types-GGs87x/types.gen.ts [438.4ms]
+types.gen.ts matches the contract

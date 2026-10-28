@@ -1,0 +1,32 @@
+# DD-A47 / V3 item 10: ops tests rerun (no change made). Recorded failure in docs/internal/evidence/WP3/3B/pytest_public_before_fix_round_3C_run.txt: 'stop.sh: line 93: arg: unbound variable' (a process exiting mid-check under set -u); scripts/stop.sh (mtime 2026-10-27 13:50, WP-7A) now initialises its locals ('Locals start set'). Not reproducible:
+=== test_web_role_preview run 1 2026-10-27T06:17:23Z
+1 passed in 0.86s
+exit=0
+=== test_web_role_preview run 2 2026-10-27T06:17:24Z
+1 passed in 0.53s
+exit=0
+=== test_web_role_preview run 3 2026-10-27T06:17:25Z
+1 passed in 0.52s
+exit=0
+=== test_start_stop_cycle_from_external_cwd run 1 2026-10-27T06:17:26Z
+1 passed in 4.96s
+exit=0
+=== test_start_stop_cycle_from_external_cwd run 2 2026-10-27T06:17:31Z
+1 passed in 4.97s
+exit=0
+=== test_start_stop_cycle_from_external_cwd run 3 2026-10-27T06:17:36Z
+1 passed in 5.00s
+exit=0
+
+[exited with code 0]
+=== file run 1 2026-10-27T06:17:56Z
+11 passed in 14.49s
+exit=0
+=== file run 2 2026-10-27T06:18:11Z
+11 passed in 14.76s
+exit=0
+=== file run 3 2026-10-27T06:18:26Z
+11 passed in 14.78s
+exit=0
+
+[exited with code 0]

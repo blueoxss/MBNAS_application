@@ -1,0 +1,24 @@
+# cwd=/home/mgjeong/Desktop/etri_hd/mbnas_application interpreter=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python date=2026-10-26T12:18:09Z
+      Successfully uninstalled mbnas-contracts-0.1.0
+
+Successfully installed mbnas-contracts-0.1.0 mbnas-core-0.1.0 mbnas-model-runtime-0.1.0 mbnas-runner-0.1.0 mbnas-server-0.1.0
+pip exit=0 dur=16s
+imports ok
+imports exit=0
+mbnas-core: not installed
+mbnas-core-principal --help exit=0
+mbnas-runner --help exit=0
+mbnas-server: not installed
+mbnas-owner-worker: not installed
+mbnas-core-api
+mbnas-core-doctor
+mbnas-core-owner-worker
+mbnas-core-principal
+mbnas-gateway
+mbnas-runner
+mbnas-core-api --help exit=0
+mbnas-core-doctor --help exit=0
+mbnas-core-owner-worker --help exit=0
+mbnas-core-principal --help exit=0
+mbnas-gateway --help exit=0
+mbnas-runner --help exit=0

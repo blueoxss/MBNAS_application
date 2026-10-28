@@ -1,0 +1,18 @@
+--- a/application/docs/integration_20261021/harness/README.md
++++ b/application/docs/integration_20261021/harness/README.md
+@@ -1,6 +1,6 @@
+ # harness — 격리 live 검증 하네스 (WP-T, WP-F, WP-S8 갱신)
+ 
+-원본(`docs/implementation_20261021/verify_*.py|mjs`)은 수정하지 않았다. 이 디렉터리의 `.py` 2개(`verify_live_browser.py`, `verify_cpu_training_browser.py`)는 원본 사본에 CLI 플래그를 추가한 것이다. `.mjs` 2개는 WP-T 시점에는 바이트 동일 사본이었으나 **WP-S8(2026-10-23)에서 UI 변경에 맞춰 각각 한 줄씩 바꿨다**(아래 표). 이 두 줄을 뺀 차이는 `DIFF_vs_original.txt`(WP-T 시점 기록, 인자 파싱과 상수 치환만)와 같다. `verify_structure_routes.py`와 `verify_cuda_worker.py|mjs`는 원본이 없는 신규 파일이다.
++원본(`docs/implementation_20261021/verify_*.py|mjs`)은 수정하지 않았다. 이 디렉터리의 `.py` 2개(`verify_live_browser.py`, `verify_cpu_training_browser.py`)는 원본 사본에 CLI 플래그를 추가한 것이다. `.mjs` 2개는 WP-T 시점에는 바이트 동일 사본이었으나 **WP-S8(2026-10-23)에서 UI 변경에 맞춰 각각 한 줄씩 바꿨다**(아래 표). 이후 S06_fix1(2026-10-26)에서 `verify_cpu_training_browser.mjs`에 DD-44 확인 블록(원본 링크 href, 확대 라이트박스, Esc·초점 복귀)을 더해 `original_zoom_link`을 리터럴 `true`가 아닌 계산값으로 바꿨다(아래 표 마지막 행). 따라서 이 디렉터리가 **유지되는 버전**이고, 원본 사본은 이력용이다(`docs/implementation_20261021/README.md`에 같은 안내). 이 두 줄을 뺀 차이는 `DIFF_vs_original.txt`(WP-T 시점 기록, 인자 파싱과 상수 치환만)와 같다. `verify_structure_routes.py`와 `verify_cuda_worker.py|mjs`는 원본이 없는 신규 파일이다.
+ 
+ | 파일 | 하는 일 | 기본 포트 |
+ |---|---|---|
+@@ -15,6 +15,7 @@
+ |---|---|---|---|
+ | `verify_live_browser.mjs` (49행) | `getByTestId('selected-block').locator('pre').first().scrollIntoViewIfNeeded()` | `getByTestId('selected-block').getByTestId('internal-layers').locator('table').scrollIntoViewIfNeeded()` | WP-W1: 내부 layer가 `<pre>`가 아니라 `data-testid="internal-layers"` 표 |
+ | `verify_cpu_training_browser.mjs` (18행) | 대화상자에 텍스트 `성능 미평가 · NOT_EVALUATED` | `getByTestId('trained-not-evaluated')` 표시 | WP-W2/DD-5: 검증 OFF 학습 배지가 `학습 완료 · 미평가` |
++| `verify_cpu_training_browser.mjs` (29–47행 추가, 55행 변경) | `original_zoom_link:true` 리터럴 | 원본 새 탭 href, `artifact-zoom-*` 클릭 → `lightbox-image` 표시·naturalWidth>0·라이트박스 원본 링크, Esc 후 라이트박스 닫힘·후보 대화상자 유지·확대 버튼 초점을 단언한 결과로 `original_zoom_link` 계산(하나라도 실패하면 출력 전에 throw) | S06_fix1 / DD-44: 리터럴 `true`는 검증이 아니었음 |
+ 
+ | 하네스 | 하는 일 | 기본 포트(원본과 동일) |
+ |---|---|---|

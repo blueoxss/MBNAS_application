@@ -1,0 +1,3 @@
+[stop] web: not running (no pid file)
+[stop] runner: not running (no pid file)
+[stop] gateway: stopped (pid 2943380, SIGTERM)

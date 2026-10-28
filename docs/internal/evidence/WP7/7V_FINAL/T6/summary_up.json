@@ -1,0 +1,157 @@
+{
+ "phase": "up",
+ "external_cwd": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6final",
+ "owner_start": 0,
+ "owner_doctor": 0,
+ "public_doctor_pre": 0,
+ "public_start": 0,
+ "public_doctor": 0,
+ "reg_doctor_pre": 0,
+ "reg_start": 0,
+ "reg_doctor": 0,
+ "api_public": {
+  "health": {
+   "http": 200,
+   "status": "ok",
+   "core": {
+    "status": "ok",
+    "reachable": true
+   },
+   "allowlists": {
+    "dataset_roots": [],
+    "output_roots": [],
+    "archive_roots": []
+   }
+  },
+  "health_allowlists_own_roots_only": true,
+  "health_noauth_http": 401,
+  "presets_http": 200,
+  "registry_http": 200,
+  "web_index_http": 200,
+  "upload_http": 200,
+  "structure_check": {
+   "http": 200,
+   "status": "PASS"
+  },
+  "structure_check_broken": {
+   "http": 200,
+   "status": "FAIL",
+   "first_code": "SHAPE_MISMATCH"
+  },
+  "validate": {
+   "http": 200,
+   "valid": true,
+   "errors": []
+  },
+  "run_create_http": 200,
+  "run_status": "COMPLETED",
+  "snapshot": {
+   "http": 200,
+   "candidates": 2
+  },
+  "candidate_detail_http": 200,
+  "config_revisions_http": 200,
+  "export": {
+   "http": 200,
+   "bytes": 11637
+  },
+  "runs_list_http": 200,
+  "run_id": "run-3b4cc8f33a39"
+ },
+ "processes_public": {
+  "gateway": {
+   "pid": 3382993,
+   "environ_keys": [
+    "CUDA_VISIBLE_DEVICES",
+    "HOME",
+    "LANG",
+    "MBNAS_HOME",
+    "OLDPWD",
+    "PATH",
+    "PWD",
+    "PYTHONDONTWRITEBYTECODE",
+    "PYTHONNOUSERSITE",
+    "PYTHONUNBUFFERED",
+    "SHLVL"
+   ],
+   "maps_mbnas_core": false
+  },
+  "runner": {
+   "pid": 3383014,
+   "environ_keys": [
+    "CUDA_VISIBLE_DEVICES",
+    "HOME",
+    "LANG",
+    "MBNAS_HOME",
+    "OLDPWD",
+    "PATH",
+    "PWD",
+    "PYTHONDONTWRITEBYTECODE",
+    "PYTHONNOUSERSITE",
+    "PYTHONUNBUFFERED",
+    "SHLVL"
+   ],
+   "maps_mbnas_core": false
+  }
+ },
+ "api_registration": {
+  "health": {
+   "http": 200,
+   "status": "ok",
+   "core": {
+    "status": "ok",
+    "reachable": true
+   },
+   "allowlists": {
+    "dataset_roots": [],
+    "output_roots": [],
+    "archive_roots": []
+   }
+  },
+  "presets_http": 200,
+  "web_index_http": 200,
+  "upload_http": 200,
+  "structure_check": {
+   "http": 200,
+   "status": "PASS"
+  }
+ },
+ "processes_registration": {
+  "gateway": {
+   "pid": 3383300,
+   "environ_keys": [
+    "CUDA_VISIBLE_DEVICES",
+    "HOME",
+    "LANG",
+    "MBNAS_HOME",
+    "OLDPWD",
+    "PATH",
+    "PWD",
+    "PYTHONDONTWRITEBYTECODE",
+    "PYTHONNOUSERSITE",
+    "PYTHONUNBUFFERED",
+    "SHLVL"
+   ],
+   "maps_mbnas_core": false
+  },
+  "runner": {
+   "pid": 3383360,
+   "environ_keys": [
+    "CUDA_VISIBLE_DEVICES",
+    "HOME",
+    "LANG",
+    "MBNAS_HOME",
+    "OLDPWD",
+    "PATH",
+    "PWD",
+    "PYTHONDONTWRITEBYTECODE",
+    "PYTHONNOUSERSITE",
+    "PYTHONUNBUFFERED",
+    "SHLVL"
+   ],
+   "maps_mbnas_core": false
+  }
+ },
+ "public_loader": 0,
+ "reg_loader": 0
+}

@@ -1,0 +1,38 @@
+# owner tests 2026-10-27T18:35:33Z: CUDA_VISIBLE_DEVICES="" PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null runtime/venv/bin/python -B -m pytest -p no:cacheprovider -q -m 'not gpu and not live and not legacy_records and not host_data' <paths>
+## tests/owner/artifacts
+...............                                                          [100%]
+=============================== warnings summary ===============================
+tests/owner/artifacts/test_artifact_wiring.py::test_register_transfer_download_digest_match_and_location_transition
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+15 passed, 1 warning in 77.04s (0:01:17)
+exit 0
+## tests/owner/api
+........................................................................ [ 35%]
+........................................................................ [ 71%]
+.........................................................                [100%]
+=============================== warnings summary ===============================
+tests/owner/api/test_artifact_signature_non_ascii.py::test_non_ascii_signature_is_403_access_denied[exp={exp}&sig=%C3%A9]
+tests/owner/api/test_training_selection.py::test_non_ultralytics_baseline_binding_records_native_structure[rf-detr-nano-rfdetr-30147076]
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/pydantic/main.py:263: PretrainWeightsCompatibilityWarning: RFDETRNanoConfig was instantiated with pretrain_weights=None. The model will be initialised from scratch, which typically produces lower accuracy than fine-tuning from the published checkpoint ('rf-detr-nano.pth').
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+201 passed, 2 warnings in 223.74s (0:03:43)
+exit 0
+## extra (consumers of checkpoint_views / the candidate detail): tests/owner/orchestration/test_retention.py tests/owner/projection tests/owner/qa/test_smoke_script_final_phases.py
+........................................................................ [ 26%]
+........................................................................ [ 52%]
+........................................................................ [ 78%]
+...........................................................              [100%]
+=============================== warnings summary ===============================
+tests/owner/orchestration/test_retention.py::test_last_rung_end_only_keeps_the_last_rung_end_state
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+275 passed, 1 warning in 35.49s
+exit 0
+## extra 2: tests/owner/qa/test_api_matrix.py tests/owner/t2 tests/owner/unit/test_db.py (T2 heavy scenarios need MBNAS_TEST_T2=1: skipped, not run)
+=============================== warnings summary ===============================
+tests/owner/qa/test_api_matrix.py::test_lost_response_retries_never_duplicate_runs_jobs_or_events
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [7] tests/owner/t2/test_t2_equivalence.py:67: CPU model-building / engine-flow T2 scenario: set MBNAS_TEST_T2=1 (or run scripts/owner/t2_compare.py)
+62 passed, 7 skipped, 1 warning in 21.50s
+exit 0

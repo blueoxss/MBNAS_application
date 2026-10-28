@@ -1,0 +1,377 @@
+--- a/docs/public/API.md
++++ b/docs/public/API.md
+@@ -24,10 +24,10 @@
+ | 탐색 run | `POST /runs`, `GET /runs`, `GET /runs/{run_id}`, `GET /runs/{run_id}/snapshot` | 생성 본문 `{protocol, protocol_hash, idempotency_key, validation_id?}` + 헤더 `Idempotency-Key`. 검증 뒤 프로토콜이 바뀌었으면 `409 STALE_VALIDATION` |
+ | 실행 제어 | `POST /runs/{run_id}/pause`, `…/resume`, `…/cancel`, `…/final-retrain` | 일시정지는 안전 경계 도달 후 `PAUSED`. 반복 요청은 no-op |
+ | 이벤트 | `GET /runs/{run_id}/events` | SSE. 이벤트 id = `seq`. 재연결 시 `Last-Event-ID` 헤더 또는 `after_seq` 쿼리 |
+-| 후보 | `GET /runs/{run_id}/candidates/{candidate_id}`, `POST …/structure-check` | 계보·블록·평가·checkpoint·비용·게이트. 구조 재검사는 CPU, 학습·평가 없음 |
++| 후보 | `GET /runs/{run_id}/candidates/{candidate_id}`, `POST …/structure-check` | 계보·블록·평가·checkpoint·비용·게이트. 구조 재검사는 CPU, 학습·평가 없음. 학습했지만 평가하지 못한 행(CPU runner)은 `status: SEARCH_COMPLETE`, `performance_status: NOT_EVALUATED`, `reason_code`(예: `EVALUATION_REQUIRES_CUDA`), 지표·`fitness`·`gate` null로 나온다(`OPERATIONS.md` §15) |
+ | 별도 학습 | `POST /training-runs` | 본문 `{source, protocol, mode?, validation_enabled?, checkpoint?, idempotency_key}`. `mode`: scratch·pretrained·evaluate_only·resume |
+ | 구조 | `GET /registry/{model_id}/structure`, `POST /registry/{model_id}/structure-check`, `POST /structure-check`, `GET /structure/block-catalog` | 사용자 YAML 검사 결과는 저장하지 않는다 |
+-| 산출물 | `GET /runs/{run_id}/artifacts/{artifact_id}`, `POST …/refresh`, `GET /runs/{run_id}/export` | id로만 조회(파일 경로를 받지 않음). checkpoint도 같은 경로에서 id로 받는다. 응답의 artifact URL은 상대경로(`/api/v1/...`). gateway가 고객 측 저장소에서 sha256을 대조해 제공(`X-Artifact-Sha256`). 만료된 서명 URL은 `410` |
++| 산출물 | `GET /runs/{run_id}/artifacts/{artifact_id}`, `POST …/refresh`, `GET /runs/{run_id}/export` | id로만 조회(파일 경로를 받지 않음). checkpoint도 같은 경로에서 id로 받는다. 응답의 artifact URL은 상대경로(`/api/v1/...`). gateway가 고객 측 저장소에서 sha256을 대조해 제공(`X-Artifact-Sha256`). core가 core 호스트에 만든 생성 구조 YAML(분리 배치의 평가 없는 생성)은 gateway 저장소에 없으므로 gateway가 core에서 받아 sha256을 다시 대조해 전달한다(`X-Artifact-Verification: core`, core 연결 필요). 만료된 서명 URL은 `410` |
+ | 구성 개정 | `GET /runs/{run_id}/candidates/{candidate_id}/config-revisions`, `GET …/config-revisions/{revision_id}/yaml` | 후보 구성의 개정 이력(원본·선택본·실행본·생성본; `ModelConfigRevision`)과 각 개정의 저장 바이트(`application/x-yaml`). 선택본↔실행본 diff와 다운로드에 쓴다 |
+ | 아카이브 | `GET /archive/*`(13종) | 고객 호스트의 연구 run 결과 읽기 전용. 루트 미설정 시 `503 ARCHIVE_ROOT_UNAVAILABLE` |
+ | 업로드 | `POST /uploads/model-config` | 응답 `UploadResponse` — §4 |
+--- a/docs/public/FEATURES.md
++++ b/docs/public/FEATURES.md
+@@ -75,6 +75,7 @@
+ | 구성 YAML 다운로드·내보내기 | 표시본·원문 다운로드와 hash 대조. 내보내기 ZIP에 실제 YAML 바이트 포함 | 시험 통과(CPU) |
+ | 평가 ON/OFF 분리 | 평가 OFF(RandomGeneration)는 구조 생성과 CPU 구조 검사만 하고 평가·적합도·승급이 없다(`NOT_EVALUATED`) | 실행 확인(CPU) |
+ | 생성 후보 표시 | 평가 없는 생성 후보를 "UNTRAINED · UNEVALUATED"로 표시(`training_status`), 계보 화면에 생성 후보 포함 | 시험 통과(CPU, 웹 포함) |
++| 학습 완료 · 미평가 표시 | validation을 끈 명시 학습의 결과와, CPU runner가 학습만 하고 평가하지 못한 후보(`SEARCH_COMPLETE` + `NOT_EVALUATED`, 사유 `EVALUATION_REQUIRES_CUDA`)를 "학습 완료 · 미평가"로 표시. 지표는 비어 있다 | 시험 통과(CPU, 웹 포함) |
+ | 구조 비교 | 부모·자식 또는 두 모델의 블록 추가·삭제·변경과 연결 차이 | 시험 통과(CPU) |
+ | 지연시간 출처 | `measured`(실측) 기본, `calibrated_proxy`는 프로토콜이 명시적으로 허용할 때만 | 시험 통과(CPU). 실측은 GPU 확인 |
+ 
+@@ -90,7 +91,7 @@
+ | full-state 보존 정책 | `keep_all`, `rung_end_only`, `last_rung_end_only` | 시험 통과(CPU). 원격 runner와의 삭제 왕복은 후속 과제 |
+ | health·doctor·registry | 상태·capability·registry 진단 | 시험 통과(CPU) |
+ | 벤치마크 | PyTorch FP32/FP16·ONNX Runtime(CUDA) 호스트 GPU 측정과 정확도 차이. **0.1.0은 콘솔 작업 큐로 벤치마크를 제공하지 않는다** — owner 호스트 스크립트 `scripts/runner/bench_host_gpu.py`로 실행(`OPERATIONS.md` §13). TensorRT는 설치 묶음에 없어 BLOCKED_BY_ENV | GPU 확인(GPU 1). 보고서의 target 라벨은 보이는 장치 기준 `host-gpu-0`으로 고정되지만 기록된 uuid가 실제 GPU를 가리킨다. 작업 결과의 TensorRT `runtime_status`는 `FAILED`, 상위 `tensorrt.status`는 `BLOCKED_BY_ENV`로 표기가 다르다(원인 같음) |
+-| 웹 7화면 | 아카이브·Run 비교·탐색 모니터링·실험 설정·모델 계보·실행 기록·서버 연결, URL 상태 복원, 토큰은 메모리에만 보관 | 웹 단위 시험 591건·합성(mock) API 대상 Chromium e2e 208건 통과, 실제 스택 브라우저 흐름 12/12 통과, 접근성 검사(axe) serious·critical 0(6화면) — 개발 단계 |
++| 웹 7화면 | 아카이브·Run 비교·탐색 모니터링·실험 설정·모델 계보·실행 기록·서버 연결, URL 상태 복원, 토큰은 메모리에만 보관 | 웹 단위 시험 593건·합성(mock) API 대상 Chromium e2e 208건 통과, 실제 스택 브라우저 흐름 12/12 통과, 접근성 검사(axe) serious·critical 0(6화면) — 개발 단계 |
+ 
+ ## H. 원격 실행과 배포 분리 (Remote execution and split deployment)
+ 
+@@ -101,6 +102,8 @@
+ | 요청률 제한·감사 로그·경로 위생 | 토큰별 요청률·고비용 경로 동시 실행·SSE 수 제한, 민감 조회 감사 로그, dot segment 거부 | 시험 통과(CPU) |
+ | 공개 응답 투영 | 계약 1.5.0: 공개 계약에 있는 필드만 응답(owner 전용 필드 제거, opaque id, 상대경로). gateway health의 허용 경로는 gateway 자신의 것만 | 시험 통과(CPU). 배포 ZIP 3종 누출 검사 PASS. 런타임 누출 검사 1차에서 health가 core 호스트 경로를 중계하는 누출 1건이 나와 수정했고, 재실행 예정 |
+ | 고객 측 artifact 저장소 | runner 산출물을 같은 호스트의 gateway 저장소로 로컬 전송(하드링크/복사, 내용 주소), gateway가 digest 대조 후 제공 | 시험 통과(CPU). 로컬 전송은 GPU 확인(201개 객체) |
++| core 쪽 생성 구조 YAML 제공 | 분리 배치에서 owner worker가 core 호스트(`<MBNAS_CORE_OUTPUT_ROOT>/<run id>/architectures/`)에 쓴 생성 구조 YAML을 후보의 artifact로 등록(정해진 위치·일반 파일·1 MiB 이하·기록된 YAML과 바이트 동일할 때만). core가 같은 조건을 다시 확인해 제공하고 gateway가 sha256을 대조해 중계한다. gateway 저장소에는 복사되지 않아 core 연결이 필요하다 | 실행 확인(CPU, 두 호스트 분리 배치 시뮬레이션: gateway 경유 다운로드 200, sha256 일치) |
++| CPU·GPU 혼합 fleet의 작업 배정 | CPU runner는 CUDA 측정이 필요한 작업(평가 ON 탐색·최종 재학습, 평가하는 명시 학습, BENCHMARK)을 같은 종류를 받는 GPU runner가 `ONLINE`일 때 건너뛴다(작업은 `QUEUED`로 남고 시도 횟수를 쓰지 않음). CPU runner만 있으면 종전대로 받아 `NOT_EVALUATED`로 끝낸다 | 시험 통과(CPU, 합성 runner 신원). 실제 GPU runner가 섞인 fleet은 확인 못 함 |
+ | 정적 웹 서빙 | gateway가 `mbnas_web/dist`를 `/`에서 제공(Node 불필요) | 시험 통과(CPU) |
+ 
+ ## I. 운영과 설치 (Operations and installation)
+@@ -113,7 +116,8 @@
+ 
+ ## 지원 범위의 한계 (Known limits)
+ 
+-- **CPU 전용 runner**: 학습·checkpoint·구조 검사·평가 없는 생성까지 지원한다. 평가 지연시간은 CUDA에서만 측정하므로, 등록된 장치가 CPU뿐이면 평가 ON 탐색은 검증 단계에서 `EVALUATION_REQUIRES_CUDA`로 거부된다(학습과 평가 OFF 생성은 허용). CPU에서 validation을 켠 명시 학습은 checkpoint를 남기고 성능 상태 `NOT_EVALUATED`로 끝나며 가짜 지표를 만들지 않는다(이 경로의 최종 코드 확인은 재실행 예정). 실행 장치는 결과(`device_used`)에 기록된다.
++- **CPU 전용 runner**: 학습·checkpoint·구조 검사·평가 없는 생성까지 지원한다. 평가 지연시간은 CUDA에서만 측정하므로, 검증용 장치 목록이 CPU뿐이면 평가 ON 탐색은 검증 단계에서 `EVALUATION_REQUIRES_CUDA`로 거부된다(학습과 평가 OFF 생성은 허용). GPU 없는 core 호스트의 기본 장치 목록(`MBNAS_CORE_DEVICE_SOURCE=local`)은 실행 중인 CPU runner의 `cpu` 항목으로 대신한다(GPU runner가 다른 호스트에 있으면 `runners`). CPU runner가 평가가 필요한 작업을 맡으면(예: validation을 켠 명시 학습) checkpoint를 남기고 `SEARCH_COMPLETE` + 성능 상태 `NOT_EVALUATED`(사유 `EVALUATION_REQUIRES_CUDA`)로 끝나며 가짜 지표를 만들지 않는다. 명시 학습 run은 `COMPLETED`가 되고, 탐색 후보는 평가되지 않은 채 승급·부모 선택에서 빠진다. 이 경로는 두 호스트 분리 배치 시뮬레이션에서 CPU로 실행 확인했다. 실행 장치는 결과(`device_used`)에 기록된다.
++- **CPU runner만 있는 fleet의 평가 ON 탐색**: 보통 검증에서 거부되지만, GPU가 있는 장치 목록으로 검증된 run(예: GPU 있는 core 호스트의 `local`)을 CPU runner만 실행하면 모든 후보가 `NOT_EVALUATED`로 끝난다(순위 없음, 계산 낭비). GPU·CPU 혼합 fleet에서도 GPU runner가 멈추면(`ONLINE`이 아니면) 남은 평가 작업을 CPU runner가 가져갈 수 있다(`OPERATIONS.md` §15).
+ - **분리 배치의 학습 경로**: core와 gateway를 다른 호스트에 둘 때 학습 프로토콜은 `console.paths`에 `train_root`·`search_val_root`를 명시해야 한다. `dataset_yaml`만 주면 split 경로를 core 호스트에서 찾다가 실패한다.
+ - **1.4.x 시절 DB 비호환**: 0.1.0(계약 1.5.0)에서 검증 hash 정의가 바뀌었다. 이전 판에서 만든 DB의 run은 재개·runner 검사에서 hash가 맞지 않으며, 0.1.0은 마이그레이션 도구를 제공하지 않는다(`COMPATIBILITY.md` §5).
+ - **벤치마크**: 콘솔 작업 큐로는 제공하지 않는다(owner 스크립트 경로만). TensorRT 측정은 TensorRT가 설치 묶음에 없어 BLOCKED_BY_ENV.
+--- a/docs/public/INSTALL.md
++++ b/docs/public/INSTALL.md
+@@ -1,6 +1,6 @@
+ # INSTALL — 설치 (Installation)
+ 
+-문서 기준일: 2026-10-27. 설치 방법은 ① Docker compose, ② `pip install -r requirements-<profile>.txt`, ③ (선택) `scripts/install.sh`(②의 래퍼, 오프라인 설치 지원) 순으로 권장한다. 이 문서의 명령은 각 스크립트의 실제 `--help`와 저장소의 파일을 기준으로 적었다. **독립 환경에서 처음부터 끝까지 설치한 검증(새 경로·공백 경로·외부 작업 디렉터리, Docker)은 아직 하지 않았다(검증 예정).**
++문서 기준일: 2026-10-28. 설치 방법은 ① Docker compose, ② `pip install -r requirements-<profile>.txt`, ③ (선택) `scripts/install.sh`(②의 래퍼, 오프라인 설치 지원) 순으로 권장한다. 이 문서의 명령은 각 스크립트의 실제 `--help`와 저장소의 파일을 기준으로 적었다. **설치 검증 상태(개발 단계)**: owner ZIP의 오프라인 설치와 새 경로(공백 포함)·외부 작업 디렉터리 재배치는 통과, public ZIP은 네트워크 차단 설치 성공(서드파티 wheel 묶음 필요), CPU 이미지·compose는 실행 확인. 배포본만으로 처음부터 끝까지 실행하는 독립 실행(owner·public)은 1차 PARTIAL 뒤 결함을 고쳤고 재실행 예정이다(`FEATURES.md` I).
+ 
+ ## 0. 시작 전에 (Before you start)
+ 
+@@ -157,7 +157,7 @@
+ - 공통 루트 `MBNAS_HOME`은 **프로세스 환경에서만** 읽는다(env 파일로는 설정되지 않음). `scripts/start.sh`는 `<ROOT>/runtime`으로 설정한다. 방법 ②로 직접 실행할 때는 `export MBNAS_HOME=<ROOT>/runtime`.
+ - 우선순위: 프로세스 환경 변수 > env 파일 > 기본값. 비밀 키에 빈 값(`KEY=`)을 쓰면 거부되므로, 쓰지 않을 키는 주석으로 둔다.
+ - 경로 설정은 절대경로여야 한다. 목록은 `a,b` 또는 JSON 배열.
+-- **분리 배치의 `output_root`**: core는 run 문서와 생성 구조를 **core 호스트**의 `<console.paths.output_root>/<run id>`에 두고 그 경로를 `MBNAS_CORE_OUTPUT_ROOTS`로 다시 검사한다. 따라서 사용자가 입력하는 `output_root`는 gateway 호스트(`MBNAS_GW_OUTPUT_ROOTS`)와 core 호스트 양쪽에서 허용되는 경로여야 한다(예: 양쪽에 같은 절대경로). core 운영자와 미리 맞춘다. run·학습·최종 재학습 생성 때 gateway가 경로·데이터셋 검사 결과를 다시 측정해 core에 보내므로, core 호스트에 없는 고객 측 `output_root`로도 run이 완료되는 것을 시험으로 확인했다(개발 단계).
++- **분리 배치의 `output_root`**: gateway에 데이터 허용 루트(`MBNAS_GW_DATASET_ROOTS`)가 있으면 gateway가 고객 호스트에서 `console.paths`를 검사하고, run·학습·최종 재학습 생성 때도 다시 측정해 core에 보낸다. 따라서 사용자가 입력하는 `output_root`는 gateway 호스트의 `MBNAS_GW_OUTPUT_ROOTS` 안에 있으면 되고, core 호스트에 없는 경로여도 된다(시험으로 확인, 개발 단계). 그런 run에서 core가 쓰는 파일(owner worker의 제어 파일·작업 로그·생성 구조 YAML·생성 journal)은 core 호스트의 `<MBNAS_CORE_OUTPUT_ROOT>/<run id>/`에 남고, 생성 구조 YAML은 core가 gateway를 거쳐 제공한다(`OPERATIONS.md` §5·§15). gateway에 데이터 허용 루트가 없는 owner 일체형은 core가 자기 `MBNAS_CORE_DATASET_ROOTS`·`MBNAS_CORE_OUTPUT_ROOTS`로 검사한다.
+ - **분리 배치의 학습 프로토콜**: core와 gateway가 다른 호스트일 때 학습 프로토콜의 `console.paths`에는 `train_root`·`search_val_root`를 명시한다. `dataset_yaml`만 주면 gateway가 측정하지 않은 split 경로를 core가 자기 호스트에서 찾다가 실패한다.
+ - 콘솔 토큰 확인: `grep MBNAS_GW_API_TOKEN config/<profile>/gateway.env`(화면에 비밀이 표시되므로 주의).
+ - owner 일체형(한 호스트에 core·gateway·runner)은 `config/examples/owner-all-in-one.env.example`을 참고한다. 이 파일은 **dotenv로만**(`--env-file`) 읽어야 한다. systemd `EnvironmentFile=`나 compose `env_file:`로 쓰면 core 비밀이 gateway·runner 프로세스 환경에 들어간다.
+--- a/docs/public/OPERATIONS.md
++++ b/docs/public/OPERATIONS.md
+@@ -25,9 +25,11 @@
+ | `mbnas-runner --spec-file <JobSpec.json>` | core 없이 JobSpec 파일의 작업 하나를 실행(진행은 JSONL로 stdout, 마지막 줄이 결과; exit 0 = 성공, 3 = 그 외) |
+ | `mbnas-core-api`(owner) | `--env-file <file>`(없으면 `MBNAS_CORE_ENV_FILE`), `--host`, `--port` |
+ | `mbnas-core-doctor`(owner) | `--env-file <file>`, `--strict`(시작을 막는 문제가 있으면 exit 1). 출력은 JSON, 비밀 없음 |
+-| `mbnas-core-owner-worker`(owner) | `--owner`(기본: 후보 생성 작업 전부) 또는 `--cpu`(평가 없는 생성 작업만), `--once`, `--max-jobs <n>`, `--poll-s <s>`, `--kill-grace-s <s>`, `--worker-id <id>`, `--env-file <file>`. 시험용: `--kinds <a,b>`(stub 핸들러 시험에서만 의미), `--gpu-index <i>`(`--kinds`와 함께), `--gpu-clear-timeout-s`(현재 사용 안 함) |
++| `mbnas-core-owner-worker`(owner) | `--owner`(기본: 후보 생성 작업 전부) 또는 `--cpu`(평가 없는 생성 작업만), `--once`, `--max-jobs <n>`, `--poll-s <s>`, `--kill-grace-s <s>`, `--worker-id <id>`, `--env-file <file>`(없으면 `MBNAS_CORE_ENV_FILE`). 시험용: `--kinds <a,b>`(stub 핸들러 시험에서만 의미), `--gpu-index <i>`(`--kinds`와 함께), `--gpu-clear-timeout-s`(현재 사용 안 함) |
+ | `mbnas-core-principal`(owner) | `--env-file <file>` + `create`·`rotate`·`revoke`·`list` — §4 |
+ 
++`mbnas-core-api`와 `mbnas-core-owner-worker`는 `--env-file`로 받은 경로를 자기 프로세스의 `MBNAS_CORE_ENV_FILE`로 설정한다. 그래서 그 프로세스 안의 모든 core 설정 읽기(owner worker가 core 쪽 run 디렉터리를 찾는 것 포함, §15)가 같은 파일을 쓴다. 파일 안의 값은 환경 변수로 내보내지 않으며, owner worker의 작업 자식 프로세스는 이 변수를 물려받지 않는다. core API와 owner worker에는 같은 core 설정 파일을 준다.
++
+ ## 2. 디렉터리 (Runtime layout)
+ 
+ `MBNAS_HOME`(스크립트는 `<ROOT>/runtime`) 아래 기본 위치:
+@@ -90,7 +92,7 @@
+ - 고객 호스트의 gateway·runner는 owner 호스트의 core에 연결한다. loopback이 아니면 core 앞에 TLS reverse proxy를 두고 `https://` URL을 쓴다. runner와 gateway 모두 loopback이 아닌 평문 `http://` core URL을 거부한다(`CORE_URL_INSECURE`: runner는 시작 전, gateway는 core 연결 클라이언트를 열 때). gateway만 `MBNAS_GW_CORE_ALLOW_INSECURE_HTTP=true`를 명시하면 예외로 허용하지만, 서비스 토큰이 평문으로 오가므로 권장하지 않는다. `mbnas-gateway-doctor`도 이 상태를 보고한다.
+ - 사설 CA: `MBNAS_GW_CORE_CA_FILE`, `MBNAS_RUNNER_CA_FILE`.
+ - 데이터 경로: gateway가 검증 시 고객 호스트의 경로를 검사하고 데이터셋 manifest를 계산해 core로 보낸다(`MBNAS_GW_DATASET_ROOTS`, `MBNAS_GW_OUTPUT_ROOTS` 필수). runner 호스트의 실제 경로가 프로토콜의 경로와 다르면 `MBNAS_RUNNER_DATASET_MOUNTS`로 대응시킨다.
+-- 출력 경로: core는 run 문서·생성 구조를 core 호스트의 `<output_root>/<run id>`에 쓰고 `MBNAS_CORE_OUTPUT_ROOTS`로 검사하므로, 프로토콜의 `console.paths.output_root`는 gateway 쪽 `MBNAS_GW_OUTPUT_ROOTS`와 core 쪽 `MBNAS_CORE_OUTPUT_ROOTS` 모두에 맞아야 한다.
++- 출력 경로: gateway에 데이터 허용 루트(`MBNAS_GW_DATASET_ROOTS`)가 있으면 gateway가 고객 호스트에서 `console.paths`를 검사해 그 결과를 core로 보내므로, 프로토콜의 `console.paths.output_root`는 gateway 쪽 `MBNAS_GW_OUTPUT_ROOTS` 안에 있으면 된다(core 쪽 `MBNAS_CORE_OUTPUT_ROOTS` 밖의 고객 측 경로로 run이 완료되는 것을 분리 배치 시험에서 확인). core 호스트에서 그 경로를 쓸 수 없으면 core는 run 문서 사본(`protocol/*.json`)을 건너뛰고(DB에 남고, runner가 고객 호스트의 run 디렉터리에 사본을 쓴다) owner worker의 파일을 core 쪽 `<MBNAS_CORE_OUTPUT_ROOT>/<run id>/`에 쓴다(§15). gateway에 데이터 허용 루트가 없으면(owner 일체형) core가 자기 호스트에서 `MBNAS_CORE_DATASET_ROOTS`·`MBNAS_CORE_OUTPUT_ROOTS`로 검사한다.
+ - 브라우저 노출: gateway는 기본으로 127.0.0.1에서만 듣는다. 외부 접근은 TLS reverse proxy로 연다. 웹은 같은 origin(`/`)에서 제공되므로 CORS 설정이 필요 없다(별도 호스팅 시에만 `MBNAS_GW_CORS_ORIGINS`).
+ - 버전: core·gateway·runner는 같은 배포 버전을 쓴다. runner 프로토콜이 맞지 않으면 `409 VERSION_MISMATCH`.
+ 
+@@ -98,7 +100,7 @@
+ 
+ - runner 하나 = 장치 하나 = 동시 작업 하나. GPU가 여럿이면 GPU마다 runner id·토큰·env 파일을 따로 두고 `MBNAS_RUNNER_GPU_INDEX`를 다르게 한다.
+ - 작업 시작 전에 해당 GPU에 다른 프로세스가 없을 때까지 기다린다(`MBNAS_RUNNER_GPU_CLEAR_TIMEOUT_S`). 대기 시간은 과금되지 않고, 과금은 `start` 시점부터다.
+-- CPU runner: runner 프로세스 환경에 `CUDA_VISIBLE_DEVICES=`(빈 값)을 두면 장치를 `cpu`로 등록하고 학습·checkpoint·구조 작업을 CPU에서 한다. 평가 지연시간은 측정하지 않으므로 평가 완료 판정이 나지 않는다.
++- CPU runner: runner 프로세스 환경에 `CUDA_VISIBLE_DEVICES=`(빈 값)을 두면 장치를 `cpu`로 등록하고 학습·checkpoint·구조 작업을 CPU에서 한다. 평가 지연시간은 측정하지 않으므로 평가 완료 판정이 나지 않는다: 평가가 필요한 작업을 맡으면 학습과 checkpoint는 남기고 성능 상태 `NOT_EVALUATED`(사유 `EVALUATION_REQUIRES_CUDA`)로 끝난다. GPU runner와 함께 쓰면 CUDA가 필요한 작업은 GPU runner에 남긴다(§15).
+ - 허용 작업 종류는 `MBNAS_RUNNER_KINDS`로 좁힐 수 있다(BASELINE_TRAIN, CANDIDATE_TRAIN, FINAL_RETRAIN, EVALUATE, BENCHMARK의 부분집합).
+ - GPU 번호: runner의 작업 자식 프로세스는 `CUDA_DEVICE_ORDER=PCI_BUS_ID`로 실행되어 CUDA 번호와 `nvidia-smi`(NVML) 번호가 같다. 운영자가 직접 실행하는 GPU 스크립트(§13 등)에도 같은 값을 설정한다.
+ - 산출물 전송: runner → gateway 저장소는 같은 호스트의 로컬 전송(`MBNAS_RUNNER_ARTIFACT_TRANSFER=local`, `MBNAS_RUNNER_ARTIFACT_STORE_DIR`=gateway 저장소, `MBNAS_RUNNER_ARTIFACT_STORE_MODE`)만 지원한다. 네트워크 업로드(`upload`)는 0.1.0에 구현되지 않았다.
+@@ -116,7 +118,7 @@
+ 
+ ## 8. 백업과 보존 (Backup and retention)
+ 
+-- owner 호스트: `runtime/core/db/`(권위 상태 전체)와 `config/owner/`(비밀)을 정기 백업한다. SQLite 파일은 core를 멈춘 뒤 복사하거나 SQLite의 온라인 백업 기능을 쓴다.
++- owner 호스트: `runtime/core/db/`(권위 상태 전체)와 `config/owner/`(비밀)을 정기 백업한다. SQLite 파일은 core를 멈춘 뒤 복사하거나 SQLite의 온라인 백업 기능을 쓴다. 분리 배치에서는 `MBNAS_CORE_OUTPUT_ROOT`(기본 `runtime/core/runs/`)도 백업한다. 고객 측 `output_root`를 쓰는 run의 생성 구조 YAML 파일(다운로드되는 원본)과 생성 journal은 여기에만 있다(§15).
+ - 고객 호스트: `runtime/gateway/artifacts/`(업로드 원문·산출물), `runtime/runner/runs/`(checkpoint), 데이터셋.
+ - full-state checkpoint 보존 정책: `MBNAS_CORE_FULL_STATE_RETENTION`(`keep_all` | `rung_end_only` | `last_rung_end_only`). 원격 runner 쪽 checkpoint를 정책에 따라 지우는 왕복은 이번 라운드에 없으므로, 원격 runner의 디스크는 운영자가 관리한다.
+ 
+@@ -230,9 +232,15 @@
+ - 요청 추적: 브라우저나 도구가 보낸 `X-Request-ID`(없으면 gateway가 만든 값)가 gateway 줄의 `request_id`가 되고, gateway는 같은 값을 core 호출에 `X-Request-ID`로 넘긴다. 그래서 사용자 요청 하나의 gateway 줄과 core 줄은 같은 `request_id`를 가진다. 오류 응답 본문의 `request_id`로 두 호스트의 로그를 `grep "request_id=<id>"`로 찾는다. core 오류 본문의 id가 다르면 `core_request_id`로 함께 온다.
+ - 두 프로세스 모두 uvicorn 자체 접근 로그 대신 이 줄을 쓴다.
+ 
+-## 15. 분리 배치의 core 쪽 파일과 장치 목록 (Split deployment notes)
++## 15. 분리 배치의 core 쪽 파일, 장치 목록, CPU runner (Split deployment notes)
++
++**owner worker 파일 위치.** 후보 생성 작업의 제어 파일(`control/<job>.stop`)은 항상 core 호스트의 `<MBNAS_CORE_OUTPUT_ROOT>/<run id>/`(기본 `runtime/core/runs/<run id>/`)에 둔다. 프로토콜의 `console.paths.output_root`가 고객 호스트 경로라 core 호스트에서 만들거나 쓸 수 없으면, 작업별 오류 로그(`logs/`), 생성 구조 YAML(`architectures/<후보 id>.yaml`)과 생성 journal(`architectures/generation-<seed>.json`)도 같은 core 쪽 디렉터리에 쓴다. owner 일체형처럼 그 경로를 core 호스트에서 쓸 수 있으면 원래 run 디렉터리를 그대로 쓴다. 생성 작업을 재시도·재개할 때 journal은 run 디렉터리, 그 프로세스 설정의 core 쪽 디렉터리, 이미 저장된 후보의 core 쪽 디렉터리 순으로 찾는다. 그러므로 core API와 owner worker는 같은 core 설정으로 띄운다(§1 `--env-file`).
+ 
+-**owner worker 파일 위치.** 후보 생성 작업의 제어 파일(`control/<job>.stop`)은 항상 core 호스트의 `<MBNAS_CORE_OUTPUT_ROOT>/<run id>/`(기본 `runtime/core/runs/<run id>/`)에 둔다. 프로토콜의 `console.paths.output_root`가 고객 호스트 경로라 core 호스트에서 만들거나 쓸 수 없으면, 작업별 오류 로그(`logs/`)와 생성 구조 YAML(`architectures/`)도 같은 core 쪽 디렉터리에 쓴다. owner 일체형처럼 그 경로를 core 호스트에서 쓸 수 있으면 원래 run 디렉터리를 그대로 쓴다.
++**core 쪽 생성 구조 YAML의 다운로드.** core 쪽 디렉터리에 쓴 생성 구조 YAML도 그 후보의 `architecture` artifact로 등록된다. 조건은 파일이 정확히 `<MBNAS_CORE_OUTPUT_ROOT>/<run id>/architectures/<후보 id>.yaml`이고, 심볼릭 링크가 아닌 일반 파일이며, 1 MiB 이하이고, 내용이 그 후보에 기록된 구조 YAML과 바이트 단위로 같은 것이다. 조건에 맞지 않는 파일은 등록하지 않는다.
++
++- 제공: core가 같은 조건을 다시 확인한 뒤 바이트를 내주고, gateway는 그 sha256을 다시 대조해 전달한다(`X-Artifact-Verification: core`). 거부: 경로가 `architectures/<이름>.yaml`이 아니거나 심볼릭 링크이면 `403 ACCESS_DENIED`, 1 MiB를 넘거나 등록 때의 sha256과 다르면 `409 LOAD_FAILED`, 파일이 없으면 `404 MISSING`(이 두 경우 그 artifact의 상태도 `LOAD_FAILED`/`MISSING`으로 바뀐다).
++- 이 파일은 gateway 저장소에 복사되지 않는다. 다운로드와 내보내기 ZIP은 core에서 바이트를 받아 오므로 core가 연결되어 있어야 하며(아니면 `503 CORE_UNAVAILABLE`), 원본은 core 호스트에만 있다(§8 백업).
++- `MBNAS_CORE_OUTPUT_ROOTS`를 직접 정할 때는 `MBNAS_CORE_OUTPUT_ROOT`가 그 안에 있어야 한다(밖이면 이 파일들의 다운로드가 `403 ACCESS_DENIED`). 기본값은 `[MBNAS_CORE_OUTPUT_ROOT]`다.
+ 
+ **owner worker 작업 실패 코드.** 작업 하나를 처리하다 오류가 나면 worker는 멈추지 않고 그 작업만 실패로 기록한다: `WORKER_IO_ERROR`(core 호스트의 파일·디렉터리 오류, 예: 만들 수 없는 경로), `WORKER_JOB_ERROR`(그 밖의 예외). 원인은 core 쪽 작업 로그에서 찾는다.
+ 
+@@ -240,12 +248,26 @@
+ 
+ | 값 | 장치 목록 |
+ |---|---|
+-| `local`(기본) | core 호스트의 NVML(GPU) 목록 |
++| `local`(기본) | core 호스트의 NVML(GPU) 목록. 그 목록이 비어 있으면(GPU 없는 core 호스트) 등록된 CPU runner들의 `cpu` 한 항목으로 대신한다. GPU runner의 장치는 `local`에 합치지 않는다 |
+ | `runners` | 등록된 runner의 장치. GPU runner는 장치 uuid별 한 항목, CPU 전용 runner들은 `cpu` 한 항목으로 묶인다 |
+ 
+ - `console.benchmark.device`에는 장치 id·uuid·이름, 그 장치를 쓰는 runner id, 또는 `cpu`를 줄 수 있다.
+-- 장치 목록이 CPU뿐이면(또는 `console.benchmark.device`가 `cpu`이면) 평가 ON 탐색은 `EVALUATION_REQUIRES_CUDA`로 거부된다. 명시 학습과 평가 OFF 생성은 허용된다. GPU·CPU runner가 섞인 fleet에서 CPU runner가 평가 ON 작업을 가져가지 않도록 claim 때 장치를 대조하는 보완이 결정되어 있으나, 이 문서 작성 시점의 코드에서는 반영을 확인하지 못했다(확인 못 함). 그때까지는 GPU runner가 있는 fleet에서 평가 ON 탐색을 돌리는 동안 CPU runner를 멈춰 두거나 `MBNAS_RUNNER_KINDS`로 CPU에서 할 작업 종류만 받게 좁혀 둔다.
+-- GPU가 없는 owner 호스트(분리 배치에서 흔함)에서 `local`이면 목록이 비어 학습·탐색 검증이 `DEVICE_UNAVAILABLE`이 된다. 이때는 `MBNAS_CORE_DEVICE_SOURCE=runners`를 설정한다. `local` 목록이 비면 runner 장치를 자동으로 쓰도록 보완하기로 결정되었으나, 이 문서 작성 시점의 코드에서는 반영을 확인하지 못했다(확인 못 함).
++- "등록된 runner"는 상태가 `REGISTERED` 또는 `ONLINE`인 runner다. 정지한(`OFFLINE`) runner와 응답이 끊긴(`LOST`) runner는 빠지므로, 검증 시점에 runner가 실행 중(`mbnas-runner run`)이어야 한다. 장치 목록은 core API 프로세스에서 최대 30초 동안 캐시되므로, runner를 처음 띄운 직후의 검증에는 잠시 반영되지 않을 수 있다.
++- 장치 목록이 CPU뿐이면(또는 `console.benchmark.device`가 `cpu`이면) 평가 ON 탐색은 `EVALUATION_REQUIRES_CUDA`로 거부된다. 명시 학습과 평가 OFF 생성은 허용된다.
++- GPU가 없는 owner 호스트(분리 배치에서 흔함)에서 `local`이면 CPU runner가 실행 중일 때 그 `cpu` 항목으로 학습 검증이 통과하고 평가 ON 탐색은 `EVALUATION_REQUIRES_CUDA`로 거부된다. 실행 중인 CPU runner가 없으면 목록이 비어 학습·탐색 검증이 `DEVICE_UNAVAILABLE`이다. GPU runner가 다른 호스트에 있으면 그 GPU를 검증에 쓰도록 `MBNAS_CORE_DEVICE_SOURCE=runners`로 둔다(`local`은 GPU runner를 보지 않는다).
++
++**CPU runner의 claim 규칙(GPU·CPU 혼합 fleet).** CPU로 등록한 runner(`device = cpu`)는 claim할 때 결과에 CUDA 측정이 필요한 작업을 다음 경우에만 건너뛴다: 그 작업 종류를 받는 GPU runner(CPU가 아닌 runner)가 `ONLINE`일 때. CUDA가 필요한 작업은 평가 ON 탐색·최종 재학습 run의 모든 작업, BENCHMARK, 평가를 하는 명시 학습(`validation_enabled`가 false가 아니거나 `mode`가 `evaluate_only`)이다. 건너뛴 작업은 임대되지 않고 시도 횟수도 쓰지 않은 채 `QUEUED`로 GPU runner를 기다리며, CPU runner는 그 뒤의 다른 작업을 받거나 받을 것이 없으면 `204`(작업 없음)를 받는다. GPU runner는 규칙 없이 종전대로 받는다.
++
++- CPU runner만 있는 fleet은 종전대로 받는다. 이런 fleet에서는 평가 ON 탐색이 보통 검증 단계에서 거부되지만, GPU가 있는 장치 목록으로 검증된 run(예: GPU 있는 core 호스트의 `local`)이면 CPU runner가 모든 후보를 학습하고 모두 `NOT_EVALUATED`로 끝난다. 순위·승급이 없고 GA는 부모로 쓸 평가 행이 없어 계산이 낭비되므로, 평가 ON 탐색은 GPU runner가 있을 때 돌린다.
++- GPU runner가 멈추거나(`deregister` → `OFFLINE`) 응답이 끊기면(core의 `MBNAS_CORE_HEARTBEAT_S`의 3배 + 5초 뒤 `LOST`) 더는 `ONLINE`이 아니므로, 남은 CUDA 필요 작업을 CPU runner가 가져가 `NOT_EVALUATED`로 끝날 수 있다. 평가 ON 탐색 중 GPU runner를 내릴 때는 CPU runner도 멈추거나 `MBNAS_RUNNER_KINDS`로 받을 작업 종류를 좁힌다.
++- 이 규칙은 합성 runner 신원으로 시험했다. 실제 GPU runner가 섞인 fleet에서의 실행은 확인하지 못했다(확인 못 함).
++
++**CPU에서 평가하지 못한 결과(`NOT_EVALUATED`).** CPU runner가 평가 단계(학습 작업의 평가, EVALUATE 작업)에 이르면 지연시간을 잴 수 없으므로 아무것도 측정하지 않고, 작업은 성공(`SUCCEEDED`)하며 결과는 "평가 안 됨"을 선언한다. core는 그 단계의 행을 다음과 같이 기록한다.
++
++- 행: 상태 `SEARCH_COMPLETE`, `performance_status = NOT_EVALUATED`, `reason_code = EVALUATION_REQUIRES_CUDA`(유효한 사유 코드가 없으면 `NOT_EVALUATED`). `ap`·`recall`·`latency_ms`·`size_mb`·`fitness`·`gate`는 null(가짜 지표를 만들지 않음), `latency_source`·`evaluation_hash`는 `pending`, `split_hash`는 null. 학습한 checkpoint(`checkpoint_path`·sha256)와 실행 장치(`raw_metrics.device_used`)는 남는다. 이미 측정된 행(EVALUATED)은 바꾸지 않는다.
++- 명시 학습 run: validation을 끈 명시 학습과 같은 모양(`training_mode`·`source_kind` 유지)으로 끝나고 run은 `COMPLETED`다.
++- 탐색 arm(GA·IndependentRandom·Baseline·Final): 그 후보는 평가되지 않은 채로 남는다. 승급·다음 단계가 없고, 세대의 평가 수에 세지 않으며, GA의 부모가 되지 않는다.
++- 학습된 구조 hash가 후보와 다르면 종전처럼 표시한다: 명시 학습 행은 `reason_code = ARCHITECTURE_HASH_MISMATCH`, 다른 arm의 행은 `EVAL_FAILED`.
++- 웹은 명시 학습의 이런 행과, 사유가 `EVALUATION_REQUIRES_CUDA`인 탐색 arm 행을 "학습 완료 · 미평가"로 표시한다(서버가 `training_status = UNTRAINED`라고 보고한 탐색 arm 행은 제외). 지표 값은 null이라 비어 보인다.
+ 
+ **health의 허용 경로.** gateway의 `GET /api/v1/health`는 gateway 자신의 허용 경로(`MBNAS_GW_DATASET_ROOTS`·`OUTPUT_ROOTS`, 비어 있을 수 있음)와 아카이브 루트만 보여 준다. core 호스트의 허용 경로는 중계하지 않는다.
+-
+--- a/docs/public/SECURITY_MODEL.md
++++ b/docs/public/SECURITY_MODEL.md
+@@ -1,6 +1,6 @@
+ # SECURITY_MODEL — 보안 모델 (Security model)
+ 
+-문서 기준일: 2026-10-27. 이 문서는 배포 구조가 무엇을 보호하고 무엇을 보호하지 않는지 설명한다. 각 통제의 구현·검증 상태를 함께 적는다. "설계"라고 적은 항목은 아직 시험으로 확인하지 않은 의도다.
++문서 기준일: 2026-10-28. 이 문서는 배포 구조가 무엇을 보호하고 무엇을 보호하지 않는지 설명한다. 각 통제의 구현·검증 상태를 함께 적는다. "설계"라고 적은 항목은 아직 시험으로 확인하지 않은 의도다.
+ 
+ ## 1. 신뢰 영역 (Trust zones)
+ 
+@@ -71,7 +71,7 @@
+ - **공개 응답 투영**: 계약 1.5.0의 허용목록 투영이 적용되었다. 공개 계약에 정의된 필드만 공개 응답·SSE 이벤트·내보내기에 남고, 작업자·장치는 DB별 salt의 opaque id(runner 행은 설치 시 무작위로 만든 runner id `runner-<16진수 8자리>`; 운영자가 직접 정한 runner id는 그대로 공개된다), 경로는 run 기준 상대경로, artifact URL은 상대 `/api/v1/...`로 나온다(`API.md` §8). admin 토큰으로 콘솔 경로를 불러도 투영본이며 원본은 owner 경로에서만 본다. 투영 시험은 CPU 시험 묶음에서 통과했으나, **배포물·응답·로그 전체를 대상으로 한 누출 검사(T8)는 검증 예정**이다. gateway의 `GET /api/v1/health`는 gateway 자신의 허용 경로와 아카이브 루트만 보여 주며 core의 허용 경로는 중계하지 않는다.
+ - **오류 본문**: 안정 코드·위치·request id 중심. 예외 문자열·호스트 경로를 싣지 않는 것이 목표이며, 검증 전에는 확인 사항으로 남긴다.
+ - **로그**: 공통 마스킹 필터가 토큰 형태 값을 가린다. gateway는 민감 조회(후보 상세·계보·세대)를 감사 로그(JSON lines)에 토큰 hash·경로·대상·시각으로 남긴다.
+-- **다운로드 무결성**: gateway는 64 MiB(`MBNAS_GW_ARTIFACT_VERIFY_FIRST_MAX_BYTES`) 이하 객체를 응답 전에 sha256 대조하고(불일치 `409 LOAD_FAILED`), 더 큰 객체는 전송하면서 대조하므로 변조는 응답 도중 본문 중단으로만 드러난다. 받은 쪽은 `X-Artifact-Sha256`과 대조해야 한다. 웹은 HTTPS나 localhost에서만 내려받은 파일의 sha256을 계산하며, 평문 LAN 접속에서는 "대조 못 함"으로 표시한다.
++- **다운로드 무결성**: gateway는 64 MiB(`MBNAS_GW_ARTIFACT_VERIFY_FIRST_MAX_BYTES`) 이하 객체를 응답 전에 sha256 대조하고(불일치 `409 LOAD_FAILED`), 더 큰 객체는 전송하면서 대조하므로 변조는 응답 도중 본문 중단으로만 드러난다. 받은 쪽은 `X-Artifact-Sha256`과 대조해야 한다. 웹은 HTTPS나 localhost에서만 내려받은 파일의 sha256을 계산하며, 평문 LAN 접속에서는 "대조 못 함"으로 표시한다. 분리 배치에서 core 호스트에 남는 생성 구조 YAML은 core가 직접 제공한다: core는 run의 core 쪽 디렉터리 안 `architectures/<후보 id>.yaml`이고 심볼릭 링크가 아닌 일반 파일이며 1 MiB 이하이고 바이트가 후보에 기록된 YAML과 같을 때만 등록하고, 내줄 때 같은 조건과 등록 sha256을 다시 확인한다(어긋나면 `403 ACCESS_DENIED` 또는 `409 LOAD_FAILED`). 제공할 때는 core의 `MBNAS_CORE_OUTPUT_ROOT/<run id>` 밖을 보지 않는다. gateway는 받은 바이트의 sha256을 다시 대조한다.
+ - **브라우저 입력 위조 방지**: 브라우저가 요청 본문에 넣은 고객 호스트 측 검사 결과(`path_checks` 등)는 gateway가 모든 경로에서 지우고 직접 다시 측정한다.
+ - **웹 번들**: source map을 만들지 않으며, 적합도 공식·설계 handoff 원문·원본 호스트 문자열은 번들에서 제거되었다(빌드 때 금지 문자열 검사).
+ 
+--- a/docs/public/TROUBLESHOOTING.md
++++ b/docs/public/TROUBLESHOOTING.md
+@@ -1,6 +1,6 @@
+ # TROUBLESHOOTING — 문제 해결 (Troubleshooting)
+ 
+-문서 기준일: 2026-10-27. 먼저 `bash scripts/doctor.sh --profile <owner|public>`를 실행해 PASS/WARN/FAIL 목록을 본다(비밀 값은 출력하지 않는다). 오류 응답의 `code`와 `request_id`가 원인 추적의 기준이다. 아래 코드는 이 저장소의 소스에 정의된 것이다.
++문서 기준일: 2026-10-28. 먼저 `bash scripts/doctor.sh --profile <owner|public>`를 실행해 PASS/WARN/FAIL 목록을 본다(비밀 값은 출력하지 않는다). 오류 응답의 `code`와 `request_id`가 원인 추적의 기준이다. 아래 코드는 이 저장소의 소스에 정의된 것이다.
+ 
+ ## 1. 설치 (Installation)
+ 
+@@ -51,8 +51,8 @@
+ | `RESUME_REQUIRES_PAUSED_RUN` | 409 | 재개 대상 run이 일시정지 상태가 아님 | run 상태 확인 |
+ | `EXTERNAL_CHECKPOINT_IMPORT_UNSUPPORTED` | 409 | 외부 checkpoint를 새 run에 붙이는 재개 | 지원하지 않음(`COMPATIBILITY.md` §6) |
+ | `FINAL_RETRAIN_NOT_APPLICABLE` | 409 | 평가 없는 생성 run에 최종 재학습 요청 | 평가를 수행한 탐색 run에만 가능 |
+-| `EVALUATION_REQUIRES_CUDA` | — (검증 오류 `errors[].code`) | 등록된 장치가 CPU뿐인데(또는 `console.benchmark.device`가 `cpu`) 평가 ON 탐색을 요청함. 지연시간은 CUDA에서만 잰다 | GPU runner를 등록하거나, 평가 OFF 생성(`console.search.evaluation_enabled=false`) 또는 명시 학습을 쓴다 |
+-| `DEVICE_UNAVAILABLE` | — (검증 오류 `errors[].code`) | 검증용 장치 목록이 비어 있음(GPU 없는 owner 호스트의 기본 `MBNAS_CORE_DEVICE_SOURCE=local`) | owner 쪽에서 `MBNAS_CORE_DEVICE_SOURCE=runners`(`OPERATIONS.md` §15) |
++| `EVALUATION_REQUIRES_CUDA` | — (검증 오류 `errors[].code`) | 검증용 장치 목록이 CPU뿐인데(또는 `console.benchmark.device`가 `cpu`) 평가 ON 탐색을 요청함. 지연시간은 CUDA에서만 잰다. 후보 행의 `reason_code`로 나오면 뜻이 다르다(§7) | GPU runner를 등록하거나(GPU runner가 다른 호스트면 `MBNAS_CORE_DEVICE_SOURCE=runners`), 평가 OFF 생성(`console.search.evaluation_enabled=false`) 또는 명시 학습을 쓴다 |
++| `DEVICE_UNAVAILABLE` | — (검증 오류 `errors[].code`) | 검증용 장치 목록이 비어 있음. 기본 `MBNAS_CORE_DEVICE_SOURCE=local`에서는 core 호스트에 GPU가 없고 등록된 CPU runner도 없을 때(`local`은 GPU 없는 core 호스트에서 등록된 CPU runner의 `cpu` 항목으로 대신하지만 GPU runner는 보지 않는다), `runners`에서는 등록된 runner가 없을 때 | runner를 실행해 둔 채(`mbnas-runner run`; 정지했거나 응답이 끊긴 runner는 목록에서 빠진다) 다시 검증한다(장치 목록은 최대 30초 캐시). GPU runner가 다른 호스트에 있으면 owner 쪽에서 `MBNAS_CORE_DEVICE_SOURCE=runners`(`OPERATIONS.md` §15) |
+ | `WORKER_IO_ERROR` / `WORKER_JOB_ERROR` | — (owner worker 작업 실패 사유) | 후보 생성 작업 중 core 호스트의 파일 오류 / 그 밖의 예외. worker는 계속 돌고 그 작업만 실패 | core 쪽 작업 로그(`<MBNAS_CORE_OUTPUT_ROOT>/<run>/logs` 또는 run 디렉터리의 `logs`) 확인 |
+ | `RESUME_BLOCKED` | — (작업 실패 사유) | full-state가 없거나 손상·불일치 | 가중치만으로 대체하지 않는다. checkpoint 상태(`PRESENT/PRUNED/MISSING`) 확인 |
+ 
+@@ -93,13 +93,25 @@
+ | `RESULT_CONFLICT` | 409 | 같은 시도에 다른 결과 본문 | journal 손상 여부 확인 |
+ | `KIND_NOT_ALLOWED` | 400 | 허용되지 않은 작업 종류 요청 | `MBNAS_RUNNER_KINDS`를 허용 집합 안으로 |
+ | `RUNNER_BUSY` | 429 | runner 하나가 작업 둘을 동시에 요청 | runner 하나 = 장치 하나 = 작업 하나 |
+-| 평가가 끝나지 않음(`latency_source=pending`) | — | CPU runner는 지연시간을 측정하지 않는다 | GPU runner를 쓴다(`FEATURES.md` 한계) |
++| 후보가 `SEARCH_COMPLETE`인데 지표가 없음(`performance_status=NOT_EVALUATED`, `reason_code=EVALUATION_REQUIRES_CUDA`, `latency_source=pending`) | — | CPU runner가 학습만 하고 평가하지 못했다(지연시간은 CUDA에서만 잰다). checkpoint는 남고, 지표·적합도는 null이며 승급하지 않는다. 웹 표시는 "학습 완료 · 미평가" | 평가가 필요하면 GPU runner로 실행한다. GPU·CPU 혼합 fleet에서는 GPU runner가 `ONLINE`일 때만 CPU runner가 이런 작업을 건너뛴다(`OPERATIONS.md` §15) |
++| CPU runner가 대기 중인 작업을 가져가지 않음(claim이 계속 `204`) | 204 | 그 작업은 CUDA 측정이 필요하고(평가 ON 탐색·최종 재학습, 평가하는 명시 학습, BENCHMARK), 같은 작업 종류를 받는 GPU runner가 `ONLINE`이다. 작업은 시도 횟수를 쓰지 않고 `QUEUED`로 GPU runner를 기다린다 | 정상 동작. 오래 기다리면 GPU runner의 상태와 `MBNAS_RUNNER_KINDS`를 확인한다 |
+ 
+-## 8. 아카이브 (Archive)
++## 8. 산출물 다운로드 (Artifact downloads)
++
++| 코드 | HTTP | 뜻 | 조치 |
++|---|---|---|---|
++| `ARTIFACT_NOT_READY` | 404 | runner가 등록한 산출물이 아직 gateway 저장소로 전송되지 않음 | runner의 로컬 전송 설정(`MBNAS_RUNNER_ARTIFACT_TRANSFER=local`, `MBNAS_RUNNER_ARTIFACT_STORE_DIR` = gateway 저장소, 같은 호스트) 확인 |
++| `MISSING` | 404 | 이 run에 없는 id, 또는 core 쪽 파일(분리 배치의 생성 구조 YAML)이 core 호스트에서 사라짐 | id 확인. core 쪽 파일이면 `<MBNAS_CORE_OUTPUT_ROOT>/<run id>/architectures/`를 백업에서 복원(`OPERATIONS.md` §8·§15) |
++| `ACCESS_DENIED` | 403 | 서명 URL의 서명이 맞지 않음(토큰 문제는 §3), 또는 core 쪽 생성 구조 YAML이 심볼릭 링크이거나 허용 위치 밖, 또는 `MBNAS_CORE_OUTPUT_ROOT`가 `MBNAS_CORE_OUTPUT_ROOTS` 밖 | 서명 URL을 다시 받는다. core 쪽 파일이면 링크를 실제 파일로 되돌리거나 `MBNAS_CORE_OUTPUT_ROOTS`에 `MBNAS_CORE_OUTPUT_ROOT`를 넣는다(`OPERATIONS.md` §15) |
++| `LOAD_FAILED` | 409 | 저장된 바이트가 기록된 sha256과 다름(gateway 저장소 또는 core 쪽 파일; core 쪽 파일은 1 MiB 초과도 포함) | 파일이 바뀌었거나 손상됨. 원본을 복원한다 |
++| `EXPIRED` | 410 | 서명 URL 만료 | `POST …/refresh`로 새 URL을 받는다(웹은 한 번 자동으로 요청한다) |
++| `CORE_UNAVAILABLE` | 503 | core에 연결하지 못함. 모든 다운로드가 core의 기록을 먼저 확인하고, core 쪽 생성 구조 YAML은 바이트도 core에서 받는다 | core 연결 복구 |
++
++## 9. 아카이브 (Archive)
+ 
+ `503 ARCHIVE_ROOT_UNAVAILABLE`: 아카이브 루트(`MBNAS_GW_ARCHIVE_ROOTS`)가 설정되지 않았거나 읽을 수 없다. 아카이브는 선택 기능이며 기본으로 꺼져 있다.
+ 
+-## 9. 로그와 지원 요청 (Logs and support)
++## 10. 로그와 지원 요청 (Logs and support)
+ 
+ - 프로세스 로그: `runtime/logs/<이름>.log`(start.sh가 기록), 설치 로그: `runtime/logs/install-<시각>.log`.
+ - gateway 감사 로그: `MBNAS_GW_AUDIT_LOG`(기본 `runtime/gateway/logs/audit.jsonl`).
+--- a/docs/registration/INTERFACES.md
++++ b/docs/registration/INTERFACES.md
+@@ -74,7 +74,7 @@
+ 출처: `mbnas_contracts/src/mbnas_contracts/openapi/openapi.json` (sha256 `70e0cffaab8fafd9c7f230af9169dbbe8812b3eccf7ad7838ca3f46fa9eebc2a`)
+ <!-- END GENERATED:api-v1 -->
+ 
+-gateway가 직접 처리하는 경로: 업로드(`POST /api/v1/uploads/model-config`, 원문 바이트를 고객 측 저장소에 sha256 이름으로 보존)와 아카이브(`/api/v1/archive/*`), artifact 바이트 제공(core의 기록으로 id·sha256을 확인한 뒤 고객 측 저장소에서 전송). 나머지는 core 콘솔 API로 중계한다. 계약의 `servers`는 같은 origin의 상대 루트(`/`)이며 gateway 기본 주소는 `127.0.0.1:8710`이다.
++gateway가 직접 처리하는 경로: 업로드(`POST /api/v1/uploads/model-config`, 원문 바이트를 고객 측 저장소에 sha256 이름으로 보존)와 아카이브(`/api/v1/archive/*`), artifact 바이트 제공(core의 기록으로 id·sha256을 확인한 뒤 고객 측 저장소에서 전송. 분리 배치에서 core 호스트에 남는 생성 구조 YAML은 고객 측 저장소에 없으므로 core에서 받아 sha256을 다시 대조한 뒤 전달). 나머지는 core 콘솔 API로 중계한다. 계약의 `servers`는 같은 origin의 상대 루트(`/`)이며 gateway 기본 주소는 `127.0.0.1:8710`이다.
+ 
+ ## 4. ② 콘솔 중계 API `/core/v1/console`
+ 
+@@ -112,6 +112,8 @@
+ - **fencing**: 모든 쓰기 요청은 `(job_id, runner_id, attempt)`로 검사한다. lease를 잃은 요청은 `409 LEASE_LOST`.
+ - **멱등 결과**: 같은 `(job_id, attempt)`의 같은 본문은 저장된 응답을 재생하고, 다른 본문은 `409 RESULT_CONFLICT`, 처리 중이면 `202 PROCESSING`.
+ - **runner가 계산하지 않는 것**: 적합도(fitness)·승급 게이트. runner는 raw 측정값만 보고하고 core가 판정한다.
++- **claim과 장치(GPU·CPU 혼합 fleet)**: CPU로 등록한 runner(`device = cpu`)는 결과에 CUDA 측정이 필요한 작업(평가 ON 탐색·최종 재학습 run의 작업, 평가하는 명시 학습, BENCHMARK)을, 같은 작업 종류를 받는 CPU가 아닌 runner가 `ONLINE`일 때 받지 않는다. 그 작업은 임대되지 않고(시도 횟수 유지) `QUEUED`로 남으며, CPU runner는 다른 작업을 받거나 `204`(작업 없음)를 받는다. CPU runner만 있으면 종전대로 받는다. 응답 형식·오류 코드는 바뀌지 않았다(계약 변경 없음).
++- **평가하지 못한 결과**: CPU runner의 평가 단계는 지연시간을 재지 않고 결과에 `NOT_EVALUATED`(사유 `EVALUATION_REQUIRES_CUDA`)를 선언하며 작업은 성공한다. core는 그 단계의 행을 지표 없이 `SEARCH_COMPLETE` + `performance_status = NOT_EVALUATED`로 기록한다(가짜 지표·승급 없음, checkpoint 유지).
+ - **JobEnvelope 내용**: 사용자가 작성한 resolved protocol, 작업 명세, 후보의 공개 행. 탐색 정책 내부 상태(prior·repair·부모 풀·예산 추정)는 넣지 않는다.
+ 
+ ## 6. ④ owner 관리 API `/core/v1/owner`
+@@ -134,4 +136,4 @@
+ | runner 프로토콜 | 1.0.0 (`envelope_version` 1) | `register` 응답에서 버전 협상, 비호환 시 `409 VERSION_MISMATCH` |
+ | 콘솔·owner API | 계약 파일 없음 | ①과 같은 DTO를 사용(콘솔) |
+ 
+-검증 상태(2026-10-28): ①·②·③은 실제 프로세스(core·owner worker·runner·gateway, CPU)로 실행 확인되었고, ③은 실제 GPU에서도 확인되었다(기준 트리 `9dafe4d0…`: 학습·평가·일시정지/재개·lease 회수·늦은 결과 거부·gateway 경유 다운로드). 공개 배포본 gateway → 원격 core 구성의 독립 실행은 1차에서 PARTIAL(결함 수정 반영, 재실행 예정)이다. gateway와 core의 접근 로그는 같은 `request_id`로 한 요청을 잇는다.
++검증 상태(2026-10-28): ①·②·③은 실제 프로세스(core·owner worker·runner·gateway, CPU)로 실행 확인되었고, ③은 실제 GPU에서도 확인되었다(기준 트리 `9dafe4d0…`: 학습·평가·일시정지/재개·lease 회수·늦은 결과 거부·gateway 경유 다운로드). 공개 배포본 gateway → 원격 core 구성의 독립 실행은 1차에서 PARTIAL(결함 수정 반영, 재실행 예정)이다. 그 결함의 수정(GPU 없는 core 호스트의 장치 목록, CPU 학습의 `NOT_EVALUATED` 기록, core 쪽 생성 구조 YAML 제공, 접근 로그의 `request_id`)은 두 호스트 분리 배치 시뮬레이션(CPU)에서 확인했다. gateway와 core의 접근 로그는 같은 `request_id`로 한 요청을 잇는다.
+--- a/docs/registration/PROGRAM_OVERVIEW.md
++++ b/docs/registration/PROGRAM_OVERVIEW.md
+@@ -64,10 +64,10 @@
+ | 단위·통합 시험(T1) | owner·public 시험 묶음(CPU) | 실행 확인(개발 단계 최근 기록: owner 게이트 1500 통과·0 실패, public 1070 통과·0 실패. owner ZIP을 새 경로에 풀어 돌린 unit 2537 통과·0 실패) |
+ | core 동등성(T2) | 원본 대비 같은 입력의 후보·수리·판정·난수 흐름 비교 | 실행 확인: 10개 시나리오 불일치 0(정확히 같음 3, 문서화된 허용 차이만 있음 7). GPU 학습 결과도 원본과 bitwise 동일(같은 seed·결정적 설정) |
+ | 분산·보안(T3) | 원격 큐 시험 매트릭스, 입력·인증 음성 시험 | 실행 확인(원격 큐 매트릭스 40건, 보안 음성 시험 포함) |
+-| 실제 다중 프로세스 실행 | core·owner worker·runner·gateway 실제 프로세스(CPU) | 실행 확인(구조 생성 run, CPU 학습, 업로드·구조 검사, 분리 배치의 고객 측 출력 경로 run 완료) |
++| 실제 다중 프로세스 실행 | core·owner worker·runner·gateway 실제 프로세스(CPU) | 실행 확인(구조 생성 run, CPU 학습, 업로드·구조 검사, 분리 배치의 고객 측 출력 경로 run 완료). 두 호스트 분리 배치 시뮬레이션(CPU)에서 GPU 없는 core 호스트의 장치 목록 대체, validation을 켠 CPU 학습의 `NOT_EVALUATED` 기록과 run 완료, core 쪽 생성 구조 YAML의 gateway 경유 다운로드(sha256 일치)도 확인 |
+ | GPU 경로(T7) | 실제 GPU 학습·평가·일시정지·재개·장애 복구·산출물 전송 | **실행 확인 — 판정 YES(한계 있음)**: 기준 트리 `9dafe4d0…`에서 baseline 학습, 평가 ON 탐색(후보 32개·실측 지연시간), 최종 재학습, 일시정지→full-state 재개, 취소, runner 강제 종료→lease 회수→다음 시도, 산출물 로컬 전송과 gateway 경유 다운로드(sha256 일치), 장치 기록, 공식 가중치 평가, 0이 아닌 GPU의 runner, owner 스크립트 벤치마크가 모두 통과. 한계: TensorRT는 BLOCKED_BY_ENV, 벤치마크는 owner 스크립트 경로만, 0이 아닌 GPU에서 탐색 후보 학습은 미실행, 그 뒤의 코드 변경은 CPU로만 검증 |
+-| owner 독립 설치·실행(T4) | owner 배포본만으로 설치·실행 | 1차 실행 PARTIAL: 격리 환경에서 owner ZIP만으로 오프라인 설치·4프로세스 기동·구조 검사·평가 OFF 생성·CPU 학습 일시정지→재개·다운로드(sha256 일치)·내보내기 통과. GPU 없는 호스트의 장치 목록, 로그 request id 연결 등 결함은 수정 반영, 재실행 예정(CPU에서 승급·최종 재학습 단계는 설계상 불가) |
+-| public 독립 설치·실행(T5) | 공개 배포본 + 원격 core 연결 | 1차 실행 PARTIAL: 공개 ZIP으로 만든 CPU 이미지(gateway·runner 컨테이너)가 호스트의 core에 연결해 업로드→검사→생성→학습→다운로드, core 중단 시 명시 실패(503) 통과. 이미지에 core·비밀·표식 없음. 고객 측 출력 경로의 생성 run이 시작되지 않던 owner worker 결함과 로그 연결 결함은 수정 반영, 재실행 예정 |
++| owner 독립 설치·실행(T4) | owner 배포본만으로 설치·실행 | 1차 실행 PARTIAL: 격리 환경에서 owner ZIP만으로 오프라인 설치·4프로세스 기동·구조 검사·평가 OFF 생성·CPU 학습 일시정지→재개·다운로드(sha256 일치)·내보내기 통과. GPU 없는 호스트의 장치 목록, 로그 request id 연결 등 결함은 수정 반영(두 호스트 분리 배치 시뮬레이션으로 확인), 독립 설치 재실행 예정(CPU에서 승급·최종 재학습 단계는 설계상 불가) |
++| public 독립 설치·실행(T5) | 공개 배포본 + 원격 core 연결 | 1차 실행 PARTIAL: 공개 ZIP으로 만든 CPU 이미지(gateway·runner 컨테이너)가 호스트의 core에 연결해 업로드→검사→생성→학습→다운로드, core 중단 시 명시 실패(503) 통과. 이미지에 core·비밀·표식 없음. 고객 측 출력 경로의 생성 run이 시작되지 않던 owner worker 결함과 로그 연결 결함은 수정 반영(두 호스트 분리 배치 시뮬레이션으로 확인), 독립 설치 재실행 예정 |
+ | 재배치(T6) | 새 경로(공백 포함)·외부 작업 디렉터리 | owner PASS(unit 2537/0, integration 17/17, relocation 8/8, 외부 작업 디렉터리 재호출). public·registration은 unit 1건 실패(도구 미동봉)를 고쳤고 재실행 예정. 오프라인 설치: public ZIP을 네트워크 차단 상태로 설치 성공(서드파티 wheel 묶음 필요) |
+ | 누출 검사(T8) | 공개 산출물·응답·로그에 비공개 정보 부재 | 배포 ZIP 3종 PASS(표식·비밀 값·호스트 사실 0). 런타임 1차 FAIL: 공개 gateway의 health가 core 호스트의 허용 경로를 중계 → 수정(gateway 자신의 경로만), 재실행 예정 |
+ 
+@@ -75,7 +75,7 @@
+ 
+ - **Python**: 3.10만 지원(`requires-python >=3.10,<3.11`).
+ - **주요 고정 버전**: torch 2.6.0(cu124 빌드), torchvision 0.21.0, ultralytics 8.4.173. ultralytics는 연산자 확장이 설치본의 `parse_model` 소스 hash를 확인하므로 다른 버전에서는 맞춤 연산자 등록이 명시적으로 실패한다.
+-- **GPU**: 학습·평가·벤치마크용 NVIDIA GPU. CPU 전용 runner는 학습·checkpoint·구조 생성까지만 지원하며, 지연시간 측정이 필요한 평가 완료 판정은 하지 않는다.
++- **GPU**: 학습·평가·벤치마크용 NVIDIA GPU. CPU 전용 runner는 학습·checkpoint·구조 생성까지만 지원하며, 지연시간 측정이 필요한 평가 완료 판정은 하지 않는다(평가가 필요한 작업은 checkpoint를 남기고 `NOT_EVALUATED`로 기록된다).
+ - **포트(기본값)**: core 8700, gateway 8710, 웹 개발용 preview 8720.
+ - **네트워크**: 온라인 설치는 PyPI와 PyTorch 배포 서버(`download.pytorch.org`)에 접속한다. 선택 사항인 오프라인 설치는 wheel 묶음이 필요하다.
+ - **Node.js**: 웹 화면을 다시 빌드할 때만 필요하다(서버는 빌드된 `mbnas_web/dist/`를 제공).
+--- a/config/examples/core.env.example
++++ b/config/examples/core.env.example
+@@ -6,6 +6,9 @@
+ # How the file is read (both read only the MBNAS_CORE_* lines):
+ #   a) dotenv: `--env-file <file>` on the commands above, or MBNAS_CORE_ENV_FILE=<file> in the environment. The values
+ #      stay inside the settings object (they are NOT exported), so MBNAS_HOME cannot be set from such a file.
++#      mbnas-core-api and mbnas-core-owner-worker set MBNAS_CORE_ENV_FILE=<file> for their own process, so every
++#      settings read of that process uses the same file (job children of the owner worker do not inherit it). Give the
++#      core API and the owner worker the same file.
+ #   b) process environment: systemd EnvironmentFile=, docker compose env_file:, or `set -a; . <file>; set +a`.
+ #   Precedence: process environment > dotenv file > built-in default.
+ # Format: KEY=value, one per line, '#' starts a comment line. Lists take comma-separated values (a,b) or a JSON array
+@@ -48,9 +51,12 @@
+ # SQLite database of runs, candidates, jobs, principals (WAL mode; keep it on a local disk).
+ # MBNAS_CORE_DB_PATH=/ABSOLUTE/PATH/TO/mbnas_application/runtime/core/db/mbnas.sqlite3
+ # Core state directory (model registry, validation records, dataset manifests, saved structure documents) and the
+-# default write allow-root of run outputs.
++# default write allow-root of run outputs. Split deployment: when console.paths.output_root is a customer-host path the
++# core host cannot write, the owner worker keeps that run's control files, job logs, generated architecture YAMLs and
++# generation journal in <MBNAS_CORE_OUTPUT_ROOT>/<run id>/; the core serves those YAMLs (back this directory up).
+ # MBNAS_CORE_OUTPUT_ROOT=/ABSOLUTE/PATH/TO/mbnas_application/runtime/core/runs
+-# Write allow-roots of protocol output paths (console.paths.output_root). Default: [MBNAS_CORE_OUTPUT_ROOT].
++# Write allow-roots of protocol output paths (console.paths.output_root). Default: [MBNAS_CORE_OUTPUT_ROOT]. When you
++# set it, keep MBNAS_CORE_OUTPUT_ROOT inside (core-local generated YAMLs are served only from inside these roots).
+ # MBNAS_CORE_OUTPUT_ROOTS=/ABSOLUTE/PATH/TO/mbnas_application/runtime/core/runs
+ # Read allow-roots of datasets checked on this host (at least one; default [$MBNAS_HOME/data]). With a gateway that
+ # sends its own path checks and manifests (public deployment) the datasets live on the customer host instead.
+@@ -86,7 +92,9 @@
+ 
+ # ---- runs, devices, retention ---------------------------------------------------------------------------------------
+ # Device inventory used by protocol validation: local = NVML of this host; runners = devices of registered runners
+-# (use runners when the GPUs are on runner hosts or the core runs in a container without GPU access).
++# (use runners when the GPUs are on runner hosts or the core runs in a container without GPU access). With local and
++# no GPU on this host (empty NVML list) the running CPU runners' single 'cpu' entry is used instead: explicit training
++# validates, evaluation-ON searches are refused with EVALUATION_REQUIRES_CUDA; GPU runners are never added to local.
+ # MBNAS_CORE_DEVICE_SOURCE=local
+ # Default console.retention.full_state when a protocol does not set it: keep_all | rung_end_only | last_rung_end_only.
+ # MBNAS_CORE_FULL_STATE_RETENTION=keep_all
+--- a/config/examples/owner-all-in-one.env.example
++++ b/config/examples/owner-all-in-one.env.example
+@@ -65,9 +65,12 @@
+ # SQLite database of runs, candidates, jobs, principals (WAL mode; keep it on a local disk).
+ # MBNAS_CORE_DB_PATH=/ABSOLUTE/PATH/TO/mbnas_application/runtime/core/db/mbnas.sqlite3
+ # Core state directory (model registry, validation records, dataset manifests, saved structure documents) and the
+-# default write allow-root of run outputs.
++# default write allow-root of run outputs. Split deployment: when console.paths.output_root is a customer-host path the
++# core host cannot write, the owner worker keeps that run's control files, job logs, generated architecture YAMLs and
++# generation journal in <MBNAS_CORE_OUTPUT_ROOT>/<run id>/; the core serves those YAMLs (back this directory up).
+ # MBNAS_CORE_OUTPUT_ROOT=/ABSOLUTE/PATH/TO/mbnas_application/runtime/core/runs
+-# Write allow-roots of protocol output paths (console.paths.output_root). Default: [MBNAS_CORE_OUTPUT_ROOT].
++# Write allow-roots of protocol output paths (console.paths.output_root). Default: [MBNAS_CORE_OUTPUT_ROOT]. When you
++# set it, keep MBNAS_CORE_OUTPUT_ROOT inside (core-local generated YAMLs are served only from inside these roots).
+ # MBNAS_CORE_OUTPUT_ROOTS=/ABSOLUTE/PATH/TO/mbnas_application/runtime/core/runs
+ # Read allow-roots of datasets checked on this host (at least one; default [$MBNAS_HOME/data]). With a gateway that
+ # sends its own path checks and manifests (public deployment) the datasets live on the customer host instead.
+@@ -103,7 +106,9 @@
+ 
+ # ---- runs, devices, retention ---------------------------------------------------------------------------------------
+ # Device inventory used by protocol validation: local = NVML of this host; runners = devices of registered runners
+-# (use runners when the GPUs are on runner hosts or the core runs in a container without GPU access).
++# (use runners when the GPUs are on runner hosts or the core runs in a container without GPU access). With local and
++# no GPU on this host (empty NVML list) the running CPU runners' single 'cpu' entry is used instead: explicit training
++# validates, evaluation-ON searches are refused with EVALUATION_REQUIRES_CUDA; GPU runners are never added to local.
+ # MBNAS_CORE_DEVICE_SOURCE=local
+ # Default console.retention.full_state when a protocol does not set it: keep_all | rung_end_only | last_rung_end_only.
+ # MBNAS_CORE_FULL_STATE_RETENTION=keep_all
+--- a/docs/internal/evidence/WP7/7C/PENDING.md
++++ b/docs/internal/evidence/WP7/7C/PENDING.md
+@@ -65,8 +65,24 @@
+ |---|---|---|---|
+ | F1 | `scripts/public/make_pilot_subset.py` 공개 동봉(DD-A59 b) | 구조표 B7.4(공개)·B7.5(owner `scripts/runner`) 분리, SS7 5열, SUBMISSION_SCOPE_TABLE 03:53 allowlist 기준 | — |
+ | F2 | runner id 무작위 기본값(DD-A61 b) | runner·all-in-one env 예시, INSTALL §4, TROUBLESHOOTING `RUNNER_MISMATCH`(업그레이드 주의), FEATURES 작업자 행 | — |
+-| F3 | DD-A60/A62 문서 | TROUBLESHOOTING(`EVALUATION_REQUIRES_CUDA`, `DEVICE_UNAVAILABLE`, `WORKER_IO_ERROR`/`WORKER_JOB_ERROR`, 로그 추적), OPERATIONS §14(접근 로그 형식·request id 연결), §15(owner worker core 쪽 파일, 장치 목록·`console.benchmark.device`, health 허용 경로), FEATURES CPU runner 한계 | **확인 못 함 2건**: `MBNAS_CORE_DEVICE_SOURCE=local`이 비면 runner 장치로 대체하는 보완(DD-A62 b)과 claim 시 장치 대조(DD-A62 d)가 이 시점 코드에 없음 → 문서에 "결정, 반영 확인 못 함 + 우회 방법"으로 기재. 반영되면 OPERATIONS §15·TROUBLESHOOTING `DEVICE_UNAVAILABLE` 행 수정. 요청받은 `--bench-device` 옵션은 코드에 없어 쓰지 않고 프로토콜 필드 `console.benchmark.device`로 기재 |
++| F3 | DD-A60/A62 문서 | TROUBLESHOOTING(`EVALUATION_REQUIRES_CUDA`, `DEVICE_UNAVAILABLE`, `WORKER_IO_ERROR`/`WORKER_JOB_ERROR`, 로그 추적), OPERATIONS §14(접근 로그 형식·request id 연결), §15(owner worker core 쪽 파일, 장치 목록·`console.benchmark.device`, health 허용 경로), FEATURES CPU runner 한계 | ~~확인 못 함 2건~~ → **해결(G1·G4, 10-28 06시대)**: DD-A62 (b)·(d)가 코드에 반영된 것을 확인(`mbnas_core/console/services.py` `_default_devices_fn`, `mbnas_core/runner_api/routes.py` `_lease_for_cpu_runner`/`requires_cuda`)하고 OPERATIONS §15·TROUBLESHOOTING `DEVICE_UNAVAILABLE` 행을 구현대로 고침(우회 문구 삭제). 요청받은 `--bench-device` 옵션은 코드에 없어 쓰지 않고 프로토콜 필드 `console.benchmark.device`로 기재(변경 없음) |
+ | F4 | GPU 검증 YES(DD-A54, RERUN_README) | FEATURES("GPU 확인", 한계 목록), PROGRAM_OVERVIEW §5, KEY_CONTRIBUTIONS §3, INTERFACES, README, OPERATIONS §13. COMPATIBILITY·SECURITY_MODEL의 GPU 행은 설계자가 04:02에 이미 갱신해 그대로 둠 | — |
+ | F5 | T4/T5/T6/T8 1차 결과 | PROGRAM_OVERVIEW §5, FEATURES I·H행, SECURITY_MODEL §3·§9, KEY_CONTRIBUTIONS §3, README: "1차 결과 + 수정 반영 + 재실행 예정" | **재실행 결과로 최종 수치 갱신**(코디네이터 담당 예정) |
+ | F6 | health 허용 경로(DD-A59 a) | API §2, OPERATIONS §15, SECURITY_MODEL §6, FEATURES H행 | — |
+ 
++## G. 최종 사전 패키징 패스 (2026-10-28 06시대, DD-A62·DD-A63 구현 반영)
++
++근거: `docs/internal/evidence/WP7/FIX2B/EVIDENCE_INDEX.txt`(split smoke 13/13 ×2, 합성 runner 신원 claim 시험), 소스 대조(아래 파일). 이 패스의 증거: `docs/internal/evidence/WP7/PREPACK/`.
++
++| # | 항목(구현 위치) | 문서 반영 | 남은 것 |
++|---|---|---|---|
++| G1 | (b) `local` 장치 목록이 비면 등록(REGISTERED/ONLINE)된 CPU runner의 `cpu` 항목으로 대체, GPU runner는 합치지 않음(`console/services.py`) | OPERATIONS §15 표·불릿, TROUBLESHOOTING `DEVICE_UNAVAILABLE`·`EVALUATION_REQUIRES_CUDA` 행, FEATURES 한계, core.env.example `MBNAS_CORE_DEVICE_SOURCE` 주석(+all-in-one 재생성) | — |
++| G2 | (a) NOT_EVALUATED 행: `SEARCH_COMPLETE` + `performance_status NOT_EVALUATED` + `reason_code EVALUATION_REQUIRES_CUDA`(없으면 `NOT_EVALUATED`), 지표·fitness·gate null, latency·evaluation_hash pending, split_hash null, checkpoint 유지, 명시 학습 run COMPLETED, 탐색 arm은 승급·부모 없음(`orchestration/engine.py` `commit_not_evaluated`, runner `evaluation/handlers.py` `not_evaluated_payload`) | OPERATIONS §6·§15, TROUBLESHOOTING §7(행 교체), API §2 후보 행, FEATURES F(표시 행)·한계, INTERFACES §5, PROGRAM_OVERVIEW §5·§6 | — |
++| G3 | (c) core 쪽 생성 구조 YAML: `<MBNAS_CORE_OUTPUT_ROOT>/<run>/architectures/<cid>.yaml`만, 심볼릭 링크 금지·1 MiB·기록 YAML과 바이트 동일 시 등록, 서빙도 같은 경계(`artifacts/registry.py` `resolve_file`, `console/routes_files.py`), gateway는 core에서 받아 sha256 재대조(`mbnas_server/api/artifact_routes.py` `_from_core`), gateway 저장소에 없음 | OPERATIONS §5(출력 경로 문구 정정: core `OUTPUT_ROOTS`에 있을 필요 없음)·§8(백업)·§15, TROUBLESHOOTING §8(신설: 산출물 다운로드 코드; 아카이브 §9, 로그 §10으로 번호 이동), API §2 산출물 행, SECURITY_MODEL §6, INSTALL §4(모순 문구 정정), FEATURES H행, INTERFACES §3, core.env.example `OUTPUT_ROOT(S)` 주석 | — |
++| G4 | (d) claim 규칙 fleet-aware: CPU runner는 CUDA 필요 작업을 같은 kind를 받는 ONLINE 비CPU runner가 있을 때만 건너뜀(204, attempt 유지), CPU 전용 fleet은 종전대로(`runner_api/routes.py`) | OPERATIONS §6·§15(규칙·CPU 전용 fleet 낭비·GPU runner OFFLINE/LOST 시 동작), TROUBLESHOOTING §7(204 행 신설), FEATURES H행·한계, INTERFACES §5 | 실제 GPU runner가 섞인 fleet 실행: **확인 못 함**(합성 runner 신원 시험만) — 문서에 그대로 기재 |
++| G5 | (e) owner worker `--env-file` → 자기 프로세스의 `MBNAS_CORE_ENV_FILE`(core API와 동일), 자식에게는 전달 안 함(`owner_worker/main.py`) | OPERATIONS §1(표 + 문단), core.env.example 머리말 a) | — |
++| G6 | 웹 `isTrainedNotEvaluated`: 탐색 arm의 `NOT_EVALUATED` + `EVALUATION_REQUIRES_CUDA` 행도 "학습 완료 · 미평가"(DD-5 문구 유지, `training_status UNTRAINED`면 제외) | FEATURES F행, OPERATIONS §15, TROUBLESHOOTING §7, FEATURES G행 웹 단위 시험 591→593 | 배지 `title`(Monitor.tsx·CandidateView.tsx: "explicit training with validation OFF")은 소유 밖이라 그대로 — 탐색 arm 행에는 맞지 않음(교차 요청) |
++| G7 | INSTALL 머리말의 "독립 설치 검증 안 함" 문구가 FEATURES I와 모순 | FEATURES I 기준으로 정정(owner 오프라인 설치·T6 owner PASS, public 네트워크 차단 설치, T4·T5 재실행 예정) | — |
++
++남은 것(이 패스 밖): F5의 T4·T5·T6(public·registration)·T8 런타임 재실행 결과 반영(코디네이터 담당), 실제 GPU 혼합 fleet(확인 못 함).
++

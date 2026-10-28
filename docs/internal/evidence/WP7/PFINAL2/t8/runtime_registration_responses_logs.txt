@@ -1,0 +1,4 @@
+$ python -I scripts/dev/canary_scan.py --manifest docs/internal/canary/CANARY_MANIFEST.json --profile public --secrets-env <every env file of the rerun2 trees, scratch 0600> --needles-file <owner/build-host strings, scratch 0600> <RT>/mbnas registration r2/evidence/responses <RT>/mbnas registration r2/evidence/logs
+exit=0
+scanned files=15 bytes=214540 containers=0 skipped=0 hits=0 failing=0 unmet=0
+canary_scan: PASS

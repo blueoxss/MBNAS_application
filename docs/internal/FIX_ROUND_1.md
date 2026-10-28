@@ -1,0 +1,33 @@
+# 수정 라운드 1 (설계자 누적, 10-28)
+- C04-D1 mbnas_core/orchestration/generation.py:107-118 분기(GENERATION_STATE_INVALID, GENERATION_BUSY) 단위 테스트 2개 (tests/owner/search/test_generation_recovery_independent*).
+- C04-D3 mbnas_core/runner_api/routes.py:11-13 docstring(PROCESSING 행 잔존 주장) 정정; analysis 문서는 동결 → DECISIONS에 정정 기재.
+- C03-D1 TEST_ADAPTATIONS(WP4)에 test_repair_evidence_seed 조정 기재(DD-A57).
+- C03-D3 실 OFF snapshot에서 training_status==UNTRAINED 단언 테스트(tests/owner/api 또는 projection).
+- C03-D4 ga.py:126,142 same-family crossover 단위 테스트.
+- C03-D5 baseline 행 미게이트 CPU 단언(orchestration/test_semantics).
+- C03-D2 P 단계에서 scripts/owner/t2_compare.py 재실행(최종 트리).
+- 공통: scripts/dev/__pycache__ 삭제(ZIP 전), stale tracked .pyc(DD-A52 d).
+- 4C-1 build/allowlists public.txt 133–134 / registration.txt 135–136 deny 삭제(host fact 제거됨).
+- 4C-4 `mbnas_contracts/src/mbnas_contracts/openapi/drafts/openapi-1.5.0.draft.json` 삭제(승격 완료; HISTORY versions에 보존) + 4A 증거에 삭제 기록.
+- 4C-5 check_import_closure DATA_EXCEPTIONS에서 openapi.json `MBNAS_server` 예외 삭제(이미 P1 지시); base.py legacy hook 문자열 예외는 1.6까지 유지(DD-A26 연장, DECISIONS 기재).
+- 4C-6 정리: tests/**/__pycache__(계정명 포함 stale pyc), 추적된 tests/_shared/__pycache__ pyc, scripts/dev/__pycache__, mbnas_runner/src/mbnas_runner/__pycache__ 삭제(DD-A29/A52 d; git index에서의 제거는 사용자 몫 → 보고만).
+- 4C-3 ValidateResponse.resolved 타입(anyOf Protocol|null)은 1.5.1 후보로 DECISIONS 기재(이번 라운드 미수정).
+- C06-D1 runner id 호스트명 노출: RunnerSettings 기본 runner_id를 `runner-<hostname>` 대신 runtime/runner/runner_id 파일에 영속되는 무작위 8 hex(`runner-xxxxxxxx`)로; install.sh가 principal 발급 시 같은 규칙; projection.py:278은 그대로 통과하되 test_value_rules.py:95 정규식을 `^runner-[0-9a-f]{8,}$|^wrk-`로 강화하고 하네스 world에 hostname 포함 id를 등록해 실패를 재현한 뒤 통과; COMPATIBILITY.md:25·API.md:98·SECURITY_MODEL.md:71 문구 정정("설치 시 무작위 id").
+- C06-D2 T4 pause→resume 증거: P2가 evidence/T4에 기록(P2 범위).
+- C06-D3 check_import_closure.py:77-83 예외 라벨 "expires": "WP-4" → "1.6" + DD-A58 참조.
+- C06-D4 docstring 정정: mbnas_model_runtime checkpoint.py:16, genotype.py:17, mbnas_core retention.py:17, mbnas_contracts protocol_hash.py:18.
+- C06-D5 docs/public COMPATIBILITY.md:12·SECURITY_MODEL.md:102 GPU 검증 "예정" → DD-A54 결과(YES, 한계).
+- C06-D6 docs/internal/criteria/C06.json 테스트 경로 2건 정정(버전 1.0.1, 사유 기재; 기준 자체 불변).
+- P1-T8 relay.py health(): core allowlists 비중계(DD-A59 a) + 분리 구성 테스트 + xfail 해소.
+- P1-T6 scripts/public/make_pilot_subset.py --source/--out 필수화(호스트 기본값 제거) + 테스트 갱신 + allowlist scripts/public/** 포함(DD-A59 b).
+
+# 최종 문서/주석 잔여(설계자 누적, 라운드 4 문서 패스)
+- C06-R1 docstring 4곳(mbnas_core search/space.py:8-9, search/__init__.py:3, protocol/validator.py:38, search/handlers.py:15).
+- C06-R2 COMPATIBILITY §4 hook 매핑 1.6 재검토 문구; SECURITY_MODEL.md:71 T8 '검증 예정' → 결과 반영.
+- C04-N2 VALIDATION_REPORT T3/T7 행 채우기; 7V_FINAL README에 트리 해시 기재.
+- 웹 툴팁(Monitor.tsx:116, CandidateView.tsx:432) — **라운드 4에서 구현됨**(C07-D1/D2: 블록 표 Pos 버튼 → 상세 링크, 배지 툴팁 사유별; vitest 600). History reason_code 분류와 Lineage 배지 툴팁은 1.5.1 후보(FEATURES 한계에 문서화).
+- C05-O1 SECURITY_MODEL.md:71 T8 문구; C05-O2 runner 진입점 리댁션 회귀 테스트(port scratch d10 test) — 라운드 4.
+- C03-D2' VALIDATION_REPORT T2 행 채우기(7V_FINAL/t2), scripts/owner/t2_compare.py:753,761 보고 헤더의 출력 경로를 --work-root 기준으로; C03-D6 finalists에서 NOT_EVALUATED 제외 테스트(tests/owner/orchestration); C03-D7 TEST_ADAPTATIONS §B 줄 번호 갱신 — 라운드 4.
+- C02-D1/D2 테스트 이식(scratchpad wp3/c02/probe_rp, tools): RunnerSettings에 db_path 없음 단언; /core/v1/runner 응답 canary 스캔 테스트(tests/owner/projection 또는 runner_protocol). C02-D3 T8 캡처에 runner 자식 environ 포함(verify.sh/T8 driver 개선은 1.5.1, 문서화). C02-D4 docs/public·registration·README의 '재실행 예정/검증 예정' → 최종 결과(T4/T5/T6/T8 PASS, 7V_FINAL·RERUN README 근거). C02-D7 owner API 문구: 'loopback 전용'이 아니라 'admin scope 필요 + 원격 배치 시 프록시에서 /core/v1/owner/* 차단 권고'(SECURITY_MODEL, OPERATIONS, nginx.example.conf에 deny 블록 추가). C02-D5/D6 VALIDATION_REPORT ADMIN_BOUNDARY 행(BLOCKED_BY_ENV, 필요 조건 4항) + ACCEPTANCE_MATRIX 전면 갱신(설계자).
+- C07-D1 BlockTable 행 → 같은 블록 상세 링크(?block=, model_tab=structure) + vitest/e2e 단언; C07-D2 배지 툴팁 문구 일반화; C07-D3 최종 dist 실스택 e2e 증거를 scratchpad wp3/c07에서 docs/internal/evidence/WP6/V4B_FINAL/로 복사(토큰 가림 확인); C07-D4 wp3_three_process_smoke.py:476 헤더 명령줄을 sys.argv로.
+- C12-D6 T5 RERUN_README에 runner 측 core-down 근거(T6 owner integration_smoke.txt:129-130 'claim failed … after 6 attempts') 인용; C12-D7 start.sh `unset OLDPWD`; C12-D8 stop.sh 자손 SIGKILL 전 identity 재확인; C12-D9 MODEL_ROUTING 사용표 전 라운드 + 해석된 모델 id; C12-D10 VALIDATION_REPORT 1차 절 'superseded' 표기; C12-D3/D4 VALIDATION_REPORT T1/T2/T3/T7 행 채우기 + 게이트 트리 해시(P-final-2에서 .meta에 기록).

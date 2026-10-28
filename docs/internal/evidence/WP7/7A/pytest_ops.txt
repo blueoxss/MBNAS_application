@@ -1,0 +1,73 @@
+# 2026-10-27T04:57:01Z runtime/venv/bin/python -B -m pytest tests/public/ops -m 'not gpu and not live and not legacy_records and not host_data' -v -p no:cacheprovider
+============================= test session starts ==============================
+platform linux -- Python 3.10.22, pytest-9.1.1, pluggy-1.6.0 -- /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python
+rootdir: /home/mgjeong/Desktop/etri_hd/mbnas_application
+configfile: pyproject.toml
+plugins: anyio-4.15.1, timeout-2.4.0
+timeout: 600.0s
+timeout method: signal
+timeout func_only: False
+collecting ... collected 61 items / 2 deselected / 59 selected
+
+tests/public/ops/test_ops_doctor_verify.py::test_doctor_reports_root_and_strict_exit PASSED [  1%]
+tests/public/ops/test_ops_doctor_verify.py::test_doctor_without_venv PASSED [  3%]
+tests/public/ops/test_ops_doctor_verify.py::test_gpu_suite_never_runs_on_a_busy_or_unapproved_gpu PASSED [  5%]
+tests/public/ops/test_ops_doctor_verify.py::test_package_suite_manifest PASSED [  6%]
+tests/public/ops/test_ops_doctor_verify.py::test_public_integration_needs_a_core_url PASSED [  8%]
+tests/public/ops/test_ops_doctor_verify.py::test_multi_suite_report_shape PASSED [ 10%]
+tests/public/ops/test_ops_doctor_verify.py::test_unit_suite_runs_pytest_and_never_evaluates_arguments PASSED [ 11%]
+tests/public/ops/test_ops_doctor_verify.py::test_verify_never_stops_running_processes PASSED [ 13%]
+tests/public/ops/test_ops_install.py::test_usage_errors PASSED           [ 15%]
+tests/public/ops/test_ops_install.py::test_offline_needs_a_wheelhouse_and_a_requirements_file PASSED [ 16%]
+tests/public/ops/test_ops_install.py::test_python_other_than_3_10_is_refused PASSED [ 18%]
+tests/public/ops/test_ops_install.py::test_owner_profile_refused_for_a_public_package PASSED [ 20%]
+tests/public/ops/test_ops_install.py::test_editable_development_venv_is_never_replaced PASSED [ 22%]
+tests/public/ops/test_ops_install.py::test_offline_install_and_configuration PASSED [ 23%]
+tests/public/ops/test_ops_install.py::test_examples_with_commented_keys_are_filled PASSED [ 25%]
+tests/public/ops/test_ops_install.py::test_owner_requirements_override_adds_the_core_wheel PASSED [ 27%]
+tests/public/ops/test_ops_start_stop.py::test_public_profile_refuses_core PASSED [ 28%]
+tests/public/ops/test_ops_start_stop.py::test_start_stop_cycle_from_external_cwd PASSED [ 30%]
+tests/public/ops/test_ops_start_stop.py::test_runner_needs_a_reachable_core PASSED [ 32%]
+tests/public/ops/test_ops_start_stop.py::test_runner_needs_a_token PASSED [ 33%]
+tests/public/ops/test_ops_start_stop.py::test_gateway_port_in_use_is_refused PASSED [ 35%]
+tests/public/ops/test_ops_start_stop.py::test_missing_install_is_reported PASSED [ 37%]
+tests/public/ops/test_ops_start_stop.py::test_stop_never_signals_a_foreign_pid PASSED [ 38%]
+tests/public/ops/test_ops_start_stop.py::test_pid_of_a_process_without_cmdline_is_not_ours PASSED [ 40%]
+tests/public/ops/test_ops_start_stop.py::test_start_drops_a_stale_pid_file PASSED [ 42%]
+tests/public/ops/test_ops_start_stop.py::test_stop_escalates_to_sigkill_and_reaps_descendants PASSED [ 44%]
+tests/public/ops/test_ops_start_stop.py::test_web_role_preview PASSED    [ 45%]
+tests/public/ops/test_ops_static.py::test_header_and_root_detection[install] PASSED [ 47%]
+tests/public/ops/test_ops_static.py::test_header_and_root_detection[doctor] PASSED [ 49%]
+tests/public/ops/test_ops_static.py::test_header_and_root_detection[start] PASSED [ 50%]
+tests/public/ops/test_ops_static.py::test_header_and_root_detection[stop] PASSED [ 52%]
+tests/public/ops/test_ops_static.py::test_header_and_root_detection[verify] PASSED [ 54%]
+tests/public/ops/test_ops_static.py::test_bash_syntax_and_help[install] PASSED [ 55%]
+tests/public/ops/test_ops_static.py::test_bash_syntax_and_help[doctor] PASSED [ 57%]
+tests/public/ops/test_ops_static.py::test_bash_syntax_and_help[start] PASSED [ 59%]
+tests/public/ops/test_ops_static.py::test_bash_syntax_and_help[stop] PASSED [ 61%]
+tests/public/ops/test_ops_static.py::test_bash_syntax_and_help[verify] PASSED [ 62%]
+tests/public/ops/test_ops_static.py::test_documented_options_equal_implemented_options[install] PASSED [ 64%]
+tests/public/ops/test_ops_static.py::test_documented_options_equal_implemented_options[doctor] PASSED [ 66%]
+tests/public/ops/test_ops_static.py::test_documented_options_equal_implemented_options[start] PASSED [ 67%]
+tests/public/ops/test_ops_static.py::test_documented_options_equal_implemented_options[stop] PASSED [ 69%]
+tests/public/ops/test_ops_static.py::test_documented_options_equal_implemented_options[verify] PASSED [ 71%]
+tests/public/ops/test_ops_static.py::test_no_eval_no_pkill_no_killall[install] PASSED [ 72%]
+tests/public/ops/test_ops_static.py::test_no_eval_no_pkill_no_killall[doctor] PASSED [ 74%]
+tests/public/ops/test_ops_static.py::test_no_eval_no_pkill_no_killall[start] PASSED [ 76%]
+tests/public/ops/test_ops_static.py::test_no_eval_no_pkill_no_killall[stop] PASSED [ 77%]
+tests/public/ops/test_ops_static.py::test_no_eval_no_pkill_no_killall[verify] PASSED [ 79%]
+tests/public/ops/test_ops_static.py::test_embedded_python_runs_isolated[install] PASSED [ 81%]
+tests/public/ops/test_ops_static.py::test_embedded_python_runs_isolated[doctor] PASSED [ 83%]
+tests/public/ops/test_ops_static.py::test_embedded_python_runs_isolated[start] PASSED [ 84%]
+tests/public/ops/test_ops_static.py::test_embedded_python_runs_isolated[stop] PASSED [ 86%]
+tests/public/ops/test_ops_static.py::test_embedded_python_runs_isolated[verify] PASSED [ 88%]
+tests/public/ops/test_ops_static.py::test_identity_block_is_shared_by_start_and_stop PASSED [ 89%]
+tests/public/ops/test_ops_static.py::test_no_original_host_strings[install] PASSED [ 91%]
+tests/public/ops/test_ops_static.py::test_no_original_host_strings[doctor] PASSED [ 93%]
+tests/public/ops/test_ops_static.py::test_no_original_host_strings[start] PASSED [ 94%]
+tests/public/ops/test_ops_static.py::test_no_original_host_strings[stop] PASSED [ 96%]
+tests/public/ops/test_ops_static.py::test_no_original_host_strings[verify] PASSED [ 98%]
+tests/public/ops/test_ops_static.py::test_profiles_and_roles_are_validated PASSED [100%]
+
+====================== 59 passed, 2 deselected in 36.33s =======================
+exit=0

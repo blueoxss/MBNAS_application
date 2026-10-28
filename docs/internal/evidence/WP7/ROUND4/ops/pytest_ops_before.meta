@@ -1,0 +1,6 @@
+command: CUDA_VISIBLE_DEVICES="" PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null MBNAS_TEST_ROOT=<SCRATCH>/round4_ops/test_root MBNAS_HOME=<SCRATCH>/round4_ops/home runtime/venv/bin/python -B -m pytest -p no:cacheprovider tests/public/ops -m "not gpu and not live and not legacy_records and not host_data" --timeout=180 --basetemp=<SCRATCH>/round4_ops/bt_<run> -q -rfEs
+cwd: <ROOT>
+start_utc: 2026-10-27T23:57:38Z
+end_utc: 2026-10-27T23:58:12Z
+exit: 0
+result: 59 passed, 2 deselected (scripts and tests as before round 4: git HEAD for scripts/{start,stop,doctor,verify}.sh)

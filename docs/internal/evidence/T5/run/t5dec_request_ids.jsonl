@@ -1,0 +1,17 @@
+{"rid": "t5dec-4d2d1b108a58420eb4b7", "method": "GET", "path": "/api/v1/protocols/presets", "status": 200, "echoed": true}
+{"rid": "t5dec-d47a6e6950204ebabde8", "method": "POST", "path": "/api/v1/protocols/validate", "status": 200, "echoed": true}
+{"rid": "t5dec-1e25fdaebba44109aef5", "method": "POST", "path": "/api/v1/runs", "status": 200, "echoed": true}
+{"rid": "t5dec-a690fc59635547b1922b", "method": "GET", "path": "/api/v1/runs/run-4da12aed7e2e", "status": 200, "echoed": true}
+{"rid": "t5dec-ae3a74835d0b4c8e9348", "method": "GET", "path": "/api/v1/runs/run-4da12aed7e2e", "status": 200, "echoed": true}
+{"rid": "t5dec-487c87d0e4a04f46b82a", "method": "GET", "path": "/api/v1/runs/run-4da12aed7e2e", "status": 200, "echoed": true}
+{"rid": "t5dec-aac74dd0c52047e4adbc", "method": "GET", "path": "/api/v1/runs/run-4da12aed7e2e", "status": 200, "echoed": true}
+{"rid": "t5dec-86b704bb7cfa4c5cb0f8", "method": "GET", "path": "/api/v1/runs/run-4da12aed7e2e", "status": 200, "echoed": true}
+{"rid": "t5dec-6abd55ab0a924edba3a7", "method": "GET", "path": "/api/v1/runs/run-4da12aed7e2e", "status": 200, "echoed": true}
+{"rid": "t5dec-b319b61e1874483c92d0", "method": "GET", "path": "/api/v1/runs/run-4da12aed7e2e", "status": 200, "echoed": true}
+{"rid": "t5dec-172bd157b0aa4cb58532", "method": "GET", "path": "/api/v1/runs/run-4da12aed7e2e", "status": 200, "echoed": true}
+{"rid": "t5dec-917f6a449d7c45579932", "method": "GET", "path": "/api/v1/runs/run-4da12aed7e2e", "status": 200, "echoed": true}
+{"rid": "t5dec-c2a8eda9468e49b09d92", "method": "GET", "path": "/api/v1/runs/run-4da12aed7e2e", "status": 200, "echoed": true}
+{"rid": "t5dec-182a47e15a304452a07d", "method": "GET", "path": "/api/v1/runs/run-4da12aed7e2e", "status": 200, "echoed": true}
+{"rid": "t5dec-44a4362fc92f4cb6a623", "method": "GET", "path": "/api/v1/runs/run-4da12aed7e2e", "status": 200, "echoed": true}
+{"rid": "t5dec-2d000b2c78d64c60b31b", "method": "GET", "path": "/api/v1/runs/run-4da12aed7e2e/snapshot", "status": 200, "echoed": true}
+{"rid": "t5dec-ab636e6c23b24372aaaf", "method": "POST", "path": "/api/v1/runs/run-4da12aed7e2e/final-retrain", "status": 409, "echoed": true}

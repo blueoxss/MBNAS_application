@@ -1,0 +1,140 @@
+{
+ "harness_request_ids": 106,
+ "echoed_by_gateway": 106,
+ "sources": {
+  "audit": {
+   "side": "gateway",
+   "ids_found": 8,
+   "sample": [
+    "t5r2-585f39408443479a99d5",
+    "t5r2-5d74e5a65b07499b8974",
+    "t5r2-87834435a2df4afab1a7",
+    "t5r2-adf3bfe36fe8421da9a8"
+   ]
+  },
+  "gateway_container_log": {
+   "side": "gateway",
+   "ids_found": 106,
+   "sample": [
+    "t5r2-02ad915695074287ab94",
+    "t5r2-04c2d232fcff4086902b",
+    "t5r2-08196cc7cc9c459cbda8",
+    "t5r2-099141ae744f431fb74a"
+   ]
+  },
+  "core_log": {
+   "side": "core",
+   "ids_found": 96,
+   "sample": [
+    "t5r2-02ad915695074287ab94",
+    "t5r2-04c2d232fcff4086902b",
+    "t5r2-08196cc7cc9c459cbda8",
+    "t5r2-099141ae744f431fb74a"
+   ]
+  },
+  "owner_worker_log": {
+   "side": "core",
+   "ids_found": 0,
+   "sample": []
+  },
+  "core_db": {
+   "side": "core",
+   "ids_found": 5,
+   "by_table": {
+    "events": 5
+   },
+   "sample": [
+    "t5r2-2adb02a8b7db4a5f8b8e",
+    "t5r2-44fb7907ea9d47a792f0",
+    "t5r2-5835dd0a5456412c9b23",
+    "t5r2-5cbf9d6d14964e4082d4"
+   ]
+  }
+ },
+ "error_bodies_carrying_the_same_request_id": [
+  {
+   "step": "genconfig-create",
+   "request_id": "t5r2-2281f2a1acea4affa2f0",
+   "code": "STRUCTURE_INVALID"
+  },
+  {
+   "step": "core-down-degraded-503",
+   "request_id": "t5r2b-9616160aeb0c4cc3bcaf",
+   "code": "CORE_UNAVAILABLE",
+   "location": "core"
+  }
+ ],
+ "access_log_linkage": {
+  "gateway_access_lines_with_harness_ids": 106,
+  "core_access_lines_with_harness_ids": 106,
+  "ids_with_exactly_one_line_each_side": 86,
+  "ids_with_more_than_one_line_on_a_side": 10,
+  "ids_gateway_only (no core call, e.g. static web / gateway-local routes)": 10,
+  "harness_ids_missing_from_gateway_access_log": [],
+  "examples": [
+   {
+    "request_id": "t5r2-02ad915695074287ab94",
+    "gateway_line": "2026-10-28T02:29:33.857Z INFO mbnas_server.access method=GET path=/api/v1/runs/train-f03ecd2c0ce1 status=200 request_id=t5r2-02ad915695074287ab94 duration_ms=19.3 client=127.0.0.1:46288",
+    "core_line": "2026-10-28T02:29:33.856Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/train-f03ecd2c0ce1 status=200 request_id=t5r2-02ad915695074287ab94 duration_ms=15.7 client=127.0.0.1:53972"
+   },
+   {
+    "request_id": "t5r2-04c2d232fcff4086902b",
+    "gateway_line": "2026-10-28T02:29:33.835Z INFO mbnas_server.access method=POST path=/api/v1/runs/train-f03ecd2c0ce1/pause status=200 request_id=t5r2-04c2d232fcff4086902b duration_ms=19.4 client=127.0.0.1:46282",
+    "core_line": "2026-10-28T02:29:33.834Z INFO mbnas_core.access method=POST path=/core/v1/console/runs/train-f03ecd2c0ce1/pause status=200 request_id=t5r2-04c2d232fcff4086902b duration_ms=15.2 client=127.0.0.1:53972"
+   },
+   {
+    "request_id": "t5r2-08196cc7cc9c459cbda8",
+    "gateway_line": "2026-10-28T02:30:12.430Z INFO mbnas_server.access method=GET path=/api/v1/runs/train-e52e54174825 status=200 request_id=t5r2-08196cc7cc9c459cbda8 duration_ms=15.4 client=127.0.0.1:49614",
+    "core_line": "2026-10-28T02:30:12.428Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/train-e52e54174825 status=200 request_id=t5r2-08196cc7cc9c459cbda8 duration_ms=9.4 client=127.0.0.1:42958"
+   },
+   {
+    "request_id": "t5r2-099141ae744f431fb74a",
+    "gateway_line": "2026-10-28T02:32:29.327Z INFO mbnas_server.access method=GET path=/api/v1/runs/train-2cffd9d419da/candidates/model-6f8a8212299c/config-revisions/rev-09fb9f37707231ad/yaml status=200 request_id=t5r2-099141ae744f431fb74a duration_ms=18.4 client=127.0.0.1:39562",
+    "core_line": "2026-10-28T02:32:29.326Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/train-2cffd9d419da/candidates/model-6f8a8212299c/config-revisions/rev-09fb9f37707231ad/yaml status=200 request_id=t5r2-099141ae744f431fb74a duration_ms=12.1 client=127.0.0.1:60862"
+   },
+   {
+    "request_id": "t5r2-09eebcee46004a20b334",
+    "gateway_line": "2026-10-28T02:29:48.146Z INFO mbnas_server.access method=GET path=/api/v1/runs/train-f03ecd2c0ce1 status=200 request_id=t5r2-09eebcee46004a20b334 duration_ms=19.8 client=127.0.0.1:60714",
+    "core_line": "2026-10-28T02:29:48.144Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/train-f03ecd2c0ce1 status=200 request_id=t5r2-09eebcee46004a20b334 duration_ms=13.4 client=127.0.0.1:53972"
+   }
+  ],
+  "multi_examples": [
+   {
+    "request_id": "t5r2-1a59d72f22f24edeacc9",
+    "gateway_lines": 1,
+    "core_lines": 2
+   },
+   {
+    "request_id": "t5r2-2bd07977841341dbab0f",
+    "gateway_lines": 1,
+    "core_lines": 2
+   },
+   {
+    "request_id": "t5r2-3be922ebc638442e95c8",
+    "gateway_lines": 1,
+    "core_lines": 2
+   },
+   {
+    "request_id": "t5r2-42d684209888479c960e",
+    "gateway_lines": 1,
+    "core_lines": 2
+   },
+   {
+    "request_id": "t5r2-6dda2af487f44c038917",
+    "gateway_lines": 1,
+    "core_lines": 2
+   }
+  ]
+ },
+ "linked_gateway_and_core_records": {
+  "count": 96,
+  "sample": [
+   "t5r2-02ad915695074287ab94",
+   "t5r2-04c2d232fcff4086902b",
+   "t5r2-08196cc7cc9c459cbda8",
+   "t5r2-099141ae744f431fb74a",
+   "t5r2-09eebcee46004a20b334",
+   "t5r2-0da1402b46e64f8cb7ff"
+  ]
+ }
+}

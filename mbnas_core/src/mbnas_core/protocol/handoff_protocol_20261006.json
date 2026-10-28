@@ -1,0 +1,329 @@
+{
+  "schema_version": "nas-console/1.0",
+  "protocol_id": "mbnas-new-revision",
+  "status": "DESIGN_EXAMPLE_NOT_EXECUTABLE",
+  "value_provenance": "illustrative_new_revision_protocol_not_historical_values",
+  "git_commit": null,
+  "backend_versions": null,
+  "backend_capabilities_verified": false,
+  "schedule_scope": "candidate_local",
+  "dataset": {
+    "train_manifest_hash": null,
+    "search_validation_manifest_hash": null,
+    "final_evaluation_manifest_hash": null,
+    "class_mapping_hash": null,
+    "train_fraction": 1,
+    "all_stage_same_data": true,
+    "class_handling": "explicit_filter_and_mapping_required",
+    "test_access_during_search": false
+  },
+  "training": {
+    "initialization": "scratch",
+    "weight_inheritance": false,
+    "optimizer": "AdamW",
+    "lr_initial": 0.001,
+    "lr_final_ratio": 0.01,
+    "weight_decay": 0.0005,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "scheduler": "cosine_global_search_horizon",
+    "scheduler_horizon_epochs": 90,
+    "warmup_epochs": 3,
+    "repeat_warmup_on_promotion": false,
+    "batch_per_gpu": 16,
+    "gradient_accumulation": 1,
+    "gpus_per_candidate": 1,
+    "precision": "amp_fp16_fp32",
+    "requested_input_size": [
+      640,
+      640
+    ],
+    "resolved_input_size_required": true,
+    "automatic_batch_fallback": "reject_and_record",
+    "augmentation_profile": "PINNED_NATIVE_PROFILE_REQUIRED",
+    "close_mosaic_epochs": 0,
+    "loss_profile": "model_version_native_pinned_and_exported",
+    "change_loss_weights_at_promotion": false,
+    "candidate_early_stop": "disabled_for_search_rung_comparability",
+    "validation_interval_epochs": 1
+  },
+  "continuation": {
+    "mode": "full_state_resume_same_architecture",
+    "training_checkpoint": "unstripped_rung_end_state",
+    "evaluation_checkpoint": "ema_snapshot_at_exact_rung_end",
+    "restore": [
+      "model",
+      "optimizer",
+      "scheduler_or_exact_reconstruction",
+      "amp_scaler",
+      "ema_and_updates",
+      "epoch_and_optimizer_steps",
+      "rng",
+      "sampler_data_order"
+    ],
+    "checkpoint_architecture_hash_must_match": true,
+    "missing_state_action": "block_no_silent_weights_only_fallback"
+  },
+  "fitness": {
+    "formula_version": "named_weighted_reward_v1",
+    "accuracy_metric": "AP_IoU_0.50_to_0.95",
+    "recall_metric": "recall_IoU_0.50_conf_0.25_macro_class",
+    "accuracy_input_unit": "fraction_0_to_1",
+    "display_accuracy_unit": "percent",
+    "recall_evaluator_version": null,
+    "normalizer_scope": "fixed_shared_preregistered_anchors",
+    "latency_bounds_ms": [
+      20,
+      200
+    ],
+    "size_bounds_MB": [
+      5,
+      100
+    ],
+    "out_of_range": "clip_reward_to_0_to_1_and_keep_raw_value",
+    "size_definition": "pinned_weights_only_artifact_without_optimizer_decimal_MB",
+    "latency_source": "target_device_measured_or_explicit_calibrated_proxy",
+    "latency_device_manifest": null,
+    "latency_precision": "FP16",
+    "latency_batch": 1,
+    "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+    "metric_missing_action": "pending_or_eval_failure_not_zero"
+  },
+  "rungs": [
+    {
+      "id": "L0",
+      "epoch_target_total": 10,
+      "fitness_weights": {
+        "ap": 0.2,
+        "recall": 0.1,
+        "latency_reward": 0.4,
+        "size_reward": 0.3
+      },
+      "promotion": {
+        "to": "L1",
+        "score_ge": 0.4,
+        "ap_ge": 0.02
+      }
+    },
+    {
+      "id": "L1",
+      "epoch_target_total": 30,
+      "fitness_weights": {
+        "ap": 0.45,
+        "recall": 0.15,
+        "latency_reward": 0.25,
+        "size_reward": 0.15
+      },
+      "promotion": {
+        "to": "L2",
+        "score_ge": 0.55,
+        "ap_ge": 0.05
+      }
+    },
+    {
+      "id": "L2",
+      "epoch_target_total": 90,
+      "fitness_weights": {
+        "ap": 0.6,
+        "recall": 0.1,
+        "latency_reward": 0.2,
+        "size_reward": 0.1
+      },
+      "promotion": null
+    }
+  ],
+  "hard_constraints": {
+    "latency_le_ms": 100,
+    "weights_size_le_MB": 80,
+    "proxy_may_certify_final_deployment": false
+  },
+  "allocation": {
+    "eligibility_is_not_gpu_allocation": true,
+    "queue_policy": "stable_trial_id_order",
+    "budget_missing_or_exhausted": "eligible_but_not_admitted",
+    "incomplete_rung_is_valid_result": false
+  },
+  "comparison": {
+    "arms": [
+      "GA",
+      "IndependentRandom"
+    ],
+    "shared_protocol_hash_required": true,
+    "independent_search_seed_pairs": [
+      101,
+      202,
+      303
+    ],
+    "search_budget_GPU_hours_per_arm_per_seed": 12,
+    "primary_budget_unit": "arm_equivalent_billed_GPU_seconds",
+    "physical_actual_GPU_seconds_separately_reported": true,
+    "candidate_count": "secondary_observed_outcome",
+    "global_best_fitness_stop": false,
+    "global_stagnation_stop": false
+  },
+  "proposal": {
+    "GA": {
+      "parent_selection_fidelity": "L0",
+      "parent_objective": "L0_named_weights",
+      "policy_note": "new_protocol_not_claimed_historical_GA"
+    },
+    "IndependentRandom": {
+      "prior_frozen_before_search": true,
+      "candidate_proposals_use_observed_fitness": false,
+      "source_pool_updated_from_GA_history": false
+    }
+  },
+  "final_retraining": {
+    "finalist_selection": "highest_AP_at_L2_with_measured_latency_constraint",
+    "top_k_per_arm_per_seed": 1,
+    "initialization": "scratch_with_pinned_recipe",
+    "epoch_target_total": 300,
+    "scheduler_horizon_epochs": 300,
+    "budget_GPU_hours_separate": null,
+    "reporting": "search_metrics_and_final_retrained_metrics_separate"
+  },
+  "console": {
+    "execution_mode": "PILOT",
+    "paths": {
+      "dataset_yaml": "/data/drone/NPS_YOLO/data.yaml",
+      "train_root": "/data/drone/NPS_YOLO/train",
+      "search_val_root": "/data/drone/NPS_YOLO/valid",
+      "final_eval_root": "/data/drone/NPS_YOLO/test",
+      "output_root": "/data/nas_console/runs"
+    },
+    "baselines": [
+      {
+        "id": "yolo11s",
+        "name": "YOLO11S",
+        "family": "YOLO11",
+        "enabled": true,
+        "source": "Ultralytics"
+      },
+      {
+        "id": "yolo11m",
+        "name": "YOLO11M",
+        "family": "YOLO11",
+        "enabled": true,
+        "source": "Ultralytics"
+      },
+      {
+        "id": "yolo11l",
+        "name": "YOLO11L",
+        "family": "YOLO11",
+        "enabled": true,
+        "source": "Ultralytics"
+      },
+      {
+        "id": "yolo11x",
+        "name": "YOLO11X",
+        "family": "YOLO11",
+        "enabled": true,
+        "source": "Ultralytics"
+      },
+      {
+        "id": "yolo26s",
+        "name": "YOLO26S",
+        "family": "YOLO26",
+        "enabled": true,
+        "source": "Ultralytics"
+      },
+      {
+        "id": "yolo26m",
+        "name": "YOLO26M",
+        "family": "YOLO26",
+        "enabled": true,
+        "source": "Ultralytics"
+      },
+      {
+        "id": "yolo26l",
+        "name": "YOLO26L",
+        "family": "YOLO26",
+        "enabled": true,
+        "source": "Ultralytics"
+      },
+      {
+        "id": "yolo26x",
+        "name": "YOLO26X",
+        "family": "YOLO26",
+        "enabled": true,
+        "source": "Ultralytics"
+      },
+      {
+        "id": "rf-detr-small",
+        "name": "RF-DETR Small",
+        "family": "Transformer",
+        "enabled": true,
+        "source": "Roboflow · registry 확인 필요"
+      },
+      {
+        "id": "rf-detr-medium",
+        "name": "RF-DETR Medium",
+        "family": "Transformer",
+        "enabled": true,
+        "source": "Roboflow · registry 확인 필요"
+      },
+      {
+        "id": "rf-detr-large",
+        "name": "RF-DETR Large",
+        "family": "Transformer",
+        "enabled": true,
+        "source": "Roboflow · registry 확인 필요"
+      },
+      {
+        "id": "rt-detr-l",
+        "name": "RT-DETR-L",
+        "family": "Hybrid",
+        "enabled": true,
+        "source": "CNN + Transformer"
+      },
+      {
+        "id": "rt-detr-x",
+        "name": "RT-DETR-X",
+        "family": "Hybrid",
+        "enabled": true,
+        "source": "CNN + Transformer"
+      },
+      {
+        "id": "etri-controlled-cnn-transformer",
+        "name": "ETRI CNN–Transformer",
+        "family": "Hybrid",
+        "enabled": true,
+        "source": "기존 controlled study · 성능 미검증"
+      }
+    ],
+    "search": {
+      "arms": [
+        "GA",
+        "IndependentRandom"
+      ],
+      "population": 12,
+      "generations": 8,
+      "mutation_rate": 0.15,
+      "seeds": [
+        101,
+        202,
+        303
+      ],
+      "budget_gpu_hours": 12
+    },
+    "benchmark": {
+      "device": "Orin NX",
+      "precision": "FP16",
+      "batch": 1,
+      "warmup": 50,
+      "repeats": 200
+    },
+    "baseline_epoch_target": 90,
+    "baseline_capture_rungs": true,
+    "baseline_budget_gpu_hours": 24
+  },
+  "unresolved_before_real_execution": [
+    "서버 절대 경로 및 데이터 manifest 확인",
+    "backend·registry·native recipe 버전 고정",
+    "full-state pause/resume 검증",
+    "pilot epochs·weights·threshold 검증",
+    "장치 측정 조건과 예산 승인"
+  ]
+}

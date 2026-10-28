@@ -1,0 +1,22 @@
+tree: sha256:2b888cb7049eb450dd6f4abbc7b16bd91001bce65f0c370e9b596714bf3c8cfd
+== owner_search start 2026-10-28T04:07:56+09:00 :: tests/owner/search
+owner_search exit=0 secs=61 :: 153 passed, 2 warnings in 58.95s
+== owner_orchestration start 2026-10-28T04:08:57+09:00 :: tests/owner/orchestration
+owner_orchestration exit=0 secs=42 :: 34 passed, 1 warning in 41.73s
+== owner_projection start 2026-10-28T04:09:39+09:00 :: tests/owner/projection
+owner_projection exit=1 secs=22 :: 1 failed, 258 passed, 1 warning in 20.12s
+== owner_runner_protocol start 2026-10-28T04:10:01+09:00 :: tests/owner/runner_protocol
+owner_runner_protocol exit=0 secs=121 :: 55 passed, 1 warning in 119.96s (0:01:59)
+== public_infra start 2026-10-28T04:12:02+09:00 :: tests/public/infra
+public_infra exit=1 secs=15 :: 1 failed, 64 passed in 15.09s
+== public_runner start 2026-10-28T04:12:17+09:00 :: tests/public/runner
+public_runner exit=0 secs=110 :: 110 passed, 9 deselected, 3 warnings in 108.49s (0:01:48)
+== extras start 2026-10-28T04:14:07+09:00 :: tests/owner/unit/test_settings_split.py tests/owner/api/test_generation_real_cpu_training_status.py tests/owner/api/test_generation_real_cpu.py
+extras exit=0 secs=15 :: 17 passed, 1 warning in 13.46s
+== public_ops start 2026-10-28T04:14:22+09:00 :: tests/public/ops
+public_ops exit=0 secs=37 :: 59 passed, 2 deselected in 36.27s
+tree(after): sha256:2b888cb7049eb450dd6f4abbc7b16bd91001bce65f0c370e9b596714bf3c8cfd
+ALL DONE 2026-10-28T04:14:59+09:00
+public_infra_rerun exit=0 secs=15 :: 65 passed in 14.69s
+owner_training exit=0 secs=9 :: 18 passed, 4 deselected in 7.27s
+owner_worker exit=0 secs=72 :: 34 passed, 1 warning in 70.80s (0:01:10)

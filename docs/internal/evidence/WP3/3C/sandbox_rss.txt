@@ -1,0 +1,14 @@
+structure sandbox worker killed by SIGXCPU; stderr tail: 
+# WP-3C API-process RSS around sandbox limit breaches 2026-10-27T04:33:46.213443Z python /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python
+cpu_s=1              -> SandboxFailure STRUCTURE_CHECK_RESOURCE_LIMIT elapsed=  1.12s api_rss_kib before=28944 after=29100 delta=156
+as=96MiB wall=20s    -> SandboxFailure STRUCTURE_CHECK_TIMEOUT   elapsed= 20.01s api_rss_kib before=29100 after=29104 delta=4
+max_output=64B       -> SandboxFailure STRUCTURE_CHECK_RESOURCE_LIMIT elapsed=  2.42s api_rss_kib before=29104 after=29116 delta=12
+wall=0.3s            -> SandboxFailure STRUCTURE_CHECK_TIMEOUT   elapsed=  0.31s api_rss_kib before=29116 after=29116 delta=0
+default (PASS)       -> OK status=PASS                           elapsed=  2.47s api_rss_kib before=29116 after=29144 delta=28
+
+# re-measured after WP-3A's check_worker.py change of 2026-10-27 13:51 KST
+cpu_s=1              -> SandboxFailure STRUCTURE_CHECK_RESOURCE_LIMIT elapsed=  1.07s api_rss_kib before=28852 after=29008 delta=156
+as=96MiB wall=20s    -> SandboxFailure STRUCTURE_CHECK_RESOURCE_LIMIT elapsed=  0.17s api_rss_kib before=29008 after=29008 delta=0
+max_output=64B       -> SandboxFailure STRUCTURE_CHECK_RESOURCE_LIMIT elapsed=  2.07s api_rss_kib before=29008 after=29020 delta=12
+wall=0.3s            -> SandboxFailure STRUCTURE_CHECK_TIMEOUT   elapsed=  0.31s api_rss_kib before=29020 after=29020 delta=0
+default (PASS)       -> OK status=PASS                           elapsed=  2.12s api_rss_kib before=29020 after=29036 delta=16

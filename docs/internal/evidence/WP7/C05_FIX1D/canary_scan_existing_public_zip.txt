@@ -1,0 +1,6 @@
+$ runtime/venv/bin/python -I -B scripts/dev/canary_scan.py --min-files 100 --json <this>.json dist/public/<zip>  (zip built BEFORE this fix round; sha256 below)
+b095c565c39af49a33ab1b0a88a7abba36129bd0341005423ecef17c21ca8e62  dist/public/mbnas_application-0.1.0-public-runtime-linux_x86_64.zip
+FAIL host_fact HOST_FACT#6 original host GPU UUID [raw] mbnas_application-0.1.0-public-runtime-linux_x86_64.zip!mbnas_application/tests/_shared/conftest_common.py:58
+FAIL host_fact HOST_FACT#6 original host GPU UUID [raw] mbnas_application-0.1.0-public-runtime-linux_x86_64.zip!mbnas_application/tests/_shared/conftest_common.py:59
+scanned files=609 bytes=13679166 containers=5 skipped=0 hits=2 failing=2 unmet=0
+canary_scan: FAIL

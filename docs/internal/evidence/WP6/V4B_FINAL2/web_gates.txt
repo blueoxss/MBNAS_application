@@ -1,0 +1,74 @@
+# C07 web gates 2026-10-28T10:17:45+09:00 node v24.20.0 cwd=mbnas_web
+=== $ npm run check:types   [2026-10-28T10:17:45+09:00]
+
+> mbnas-web@0.1.0 check:types
+> node scripts/gen-types.mjs --check
+
+✨ openapi-typescript 7.13.0
+🚀 /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/openapi/openapi.json → /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp3/c07r2/tmp/mbnas-types-G6DqB0/types.gen.ts [325.3ms]
+types.gen.ts matches the contract
+exit=0
+=== $ npm run typecheck   [2026-10-28T10:17:46+09:00]
+
+> mbnas-web@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+exit=0
+=== $ npx vitest run --no-cache   [2026-10-28T10:17:54+09:00]
+
+ RUN  v5.0.3 /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web
+
+
+ Test Files  46 passed (46)
+      Tests  600 passed (600)
+   Start at  10:17:54
+   Duration  12.01s (environment 32%, tests 31%, transform 27%, import 6%, setup 4%)
+
+  Transform  transforming modules took 48.93s · 27% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+
+exit=0
+=== $ npm run check:bundle   [2026-10-28T10:18:07+09:00]
+
+> mbnas-web@0.1.0 check:bundle
+> node scripts/check-bundle.mjs
+
+scanned 3 file(s), 546817 bytes under dist/
+  dist/assets/index-7f__3l0I.js
+  dist/assets/index-CG8HuodM.css
+  dist/index.html
+  required "value_provenance": 0
+  required "illustrative_new_revision": 0
+  required "/root/detection": 0
+  required "/data/drone": 0
+  required "147.46.": 0
+  required "pc2300": 0
+  required "/etri_nas/": 0
+  extra    "/data/mgjeong": 0
+  extra    "etri_nas_runs": 0
+  extra    "mgjeong": 0
+  extra    "NPS_YOLO": 0
+  extra    "pilot_visdrone_v1": 0
+  extra    "unresolved_before_real_execution": 0
+  extra    "DESIGN_EXAMPLE_NOT_EXECUTABLE": 0
+  extra    "new_protocol_not_claimed_historical_GA": 0
+  extra    "Client recompute": 0
+  extra    "not computable": 0
+  extra    "differs from client rule": 0
+  extra    "client template": 0
+  extra    "METRIC_NOT_FINITE": 0
+  extra    "LATENCY_NONPOSITIVE": 0
+  extra    "SIZE_NONPOSITIVE": 0
+  extra    "repair_reason": 0
+  extra    "Repair reason": 0
+  extra    "R (repair)": 0
+  extra    "old_name": 0
+  extra    "fitnessOracle": 0
+  extra    "fitness_oracle": 0
+bundle hygiene: OK (0 hits)
+exit=0
+# dist sha256 after
+9e8c8f761e7b56c7e66ecf90d563a2ff3a4118df75f49d9004423b1ea9897552  dist/index.html
+df0d6b2d9ab5dce599cbb352062be2a2065634c5fe43a152b534f537664171a9  dist/assets/index-7f__3l0I.js
+1e0f94d5b6e2984c057f8522dde0a11beae25c1d5bdff42376f0211413c18da2  dist/assets/index-CG8HuodM.css

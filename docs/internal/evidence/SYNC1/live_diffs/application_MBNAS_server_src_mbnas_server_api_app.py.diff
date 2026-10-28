@@ -1,0 +1,17 @@
+--- a/application/MBNAS_server/src/mbnas_server/api/app.py
++++ b/application/MBNAS_server/src/mbnas_server/api/app.py
+@@ -44,11 +44,12 @@
+     conn.close()
+     bus = EventBus(settings, poll_s=svc.sse_poll_s)
+ 
+-    app = FastAPI(title="MBNAS Server API", version="1.4.1", docs_url=None, redoc_url=None, openapi_url=None)
++    app = FastAPI(title="MBNAS Server API", version="1.4.3", docs_url=None, redoc_url=None, openapi_url=None)
+     app.state.api_token = token
+     app.state.services = svc
+     app.state.bus = bus
+-    app.state.archive = ArchiveStore(settings.archive_roots, settings.archive_driver_dirs, settings.archive_cache_ttl_s)
++    app.state.archive = ArchiveStore(settings.archive_roots, settings.archive_driver_dirs, settings.archive_cache_ttl_s,
++                                     campaign_roots=settings.archive_campaign_roots)
+     errors.install(app)
+ 
+     protected = APIRouter(prefix=API_PREFIX, dependencies=[Depends(require_bearer)])

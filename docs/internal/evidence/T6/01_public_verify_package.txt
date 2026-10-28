@@ -1,0 +1,4 @@
+[verify] profile=public root=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application suites=package evidence=runtime/logs/verify/20261027T181603Z-public
+[verify] package: running
+[verify] package: PASS
+[verify] result: PASS PASS=1 (report runtime/logs/verify/20261027T181603Z-public/verify.json)

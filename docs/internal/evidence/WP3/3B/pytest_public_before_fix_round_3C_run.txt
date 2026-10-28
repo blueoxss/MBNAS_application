@@ -1,0 +1,2228 @@
+........................................................................ [  7%]
+........................................................................ [ 15%]
+........................................................................ [ 22%]
+........................................................................ [ 30%]
+..........................................................F............. [ 37%]
+........................................................................ [ 45%]
+........................................................................ [ 52%]
+........................................................................ [ 60%]
+........................................................................ [ 67%]
+........................................................................ [ 75%]
+......xs................................................................ [ 82%]
+........................................................................ [ 90%]
+.........................................................FFFFFFFFFFF.... [ 97%]
+....FF...........FFF...                                                  [100%]
+=================================== FAILURES ===================================
+____________________________ test_web_role_preview _____________________________
+
+tmp_path = PosixPath('/tmp/pytest-of-mgjeong/pytest-648/test_web_role_preview0')
+ext_cwd = PosixPath('/tmp/pytest-of-mgjeong/pytest-648/test_web_role_preview0/elsewhere')
+
+    @pytest.mark.skipif(shutil.which("node") is None, reason="node not on PATH (web preview needs Node.js)")
+    def test_web_role_preview(tmp_path: Path, ext_cwd: Path) -> None:
+        root = make_root(tmp_path, web=True)
+        port = free_port()
+        env = script_env(tmp_path / "t", {"MBNAS_WEB_PORT": str(port)})
+        try:
+            proc = run(root, "start", "--profile", "public", "--role", "web", "--wait-s", "20", cwd=ext_cwd, env=env)
+            assert proc.returncode == 0, proc.stdout + proc.stderr
+            assert f"http://127.0.0.1:{port}/" in proc.stdout
+            pid = _pid(root, "web")
+            stop = run(root, "stop", "--profile", "public", "--role", "web", cwd=ext_cwd, env=env)
+>           assert stop.returncode == 0 and wait_dead(pid)
+E           AssertionError: assert (1 == 0)
+E            +  where 1 = CompletedProcess(args=['bash', '/tmp/pytest-of-mgjeong/pytest-648/test_web_role_preview0/ops root with spaces/mbnas ap...test-of-mgjeong/pytest-648/test_web_role_preview0/ops root with spaces/mbnas app/scripts/stop.sh: 줄 93: arg: 해제된 변수\n').returncode
+
+tests/public/ops/test_ops_start_stop.py:160: AssertionError
+_ test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/runs/r1/artifacts/%2E%2E] _
+
+gw = <function gw.<locals>.build at 0x7f4c30899480>
+stub = <stub_core.StubCore object at 0x7f4c3045abc0>, method = 'GET'
+path = '/api/v1/runs/r1/artifacts/%2E%2E'
+
+    @pytest.mark.parametrize("method,path", [
+        ("GET", f"/api/v1/runs/r1/artifacts/{DOT}"), ("GET", "/api/v1/runs/r1/artifacts/%2E"),
+        ("GET", f"/api/v1/runs/{DOT}/snapshot"), ("GET", f"/api/v1/runs/{DOT}/candidates/{DOT}"),
+        ("POST", f"/api/v1/runs/{DOT}/candidates/{DOT}/structure-check"), ("GET", f"/api/v1/registry/{DOT}/structure"),
+        ("POST", f"/api/v1/runs/{DOT}/artifacts/{DOT}/refresh")])
+    def test_dot_segment_path_params_never_reach_another_core_route(gw, stub, method, path):
+        """A percent-encoded dot segment in a path parameter must not be normalised into a DIFFERENT core route
+        (measured 2026-10-27: ``/api/v1/runs/r1/artifacts/%2E%2E`` was relayed as ``/core/v1/console/runs/r1``, and
+        ``/api/v1/runs/%2E%2E/candidates/%2E%2E/structure-check`` as ``/core/v1/console/structure-check``)."""
+        r = gw().request(method, path, headers=auth(), json={} if method == "POST" else None, follow_redirects=False)
+>       assert r.status_code in (400, 404), (r.status_code, r.text)
+E       AssertionError: (200, '{"stub":true,"path":"/core/v1/console/runs/r1"}')
+E       assert 200 in (400, 404)
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests/public/server/test_wp3_gateway_relay.py:109: AssertionError
+_ test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/runs/r1/artifacts/%2E] _
+
+gw = <function gw.<locals>.build at 0x7f4c305f6b00>
+stub = <stub_core.StubCore object at 0x7f4c30b38130>, method = 'GET'
+path = '/api/v1/runs/r1/artifacts/%2E'
+
+    @pytest.mark.parametrize("method,path", [
+        ("GET", f"/api/v1/runs/r1/artifacts/{DOT}"), ("GET", "/api/v1/runs/r1/artifacts/%2E"),
+        ("GET", f"/api/v1/runs/{DOT}/snapshot"), ("GET", f"/api/v1/runs/{DOT}/candidates/{DOT}"),
+        ("POST", f"/api/v1/runs/{DOT}/candidates/{DOT}/structure-check"), ("GET", f"/api/v1/registry/{DOT}/structure"),
+        ("POST", f"/api/v1/runs/{DOT}/artifacts/{DOT}/refresh")])
+    def test_dot_segment_path_params_never_reach_another_core_route(gw, stub, method, path):
+        """A percent-encoded dot segment in a path parameter must not be normalised into a DIFFERENT core route
+        (measured 2026-10-27: ``/api/v1/runs/r1/artifacts/%2E%2E`` was relayed as ``/core/v1/console/runs/r1``, and
+        ``/api/v1/runs/%2E%2E/candidates/%2E%2E/structure-check`` as ``/core/v1/console/structure-check``)."""
+        r = gw().request(method, path, headers=auth(), json={} if method == "POST" else None, follow_redirects=False)
+>       assert r.status_code in (400, 404), (r.status_code, r.text)
+E       AssertionError: (200, '{"stub":true,"path":"/core/v1/console/runs/r1/artifacts"}')
+E       assert 200 in (400, 404)
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests/public/server/test_wp3_gateway_relay.py:109: AssertionError
+_ test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/runs/%2E%2E/snapshot] _
+
+gw = <function gw.<locals>.build at 0x7f4c304091b0>
+stub = <stub_core.StubCore object at 0x7f4c308a0220>, method = 'GET'
+path = '/api/v1/runs/%2E%2E/snapshot'
+
+    @pytest.mark.parametrize("method,path", [
+        ("GET", f"/api/v1/runs/r1/artifacts/{DOT}"), ("GET", "/api/v1/runs/r1/artifacts/%2E"),
+        ("GET", f"/api/v1/runs/{DOT}/snapshot"), ("GET", f"/api/v1/runs/{DOT}/candidates/{DOT}"),
+        ("POST", f"/api/v1/runs/{DOT}/candidates/{DOT}/structure-check"), ("GET", f"/api/v1/registry/{DOT}/structure"),
+        ("POST", f"/api/v1/runs/{DOT}/artifacts/{DOT}/refresh")])
+    def test_dot_segment_path_params_never_reach_another_core_route(gw, stub, method, path):
+        """A percent-encoded dot segment in a path parameter must not be normalised into a DIFFERENT core route
+        (measured 2026-10-27: ``/api/v1/runs/r1/artifacts/%2E%2E`` was relayed as ``/core/v1/console/runs/r1``, and
+        ``/api/v1/runs/%2E%2E/candidates/%2E%2E/structure-check`` as ``/core/v1/console/structure-check``)."""
+        r = gw().request(method, path, headers=auth(), json={} if method == "POST" else None, follow_redirects=False)
+>       assert r.status_code in (400, 404), (r.status_code, r.text)
+E       AssertionError: (200, '{"stub":true,"path":"/api/v1/snapshot"}')
+E       assert 200 in (400, 404)
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests/public/server/test_wp3_gateway_relay.py:109: AssertionError
+_ test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/runs/%2E%2E/candidates/%2E%2E] _
+
+gw = <function gw.<locals>.build at 0x7f4c303cc700>
+stub = <stub_core.StubCore object at 0x7f4c304629e0>, method = 'GET'
+path = '/api/v1/runs/%2E%2E/candidates/%2E%2E'
+
+    @pytest.mark.parametrize("method,path", [
+        ("GET", f"/api/v1/runs/r1/artifacts/{DOT}"), ("GET", "/api/v1/runs/r1/artifacts/%2E"),
+        ("GET", f"/api/v1/runs/{DOT}/snapshot"), ("GET", f"/api/v1/runs/{DOT}/candidates/{DOT}"),
+        ("POST", f"/api/v1/runs/{DOT}/candidates/{DOT}/structure-check"), ("GET", f"/api/v1/registry/{DOT}/structure"),
+        ("POST", f"/api/v1/runs/{DOT}/artifacts/{DOT}/refresh")])
+    def test_dot_segment_path_params_never_reach_another_core_route(gw, stub, method, path):
+        """A percent-encoded dot segment in a path parameter must not be normalised into a DIFFERENT core route
+        (measured 2026-10-27: ``/api/v1/runs/r1/artifacts/%2E%2E`` was relayed as ``/core/v1/console/runs/r1``, and
+        ``/api/v1/runs/%2E%2E/candidates/%2E%2E/structure-check`` as ``/core/v1/console/structure-check``)."""
+        r = gw().request(method, path, headers=auth(), json={} if method == "POST" else None, follow_redirects=False)
+>       assert r.status_code in (400, 404), (r.status_code, r.text)
+E       AssertionError: (307, '')
+E       assert 307 in (400, 404)
+E        +  where 307 = <Response [307 Temporary Redirect]>.status_code
+
+tests/public/server/test_wp3_gateway_relay.py:109: AssertionError
+_ test_dot_segment_path_params_never_reach_another_core_route[POST-/api/v1/runs/%2E%2E/candidates/%2E%2E/structure-check] _
+
+gw = <function gw.<locals>.build at 0x7f4c310170a0>
+stub = <stub_core.StubCore object at 0x7f4c30f57700>, method = 'POST'
+path = '/api/v1/runs/%2E%2E/candidates/%2E%2E/structure-check'
+
+    @pytest.mark.parametrize("method,path", [
+        ("GET", f"/api/v1/runs/r1/artifacts/{DOT}"), ("GET", "/api/v1/runs/r1/artifacts/%2E"),
+        ("GET", f"/api/v1/runs/{DOT}/snapshot"), ("GET", f"/api/v1/runs/{DOT}/candidates/{DOT}"),
+        ("POST", f"/api/v1/runs/{DOT}/candidates/{DOT}/structure-check"), ("GET", f"/api/v1/registry/{DOT}/structure"),
+        ("POST", f"/api/v1/runs/{DOT}/artifacts/{DOT}/refresh")])
+    def test_dot_segment_path_params_never_reach_another_core_route(gw, stub, method, path):
+        """A percent-encoded dot segment in a path parameter must not be normalised into a DIFFERENT core route
+        (measured 2026-10-27: ``/api/v1/runs/r1/artifacts/%2E%2E`` was relayed as ``/core/v1/console/runs/r1``, and
+        ``/api/v1/runs/%2E%2E/candidates/%2E%2E/structure-check`` as ``/core/v1/console/structure-check``)."""
+        r = gw().request(method, path, headers=auth(), json={} if method == "POST" else None, follow_redirects=False)
+>       assert r.status_code in (400, 404), (r.status_code, r.text)
+E       AssertionError: (200, '{"stub":true,"path":"/api/v1/structure-check"}')
+E       assert 200 in (400, 404)
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests/public/server/test_wp3_gateway_relay.py:109: AssertionError
+_ test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/registry/%2E%2E/structure] _
+
+gw = <function gw.<locals>.build at 0x7f4c30c6a7a0>
+stub = <stub_core.StubCore object at 0x7f4c31040400>, method = 'GET'
+path = '/api/v1/registry/%2E%2E/structure'
+
+    @pytest.mark.parametrize("method,path", [
+        ("GET", f"/api/v1/runs/r1/artifacts/{DOT}"), ("GET", "/api/v1/runs/r1/artifacts/%2E"),
+        ("GET", f"/api/v1/runs/{DOT}/snapshot"), ("GET", f"/api/v1/runs/{DOT}/candidates/{DOT}"),
+        ("POST", f"/api/v1/runs/{DOT}/candidates/{DOT}/structure-check"), ("GET", f"/api/v1/registry/{DOT}/structure"),
+        ("POST", f"/api/v1/runs/{DOT}/artifacts/{DOT}/refresh")])
+    def test_dot_segment_path_params_never_reach_another_core_route(gw, stub, method, path):
+        """A percent-encoded dot segment in a path parameter must not be normalised into a DIFFERENT core route
+        (measured 2026-10-27: ``/api/v1/runs/r1/artifacts/%2E%2E`` was relayed as ``/core/v1/console/runs/r1``, and
+        ``/api/v1/runs/%2E%2E/candidates/%2E%2E/structure-check`` as ``/core/v1/console/structure-check``)."""
+        r = gw().request(method, path, headers=auth(), json={} if method == "POST" else None, follow_redirects=False)
+>       assert r.status_code in (400, 404), (r.status_code, r.text)
+E       AssertionError: (200, '{"stub":true,"path":"/api/v1/structure"}')
+E       assert 200 in (400, 404)
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests/public/server/test_wp3_gateway_relay.py:109: AssertionError
+_ test_dot_segment_path_params_never_reach_another_core_route[POST-/api/v1/runs/%2E%2E/artifacts/%2E%2E/refresh] _
+
+gw = <function gw.<locals>.build at 0x7f4bf04628c0>
+stub = <stub_core.StubCore object at 0x7f4c310439a0>, method = 'POST'
+path = '/api/v1/runs/%2E%2E/artifacts/%2E%2E/refresh'
+
+    @pytest.mark.parametrize("method,path", [
+        ("GET", f"/api/v1/runs/r1/artifacts/{DOT}"), ("GET", "/api/v1/runs/r1/artifacts/%2E"),
+        ("GET", f"/api/v1/runs/{DOT}/snapshot"), ("GET", f"/api/v1/runs/{DOT}/candidates/{DOT}"),
+        ("POST", f"/api/v1/runs/{DOT}/candidates/{DOT}/structure-check"), ("GET", f"/api/v1/registry/{DOT}/structure"),
+        ("POST", f"/api/v1/runs/{DOT}/artifacts/{DOT}/refresh")])
+    def test_dot_segment_path_params_never_reach_another_core_route(gw, stub, method, path):
+        """A percent-encoded dot segment in a path parameter must not be normalised into a DIFFERENT core route
+        (measured 2026-10-27: ``/api/v1/runs/r1/artifacts/%2E%2E`` was relayed as ``/core/v1/console/runs/r1``, and
+        ``/api/v1/runs/%2E%2E/candidates/%2E%2E/structure-check`` as ``/core/v1/console/structure-check``)."""
+        r = gw().request(method, path, headers=auth(), json={} if method == "POST" else None, follow_redirects=False)
+>       assert r.status_code in (400, 404), (r.status_code, r.text)
+E       AssertionError: (200, '{"stub":true,"path":"/api/v1/refresh"}')
+E       assert 200 in (400, 404)
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests/public/server/test_wp3_gateway_relay.py:109: AssertionError
+____ test_control_characters_in_path_params_never_crash_the_relay[%00-\x00] ____
+
+gw = <function gw.<locals>.build at 0x7f4c33dbbc70>
+stub = <stub_core.StubCore object at 0x7f4c34023a30>, raw = '%00'
+decoded = '\x00'
+
+    @pytest.mark.parametrize("raw,decoded", [("%00", "\x00"), ("art-%00", "art-\x00"), ("a%0Ab", "a\nb"),
+                                             ("%7F", "\x7f")])
+    def test_control_characters_in_path_params_never_crash_the_relay(gw, stub, raw, decoded):
+        """``/api/v1/runs/r1/artifacts/%00`` raised ``httpx.InvalidURL`` inside the relay (core_client.py:122, measured
+        2026-10-27) = an unhandled 500. The gateway must answer a JSON 4xx itself, or relay the parameter percent-encoded
+        so core sees exactly the decoded value (core answers 404 for an unknown id)."""
+        stub.on("GET", f"{PREFIX}/runs/r1/artifacts/{decoded}", status=404,
+                body={"code": "NOT_FOUND", "message": "artifact not found"})
+>       r = gw().get(f"/api/v1/runs/r1/artifacts/{raw}", headers=auth())
+
+tests/public/server/test_wp3_gateway_relay.py:122: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1053: in get
+    return self.request(
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:463: in request
+    return super().request(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:914: in send
+    response = self._send_handling_auth(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:360: in handle_request
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:357: in handle_request
+    portal.call(self.app, scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:340: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:458: in result
+    return self.__get_result()
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:403: in __get_result
+    raise self._exception
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:265: in _call_func
+    retval = await retval_or_awaitable
+runtime/venv/lib/python3.10/site-packages/fastapi/applications.py:1215: in __call__
+    await super().__call__(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/applications.py:96: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:186: in __call__
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py:151: in __call__
+    await self.app(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:92: in __call__
+    await self.app(scope, receive, send_with_id)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:91: in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:149: in simple_response
+    await self.app(scope, receive, send)
+mbnas_server/src/mbnas_server/api/limits.py:189: in __call__
+    await self.app(scope, receive, tracking_send)
+mbnas_server/src/mbnas_server/api/app.py:62: in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:61: in __call__
+    await self.app(scope, counting_receive, guarded_send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/routing.py:676: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2786: in app
+    await route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1817: in handle
+    await self.original_router.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2869: in handle
+    await included_router._handle_selected(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1843: in _handle_selected
+    await original_route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1308: in handle
+    await effective_context.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:165: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:151: in app
+    response = await f(request)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:727: in app
+    raw_response = await run_endpoint_function(
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:360: in run_endpoint_function
+    return await dependant.call(**values)
+mbnas_server/src/mbnas_server/api/relay.py:295: in artifact
+    resp = await _core(request).request("GET", f"/runs/{run_id}/artifacts/{artifact_id}", request_id=_rid(request),
+mbnas_server/src/mbnas_server/api/core_client.py:122: in request
+    resp = await self.client.request(method, path, params=params, json=json_body, content=content,
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1527: in request
+    request = self.build_request(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:366: in build_request
+    url = self._merge_url(url)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:396: in _merge_url
+    merge_url = URL(url)
+runtime/venv/lib/python3.10/site-packages/httpx/_urls.py:117: in __init__
+    self._uri_reference = urlparse(url, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+url = '/runs/r1/artifacts/\x00', kwargs = {}
+
+    def urlparse(url: str = "", **kwargs: str | None) -> ParseResult:
+        # Initial basic checks on allowable URLs.
+        # ---------------------------------------
+    
+        # Hard limit the maximum allowable URL length.
+        if len(url) > MAX_URL_LENGTH:
+            raise InvalidURL("URL too long")
+    
+        # If a URL includes any ASCII control characters including \t, \r, \n,
+        # then treat it as invalid.
+        if any(char.isascii() and not char.isprintable() for char in url):
+            char = next(char for char in url if char.isascii() and not char.isprintable())
+            idx = url.find(char)
+            error = (
+                f"Invalid non-printable ASCII character in URL, {char!r} at position {idx}."
+            )
+>           raise InvalidURL(error)
+E           httpx.InvalidURL: Invalid non-printable ASCII character in URL, '\x00' at position 19.
+
+runtime/venv/lib/python3.10/site-packages/httpx/_urlparse.py:229: InvalidURL
+------------------------------ Captured log call -------------------------------
+ERROR    mbnas_server.api:errors.py:84 unhandled error (request_id=4fb170910de549efa07e7d1beeac422c)
+Traceback (most recent call last):
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 92, in __call__
+    await self.app(scope, receive, send_with_id)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 149, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/limits.py", line 189, in __call__
+    await self.app(scope, receive, tracking_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/app.py", line 62, in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 61, in __call__
+    await self.app(scope, counting_receive, guarded_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/routing.py", line 676, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2786, in app
+    await route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1817, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2869, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1843, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1308, in handle
+    await effective_context.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 165, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 151, in app
+    response = await f(request)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 727, in app
+    raw_response = await run_endpoint_function(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 360, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/relay.py", line 295, in artifact
+    resp = await _core(request).request("GET", f"/runs/{run_id}/artifacts/{artifact_id}", request_id=_rid(request),
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/core_client.py", line 122, in request
+    resp = await self.client.request(method, path, params=params, json=json_body, content=content,
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 1527, in request
+    request = self.build_request(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 366, in build_request
+    url = self._merge_url(url)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 396, in _merge_url
+    merge_url = URL(url)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_urls.py", line 117, in __init__
+    self._uri_reference = urlparse(url, **kwargs)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_urlparse.py", line 229, in urlparse
+    raise InvalidURL(error)
+httpx.InvalidURL: Invalid non-printable ASCII character in URL, '\x00' at position 19.
+_ test_control_characters_in_path_params_never_crash_the_relay[art-%00-art-\x00] _
+
+gw = <function gw.<locals>.build at 0x7f4c31234af0>
+stub = <stub_core.StubCore object at 0x7f4c30977eb0>, raw = 'art-%00'
+decoded = 'art-\x00'
+
+    @pytest.mark.parametrize("raw,decoded", [("%00", "\x00"), ("art-%00", "art-\x00"), ("a%0Ab", "a\nb"),
+                                             ("%7F", "\x7f")])
+    def test_control_characters_in_path_params_never_crash_the_relay(gw, stub, raw, decoded):
+        """``/api/v1/runs/r1/artifacts/%00`` raised ``httpx.InvalidURL`` inside the relay (core_client.py:122, measured
+        2026-10-27) = an unhandled 500. The gateway must answer a JSON 4xx itself, or relay the parameter percent-encoded
+        so core sees exactly the decoded value (core answers 404 for an unknown id)."""
+        stub.on("GET", f"{PREFIX}/runs/r1/artifacts/{decoded}", status=404,
+                body={"code": "NOT_FOUND", "message": "artifact not found"})
+>       r = gw().get(f"/api/v1/runs/r1/artifacts/{raw}", headers=auth())
+
+tests/public/server/test_wp3_gateway_relay.py:122: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1053: in get
+    return self.request(
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:463: in request
+    return super().request(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:914: in send
+    response = self._send_handling_auth(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:360: in handle_request
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:357: in handle_request
+    portal.call(self.app, scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:340: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:458: in result
+    return self.__get_result()
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:403: in __get_result
+    raise self._exception
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:265: in _call_func
+    retval = await retval_or_awaitable
+runtime/venv/lib/python3.10/site-packages/fastapi/applications.py:1215: in __call__
+    await super().__call__(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/applications.py:96: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:186: in __call__
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py:151: in __call__
+    await self.app(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:92: in __call__
+    await self.app(scope, receive, send_with_id)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:91: in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:149: in simple_response
+    await self.app(scope, receive, send)
+mbnas_server/src/mbnas_server/api/limits.py:189: in __call__
+    await self.app(scope, receive, tracking_send)
+mbnas_server/src/mbnas_server/api/app.py:62: in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:61: in __call__
+    await self.app(scope, counting_receive, guarded_send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/routing.py:676: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2786: in app
+    await route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1817: in handle
+    await self.original_router.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2869: in handle
+    await included_router._handle_selected(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1843: in _handle_selected
+    await original_route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1308: in handle
+    await effective_context.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:165: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:151: in app
+    response = await f(request)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:727: in app
+    raw_response = await run_endpoint_function(
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:360: in run_endpoint_function
+    return await dependant.call(**values)
+mbnas_server/src/mbnas_server/api/relay.py:295: in artifact
+    resp = await _core(request).request("GET", f"/runs/{run_id}/artifacts/{artifact_id}", request_id=_rid(request),
+mbnas_server/src/mbnas_server/api/core_client.py:122: in request
+    resp = await self.client.request(method, path, params=params, json=json_body, content=content,
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1527: in request
+    request = self.build_request(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:366: in build_request
+    url = self._merge_url(url)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:396: in _merge_url
+    merge_url = URL(url)
+runtime/venv/lib/python3.10/site-packages/httpx/_urls.py:117: in __init__
+    self._uri_reference = urlparse(url, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+url = '/runs/r1/artifacts/art-\x00', kwargs = {}
+
+    def urlparse(url: str = "", **kwargs: str | None) -> ParseResult:
+        # Initial basic checks on allowable URLs.
+        # ---------------------------------------
+    
+        # Hard limit the maximum allowable URL length.
+        if len(url) > MAX_URL_LENGTH:
+            raise InvalidURL("URL too long")
+    
+        # If a URL includes any ASCII control characters including \t, \r, \n,
+        # then treat it as invalid.
+        if any(char.isascii() and not char.isprintable() for char in url):
+            char = next(char for char in url if char.isascii() and not char.isprintable())
+            idx = url.find(char)
+            error = (
+                f"Invalid non-printable ASCII character in URL, {char!r} at position {idx}."
+            )
+>           raise InvalidURL(error)
+E           httpx.InvalidURL: Invalid non-printable ASCII character in URL, '\x00' at position 23.
+
+runtime/venv/lib/python3.10/site-packages/httpx/_urlparse.py:229: InvalidURL
+------------------------------ Captured log call -------------------------------
+ERROR    mbnas_server.api:errors.py:84 unhandled error (request_id=5fb5b5d6d56a4ef3b6070d190c5ddcba)
+Traceback (most recent call last):
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 92, in __call__
+    await self.app(scope, receive, send_with_id)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 149, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/limits.py", line 189, in __call__
+    await self.app(scope, receive, tracking_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/app.py", line 62, in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 61, in __call__
+    await self.app(scope, counting_receive, guarded_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/routing.py", line 676, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2786, in app
+    await route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1817, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2869, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1843, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1308, in handle
+    await effective_context.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 165, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 151, in app
+    response = await f(request)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 727, in app
+    raw_response = await run_endpoint_function(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 360, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/relay.py", line 295, in artifact
+    resp = await _core(request).request("GET", f"/runs/{run_id}/artifacts/{artifact_id}", request_id=_rid(request),
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/core_client.py", line 122, in request
+    resp = await self.client.request(method, path, params=params, json=json_body, content=content,
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 1527, in request
+    request = self.build_request(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 366, in build_request
+    url = self._merge_url(url)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 396, in _merge_url
+    merge_url = URL(url)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_urls.py", line 117, in __init__
+    self._uri_reference = urlparse(url, **kwargs)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_urlparse.py", line 229, in urlparse
+    raise InvalidURL(error)
+httpx.InvalidURL: Invalid non-printable ASCII character in URL, '\x00' at position 23.
+___ test_control_characters_in_path_params_never_crash_the_relay[a%0Ab-a\nb] ___
+
+gw = <function gw.<locals>.build at 0x7f4c2f1167a0>
+stub = <stub_core.StubCore object at 0x7f4c30413730>, raw = 'a%0Ab'
+decoded = 'a\nb'
+
+    @pytest.mark.parametrize("raw,decoded", [("%00", "\x00"), ("art-%00", "art-\x00"), ("a%0Ab", "a\nb"),
+                                             ("%7F", "\x7f")])
+    def test_control_characters_in_path_params_never_crash_the_relay(gw, stub, raw, decoded):
+        """``/api/v1/runs/r1/artifacts/%00`` raised ``httpx.InvalidURL`` inside the relay (core_client.py:122, measured
+        2026-10-27) = an unhandled 500. The gateway must answer a JSON 4xx itself, or relay the parameter percent-encoded
+        so core sees exactly the decoded value (core answers 404 for an unknown id)."""
+        stub.on("GET", f"{PREFIX}/runs/r1/artifacts/{decoded}", status=404,
+                body={"code": "NOT_FOUND", "message": "artifact not found"})
+>       r = gw().get(f"/api/v1/runs/r1/artifacts/{raw}", headers=auth())
+
+tests/public/server/test_wp3_gateway_relay.py:122: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1053: in get
+    return self.request(
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:463: in request
+    return super().request(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:914: in send
+    response = self._send_handling_auth(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:360: in handle_request
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:357: in handle_request
+    portal.call(self.app, scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:340: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:458: in result
+    return self.__get_result()
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:403: in __get_result
+    raise self._exception
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:265: in _call_func
+    retval = await retval_or_awaitable
+runtime/venv/lib/python3.10/site-packages/fastapi/applications.py:1215: in __call__
+    await super().__call__(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/applications.py:96: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:186: in __call__
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py:151: in __call__
+    await self.app(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:92: in __call__
+    await self.app(scope, receive, send_with_id)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:91: in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:149: in simple_response
+    await self.app(scope, receive, send)
+mbnas_server/src/mbnas_server/api/limits.py:189: in __call__
+    await self.app(scope, receive, tracking_send)
+mbnas_server/src/mbnas_server/api/app.py:62: in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:61: in __call__
+    await self.app(scope, counting_receive, guarded_send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/routing.py:676: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2786: in app
+    await route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1817: in handle
+    await self.original_router.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2869: in handle
+    await included_router._handle_selected(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1843: in _handle_selected
+    await original_route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1308: in handle
+    await effective_context.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:165: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:151: in app
+    response = await f(request)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:727: in app
+    raw_response = await run_endpoint_function(
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:360: in run_endpoint_function
+    return await dependant.call(**values)
+mbnas_server/src/mbnas_server/api/relay.py:295: in artifact
+    resp = await _core(request).request("GET", f"/runs/{run_id}/artifacts/{artifact_id}", request_id=_rid(request),
+mbnas_server/src/mbnas_server/api/core_client.py:122: in request
+    resp = await self.client.request(method, path, params=params, json=json_body, content=content,
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1527: in request
+    request = self.build_request(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:366: in build_request
+    url = self._merge_url(url)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:396: in _merge_url
+    merge_url = URL(url)
+runtime/venv/lib/python3.10/site-packages/httpx/_urls.py:117: in __init__
+    self._uri_reference = urlparse(url, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+url = '/runs/r1/artifacts/a\nb', kwargs = {}
+
+    def urlparse(url: str = "", **kwargs: str | None) -> ParseResult:
+        # Initial basic checks on allowable URLs.
+        # ---------------------------------------
+    
+        # Hard limit the maximum allowable URL length.
+        if len(url) > MAX_URL_LENGTH:
+            raise InvalidURL("URL too long")
+    
+        # If a URL includes any ASCII control characters including \t, \r, \n,
+        # then treat it as invalid.
+        if any(char.isascii() and not char.isprintable() for char in url):
+            char = next(char for char in url if char.isascii() and not char.isprintable())
+            idx = url.find(char)
+            error = (
+                f"Invalid non-printable ASCII character in URL, {char!r} at position {idx}."
+            )
+>           raise InvalidURL(error)
+E           httpx.InvalidURL: Invalid non-printable ASCII character in URL, '\n' at position 20.
+
+runtime/venv/lib/python3.10/site-packages/httpx/_urlparse.py:229: InvalidURL
+------------------------------ Captured log call -------------------------------
+ERROR    mbnas_server.api:errors.py:84 unhandled error (request_id=31bf873152e24ac5893673bc47dc4175)
+Traceback (most recent call last):
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 92, in __call__
+    await self.app(scope, receive, send_with_id)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 149, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/limits.py", line 189, in __call__
+    await self.app(scope, receive, tracking_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/app.py", line 62, in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 61, in __call__
+    await self.app(scope, counting_receive, guarded_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/routing.py", line 676, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2786, in app
+    await route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1817, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2869, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1843, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1308, in handle
+    await effective_context.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 165, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 151, in app
+    response = await f(request)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 727, in app
+    raw_response = await run_endpoint_function(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 360, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/relay.py", line 295, in artifact
+    resp = await _core(request).request("GET", f"/runs/{run_id}/artifacts/{artifact_id}", request_id=_rid(request),
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/core_client.py", line 122, in request
+    resp = await self.client.request(method, path, params=params, json=json_body, content=content,
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 1527, in request
+    request = self.build_request(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 366, in build_request
+    url = self._merge_url(url)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 396, in _merge_url
+    merge_url = URL(url)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_urls.py", line 117, in __init__
+    self._uri_reference = urlparse(url, **kwargs)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_urlparse.py", line 229, in urlparse
+    raise InvalidURL(error)
+httpx.InvalidURL: Invalid non-printable ASCII character in URL, '\n' at position 20.
+____ test_control_characters_in_path_params_never_crash_the_relay[%7F-\x7f] ____
+
+gw = <function gw.<locals>.build at 0x7f4bf04a4430>
+stub = <stub_core.StubCore object at 0x7f4c2fcf3f70>, raw = '%7F'
+decoded = '\x7f'
+
+    @pytest.mark.parametrize("raw,decoded", [("%00", "\x00"), ("art-%00", "art-\x00"), ("a%0Ab", "a\nb"),
+                                             ("%7F", "\x7f")])
+    def test_control_characters_in_path_params_never_crash_the_relay(gw, stub, raw, decoded):
+        """``/api/v1/runs/r1/artifacts/%00`` raised ``httpx.InvalidURL`` inside the relay (core_client.py:122, measured
+        2026-10-27) = an unhandled 500. The gateway must answer a JSON 4xx itself, or relay the parameter percent-encoded
+        so core sees exactly the decoded value (core answers 404 for an unknown id)."""
+        stub.on("GET", f"{PREFIX}/runs/r1/artifacts/{decoded}", status=404,
+                body={"code": "NOT_FOUND", "message": "artifact not found"})
+>       r = gw().get(f"/api/v1/runs/r1/artifacts/{raw}", headers=auth())
+
+tests/public/server/test_wp3_gateway_relay.py:122: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1053: in get
+    return self.request(
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:463: in request
+    return super().request(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:914: in send
+    response = self._send_handling_auth(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:360: in handle_request
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:357: in handle_request
+    portal.call(self.app, scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:340: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:458: in result
+    return self.__get_result()
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:403: in __get_result
+    raise self._exception
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:265: in _call_func
+    retval = await retval_or_awaitable
+runtime/venv/lib/python3.10/site-packages/fastapi/applications.py:1215: in __call__
+    await super().__call__(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/applications.py:96: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:186: in __call__
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py:151: in __call__
+    await self.app(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:92: in __call__
+    await self.app(scope, receive, send_with_id)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:91: in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:149: in simple_response
+    await self.app(scope, receive, send)
+mbnas_server/src/mbnas_server/api/limits.py:189: in __call__
+    await self.app(scope, receive, tracking_send)
+mbnas_server/src/mbnas_server/api/app.py:62: in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:61: in __call__
+    await self.app(scope, counting_receive, guarded_send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/routing.py:676: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2786: in app
+    await route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1817: in handle
+    await self.original_router.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2869: in handle
+    await included_router._handle_selected(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1843: in _handle_selected
+    await original_route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1308: in handle
+    await effective_context.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:165: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:151: in app
+    response = await f(request)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:727: in app
+    raw_response = await run_endpoint_function(
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:360: in run_endpoint_function
+    return await dependant.call(**values)
+mbnas_server/src/mbnas_server/api/relay.py:295: in artifact
+    resp = await _core(request).request("GET", f"/runs/{run_id}/artifacts/{artifact_id}", request_id=_rid(request),
+mbnas_server/src/mbnas_server/api/core_client.py:122: in request
+    resp = await self.client.request(method, path, params=params, json=json_body, content=content,
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1527: in request
+    request = self.build_request(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:366: in build_request
+    url = self._merge_url(url)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:396: in _merge_url
+    merge_url = URL(url)
+runtime/venv/lib/python3.10/site-packages/httpx/_urls.py:117: in __init__
+    self._uri_reference = urlparse(url, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+url = '/runs/r1/artifacts/\x7f', kwargs = {}
+
+    def urlparse(url: str = "", **kwargs: str | None) -> ParseResult:
+        # Initial basic checks on allowable URLs.
+        # ---------------------------------------
+    
+        # Hard limit the maximum allowable URL length.
+        if len(url) > MAX_URL_LENGTH:
+            raise InvalidURL("URL too long")
+    
+        # If a URL includes any ASCII control characters including \t, \r, \n,
+        # then treat it as invalid.
+        if any(char.isascii() and not char.isprintable() for char in url):
+            char = next(char for char in url if char.isascii() and not char.isprintable())
+            idx = url.find(char)
+            error = (
+                f"Invalid non-printable ASCII character in URL, {char!r} at position {idx}."
+            )
+>           raise InvalidURL(error)
+E           httpx.InvalidURL: Invalid non-printable ASCII character in URL, '\x7f' at position 19.
+
+runtime/venv/lib/python3.10/site-packages/httpx/_urlparse.py:229: InvalidURL
+------------------------------ Captured log call -------------------------------
+ERROR    mbnas_server.api:errors.py:84 unhandled error (request_id=27228f4c64624b59a81a8dc63efcdf4f)
+Traceback (most recent call last):
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 92, in __call__
+    await self.app(scope, receive, send_with_id)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 149, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/limits.py", line 189, in __call__
+    await self.app(scope, receive, tracking_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/app.py", line 62, in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 61, in __call__
+    await self.app(scope, counting_receive, guarded_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/routing.py", line 676, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2786, in app
+    await route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1817, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2869, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1843, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1308, in handle
+    await effective_context.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 165, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 151, in app
+    response = await f(request)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 727, in app
+    raw_response = await run_endpoint_function(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 360, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/relay.py", line 295, in artifact
+    resp = await _core(request).request("GET", f"/runs/{run_id}/artifacts/{artifact_id}", request_id=_rid(request),
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/core_client.py", line 122, in request
+    resp = await self.client.request(method, path, params=params, json=json_body, content=content,
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 1527, in request
+    request = self.build_request(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 366, in build_request
+    url = self._merge_url(url)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 396, in _merge_url
+    merge_url = URL(url)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_urls.py", line 117, in __init__
+    self._uri_reference = urlparse(url, **kwargs)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_urlparse.py", line 229, in urlparse
+    raise InvalidURL(error)
+httpx.InvalidURL: Invalid non-printable ASCII character in URL, '\x7f' at position 19.
+___________ test_sse_relay_survives_a_malformed_last_event_id[\xb2] ____________
+
+gw = <function gw.<locals>.build at 0x7f4c30d02710>
+stub = <stub_core.StubCore object at 0x7f4c2fd891b0>, bad = b'\xb2'
+
+    @pytest.mark.parametrize("bad", [b"\xb2", b"\xb9\xb2", "abc", "-1", ""])
+    def test_sse_relay_survives_a_malformed_last_event_id(gw, stub, bad):
+        """Core ignores a malformed ``Last-Event-ID`` (owner qa/test_sse_server.py:106); the relay must not turn it into a
+        500: a non-ASCII value raised ``UnicodeEncodeError`` in httpx header encoding (core_client.py:136, measured
+        2026-10-27). Either forwarded byte-exact or dropped; never an error."""
+        c = gw()
+>       r = c.get("/api/v1/runs/r1/events?after_seq=0", headers={**auth(), "Last-Event-ID": bad})
+
+tests/public/server/test_wp3_gateway_relay.py:224: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1053: in get
+    return self.request(
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:463: in request
+    return super().request(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:914: in send
+    response = self._send_handling_auth(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:360: in handle_request
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:357: in handle_request
+    portal.call(self.app, scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:340: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:458: in result
+    return self.__get_result()
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:403: in __get_result
+    raise self._exception
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:265: in _call_func
+    retval = await retval_or_awaitable
+runtime/venv/lib/python3.10/site-packages/fastapi/applications.py:1215: in __call__
+    await super().__call__(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/applications.py:96: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:186: in __call__
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py:151: in __call__
+    await self.app(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:92: in __call__
+    await self.app(scope, receive, send_with_id)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:91: in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:149: in simple_response
+    await self.app(scope, receive, send)
+mbnas_server/src/mbnas_server/api/limits.py:189: in __call__
+    await self.app(scope, receive, tracking_send)
+mbnas_server/src/mbnas_server/api/app.py:62: in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:61: in __call__
+    await self.app(scope, counting_receive, guarded_send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/routing.py:676: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2786: in app
+    await route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1817: in handle
+    await self.original_router.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2869: in handle
+    await included_router._handle_selected(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1828: in _handle_selected
+    await route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1817: in handle
+    await self.original_router.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2869: in handle
+    await included_router._handle_selected(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1843: in _handle_selected
+    await original_route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1308: in handle
+    await effective_context.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:165: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:151: in app
+    response = await f(request)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:727: in app
+    raw_response = await run_endpoint_function(
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:360: in run_endpoint_function
+    return await dependant.call(**values)
+mbnas_server/src/mbnas_server/api/relay.py:317: in events
+    resp = await cm.__aenter__()  # errors before the first byte become ordinary Error answers (404, 503, ...)
+../../../miniconda3/envs/mbnas310/lib/python3.10/contextlib.py:199: in __aenter__
+    return await anext(self.gen)
+mbnas_server/src/mbnas_server/api/core_client.py:136: in stream
+    req = self.client.build_request(method, path, params=params, headers=self._headers(request_id, headers),
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:367: in build_request
+    headers = self._merge_headers(headers)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:430: in _merge_headers
+    merged_headers.update(headers)
+runtime/venv/lib/python3.10/site-packages/httpx/_models.py:275: in update
+    headers = Headers(headers)
+runtime/venv/lib/python3.10/site-packages/httpx/_models.py:156: in __init__
+    bytes_value = _normalize_header_value(v, encoding)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+value = 'Â²', encoding = None
+
+    def _normalize_header_value(value: str | bytes, encoding: str | None = None) -> bytes:
+        """
+        Coerce str/bytes into a strictly byte-wise HTTP header value.
+        """
+        if isinstance(value, bytes):
+            return value
+        if not isinstance(value, str):
+            raise TypeError(f"Header value must be str or bytes, not {type(value)}")
+>       return value.encode(encoding or "ascii")
+E       UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-1: ordinal not in range(128)
+
+runtime/venv/lib/python3.10/site-packages/httpx/_models.py:82: UnicodeEncodeError
+------------------------------ Captured log call -------------------------------
+ERROR    mbnas_server.api:errors.py:84 unhandled error (request_id=8a66e3cc5c5048d68ce67e2afe60d5f8)
+Traceback (most recent call last):
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 92, in __call__
+    await self.app(scope, receive, send_with_id)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 149, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/limits.py", line 189, in __call__
+    await self.app(scope, receive, tracking_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/app.py", line 62, in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 61, in __call__
+    await self.app(scope, counting_receive, guarded_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/routing.py", line 676, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2786, in app
+    await route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1817, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2869, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1828, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1817, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2869, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1843, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1308, in handle
+    await effective_context.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 165, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 151, in app
+    response = await f(request)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 727, in app
+    raw_response = await run_endpoint_function(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 360, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/relay.py", line 317, in events
+    resp = await cm.__aenter__()  # errors before the first byte become ordinary Error answers (404, 503, ...)
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/contextlib.py", line 199, in __aenter__
+    return await anext(self.gen)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/core_client.py", line 136, in stream
+    req = self.client.build_request(method, path, params=params, headers=self._headers(request_id, headers),
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 367, in build_request
+    headers = self._merge_headers(headers)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 430, in _merge_headers
+    merged_headers.update(headers)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_models.py", line 275, in update
+    headers = Headers(headers)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_models.py", line 156, in __init__
+    bytes_value = _normalize_header_value(v, encoding)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_models.py", line 82, in _normalize_header_value
+    return value.encode(encoding or "ascii")
+UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-1: ordinal not in range(128)
+_________ test_sse_relay_survives_a_malformed_last_event_id[\xb9\xb2] __________
+
+gw = <function gw.<locals>.build at 0x7f4c30b44b80>
+stub = <stub_core.StubCore object at 0x7f4c30930d30>, bad = b'\xb9\xb2'
+
+    @pytest.mark.parametrize("bad", [b"\xb2", b"\xb9\xb2", "abc", "-1", ""])
+    def test_sse_relay_survives_a_malformed_last_event_id(gw, stub, bad):
+        """Core ignores a malformed ``Last-Event-ID`` (owner qa/test_sse_server.py:106); the relay must not turn it into a
+        500: a non-ASCII value raised ``UnicodeEncodeError`` in httpx header encoding (core_client.py:136, measured
+        2026-10-27). Either forwarded byte-exact or dropped; never an error."""
+        c = gw()
+>       r = c.get("/api/v1/runs/r1/events?after_seq=0", headers={**auth(), "Last-Event-ID": bad})
+
+tests/public/server/test_wp3_gateway_relay.py:224: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1053: in get
+    return self.request(
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:463: in request
+    return super().request(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:914: in send
+    response = self._send_handling_auth(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:360: in handle_request
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:357: in handle_request
+    portal.call(self.app, scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:340: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:458: in result
+    return self.__get_result()
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:403: in __get_result
+    raise self._exception
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:265: in _call_func
+    retval = await retval_or_awaitable
+runtime/venv/lib/python3.10/site-packages/fastapi/applications.py:1215: in __call__
+    await super().__call__(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/applications.py:96: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:186: in __call__
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py:151: in __call__
+    await self.app(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:92: in __call__
+    await self.app(scope, receive, send_with_id)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:91: in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:149: in simple_response
+    await self.app(scope, receive, send)
+mbnas_server/src/mbnas_server/api/limits.py:189: in __call__
+    await self.app(scope, receive, tracking_send)
+mbnas_server/src/mbnas_server/api/app.py:62: in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:61: in __call__
+    await self.app(scope, counting_receive, guarded_send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/routing.py:676: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2786: in app
+    await route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1817: in handle
+    await self.original_router.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2869: in handle
+    await included_router._handle_selected(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1828: in _handle_selected
+    await route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1817: in handle
+    await self.original_router.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2869: in handle
+    await included_router._handle_selected(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1843: in _handle_selected
+    await original_route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1308: in handle
+    await effective_context.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:165: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:151: in app
+    response = await f(request)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:727: in app
+    raw_response = await run_endpoint_function(
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:360: in run_endpoint_function
+    return await dependant.call(**values)
+mbnas_server/src/mbnas_server/api/relay.py:317: in events
+    resp = await cm.__aenter__()  # errors before the first byte become ordinary Error answers (404, 503, ...)
+../../../miniconda3/envs/mbnas310/lib/python3.10/contextlib.py:199: in __aenter__
+    return await anext(self.gen)
+mbnas_server/src/mbnas_server/api/core_client.py:136: in stream
+    req = self.client.build_request(method, path, params=params, headers=self._headers(request_id, headers),
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:367: in build_request
+    headers = self._merge_headers(headers)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:430: in _merge_headers
+    merged_headers.update(headers)
+runtime/venv/lib/python3.10/site-packages/httpx/_models.py:275: in update
+    headers = Headers(headers)
+runtime/venv/lib/python3.10/site-packages/httpx/_models.py:156: in __init__
+    bytes_value = _normalize_header_value(v, encoding)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+value = 'Â¹Â²', encoding = None
+
+    def _normalize_header_value(value: str | bytes, encoding: str | None = None) -> bytes:
+        """
+        Coerce str/bytes into a strictly byte-wise HTTP header value.
+        """
+        if isinstance(value, bytes):
+            return value
+        if not isinstance(value, str):
+            raise TypeError(f"Header value must be str or bytes, not {type(value)}")
+>       return value.encode(encoding or "ascii")
+E       UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-3: ordinal not in range(128)
+
+runtime/venv/lib/python3.10/site-packages/httpx/_models.py:82: UnicodeEncodeError
+------------------------------ Captured log call -------------------------------
+ERROR    mbnas_server.api:errors.py:84 unhandled error (request_id=81594da9ca274ebe9026ca8427d5fcf5)
+Traceback (most recent call last):
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 92, in __call__
+    await self.app(scope, receive, send_with_id)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 149, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/limits.py", line 189, in __call__
+    await self.app(scope, receive, tracking_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/app.py", line 62, in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 61, in __call__
+    await self.app(scope, counting_receive, guarded_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/routing.py", line 676, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2786, in app
+    await route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1817, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2869, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1828, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1817, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2869, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1843, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1308, in handle
+    await effective_context.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 165, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 151, in app
+    response = await f(request)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 727, in app
+    raw_response = await run_endpoint_function(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 360, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/relay.py", line 317, in events
+    resp = await cm.__aenter__()  # errors before the first byte become ordinary Error answers (404, 503, ...)
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/contextlib.py", line 199, in __aenter__
+    return await anext(self.gen)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/core_client.py", line 136, in stream
+    req = self.client.build_request(method, path, params=params, headers=self._headers(request_id, headers),
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 367, in build_request
+    headers = self._merge_headers(headers)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 430, in _merge_headers
+    merged_headers.update(headers)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_models.py", line 275, in update
+    headers = Headers(headers)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_models.py", line 156, in __init__
+    bytes_value = _normalize_header_value(v, encoding)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_models.py", line 82, in _normalize_header_value
+    return value.encode(encoding or "ascii")
+UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-3: ordinal not in range(128)
+_____ test_validate_with_non_finite_numbers_on_the_wire_never_crashes[NaN] _____
+
+gw = <function gw.<locals>.build at 0x7f4c3040ba30>
+stub = <stub_core.StubCore object at 0x7f4c2eef55a0>, token = 'NaN'
+
+    @pytest.mark.parametrize("token", ["NaN", "Infinity", "-Infinity"])
+    def test_validate_with_non_finite_numbers_on_the_wire_never_crashes(gw, stub, token):
+        """Python's JSON parser accepts NaN/Infinity; re-encoding them for core raised ``ValueError: Out of range float
+        values are not JSON compliant`` in the relay (relay.py:179 -> core_client.py:122, measured 2026-10-27; owner
+        qa/test_validator_negatives.py). The gateway must answer 422 itself (or let core decide) - never crash, and its
+        answer is strict JSON."""
+        raw = '{"protocol": {"console": {"search": {"budget_gpu_hours": %s}}}}' % token
+>       r = gw().post("/api/v1/protocols/validate", content=raw, headers={**auth(), "Content-Type": "application/json"})
+
+tests/public/server/test_wp3_gateway_relay.py:377: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1144: in post
+    return self.request(
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:463: in request
+    return super().request(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:914: in send
+    response = self._send_handling_auth(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:360: in handle_request
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:357: in handle_request
+    portal.call(self.app, scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:340: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:458: in result
+    return self.__get_result()
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:403: in __get_result
+    raise self._exception
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:265: in _call_func
+    retval = await retval_or_awaitable
+runtime/venv/lib/python3.10/site-packages/fastapi/applications.py:1215: in __call__
+    await super().__call__(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/applications.py:96: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:186: in __call__
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py:151: in __call__
+    await self.app(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:92: in __call__
+    await self.app(scope, receive, send_with_id)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:91: in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:149: in simple_response
+    await self.app(scope, receive, send)
+mbnas_server/src/mbnas_server/api/limits.py:189: in __call__
+    await self.app(scope, receive, tracking_send)
+mbnas_server/src/mbnas_server/api/app.py:62: in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:61: in __call__
+    await self.app(scope, counting_receive, guarded_send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/routing.py:676: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2786: in app
+    await route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1817: in handle
+    await self.original_router.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2869: in handle
+    await included_router._handle_selected(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1828: in _handle_selected
+    await route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1817: in handle
+    await self.original_router.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2869: in handle
+    await included_router._handle_selected(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1843: in _handle_selected
+    await original_route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1308: in handle
+    await effective_context.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:165: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:151: in app
+    response = await f(request)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:727: in app
+    raw_response = await run_endpoint_function(
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:360: in run_endpoint_function
+    return await dependant.call(**values)
+mbnas_server/src/mbnas_server/api/relay.py:179: in validate
+    resp = await _core(request).request("POST", "/protocols/validate", request_id=_rid(request), json_body=body,
+mbnas_server/src/mbnas_server/api/core_client.py:122: in request
+    resp = await self.client.request(method, path, params=params, json=json_body, content=content,
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1527: in request
+    request = self.build_request(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:378: in build_request
+    return Request(
+runtime/venv/lib/python3.10/site-packages/httpx/_models.py:408: in __init__
+    headers, stream = encode_request(
+runtime/venv/lib/python3.10/site-packages/httpx/_content.py:216: in encode_request
+    return encode_json(json)
+runtime/venv/lib/python3.10/site-packages/httpx/_content.py:177: in encode_json
+    body = json_dumps(
+../../../miniconda3/envs/mbnas310/lib/python3.10/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+../../../miniconda3/envs/mbnas310/lib/python3.10/json/encoder.py:199: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.encoder.JSONEncoder object at 0x7f4c2eef40d0>
+o = {'protocol': {'console': {'search': {'budget_gpu_hours': nan}}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if (_one_shot and c_make_encoder is not None
+                and self.indent is None):
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, self.indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, self.indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+>       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant
+
+../../../miniconda3/envs/mbnas310/lib/python3.10/json/encoder.py:257: ValueError
+------------------------------ Captured log call -------------------------------
+ERROR    mbnas_server.api:errors.py:84 unhandled error (request_id=791be45893504871b9070fc47016c820)
+Traceback (most recent call last):
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 92, in __call__
+    await self.app(scope, receive, send_with_id)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 149, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/limits.py", line 189, in __call__
+    await self.app(scope, receive, tracking_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/app.py", line 62, in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 61, in __call__
+    await self.app(scope, counting_receive, guarded_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/routing.py", line 676, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2786, in app
+    await route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1817, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2869, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1828, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1817, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2869, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1843, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1308, in handle
+    await effective_context.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 165, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 151, in app
+    response = await f(request)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 727, in app
+    raw_response = await run_endpoint_function(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 360, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/relay.py", line 179, in validate
+    resp = await _core(request).request("POST", "/protocols/validate", request_id=_rid(request), json_body=body,
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/core_client.py", line 122, in request
+    resp = await self.client.request(method, path, params=params, json=json_body, content=content,
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 1527, in request
+    request = self.build_request(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 378, in build_request
+    return Request(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_models.py", line 408, in __init__
+    headers, stream = encode_request(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_content.py", line 216, in encode_request
+    return encode_json(json)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_content.py", line 177, in encode_json
+    body = json_dumps(
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+ValueError: Out of range float values are not JSON compliant
+__ test_validate_with_non_finite_numbers_on_the_wire_never_crashes[Infinity] ___
+
+gw = <function gw.<locals>.build at 0x7f4c33fb1d80>
+stub = <stub_core.StubCore object at 0x7f4c30fe5270>, token = 'Infinity'
+
+    @pytest.mark.parametrize("token", ["NaN", "Infinity", "-Infinity"])
+    def test_validate_with_non_finite_numbers_on_the_wire_never_crashes(gw, stub, token):
+        """Python's JSON parser accepts NaN/Infinity; re-encoding them for core raised ``ValueError: Out of range float
+        values are not JSON compliant`` in the relay (relay.py:179 -> core_client.py:122, measured 2026-10-27; owner
+        qa/test_validator_negatives.py). The gateway must answer 422 itself (or let core decide) - never crash, and its
+        answer is strict JSON."""
+        raw = '{"protocol": {"console": {"search": {"budget_gpu_hours": %s}}}}' % token
+>       r = gw().post("/api/v1/protocols/validate", content=raw, headers={**auth(), "Content-Type": "application/json"})
+
+tests/public/server/test_wp3_gateway_relay.py:377: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1144: in post
+    return self.request(
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:463: in request
+    return super().request(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:914: in send
+    response = self._send_handling_auth(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:360: in handle_request
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:357: in handle_request
+    portal.call(self.app, scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:340: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:458: in result
+    return self.__get_result()
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:403: in __get_result
+    raise self._exception
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:265: in _call_func
+    retval = await retval_or_awaitable
+runtime/venv/lib/python3.10/site-packages/fastapi/applications.py:1215: in __call__
+    await super().__call__(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/applications.py:96: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:186: in __call__
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py:151: in __call__
+    await self.app(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:92: in __call__
+    await self.app(scope, receive, send_with_id)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:91: in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:149: in simple_response
+    await self.app(scope, receive, send)
+mbnas_server/src/mbnas_server/api/limits.py:189: in __call__
+    await self.app(scope, receive, tracking_send)
+mbnas_server/src/mbnas_server/api/app.py:62: in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:61: in __call__
+    await self.app(scope, counting_receive, guarded_send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/routing.py:676: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2786: in app
+    await route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1817: in handle
+    await self.original_router.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2869: in handle
+    await included_router._handle_selected(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1828: in _handle_selected
+    await route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1817: in handle
+    await self.original_router.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2869: in handle
+    await included_router._handle_selected(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1843: in _handle_selected
+    await original_route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1308: in handle
+    await effective_context.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:165: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:151: in app
+    response = await f(request)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:727: in app
+    raw_response = await run_endpoint_function(
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:360: in run_endpoint_function
+    return await dependant.call(**values)
+mbnas_server/src/mbnas_server/api/relay.py:179: in validate
+    resp = await _core(request).request("POST", "/protocols/validate", request_id=_rid(request), json_body=body,
+mbnas_server/src/mbnas_server/api/core_client.py:122: in request
+    resp = await self.client.request(method, path, params=params, json=json_body, content=content,
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1527: in request
+    request = self.build_request(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:378: in build_request
+    return Request(
+runtime/venv/lib/python3.10/site-packages/httpx/_models.py:408: in __init__
+    headers, stream = encode_request(
+runtime/venv/lib/python3.10/site-packages/httpx/_content.py:216: in encode_request
+    return encode_json(json)
+runtime/venv/lib/python3.10/site-packages/httpx/_content.py:177: in encode_json
+    body = json_dumps(
+../../../miniconda3/envs/mbnas310/lib/python3.10/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+../../../miniconda3/envs/mbnas310/lib/python3.10/json/encoder.py:199: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.encoder.JSONEncoder object at 0x7f4c2f1363b0>
+o = {'protocol': {'console': {'search': {'budget_gpu_hours': inf}}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if (_one_shot and c_make_encoder is not None
+                and self.indent is None):
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, self.indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, self.indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+>       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant
+
+../../../miniconda3/envs/mbnas310/lib/python3.10/json/encoder.py:257: ValueError
+------------------------------ Captured log call -------------------------------
+ERROR    mbnas_server.api:errors.py:84 unhandled error (request_id=d2045aad012043849f33f1de9298366d)
+Traceback (most recent call last):
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 92, in __call__
+    await self.app(scope, receive, send_with_id)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 149, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/limits.py", line 189, in __call__
+    await self.app(scope, receive, tracking_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/app.py", line 62, in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 61, in __call__
+    await self.app(scope, counting_receive, guarded_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/routing.py", line 676, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2786, in app
+    await route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1817, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2869, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1828, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1817, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2869, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1843, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1308, in handle
+    await effective_context.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 165, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 151, in app
+    response = await f(request)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 727, in app
+    raw_response = await run_endpoint_function(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 360, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/relay.py", line 179, in validate
+    resp = await _core(request).request("POST", "/protocols/validate", request_id=_rid(request), json_body=body,
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/core_client.py", line 122, in request
+    resp = await self.client.request(method, path, params=params, json=json_body, content=content,
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 1527, in request
+    request = self.build_request(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 378, in build_request
+    return Request(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_models.py", line 408, in __init__
+    headers, stream = encode_request(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_content.py", line 216, in encode_request
+    return encode_json(json)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_content.py", line 177, in encode_json
+    body = json_dumps(
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+ValueError: Out of range float values are not JSON compliant
+__ test_validate_with_non_finite_numbers_on_the_wire_never_crashes[-Infinity] __
+
+gw = <function gw.<locals>.build at 0x7f4c310bc9d0>
+stub = <stub_core.StubCore object at 0x7f4c2f169150>, token = '-Infinity'
+
+    @pytest.mark.parametrize("token", ["NaN", "Infinity", "-Infinity"])
+    def test_validate_with_non_finite_numbers_on_the_wire_never_crashes(gw, stub, token):
+        """Python's JSON parser accepts NaN/Infinity; re-encoding them for core raised ``ValueError: Out of range float
+        values are not JSON compliant`` in the relay (relay.py:179 -> core_client.py:122, measured 2026-10-27; owner
+        qa/test_validator_negatives.py). The gateway must answer 422 itself (or let core decide) - never crash, and its
+        answer is strict JSON."""
+        raw = '{"protocol": {"console": {"search": {"budget_gpu_hours": %s}}}}' % token
+>       r = gw().post("/api/v1/protocols/validate", content=raw, headers={**auth(), "Content-Type": "application/json"})
+
+tests/public/server/test_wp3_gateway_relay.py:377: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1144: in post
+    return self.request(
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:463: in request
+    return super().request(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:825: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:914: in send
+    response = self._send_handling_auth(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1014: in _send_single_request
+    response = transport.handle_request(request)
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:360: in handle_request
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:357: in handle_request
+    portal.call(self.app, scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:340: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:458: in result
+    return self.__get_result()
+../../../miniconda3/envs/mbnas310/lib/python3.10/concurrent/futures/_base.py:403: in __get_result
+    raise self._exception
+runtime/venv/lib/python3.10/site-packages/anyio/from_thread.py:265: in _call_func
+    retval = await retval_or_awaitable
+runtime/venv/lib/python3.10/site-packages/fastapi/applications.py:1215: in __call__
+    await super().__call__(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/applications.py:96: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:186: in __call__
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py:151: in __call__
+    await self.app(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:92: in __call__
+    await self.app(scope, receive, send_with_id)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:91: in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py:149: in simple_response
+    await self.app(scope, receive, send)
+mbnas_server/src/mbnas_server/api/limits.py:189: in __call__
+    await self.app(scope, receive, tracking_send)
+mbnas_server/src/mbnas_server/api/app.py:62: in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+mbnas_contracts/src/mbnas_contracts/asgi.py:61: in __call__
+    await self.app(scope, counting_receive, guarded_send)
+runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py:63: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py:18: in __call__
+    await self.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/routing.py:676: in __call__
+    await self.middleware_stack(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2786: in app
+    await route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1817: in handle
+    await self.original_router.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2869: in handle
+    await included_router._handle_selected(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1828: in _handle_selected
+    await route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1817: in handle
+    await self.original_router.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:2869: in handle
+    await included_router._handle_selected(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1843: in _handle_selected
+    await original_route.handle(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:1308: in handle
+    await effective_context.app(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:165: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:53: in wrapped_app
+    raise exc
+runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py:42: in wrapped_app
+    await app(scope, receive, sender)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:151: in app
+    response = await f(request)
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:727: in app
+    raw_response = await run_endpoint_function(
+runtime/venv/lib/python3.10/site-packages/fastapi/routing.py:360: in run_endpoint_function
+    return await dependant.call(**values)
+mbnas_server/src/mbnas_server/api/relay.py:179: in validate
+    resp = await _core(request).request("POST", "/protocols/validate", request_id=_rid(request), json_body=body,
+mbnas_server/src/mbnas_server/api/core_client.py:122: in request
+    resp = await self.client.request(method, path, params=params, json=json_body, content=content,
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:1527: in request
+    request = self.build_request(
+runtime/venv/lib/python3.10/site-packages/httpx/_client.py:378: in build_request
+    return Request(
+runtime/venv/lib/python3.10/site-packages/httpx/_models.py:408: in __init__
+    headers, stream = encode_request(
+runtime/venv/lib/python3.10/site-packages/httpx/_content.py:216: in encode_request
+    return encode_json(json)
+runtime/venv/lib/python3.10/site-packages/httpx/_content.py:177: in encode_json
+    body = json_dumps(
+../../../miniconda3/envs/mbnas310/lib/python3.10/json/__init__.py:238: in dumps
+    **kw).encode(obj)
+../../../miniconda3/envs/mbnas310/lib/python3.10/json/encoder.py:199: in encode
+    chunks = self.iterencode(o, _one_shot=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <json.encoder.JSONEncoder object at 0x7f4c30c40a60>
+o = {'protocol': {'console': {'search': {'budget_gpu_hours': -inf}}}}
+_one_shot = True
+
+    def iterencode(self, o, _one_shot=False):
+        """Encode the given object and yield each string
+        representation as available.
+    
+        For example::
+    
+            for chunk in JSONEncoder().iterencode(bigobject):
+                mysocket.write(chunk)
+    
+        """
+        if self.check_circular:
+            markers = {}
+        else:
+            markers = None
+        if self.ensure_ascii:
+            _encoder = encode_basestring_ascii
+        else:
+            _encoder = encode_basestring
+    
+        def floatstr(o, allow_nan=self.allow_nan,
+                _repr=float.__repr__, _inf=INFINITY, _neginf=-INFINITY):
+            # Check for specials.  Note that this type of test is processor
+            # and/or platform-specific, so do tests which don't depend on the
+            # internals.
+    
+            if o != o:
+                text = 'NaN'
+            elif o == _inf:
+                text = 'Infinity'
+            elif o == _neginf:
+                text = '-Infinity'
+            else:
+                return _repr(o)
+    
+            if not allow_nan:
+                raise ValueError(
+                    "Out of range float values are not JSON compliant: " +
+                    repr(o))
+    
+            return text
+    
+    
+        if (_one_shot and c_make_encoder is not None
+                and self.indent is None):
+            _iterencode = c_make_encoder(
+                markers, self.default, _encoder, self.indent,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, self.allow_nan)
+        else:
+            _iterencode = _make_iterencode(
+                markers, self.default, _encoder, self.indent, floatstr,
+                self.key_separator, self.item_separator, self.sort_keys,
+                self.skipkeys, _one_shot)
+>       return _iterencode(o, 0)
+E       ValueError: Out of range float values are not JSON compliant
+
+../../../miniconda3/envs/mbnas310/lib/python3.10/json/encoder.py:257: ValueError
+------------------------------ Captured log call -------------------------------
+ERROR    mbnas_server.api:errors.py:84 unhandled error (request_id=03e0521d7b8f48d0899516651ab4b9c6)
+Traceback (most recent call last):
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/telemetry/_asgi.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 92, in __call__
+    await self.app(scope, receive, send_with_id)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/cors.py", line 149, in simple_response
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/limits.py", line 189, in __call__
+    await self.app(scope, receive, tracking_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/app.py", line 62, in __call__
+    await (self.upload if routed else self.default)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/asgi.py", line 61, in __call__
+    await self.app(scope, counting_receive, guarded_send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/routing.py", line 676, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2786, in app
+    await route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1817, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2869, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1828, in _handle_selected
+    await route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1817, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 2869, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1843, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 1308, in handle
+    await effective_context.app(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 165, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 151, in app
+    response = await f(request)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 727, in app
+    raw_response = await run_endpoint_function(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/routing.py", line 360, in run_endpoint_function
+    return await dependant.call(**values)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/relay.py", line 179, in validate
+    resp = await _core(request).request("POST", "/protocols/validate", request_id=_rid(request), json_body=body,
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server/api/core_client.py", line 122, in request
+    resp = await self.client.request(method, path, params=params, json=json_body, content=content,
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 1527, in request
+    request = self.build_request(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_client.py", line 378, in build_request
+    return Request(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_models.py", line 408, in __init__
+    headers, stream = encode_request(
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_content.py", line 216, in encode_request
+    return encode_json(json)
+  File "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/httpx/_content.py", line 177, in encode_json
+    body = json_dumps(
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+ValueError: Out of range float values are not JSON compliant
+=============================== warnings summary ===============================
+runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/public/runner/test_benchmark_unit.py::test_export_ultralytics_raw_head_and_restores_pt_path
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/ultralytics/nn/modules/head.py:222: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+    if self.dynamic or self.shape != shape:
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================= slowest 15 durations =============================
+18.82s call     tests/public/packaging/test_package_build.py::test_reproducible_build_is_identical_twice_and_across_invocations
+15.64s setup    tests/public/packaging/test_package_build.py::test_public_zip_name_layout_and_sha256_file
+11.35s call     tests/public/packaging/test_canary_tools.py::test_canary_test_build_positive_control_and_leak_detection
+11.12s call     tests/public/packaging/test_package_build.py::test_web_dist_missing_fails_public_unless_allowed
+6.88s call     tests/public/runner/test_transfer_local.py::test_heartbeat_kicks_a_background_retry
+6.86s call     tests/public/ops/test_ops_start_stop.py::test_stop_escalates_to_sigkill_and_reaps_descendants
+6.24s call     tests/public/runner/test_runner_daemon_unit.py::test_happy_path_claim_start_heartbeat_progress_result_ack
+5.64s call     tests/public/ops/test_ops_install.py::test_offline_install_and_configuration
+4.96s call     tests/public/runner/test_runner_daemon_unit.py::test_execute_waits_before_starting_and_spawning
+4.95s call     tests/public/ops/test_ops_start_stop.py::test_start_stop_cycle_from_external_cwd
+4.87s call     tests/public/runner/test_runner_daemon_unit.py::test_pause_control_writes_stop_file_and_commits_paused
+4.84s call     tests/public/runner/test_transfer_local.py::test_daemon_transfer_failure_never_fails_the_job_and_retry_completes_later
+4.70s call     tests/public/runner/test_runner_daemon_unit.py::test_shutdown_reports_runner_shutting_down
+4.70s call     tests/public/ops/test_ops_install.py::test_examples_with_commented_keys_are_filled
+4.70s call     tests/public/ops/test_ops_install.py::test_owner_requirements_override_adds_the_core_wheel
+=========================== short test summary info ============================
+FAILED tests/public/ops/test_ops_start_stop.py::test_web_role_preview - Asser...
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/runs/r1/artifacts/%2E%2E]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/runs/r1/artifacts/%2E]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/runs/%2E%2E/snapshot]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/runs/%2E%2E/candidates/%2E%2E]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[POST-/api/v1/runs/%2E%2E/candidates/%2E%2E/structure-check]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/registry/%2E%2E/structure]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[POST-/api/v1/runs/%2E%2E/artifacts/%2E%2E/refresh]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_control_characters_in_path_params_never_crash_the_relay[%00-\x00]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_control_characters_in_path_params_never_crash_the_relay[art-%00-art-\x00]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_control_characters_in_path_params_never_crash_the_relay[a%0Ab-a\nb]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_control_characters_in_path_params_never_crash_the_relay[%7F-\x7f]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_sse_relay_survives_a_malformed_last_event_id[\xb2]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_sse_relay_survives_a_malformed_last_event_id[\xb9\xb2]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_validate_with_non_finite_numbers_on_the_wire_never_crashes[NaN]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_validate_with_non_finite_numbers_on_the_wire_never_crashes[Infinity]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_validate_with_non_finite_numbers_on_the_wire_never_crashes[-Infinity]
+17 failed, 940 passed, 1 skipped, 44 deselected, 1 xfailed, 2 warnings in 265.47s (0:04:25)

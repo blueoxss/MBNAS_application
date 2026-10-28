@@ -1,0 +1,200 @@
+# MBNAS Research Console — registration-runtime ZIP allowlist (WP-7D; read by scripts/dev/package_build.py)
+#
+# Format: one glob per line, relative to the project root, '/'-separated. '**' = any number of path components,
+# '*' and '?' stay inside one component, a trailing '/' = everything below. [deny] wins over [include].
+# Sections: [profile] settings · [wheels] packages built with `pip wheel` into wheels/ · [include] · [deny]
+#           ('<glob> :: <reason>' also records the reason in PACKAGE_PROFILE.json exclusions_with_reason)
+#           [deny-importers] '<script> :: <reason>': that script and every selected .ts/.tsx/.js/... file importing it,
+#           directly or transitively (relative imports), are excluded; the file list goes to PACKAGE_PROFILE.json
+#           [generated] outputs written by the packager (never copied from the tree) · [required] (missing = violation)
+#           [expected] (missing = warning) · [private-reference-allow] files, or lines of files ('<glob> :: <literal>'),
+#           allowed to hold an import-like reference to the private package (documented exceptions only).
+# The packager additionally fails on: symlinks/special files, unsafe or colliding entry names, canary tokens, host
+# facts, private key blocks, secret-like env values, any path/import/requirement of the private core package, and a
+# web bundle that fails mbnas_web/scripts/check-bundle.mjs.
+# Scope: public-runtime (see public.txt, DD-A41) + docs/registration; docs/registration/FILE_LIST.md (the owner-free
+# file listing) is generated from this ZIP's FILE_MANIFEST.jsonl by scripts/dev/gen_registration_docs.py --only file-list.
+
+[profile]
+name = registration
+web_dist = required
+private_package_check = strict
+host_facts = fail
+
+[wheels]
+mbnas_contracts
+mbnas_model_runtime
+mbnas_runner
+mbnas_server
+
+[include]
+mbnas_contracts/pyproject.toml
+mbnas_contracts/src/**
+mbnas_model_runtime/pyproject.toml
+mbnas_model_runtime/src/**
+mbnas_runner/pyproject.toml
+mbnas_runner/src/**
+mbnas_server/pyproject.toml
+mbnas_server/src/**
+# web UI: sources (DD-A41) and the prebuilt dist served by the gateway (DD-A30)
+mbnas_web/src/**
+mbnas_web/public/**
+mbnas_web/index.html
+mbnas_web/README.md
+mbnas_web/package.json
+mbnas_web/package-lock.json
+mbnas_web/vite.config.ts
+mbnas_web/tsconfig*.json
+mbnas_web/playwright*.config.ts
+mbnas_web/tests/**
+mbnas_web/e2e/**
+mbnas_web/scripts/**
+mbnas_web/dist/**
+# public tests (DD-A41) and the core-free shared test plumbing they import
+tests/public/**
+tests/_shared/conftest_common.py
+tests/_shared/datasets.py
+tests/_shared/gpu_guard.py
+tests/_shared/fake_core.py
+tests/_shared/stub_core.py
+tests/_shared/stub_handlers.py
+requirements-public.txt
+requirements-cpu.txt
+constraints.txt
+scripts/install.sh
+scripts/doctor.sh
+scripts/start.sh
+scripts/stop.sh
+scripts/verify.sh
+# public tools (DD-A59 b): host-default-free CLIs shipped with the bundle (make_pilot_subset.py; its interface test
+# tests/public/model_runtime/test_datasets.py::test_subset_cli_unchanged_interface runs from the bundle)
+scripts/public/**
+config/examples/**
+deploy/public/**
+docs/public/**
+examples/**
+README.md
+VERSION
+# root LICENSE: DD-A65 placeholder (all rights reserved, licence undetermined); LICENSE_STATUS.md is denied below
+LICENSE*
+THIRD_PARTY_NOTICES.md
+# npm licences of the web bundle (DD-A65, scripts/dev/gen_npm_notices.py)
+THIRD_PARTY_NOTICES_WEB.md
+# docker build from the unpacked ZIP: only the files the Dockerfiles COPY reach the builder (WP-7B probe)
+.dockerignore
+# root workspace file with the pytest configuration used by scripts/verify.sh --suite unit (DD-A43 follow-up)
+pyproject.toml
+# registration documents (WP-7C)
+docs/registration/**
+
+[deny]
+# --- everywhere (same block in owner.txt / registration.txt) ---
+runtime/**
+build/**
+dist/**
+**/node_modules/**
+**/pw-browsers/**
+**/__pycache__/**
+**/*.pyc
+**/*.pyo
+**/*.egg-info/**
+**/.env
+**/.env.*
+**/*.env
+docs/internal/canary/**
+**/.git/**
+**/.pytest_cache/**
+**/.mypy_cache/**
+**/.ruff_cache/**
+**/.vite/**
+**/test-results/**
+**/playwright-report/**
+**/*.sqlite3
+**/*.sqlite
+**/*.db
+**/*.pem
+**/*.key
+**/id_rsa*
+**/*.p12
+**/*.pfx
+**/*.pt
+**/*.pth
+**/*.ckpt
+**/*.safetensors
+**/*.onnx
+**/*.engine
+**/*.log
+**/.DS_Store
+mbnas_web/runtime/**
+# --- public / registration: owner-only parts never ship ---
+mbnas_core/**
+tests/owner/**
+docs/internal/**
+deploy/owner/**
+requirements-owner.txt
+config/examples/core*.env.example
+config/examples/owner*
+LICENSE_STATUS.md :: owner only (DD-A41)
+tests/public/infra/test_no_host_facts.py :: holds the forbidden host-fact strings as test literals (DD-A41); the owner bundle keeps it
+tests/public/packaging/** :: tests of the owner-side packager; they need scripts/dev and build/allowlists, which are not shipped
+tests/_shared/harness.py :: imports the private core (in-process core + gateway test harness); public tests that import it run only from the owner bundle
+tests/_shared/qa_handlers.py :: imports the private core
+# source maps would publish the web sources twice (the sources ship as files)
+mbnas_web/dist/**/*.map
+
+[deny-importers]
+mbnas_web/tests/fitness_oracle.ts :: test-only fitness formula (contribution 2 area); it and the web tests that import it are owner only (DD-A43 a)
+
+[generated]
+BUILD_INFO.json
+PACKAGE_PROFILE.json
+FILE_MANIFEST.jsonl
+# human-readable contents table rendered from FILE_MANIFEST.jsonl (C10)
+PACKAGE_CONTENTS.md
+wheels/*.whl
+docs/registration/FILE_LIST.md
+
+[required]
+VERSION
+.dockerignore
+constraints.txt
+LICENSE
+THIRD_PARTY_NOTICES.md
+THIRD_PARTY_NOTICES_WEB.md
+mbnas_contracts/pyproject.toml
+mbnas_model_runtime/pyproject.toml
+mbnas_runner/pyproject.toml
+mbnas_server/pyproject.toml
+mbnas_web/package.json
+
+[expected]
+README.md
+requirements-public.txt
+requirements-cpu.txt
+scripts/install.sh
+scripts/doctor.sh
+scripts/start.sh
+scripts/stop.sh
+scripts/verify.sh
+config/examples/gateway.env.example
+config/examples/runner.env.example
+deploy/public/Dockerfile
+deploy/public/docker-compose.yml
+docs/public/INSTALL.md
+examples/**
+mbnas_web/package-lock.json
+mbnas_web/src/**
+tests/public/conftest.py
+tests/_shared/conftest_common.py
+docs/registration/PROGRAM_OVERVIEW.md
+docs/registration/SYSTEM_STRUCTURE.md
+docs/registration/INTERFACES.md
+docs/registration/KEY_CONTRIBUTIONS.md
+docs/registration/SUBMISSION_SCOPE_TABLE.md
+docs/registration/REVIEW_CHECKLIST.md
+docs/registration/RIGHTS_REVIEW.md
+
+[private-reference-allow]
+# Negative assertion of the public images: the build fails if the private package is importable.
+deploy/public/Dockerfile :: ! python -c "import mbnas_core"
+deploy/public/Dockerfile.cpu :: ! python -c "import mbnas_core"

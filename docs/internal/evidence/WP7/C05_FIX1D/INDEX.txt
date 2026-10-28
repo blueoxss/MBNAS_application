@@ -1,0 +1,18 @@
+C05 fix round 1d (defects D2-D6, D8-D10 of docs/internal/evidence/CRITERIA/C05/EVAL_1.md) + coordinator additions
+(T8 host-fact count, per-test MBNAS_HOME in clean_env, DD-A26 expiry text). CPU only; 2026-10-28 KST.
+pytest_owner_all.{meta,txt}, junit_owner_all.xml     tests/owner, markers "not gpu and not live and not legacy_records and
+                                                      not host_data", --timeout=300 (final tree except the doctor detail)
+pytest_public_all.{meta,txt}, junit_public_all.xml   tests/public, same markers (final tree except the doctor detail)
+pytest_public_server_ops_after_doctor_detail.*       tests/public/server + tests/public/ops after the last change
+                                                      (doctor core_tls detail for plain http + its test)
+junit_per_directory.txt                              per-directory counts derived from the two JUnit files
+check_import_closure.txt                             scripts/dev/check_import_closure.py --format text (final tree)
+canary_scan_existing_{public,registration}_zip.*     updated scanner (HOST_FACT#6) on the dist ZIPs built BEFORE this round:
+                                                      FAIL, 2 hits each, both tests/_shared/conftest_common.py -> rebuild ZIPs
+canary_scan_tree_public_paths.*                      public-shipped paths of the tree: HOST_FACT#6 hits 0
+scratch_verifications.txt                            scratch checks (sources in the session scratchpad, not shipped): 413
+                                                      location, core 413 per mount, runner redaction, T8/validator replicas,
+                                                      mutation checks of the new tests, lastResort redaction control/fixed
+files_sha256.txt                                     sha256 of every file changed or created in this round
+Note: junit_owner_all.xml / pytest_owner_all.txt carry pre-existing owner-only test ids with HOST_FACT#2 inputs
+(tests/owner/unit/test_protocol_validator.py:337,340) and interpreter paths with the owner account name (HOST_FACT#5).

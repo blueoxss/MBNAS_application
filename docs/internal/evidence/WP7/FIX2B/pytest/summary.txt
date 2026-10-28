@@ -1,0 +1,61 @@
+# FIX2B (DD-A62 (a)-(d)) pytest gate subsets: before (baseline, 2026-10-28 05:26 KST, before any FIX2B edit) and after
+# command per subset (each subset its own process, run in parallel, own --basetemp under <SCRATCH>):
+#   env CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null MBNAS_HOME=<ROOT>/runtime
+#   <ROOT>/runtime/venv/bin/python -B -m pytest -m 'not gpu and not live and not legacy_records and not host_data' \
+#     -p no:cacheprovider -q --basetemp=<SCRATCH>/fix2b/pt/<label>_<subset> --junitxml=... <subset>
+# note: other agents may have edited other files of the tree concurrently; the 'after' numbers are of the tree at the
+#       time of each run, including their changes.
+
+subset                        before (05:26)                      after (final sources, 05:51; *after3 06:0x)
+tests/owner/api               205 passed                          209 passed            (+4 test_dd_a62_device_source_local.py)
+tests/owner/orchestration      34 passed                           36 passed            (+2 test_dd_a62_not_evaluated_search.py)
+tests/owner/runner_protocol    60 passed                           67 passed            (+7 test_dd_a62_cpu_claim_and_commit.py)*
+tests/owner/worker             41 passed                           45 passed, 1 xfailed (+4 +1 xfail(strict) test_dd_a62_core_local_generation.py)*
+tests/owner/search            153 passed                          153 passed
+tests/owner/projection        259 passed                          259 passed
+tests/public/server           539 passed, 1 skipped, 25 desel.    539 passed, 1 skipped, 25 deselected
+extra subsets (after only; they drive the claim route through real RunnerDaemons / the owner gate):
+tests/owner/artifacts                                              15 passed
+tests/public/runner                                               115 passed, 9 deselected
+tests/owner/unit                                                  415 passed, 3 deselected
+tests/owner/qa                                                    273 passed, 1 skipped, 5 deselected
+* the two FIX2B test files of runner_protocol / worker were restructured after the 05:51 run (rules-table import moved
+  into its test; three worker tests drive the public engine paths first so the negative control fails on behaviour, not
+  on a missing function). Final rerun of both subsets (after3, 06:0x KST): runner_protocol 67 passed; worker 45 passed,
+  1 xfailed.
+
+history (not hidden): an intermediate run (after1, 05:43) had an UNCONDITIONAL claim rule (a CPU runner never leases an
+evaluation-ON search job). tests/owner/runner_protocol then failed 2 tests (test_artifact_transfer.py: the real
+RunnerDaemon of the tests registers as a CPU device because CUDA_VISIBLE_DEVICES='' and could no longer run the stub
+search job) and the run was stopped (rc 143; pytest/intermediate_after1_unconditional_claim_rule.txt); an adaptation of
+test_device_used.py written for that rule was reverted (the file equals git HEAD). The rule became fleet-aware (mixed
+fleet only, see ../EVIDENCE_INDEX.txt "(d)"), which DD-A62 (a) also presupposes (search arms receive NOT_EVALUATED
+payloads only when CPU runners run search jobs, i.e. on a CPU-only fleet). All counts above are of the final rule.
+
+negative control (../negative_control.txt): the 19 FIX2B tests + test_device_used.py against the PRE-change sources of
+the four owned files (overlay copy on PYTHONPATH, nothing in the tree changed): 11 failed, 8 passed, 1 xfailed. Failures
+are behavioural (EVAL_FAILED instead of SEARCH_COMPLETE; run FAILED MODEL_RUN_FAILED; CPU claim 200 instead of 204;
+devices [] instead of [cpu]; no recovery / no core-local registration) except test_requires_cuda_and_needs_cuda_rules
+(ImportError: the functions are new). The 8 passing ones are the unchanged-behaviour guards (METRIC_MISSING path, GPU
+claim order, CPU-only explicit training claim, GPU host / GPU-runner / no-runner device lists, test_device_used x2).
+
+proposed serving patch (../proposed_serving.patch, cross-package request 1) - overlay check, NOT applied to the tree:
+  pytest/proposed_serving_patch_overlay_check.txt: --runxfail on test_dd_a62_core_local_generation.py (the strict-xfail
+  download test passes) + tests/owner/api/test_artifacts_export.py + test_artifact_signature_non_ascii.py +
+  tests/owner/artifacts -> 34 passed.
+
+ROUND 2 (coordinator follow-up, DD-A63; 06:1x KST): serving side in the tree (artifacts/registry.py resolve_file with
+the registration guards, console/routes_files.py get_artifact), engine shares CORE_LOCAL / CORE_LOCAL_MAX_BYTES,
+owner_worker/main.py exports --env-file; the strict xfail removed; +1 guard test, +3 env-file tests.
+requested re-run (same command form, each subset its own process, in parallel):
+tests/owner/api               209 passed           (unchanged by round 2)
+tests/owner/worker            50 passed            (round 1: 45 passed, 1 xfailed; the xfail now passes, +1 guards, +3 env)
+tests/owner/artifacts         15 passed
+tests/owner/runner_protocol   67 passed           (unchanged by round 2)
+tests/public/server           539 passed, 1 skipped, 25 deselected
+targeted (before the re-run): test_dd_a62_core_local_generation.py + test_dd_a62_owner_worker_env_file.py +
+  tests/owner/api/test_artifacts_export.py + test_artifact_signature_non_ascii.py -> 23 passed
+negative control round 2 (../negative_control_round2.txt): the round-2 tests against the round-1 state of registry.py,
+  routes_files.py, owner_worker/main.py, engine.py (overlay copy on PYTHONPATH) -> 3 failed (core download 403 x2, env
+  file not exported), 2 passed (no --env-file -> nothing exported; a missing env file -> FileNotFoundError, as before)
+scripts/dev/check_import_closure.py: ok, violations 0, unresolved 0, errors 0

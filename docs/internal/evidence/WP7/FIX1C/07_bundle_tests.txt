@@ -1,0 +1,12 @@
+# The rebuilt public ZIP (sha256 b095c565c39af49a33ab1b0a88a7abba36129bd0341005423ecef17c21ca8e62) extracted to <SCRATCH>/bundle;
+# the fixed tests run FROM the extracted tree (rootdir = bundle root, its own pyproject/conftests).
+# Limit: interpreter = the build venv runtime/venv (mbnas packages from the source tree's editable installs), not an
+# install from the ZIP's wheels; the full T6 install + verify.sh --suite unit re-run was not done here.
+$ cd <SCRATCH>/bundle/mbnas_application && MBNAS_TEST_ROOT=<SCRATCH>/bundle/test_root runtime/venv/bin/python -B -m pytest -m '<standard>' tests/public/model_runtime/test_datasets.py::test_subset_cli_unchanged_interface tests/public/server/test_health_allowlists_split.py tests/public/server/test_routes.py::test_health_reports_archive_roots -rA
+rootdir: <SCRATCH>/bundle/mbnas_application
+PASSED tests/public/model_runtime/test_datasets.py::test_subset_cli_unchanged_interface
+PASSED tests/public/server/test_health_allowlists_split.py::test_gateway_health_never_relays_core_allowlists[empty]
+PASSED tests/public/server/test_health_allowlists_split.py::test_gateway_health_never_relays_core_allowlists[set]
+SKIPPED [1] tests/public/server/test_routes.py:292: owner-only tool not in this bundle
+========================= 3 passed, 1 skipped in 2.99s =========================
+exit=0

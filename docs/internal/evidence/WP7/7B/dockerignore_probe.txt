@@ -1,0 +1,30 @@
+# Proposed ROOT/.dockerignore (owner: WP-7D/designer; not created by WP-7B). Probe: legacy builder (DOCKER_BUILDKIT=0, docker 26.1.3),
+# context = owner build context + junk: runtime/core/db/mbnas.sqlite3, data/ds/a.png, config/public/gateway.env, config/owner/core.env, .venv/bin/python, build/x, docs/internal/x.md
+# Dockerfile.probe: FROM python:3.10-slim; COPY . /ctx; RUN find /ctx -type f | sort
+## .dockerignore
+# Docker build context of deploy/*/Dockerfile* = the unpacked ZIP root. Allowlist: only what the Dockerfiles COPY
+# (state, datasets, env files with secrets, venvs and docs never reach the builder).
+*
+!requirements-public.txt
+!requirements-owner.txt
+!requirements-cpu.txt
+!wheels/*.whl
+!mbnas_web/dist/
+!deploy/public/docker-entrypoint.sh
+!deploy/owner/docker-entrypoint.sh
+## files that reached the build (/ctx):
+Sending build context to Docker daemon  1.283MB
+/ctx/deploy/owner/docker-entrypoint.sh
+/ctx/deploy/public/docker-entrypoint.sh
+/ctx/mbnas_web/dist/assets/index-BuCPwHwg.js
+/ctx/mbnas_web/dist/assets/index-Czi58eUS.css
+/ctx/mbnas_web/dist/index.html
+/ctx/requirements-cpu.txt
+/ctx/requirements-owner.txt
+/ctx/requirements-public.txt
+/ctx/wheels/mbnas_contracts-0.1.0-py3-none-any.whl
+/ctx/wheels/mbnas_core-0.1.0-py3-none-any.whl
+/ctx/wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl
+/ctx/wheels/mbnas_runner-0.1.0-py3-none-any.whl
+/ctx/wheels/mbnas_server-0.1.0-py3-none-any.whl
+## result: none of the junk files reached the builder; BuildKit behaviour 확인 못 함 (no buildx on this host)

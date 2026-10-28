@@ -1,0 +1,211 @@
+# cwd=<T>/final/t5/mbnas_application start=2026-10-27T22:52:55Z
+# cmd: DOCKER_BUILDKIT=0 docker build -f deploy/public/Dockerfile.cpu -t mbnas-public-cpu:final .
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            BuildKit is currently disabled; enable it by removing the DOCKER_BUILDKIT=0
+            environment-variable.
+
+Sending build context to Docker daemon  1.079MB
+Step 1/23 : ARG BASE_IMAGE=python:3.10-slim
+Step 2/23 : FROM ${BASE_IMAGE}
+ ---> 0f61d91517f6
+Step 3/23 : ARG MBNAS_VERSION=0.1.0
+ ---> Using cache
+ ---> 04f23a4f7e01
+Step 4/23 : ARG PIP_EXTRA_ARGS=""
+ ---> Using cache
+ ---> 33fb38b7c304
+Step 5/23 : ARG MBNAS_UID=10001
+ ---> Using cache
+ ---> 127d913af9f5
+Step 6/23 : ARG MBNAS_GID=10001
+ ---> Using cache
+ ---> 0db210beb433
+Step 7/23 : LABEL org.opencontainers.image.title="MBNAS Research Console - public runtime (CPU only)"       org.opencontainers.image.version="${MBNAS_VERSION}"       org.opencontainers.image.description="Roles gateway | runner (CPU). Requires a reachable MBNAS core. See THIRD_PARTY_NOTICES.md."
+ ---> Using cache
+ ---> 6a42a00887ba
+Step 8/23 : RUN export DEBIAN_FRONTEND=noninteractive  && apt-get update  && apt-get install -y --no-install-recommends libgl1  && (apt-get install -y --no-install-recommends libglib2.0-0t64 || apt-get install -y --no-install-recommends libglib2.0-0)  && rm -rf /var/lib/apt/lists/*
+ ---> Using cache
+ ---> 901708859761
+Step 9/23 : ENV VIRTUAL_ENV=/opt/mbnas/venv     PATH=/opt/mbnas/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin     PYTHONDONTWRITEBYTECODE=1     PYTHONUNBUFFERED=1     PYTHONNOUSERSITE=1     PIP_CONFIG_FILE=/dev/null     PIP_DISABLE_PIP_VERSION_CHECK=1     PIP_NO_CACHE_DIR=1
+ ---> Using cache
+ ---> 06f32d274c2d
+Step 10/23 : WORKDIR /opt/mbnas/install
+ ---> Using cache
+ ---> bc9b211da4e7
+Step 11/23 : RUN python3.10 -m venv /opt/mbnas/venv  && python -m pip install ${PIP_EXTRA_ARGS} "pip==25.3"
+ ---> Using cache
+ ---> 81e0edcbf866
+Step 12/23 : COPY requirements-cpu.txt ./
+ ---> Using cache
+ ---> f5487503e29c
+Step 13/23 : RUN grep -v '^\./wheels/' requirements-cpu.txt > requirements-thirdparty.txt  && python -m pip install ${PIP_EXTRA_ARGS} -r requirements-thirdparty.txt
+ ---> Using cache
+ ---> 2b3791ba77b0
+Step 14/23 : COPY wheels/mbnas_contracts-${MBNAS_VERSION}-py3-none-any.whl      wheels/mbnas_model_runtime-${MBNAS_VERSION}-py3-none-any.whl      wheels/mbnas_runner-${MBNAS_VERSION}-py3-none-any.whl      wheels/mbnas_server-${MBNAS_VERSION}-py3-none-any.whl      ./wheels/
+ ---> b8b0a76bc49f
+Step 15/23 : RUN python -m pip install ${PIP_EXTRA_ARGS} -r requirements-cpu.txt  && python -m pip check  && ! python -c "import mbnas_core" 2>/dev/null
+ ---> Running in e39cd309c211
+Looking in indexes: https://pypi.org/simple, https://download.pytorch.org/whl/cpu
+Processing ./wheels/mbnas_contracts-0.1.0-py3-none-any.whl (from -r requirements-cpu.txt (line 141))
+Processing ./wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl (from -r requirements-cpu.txt (line 142))
+Processing ./wheels/mbnas_runner-0.1.0-py3-none-any.whl (from -r requirements-cpu.txt (line 143))
+Processing ./wheels/mbnas_server-0.1.0-py3-none-any.whl (from -r requirements-cpu.txt (line 144))
+Requirement already satisfied: accelerate==1.15.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 19)) (1.15.0)
+Requirement already satisfied: aiohappyeyeballs==2.7.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 20)) (2.7.1)
+Requirement already satisfied: aiohttp==3.14.4 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 21)) (3.14.4)
+Requirement already satisfied: aiosignal==1.4.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 22)) (1.4.0)
+Requirement already satisfied: annotated-doc==0.0.5 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 23)) (0.0.5)
+Requirement already satisfied: annotated-types==0.8.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 24)) (0.8.0)
+Requirement already satisfied: anyio==4.15.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 25)) (4.15.1)
+Requirement already satisfied: async-timeout==5.0.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 26)) (5.0.1)
+Requirement already satisfied: attrs==26.1.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 27)) (26.1.0)
+Requirement already satisfied: av==17.1.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 28)) (17.1.0)
+Requirement already satisfied: certifi==2026.7.22 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 29)) (2026.7.22)
+Requirement already satisfied: charset-normalizer==3.5.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 30)) (3.5.2)
+Requirement already satisfied: click==8.5.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 31)) (8.5.0)
+Requirement already satisfied: coloredlogs==15.0.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 32)) (15.0.1)
+Requirement already satisfied: contourpy==1.3.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 33)) (1.3.2)
+Requirement already satisfied: cycler==0.12.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 34)) (0.12.1)
+Requirement already satisfied: defusedxml==0.7.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 35)) (0.7.1)
+Requirement already satisfied: exceptiongroup==1.3.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 36)) (1.3.1)
+Requirement already satisfied: fastapi==0.142.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 37)) (0.142.2)
+Requirement already satisfied: faster-coco-eval==1.8.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 38)) (1.8.0)
+Requirement already satisfied: filelock==3.32.3 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 39)) (3.32.3)
+Requirement already satisfied: filetype==1.2.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 40)) (1.2.0)
+Requirement already satisfied: flatbuffers==25.12.19 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 41)) (25.12.19)
+Requirement already satisfied: fonttools==4.65.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 42)) (4.65.0)
+Requirement already satisfied: frozenlist==1.8.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 43)) (1.8.0)
+Requirement already satisfied: fsspec==2026.7.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 44)) (2026.7.0)
+Requirement already satisfied: h11==0.16.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 45)) (0.16.0)
+Requirement already satisfied: hf-xet==1.6.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 46)) (1.6.0)
+Requirement already satisfied: hotcoco==1.0.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 47)) (1.0.1)
+Requirement already satisfied: httpcore==1.0.9 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 48)) (1.0.9)
+Requirement already satisfied: httptools==0.8.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 49)) (0.8.0)
+Requirement already satisfied: httpx==0.28.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 50)) (0.28.1)
+Requirement already satisfied: huggingface_hub==1.33.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 51)) (1.33.0)
+Requirement already satisfied: humanfriendly==10.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 52)) (10.0)
+Requirement already satisfied: idna==3.20 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 53)) (3.20)
+Requirement already satisfied: iniconfig==2.3.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 54)) (2.3.0)
+Requirement already satisfied: Jinja2==3.1.6 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 55)) (3.1.6)
+Requirement already satisfied: jsonschema==4.26.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 56)) (4.26.0)
+Requirement already satisfied: jsonschema-specifications==2025.9.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 57)) (2025.9.1)
+Requirement already satisfied: kiwisolver==1.5.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 58)) (1.5.1)
+Requirement already satisfied: lightning-utilities==0.15.3 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 59)) (0.15.3)
+Requirement already satisfied: markdown-it-py==4.2.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 60)) (4.2.0)
+Requirement already satisfied: MarkupSafe==3.0.3 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 61)) (3.0.3)
+Requirement already satisfied: matplotlib==3.10.9 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 62)) (3.10.9)
+Requirement already satisfied: mdurl==0.1.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 63)) (0.1.2)
+Requirement already satisfied: ml_dtypes==0.6.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 64)) (0.6.0)
+Requirement already satisfied: mpmath==1.3.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 65)) (1.3.0)
+Requirement already satisfied: multidict==6.9.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 66)) (6.9.1)
+Requirement already satisfied: networkx==3.4.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 67)) (3.4.2)
+Requirement already satisfied: numpy==2.2.6 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 68)) (2.2.6)
+Requirement already satisfied: nvidia-ml-py==13.615.71 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 69)) (13.615.71)
+Requirement already satisfied: onnx==1.23.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 70)) (1.23.2)
+Requirement already satisfied: onnx_graphsurgeon==0.6.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 71)) (0.6.1)
+Requirement already satisfied: onnxruntime==1.23.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 72)) (1.23.2)
+Requirement already satisfied: onnxsim==0.7.3 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 73)) (0.7.3)
+Requirement already satisfied: opencv-python==5.0.0.93 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 74)) (5.0.0.93)
+Requirement already satisfied: opencv-python-headless==5.0.0.93 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 75)) (5.0.0.93)
+Requirement already satisfied: opentelemetry-api==1.45.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 76)) (1.45.0)
+Requirement already satisfied: packaging==26.3 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 77)) (26.3)
+Requirement already satisfied: peft==0.21.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 78)) (0.21.2)
+Requirement already satisfied: pillow==12.3.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 79)) (12.3.0)
+Requirement already satisfied: pillow-avif-plugin==1.6.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 80)) (1.6.0)
+Requirement already satisfied: pluggy==1.6.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 81)) (1.6.0)
+Requirement already satisfied: polars==1.44.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 82)) (1.44.2)
+Requirement already satisfied: polars-runtime-32==1.44.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 83)) (1.44.2)
+Requirement already satisfied: polygraphy==0.53.6 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 84)) (0.53.6)
+Requirement already satisfied: propcache==0.5.4 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 85)) (0.5.4)
+Requirement already satisfied: protobuf==7.36.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 86)) (7.36.2)
+Requirement already satisfied: psutil==7.2.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 87)) (7.2.2)
+Requirement already satisfied: pyarrow==25.0.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 88)) (25.0.1)
+Requirement already satisfied: pycocotools==2.0.11 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 89)) (2.0.11)
+Requirement already satisfied: pydantic==2.13.5 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 90)) (2.13.5)
+Requirement already satisfied: pydantic-settings==2.15.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 91)) (2.15.0)
+Requirement already satisfied: pydantic_core==2.46.5 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 92)) (2.46.5)
+Requirement already satisfied: pyDeprecate==0.9.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 93)) (0.9.0)
+Requirement already satisfied: Pygments==2.21.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 94)) (2.21.0)
+Requirement already satisfied: pyparsing==3.3.3 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 95)) (3.3.3)
+Requirement already satisfied: pytest==9.1.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 96)) (9.1.1)
+Requirement already satisfied: pytest-timeout==2.4.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 97)) (2.4.0)
+Requirement already satisfied: python-dateutil==2.9.0.post0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 98)) (2.9.0.post0)
+Requirement already satisfied: python-dotenv==1.2.4 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 99)) (1.2.4)
+Requirement already satisfied: pytorch-lightning==2.6.6 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 100)) (2.6.6)
+Requirement already satisfied: PyYAML==6.0.3 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 101)) (6.0.3)
+Requirement already satisfied: referencing==0.37.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 102)) (0.37.0)
+Requirement already satisfied: regex==2026.9.29 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 103)) (2026.9.29)
+Requirement already satisfied: requests==2.34.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 104)) (2.34.2)
+Requirement already satisfied: requests-toolbelt==1.0.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 105)) (1.0.0)
+Requirement already satisfied: rfdetr==1.11.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 106)) (1.11.2)
+Requirement already satisfied: rich==15.0.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 107)) (15.0.0)
+Requirement already satisfied: roboflow==1.7.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 108)) (1.7.0)
+Requirement already satisfied: rpds-py==0.30.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 109)) (0.30.0)
+Requirement already satisfied: safetensors==0.8.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 110)) (0.8.0)
+Requirement already satisfied: scipy==1.15.3 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 111)) (1.15.3)
+Requirement already satisfied: shellingham==1.5.4 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 112)) (1.5.4)
+Requirement already satisfied: simplejpeg==1.9.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 113)) (1.9.0)
+Requirement already satisfied: six==1.17.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 114)) (1.17.0)
+Requirement already satisfied: starlette==1.7.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 115)) (1.7.0)
+Requirement already satisfied: supervision==0.30.7 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 116)) (0.30.7)
+Requirement already satisfied: sympy==1.13.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 117)) (1.13.1)
+Requirement already satisfied: tokenizers==0.23.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 118)) (0.23.2)
+Requirement already satisfied: tomli==2.4.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 119)) (2.4.1)
+Requirement already satisfied: torch==2.6.0+cpu in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 120)) (2.6.0+cpu)
+Requirement already satisfied: torch-hungarian==0.1.0rc0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 121)) (0.1.0rc0)
+Requirement already satisfied: torchmetrics==1.8.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 122)) (1.8.2)
+Requirement already satisfied: torchvision==0.21.0+cpu in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 123)) (0.21.0+cpu)
+Requirement already satisfied: tqdm==4.70.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 124)) (4.70.1)
+Requirement already satisfied: transformers==5.18.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 125)) (5.18.0)
+Requirement already satisfied: triton==3.2.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 126)) (3.2.0)
+Requirement already satisfied: typer==0.25.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 127)) (0.25.1)
+Requirement already satisfied: typing-inspection==0.4.4 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 128)) (0.4.4)
+Requirement already satisfied: typing_extensions==4.16.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 129)) (4.16.0)
+Requirement already satisfied: ultrafast-pycocotools==0.1.13 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 130)) (0.1.13)
+Requirement already satisfied: ultralytics==8.4.173 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 131)) (8.4.173)
+Requirement already satisfied: ultralytics-thop==2.2.2 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 132)) (2.2.2)
+Requirement already satisfied: urllib3==2.8.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 133)) (2.8.0)
+Requirement already satisfied: uvicorn==0.54.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 134)) (0.54.0)
+Requirement already satisfied: uvloop==0.23.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 135)) (0.23.0)
+Requirement already satisfied: vernier==0.5.4 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 136)) (0.5.4)
+Requirement already satisfied: watchfiles==1.3.0 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 137)) (1.3.0)
+Requirement already satisfied: websockets==16.1.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 138)) (16.1.1)
+Requirement already satisfied: yarl==1.25.1 in /opt/mbnas/venv/lib/python3.10/site-packages (from -r requirements-cpu.txt (line 139)) (1.25.1)
+Installing collected packages: mbnas-contracts, mbnas-model-runtime, mbnas-server, mbnas-runner
+
+Successfully installed mbnas-contracts-0.1.0 mbnas-model-runtime-0.1.0 mbnas-runner-0.1.0 mbnas-server-0.1.0
+No broken requirements found.
+ ---> Removed intermediate container e39cd309c211
+ ---> a641254a7ba5
+Step 16/23 : COPY mbnas_web/dist/ /opt/mbnas/web/dist/
+ ---> 86bb7c254d11
+Step 17/23 : COPY deploy/public/docker-entrypoint.sh /usr/local/bin/mbnas-entrypoint
+ ---> ad03914af8fb
+Step 18/23 : RUN chmod 0755 /usr/local/bin/mbnas-entrypoint  && test -f /opt/mbnas/web/dist/index.html  && groupadd --system --gid "${MBNAS_GID}" mbnas  && useradd --system --no-log-init --uid "${MBNAS_UID}" --gid "${MBNAS_GID}" --home-dir /srv/mbnas --no-create-home       --shell /usr/sbin/nologin mbnas  && mkdir -p /srv/mbnas/runtime /srv/mbnas/data /tmp/mbnas-home/.config  && chown -R "${MBNAS_UID}:${MBNAS_GID}" /srv/mbnas  && chmod 1777 /tmp/mbnas-home /tmp/mbnas-home/.config
+ ---> Running in 99ed0c23f116
+[91museradd warning: mbnas's uid 10001 is greater than SYS_UID_MAX 999
+[0m ---> Removed intermediate container 99ed0c23f116
+ ---> b3527729ab57
+Step 19/23 : ENV MBNAS_HOME=/srv/mbnas/runtime     MBNAS_GW_HOST=0.0.0.0     MBNAS_GW_PORT=8710     MBNAS_GW_WEB_DIST=/opt/mbnas/web/dist     CUDA_VISIBLE_DEVICES=""     HOME=/tmp/mbnas-home     MPLBACKEND=Agg     YOLO_OFFLINE=1     YOLO_AUTOINSTALL=false
+ ---> Running in 866df58c5126
+ ---> Removed intermediate container 866df58c5126
+ ---> 47c6df13d562
+Step 20/23 : WORKDIR /srv/mbnas
+ ---> Running in 236606caa224
+ ---> Removed intermediate container 236606caa224
+ ---> db5fcf0dee8f
+Step 21/23 : USER ${MBNAS_UID}:${MBNAS_GID}
+ ---> Running in 2e70ed4fa91e
+ ---> Removed intermediate container 2e70ed4fa91e
+ ---> 94498ce876b3
+Step 22/23 : EXPOSE 8710
+ ---> Running in d2c3c6726d44
+ ---> Removed intermediate container d2c3c6726d44
+ ---> 6cf62c693a86
+Step 23/23 : ENTRYPOINT ["/usr/local/bin/mbnas-entrypoint"]
+ ---> Running in ea55a1364347
+ ---> Removed intermediate container ea55a1364347
+ ---> 6700da223ed0
+Successfully built 6700da223ed0
+Successfully tagged mbnas-public-cpu:final
+# exit=0 seconds=9 end=2026-10-27T22:53:04Z

@@ -1,0 +1,40 @@
+{"at":"2026-10-28T01:24:29.853Z","step":"shot:01-server-connected","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:24:31.505Z","step":"axe:server","serious_critical":0,"violations":[],"nodes":[],"all_violations":0}
+{"at":"2026-10-28T01:24:31.657Z","step":"V4-01","policy_label":"server preset DEFAULT_BASELINE14 (design example)"}
+{"at":"2026-10-28T01:24:32.932Z","step":"shot:01-settings-preset-auto","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:24:35.172Z","step":"axe:settings","serious_critical":0,"violations":[],"nodes":[],"all_violations":0}
+{"at":"2026-10-28T01:24:37.514Z","step":"shot:02-upload-good","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:24:42.526Z","step":"V4-02","upload_sha256":"ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720","structure_status":"PASS","upload_id":"upl-ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720"}
+{"at":"2026-10-28T01:24:43.359Z","step":"shot:02-structure-pass","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:24:45.170Z","step":"axe:structure-check-dialog","serious_critical":0,"violations":[],"nodes":[],"all_violations":0}
+{"at":"2026-10-28T01:24:48.985Z","step":"V4-03","structure_status":"FAIL","diagnostic_codes_shown":["SHAPE_MISMATCH","MERGE_INPUT_MISMATCH"]}
+{"at":"2026-10-28T01:24:49.831Z","step":"shot:03-structure-fail","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:24:53.069Z","step":"shot:04-training-form","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:24:54.206Z","step":"V4-04","run_id":"train-57f84ea94249","message":"✔ 별도 학습 run 생성: train-57f84ea94249 · yolo11n_user.yaml source_sha256 sha256:ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720 학습 모니터링 열기"}
+{"at":"2026-10-28T01:24:55.677Z","step":"shot:04-training-created","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:25:02.767Z","step":"V4-05","run_status":"COMPLETED","candidates":[{"id":"model-ef355167a654.TRAIN.eval","candidate_id":"model-ef355167a654","status":"SEARCH_COMPLETE"}]}
+{"at":"2026-10-28T01:25:03.997Z","step":"shot:05-run-completed-server","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:25:05.212Z","step":"shot:05-run-completed-monitor","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:25:06.867Z","step":"axe:monitor","serious_critical":0,"violations":[],"nodes":[],"all_violations":0}
+{"at":"2026-10-28T01:25:09.119Z","step":"shot:06-detail-structure","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:25:09.338Z","step":"V4-06","gene_nodes":24,"block_rows":24,"architecture_yaml_section":1}
+{"at":"2026-10-28T01:25:10.280Z","step":"shot:06-detail-blocks-yaml","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:25:12.808Z","step":"axe:candidate-dialog","serious_critical":0,"violations":[],"nodes":[],"all_violations":0}
+{"at":"2026-10-28T01:25:14.268Z","step":"V4-07","kinds":["original","selected","executed"],"source_sha256":["sha256:ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720","sha256:0e47ec6b95d7f8beb17f3326730db8d709d41fd3a1d0f566fb71df91c074030e","sha256:e1d49bbe4a28ec1317c528cd5600a5b50f067fd687b309beecaf568ec9e54c21"],"revision_ids":["rev-3f00ae8c6e46fa6e","rev-312366ad66f9b501","rev-6ff8d0a1ee842d48"]}
+{"at":"2026-10-28T01:25:15.031Z","step":"shot:07-revisions","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:25:15.306Z","step":"V4-08","left":"rev-312366ad66f9b501","right":"rev-6ff8d0a1ee842d48","summary":"+133 행 / −26 행","add_rows":133,"del_rows":26}
+{"at":"2026-10-28T01:25:16.093Z","step":"shot:08-diff","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:25:16.431Z","step":"V4-09","downloads":[{"kind":"original","file":"model-ef355167a654-original-rev-3f00ae8c6e46fa6e.yaml","saved_sha256":"ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720","source_sha256":"sha256:ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720","match":true},{"kind":"selected","file":"model-ef355167a654-selected-rev-312366ad66f9b501.yaml","saved_sha256":"0e47ec6b95d7f8beb17f3326730db8d709d41fd3a1d0f566fb71df91c074030e","source_sha256":"sha256:0e47ec6b95d7f8beb17f3326730db8d709d41fd3a1d0f566fb71df91c074030e","match":true},{"kind":"executed","file":"model-ef355167a654-executed-rev-6ff8d0a1ee842d48.yaml","saved_sha256":"e1d49bbe4a28ec1317c528cd5600a5b50f067fd687b309beecaf568ec9e54c21","source_sha256":"sha256:e1d49bbe4a28ec1317c528cd5600a5b50f067fd687b309beecaf568ec9e54c21","match":true}]}
+{"at":"2026-10-28T01:25:17.249Z","step":"shot:09-download-verdict","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:25:19.439Z","step":"V4-10-gateway","checkpoints":[{"id":"ck-c0a7c9f1e2227e45","kind":"training_full","state":"PRESENT","artifact_id":null,"http":200,"bytes":31600161,"body_sha256":"6c85d70f7748640fbc079be945861d428229a849611eacdf5b44da0169eb0ee1","x_artifact_sha256":"6c85d70f7748640fbc079be945861d428229a849611eacdf5b44da0169eb0ee1","recorded_sha256":"6c85d70f7748640fbc079be945861d428229a849611eacdf5b44da0169eb0ee1"},{"id":"ck-b5d0cf991dfeab5e","kind":"eval_ema","state":"PRESENT","artifact_id":null,"http":200,"bytes":10573964,"body_sha256":"3fc14be10179cac46b3a8a4bc46a90968eeeaad98bf79c7c33fdc4d559d36bdb","x_artifact_sha256":"3fc14be10179cac46b3a8a4bc46a90968eeeaad98bf79c7c33fdc4d559d36bdb","recorded_sha256":"3fc14be10179cac46b3a8a4bc46a90968eeeaad98bf79c7c33fdc4d559d36bdb"},{"id":"ck-6850a54008d0cc33","kind":"weights_only","state":"PRESENT","artifact_id":null,"http":200,"bytes":5360396,"body_sha256":"2a610529b9e2b43bfdc9a4e6ff886eede91640eae4ccf80b0867377dc2f5a2df","x_artifact_sha256":"2a610529b9e2b43bfdc9a4e6ff886eede91640eae4ccf80b0867377dc2f5a2df","recorded_sha256":"2a610529b9e2b43bfdc9a4e6ff886eede91640eae4ccf80b0867377dc2f5a2df"}]}
+{"at":"2026-10-28T01:25:20.343Z","step":"shot:10-checkpoint-table","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:25:21.362Z","step":"V4-10","file":"model-ef355167a654-ck-c0a7c9f1e2227e45.pt","saved_sha256":"6c85d70f7748640fbc079be945861d428229a849611eacdf5b44da0169eb0ee1","recorded_sha256":"6c85d70f7748640fbc079be945861d428229a849611eacdf5b44da0169eb0ee1"}
+{"at":"2026-10-28T01:25:22.211Z","step":"shot:10-checkpoint-download","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:25:24.755Z","step":"shot:11-settings-off","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:25:43.073Z","step":"shot:11-generated-table","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:25:43.206Z","step":"V4-11","run_id":"run-2dff7eb5d7b7","generated_rows":6,"generated_table_badges":6,"lineage_badges":6}
+{"at":"2026-10-28T01:25:44.510Z","step":"shot:11-lineage","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:25:48.147Z","step":"axe:lineage","serious_critical":0,"violations":[],"nodes":[],"all_violations":0}
+{"at":"2026-10-28T01:26:43.217Z","step":"shot:12-core-down-degraded","mobile_horizontal_overflow_px":0}
+{"at":"2026-10-28T01:26:43.294Z","step":"V4-12","error_text":"✖ HTTP 503 CORE_UNAVAILABLE: the core service is not reachable (ConnectError); try again later","validation_result_nodes":0}
+{"at":"2026-10-28T01:26:44.225Z","step":"shot:12-core-down-explicit-error","mobile_horizontal_overflow_px":0}

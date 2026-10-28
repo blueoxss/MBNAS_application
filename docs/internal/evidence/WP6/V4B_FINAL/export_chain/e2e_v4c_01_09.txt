@@ -1,0 +1,14 @@
+# 2026-10-28T08:12:31+09:00 cwd=<SCRATCH>/wp3/c07/v4/cwd base_url=http://127.0.0.1:50573 args: -g V4-0[1-9]
+
+Running 7 tests using 1 worker
+
+  ✓  1 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:228:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-01 connect with the bearer; presets auto-apply (DEFAULT_BASELINE14) (7.4s)
+  ✓  2 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:241:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-02 upload examples/models/yolo11n_user.yaml -> structure check PASS (9.3s)
+  ✓  3 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:258:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-03 upload yolo11n_user_broken.yaml -> structure check FAIL with diagnostics (4.1s)
+  ✓  4 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:273:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-04 start a CPU explicit training run from the upload (1 epoch, 64 px, validation off) (5.7s)
+  ✓  5 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:311:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-05 monitor the training run until finished (11.4s)
+  ✓  6 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:332:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-06 candidate detail: gene/structure diagram, block table, configuration YAML (5.6s)
+  ✓  7 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:356:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-07..09 revisions tab -> diff -> download exact bytes (sha256 = source_sha256) (4.5s)
+
+  7 passed (48.9s)
+exit 0

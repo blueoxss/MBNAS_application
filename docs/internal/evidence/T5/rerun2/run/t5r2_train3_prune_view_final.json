@@ -1,0 +1,129 @@
+{
+ "prune_requests": [
+  {
+   "id": "prq-de255ee3607c9de2a1df22e1",
+   "checkpoint_id": "ck-ed1030d27ec42c5c",
+   "runner_id": "runner-8fc5cbb2",
+   "relpath": "full_e0001.pt",
+   "policy": "last_rung_end_only",
+   "reason": "RETENTION_LAST_RUNG_END_ONLY",
+   "state": "DONE",
+   "deliveries": 1,
+   "delivered_job_id": "job-71f90e0d1f68484e",
+   "cancel_reason": null,
+   "reported_at": "2026-10-28T02:30:29.146330Z",
+   "report": {
+    "already_absent": true,
+    "removed": []
+   }
+  },
+  {
+   "id": "prq-a78bceae1c99229acf85dd95",
+   "checkpoint_id": "ck-fbd597c21a60ebd0",
+   "runner_id": "runner-8fc5cbb2",
+   "relpath": "full_e0002.pt",
+   "policy": "last_rung_end_only",
+   "reason": "RETENTION_LAST_RUNG_END_ONLY",
+   "state": "DONE",
+   "deliveries": 1,
+   "delivered_job_id": "job-71f90e0d1f68484e",
+   "cancel_reason": null,
+   "reported_at": "2026-10-28T02:30:29.193772Z",
+   "report": {
+    "already_absent": true,
+    "removed": []
+   }
+  }
+ ],
+ "checkpoints": [
+  {
+   "id": "ck-be9a45d411b30d59",
+   "kind": "eval_ema",
+   "epoch": 3,
+   "state": "PRESENT",
+   "prune": null
+  },
+  {
+   "id": "ck-ed1030d27ec42c5c",
+   "kind": "training_full",
+   "epoch": 1,
+   "state": "PRUNED",
+   "prune": {
+    "policy": "last_rung_end_only",
+    "reason": "RETENTION_LAST_RUNG_END_ONLY",
+    "remote": true,
+    "already_absent": true,
+    "runner_id": "runner-8fc5cbb2"
+   }
+  },
+  {
+   "id": "ck-fbd597c21a60ebd0",
+   "kind": "training_full",
+   "epoch": 2,
+   "state": "PRUNED",
+   "prune": {
+    "policy": "last_rung_end_only",
+    "reason": "RETENTION_LAST_RUNG_END_ONLY",
+    "remote": true,
+    "already_absent": true,
+    "runner_id": "runner-8fc5cbb2"
+   }
+  },
+  {
+   "id": "ck-c19f7450d00523b4",
+   "kind": "training_full",
+   "epoch": 3,
+   "state": "PRESENT",
+   "prune": null
+  },
+  {
+   "id": "ck-669c57906437da62",
+   "kind": "weights_only",
+   "epoch": 3,
+   "state": "PRESENT",
+   "prune": null
+  }
+ ],
+ "checkpoint_locations": [
+  {
+   "object_id": "ck-669c57906437da62",
+   "store": "runner_local",
+   "state": "PRESENT"
+  },
+  {
+   "object_id": "ck-be9a45d411b30d59",
+   "store": "runner_local",
+   "state": "PRESENT"
+  },
+  {
+   "object_id": "ck-c19f7450d00523b4",
+   "store": "runner_local",
+   "state": "PRESENT"
+  },
+  {
+   "object_id": "ck-c19f7450d00523b4",
+   "store": "server_store",
+   "state": "PRESENT"
+  },
+  {
+   "object_id": "ck-ed1030d27ec42c5c",
+   "store": "runner_local",
+   "state": "PRUNED"
+  },
+  {
+   "object_id": "ck-ed1030d27ec42c5c",
+   "store": "server_store",
+   "state": "PRESENT"
+  },
+  {
+   "object_id": "ck-fbd597c21a60ebd0",
+   "store": "runner_local",
+   "state": "PRUNED"
+  },
+  {
+   "object_id": "ck-fbd597c21a60ebd0",
+   "store": "server_store",
+   "state": "PRESENT"
+  }
+ ]
+}

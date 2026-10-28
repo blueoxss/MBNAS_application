@@ -1,0 +1,71 @@
+# DD-A43(b) skip-if-missing check: simulated public bundle = tests/public (minus test_no_host_facts.py) + the public tests/_shared files + public sources/docs/config/examples/web; no tests/_shared/harness.py, no scripts/dev, no scripts/runner
+# cwd: <scratchpad>/wp4c/bundle_sim/mbnas_application   2026-10-27T07:56:30Z (final tests/public)
+# command: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 runtime/venv/bin/python -B -m pytest -p no:cacheprovider -q -rs -m 'not gpu and not live and not legacy_records and not host_data' tests/public/infra tests/public/contracts tests/public/runner/test_resume_equivalence_script.py tests/public/server tests/public/packaging
+=============================== warnings summary ===============================
+../../../../../../../../home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [12] tests/_shared/conftest_common.py:75: owner-only tool not in this bundle
+SKIPPED [1] tests/public/infra/test_import_closure.py:53: owner-only tool not in this bundle
+SKIPPED [1] tests/public/infra/test_import_closure.py:58: owner-only tool not in this bundle
+SKIPPED [1] tests/public/infra/test_import_closure.py:63: owner-only tool not in this bundle
+SKIPPED [1] tests/public/infra/test_import_closure.py:69: owner-only tool not in this bundle
+SKIPPED [1] tests/public/infra/test_import_closure.py:73: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_campaign_adapter.py:192: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_campaign_adapter.py:209: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_campaign_adapter.py:229: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_campaign_adapter.py:251: owner-only tool not in this bundle
+SKIPPED [3] tests/public/server/test_campaign_adapter.py:288: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_campaign_adapter.py:305: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_campaign_adapter.py:333: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_campaign_adapter.py:343: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_campaign_adapter.py:378: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_campaign_adapter.py:392: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_campaign_adapter.py:409: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_campaign_adapter.py:474: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_campaign_adapter.py:508: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_compare_conditions.py:14: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_compare_conditions.py:28: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_perf.py:90: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_perf.py:112: owner-only tool not in this bundle
+SKIPPED [12] tests/public/server/test_routes.py:24: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:32: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:45: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:62: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:79: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:92: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:118: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:132: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:151: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:174: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:205: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:221: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:233: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:249: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:265: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:285: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:292: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_routes.py:304: mini run absent
+SKIPPED [1] tests/public/server/test_scanner.py:256: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_scanner.py:293: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_scanner.py:309: owner-only tool not in this bundle
+SKIPPED [90] tests/public/server/test_security.py:24: owner-only tool not in this bundle
+SKIPPED [7] tests/public/server/test_security.py:32: owner-only tool not in this bundle
+SKIPPED [5] tests/public/server/test_security.py:64: owner-only tool not in this bundle
+SKIPPED [11] tests/public/server/test_security.py:74: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_security.py:83: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_security.py:91: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_security.py:99: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_security.py:112: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_security.py:140: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_security.py:157: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_security.py:170: owner-only tool not in this bundle
+SKIPPED [13] tests/public/server/test_security.py:189: owner-only tool not in this bundle
+SKIPPED [13] tests/public/server/test_security.py:201: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_security.py:218: owner-only tool not in this bundle
+SKIPPED [1] tests/public/server/test_security.py:255: owner-only tool not in this bundle
+399 passed, 216 skipped, 25 deselected, 1 warning in 23.75s
+exit=0

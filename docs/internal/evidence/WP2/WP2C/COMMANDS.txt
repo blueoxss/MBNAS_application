@@ -1,0 +1,19 @@
+WP-2C runner evidence (2026-10-26). Interpreter: /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python (-B)
+Env for all runs: CUDA_VISIBLE_DEVICES="" PYTHONDONTWRITEBYTECODE=1 MBNAS_HOME=<A>/runtime MBNAS_TEST_ROOT=<A>/runtime/test_root
+<A> = /home/mgjeong/Desktop/etri_hd/mbnas_application
+
+1) Scratch self-tests vs stdlib fake core (development only, NOT T3 evidence; fake validates every request with
+   mbnas_contracts.runner_protocol request models and every 200 answer with the response models)
+   cwd: <scratchpad>/wp2c (copies: fake_core.py, test_wp2c_scratch.py in this folder)
+   cmd: python -B -m pytest -p no:cacheprovider -v test_wp2c_scratch.py --rootdir=. -c /dev/null
+   exit 0, 17 passed, ~36 s  -> scratch_selftests.log
+
+2) Regression of public runner/infra tests + owner settings split
+   cwd: <A>
+   cmd: python -B -m pytest -p no:cacheprovider -q tests/public/runner tests/public/infra tests/owner/unit/test_settings_split.py
+   exit 1: 93 passed, 7 skipped, 1 failed = tests/public/runner/test_benchmark_rfdetr.py::test_host_runtime_reports_rfdetr_and_the_cuda_devices
+   (@pytest.mark.gpu, asserts torch.cuda.is_available(); fails because CUDA_VISIBLE_DEVICES="" is mandated; touches no WP-2C file), ~36 s
+   -> regression_runner_infra.log
+
+3) Import closure checker
+   cwd: <A>; cmd: python -B scripts/dev/check_import_closure.py ; exit 0, ~2 s -> import_closure.log

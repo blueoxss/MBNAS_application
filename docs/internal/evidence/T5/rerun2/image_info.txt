@@ -1,0 +1,21 @@
+image mbnas-public-cpu:final2 id=sha256:a97cb3dd07c5ba03e59eb274fe393c1240c9c499054b5b283ed299a3cffb04c9 size_bytes=2972655226 created=2026-10-28T02:28:39.449193548Z arch=amd64 os=linux layers=14 user=10001:10001 entrypoint=["/usr/local/bin/mbnas-entrypoint"] repo_digests=[]
+note: local image, never pushed (RepoDigests empty); the image digest is the config digest = id above
+layer sha256:15f1c8eb1ab18eae260c7fb6296434cbe1ff0e1e30fd814ae92a80dd54005e62
+layer sha256:a49f6dbcd8e94a53df10473b98c4d05a2d7ad1f4fc9f850439a69805f364ed8e
+layer sha256:e117d9c82914f2c23e2ee8d8bc34149d366c97cd290746b08befc3a0703623f9
+layer sha256:45360af7f9838f7360c0b3fbc4ed48ba46d4fca6948c9432413cc2d96ea3fe8a
+layer sha256:317ad1979b364c33a00f5414686d4783f7e665c083473adf89369245dd97ded9
+layer sha256:9547006983ef3da93d166877565c00ff6e08c7233aaeb24812d0d2668d9259c0
+layer sha256:13b8a8d8bdd54b4293ef9f524bf84bf5a3de34871090be8d3a9b0a45bd02a6e5
+layer sha256:310543d7e0fb82414a3d9aa225f7fe177021ea685059a16a8a9679e1012eeefa
+layer sha256:9527cad482a5067ba0773341661df04545c11fdb9de6a1c9590e22c886d72190
+layer sha256:3f4e3232d7d80aa7cadf6009cfa31f35f33f9606be91e03617ab4bbab5df66ad
+layer sha256:ab43a61b987ffe01b938a012ea8f79afc0efcd724cff7138d30b0a00377ab251
+layer sha256:a003496fb7e6b2180ff52ab122a40d7a2ef43e3a020fba34e877a9f0dc160212
+layer sha256:a394798fdb4f1bd92b8e838a1461b7d71ec43e38ee1d46222296a415f79ad094
+layer sha256:ea1b1faeb620939fb2595fa88650ac400e10a44374794a5650c0a7ae92509a8b
+layer 
+base python:3.10-slim id=sha256:0f61d91517f6602b9d99096696845f54ddfe01a52029b4f55fdddb277ebe034a digests=["python@sha256:6ff506466f8b1e981719b468cc0023b8ef000b983cdec0eafe119d01f379e31d"]
+# cmd: DOCKER_BUILDKIT=0 docker build --no-cache -f deploy/public/Dockerfile.cpu -t mbnas-public-cpu:final2 .
+# exit=0 seconds=302 end=2026-10-28T02:28:39Z
+Using cache lines in the build log: 0

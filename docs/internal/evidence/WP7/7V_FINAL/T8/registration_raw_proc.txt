@@ -1,0 +1,18 @@
+$ python -I scripts/dev/canary_scan.py --manifest docs/internal/canary/CANARY_MANIFEST.json --profile public --secrets-env <combined env files, scratch 0600> --needles-file <owner-side strings, scratch 0600> capture/registration/proc
+exit=1
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.cmdline:1
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.cmdline:2
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.cmdline:4
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:3
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:4
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:8
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:11
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.cmdline:1
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.cmdline:2
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.cmdline:5
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:3
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:4
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:8
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:11
+scanned files=4 bytes=2250 containers=0 skipped=0 hits=14 failing=14 unmet=0
+canary_scan: FAIL

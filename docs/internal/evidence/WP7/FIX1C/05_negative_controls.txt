@@ -1,0 +1,31 @@
+# Negative controls (FIX1C, 2026-10-28 03:58:32 KST): the NEW tests against the PRE-FIX code; both must fail
+
+## A. health: tests run with PYTHONPATH=<SCRATCH>/oldpkg (copy of mbnas_server/src/mbnas_server with the pre-fix relay.py); repo untouched
+$ PYTHONPATH=<SCRATCH>/oldpkg runtime/venv/bin/python -B -m pytest -m '<standard>' tests/public/server/test_health_allowlists_split.py tests/public/server/test_routes.py::test_health_reports_archive_roots -rA
+E       AssertionError: assert {'dataset_roo...ve_roots': []} == {'dataset_roo...ve_roots': []}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {'output_roots': ['/owner-core-host-a59/core/runs']} != {'output_roots': []}
+E         {'dataset_roots': ['/owner-core-host-a59/core/datasets', '/srv/core-only/datasets-b']} != {'dataset_roots': []}
+E         Left contains 1 more item:
+E         {'model_yaml_roots': ['/owner-core-host-a59/core/uploads']}
+E         Use -v to get more diff
+E       KeyError: 'output_roots'
+WARNING  mbnas_server.api.core_client:core_client.py:142 core call GET /health failed: ConnectError (request_id=f4186e992cf54a95a1fe7140944ff09c)
+PASSED tests/public/server/test_health_allowlists_split.py::test_gateway_health_never_relays_core_allowlists[set]
+FAILED tests/public/server/test_health_allowlists_split.py::test_gateway_health_never_relays_core_allowlists[empty]
+FAILED tests/public/server/test_routes.py::test_health_reports_archive_roots
+2 failed, 1 passed in 1.32s
+exit=1
+
+## B. subset CLI: the updated test module copied to <SCRATCH>/negctl with SERVER = a tree holding the pre-fix script
+$ (cd <SCRATCH>/negctl && runtime/venv/bin/python -B -m pytest test_datasets_oldscript.py::test_subset_cli_unchanged_interface)
+E           AssertionError: ([], 'Traceback (most recent call last):
+E               File "<SCRATCH...>
+E             PermissionError: [Errno 13] Permission denied: \'<HOST_FACT_2_REDACTED>/MBNAS_data/pilot_visdrone_v1/manifest.json\'
+E             ')
+E           assert 1 == 2
+E            +  where 1 = CompletedProcess(args=['<ROOT>/runtime/venv/bin/python', '-B', '/tmp/claude-1...nks)\nPermissionError: [Errno 13] Permission denied: \'<HOST_FACT_2_REDACTED>/MBNAS_data/pilot_visdrone_v1/manifest.json\'\n').returncode
+1 failed in 0.70s
+(the pre-fix script has host defaults, so a call without --source/--out does not stop at argparse: exit 1 with a PermissionError on the redacted host default path instead of exit 2)

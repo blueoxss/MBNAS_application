@@ -1,0 +1,5048 @@
+{
+ "documents": {
+  "base": {
+   "architecture_hash": "sha256:714c45107c3dee53011e01f8fde4e5645ab49e236b65abb38745ab168c970de7",
+   "backend": "ultralytics",
+   "blocks": [
+    {
+     "args": [
+      8,
+      3,
+      2
+     ],
+     "block_id": "block-0000",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 8,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 3,
+      "c_out": 8,
+      "h_in": 64,
+      "h_out": 32,
+      "inputs": [
+       {
+        "c": 3,
+        "h": 64,
+        "source": -1,
+        "w": 64
+       }
+      ],
+      "outputs": [
+       [
+        8,
+        32,
+        32
+       ]
+      ],
+      "params": 232,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 2.0,
+      "w_in": 64,
+      "w_out": 32
+     },
+     "from": -1,
+     "from_resolved": [
+      -1
+     ],
+     "gene_index": 0,
+     "id": "block-0000",
+     "index": 0,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          8,
+          3,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          8
+         ]
+        ],
+        [
+         "bias",
+         [
+          8
+         ]
+        ]
+       ],
+       "path": "0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "0.act",
+       "shared": true
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "Conv",
+     "module_class": "Conv",
+     "name": "Conv",
+     "native_path": "model.0",
+     "position": 0,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[0]@dc03a61745c4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 0,
+     "yaml_path": "backbone[0]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      16,
+      3,
+      2
+     ],
+     "block_id": "block-0001",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 16,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 8,
+      "c_out": 16,
+      "h_in": 32,
+      "h_out": 16,
+      "inputs": [
+       {
+        "c": 8,
+        "h": 32,
+        "source": 0,
+        "w": 32
+       }
+      ],
+      "outputs": [
+       [
+        16,
+        16,
+        16
+       ]
+      ],
+      "params": 1184,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 4.0,
+      "w_in": 32,
+      "w_out": 16
+     },
+     "from": -1,
+     "from_resolved": [
+      0
+     ],
+     "gene_index": 1,
+     "id": "block-0001",
+     "index": 1,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16,
+          8,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16
+         ]
+        ],
+        [
+         "bias",
+         [
+          16
+         ]
+        ]
+       ],
+       "path": "1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "1.act",
+       "shared": true
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "Conv",
+     "module_class": "Conv",
+     "name": "Conv",
+     "native_path": "model.1",
+     "position": 1,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[1]@dc03a61745c4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 1,
+     "yaml_path": "backbone[1]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      16,
+      3,
+      2
+     ],
+     "block_id": "block-0002",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 16,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 16,
+      "c_out": 16,
+      "h_in": 16,
+      "h_out": 8,
+      "inputs": [
+       {
+        "c": 16,
+        "h": 16,
+        "source": 1,
+        "w": 16
+       }
+      ],
+      "outputs": [
+       [
+        16,
+        8,
+        8
+       ]
+      ],
+      "params": 2336,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 8.0,
+      "w_in": 16,
+      "w_out": 8
+     },
+     "from": -1,
+     "from_resolved": [
+      1
+     ],
+     "gene_index": 2,
+     "id": "block-0002",
+     "index": 2,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "2.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16
+         ]
+        ],
+        [
+         "bias",
+         [
+          16
+         ]
+        ]
+       ],
+       "path": "2.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "2.act",
+       "shared": true
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "Conv",
+     "module_class": "Conv",
+     "name": "Conv",
+     "native_path": "model.2",
+     "position": 2,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[2]@dc03a61745c4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 2,
+     "yaml_path": "backbone[2]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      null,
+      4,
+      "nearest"
+     ],
+     "block_id": "block-0003",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 16,
+      "c_out": 16,
+      "h_in": 8,
+      "h_out": 32,
+      "inputs": [
+       {
+        "c": 16,
+        "h": 8,
+        "source": 2,
+        "w": 8
+       }
+      ],
+      "outputs": [
+       [
+        16,
+        32,
+        32
+       ]
+      ],
+      "params": 0,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 2.0,
+      "w_in": 8,
+      "w_out": 32
+     },
+     "from": -1,
+     "from_resolved": [
+      2
+     ],
+     "gene_index": 3,
+     "id": "block-0003",
+     "index": 3,
+     "internal_layers": [],
+     "internal_mapping_status": "RECORDED",
+     "module": "nn.Upsample",
+     "module_class": "Upsample",
+     "name": "nn.Upsample",
+     "native_path": "model.3",
+     "position": 3,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "neck",
+     "section_basis": "derived:non-detection head row -> neck",
+     "stable_id": "ul:head[0]@dc03a61745c4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 0,
+     "yaml_path": "head[0]",
+     "yaml_section": "head"
+    },
+    {
+     "args": [
+      1
+     ],
+     "block_id": "block-0004",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 24,
+      "c_out": 24,
+      "h_in": 32,
+      "h_out": 32,
+      "inputs": [
+       {
+        "c": 8,
+        "h": 32,
+        "source": 0,
+        "w": 32
+       },
+       {
+        "c": 16,
+        "h": 32,
+        "source": 3,
+        "w": 32
+       }
+      ],
+      "outputs": [
+       [
+        24,
+        32,
+        32
+       ]
+      ],
+      "params": 0,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 2.0,
+      "w_in": 32,
+      "w_out": 32
+     },
+     "from": [
+      0,
+      3
+     ],
+     "from_resolved": [
+      0,
+      3
+     ],
+     "gene_index": 4,
+     "id": "block-0004",
+     "index": 4,
+     "internal_layers": [],
+     "internal_mapping_status": "RECORDED",
+     "module": "Concat",
+     "module_class": "Concat",
+     "name": "Concat",
+     "native_path": "model.4",
+     "position": 4,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "neck",
+     "section_basis": "derived:non-detection head row -> neck",
+     "stable_id": "ul:head[1]@dc03a61745c4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 1,
+     "yaml_path": "head[1]",
+     "yaml_section": "head"
+    },
+    {
+     "args": [
+      "nc"
+     ],
+     "block_id": "block-0005",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 40,
+      "c_out": null,
+      "end2end": false,
+      "h_in": 32,
+      "h_out": null,
+      "head_strides": [
+       2.0,
+       4.0
+      ],
+      "inputs": [
+       {
+        "c": 24,
+        "h": 32,
+        "source": 4,
+        "w": 32
+       },
+       {
+        "c": 16,
+        "h": 16,
+        "source": 1,
+        "w": 16
+       }
+      ],
+      "nc": 2,
+      "nl": 2,
+      "outputs": [
+       [
+        6,
+        1280
+       ],
+       [
+        64,
+        1280
+       ],
+       [
+        2,
+        1280
+       ],
+       [
+        24,
+        32,
+        32
+       ],
+       [
+        16,
+        16,
+        16
+       ]
+      ],
+      "params": 124916,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": null,
+      "w_in": 32,
+      "w_out": null
+     },
+     "from": [
+      4,
+      1
+     ],
+     "from_resolved": [
+      4,
+      1
+     ],
+     "gene_index": 5,
+     "id": "block-0005",
+     "index": 5,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "ModuleList",
+       "parameters": [],
+       "path": "5.cv2",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Sequential",
+       "parameters": [],
+       "path": "5.cv2.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "5.cv2.0.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          24,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.cv2.0.0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "5.cv2.0.0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.cv2.0.0.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "5.cv2.0.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          64,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.cv2.0.1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "5.cv2.0.1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.cv2.0.1.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          64,
+          1,
+          1
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "5.cv2.0.2",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Sequential",
+       "parameters": [],
+       "path": "5.cv2.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "5.cv2.1.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.cv2.1.0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "5.cv2.1.0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.cv2.1.0.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "5.cv2.1.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          64,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.cv2.1.1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "5.cv2.1.1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.cv2.1.1.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          64,
+          1,
+          1
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "5.cv2.1.2",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "ModuleList",
+       "parameters": [],
+       "path": "5.cv3",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Sequential",
+       "parameters": [],
+       "path": "5.cv3.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "5.cv3.0.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          24,
+          24,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.cv3.0.0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          24
+         ]
+        ],
+        [
+         "bias",
+         [
+          24
+         ]
+        ]
+       ],
+       "path": "5.cv3.0.0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.cv3.0.0.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "5.cv3.0.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          24,
+          24,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.cv3.0.1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          24
+         ]
+        ],
+        [
+         "bias",
+         [
+          24
+         ]
+        ]
+       ],
+       "path": "5.cv3.0.1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.cv3.0.1.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          2,
+          24,
+          1,
+          1
+         ]
+        ],
+        [
+         "bias",
+         [
+          2
+         ]
+        ]
+       ],
+       "path": "5.cv3.0.2",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Sequential",
+       "parameters": [],
+       "path": "5.cv3.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "5.cv3.1.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          24,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.cv3.1.0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          24
+         ]
+        ],
+        [
+         "bias",
+         [
+          24
+         ]
+        ]
+       ],
+       "path": "5.cv3.1.0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.cv3.1.0.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "5.cv3.1.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          24,
+          24,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.cv3.1.1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          24
+         ]
+        ],
+        [
+         "bias",
+         [
+          24
+         ]
+        ]
+       ],
+       "path": "5.cv3.1.1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.cv3.1.1.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          2,
+          24,
+          1,
+          1
+         ]
+        ],
+        [
+         "bias",
+         [
+          2
+         ]
+        ]
+       ],
+       "path": "5.cv3.1.2",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "c1": 16
+       },
+       "module": "DFL",
+       "parameters": [],
+       "path": "5.dfl",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          1,
+          16,
+          1,
+          1
+         ]
+        ]
+       ],
+       "path": "5.dfl.conv",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "Detect",
+     "module_class": "Detect",
+     "name": "Detect",
+     "native_path": "model.5",
+     "position": 5,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "head",
+     "section_basis": "yaml:head+detection_module",
+     "stable_id": "ul:head[2]@dc03a61745c4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 2,
+     "yaml_path": "head[2]",
+     "yaml_section": "head"
+    }
+   ],
+   "checks": [
+    {
+     "evidence_level": "declared",
+     "name": "yaml_rows",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "declared",
+     "name": "references",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "declared",
+     "name": "class_count",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "declared",
+     "name": "scales",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "built",
+     "name": "module_support",
+     "rows_checked": 6,
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "built",
+     "name": "cpu_build",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "reference_forward",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "channels_spatial_stride",
+     "rows_checked": 8,
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "merge_conditions",
+     "rows_checked": 1,
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "head_connection",
+     "rows_checked": 1,
+     "status": "PASS"
+    }
+   ],
+   "class_count": 2,
+   "diagnostics": [],
+   "edges": [
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": -1,
+     "target": 0
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 0,
+     "target": 1
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 1,
+     "target": 2
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 2,
+     "target": 3
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 0,
+     "source": 0,
+     "target": 4
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 3,
+     "source": 3,
+     "target": 4
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 4,
+     "source": 4,
+     "target": 5
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 1,
+     "source": 1,
+     "target": 5
+    }
+   ],
+   "edges_unobserved": [],
+   "family": "w1-parity",
+   "flops": null,
+   "flops_source": null,
+   "flops_status": "NOT_MEASURED",
+   "input_size": 64,
+   "lineage": null,
+   "lineage_status": "NOT_APPLICABLE",
+   "observation": {
+    "checked_at": "2026-10-23T11:38:14+00:00",
+    "device": "cpu",
+    "imgsz": 64,
+    "method": "ultralytics_parse_model+forward_hook",
+    "python": "3.10.22",
+    "report_origin": "executed",
+    "torch": "2.6.0+cu124",
+    "ultralytics": "8.4.173"
+   },
+   "parameters": 128668,
+   "representation": "yaml_genes",
+   "scale": null,
+   "schema": "mbnas-structure/2",
+   "signature_hash": "sha256:aff763cfdbcbe239747e22af3ed2738a08cc6a689910cdcfd642c1b10822595a",
+   "status": "PASS",
+   "template_id": "w1-parity:base",
+   "yaml_hash": "sha256:dc03a61745c470cba7f3a3e77aa4c4d7182efd59ec22e9fb0c4de2ebea116c92"
+  },
+  "changed": {
+   "architecture_hash": null,
+   "backend": "ultralytics",
+   "blocks": [
+    {
+     "args": [
+      8,
+      3,
+      2
+     ],
+     "block_id": "block-0000",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 8,
+      "repeats": 1
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": -1,
+     "from_resolved": [
+      -1
+     ],
+     "gene_index": 0,
+     "id": "block-0000",
+     "index": 0,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "Conv",
+     "module_class": null,
+     "name": "Conv",
+     "native_path": "model.0",
+     "position": 0,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[0]@3dc0f01e53d4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 0,
+     "yaml_path": "backbone[0]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      16,
+      true
+     ],
+     "block_id": "block-0001",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 16,
+      "repeats": 2
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 2
+     },
+     "from": -1,
+     "from_resolved": [
+      0
+     ],
+     "gene_index": 1,
+     "id": "block-0001",
+     "index": 1,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "C2f",
+     "module_class": null,
+     "name": "C2f",
+     "native_path": "model.1",
+     "position": 1,
+     "repeats": 2,
+     "repeats_detail": {
+      "declared": 2,
+      "observed": null,
+      "scaled": 2
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[1]@3dc0f01e53d4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 1,
+     "yaml_path": "backbone[1]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      16,
+      3,
+      2
+     ],
+     "block_id": "block-0002",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 16,
+      "repeats": 1
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": -1,
+     "from_resolved": [
+      1
+     ],
+     "gene_index": 2,
+     "id": "block-0002",
+     "index": 2,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "Conv",
+     "module_class": null,
+     "name": "Conv",
+     "native_path": "model.2",
+     "position": 2,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[2]@3dc0f01e53d4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 2,
+     "yaml_path": "backbone[2]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      null,
+      4,
+      "nearest"
+     ],
+     "block_id": "block-0003",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": -1,
+     "from_resolved": [
+      2
+     ],
+     "gene_index": 3,
+     "id": "block-0003",
+     "index": 3,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "nn.Upsample",
+     "module_class": null,
+     "name": "nn.Upsample",
+     "native_path": "model.3",
+     "position": 3,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "neck",
+     "section_basis": "derived:non-detection head row -> neck",
+     "stable_id": "ul:head[0]@3dc0f01e53d4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 0,
+     "yaml_path": "head[0]",
+     "yaml_section": "head"
+    },
+    {
+     "args": [
+      1
+     ],
+     "block_id": "block-0004",
+     "checks_local": [
+      {
+       "cause": "build at row 4 (Concat): RuntimeError: Sizes of tensors must match except in dimension 1. Expected size 128 but got size 256 for tensor number 1 in the list.",
+       "code": "SHAPE_MISMATCH",
+       "evidence_level": "forward",
+       "status": "FAIL"
+      },
+      {
+       "cause": "Concat(dim=1) sources differ in height and width: row 0=8x128x128, row 3=16x256x256 (shapes of the failing forward pass, which ran at the model constructor stride probe)",
+       "code": "MERGE_INPUT_MISMATCH",
+       "evidence_level": "forward",
+       "status": "FAIL"
+      }
+     ],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "inputs": [
+       {
+        "c": 8,
+        "h": 128,
+        "source": 0,
+        "w": 128
+       },
+       {
+        "c": 16,
+        "h": 256,
+        "source": 3,
+        "w": 256
+       }
+      ],
+      "observed_at_failure": true,
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": [
+      0,
+      3
+     ],
+     "from_resolved": [
+      0,
+      3
+     ],
+     "gene_index": 4,
+     "id": "block-0004",
+     "index": 4,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "Concat",
+     "module_class": null,
+     "name": "Concat",
+     "native_path": "model.4",
+     "position": 4,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "neck",
+     "section_basis": "derived:non-detection head row -> neck",
+     "stable_id": "ul:head[1]@3dc0f01e53d4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 1,
+     "yaml_path": "head[1]",
+     "yaml_section": "head"
+    },
+    {
+     "args": [
+      "nc"
+     ],
+     "block_id": "block-0005",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": [
+      4,
+      1
+     ],
+     "from_resolved": [
+      4,
+      1
+     ],
+     "gene_index": 5,
+     "id": "block-0005",
+     "index": 5,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "Detect",
+     "module_class": null,
+     "name": "Detect",
+     "native_path": "model.5",
+     "position": 5,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "head",
+     "section_basis": "yaml:head+detection_module",
+     "stable_id": "ul:head[2]@3dc0f01e53d4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 2,
+     "yaml_path": "head[2]",
+     "yaml_section": "head"
+    }
+   ],
+   "checks": [
+    {
+     "evidence_level": "declared",
+     "name": "yaml_rows",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "declared",
+     "name": "references",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "declared",
+     "name": "class_count",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "declared",
+     "name": "scales",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "built",
+     "name": "module_support",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "built",
+     "name": "cpu_build",
+     "status": "FAIL"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "reference_forward",
+     "status": "FAIL"
+    },
+    {
+     "evidence_level": null,
+     "name": "channels_spatial_stride",
+     "status": "NOT_CHECKED"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "merge_conditions",
+     "status": "FAIL"
+    },
+    {
+     "evidence_level": null,
+     "name": "head_connection",
+     "status": "NOT_CHECKED"
+    }
+   ],
+   "class_count": 2,
+   "diagnostics": [
+    {
+     "cause": "build at row 4 (Concat): RuntimeError: Sizes of tensors must match except in dimension 1. Expected size 128 but got size 256 for tensor number 1 in the list.",
+     "code": "SHAPE_MISMATCH",
+     "evidence_level": "forward",
+     "path": null,
+     "position": 4,
+     "suggestion": "Correct this block's module, routing, channels, or merge inputs and rerun."
+    },
+    {
+     "cause": "Concat(dim=1) sources differ in height and width: row 0=8x128x128, row 3=16x256x256 (shapes of the failing forward pass, which ran at the model constructor stride probe)",
+     "code": "MERGE_INPUT_MISMATCH",
+     "evidence_level": "forward",
+     "path": "head[1]",
+     "position": 4,
+     "suggestion": "Give every merged source the same spatial size (and channels for Add/Sum)."
+    }
+   ],
+   "edges": [
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": -1,
+     "target": 0
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 0,
+     "target": 1
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 1,
+     "target": 2
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 2,
+     "target": 3
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 0,
+     "source": 0,
+     "target": 4
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 3,
+     "source": 3,
+     "target": 4
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 4,
+     "source": 4,
+     "target": 5
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 1,
+     "source": 1,
+     "target": 5
+    }
+   ],
+   "edges_unobserved": [],
+   "family": "w1-parity",
+   "flops": null,
+   "flops_source": null,
+   "flops_status": "NOT_MEASURED",
+   "input_size": 64,
+   "lineage": null,
+   "lineage_status": "NOT_APPLICABLE",
+   "observation": {
+    "checked_at": "2026-10-23T11:38:14+00:00",
+    "device": "cpu",
+    "imgsz": 64,
+    "method": "ultralytics_parse_model+forward_hook",
+    "python": "3.10.22",
+    "report_origin": "executed",
+    "torch": "2.6.0+cu124",
+    "ultralytics": "8.4.173"
+   },
+   "parameters": null,
+   "representation": "yaml_genes",
+   "scale": null,
+   "schema": "mbnas-structure/2",
+   "signature_hash": null,
+   "status": "FAIL",
+   "template_id": "w1-parity:changed",
+   "yaml_hash": "sha256:3dc0f01e53d424827769c52469900e03048e6af17107d321305ec8a74d5305aa"
+  },
+  "declared_only": {
+   "architecture_hash": null,
+   "backend": "ultralytics",
+   "blocks": [
+    {
+     "args": [
+      8,
+      3,
+      2
+     ],
+     "block_id": "block-0000",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 8,
+      "repeats": 1
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": -1,
+     "from_resolved": [
+      -1
+     ],
+     "gene_index": 0,
+     "id": "block-0000",
+     "index": 0,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "Conv",
+     "module_class": null,
+     "name": "Conv",
+     "native_path": "model.0",
+     "position": 0,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[0]@dc03a61745c4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 0,
+     "yaml_path": "backbone[0]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      16,
+      3,
+      2
+     ],
+     "block_id": "block-0001",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 16,
+      "repeats": 1
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": -1,
+     "from_resolved": [
+      0
+     ],
+     "gene_index": 1,
+     "id": "block-0001",
+     "index": 1,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "Conv",
+     "module_class": null,
+     "name": "Conv",
+     "native_path": "model.1",
+     "position": 1,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[1]@dc03a61745c4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 1,
+     "yaml_path": "backbone[1]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      16,
+      3,
+      2
+     ],
+     "block_id": "block-0002",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 16,
+      "repeats": 1
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": -1,
+     "from_resolved": [
+      1
+     ],
+     "gene_index": 2,
+     "id": "block-0002",
+     "index": 2,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "Conv",
+     "module_class": null,
+     "name": "Conv",
+     "native_path": "model.2",
+     "position": 2,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[2]@dc03a61745c4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 2,
+     "yaml_path": "backbone[2]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      null,
+      4,
+      "nearest"
+     ],
+     "block_id": "block-0003",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": -1,
+     "from_resolved": [
+      2
+     ],
+     "gene_index": 3,
+     "id": "block-0003",
+     "index": 3,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "nn.Upsample",
+     "module_class": null,
+     "name": "nn.Upsample",
+     "native_path": "model.3",
+     "position": 3,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "neck",
+     "section_basis": "derived:non-detection head row -> neck",
+     "stable_id": "ul:head[0]@dc03a61745c4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 0,
+     "yaml_path": "head[0]",
+     "yaml_section": "head"
+    },
+    {
+     "args": [
+      1
+     ],
+     "block_id": "block-0004",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": [
+      0,
+      3
+     ],
+     "from_resolved": [
+      0,
+      3
+     ],
+     "gene_index": 4,
+     "id": "block-0004",
+     "index": 4,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "Concat",
+     "module_class": null,
+     "name": "Concat",
+     "native_path": "model.4",
+     "position": 4,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "neck",
+     "section_basis": "derived:non-detection head row -> neck",
+     "stable_id": "ul:head[1]@dc03a61745c4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 1,
+     "yaml_path": "head[1]",
+     "yaml_section": "head"
+    },
+    {
+     "args": [
+      "nc"
+     ],
+     "block_id": "block-0005",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": [
+      4,
+      1
+     ],
+     "from_resolved": [
+      4,
+      1
+     ],
+     "gene_index": 5,
+     "id": "block-0005",
+     "index": 5,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "Detect",
+     "module_class": null,
+     "name": "Detect",
+     "native_path": "model.5",
+     "position": 5,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "head",
+     "section_basis": "yaml:head+detection_module",
+     "stable_id": "ul:head[2]@dc03a61745c4",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 2,
+     "yaml_path": "head[2]",
+     "yaml_section": "head"
+    }
+   ],
+   "class_count": 2,
+   "edges": [
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": -1,
+     "target": 0
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 0,
+     "target": 1
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 1,
+     "target": 2
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 2,
+     "target": 3
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 0,
+     "source": 0,
+     "target": 4
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 3,
+     "source": 3,
+     "target": 4
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 4,
+     "source": 4,
+     "target": 5
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 1,
+     "source": 1,
+     "target": 5
+    }
+   ],
+   "edges_unobserved": [],
+   "family": "w1-parity",
+   "flops": null,
+   "flops_source": null,
+   "flops_status": "NOT_MEASURED",
+   "lineage": null,
+   "lineage_status": "NOT_APPLICABLE",
+   "observation": null,
+   "parameters": null,
+   "representation": "yaml_genes",
+   "scale": null,
+   "schema": "mbnas-structure/2",
+   "signature_hash": null,
+   "template_id": "w1-parity:declared_only",
+   "yaml_hash": "sha256:dc03a61745c470cba7f3a3e77aa4c4d7182efd59ec22e9fb0c4de2ebea116c92"
+  },
+  "longer": {
+   "architecture_hash": "sha256:a5a25e20869857a167d456b9eda410261c6da162cd11e4a5945a2a84ed56b2bb",
+   "backend": "ultralytics",
+   "blocks": [
+    {
+     "args": [
+      8,
+      3,
+      2
+     ],
+     "block_id": "block-0000",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 8,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 3,
+      "c_out": 8,
+      "h_in": 64,
+      "h_out": 32,
+      "inputs": [
+       {
+        "c": 3,
+        "h": 64,
+        "source": -1,
+        "w": 64
+       }
+      ],
+      "outputs": [
+       [
+        8,
+        32,
+        32
+       ]
+      ],
+      "params": 232,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 2.0,
+      "w_in": 64,
+      "w_out": 32
+     },
+     "from": -1,
+     "from_resolved": [
+      -1
+     ],
+     "gene_index": 0,
+     "id": "block-0000",
+     "index": 0,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          8,
+          3,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          8
+         ]
+        ],
+        [
+         "bias",
+         [
+          8
+         ]
+        ]
+       ],
+       "path": "0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "0.act",
+       "shared": true
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "Conv",
+     "module_class": "Conv",
+     "name": "Conv",
+     "native_path": "model.0",
+     "position": 0,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[0]@1af31c2acc7e",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 0,
+     "yaml_path": "backbone[0]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      16,
+      3,
+      2
+     ],
+     "block_id": "block-0001",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 16,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 8,
+      "c_out": 16,
+      "h_in": 32,
+      "h_out": 16,
+      "inputs": [
+       {
+        "c": 8,
+        "h": 32,
+        "source": 0,
+        "w": 32
+       }
+      ],
+      "outputs": [
+       [
+        16,
+        16,
+        16
+       ]
+      ],
+      "params": 1184,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 4.0,
+      "w_in": 32,
+      "w_out": 16
+     },
+     "from": -1,
+     "from_resolved": [
+      0
+     ],
+     "gene_index": 1,
+     "id": "block-0001",
+     "index": 1,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16,
+          8,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16
+         ]
+        ],
+        [
+         "bias",
+         [
+          16
+         ]
+        ]
+       ],
+       "path": "1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "1.act",
+       "shared": true
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "Conv",
+     "module_class": "Conv",
+     "name": "Conv",
+     "native_path": "model.1",
+     "position": 1,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[1]@1af31c2acc7e",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 1,
+     "yaml_path": "backbone[1]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      16,
+      3,
+      2
+     ],
+     "block_id": "block-0002",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 16,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 16,
+      "c_out": 16,
+      "h_in": 16,
+      "h_out": 8,
+      "inputs": [
+       {
+        "c": 16,
+        "h": 16,
+        "source": 1,
+        "w": 16
+       }
+      ],
+      "outputs": [
+       [
+        16,
+        8,
+        8
+       ]
+      ],
+      "params": 2336,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 8.0,
+      "w_in": 16,
+      "w_out": 8
+     },
+     "from": -1,
+     "from_resolved": [
+      1
+     ],
+     "gene_index": 2,
+     "id": "block-0002",
+     "index": 2,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "2.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16
+         ]
+        ],
+        [
+         "bias",
+         [
+          16
+         ]
+        ]
+       ],
+       "path": "2.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "2.act",
+       "shared": true
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "Conv",
+     "module_class": "Conv",
+     "name": "Conv",
+     "native_path": "model.2",
+     "position": 2,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[2]@1af31c2acc7e",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 2,
+     "yaml_path": "backbone[2]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      null,
+      4,
+      "nearest"
+     ],
+     "block_id": "block-0003",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 16,
+      "c_out": 16,
+      "h_in": 8,
+      "h_out": 32,
+      "inputs": [
+       {
+        "c": 16,
+        "h": 8,
+        "source": 2,
+        "w": 8
+       }
+      ],
+      "outputs": [
+       [
+        16,
+        32,
+        32
+       ]
+      ],
+      "params": 0,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 2.0,
+      "w_in": 8,
+      "w_out": 32
+     },
+     "from": -1,
+     "from_resolved": [
+      2
+     ],
+     "gene_index": 3,
+     "id": "block-0003",
+     "index": 3,
+     "internal_layers": [],
+     "internal_mapping_status": "RECORDED",
+     "module": "nn.Upsample",
+     "module_class": "Upsample",
+     "name": "nn.Upsample",
+     "native_path": "model.3",
+     "position": 3,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "neck",
+     "section_basis": "derived:non-detection head row -> neck",
+     "stable_id": "ul:head[0]@1af31c2acc7e",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 0,
+     "yaml_path": "head[0]",
+     "yaml_section": "head"
+    },
+    {
+     "args": [
+      1
+     ],
+     "block_id": "block-0004",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 24,
+      "c_out": 24,
+      "h_in": 32,
+      "h_out": 32,
+      "inputs": [
+       {
+        "c": 8,
+        "h": 32,
+        "source": 0,
+        "w": 32
+       },
+       {
+        "c": 16,
+        "h": 32,
+        "source": 3,
+        "w": 32
+       }
+      ],
+      "outputs": [
+       [
+        24,
+        32,
+        32
+       ]
+      ],
+      "params": 0,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 2.0,
+      "w_in": 32,
+      "w_out": 32
+     },
+     "from": [
+      0,
+      3
+     ],
+     "from_resolved": [
+      0,
+      3
+     ],
+     "gene_index": 4,
+     "id": "block-0004",
+     "index": 4,
+     "internal_layers": [],
+     "internal_mapping_status": "RECORDED",
+     "module": "Concat",
+     "module_class": "Concat",
+     "name": "Concat",
+     "native_path": "model.4",
+     "position": 4,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "neck",
+     "section_basis": "derived:non-detection head row -> neck",
+     "stable_id": "ul:head[1]@1af31c2acc7e",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 1,
+     "yaml_path": "head[1]",
+     "yaml_section": "head"
+    },
+    {
+     "args": [
+      16,
+      3,
+      1
+     ],
+     "block_id": "block-0005",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 16,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 24,
+      "c_out": 16,
+      "h_in": 32,
+      "h_out": 32,
+      "inputs": [
+       {
+        "c": 24,
+        "h": 32,
+        "source": 4,
+        "w": 32
+       }
+      ],
+      "outputs": [
+       [
+        16,
+        32,
+        32
+       ]
+      ],
+      "params": 3488,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 2.0,
+      "w_in": 32,
+      "w_out": 32
+     },
+     "from": -1,
+     "from_resolved": [
+      4
+     ],
+     "gene_index": 5,
+     "id": "block-0005",
+     "index": 5,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16,
+          24,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16
+         ]
+        ],
+        [
+         "bias",
+         [
+          16
+         ]
+        ]
+       ],
+       "path": "5.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.act",
+       "shared": true
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "Conv",
+     "module_class": "Conv",
+     "name": "Conv",
+     "native_path": "model.5",
+     "position": 5,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "neck",
+     "section_basis": "derived:non-detection head row -> neck",
+     "stable_id": "ul:head[2]@1af31c2acc7e",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 2,
+     "yaml_path": "head[2]",
+     "yaml_section": "head"
+    },
+    {
+     "args": [
+      "nc"
+     ],
+     "block_id": "block-0006",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 32,
+      "c_out": null,
+      "end2end": false,
+      "h_in": 32,
+      "h_out": null,
+      "head_strides": [
+       2.0,
+       4.0
+      ],
+      "inputs": [
+       {
+        "c": 16,
+        "h": 32,
+        "source": 5,
+        "w": 32
+       },
+       {
+        "c": 16,
+        "h": 16,
+        "source": 1,
+        "w": 16
+       }
+      ],
+      "nc": 2,
+      "nl": 2,
+      "outputs": [
+       [
+        6,
+        1280
+       ],
+       [
+        64,
+        1280
+       ],
+       [
+        2,
+        1280
+       ],
+       [
+        16,
+        32,
+        32
+       ],
+       [
+        16,
+        16,
+        16
+       ]
+      ],
+      "params": 110420,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": null,
+      "w_in": 32,
+      "w_out": null
+     },
+     "from": [
+      5,
+      1
+     ],
+     "from_resolved": [
+      5,
+      1
+     ],
+     "gene_index": 6,
+     "id": "block-0006",
+     "index": 6,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "ModuleList",
+       "parameters": [],
+       "path": "6.cv2",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Sequential",
+       "parameters": [],
+       "path": "6.cv2.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "6.cv2.0.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "6.cv2.0.0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "6.cv2.0.0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "6.cv2.0.0.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "6.cv2.0.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          64,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "6.cv2.0.1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "6.cv2.0.1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "6.cv2.0.1.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          64,
+          1,
+          1
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "6.cv2.0.2",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Sequential",
+       "parameters": [],
+       "path": "6.cv2.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "6.cv2.1.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "6.cv2.1.0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "6.cv2.1.0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "6.cv2.1.0.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "6.cv2.1.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          64,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "6.cv2.1.1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "6.cv2.1.1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "6.cv2.1.1.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          64,
+          1,
+          1
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "6.cv2.1.2",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "ModuleList",
+       "parameters": [],
+       "path": "6.cv3",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Sequential",
+       "parameters": [],
+       "path": "6.cv3.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "6.cv3.0.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "6.cv3.0.0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16
+         ]
+        ],
+        [
+         "bias",
+         [
+          16
+         ]
+        ]
+       ],
+       "path": "6.cv3.0.0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "6.cv3.0.0.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "6.cv3.0.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "6.cv3.0.1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16
+         ]
+        ],
+        [
+         "bias",
+         [
+          16
+         ]
+        ]
+       ],
+       "path": "6.cv3.0.1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "6.cv3.0.1.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          2,
+          16,
+          1,
+          1
+         ]
+        ],
+        [
+         "bias",
+         [
+          2
+         ]
+        ]
+       ],
+       "path": "6.cv3.0.2",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Sequential",
+       "parameters": [],
+       "path": "6.cv3.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "6.cv3.1.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "6.cv3.1.0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16
+         ]
+        ],
+        [
+         "bias",
+         [
+          16
+         ]
+        ]
+       ],
+       "path": "6.cv3.1.0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "6.cv3.1.0.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "6.cv3.1.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "6.cv3.1.1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16
+         ]
+        ],
+        [
+         "bias",
+         [
+          16
+         ]
+        ]
+       ],
+       "path": "6.cv3.1.1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "6.cv3.1.1.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          2,
+          16,
+          1,
+          1
+         ]
+        ],
+        [
+         "bias",
+         [
+          2
+         ]
+        ]
+       ],
+       "path": "6.cv3.1.2",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "c1": 16
+       },
+       "module": "DFL",
+       "parameters": [],
+       "path": "6.dfl",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          1,
+          16,
+          1,
+          1
+         ]
+        ]
+       ],
+       "path": "6.dfl.conv",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "Detect",
+     "module_class": "Detect",
+     "name": "Detect",
+     "native_path": "model.6",
+     "position": 6,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "head",
+     "section_basis": "yaml:head+detection_module",
+     "stable_id": "ul:head[3]@1af31c2acc7e",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 3,
+     "yaml_path": "head[3]",
+     "yaml_section": "head"
+    }
+   ],
+   "checks": [
+    {
+     "evidence_level": "declared",
+     "name": "yaml_rows",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "declared",
+     "name": "references",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "declared",
+     "name": "class_count",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "declared",
+     "name": "scales",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "built",
+     "name": "module_support",
+     "rows_checked": 7,
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "built",
+     "name": "cpu_build",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "reference_forward",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "channels_spatial_stride",
+     "rows_checked": 9,
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "merge_conditions",
+     "rows_checked": 1,
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "head_connection",
+     "rows_checked": 1,
+     "status": "PASS"
+    }
+   ],
+   "class_count": 2,
+   "diagnostics": [],
+   "edges": [
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": -1,
+     "target": 0
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 0,
+     "target": 1
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 1,
+     "target": 2
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 2,
+     "target": 3
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 0,
+     "source": 0,
+     "target": 4
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 3,
+     "source": 3,
+     "target": 4
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 4,
+     "target": 5
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 5,
+     "source": 5,
+     "target": 6
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 1,
+     "source": 1,
+     "target": 6
+    }
+   ],
+   "edges_unobserved": [],
+   "family": "w1-parity",
+   "flops": null,
+   "flops_source": null,
+   "flops_status": "NOT_MEASURED",
+   "input_size": 64,
+   "lineage": null,
+   "lineage_status": "NOT_APPLICABLE",
+   "observation": {
+    "checked_at": "2026-10-23T11:38:14+00:00",
+    "device": "cpu",
+    "imgsz": 64,
+    "method": "ultralytics_parse_model+forward_hook",
+    "python": "3.10.22",
+    "report_origin": "executed",
+    "torch": "2.6.0+cu124",
+    "ultralytics": "8.4.173"
+   },
+   "parameters": 117660,
+   "representation": "yaml_genes",
+   "scale": null,
+   "schema": "mbnas-structure/2",
+   "signature_hash": "sha256:1648884e0d0bece6dbb632e75ce0fe4bc33fe954da17e2f619b5d2b0f2d8afc6",
+   "status": "PASS",
+   "template_id": "w1-parity:longer",
+   "yaml_hash": "sha256:1af31c2acc7ebdf5171a3a9c7656ff7052b33d6208069808a04b46653944a582"
+  },
+  "same_len": {
+   "architecture_hash": "sha256:714c45107c3dee53011e01f8fde4e5645ab49e236b65abb38745ab168c970de7",
+   "backend": "ultralytics",
+   "blocks": [
+    {
+     "args": [
+      8,
+      3,
+      2
+     ],
+     "block_id": "block-0000",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 8,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 3,
+      "c_out": 8,
+      "h_in": 64,
+      "h_out": 32,
+      "inputs": [
+       {
+        "c": 3,
+        "h": 64,
+        "source": -1,
+        "w": 64
+       }
+      ],
+      "outputs": [
+       [
+        8,
+        32,
+        32
+       ]
+      ],
+      "params": 232,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 2.0,
+      "w_in": 64,
+      "w_out": 32
+     },
+     "from": -1,
+     "from_resolved": [
+      -1
+     ],
+     "gene_index": 0,
+     "id": "block-0000",
+     "index": 0,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          8,
+          3,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          8
+         ]
+        ],
+        [
+         "bias",
+         [
+          8
+         ]
+        ]
+       ],
+       "path": "0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "0.act",
+       "shared": true
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "Conv",
+     "module_class": "Conv",
+     "name": "Conv",
+     "native_path": "model.0",
+     "position": 0,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[0]@790f44578d14",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 0,
+     "yaml_path": "backbone[0]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      16,
+      3,
+      2
+     ],
+     "block_id": "block-0001",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 16,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 8,
+      "c_out": 16,
+      "h_in": 32,
+      "h_out": 16,
+      "inputs": [
+       {
+        "c": 8,
+        "h": 32,
+        "source": 0,
+        "w": 32
+       }
+      ],
+      "outputs": [
+       [
+        16,
+        16,
+        16
+       ]
+      ],
+      "params": 1184,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 4.0,
+      "w_in": 32,
+      "w_out": 16
+     },
+     "from": -1,
+     "from_resolved": [
+      0
+     ],
+     "gene_index": 1,
+     "id": "block-0001",
+     "index": 1,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16,
+          8,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16
+         ]
+        ],
+        [
+         "bias",
+         [
+          16
+         ]
+        ]
+       ],
+       "path": "1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "1.act",
+       "shared": true
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "Conv",
+     "module_class": "Conv",
+     "name": "Conv",
+     "native_path": "model.1",
+     "position": 1,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[1]@790f44578d14",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 1,
+     "yaml_path": "backbone[1]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      16,
+      3,
+      2
+     ],
+     "block_id": "block-0002",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 16,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 16,
+      "c_out": 16,
+      "h_in": 16,
+      "h_out": 8,
+      "inputs": [
+       {
+        "c": 16,
+        "h": 16,
+        "source": 1,
+        "w": 16
+       }
+      ],
+      "outputs": [
+       [
+        16,
+        8,
+        8
+       ]
+      ],
+      "params": 2336,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 8.0,
+      "w_in": 16,
+      "w_out": 8
+     },
+     "from": -1,
+     "from_resolved": [
+      1
+     ],
+     "gene_index": 2,
+     "id": "block-0002",
+     "index": 2,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "2.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16
+         ]
+        ],
+        [
+         "bias",
+         [
+          16
+         ]
+        ]
+       ],
+       "path": "2.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "2.act",
+       "shared": true
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "Conv",
+     "module_class": "Conv",
+     "name": "Conv",
+     "native_path": "model.2",
+     "position": 2,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[2]@790f44578d14",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 2,
+     "yaml_path": "backbone[2]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      null,
+      4,
+      "nearest"
+     ],
+     "block_id": "block-0003",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 16,
+      "c_out": 16,
+      "h_in": 8,
+      "h_out": 32,
+      "inputs": [
+       {
+        "c": 16,
+        "h": 8,
+        "source": 2,
+        "w": 8
+       }
+      ],
+      "outputs": [
+       [
+        16,
+        32,
+        32
+       ]
+      ],
+      "params": 0,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 2.0,
+      "w_in": 8,
+      "w_out": 32
+     },
+     "from": -1,
+     "from_resolved": [
+      2
+     ],
+     "gene_index": 3,
+     "id": "block-0003",
+     "index": 3,
+     "internal_layers": [],
+     "internal_mapping_status": "RECORDED",
+     "module": "nn.Upsample",
+     "module_class": "Upsample",
+     "name": "nn.Upsample",
+     "native_path": "model.3",
+     "position": 3,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "neck",
+     "section_basis": "derived:non-detection head row -> neck",
+     "stable_id": "ul:head[0]@790f44578d14",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 0,
+     "yaml_path": "head[0]",
+     "yaml_section": "head"
+    },
+    {
+     "args": [
+      1
+     ],
+     "block_id": "block-0004",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 24,
+      "c_out": 24,
+      "h_in": 32,
+      "h_out": 32,
+      "inputs": [
+       {
+        "c": 8,
+        "h": 32,
+        "source": 0,
+        "w": 32
+       },
+       {
+        "c": 16,
+        "h": 32,
+        "source": 3,
+        "w": 32
+       }
+      ],
+      "outputs": [
+       [
+        24,
+        32,
+        32
+       ]
+      ],
+      "params": 0,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 2.0,
+      "w_in": 32,
+      "w_out": 32
+     },
+     "from": [
+      0,
+      3
+     ],
+     "from_resolved": [
+      0,
+      3
+     ],
+     "gene_index": 4,
+     "id": "block-0004",
+     "index": 4,
+     "internal_layers": [],
+     "internal_mapping_status": "RECORDED",
+     "module": "Concat",
+     "module_class": "Concat",
+     "name": "Concat",
+     "native_path": "model.4",
+     "position": 4,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "neck",
+     "section_basis": "derived:non-detection head row -> neck",
+     "stable_id": "ul:head[1]@790f44578d14",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 1,
+     "yaml_path": "head[1]",
+     "yaml_section": "head"
+    },
+    {
+     "args": [
+      "nc"
+     ],
+     "block_id": "block-0005",
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 40,
+      "c_out": null,
+      "end2end": false,
+      "h_in": 32,
+      "h_out": null,
+      "head_strides": [
+       2.0,
+       8.0
+      ],
+      "inputs": [
+       {
+        "c": 24,
+        "h": 32,
+        "source": 4,
+        "w": 32
+       },
+       {
+        "c": 16,
+        "h": 8,
+        "source": 2,
+        "w": 8
+       }
+      ],
+      "nc": 2,
+      "nl": 2,
+      "outputs": [
+       [
+        6,
+        1088
+       ],
+       [
+        64,
+        1088
+       ],
+       [
+        2,
+        1088
+       ],
+       [
+        24,
+        32,
+        32
+       ],
+       [
+        16,
+        8,
+        8
+       ]
+      ],
+      "params": 124916,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": null,
+      "w_in": 32,
+      "w_out": null
+     },
+     "from": [
+      4,
+      2
+     ],
+     "from_resolved": [
+      4,
+      2
+     ],
+     "gene_index": 5,
+     "id": "block-0005",
+     "index": 5,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "ModuleList",
+       "parameters": [],
+       "path": "5.cv2",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Sequential",
+       "parameters": [],
+       "path": "5.cv2.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "5.cv2.0.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          24,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.cv2.0.0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "5.cv2.0.0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.cv2.0.0.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "5.cv2.0.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          64,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.cv2.0.1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "5.cv2.0.1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.cv2.0.1.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          64,
+          1,
+          1
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "5.cv2.0.2",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Sequential",
+       "parameters": [],
+       "path": "5.cv2.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "5.cv2.1.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.cv2.1.0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "5.cv2.1.0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.cv2.1.0.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "5.cv2.1.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          64,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.cv2.1.1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "5.cv2.1.1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.cv2.1.1.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          64,
+          1,
+          1
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "5.cv2.1.2",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "ModuleList",
+       "parameters": [],
+       "path": "5.cv3",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Sequential",
+       "parameters": [],
+       "path": "5.cv3.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "5.cv3.0.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          24,
+          24,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.cv3.0.0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          24
+         ]
+        ],
+        [
+         "bias",
+         [
+          24
+         ]
+        ]
+       ],
+       "path": "5.cv3.0.0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.cv3.0.0.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "5.cv3.0.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          24,
+          24,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.cv3.0.1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          24
+         ]
+        ],
+        [
+         "bias",
+         [
+          24
+         ]
+        ]
+       ],
+       "path": "5.cv3.0.1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.cv3.0.1.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          2,
+          24,
+          1,
+          1
+         ]
+        ],
+        [
+         "bias",
+         [
+          2
+         ]
+        ]
+       ],
+       "path": "5.cv3.0.2",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Sequential",
+       "parameters": [],
+       "path": "5.cv3.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "5.cv3.1.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          24,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.cv3.1.0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          24
+         ]
+        ],
+        [
+         "bias",
+         [
+          24
+         ]
+        ]
+       ],
+       "path": "5.cv3.1.0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.cv3.1.0.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "5.cv3.1.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          24,
+          24,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "5.cv3.1.1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          24
+         ]
+        ],
+        [
+         "bias",
+         [
+          24
+         ]
+        ]
+       ],
+       "path": "5.cv3.1.1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "5.cv3.1.1.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          2,
+          24,
+          1,
+          1
+         ]
+        ],
+        [
+         "bias",
+         [
+          2
+         ]
+        ]
+       ],
+       "path": "5.cv3.1.2",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "c1": 16
+       },
+       "module": "DFL",
+       "parameters": [],
+       "path": "5.dfl",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          1,
+          16,
+          1,
+          1
+         ]
+        ]
+       ],
+       "path": "5.dfl.conv",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "Detect",
+     "module_class": "Detect",
+     "name": "Detect",
+     "native_path": "model.5",
+     "position": 5,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "head",
+     "section_basis": "yaml:head+detection_module",
+     "stable_id": "ul:head[2]@790f44578d14",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 2,
+     "yaml_path": "head[2]",
+     "yaml_section": "head"
+    }
+   ],
+   "checks": [
+    {
+     "evidence_level": "declared",
+     "name": "yaml_rows",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "declared",
+     "name": "references",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "declared",
+     "name": "class_count",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "declared",
+     "name": "scales",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "built",
+     "name": "module_support",
+     "rows_checked": 6,
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "built",
+     "name": "cpu_build",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "reference_forward",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "channels_spatial_stride",
+     "rows_checked": 8,
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "merge_conditions",
+     "rows_checked": 1,
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "head_connection",
+     "rows_checked": 1,
+     "status": "PASS"
+    }
+   ],
+   "class_count": 2,
+   "diagnostics": [],
+   "edges": [
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": -1,
+     "target": 0
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 0,
+     "target": 1
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 1,
+     "target": 2
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 2,
+     "target": 3
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 0,
+     "source": 0,
+     "target": 4
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 3,
+     "source": 3,
+     "target": 4
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 4,
+     "source": 4,
+     "target": 5
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 2,
+     "source": 2,
+     "target": 5
+    }
+   ],
+   "edges_unobserved": [],
+   "family": "w1-parity",
+   "flops": null,
+   "flops_source": null,
+   "flops_status": "NOT_MEASURED",
+   "input_size": 64,
+   "lineage": null,
+   "lineage_status": "NOT_APPLICABLE",
+   "observation": {
+    "checked_at": "2026-10-23T11:38:14+00:00",
+    "device": "cpu",
+    "imgsz": 64,
+    "method": "ultralytics_parse_model+forward_hook",
+    "python": "3.10.22",
+    "report_origin": "executed",
+    "torch": "2.6.0+cu124",
+    "ultralytics": "8.4.173"
+   },
+   "parameters": 128668,
+   "representation": "yaml_genes",
+   "scale": null,
+   "schema": "mbnas-structure/2",
+   "signature_hash": "sha256:23a1716afae062ab44b84adece1ce98450ef5bda501dd7c9de2a4190e6d0a134",
+   "status": "PASS",
+   "template_id": "w1-parity:same_len",
+   "yaml_hash": "sha256:790f44578d14ea84d5198a323add2031d3754e4c63abc317b137ee443f20e7ee"
+  }
+ },
+ "generator": "evidence_impl/WPW1/gen_server_structure_fixture.py",
+ "pairs": [
+  {
+   "expected": {
+    "added": [],
+    "alignment": "yaml_position",
+    "changed": [
+     {
+      "fields": [
+       "from"
+      ],
+      "left_id": "block-0005",
+      "position": 5,
+      "right_id": "block-0005"
+     }
+    ],
+    "comparison": "structure",
+    "edges_added": [
+     [
+      "2",
+      "5",
+      "2"
+     ]
+    ],
+    "edges_removed": [
+     [
+      "1",
+      "5",
+      "1"
+     ]
+    ],
+    "gene_ancestry_inferred": false,
+    "removed": []
+   },
+   "left": "base",
+   "right": "same_len"
+  },
+  {
+   "expected": {
+    "added": [
+     "block-0006"
+    ],
+    "alignment": "yaml_position",
+    "changed": [
+     {
+      "fields": [
+       "module",
+       "from",
+       "args"
+      ],
+      "left_id": "block-0005",
+      "position": 5,
+      "right_id": "block-0005"
+     }
+    ],
+    "comparison": "structure",
+    "edges_added": [
+     [
+      "1",
+      "6",
+      "1"
+     ],
+     [
+      "4",
+      "5",
+      "-1"
+     ],
+     [
+      "5",
+      "6",
+      "5"
+     ]
+    ],
+    "edges_removed": [
+     [
+      "1",
+      "5",
+      "1"
+     ],
+     [
+      "4",
+      "5",
+      "4"
+     ]
+    ],
+    "gene_ancestry_inferred": false,
+    "removed": []
+   },
+   "left": "base",
+   "right": "longer"
+  },
+  {
+   "expected": {
+    "added": [],
+    "alignment": "yaml_position",
+    "changed": [
+     {
+      "fields": [
+       "module",
+       "from",
+       "args"
+      ],
+      "left_id": "block-0005",
+      "position": 5,
+      "right_id": "block-0005"
+     }
+    ],
+    "comparison": "structure",
+    "edges_added": [
+     [
+      "1",
+      "5",
+      "1"
+     ],
+     [
+      "4",
+      "5",
+      "4"
+     ]
+    ],
+    "edges_removed": [
+     [
+      "1",
+      "6",
+      "1"
+     ],
+     [
+      "4",
+      "5",
+      "-1"
+     ],
+     [
+      "5",
+      "6",
+      "5"
+     ]
+    ],
+    "gene_ancestry_inferred": false,
+    "removed": [
+     "block-0006"
+    ]
+   },
+   "left": "longer",
+   "right": "base"
+  },
+  {
+   "expected": {
+    "added": [],
+    "alignment": "yaml_position",
+    "changed": [
+     {
+      "fields": [
+       "module",
+       "repeats",
+       "args"
+      ],
+      "left_id": "block-0001",
+      "position": 1,
+      "right_id": "block-0001"
+     }
+    ],
+    "comparison": "structure",
+    "edges_added": [],
+    "edges_removed": [],
+    "gene_ancestry_inferred": false,
+    "removed": []
+   },
+   "left": "base",
+   "right": "changed"
+  },
+  {
+   "expected": {
+    "added": [],
+    "alignment": "yaml_position",
+    "changed": [],
+    "comparison": "structure",
+    "edges_added": [],
+    "edges_removed": [],
+    "gene_ancestry_inferred": false,
+    "removed": []
+   },
+   "left": "base",
+   "right": "base"
+  },
+  {
+   "expected": {
+    "added": [],
+    "alignment": "yaml_position",
+    "changed": [],
+    "comparison": "structure",
+    "edges_added": [],
+    "edges_removed": [],
+    "gene_ancestry_inferred": false,
+    "removed": []
+   },
+   "left": "base",
+   "right": "declared_only"
+  }
+ ]
+}

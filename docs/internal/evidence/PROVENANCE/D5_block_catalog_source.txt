@@ -1,0 +1,28 @@
+# C01 fix round 1b, EVAL_1 D5: source_sha256 of PLACEMENT_MANIFEST.jsonl line 447 (designer split of block_catalog), was null
+# verification commands (cwd TARGET_ROOT, 2026-10-28T04:14:53+09:00), all read-only:
+
+$ sha256sum docs/internal/evidence/PROVENANCE/historical/block_catalog.before.py
+abcee67f2d7d9f5cd2dfaa3395dbdb1dd24975af7e1b4c00d8821e63c77b811d  docs/internal/evidence/PROVENANCE/historical/block_catalog.before.py
+
+$ python: PLACEMENT lines 157, 266, 447 (kind, owner, source sha, target sha, at)
+157 moved WP-1C source 77e2f1a555e27db6b28907802206956916ef03cbb732a168d292f95cf1cc60f0 target 38169e7adf6b78d6e02e6ee171b7ddc788b3b4364fd9be5548ea6f7b70649ae6 at None
+266 moved WP-1C source 77e2f1a555e27db6b28907802206956916ef03cbb732a168d292f95cf1cc60f0 target abcee67f2d7d9f5cd2dfaa3395dbdb1dd24975af7e1b4c00d8821e63c77b811d at None
+447 split designer(WP-1 acceptance) source 77e2f1a555e27db6b28907802206956916ef03cbb732a168d292f95cf1cc60f0 target 01615e846ac0aa48195fda076c9511b4e50031115c2ea2a30407e88ebc54220e at 2026-10-26T19:35:41+09:00
+
+$ grep block_catalog docs/internal/provenance/SOURCE_SNAPSHOT_DELTA_20261026T194059.jsonl (delta 3 row: sha256 / supersedes / copied_at)
+b181b04029c8215873e329a8fa2ceccb3275339b64ace38516108dc19117c8b0 supersedes 77e2f1a555e27db6b28907802206956916ef03cbb732a168d292f95cf1cc60f0 copied_at 2026-10-26T10:40:59.774090+00:00
+
+$ sed -n 11p docs/internal/evidence/SYNC1/HUNKS.md
+| search/block_catalog.py (5 hunks, lazy _tables()/__getattr__ refactor) | mbnas_model_runtime/src/mbnas_model_runtime/block_catalog.py | NOT ported: structural refactor only; live table data == pre-delta data (executed, block_catalog_table_equality.txt); target keeps the designer decision _build_tables() at import (WP-1 SUMMARY
+
+Chain: snapshot file 77e2f1a5... --(WP-1C move, line 157)--> 38169e7a... --(WP-1C edit, line 266)--> abcee67f... = the designer's
+pre-edit copy (saved 2026-10-26 19:33:19 KST) --(designer split, line 447, at 19:35:41 KST)--> 01615e84...; the delta-3 copy that
+superseded 77e2f1a5... with b181b040... happened later (19:40:59 KST = 10:40:59 UTC) and its lazy refactor was not ported.
+Hence line 447 source_sha256 = 77e2f1a555e27db6b28907802206956916ef03cbb732a168d292f95cf1cc60f0 (set 2026-10-28, notes extended).
+
+$ sha256sum mbnas_model_runtime/src/mbnas_model_runtime/block_catalog.py   (current = line 447 target_sha256: unchanged since the split)
+01615e846ac0aa48195fda076c9511b4e50031115c2ea2a30407e88ebc54220e  mbnas_model_runtime/src/mbnas_model_runtime/block_catalog.py
+$ diff -u docs/internal/evidence/PROVENANCE/historical/block_catalog.before.py mbnas_model_runtime/src/mbnas_model_runtime/block_catalog.py  (summary)
+changed lines: 325 (added 165, removed 160); the new top-level helper:
++def _build_tables() -> bool:
++_CATALOG_BUILT = _build_tables()

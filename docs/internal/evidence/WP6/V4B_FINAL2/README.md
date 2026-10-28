@@ -1,0 +1,5 @@
+# WP6 V4B_FINAL2 — real-stack web run on the FINAL dist (index-7f__3l0I.js), from the C07 EVAL_2 evaluator (2026-10-28 10:1x–10:3x KST)
+
+Copied by the designer from the C07 evaluator's scratchpad (c07r2). Tree `f00987be…` (221 files). The evaluator built the current web sources in a scratch dir (byte-identical to the shipped `mbnas_web/dist`: index-7f__3l0I.js df0d6b2d…, css 1e0f94d5…, index.html 9e8c8f76…), served that build through a real gateway (gateway log shows `index-7f__3l0I.js 200`), and ran V4-01..12: all passed; 42 screenshots; axe violations 0 on 6 screens; probes show graph node, gene button and block-table row lead to the same detail (`?block=block-0012`, `same3: true`); export chain YAML bytes equal selected/executed revisions and SHA256SUMS match.
+
+Excluded from the copy: the stack runtime root, `stack.out`, playwright caches/test-results, and any file matching a token pattern (list in COPY_MANIFEST.json). Web gates: check:types / typecheck / check:bundle exit 0, vitest 600, mock e2e 210. Report: docs/internal/evidence/CRITERIA/C07/EVAL_2.md.

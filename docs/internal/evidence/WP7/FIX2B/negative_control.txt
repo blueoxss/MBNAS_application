@@ -1,0 +1,402 @@
+F.FFFF..F..F...FFFxF                                                     [100%]
+=================================== FAILURES ===================================
+__ test_ga_not_evaluated_candidates_record_the_reason_and_are_never_promoted ___
+
+client = <starlette.testclient.TestClient object at 0x7f80ca477cd0>
+protocol = {'schema_version': 'nas-console/1.0', 'protocol_id': 'mbnas-pilot-smoke', 'status': 'PRESET_PILOT_SMOKE', 'value_provenance': 'pilot_smoke_values_for_pipeline_verification_not_research_values', ...}
+inline_worker = <harness.make_inline_worker.<locals>.InlineWorker object at 0x7f80ca6904f0>
+api_settings = CoreSettings(api_token=SecretStr('**********'), artifact_signing_key=SecretStr('**********'), cors_origins=['http://lo...ile=1024, structure_check_fsize_bytes=67108864, structure_check_max_output_bytes=1048576, structure_check_unshare=True)
+ga_not_evaluated = <function ga_not_evaluated.<locals>.train at 0x7f80c89213f0>
+
+    def test_ga_not_evaluated_candidates_record_the_reason_and_are_never_promoted(client, protocol, inline_worker,
+                                                                                  api_settings, ga_not_evaluated):
+        run_id, _ = harness.validate_and_run(client, protocol)
+        harness.drain(inline_worker)
+        r = client.get(f"/api/v1/runs/{run_id}/snapshot", headers=auth())
+        assert r.status_code == 200, r.text
+        snap = r.json()
+        assert contract_errors("Snapshot", snap) == []  # the public projection of the new rows is contract-valid
+        assert snap["run"]["status"] == "COMPLETED", snap["run"]
+    
+        rows = _rows(api_settings, run_id)
+        ga = [row for row in rows if row["arm"] == "GA"]
+        assert ga and {row["rung"] for row in ga} == {"L0"}, [(r_["candidate_id"], r_["rung"]) for r_ in ga]  # never promoted
+        for row in ga:
+>           assert row["status"] == "SEARCH_COMPLETE" and row["candidate_status"] == "SEARCH_COMPLETE"
+E           AssertionError: assert ('EVAL_FAILED' == 'SEARCH_COMPLETE'
+E             
+E             - SEARCH_COMPLETE
+E             + EVAL_FAILED)
+
+tests/owner/orchestration/test_dd_a62_not_evaluated_search.py:83: AssertionError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:180 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+----------------------------- Captured stdout call -----------------------------
+library noise on stdout must not break the JSONL protocol
+library noise on stdout must not break the JSONL protocol
+library noise on stdout must not break the JSONL protocol
+library noise on stdout must not break the JSONL protocol
+library noise on stdout must not break the JSONL protocol
+library noise on stdout must not break the JSONL protocol
+library noise on stdout must not break the JSONL protocol
+library noise on stdout must not break the JSONL protocol
+library noise on stdout must not break the JSONL protocol
+library noise on stdout must not break the JSONL protocol
+library noise on stdout must not break the JSONL protocol
+library noise on stdout must not break the JSONL protocol
+library noise on stdout must not break the JSONL protocol
+library noise on stdout must not break the JSONL protocol
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T20:55:37.436Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=c3f5b34ff38944818fccb2b2479fcb14 duration_ms=102.1 client=127.0.0.1:50000
+2026-10-27T20:55:37.447Z INFO mbnas_server.access method=POST path=/api/v1/protocols/validate status=200 request_id=c3f5b34ff38944818fccb2b2479fcb14 duration_ms=237.6 client=testclient:50000
+2026-10-27T20:55:37.546Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=99207e9cf16a427f8a2837d62ec8d0fb duration_ms=72.9 client=127.0.0.1:50000
+2026-10-27T20:55:37.547Z INFO mbnas_server.access method=POST path=/api/v1/runs status=200 request_id=99207e9cf16a427f8a2837d62ec8d0fb duration_ms=96.1 client=testclient:50000
+2026-10-27T20:55:38.857Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-b68892d51b61/snapshot status=200 request_id=7fe55a3cfee24af68b6ae1b1e39b88f6 duration_ms=88.3 client=127.0.0.1:50000
+2026-10-27T20:55:38.859Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-b68892d51b61/snapshot status=200 request_id=7fe55a3cfee24af68b6ae1b1e39b88f6 duration_ms=94.8 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=c3f5b34ff38944818fccb2b2479fcb14 duration_ms=102.1 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/protocols/validate status=200 request_id=c3f5b34ff38944818fccb2b2479fcb14 duration_ms=237.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=99207e9cf16a427f8a2837d62ec8d0fb duration_ms=72.9 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs status=200 request_id=99207e9cf16a427f8a2837d62ec8d0fb duration_ms=96.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-b68892d51b61/snapshot status=200 request_id=7fe55a3cfee24af68b6ae1b1e39b88f6 duration_ms=88.3 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-b68892d51b61/snapshot status=200 request_id=7fe55a3cfee24af68b6ae1b1e39b88f6 duration_ms=94.8 client=testclient:50000
+_ test_explicit_training_with_validation_on_a_cpu_fleet_completes_not_evaluated _
+
+fleet = namespace(core=<starlette.testclient.TestClient object at 0x7f80bb4c0610>, settings=CoreSettings(api_token=SecretStr('...ck_unshare=True), sim=<function fleet.<locals>.sim at 0x7f7f70f5e9e0>, q=<function fleet.<locals>.q at 0x7f7f70f5edd0>)
+base_proto = <function base_proto.<locals>.build at 0x7f7f70f5f130>
+
+    def test_explicit_training_with_validation_on_a_cpu_fleet_completes_not_evaluated(fleet, base_proto):
+        from mbnas_runner.evaluation.handlers import latency_device_problem, not_evaluated_payload
+    
+        cpu = fleet.sim("cpu-a", **CPU)
+        run_id = _training_run(fleet, base_proto, "cpu", "dd-a62-a-train", validation=True)
+        lease = cpu.claim()
+        assert lease is not None and lease.run_id == run_id  # CPU-only fleet: the CPU runner takes it (DD-A32 mapping)
+        cpu.start(lease)
+        run = fleet.q(lambda c: repo.get_run(c, run_id))
+        full = str(cpu.run_dir(lease) / "candidates" / "model" / "full_e002.pt")  # runner-host paths (never read here)
+        ema = str(cpu.run_dir(lease) / "candidates" / "model" / "eval_ema_e002.pt")
+        payload = not_evaluated_payload(
+            reason=latency_device_problem("cpu"), device="cpu", device_entry="cpu", precision="FP16", eval_batch=8,
+            input_shape=[64, 64], benchmark=run["resolved_protocol"]["console"]["benchmark"], split="search_val", epochs=2,
+            eval_ckpt=ema, eval_sha256="b" * 64, checkpoint_path=full, checkpoint_sha256="a" * 64)
+        result = JobResult(job_id=lease.job_id, status="SUCCEEDED", attempt=lease.attempt, exit_code=0,
+                           outputs={"epochs_done": 2, "evaluation": payload, "device_used": "cpu", "device_uuid": None,
+                                    "rung_result": {"epochs_done": 2, "rung_end_training_ckpt": full,
+                                                    "rung_end_ema_eval_ckpt": ema}},
+                           started_at=lease.started["started_at"], finished_at=utcnow_iso())
+        r = cpu.result(lease, cpu.commit_body(lease, result))
+        assert r.status_code == 200, r.text
+        assert cpu.ack(lease).status_code == 204
+    
+        run = fleet.q(lambda c: repo.get_run(c, run_id))
+>       assert run["status"] == "COMPLETED" and run["reason_code"] is None, (run["status"], run["reason_code"])
+E       AssertionError: ('FAILED', 'MODEL_RUN_FAILED')
+E       assert ('FAILED' == 'COMPLETED'
+E         
+E         - COMPLETED
+E         + FAILED)
+
+tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py:144: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T20:55:43.197Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=7226bc7078f94e40bbdcb6dc18bd7d04 duration_ms=146.0 client=testclient:50000
+2026-10-27T20:55:44.344Z INFO mbnas_core.access method=POST path=/api/v1/training-runs status=200 request_id=3a005460b315456ea49cdbe51de21327 duration_ms=1140.4 client=testclient:50000
+2026-10-27T20:55:44.402Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=c7ba980e21894883b2683ba8b93d95c4 duration_ms=53.7 client=testclient:50000
+2026-10-27T20:55:44.492Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-2431bb2d80b74e9a/start status=200 request_id=7656839b0803463ea161a6c703e4bfdd duration_ms=86.8 client=testclient:50000
+2026-10-27T20:55:44.624Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-2431bb2d80b74e9a/result status=200 request_id=d3ad926aae4f4e46b8caedff813ddfa6 duration_ms=124.6 client=testclient:50000
+2026-10-27T20:55:44.663Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-2431bb2d80b74e9a/ack status=204 request_id=a08843708ddd4dbfa606369ac59f7452 duration_ms=36.2 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=7226bc7078f94e40bbdcb6dc18bd7d04 duration_ms=146.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/training-runs status=200 request_id=3a005460b315456ea49cdbe51de21327 duration_ms=1140.4 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=c7ba980e21894883b2683ba8b93d95c4 duration_ms=53.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-2431bb2d80b74e9a/start status=200 request_id=7656839b0803463ea161a6c703e4bfdd duration_ms=86.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-2431bb2d80b74e9a/result status=200 request_id=d3ad926aae4f4e46b8caedff813ddfa6 duration_ms=124.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-2431bb2d80b74e9a/ack status=204 request_id=a08843708ddd4dbfa606369ac59f7452 duration_ms=36.2 client=testclient:50000
+___________________ test_requires_cuda_and_needs_cuda_rules ____________________
+
+    def test_requires_cuda_and_needs_cuda_rules():
+>       from mbnas_core.runner_api.routes import needs_cuda, requires_cuda
+E       ImportError: cannot import name 'needs_cuda' from 'mbnas_core.runner_api.routes' (<SCRATCH>/fix2b/negctl/src/mbnas_core/runner_api/routes.py)
+
+tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py:176: ImportError
+_ test_cpu_runner_leaves_evaluation_on_jobs_to_the_gpu_runner_and_leases_what_it_can_run _
+
+fleet = namespace(core=<starlette.testclient.TestClient object at 0x7f7f703f95a0>, settings=CoreSettings(api_token=SecretStr('...ck_unshare=True), sim=<function fleet.<locals>.sim at 0x7f7f6fad29e0>, q=<function fleet.<locals>.q at 0x7f7f6fad2dd0>)
+base_proto = <function base_proto.<locals>.build at 0x7f7f6fad20e0>
+
+    def test_cpu_runner_leaves_evaluation_on_jobs_to_the_gpu_runner_and_leases_what_it_can_run(fleet, base_proto):
+        cpu = fleet.sim("cpu-a", **CPU)
+        gpu = fleet.sim("gpu-a")  # runner_sim default: SYNTHETIC GPU identity (uuid GPU-sim-gpu-a)
+        search_run = _search_run(fleet, base_proto, "GPU-sim-gpu-a", "dd-a62-d-search")
+        r = cpu.claim_raw()
+>       assert r.status_code == 204, r.text  # nothing else queued: no job for the CPU runner
+E       AssertionError: {"envelope":{"envelope_version":1,"job":{"job_id":"job-cd352b2f7e214602","attempt":1,"kind":"BASELINE_TRAIN","lease_expires_at":"2026-10-27T20:56:15.536615Z","leased_at":"2026-10-27T20:55:45.536615Z","spec":{"arm":"Baseline","candidate_id":"run-6f307dded8c3.base.yolo11n","cumulative_target":2,"fixed_horizon":2,"job_id":"job-cd352b2f7e214602","kind":"BASELINE_TRAIN","params":{"candidate":{"architecture_hash":null,"architecture_path":null,"architecture_yaml":null,"arm":"Baseline","baseline_id":"yolo11n","comparison_group":"common_scratch","family":"YOLO11","generation":0,"id":"run-6f307dded8c3.base.yolo11n","init":"scratch","name":"YOLO11N","requested_input_shape":[640,640],"resolved_input_shape":[640,640],"search_seed":null,"training_seed":895284287},"evaluate_inline":true,"stage":{"id":"L0","epoch_target_total":2,"epochs_added":2},"baseline":{"enabled":true,"family":"YOLO11","id":"yolo11n","name":"YOLO11N","resolved":{"backend":"ultralytics","comparison_group":"common_scratch","inference_head":"native","init":"scratch","registry_status":"AVAILABLE","requested_input_shape":[640,640],"resolved_input_shape":[640,640],"version":"8.4.173"},"source":"Ultralytics"},"arch":{"model_id":"yolo11n","family":"YOLO11","backend":"ultralytics","config":"yolo11n.yaml","variant":"detect","weights_path":"<ROOT>/runtime/test_root/weights/yolo11n.pt","weights_sha256":null,"inference_head":"native","register_hook":null}},"protocol_hash":"sha256:ba8b4b7fd3f121859ff2ac5747bd6b56a5da6629947edcd2de414d3f6ee712fc","run_id":"run-6f307dded8c3","rung":"L0","search_seed":null,"training_seed":895284287},"max_attempts":3,"priority":100},"run":{"run_id":"run-6f307dded8c3","kind":"SEARCH","protocol_hash":"sha256:ba8b4b7fd3f121859ff2ac5747bd6b56a5da6629947edcd2de414d3f6ee712fc","resolved_protocol":{"allocation":{"budget_missing_or_exhausted":"eligible_but_not_admitted","eligibility_is_not_gpu_allocation":true,"incomplete_rung_is_valid_result":false,"queue_policy":"stable_trial_id_order"},"backend_capabilities_verified":false,"backend_versions":null,"comparison":{"arms":["GA","IndependentRandom"],"candidate_count":"secondary_observed_outcome","global_best_fitness_stop":false,"global_stagnation_stop":false,"independent_search_seed_pairs":[101],"physical_actual_GPU_seconds_separately_reported":true,"primary_budget_unit":"arm_equivalent_billed_GPU_seconds","search_budget_GPU_hours_per_arm_per_seed":0.75,"shared_protocol_hash_required":true},"console":{"baseline_budget_gpu_hours":0.25,"baseline_capture_rungs":true,"baseline_epoch_target":2,"baseline_override":{"added":["yolo11n"],"missing_from_default":["yolo11s","yolo11m","yolo11l","yolo11x","yolo26s","yolo26m","yolo26l","yolo26x","rf-detr-small","rf-detr-medium","rf-detr-large","rt-detr-l","rt-detr-x","etri-controlled-cnn-transformer"],"reason":"PILOT_SMOKE uses one small representative per adapter family (yolo11n, yolo26n, rt-detr-l, rf-detr-nano, ETRI hybrid) instead of baseline14 to keep the smoke run minutes-scale; every representative uses scratch initialization (single common_scratch comparison group, RF-DETR included via pretrain_weights=None). The default run keeps baseline14."},"baseline_override_reason":"PILOT_SMOKE uses one small representative per adapter family (yolo11n, yolo26n, rt-detr-l, rf-detr-nano, ETRI hybrid) instead of baseline14 to keep the smoke run minutes-scale; every representative uses scratch initialization (single common_scratch comparison group, RF-DETR included via pretrain_weights=None). The default run keeps baseline14.","baselines":[{"enabled":true,"family":"YOLO11","id":"yolo11n","name":"YOLO11N","resolved":{"backend":"ultralytics","comparison_group":"common_scratch","inference_head":"native","init":"scratch","registry_status":"AVAILABLE","requested_input_shape":[640,640],"resolved_input_shape":[640,640],"version":"8.4.173"},"source":"Ultralytics"}],"benchmark":{"batch":1,"device":"GPU-sim-gpu-a","device_resolved":{"id":"sim-dev0","name":"SYNTHETIC simulated device","uuid":"GPU-sim-gpu-a"},"postprocess":{"conf":0.25,"iou":0.7,"max_det":300},"precision":"FP16","repeats":100,"warmup":20},"execution_mode":"PILOT","label":"PILOT_SMOKE (smoke values, not research results)","paths":{"dataset_yaml":"<SCRATCH>/fix2b/pt/negctl/test_cpu_runner_leaves_evaluat0/data/w/data.yaml","final_eval_root":"<SCRATCH>/fix2b/pt/negctl/test_cpu_runner_leaves_evaluat0/data/w/images/test","output_root":"<SCRATCH>/fix2b/pt/negctl/test_cpu_runner_leaves_evaluat0/runs/out","search_val_root":"<SCRATCH>/fix2b/pt/negctl/test_cpu_runner_leaves_evaluat0/data/w/images/val","train_root":"<SCRATCH>/fix2b/pt/negctl/test_cpu_runner_leaves_evaluat0/data/w/images/train"},"preset":"PILOT_SMOKE","purpose":"SMOKE","retention":{"full_state":"last_rung_end_only"},"run_namespace":"pilot_smoke","search":{"allow_native_fallback":false,"arms":[],"budget_gpu_hours":0.75,"crossover_rate":1.0,"evaluation_enabled":true,"generations":2,"mutation_rate":0.35,"population":2,"search_space_resolved":{"variant":"not_required"},"seeds":[101]}},"continuation":{"checkpoint_architecture_hash_must_match":true,"evaluation_checkpoint":"ema_snapshot_at_exact_rung_end","missing_state_action":"block_no_silent_weights_only_fallback","mode":"full_state_resume_same_architecture","restore":["model","optimizer","scheduler_or_exact_reconstruction","amp_scaler","ema_and_updates","epoch_and_optimizer_steps","rng","sampler_data_order"],"training_checkpoint":"unstripped_rung_end_state"},"dataset":{"all_stage_same_data":true,"class_handling":"explicit_filter_and_mapping_required","class_mapping_hash":"sha256:19d5b54461a80353ba7da64f39d2192f71e214e037f31a6240ad71bfd4dfbac0","counts":{"final_eval":{"boxes":2,"empty_labels":0,"images":2,"issues":0,"labelled":2,"missing_labels":0,"per_class":{"0":2}},"search_val":{"boxes":2,"empty_labels":0,"images":2,"issues":0,"labelled":2,"missing_labels":0,"per_class":{"0":2}},"train":{"boxes":4,"empty_labels":0,"images":4,"issues":0,"labelled":4,"missing_labels":0,"per_class":{"0":4}}},"final_evaluation_manifest_hash":"sha256:375425b6261dcb4cb4d98c049b92928e238edb4ef2962865d36f827ff7121737","search_validation_manifest_hash":"sha256:95ba00107be92ce97ff8914ead71d751184d42f20eff3485cffe834aa729069a","test_access_during_search":false,"train_fraction":1,"train_manifest_hash":"sha256:a648d24a49a94dccf2cba524899699f8548395177a4c8a7892004e55a0c1c6bc"},"final_retraining":{"budget_GPU_hours_separate":null,"epoch_target_total":2,"finalist_selection":"highest_AP_at_L2_with_measured_latency_constraint","initialization":"scratch_with_pinned_recipe","reporting":"search_metrics_and_final_retrained_metrics_separate","scheduler_horizon_epochs":2,"top_k_per_arm_per_seed":1},"fitness":{"accuracy_input_unit":"fraction_0_to_1","accuracy_metric":"AP_IoU_0.50_to_0.95","display_accuracy_unit":"percent","formula_version":"named_weighted_reward_v1","latency_batch":1,"latency_bounds_ms":[20,200],"latency_device_manifest":null,"latency_precision":"FP16","latency_scope":"forward_and_postprocessing_with_preprocessing_reported_separately","latency_source":"target_device_measured_or_explicit_calibrated_proxy","metric_missing_action":"pending_or_eval_failure_not_zero","normalizer_scope":"fixed_shared_preregistered_anchors","out_of_range":"clip_reward_to_0_to_1_and_keep_raw_value","recall_evaluator_version":null,"recall_metric":"recall_IoU_0.50_conf_0.25_macro_class","size_bounds_MB":[5,100],"size_definition":"pinned_weights_only_artifact_without_optimizer_decimal_MB"},"git_commit":null,"hard_constraints":{"latency_le_ms":1000,"proxy_may_certify_final_deployment":false,"weights_size_le_MB":500},"original_status":"PRESET_PILOT_SMOKE","proposal":{"GA":{"parent_objective":"L0_named_weights","parent_selection_fidelity":"L0","policy_note":"new_protocol_not_claimed_historical_GA"},"IndependentRandom":{"candidate_proposals_use_observed_fitness":false,"prior_frozen_before_search":true,"source_pool_updated_from_GA_history":false}},"protocol_id":"mbnas-pilot-smoke","resolution":{"canonicalization":"mbnas-canon/1","hash_excluded":["console.label","resolution.validated_at","console.retention","resolution.paths"],"paths":{"dataset_yaml":{"requested":"<SCRATCH>/fix2b/pt/negctl/test_cpu_runner_leaves_evaluat0/data/w/data.yaml"},"final_eval_root":{"requested":"<SCRATCH>/fix2b/pt/negctl/test_cpu_runner_leaves_evaluat0/data/w/images/test"},"output_root":{"requested":"<SCRATCH>/fix2b/pt/negctl/test_cpu_runner_leaves_evaluat0/runs/out"},"search_val_root":{"requested":"<SCRATCH>/fix2b/pt/negctl/test_cpu_runner_leaves_evaluat0/data/w/images/val"},"train_root":{"requested":"<SCRATCH>/fix2b/pt/negctl/test_cpu_runner_leaves_evaluat0/data/w/images/train"}},"validated_at":"2026-10-27T20:55:45.364607Z","validator":"mbnas-validator/1"},"rungs":[{"epoch_target_total":2,"epochs_added":2,"fitness_weights":{"ap":0.2,"latency_reward":0.4,"recall":0.1,"size_reward":0.3},"id":"L0","promotion":null}],"schedule_scope":"candidate_local","schema_version":"nas-console/1.0","status":"RESOLVED_PILOT","training":{"augmentation_profile":"PINNED_NATIVE_PROFILE_REQUIRED","automatic_batch_fallback":"reject_and_record","backend_resolved":{"ultralytics":{"accumulate":1,"batches_per_epoch":1,"nbs":8,"optimizer":{"lr":0.001,"name":"AdamW","rule":"as requested"},"optimizer_iterations":2,"rule":"ultralytics 8.4.173 trainer","train_images":4,"warmup_iterations":0}},"batch_per_gpu":8,"betas":[0.9,0.999],"candidate_early_stop":"disabled_for_search_rung_comparability","change_loss_weights_at_promotion":false,"close_mosaic_epochs":0,"effective_batch":8,"fixed_horizon_epochs":2,"gpus_per_candidate":1,"gradient_accumulation":1,"initialization":"scratch","loss_profile":"model_version_native_pinned_and_exported","lr_final_ratio":0.01,"lr_initial":0.001,"nbs":8,"optimizer":"AdamW","precision":"amp_fp16_fp32","repeat_warmup_on_promotion":false,"requested_input_size":[640,640],"resolved_input_size_required":true,"scheduler":"cosine_global_search_horizon","scheduler_horizon_epochs":2,"validation_interval_epochs":1,"warmup_epochs":0,"weight_decay":0.0005,"weight_inheritance":false,"workers":0},"unresolved_before_real_execution":["서버 절대 경로 및 데이터 manifest 확인","backend·registry·native recipe 버전 고정","full-state pause/resume 검증","pilot epochs·weights·threshold 검증","장치 측정 조건과 예산 승인"],"value_provenance":"pilot_smoke_values_for_pipeline_verification_not_research_values"},"status_at_claim":"QUEUED","execution_mode":"PILOT"},"candidate":{"candidate_id":"run-6f307dded8c3.base.yolo11n","name":"YOLO11N","arm":"Baseline","family":"YOLO11","generation":0,"search_seed":null,"training_seed":895284287,"architecture_hash":null,"architecture_yaml":null,"architecture_path":null,"genotype":null,"candidate_status":"QUEUED","current_rung":"L0"},"resume":{"recorded_latest":null,"live_latest":null,"eval_ema":null,"location":null},"data_refs":{"dataset_yaml":{"protocol_path":"<SCRATCH>/fix2b/pt/negctl/test_cpu_runner_leaves_evaluat0/data/w/data.yaml","names":{}},"train":{"protocol_root":"<SCRATCH>/fix2b/pt/negctl/test_cpu_runner_leaves_evaluat0/data/w/images/train","manifest_hash":"sha256:a648d24a49a94dccf2cba524899699f8548395177a4c8a7892004e55a0c1c6bc","allowed":null},"search_val":{"protocol_root":"<SCRATCH>/fix2b/pt/negctl/test_cpu_runner_leaves_evaluat0/data/w/images/val","manifest_hash":"sha256:95ba00107be92ce97ff8914ead71d751184d42f20eff3485cffe834aa729069a","allowed":null},"final_eval":{"protocol_root":"<SCRATCH>/fix2b/pt/negctl/test_cpu_runner_leaves_evaluat0/data/w/images/test","manifest_hash":"sha256:375425b6261dcb4cb4d98c049b92928e238edb4ef2962865d36f827ff7121737","allowed":false}},"versions":{"core_contract":"1.5.0","progress_version":1,"checkpoint_format":"mbnas.full_state.v1","required_runtime":{"mbnas_model_runtime":">=0.1,<0.2","mbnas_contracts":">=0.1,<0.2"}},"fence":{"runner_id":"cpu-a","attempt":1,"claim_id":"clm-4d6fb60fff83b5b6","issued_at":"2026-10-27T20:55:45.669258Z"},"control":{"lease_ttl_s":30.0,"heartbeat_s":1.0,"progress_interval_s":1.0,"kill_grace_s":10.0}},"ticket":"v1.am9iLWNkMzUyYjJmN2UyMTQ2MDJ8MXxMMHxjcHUtYXwxNzkzNzM5MzQ1.1c9898b8c08f9f74bd45e7015fa816a228ffa391c00bd54d5ca28d860742005e","server_time":"2026-10-27T20:55:45.669868Z"}
+E       assert 200 == 204
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py:204: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T20:55:45.115Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=5a6272bcb9ff4b248632cdd759d96eb6 duration_ms=147.5 client=testclient:50000
+2026-10-27T20:55:45.221Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=3474ee5089394e198b515bc666d18415 duration_ms=49.0 client=testclient:50000
+2026-10-27T20:55:45.423Z INFO mbnas_core.access method=POST path=/api/v1/protocols/validate status=200 request_id=9125c43334014d3e83b86a7cb69ef375 duration_ms=198.6 client=testclient:50000
+2026-10-27T20:55:45.527Z INFO mbnas_core.access method=POST path=/api/v1/runs status=200 request_id=9ddda7fc18f8489dafd35b50fa55187e duration_ms=100.5 client=testclient:50000
+2026-10-27T20:55:45.697Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=218fb9fd5f664bc8967e94e083764291 duration_ms=166.3 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=5a6272bcb9ff4b248632cdd759d96eb6 duration_ms=147.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=3474ee5089394e198b515bc666d18415 duration_ms=49.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/protocols/validate status=200 request_id=9125c43334014d3e83b86a7cb69ef375 duration_ms=198.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/runs status=200 request_id=9ddda7fc18f8489dafd35b50fa55187e duration_ms=100.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=218fb9fd5f664bc8967e94e083764291 duration_ms=166.3 client=testclient:50000
+_ test_explicit_training_that_evaluates_goes_to_the_gpu_runner_while_one_is_online _
+
+fleet = namespace(core=<starlette.testclient.TestClient object at 0x7f7f703fb490>, settings=CoreSettings(api_token=SecretStr('...ck_unshare=True), sim=<function fleet.<locals>.sim at 0x7f80bb3a5fc0>, q=<function fleet.<locals>.q at 0x7f80bb3a5f30>)
+base_proto = <function base_proto.<locals>.build at 0x7f80bb3a6440>
+
+    def test_explicit_training_that_evaluates_goes_to_the_gpu_runner_while_one_is_online(fleet, base_proto):
+        cpu = fleet.sim("cpu-a", **CPU)
+        gpu = fleet.sim("gpu-a")
+        run_id = _training_run(fleet, base_proto, "GPU-sim-gpu-a", "dd-a62-d-val", validation=True)
+>       assert cpu.claim_raw().status_code == 204  # mixed fleet: the evaluation goes to CUDA
+E       assert 200 == 204
+E        +  where 200 = <Response [200 OK]>.status_code
+E        +    where <Response [200 OK]> = claim_raw()
+E        +      where claim_raw = <runner_sim.RunnerSim object at 0x7f80bb200c40>.claim_raw
+
+tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py:222: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T20:55:46.298Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=0265e6e94ba54ce8991aae1929c35627 duration_ms=132.1 client=testclient:50000
+2026-10-27T20:55:46.391Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=5b45e86dbd684085b81663bec5464415 duration_ms=49.6 client=testclient:50000
+2026-10-27T20:55:46.936Z INFO mbnas_core.access method=POST path=/api/v1/training-runs status=200 request_id=683a6faff3ab40189ed3c23f3fcbd14c duration_ms=539.4 client=testclient:50000
+2026-10-27T20:55:46.979Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=89add8dc75a64ea58870eedcf692afe1 duration_ms=39.3 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=0265e6e94ba54ce8991aae1929c35627 duration_ms=132.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=5b45e86dbd684085b81663bec5464415 duration_ms=49.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/training-runs status=200 request_id=683a6faff3ab40189ed3c23f3fcbd14c duration_ms=539.4 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=89add8dc75a64ea58870eedcf692afe1 duration_ms=39.3 client=testclient:50000
+_______ test_cpu_only_fleet_cpu_runner_still_takes_an_evaluation_on_job ________
+
+fleet = namespace(core=<starlette.testclient.TestClient object at 0x7f7f0f10f820>, settings=CoreSettings(api_token=SecretStr('...ck_unshare=True), sim=<function fleet.<locals>.sim at 0x7f7f0d62b880>, q=<function fleet.<locals>.q at 0x7f7f0d62ba30>)
+base_proto = <function base_proto.<locals>.build at 0x7f7f0d62bd90>
+
+    def test_cpu_only_fleet_cpu_runner_still_takes_an_evaluation_on_job(fleet, base_proto):
+        """No ONLINE non-CPU runner: unchanged lease (``repo.acquire_lease``); the evaluation the CPU runner cannot measure
+        is committed NOT_EVALUATED with its reason (DD-A62 (a), see tests/owner/orchestration/test_dd_a62_not_evaluated_search.py).
+        A GPU runner that left (OFFLINE) or was never seen online does not make the fleet mixed."""
+        cpu = fleet.sim("cpu-a", **CPU)
+        gpu = fleet.sim("gpu-a")
+        run_id = _search_run(fleet, base_proto, "GPU-sim-gpu-a", "dd-a62-d-cpu-search")
+>       assert cpu.claim_raw().status_code == 204  # mixed fleet
+E       assert 200 == 204
+E        +  where 200 = <Response [200 OK]>.status_code
+E        +    where <Response [200 OK]> = claim_raw()
+E        +      where claim_raw = <runner_sim.RunnerSim object at 0x7f7f703fcfa0>.claim_raw
+
+tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py:256: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T20:55:50.057Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=f6a5e36bfb42482197705bb45f59971a duration_ms=155.9 client=testclient:50000
+2026-10-27T20:55:50.130Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=be9447ddf75840fda44015e59c1637ea duration_ms=29.7 client=testclient:50000
+2026-10-27T20:55:50.287Z INFO mbnas_core.access method=POST path=/api/v1/protocols/validate status=200 request_id=f4d8e132638a4d9dbfd38e3c5e1940c2 duration_ms=151.7 client=testclient:50000
+2026-10-27T20:55:50.376Z INFO mbnas_core.access method=POST path=/api/v1/runs status=200 request_id=5ccb7c8d3a674af298825f29f6692baa duration_ms=84.8 client=testclient:50000
+2026-10-27T20:55:50.416Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=489a0c977b9242dc9c8b04e2546185c9 duration_ms=36.5 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=f6a5e36bfb42482197705bb45f59971a duration_ms=155.9 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=be9447ddf75840fda44015e59c1637ea duration_ms=29.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/protocols/validate status=200 request_id=f4d8e132638a4d9dbfd38e3c5e1940c2 duration_ms=151.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/runs status=200 request_id=5ccb7c8d3a674af298825f29f6692baa duration_ms=84.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=489a0c977b9242dc9c8b04e2546185c9 duration_ms=36.5 client=testclient:50000
+___________ test_gpu_less_host_uses_the_registered_cpu_runner_entry ____________
+
+local_core = namespace(core=<starlette.testclient.TestClient object at 0x7f7f0f2c0a00>, svc=AppServices(settings=CoreSettings(api_t...lt-in method extend of list object at 0x7f7f0f085740>, proto=<function local_core.<locals>.<lambda> at 0x7f7f0f18ab00>)
+
+    def test_gpu_less_host_uses_the_registered_cpu_runner_entry(local_core):
+        local_core.runner("cpu-a", **CPU)
+        devices = local_core.svc.devices()
+>       assert [(d["id"], d["uuid"], d.get("kind")) for d in devices] == [("cpu", None, "cpu")]
+E       AssertionError: assert [] == [('cpu', None, 'cpu')]
+E         
+E         Right contains one more item: ('cpu', None, 'cpu')
+E         Use -v to get more diff
+
+tests/owner/api/test_dd_a62_device_source_local.py:100: AssertionError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:180 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T20:56:02.040Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=8658c802274d423dbf9e97bc8f1417b4 duration_ms=143.1 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=8658c802274d423dbf9e97bc8f1417b4 duration_ms=143.1 client=testclient:50000
+_ test_recover_generation_reads_the_core_local_journal_and_registers_its_yamls _
+
+split = namespace(core=<starlette.testclient.TestClient object at 0x7f7f0f041ea0>, settings=CoreSettings(api_token=SecretStr('...0x7f7f0f1cf880>, headers={'Authorization': 'Bearer mbnas_server_<redacted-test-token>'})
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7f0f042d70>
+
+    def test_recover_generation_reads_the_core_local_journal_and_registers_its_yamls(split, monkeypatch):
+        run_id = split.off_run("dd-a62-c-recover")
+        local_arch = split.core_runs / run_id / "architectures"
+        run = split.q(lambda c: repo.get_run(c, run_id))
+        assert not run_dir(run).exists()  # the customer output root was never created on this host
+        cands = _crafted_generation(run, local_arch)
+        monkeypatch.setenv("MBNAS_CORE_OUTPUT_ROOT", str(split.core_runs))  # the core settings of this host's environment
+        conn = connect(split.settings, init=False)
+        try:
+            job = _generation_job(conn, run_id)
+            recovered = engine._recover_generation(engine.context(conn, run_id), job)  # settings source, no DB needed
+>           assert [c["row"]["id"] for c in recovered.get("candidates", [])] == [c["row"]["id"] for c in cands]
+E           AssertionError: assert [] == ['run-ee1312f...:s7:g00:c001']
+E             
+E             Right contains 2 more items, first extra item: 'run-ee1312f18eb0:RAND:s7:g00:c000'
+E             Use -v to get more diff
+
+tests/owner/worker/test_dd_a62_core_local_generation.py:155: AssertionError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:180 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T20:56:03.970Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=2328983a6c12468690f6754f3f06923d duration_ms=90.4 client=testclient:50000
+2026-10-27T20:56:04.014Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=13fdda401f3841b1b8d6287fd63e1eb8 duration_ms=41.4 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=2328983a6c12468690f6754f3f06923d duration_ms=90.4 client=testclient:50000
+WARNING  mbnas_core.console:routes_runs.py:186 run run-ee1312f18eb0: protocol copies not written under the customer output_root on this host (PermissionError); the database keeps both protocols
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=13fdda401f3841b1b8d6287fd63e1eb8 duration_ms=41.4 client=testclient:50000
+____ test_without_exported_settings_a_stored_candidate_locates_the_journal _____
+
+split = namespace(core=<starlette.testclient.TestClient object at 0x7f7f0f05e0e0>, settings=CoreSettings(api_token=SecretStr('...0x7f7f0f127910>, headers={'Authorization': 'Bearer mbnas_server_<redacted-test-token>'})
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f7f0f05f0d0>
+
+    def test_without_exported_settings_a_stored_candidate_locates_the_journal(split, monkeypatch):
+        """An owner worker started with ``--env-file`` does not export MBNAS_CORE_OUTPUT_ROOT: the settings of the environment
+        point elsewhere, and the journal is found through the verified core-local YAML of an already stored candidate."""
+        run_id = split.off_run("dd-a62-c-envfile")
+        run = split.q(lambda c: repo.get_run(c, run_id))
+        cands = _crafted_generation(run, split.core_runs / run_id / "architectures", n=3)
+        monkeypatch.setenv("MBNAS_CORE_OUTPUT_ROOT", str(split.customer / "elsewhere"))  # wrong for this host on purpose
+        conn = connect(split.settings, init=False)
+        try:
+            job = _generation_job(conn, run_id)
+            with tx(conn):  # nothing stored yet and no usable settings: the requeue recovers nothing
+                engine.job_requeued(conn, job, paused=True, reason_code="PAUSED")
+            assert repo.list_candidates(conn, run_id) == []
+            with tx(conn):  # the first candidate was notified (owner worker progress line)
+                engine.generation_progress(conn, job, {"generated_candidate": cands[0]})
+            with tx(conn):  # now the stored candidate's verified core-local YAML locates the journal
+                engine.job_requeued(conn, job, paused=True, reason_code="PAUSED")
+>           assert {c["id"] for c in repo.list_candidates(conn, run_id)} == {c["row"]["id"] for c in cands}
+E           AssertionError: assert {'run-b315657...:s7:g00:c000'} == {'run-b315657...:s7:g00:c002'}
+E             
+E             Extra items in the right set:
+E             'run-b31565705f6f:RAND:s7:g00:c002'
+E             'run-b31565705f6f:RAND:s7:g00:c001'
+E             Use -v to get more diff
+
+tests/owner/worker/test_dd_a62_core_local_generation.py:193: AssertionError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:180 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T20:56:04.362Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=d9b9638883a24608821bec3fd63457a7 duration_ms=113.6 client=testclient:50000
+2026-10-27T20:56:04.407Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=6d8fbd1e2894444d8a64a9f0686a47fd duration_ms=41.5 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=d9b9638883a24608821bec3fd63457a7 duration_ms=113.6 client=testclient:50000
+WARNING  mbnas_core.console:routes_runs.py:186 run run-b31565705f6f: protocol copies not written under the customer output_root on this host (PermissionError); the database keeps both protocols
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=6d8fbd1e2894444d8a64a9f0686a47fd duration_ms=41.5 client=testclient:50000
+___ test_a_core_local_file_is_registered_only_when_it_is_the_candidate_yaml ____
+
+split = namespace(core=<starlette.testclient.TestClient object at 0x7f7f6fafd4b0>, settings=CoreSettings(api_token=SecretStr('...0x7f7f6fab2950>, headers={'Authorization': 'Bearer mbnas_server_<redacted-test-token>'})
+tmp_path = PosixPath('<SCRATCH>/fix2b/pt/negctl/test_a_core_local_file_is_regi0')
+
+    def test_a_core_local_file_is_registered_only_when_it_is_the_candidate_yaml(split, tmp_path):
+        run_id = split.off_run("dd-a62-c-refuse")
+        run = split.q(lambda c: repo.get_run(c, run_id))
+        local_arch = split.core_runs / run_id / "architectures"
+        cands = _crafted_generation(run, local_arch, n=4)
+        # 0: bytes differ from the recorded YAML; 1: a symlink; 2: not under <run>/architectures; 3: valid
+        Path(cands[0]["row"]["architecture_path"]).write_text("# tampered\n")
+        target = tmp_path / "outside.yaml"
+        target.write_text(cands[1]["row"]["architecture_yaml"])
+        link = Path(cands[1]["row"]["architecture_path"])
+        link.unlink()
+        link.symlink_to(target)
+        other = split.core_runs / "another-dir" / "architectures"
+        other.mkdir(parents=True)
+        moved = other / Path(cands[2]["row"]["architecture_path"]).name
+        moved.write_text(cands[2]["row"]["architecture_yaml"])
+        cands[2]["row"]["architecture_path"] = str(moved)
+        conn = connect(split.settings, init=False)
+        try:
+            job = _generation_job(conn, run_id)
+            with tx(conn):
+                for cand in cands:
+                    engine.generation_progress(conn, job, {"generated_candidate": cand})
+>           assert set(_artifacts(conn, run_id)) == {cands[3]["row"]["id"]}
+E           AssertionError: assert set() == {'run-f59abb5...:s7:g00:c003'}
+E             
+E             Extra items in the right set:
+E             'run-f59abb54fe68:RAND:s7:g00:c003'
+E             Use -v to get more diff
+
+tests/owner/worker/test_dd_a62_core_local_generation.py:222: AssertionError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:180 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T20:56:04.768Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=973460fe6749409e9cdc031afbb94fb5 duration_ms=110.0 client=testclient:50000
+2026-10-27T20:56:04.825Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=938d394a5ad94caab4e4a032deec6260 duration_ms=54.2 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=973460fe6749409e9cdc031afbb94fb5 duration_ms=110.0 client=testclient:50000
+WARNING  mbnas_core.console:routes_runs.py:186 run run-f59abb54fe68: protocol copies not written under the customer output_root on this host (PermissionError); the database keeps both protocols
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=938d394a5ad94caab4e4a032deec6260 duration_ms=54.2 client=testclient:50000
+_ test_real_split_generation_registers_one_core_local_architecture_per_candidate _
+
+split = namespace(core=<starlette.testclient.TestClient object at 0x7f7f6fa67760>, settings=CoreSettings(api_token=SecretStr('...0x7f7f0f18b010>, headers={'Authorization': 'Bearer mbnas_server_<redacted-test-token>'})
+
+    @pytest.mark.slow
+    @pytest.mark.owner_worker
+    def test_real_split_generation_registers_one_core_local_architecture_per_candidate(split):
+        pytest.importorskip("torch")
+        pytest.importorskip("ultralytics")
+        run_id = split.off_run("dd-a62-c-real")
+        worker = Worker(split.settings, owner_config(poll_s=0.05, kill_grace_s=2), worker_id="dd-a62-owner:1")
+        try:
+            assert worker.tick() is True and worker.tick() is False
+        finally:
+            worker.conn.close()
+        run = split.q(lambda c: repo.get_run(c, run_id))
+        assert run["status"] == "COMPLETED", (run["status"], run["reason_code"])
+        assert not (split.customer / "out").exists()
+        cands = split.q(lambda c: repo.list_candidates(c, run_id))
+        arts = split.q(lambda c: _artifacts(c, run_id))
+>       assert len(cands) == 2 and set(arts) == {c["id"] for c in cands}
+E       AssertionError: assert (2 == 2 and set() == {'run-f55cca1...:s7:g00:c001'}
+E        +  where 2 = len([{'id': 'run-f55cca1c1eb2:RAND:s7:g00:c000', 'run_id': 'run-f55cca1c1eb2', 'name': 'Random candidate 1', 'arm': 'Indep...1c1eb2:RAND:s7:g00:c001', 'run_id': 'run-f55cca1c1eb2', 'name': 'Random candidate 2', 'arm': 'IndependentRandom', ...}])
+E         
+E         Extra items in the right set:
+E         'run-f55cca1c1eb2:RAND:s7:g00:c000'
+E         'run-f55cca1c1eb2:RAND:s7:g00:c001'
+E         Use -v to get more diff)
+
+tests/owner/worker/test_dd_a62_core_local_generation.py:266: AssertionError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:180 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T20:56:05.599Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=cd5ebcf0ecee400784ea519951f66c12 duration_ms=104.5 client=testclient:50000
+2026-10-27T20:56:05.651Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=15967f1035d743969cd74c7b74cb8ea0 duration_ms=48.2 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=cd5ebcf0ecee400784ea519951f66c12 duration_ms=104.5 client=testclient:50000
+WARNING  mbnas_core.console:routes_runs.py:186 run run-f55cca1c1eb2: protocol copies not written under the customer output_root on this host (PermissionError); the database keeps both protocols
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=15967f1035d743969cd74c7b74cb8ea0 duration_ms=48.2 client=testclient:50000
+=============================== warnings summary ===============================
+tests/owner/orchestration/test_dd_a62_not_evaluated_search.py::test_ga_not_evaluated_candidates_record_the_reason_and_are_never_promoted
+  <ROOT>/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/owner/orchestration/test_dd_a62_not_evaluated_search.py::test_ga_not_evaluated_candidates_record_the_reason_and_are_never_promoted
+FAILED tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py::test_explicit_training_with_validation_on_a_cpu_fleet_completes_not_evaluated
+FAILED tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py::test_requires_cuda_and_needs_cuda_rules
+FAILED tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py::test_cpu_runner_leaves_evaluation_on_jobs_to_the_gpu_runner_and_leases_what_it_can_run
+FAILED tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py::test_explicit_training_that_evaluates_goes_to_the_gpu_runner_while_one_is_online
+FAILED tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py::test_cpu_only_fleet_cpu_runner_still_takes_an_evaluation_on_job
+FAILED tests/owner/api/test_dd_a62_device_source_local.py::test_gpu_less_host_uses_the_registered_cpu_runner_entry
+FAILED tests/owner/worker/test_dd_a62_core_local_generation.py::test_recover_generation_reads_the_core_local_journal_and_registers_its_yamls
+FAILED tests/owner/worker/test_dd_a62_core_local_generation.py::test_without_exported_settings_a_stored_candidate_locates_the_journal
+FAILED tests/owner/worker/test_dd_a62_core_local_generation.py::test_a_core_local_file_is_registered_only_when_it_is_the_candidate_yaml
+FAILED tests/owner/worker/test_dd_a62_core_local_generation.py::test_real_split_generation_registers_one_core_local_architecture_per_candidate
+11 failed, 8 passed, 1 xfailed, 1 warning in 35.08s
+rc=1

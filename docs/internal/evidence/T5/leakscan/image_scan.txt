@@ -1,0 +1,3 @@
+scanned files=52005 bytes=3007833879 containers=46 skipped=565 hits=0 failing=0 unmet=0
+canary_scan: PASS
+exit=0 seconds=67

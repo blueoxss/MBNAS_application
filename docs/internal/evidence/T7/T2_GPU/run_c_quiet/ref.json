@@ -1,0 +1,609 @@
+{
+ "digests": {
+  "eval_ema_snapshot": {
+   "sha256": "sha256:a7336e9038a40b72271051aece70e17e9f171d1150e01a5cb3eccd4340bf6542",
+   "tensors": 499
+  },
+  "full_state.ema_fp32": {
+   "sha256": "sha256:95ef199e05075151724233e65e41e1dfa4d16dc8f9ef28ae35ea43878894cedf",
+   "tensors": 499
+  },
+  "full_state.keys": [
+   "adapter",
+   "adapter_meta",
+   "best_fitness",
+   "ema_fp32",
+   "ema_updates",
+   "env",
+   "epoch",
+   "epochs_done",
+   "format",
+   "global_step",
+   "hashes",
+   "loader_generator_state",
+   "lr_history",
+   "model_fp32",
+   "optimizer",
+   "rng",
+   "samples_seen",
+   "scaler",
+   "scheduler"
+  ],
+  "full_state.model_fp32": {
+   "sha256": "sha256:cd0a4d013bc2debce818fc7aeb206a6163a77d8f1fa8824005d0d0078f6c151d",
+   "tensors": 499
+  },
+  "full_state.optimizer": {
+   "sha256": "sha256:92825e2c4f74b09226cf96e5abd4b2fa94ca66fa8196586fca00b1841dc59398",
+   "tensors": 765
+  }
+ },
+ "isolation": {
+  "blocked": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_model_runtime",
+   "mbnas_runner"
+  ],
+  "sys_path_head": [
+   "/home/mgjeong/Desktop/etri_hd/mbnas_application/build/source_snapshot/application/MBNAS_server/src",
+   "/home/mgjeong/Desktop/etri_hd/mbnas_application/build/source_snapshot"
+  ]
+ },
+ "job": {
+  "gpu_seconds": 28.9274,
+  "message": "",
+  "reason_code": null,
+  "status": "SUCCEEDED"
+ },
+ "label": "ref",
+ "latency_scopes": {
+  "end_to_end": {
+   "mean_ms": 8.430954422801733,
+   "n": 100,
+   "p50_ms": 8.198648924008012,
+   "p95_ms": 9.665000392124057
+  },
+  "forward_and_postprocess": {
+   "mean_ms": 8.218221198767424,
+   "n": 100,
+   "p50_ms": 8.000461850315332,
+   "p95_ms": 9.429770801216364
+  },
+  "forward_only": {
+   "mean_ms": 7.568659819662571,
+   "n": 100,
+   "p50_ms": 7.355644600465894,
+   "p95_ms": 8.670405927114189
+  }
+ },
+ "lr_history": [
+  {
+   "epoch": 0,
+   "global_step": 60,
+   "lr": [
+    0.001,
+    0.001,
+    0.001
+   ],
+   "native_fitness": 0.0,
+   "native_metrics": {
+    "metrics/mAP50(B)": 0.0,
+    "metrics/mAP50-95(B)": 0.0,
+    "metrics/precision(B)": 0.0,
+    "metrics/recall(B)": 0.0,
+    "val/box_loss": 6.66972,
+    "val/cls_loss": 4.17984,
+    "val/dfl_loss": 4.38167
+   },
+   "param_groups": [
+    "weight",
+    "bn",
+    "bias"
+   ]
+  },
+  {
+   "epoch": 1,
+   "global_step": 120,
+   "lr": [
+    0.0007525,
+    0.0007525,
+    0.0007525
+   ],
+   "native_fitness": 0.76889,
+   "native_metrics": {
+    "metrics/mAP50(B)": 0.9577,
+    "metrics/mAP50-95(B)": 0.76889,
+    "metrics/precision(B)": 0.99707,
+    "metrics/recall(B)": 0.77778,
+    "val/box_loss": 0.98615,
+    "val/cls_loss": 1.58981,
+    "val/dfl_loss": 1.22698
+   },
+   "param_groups": [
+    "weight",
+    "bn",
+    "bias"
+   ]
+  },
+  {
+   "epoch": 2,
+   "global_step": 180,
+   "lr": [
+    0.0002575000000000001,
+    0.0002575000000000001,
+    0.0002575000000000001
+   ],
+   "native_fitness": 0.82559,
+   "native_metrics": {
+    "metrics/mAP50(B)": 0.97686,
+    "metrics/mAP50-95(B)": 0.82559,
+    "metrics/precision(B)": 1.0,
+    "metrics/recall(B)": 0.92947,
+    "val/box_loss": 0.77449,
+    "val/cls_loss": 0.73425,
+    "val/dfl_loss": 1.03629
+   },
+   "param_groups": [
+    "weight",
+    "bn",
+    "bias"
+   ]
+  }
+ ],
+ "metrics": {
+  "ap": 0.8239770093712652,
+  "ap_50": 0.9783330747529502,
+  "coco_stats": {
+   "ap": 0.8239770093712652,
+   "ap_50": 0.9783330747529502,
+   "ap_75": 0.9519050110394888,
+   "ap_large": null,
+   "ap_medium": 0.8474425464524474,
+   "ap_small": 0.7940971239981142,
+   "ar": 0.85,
+   "max_det": 300
+  },
+  "counts": {
+   "fn": 2,
+   "fp": 3,
+   "gt": 36,
+   "images": 16,
+   "kept": 37,
+   "predictions": 390,
+   "tp": 34
+  },
+  "device_name": "NVIDIA RTX A6000",
+  "evaluation_hash": "sha256:98088fc74ee616b7d01fdf09c963c15b6d1438a1c36746a5acb9502b6e46b7d2",
+  "latency_ms": 8.000461850315332,
+  "latency_scope": "forward_and_postprocess(conf=0.25,iou=0.7,max_det=300)",
+  "latency_source": "measured",
+  "latency_statistics": {
+   "mean_ms": 8.218221198767424,
+   "p50_ms": 8.000461850315332,
+   "p95_ms": 9.429770801216364
+  },
+  "no_predictions": false,
+  "precision": "FP16",
+  "recall": 0.9444444444444444,
+  "resolved_input_shape": [
+   160,
+   160
+  ],
+  "size_mb": 5.360396,
+  "split_hash": "sha256:38a0be5befb6371c2c9a05003b0e0d88aa787e7cbcea738d61f817132ed685d9",
+  "weights_only_sha256": "70651fb1324c7e37d71f93b2bd63ae25281f5d3d57ee248ccb00f38dc781cece"
+ },
+ "modules": {
+  "checkpoint": "/home/mgjeong/Desktop/etri_hd/mbnas_application/build/source_snapshot/application/MBNAS_server/src/mbnas_server/training/checkpoint.py",
+  "config": "/home/mgjeong/Desktop/etri_hd/mbnas_application/build/source_snapshot/application/MBNAS_server/src/mbnas_server/config.py",
+  "handler": "/home/mgjeong/Desktop/etri_hd/mbnas_application/build/source_snapshot/application/MBNAS_server/src/mbnas_server/training/handlers.py",
+  "jobs": "/home/mgjeong/Desktop/etri_hd/mbnas_application/build/source_snapshot/application/MBNAS_server/src/mbnas_server/schemas/jobs.py",
+  "manifest": "/home/mgjeong/Desktop/etri_hd/mbnas_application/build/source_snapshot/application/MBNAS_server/src/mbnas_server/datasets/manifest.py",
+  "phash": "/home/mgjeong/Desktop/etri_hd/mbnas_application/build/source_snapshot/application/MBNAS_server/src/mbnas_server/protocol/validator.py",
+  "validator": "/home/mgjeong/Desktop/etri_hd/mbnas_application/build/source_snapshot/application/MBNAS_server/src/mbnas_server/protocol/validator.py"
+ },
+ "progress_events": [
+  {
+   "epoch": 1,
+   "epoch_target_total": 3,
+   "global_step": 60,
+   "job_id": "job-t2gpu-0001",
+   "learning_rate": 0.001,
+   "message": null,
+   "payload": {
+    "epoch": 0,
+    "epoch_target_total": 3,
+    "epochs_done": 1,
+    "global_step": 60,
+    "lr": 0.001,
+    "native_metrics": {
+     "metrics/mAP50(B)": 0.0,
+     "metrics/mAP50-95(B)": 0.0,
+     "metrics/precision(B)": 0.0,
+     "metrics/recall(B)": 0.0,
+     "val/box_loss": 6.66972,
+     "val/cls_loss": 4.17984,
+     "val/dfl_loss": 4.38167
+    },
+    "samples_seen": 480
+   },
+   "samples_seen": 480,
+   "type": "progress"
+  },
+  {
+   "epoch": 2,
+   "epoch_target_total": 3,
+   "global_step": 120,
+   "job_id": "job-t2gpu-0001",
+   "learning_rate": 0.0007525,
+   "message": null,
+   "payload": {
+    "epoch": 1,
+    "epoch_target_total": 3,
+    "epochs_done": 2,
+    "global_step": 120,
+    "lr": 0.0007525,
+    "native_metrics": {
+     "metrics/mAP50(B)": 0.9577,
+     "metrics/mAP50-95(B)": 0.76889,
+     "metrics/precision(B)": 0.99707,
+     "metrics/recall(B)": 0.77778,
+     "val/box_loss": 0.98615,
+     "val/cls_loss": 1.58981,
+     "val/dfl_loss": 1.22698
+    },
+    "samples_seen": 960
+   },
+   "samples_seen": 960,
+   "type": "progress"
+  },
+  {
+   "epoch": 3,
+   "epoch_target_total": 3,
+   "global_step": 180,
+   "job_id": "job-t2gpu-0001",
+   "learning_rate": 0.0002575000000000001,
+   "message": null,
+   "payload": {
+    "epoch": 2,
+    "epoch_target_total": 3,
+    "epochs_done": 3,
+    "global_step": 180,
+    "lr": 0.0002575000000000001,
+    "native_metrics": {
+     "metrics/mAP50(B)": 0.97686,
+     "metrics/mAP50-95(B)": 0.82559,
+     "metrics/precision(B)": 1.0,
+     "metrics/recall(B)": 0.92947,
+     "val/box_loss": 0.77449,
+     "val/cls_loss": 0.73425,
+     "val/dfl_loss": 1.03629
+    },
+    "samples_seen": 1440
+   },
+   "samples_seen": 1440,
+   "type": "progress"
+  },
+  {
+   "epoch": null,
+   "epoch_target_total": null,
+   "global_step": null,
+   "job_id": "job-t2gpu-0001",
+   "learning_rate": null,
+   "message": null,
+   "payload": {
+    "ap": 0.8239770093712652,
+    "ap_50": 0.9783330747529502,
+    "evaluation_hash": "sha256:98088fc74ee616b7d01fdf09c963c15b6d1438a1c36746a5acb9502b6e46b7d2",
+    "fitness": 0.9581017536871186,
+    "latency_ms": 8.000461850315332,
+    "recall": 0.9444444444444444,
+    "size_mb": 5.360396
+   },
+   "samples_seen": null,
+   "type": "metric"
+  }
+ ],
+ "resolved_recipe": {
+  "accumulate": 1,
+  "agnostic_nms": false,
+  "amp": true,
+  "amp_resolved": true,
+  "angle": 1.0,
+  "augment": false,
+  "auto_augment": "randaugment",
+  "batch": 8,
+  "batches_per_epoch": 60,
+  "bgr": 0.0,
+  "box": 7.5,
+  "cache": false,
+  "cfg": null,
+  "channels_last": null,
+  "classes": null,
+  "close_mosaic": 0,
+  "cls": 0.5,
+  "cls_pw": 0.0,
+  "cls_remap": true,
+  "compile": false,
+  "conf": null,
+  "copy_paste": 0.0,
+  "copy_paste_mode": "flip",
+  "cos_lr": true,
+  "cutmix": 0.0,
+  "data": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t2_gpu/20261027T064004Z/ref/runs/run-t2gpu/data_view/b82fb7906df8ba7c/data.yaml",
+  "degrees": 0.0,
+  "deterministic": true,
+  "device": "0",
+  "dfl": 1.5,
+  "dgrad": 0.5,
+  "dis": 6.0,
+  "distill_model": null,
+  "dlam": 1.0,
+  "dlog": 1.0,
+  "dnn": false,
+  "dropout": 0.0,
+  "dynamic": false,
+  "embed": null,
+  "epochs": 3,
+  "erasing": 0.4,
+  "exist_ok": true,
+  "fliplr": 0.5,
+  "flipud": 0.0,
+  "format": "torchscript",
+  "fraction": 1.0,
+  "freeze": null,
+  "fused_optimizer": true,
+  "hsv_h": 0.015,
+  "hsv_s": 0.7,
+  "hsv_v": 0.4,
+  "imgsz": 160,
+  "iou": 0.7,
+  "kobj": 1.0,
+  "line_width": null,
+  "lr0": 0.001,
+  "lrf": 0.01,
+  "mask_ratio": 4,
+  "max_det": 300,
+  "mixup": 0.0,
+  "mode": "train",
+  "model": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t2_gpu/20261027T064004Z/ref/runs/run-t2gpu/candidates/cand-t2gpu-yolo11n/architecture.yaml",
+  "momentum": 0.9,
+  "mosaic": 1.0,
+  "multi_scale": 0.0,
+  "name": "stage_e0000_e0003",
+  "nbs": 8,
+  "nms": null,
+  "opset": null,
+  "optimize": false,
+  "optimizer": "AdamW",
+  "optimizer_class": "AdamW",
+  "overlap_mask": true,
+  "patience": 0,
+  "perspective": 0.0,
+  "plots": false,
+  "pose": 12.0,
+  "pretrained": false,
+  "profile": false,
+  "project": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t2_gpu/20261027T064004Z/ref/runs/run-t2gpu/candidates/cand-t2gpu-yolo11n/native",
+  "quantize": null,
+  "rect": false,
+  "resolved_lr0": 0.001,
+  "resolved_optimizer": "AdamW",
+  "resume": false,
+  "retina_masks": false,
+  "rle": 1.0,
+  "save": true,
+  "save_conf": false,
+  "save_crop": false,
+  "save_dir": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t2_gpu/20261027T064004Z/ref/runs/run-t2gpu/candidates/cand-t2gpu-yolo11n/native/stage_e0000_e0003",
+  "save_frames": false,
+  "save_json": false,
+  "save_period": -1,
+  "save_txt": false,
+  "scale": 0.5,
+  "seed": 41,
+  "shear": 0.0,
+  "show": false,
+  "show_boxes": true,
+  "show_conf": true,
+  "show_labels": true,
+  "simplify": true,
+  "single_cls": false,
+  "source": null,
+  "split": "val",
+  "stream_buffer": false,
+  "task": "detect",
+  "time": null,
+  "tracker": "tracktrack.yaml",
+  "train_images": 480,
+  "translate": 0.1,
+  "val": true,
+  "verbose": false,
+  "vid_stride": 1,
+  "visualize": false,
+  "warmup_bias_lr": 0.1,
+  "warmup_epochs": 0.0,
+  "warmup_iterations": 0,
+  "warmup_momentum": 0.8,
+  "weight_decay": 0.0005,
+  "workers": 0,
+  "workspace": null
+ },
+ "results_csv": {
+  "candidates/cand-t2gpu-yolo11n/native/stage_e0000_e0003/results.csv": [
+   {
+    "epoch": "1",
+    "lr/pg0": "0.001",
+    "lr/pg1": "0.001",
+    "lr/pg2": "0.001",
+    "metrics/mAP50(B)": "0",
+    "metrics/mAP50-95(B)": "0",
+    "metrics/precision(B)": "0",
+    "metrics/recall(B)": "0",
+    "time": "7.76239",
+    "train/box_loss": "3.62187",
+    "train/cls_loss": "2.20731",
+    "train/dfl_loss": "2.63703",
+    "val/box_loss": "6.66972",
+    "val/cls_loss": "4.17984",
+    "val/dfl_loss": "4.38167"
+   },
+   {
+    "epoch": "2",
+    "lr/pg0": "0.0007525",
+    "lr/pg1": "0.0007525",
+    "lr/pg2": "0.0007525",
+    "metrics/mAP50(B)": "0.9577",
+    "metrics/mAP50-95(B)": "0.76889",
+    "metrics/precision(B)": "0.99707",
+    "metrics/recall(B)": "0.77778",
+    "time": "15.2375",
+    "train/box_loss": "1.49086",
+    "train/cls_loss": "0.89074",
+    "train/dfl_loss": "1.31047",
+    "val/box_loss": "0.98615",
+    "val/cls_loss": "1.58981",
+    "val/dfl_loss": "1.22698"
+   },
+   {
+    "epoch": "3",
+    "lr/pg0": "0.0002575",
+    "lr/pg1": "0.0002575",
+    "lr/pg2": "0.0002575",
+    "metrics/mAP50(B)": "0.97686",
+    "metrics/mAP50-95(B)": "0.82559",
+    "metrics/precision(B)": "1",
+    "metrics/recall(B)": "0.92947",
+    "time": "22.5074",
+    "train/box_loss": "1.07914",
+    "train/cls_loss": "0.74725",
+    "train/dfl_loss": "1.16964",
+    "val/box_loss": "0.77449",
+    "val/cls_loss": "0.73425",
+    "val/dfl_loss": "1.03629"
+   }
+  ]
+ },
+ "run_record": {
+  "end_utc": "2026-10-27T06:41:13.660483Z",
+  "exit_code": 0,
+  "label": "ref",
+  "log": "/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/T7/T2_GPU/run_c_quiet/logs/20261027T064004Z_ref.log",
+  "nvidia_smi_after": {
+   "compute_apps": [],
+   "gpus": [
+    "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 0 %",
+    "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 0 %"
+   ]
+  },
+  "nvidia_smi_before": {
+   "compute_apps": [],
+   "gpus": [
+    "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 0 %",
+    "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 0 %"
+   ]
+  },
+  "out": "/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/T7/T2_GPU/run_c_quiet/ref.json",
+  "seconds": 33.5,
+  "side": "ref",
+  "start_utc": "2026-10-27T06:40:40.153435Z"
+ },
+ "rung_result": {
+  "checkpoint_sha256": {
+   "eval_ema": "ff1418ad629b00adaef227cdc862556e4d265e1f0d62e4c97c202d06039d06e1",
+   "training_full": "8acaadf51d710594bb2da3693cea6f6c3ed7cf7002a60783a48cd76045a772fb",
+   "weights_only": "70651fb1324c7e37d71f93b2bd63ae25281f5d3d57ee248ccb00f38dc781cece"
+  },
+  "epochs_done": 3,
+  "hashes": {
+   "architecture": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+   "dataset_train": "sha256:12c521df4196a35ba4c7f9aef3f4817900f8e546b83322072892ea5540145392",
+   "dataset_val": "sha256:38a0be5befb6371c2c9a05003b0e0d88aa787e7cbcea738d61f817132ed685d9",
+   "protocol": "sha256:6106799f0e821d068586428ddec5b6fedb0806e3583f9a06f02224b79e3258eb",
+   "recipe": "sha256:d93fe5ff25211df26f834c226e0cba64a656fb670904f673b2abbaa14bb027df"
+  },
+  "notes": [],
+  "samples_seen": 1440,
+  "size_mb": 5.360396,
+  "step_count": 180,
+  "stopped_reason": "TARGET_REACHED"
+ },
+ "seconds_handler": 29.11,
+ "seconds_total": 32.65,
+ "side": "ref",
+ "tree_hash": "sha256:164292c6e775a52a3da02f98282257b67a282f9e84b236ded3940e592a568f2f",
+ "validation": {
+  "dataset": {
+   "class_mapping_hash": "sha256:b2fbb0b7405952f7adf801ad58aeb984de08a666981af1c60cafae71083f3886",
+   "final_evaluation_manifest_hash": "sha256:d9faff3a7b21efaa5933694e719a434cc61d08a91f729124240c6cd7906d2fc2",
+   "search_validation_manifest_hash": "sha256:38a0be5befb6371c2c9a05003b0e0d88aa787e7cbcea738d61f817132ed685d9",
+   "train_manifest_hash": "sha256:12c521df4196a35ba4c7f9aef3f4817900f8e546b83322072892ea5540145392"
+  },
+  "protocol_hash": "sha256:6106799f0e821d068586428ddec5b6fedb0806e3583f9a06f02224b79e3258eb",
+  "training": {
+   "augmentation_profile": "PINNED_NATIVE_PROFILE_REQUIRED",
+   "automatic_batch_fallback": "reject_and_record",
+   "backend_resolved": {
+    "ultralytics": {
+     "accumulate": 1,
+     "batches_per_epoch": 60,
+     "nbs": 8,
+     "optimizer": {
+      "lr": 0.001,
+      "name": "AdamW",
+      "rule": "as requested"
+     },
+     "optimizer_iterations": 180,
+     "rule": "ultralytics 8.4.173 trainer",
+     "train_images": 480,
+     "warmup_iterations": 0
+    }
+   },
+   "batch_per_gpu": 8,
+   "betas": [
+    0.9,
+    0.999
+   ],
+   "candidate_early_stop": "disabled_for_search_rung_comparability",
+   "change_loss_weights_at_promotion": false,
+   "close_mosaic_epochs": 0,
+   "effective_batch": 8,
+   "fixed_horizon_epochs": 3,
+   "gpus_per_candidate": 1,
+   "gradient_accumulation": 1,
+   "initialization": "scratch",
+   "loss_profile": "model_version_native_pinned_and_exported",
+   "lr_final_ratio": 0.01,
+   "lr_initial": 0.001,
+   "nbs": 8,
+   "optimizer": "AdamW",
+   "precision": "amp_fp16_fp32",
+   "repeat_warmup_on_promotion": false,
+   "requested_input_size": [
+    160,
+    160
+   ],
+   "resolved_input_size_required": true,
+   "scheduler": "cosine_global_search_horizon",
+   "scheduler_horizon_epochs": 3,
+   "validation_interval_epochs": 1,
+   "warmup_epochs": 0,
+   "weight_decay": 0.0005,
+   "weight_inheritance": false,
+   "workers": 0
+  },
+  "valid": true,
+  "warnings": []
+ },
+ "versions": {
+  "CUDA_VISIBLE_DEVICES": "1",
+  "cuda": "12.4",
+  "cudnn": 90100,
+  "device": "NVIDIA RTX A6000",
+  "python": "3.10.22",
+  "torch": "2.6.0+cu124",
+  "torchvision": "0.21.0+cu124",
+  "ultralytics": "8.4.173"
+ }
+}

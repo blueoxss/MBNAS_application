@@ -1,0 +1,37 @@
+{
+ "suite": "package",
+ "status": "PASS",
+ "counts": {
+  "manifest": {
+   "entries": 485,
+   "ok": 485,
+   "missing": 0,
+   "mismatch": 0,
+   "invalid": 0
+  },
+  "canary_scan": {
+   "exit_code": 0,
+   "scanner": "/opt/scanner/canary_scan.py",
+   "expect_present": false,
+   "host_facts": true,
+   "needle_count": 13,
+   "hits": 0,
+   "failing_hits": 0,
+   "unmet_expectations": 0,
+   "too_few_files": false,
+   "status": "PASS"
+  }
+ },
+ "evidence": [
+  "runtime/logs/verify/20261028T015847Z-public/package_manifest.json",
+  "runtime/logs/verify/20261028T015847Z-public/package_canary.log",
+  "runtime/logs/verify/20261028T015847Z-public/package_canary.json"
+ ],
+ "reason": "",
+ "duration_s": 0.3,
+ "profile": "public",
+ "schema": "mbnas.verify/1",
+ "root": "/srv/mbnas registration r2/mbnas_application",
+ "started_at": "2026-10-28T01:58:47Z",
+ "finished_at": "2026-10-28T01:58:47Z"
+}

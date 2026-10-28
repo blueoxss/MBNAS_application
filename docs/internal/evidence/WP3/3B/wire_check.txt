@@ -1,0 +1,17 @@
+PASS [h11] double-encoded dots reach core as literal %2E%2E (one segment)
+PASS [h11] ? and # stay inside the segment
+PASS [h11] dot segment -> gateway 404, no relay
+PASS [h11] NUL id -> gateway 404, no relay
+PASS [h11] latin-1 Idempotency-Key forwarded byte-exact
+PASS [h11] malformed Last-Event-ID dropped, stream relayed
+PASS [h11] decimal Last-Event-ID forwarded
+PASS [h11] NaN body -> 422 VALIDATION_FAILED, no relay, no echo
+PASS [httptools] double-encoded dots reach core as literal %2E%2E (one segment)
+PASS [httptools] ? and # stay inside the segment
+PASS [httptools] dot segment -> gateway 404, no relay
+PASS [httptools] NUL id -> gateway 404, no relay
+PASS [httptools] latin-1 Idempotency-Key forwarded byte-exact
+PASS [httptools] malformed Last-Event-ID dropped, stream relayed
+PASS [httptools] decimal Last-Event-ID forwarded
+PASS [httptools] NaN body -> 422 VALIDATION_FAILED, no relay, no echo
+TOTAL pass=16 fail=0

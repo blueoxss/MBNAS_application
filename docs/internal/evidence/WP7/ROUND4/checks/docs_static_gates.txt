@@ -1,0 +1,61 @@
+# docs and static gates, round 4 (2026-10-28T01:08:56Z, source tree sha256:01c7d785347fea7e63387a650e8aef968b123bf2555dc26db5907265d334bcfd)
+## check_docs: runtime/venv/bin/python -I -B docs/internal/evidence/WP7/7C/check_docs.py
+[options] install                  defined=['--offline', '--profile', '--python', '--requirements', '--web', '--wheelhouse'] documented=['--offline', '--profile', '--python', '--requirements', '--web', '--wheelhouse'] not_in_docs=[]
+[options] doctor                   defined=['--json', '--profile', '--strict'] documented=['--json', '--profile', '--strict'] not_in_docs=[]
+[options] start                    defined=['--env-dir', '--profile', '--role', '--wait-s'] documented=['--env-dir', '--profile', '--role', '--wait-s'] not_in_docs=[]
+[options] stop                     defined=['--profile', '--role', '--timeout-s'] documented=['--profile', '--role', '--timeout-s'] not_in_docs=[]
+[options] verify                   defined=['--allow-gpu', '--json', '--profile', '--pytest-args', '--suite'] documented=['--json', '--profile', '--suite'] not_in_docs=[]
+[options] package                  defined=['--allow-missing-web', '--canary', '--platform', '--profile', '--reproducible'] documented=['--platform', '--profile', '--reproducible'] not_in_docs=[]
+[options] mbnas-gateway            defined=['--env-file', '--host', '--port'] documented=['--env-file', '--host', '--port'] not_in_docs=[]
+[options] mbnas-gateway-doctor     defined=['--env-file'] documented=['--env-file'] not_in_docs=[]
+[options] mbnas-runner             defined=['--env-file', '--max-jobs', '--once', '--spec-file'] documented=['--env-file', '--max-jobs', '--once', '--spec-file'] not_in_docs=[]
+[options] mbnas-core-api           defined=['--env-file', '--host', '--port'] documented=['--env-file', '--host', '--port'] not_in_docs=[]
+[options] mbnas-core-doctor        defined=['--env-file', '--strict'] documented=['--env-file', '--strict'] not_in_docs=[]
+[options] mbnas-core-owner-worker  defined=['--cpu', '--env-file', '--gpu-clear-timeout-s', '--gpu-index', '--kill-grace-s', '--kinds', '--max-jobs', '--once', '--owner', '--poll-s', '--worker-id'] documented=['--cpu', '--env-file', '--gpu-clear-timeout-s', '--gpu-index', '--kill-grace-s', '--kinds', '--max-jobs', '--once', '--owner', '--poll-s', '--worker-id'] not_in_docs=[]
+[options] mbnas-core-principal     defined=['--env-file', '--grace-s', '--kind', '--runner-id', '--ttl-days'] documented=['--env-file', '--grace-s', '--kind', '--runner-id', '--ttl-days'] not_in_docs=[]
+[svg] elements=259 ids=67 missing=[]
+[needles] files=55 hits=0
+RESULT PASS (0 problem(s))
+exit=0
+## gen_registration_docs --check: runtime/venv/bin/python -B scripts/dev/gen_registration_docs.py --check
+unchanged docs/registration/SYSTEM_STRUCTURE.md
+unchanged docs/registration/diagrams/system_structure.mmd
+unchanged docs/registration/diagrams/system_structure.svg
+unchanged docs/registration/INTERFACES.md
+unchanged docs/registration/FILE_LIST.md
+note      매니페스트: 없음 → 생성 대기 문구
+check: OK
+exit=0
+## import closure: runtime/venv/bin/python -B scripts/dev/check_import_closure.py --format text
+import closure: OK (<ROOT>)
+counts: {"violations": 0, "unresolved": 0, "forbidden_strings": 0, "allowlisted": 0, "excepted": 1, "errors": 0, "by_rule": {}}
+transitional allowlist:
+documented data exceptions (DD-A26):
+  mbnas_model_runtime/src/mbnas_model_runtime/adapters/base.py: 'mbnas_server.search.etri_bridge:ensure_mixed_registered' (expires 1.6)
+violations: 0
+allowlisted: 0
+excepted: 1
+  [data-exception] mbnas_model_runtime/src/mbnas_model_runtime/adapters/base.py:32  mbnas_model_runtime.adapters.base -> mbnas_server.search.etri_bridge (ensure_mixed_registered) [string]
+unresolved: 0
+forbidden_strings: 0
+errors: 0
+exit=0
+## placement: runtime/venv/bin/python -B scripts/dev/placement_coverage.py --format text
+manifest docs/internal/provenance/PLACEMENT_MANIFEST.jsonl (667 rows, sha256 6ca7e48ea401...)
+package files 221 (py 215, data 6) {'mbnas_contracts': 27, 'mbnas_model_runtime': 49, 'mbnas_core': 92, 'mbnas_runner': 23, 'mbnas_server': 30}
+covered 221/221 (py 215/215); missing 0, deleted but present 0, unrecorded deletions 0, row errors 0; recorded deletions 1; sha drift (informational) 42
+ok
+exit=0
+## env examples: runtime/venv/bin/python -I -B docs/internal/evidence/WP7/7B/check_env_examples.py <ROOT>
+[runner.env.example] fields=31 documented=31 missing=[] unknown=[] missing_in_all_in_one=[]
+   all 31 example values load through RunnerSettings: OK
+[owner-all-in-one.env.example] keys=112 unknown=[]
+[core.env.example] host-facts=[] active(uncommented) lines=[] long-token-like=[]
+[gateway.env.example] host-facts=[] active(uncommented) lines=[] long-token-like=[]
+[owner-all-in-one.env.example] host-facts=[] active(uncommented) lines=['MBNAS_RUNNER_ALLOW_PICKLE_RESUME=true'] long-token-like=[]
+[runner.env.example] host-facts=[] active(uncommented) lines=[] long-token-like=[]
+RESULT PASS
+exit=0
+## npm notices: runtime/venv/bin/python -I -B scripts/dev/gen_npm_notices.py --check
+check: OK (THIRD_PARTY_NOTICES_WEB.md)
+exit=0

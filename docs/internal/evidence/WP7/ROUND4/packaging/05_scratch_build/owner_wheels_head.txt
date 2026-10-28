@@ -1,0 +1,60 @@
+# MBNAS Research Console 0.1.0 - wheel member listing, profile owner
+# Written by scripts/dev/package_build.py (C09 package-data gate). One block per wheel: the wheel sha256,
+# the gate verdict, the declared [tool.setuptools.package-data] files, then every member (dist-info aside)
+# as '<sha256>  <bytes>  <path>' ([data] = declared package-data). Gate: members == staged <pkg>/src files
+# with equal sha256, every declared package-data file present.
+
+wheel wheels/mbnas_contracts-0.1.0-py3-none-any.whl  sha256 9f3c7f0e6f5fa881f614ea4223a2d40f00b967bab5d68ef6804e6291f8baf892  bytes 121634  members 27 (+4 dist-info)
+  package-data declared: mbnas_contracts.openapi = openapi.json, HISTORY.json, openapi_runner.json
+  gate: PASS (missing 0, extra 0, sha256 mismatch 0, declared package-data in wheel 3/3)
+  50d64f5e350b8efd0d22154d48df10e7839e45654fbe1dce7bf3a9ff7cc04c39       1043  mbnas_contracts/__init__.py
+  fac905aa2e83bd21d50113839916f5b12ad7d43337705ae35d20e56d8defc120       6286  mbnas_contracts/asgi.py
+  abc1ad3d2c6b55cbbb41dedc07aed9a5b7e1a40e005ef2f0740d0f653be14e05       1906  mbnas_contracts/constants.py
+  e798a1f850b5208d9d6291d23b04073980aaaebbda4a73598c6117de52189f0f       2786  mbnas_contracts/errors.py
+  fa4aa99c38f267ab7b87f2c803660f2fb1887827752e347b30890263480b7170       8588  mbnas_contracts/jobs_protocol.py
+  0904011c6aaf637d2d451794ff4a1b8fa1efa522e99c1a288aeb8b68d7259130       7305  [data] mbnas_contracts/openapi/HISTORY.json
+  f175ee9d73b7d2fab483320b227fccffee92d5d4cf68d6fb17bd9d44642ed64b       5087  mbnas_contracts/openapi/__init__.py
+  70e0cffaab8fafd9c7f230af9169dbbe8812b3eccf7ad7838ca3f46fa9eebc2a     353938  [data] mbnas_contracts/openapi/openapi.json
+  72ddb8bfc9d232d419ece043ca3a3ba83ec04fddbead05484c05a35207126473      80691  [data] mbnas_contracts/openapi/openapi_runner.json
+  6f7f7ca5049249f3a2bad03fa07fceda3f3bc1a8b171d5f036c3615c3e71e43a       2617  mbnas_contracts/protocol_hash.py
+  278aa9bf1cf769b18ad1840f166f645005b63d85aced938d30e64e63c3dce332      26501  mbnas_contracts/runner_protocol.py
+  b8fa765324dcea917fcc3b89cc7f0d1244eb0233a56adc08e29f420e072fda56       4038  mbnas_contracts/schemas/__init__.py
+  bdfd6c261a0d3a6090bc6bd111ca2dc041db4c1e589c262da6cd85c169369702       9747  mbnas_contracts/schemas/api.py
+  01d1e51280950da49cebaabf52a4ffc4dde100b54227827b158fac7690579b6f      18558  mbnas_contracts/schemas/archive.py
+  f8bff44b54e0f45d53c9e239a14dda04ef60d1713608a4bf2182f15616e8640a       5347  mbnas_contracts/schemas/enums.py
+  24133dc589375f38940d380222af98eb737df55f646dc837dfbf63c1bb9e7172       5473  mbnas_contracts/schemas/jobs.py
+  98423eb8e1e153fffa68fa98a4b2ab0328ddf01bd132ef7a194aee828c34b914       4063  mbnas_contracts/schemas/protocol.py
+  0624b1362df70f63f3179c2f59c76a7aaddbefd7bdcac11a67e37672c254dae4      27009  mbnas_contracts/schemas/records.py
+  195f2a2f73f797467a7de3819310ae22a2c5f0fa33e5ecea621f6417182af563       1477  mbnas_contracts/structure_doc.py
+  b5ab49aafcdbb7ccc4092eaa1650b7dd69720df608cbdc61f18efab56c1c8175        100  mbnas_contracts/util/__init__.py
+  74325464ec3f6c56c617278a8ed57e78d52f861fa3b676fe5349556fb8eb1053       2282  mbnas_contracts/util/atomic.py
+  318da036fa9892f505b1a987da8f94a4be0de0cd289965f60a402b6d4a90461c       2037  mbnas_contracts/util/canon.py
+  e814f30a711a04217541e2c609f8042612cd23c78fa53886c7e50d176501a5a8       1091  mbnas_contracts/util/home.py
+  7a5e7e8e4eec384b7c033f1ee398704a4cabfa5495e82a2b5528efcb3f70e336       3433  mbnas_contracts/util/log_redact.py
+  eafdedbcf0debf0699d7a9dd4a309e79d90148d0ec5544e3cbf4183efff5d507       4832  mbnas_contracts/util/paths.py
+  fefd9d32716dee817e9e9553f43b6838c27e552c7d4094a16b099b4cffb0a6db       6887  mbnas_contracts/util/source_hash.py
+  eb03da0fee8903fee84b642731be5e7ef34cb498c6284781c9cb3ce575b65f02       1329  mbnas_contracts/util/time.py
+
+wheel wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl  sha256 97156f6111be5dc394a77778f19680d0426ecbf25dd09f21760eccd20ab2d9eb  bytes 180928  members 49 (+4 dist-info)
+  package-data declared: none declared
+  gate: PASS (missing 0, extra 0, sha256 mismatch 0, declared package-data in wheel 0/0)
+  ec0b59603d2cebe769be907424920fb680b22443f9bf2363581ed612c1e2f68e        140  mbnas_model_runtime/__init__.py
+  ee7d20c8a2cf198a161dbcf5916ea648fd6092063657b076ff6a2566fb26bba4        265  mbnas_model_runtime/adapters/__init__.py
+  6446a883227c566cd9cf1ba7d7fd2639a9be1fc0f320ac0131ba61f770c6f5a9       8919  mbnas_model_runtime/adapters/base.py
+  e3130ac5562b84efa6f231c191f4483d675a2e41f33f3fa746a867195bbff83e       4558  mbnas_model_runtime/adapters/common.py
+  5a25a9f738301d9e4991a39b4da43a7be22b711d2bae83293a28f1b358eed4cc        728  mbnas_model_runtime/adapters/etri_hybrid/__init__.py
+  d65e19b39547ba77fda804bb7f0c7771b0f1c0ed03e1c7486bc486506ddb7af6      25226  mbnas_model_runtime/adapters/etri_hybrid/adapter.py
+  29c670e45c5c98409e71713fb4a971485f103a8023d8a10239f4656488179ef5       1477  mbnas_model_runtime/adapters/etri_hybrid/boxes.py
+  a884e63ffc210253401d6ad9c2d096e46e698ff76c482da3962025716257fb03       4030  mbnas_model_runtime/adapters/etri_hybrid/criterion.py
+  192b4926c17606b11a0578d72cbfaef1fe2410522d6a4d5f98d8b042a621cdf9       8160  mbnas_model_runtime/adapters/etri_hybrid/data.py
+  28f5dd464cf265365cf6ae87a35006132187d3265759df3f01a9e7231b055ef5       3923  mbnas_model_runtime/adapters/etri_hybrid/loss.py
+  ba389a20212fdb978049025ab739c919b55e06a95bfb47ee168f9e357d26bb9e       5837  mbnas_model_runtime/adapters/etri_hybrid/model.py
+  82eb980fbb09fad99834f5b7d5af18a5c089df39fb8c980866158d7a9c932d19       3231  mbnas_model_runtime/adapters/etri_hybrid/postprocess.py
+  a3d3a9122542877f89507f50b37959c1e76cac7825f8a4254095f13829dc1237      36697  mbnas_model_runtime/adapters/rfdetr_adapter.py
+  103a245338d3efa29fab6875f29b7a624df6e50359323f2cadc2fc1c054083a7      39293  mbnas_model_runtime/adapters/structure_native.py
+  4040bc14452083b20a29294d57833b24e7e889ebcbca9a228e06fafb61db13dc      39716  mbnas_model_runtime/adapters/ultralytics_adapter.py
+  edbbf7a4b9c8b5d635c8172a36d1b6d5481eeb6edbf75a51a495012c59130c6a        341  mbnas_model_runtime/benchmark/__init__.py
+  97f1c62e7cd5ada331add8abc7f99761e12ada8a5d7caf83f5f2419e311b3a83       5939  mbnas_model_runtime/benchmark/accuracy.py
+  438756528dab15f639d5277c37c6abeac8ea3b02c4e9c8a891a5e23d4139eeac      14106  mbnas_model_runtime/benchmark/capability.py
+  390352cca25b1572f5104263711ea1f70de1b77cfce3403d81eb55e2ba185b43       8705  mbnas_model_runtime/benchmark/onnx_export.py
+  047eea53da11b9f14dc9a632b4b90954dcdef9ccfe275673892c0e2a17b45c8e       3655  mbnas_model_runtime/benchmark/onnx_runtime.py

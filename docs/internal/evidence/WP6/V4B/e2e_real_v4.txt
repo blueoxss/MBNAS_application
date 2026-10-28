@@ -1,0 +1,127 @@
+
+Running 10 tests using 1 worker
+
+  ✓   1 [real-desktop] › e2e/real-server.spec.ts:228:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-01 connect with the bearer; presets auto-apply (DEFAULT_BASELINE14) (7.1s)
+  ✘   2 [real-desktop] › e2e/real-server.spec.ts:241:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-02 upload examples/models/yolo11n_user.yaml -> structure check PASS (9.4s)
+  ✓   3 [real-desktop] › e2e/real-server.spec.ts:258:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-03 upload yolo11n_user_broken.yaml -> structure check FAIL with diagnostics (4.8s)
+  ✓   4 [real-desktop] › e2e/real-server.spec.ts:273:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-04 start a CPU explicit training run from the upload (1 epoch, 64 px, validation off) (5.5s)
+  ✓   5 [real-desktop] › e2e/real-server.spec.ts:311:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-05 monitor the training run until finished (11.2s)
+  ✘   6 [real-desktop] › e2e/real-server.spec.ts:332:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-06 candidate detail: gene/structure diagram, block table, configuration YAML (5.7s)
+  ✓   7 [real-desktop] › e2e/real-server.spec.ts:356:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-07..09 revisions tab -> diff -> download exact bytes (sha256 = source_sha256) (4.3s)
+  ✘   8 [real-desktop] › e2e/real-server.spec.ts:399:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-10 download a runner-produced checkpoint by id through the gateway (sha header match) (33.2s)
+  ✘   9 [real-desktop] › e2e/real-server.spec.ts:434:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-11 generation-only (evaluation OFF) run: UNTRAINED · UNEVALUATED in GeneratedTable and Lineage (27.9s)
+  ✓  10 [real-desktop] › e2e/real-server.spec.ts:478:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-12 stop the core process: the UI shows degraded + an explicit failure (no fallback) (4.9s)
+
+
+  1) [real-desktop] › e2e/real-server.spec.ts:241:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-02 upload examples/models/yolo11n_user.yaml -> structure check PASS 
+
+    Error: axe serious/critical on structure-check-dialog
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "serious nested-interactive: svg[role=\"img\"]",
+    + ]
+
+      158 |   const html = res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').flatMap((v) => v.nodes.slice(0, 2).map((n) => `${v.id}: ${n.html.slice(0, 240)} :: ${n.failureSummary?.slice(0, 240) ?? ''}`));
+      159 |   v4Note(`axe:${screen}`, { serious_critical: bad.length, violations: bad, nodes: html, all_violations: res.violations.length });
+    > 160 |   expect.soft(bad, `axe serious/critical on ${screen}`).toEqual([]);
+          |                                                         ^
+      161 | }
+      162 |
+      163 | async function v4Api<T = Record<string, unknown>>(request: APIRequestContext, path: string): Promise<T> {
+        at v4Axe (/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web/e2e/real-server.spec.ts:160:57)
+        at /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web/e2e/real-server.spec.ts:255:5
+
+    Error Context: test-results/real/real-server-V4-real-CPU-st-bad8c-yaml---structure-check-PASS-real-desktop/error-context.md
+
+  2) [real-desktop] › e2e/real-server.spec.ts:332:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-06 candidate detail: gene/structure diagram, block table, configuration YAML 
+
+    Error: axe serious/critical on candidate-dialog
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "serious nested-interactive: svg[viewBox=\"0 0 780 1740\"]",
+    + ]
+
+      158 |   const html = res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').flatMap((v) => v.nodes.slice(0, 2).map((n) => `${v.id}: ${n.html.slice(0, 240)} :: ${n.failureSummary?.slice(0, 240) ?? ''}`));
+      159 |   v4Note(`axe:${screen}`, { serious_critical: bad.length, violations: bad, nodes: html, all_violations: res.violations.length });
+    > 160 |   expect.soft(bad, `axe serious/critical on ${screen}`).toEqual([]);
+          |                                                         ^
+      161 | }
+      162 |
+      163 | async function v4Api<T = Record<string, unknown>>(request: APIRequestContext, path: string): Promise<T> {
+        at v4Axe (/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web/e2e/real-server.spec.ts:160:57)
+        at /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web/e2e/real-server.spec.ts:353:5
+
+    Error Context: test-results/real/real-server-V4-real-CPU-st-8a91f-ck-table-configuration-YAML-real-desktop/error-context.md
+
+  3) [real-desktop] › e2e/real-server.spec.ts:399:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-10 download a runner-produced checkpoint by id through the gateway (sha header match) 
+
+    Error: a PRESENT checkpoint offers "id로 다운로드" in the UI
+
+    expect(locator).toBeVisible() failed
+
+    Locator: getByRole('dialog').getByTestId('checkpoint-table').locator('[data-testid^="checkpoint-download-"][data-testid$="-btn"]').first()
+    Expected: visible
+    Timeout: 30000ms
+    Error: element(s) not found
+
+    Call log:
+      - a PRESENT checkpoint offers "id로 다운로드" in the UI getByRole('dialog').getByTestId('checkpoint-table').locator('[data-testid^="checkpoint-download-"][data-testid$="-btn"]').first() with timeout 30000ms
+      - waiting for getByRole('dialog').getByTestId('checkpoint-table').locator('[data-testid^="checkpoint-download-"][data-testid$="-btn"]').first()
+
+
+      416 |     // the UI: a PRESENT checkpoint must offer "id로 다운로드" (CandidateView CheckpointTable)
+      417 |     const btn = table.locator('[data-testid^="checkpoint-download-"][data-testid$="-btn"]').first();
+    > 418 |     await expect(btn, 'a PRESENT checkpoint offers "id로 다운로드" in the UI').toBeVisible();
+          |                                                                           ^
+      419 |     const testId = ((await btn.getAttribute('data-testid')) ?? '').replace(/-btn$/, '');
+      420 |     const row = table.locator('tbody tr').filter({ has: page.getByTestId(`${testId}-btn`) });
+      421 |     const recorded = ((await row.getByTestId('checkpoint-sha256').textContent()) ?? '').replace(/^sha256:/, '');
+        at /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web/e2e/real-server.spec.ts:418:75
+
+    Error Context: test-results/real/real-server-V4-real-CPU-st-6a0be-e-gateway-sha-header-match--real-desktop/error-context.md
+
+  4) [real-desktop] › e2e/real-server.spec.ts:434:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-11 generation-only (evaluation OFF) run: UNTRAINED · UNEVALUATED in GeneratedTable and Lineage 
+
+    Error: axe serious/critical on lineage
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "serious nested-interactive: svg[role=\"img\"]",
+    + ]
+
+      158 |   const html = res.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').flatMap((v) => v.nodes.slice(0, 2).map((n) => `${v.id}: ${n.html.slice(0, 240)} :: ${n.failureSummary?.slice(0, 240) ?? ''}`));
+      159 |   v4Note(`axe:${screen}`, { serious_critical: bad.length, violations: bad, nodes: html, all_violations: res.violations.length });
+    > 160 |   expect.soft(bad, `axe serious/critical on ${screen}`).toEqual([]);
+          |                                                         ^
+      161 | }
+      162 |
+      163 | async function v4Api<T = Record<string, unknown>>(request: APIRequestContext, path: string): Promise<T> {
+        at v4Axe (/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web/e2e/real-server.spec.ts:160:57)
+        at /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web/e2e/real-server.spec.ts:475:5
+
+    Error Context: test-results/real/real-server-V4-real-CPU-st-20279--GeneratedTable-and-Lineage-real-desktop/error-context.md
+
+  4 failed
+    [real-desktop] › e2e/real-server.spec.ts:241:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-02 upload examples/models/yolo11n_user.yaml -> structure check PASS 
+    [real-desktop] › e2e/real-server.spec.ts:332:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-06 candidate detail: gene/structure diagram, block table, configuration YAML 
+    [real-desktop] › e2e/real-server.spec.ts:399:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-10 download a runner-produced checkpoint by id through the gateway (sha header match) 
+    [real-desktop] › e2e/real-server.spec.ts:434:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-11 generation-only (evaluation OFF) run: UNTRAINED · UNEVALUATED in GeneratedTable and Lineage 
+  6 passed (2.0m)
+exit 1

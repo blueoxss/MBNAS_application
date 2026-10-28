@@ -1,0 +1,36 @@
+# mbnas-core (private, owner host): search policy, orchestration/DB, protocol resolution, registry state,
+# console API and the transitional owner worker. WP-1 contract §2 / DD-A1(a) / DD-A14 / DD-A24.
+[build-system]
+requires = ["setuptools>=69,<81", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mbnas-core"
+version = "0.1.0"
+description = "MBNAS core (owner): search policy, orchestration, DB, protocol resolution, registry state, console API and owner worker"
+requires-python = ">=3.10,<3.11"
+dependencies = [
+  "mbnas-contracts==0.1.0",
+  "mbnas-model-runtime==0.1.0",
+  "fastapi==0.142.2",
+  "uvicorn[standard]==0.54.0",
+  "pydantic-settings==2.15.0",
+  "httpx==0.28.1",
+  "python-dotenv==1.2.4",
+  "jsonschema==4.26.0",
+]
+
+[project.scripts]
+mbnas-core-api = "mbnas_core.api.app:main"
+mbnas-core-owner-worker = "mbnas_core.owner_worker.main:main"
+mbnas-core-doctor = "mbnas_core.ops.doctor:main"
+mbnas-core-principal = "mbnas_core.ops.principals:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["mbnas_core", "mbnas_core.*"]
+
+[tool.setuptools.package-data]
+"mbnas_core.db" = ["schema.sql"]
+"mbnas_core.protocol" = ["handoff_protocol_20261006.json"]
+"mbnas_core.registry" = ["model_registry.example.json"]

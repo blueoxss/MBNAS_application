@@ -1,0 +1,12 @@
+# Docker build context of deploy/*/Dockerfile* = the unpacked ZIP root (mbnas_application/). Allowlist style: only what
+# the Dockerfiles COPY reaches the builder; runtime state, datasets, env files with secrets, venvs and docs never do.
+# Shipped in every bundle by scripts/package.sh (WP-7D); content tested by WP-7B with the legacy builder
+# (docs/internal/evidence/WP7/7B/dockerignore_probe.txt; BuildKit behaviour not verified).
+*
+!requirements-public.txt
+!requirements-owner.txt
+!requirements-cpu.txt
+!wheels/*.whl
+!mbnas_web/dist/
+!deploy/public/docker-entrypoint.sh
+!deploy/owner/docker-entrypoint.sh

@@ -1,0 +1,11 @@
+--- a/application/MBNAS_web/tests/model_detail_v2.test.tsx
++++ b/application/MBNAS_web/tests/model_detail_v2.test.tsx
+@@ -367,7 +367,7 @@
+     expect(screen.getByTestId('edges-added')).toHaveTextContent('row 5 → row 6 (from_ref 5)');
+     expect(screen.getByTestId('edges-removed')).toHaveTextContent('row 4 → row 5 (from_ref 4)');
+     // the changed-field column carries the server `fields`
+-    expect(screen.getByRole('table')).toHaveTextContent('module, from, args');
++    expect(within(screen.getByRole('region', { name: '추가·제거·변경 및 연결 차이' })).getByRole('table')).toHaveTextContent('module, from, args');
+   });
+ 
+   it('keeps 부모·자식 apart from 두 모델 when the server recorded the parent relation', async () => {

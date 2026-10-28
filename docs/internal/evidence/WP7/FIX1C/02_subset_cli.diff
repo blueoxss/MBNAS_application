@@ -1,0 +1,76 @@
+--- a/scripts/public/make_pilot_subset.py
++++ b/scripts/public/make_pilot_subset.py
+@@ -4,7 +4,10 @@
+ Source: a YOLO-format dataset with images/{train,val,test} and labels/{train,val,test}. Output: a self-contained
+ subset directory with images/labels per role (train, search_val, final_eval), data.yaml and manifest.json (sha256 per
+ file, class ids, seed, selection rule). Selection: sort file names, random.Random(seed).sample. Copies files (no symlinks).
+-The logic lives in mbnas_server.datasets.subset; this CLI is a thin wrapper with unchanged options and output.
++The logic lives in mbnas_model_runtime.datasets.subset; this CLI is a thin wrapper with unchanged options and output.
++--source and --out are required: there are no host-specific default paths (DD-A59 (b)). Example:
++
++    python scripts/public/make_pilot_subset.py --source /ABSOLUTE/PATH/TO/dataset --out /ABSOLUTE/PATH/TO/subset
+ """
+ from __future__ import annotations
+ import argparse, sys
+@@ -19,8 +22,10 @@
+ 
+ def main() -> int:
+     ap = argparse.ArgumentParser()
+-    ap.add_argument("--source", default="<HOST_FACT_2_REDACTED>/datasets/VisDrone_Reduction_Origin")
+-    ap.add_argument("--out", default="<HOST_FACT_2_REDACTED>/MBNAS_data/pilot_visdrone_v1")
++    ap.add_argument("--source", required=True,
++                    help="source YOLO dataset root holding images/{train,val,test} and labels/{train,val,test}")
++    ap.add_argument("--out", required=True,
++                    help="output directory of the subset (created if missing; the source is never modified)")
+     ap.add_argument("--seed", type=int, default=2026)
+     ap.add_argument("--n-train", type=int, default=32)
+     ap.add_argument("--n-search-val", type=int, default=16)
+--- a/tests/public/model_runtime/test_datasets.py
++++ b/tests/public/model_runtime/test_datasets.py
+@@ -199,14 +199,43 @@
+ 
+ 
+ def test_subset_cli_unchanged_interface(tmp_path) -> None:
++    """The original option set and output of scripts/public/make_pilot_subset.py; --source and --out are required (no
++    host default paths, DD-A59 b), so a call without them is refused by argparse before anything is read or written."""
++    import re
++
++    script = [sys.executable, "-B", str(SERVER / "scripts" / "public" / "make_pilot_subset.py")]
++    helped = subprocess.run(script + ["--help"], capture_output=True, text=True, check=False)
++    assert helped.returncode == 0, helped.stderr
++    assert set(re.findall(r"--[a-z][a-z-]*", helped.stdout)) == {
++        "--help", "--source", "--out", "--seed", "--n-train", "--n-search-val", "--n-final-eval", "--names"}
++    for args, missing in (([], "--source, --out"), (["--out", str(tmp_path / "x")], "--source"),
++                          (["--source", str(tmp_path / "x")], "--out")):
++        refused = subprocess.run(script + args, capture_output=True, text=True, check=False)
++        assert refused.returncode == 2, (args, refused.stderr)
++        assert f"error: the following arguments are required: {missing}" in refused.stderr, refused.stderr
++    assert not (tmp_path / "x").exists()
+     src = _source(tmp_path)
+-    cmd = [sys.executable, "-B", str(SERVER / "scripts" / "public" / "make_pilot_subset.py"), "--source", str(src), "--out",
+-           str(tmp_path / "out"), "--n-train", "2", "--n-search-val", "1", "--n-final-eval", "1", "--seed", "3"]
++    cmd = script + ["--source", str(src), "--out", str(tmp_path / "out"), "--n-train", "2", "--n-search-val", "1",
++                    "--n-final-eval", "1", "--seed", "3"]
+     done = subprocess.run(cmd, capture_output=True, text=True, check=False)
+     assert done.returncode == 0, done.stderr
+     assert done.stdout.splitlines()[-1] == f"data.yaml: {tmp_path / 'out' / 'data.yaml'}"
++    assert done.stdout.splitlines() == ["[ok] train: 2 images from train", "[ok] search_val: 1 images from val",
++                                        "[ok] final_eval: 1 images from test",
++                                        f"data.yaml: {tmp_path / 'out' / 'data.yaml'}"]
+     manifest = json.loads((tmp_path / "out" / "manifest.json").read_text())
+     assert manifest["schema"] == "mbnas.pilot_subset/1" and manifest["seed"] == 3
+-    bad = subprocess.run(cmd[:3] + ["--source", str(src), "--out", str(tmp_path / "o2"), "--n-train", "50"],
++    assert manifest["names"] == ["0"] and {r: v["count"] for r, v in manifest["roles"].items()} == {
++        "train": 2, "search_val": 1, "final_eval": 1}
++    again = subprocess.run(cmd, capture_output=True, text=True, check=False)
++    assert again.returncode == 0 and again.stdout.splitlines() == [
++        f"[skip] {tmp_path / 'out'} already holds a subset (manifest.json present)"]
++    named = subprocess.run(script + ["--source", str(src), "--out", str(tmp_path / "named"), "--n-train", "1",
++                                     "--n-search-val", "1", "--n-final-eval", "1", "--names", "drone,bird"],
++                           capture_output=True, text=True, check=False)
++    assert named.returncode == 0, named.stderr
++    assert json.loads((tmp_path / "named" / "manifest.json").read_text())["names"] == ["drone", "bird"]
++    assert load_dataset_yaml(str(tmp_path / "named" / "data.yaml")).names == {0: "drone", 1: "bird"}
++    bad = subprocess.run(script + ["--source", str(src), "--out", str(tmp_path / "o2"), "--n-train", "50"],
+                          capture_output=True, text=True, check=False)
+     assert bad.returncode == 1 and "not enough images" in bad.stderr

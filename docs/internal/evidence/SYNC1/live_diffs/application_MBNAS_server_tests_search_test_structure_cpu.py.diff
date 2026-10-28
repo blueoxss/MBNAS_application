@@ -1,0 +1,19 @@
+--- a/application/MBNAS_server/tests/search/test_structure_cpu.py
++++ b/application/MBNAS_server/tests/search/test_structure_cpu.py
+@@ -69,7 +69,15 @@
+     assert result["diagnostics"][0]["position"] == 2
+     # the same failure is also attributed to the rule it violates (mbnas-structure/2), at the merge row
+     assert any(d["code"] == "MERGE_INPUT_MISMATCH" and d["position"] == 2 for d in result["diagnostics"])
+-    assert {c["name"]: c["status"] for c in result["checks"]}["merge_conditions"] == "FAIL"
++    by_name = {c["name"]: c for c in result["checks"]}
++    assert by_name["merge_conditions"]["status"] == "FAIL"
++    # the failing forward is the constructor stride probe (stage build): the reference-size forward never ran
++    assert by_name["cpu_build"]["status"] == "FAIL"
++    assert by_name["reference_forward"]["status"] == "NOT_CHECKED" and by_name["reference_forward"]["evidence_level"] is None
++    assert by_name["module_support"]["rows_checked"] == len(branch_genotype.rows())
++    assert by_name["merge_conditions"]["rows_checked"] == 1
++    # the raw forward diagnostic carries the same yaml path as the attributed rule diagnostic
++    assert result["diagnostics"][0]["path"] == "head[0]"  # row 2 = first head row (2 backbone rows)
+ 
+ 
+ def test_report_reuse_is_yaml_bound(branch_genotype, monkeypatch):

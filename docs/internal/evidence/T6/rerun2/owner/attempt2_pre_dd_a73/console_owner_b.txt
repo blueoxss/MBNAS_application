@@ -1,0 +1,14 @@
+[t6r2-owner-b 2026-10-28T02:30:40Z] mbnas owner r2b <- 867cc577e89a1728e0e1d9241b1a76206027a40c0372eec9dee1efe9e5c9087d
+[t6r2-owner-b 2026-10-28T02:32:13Z] install_owner: exit=0
+configured core.env: ['MBNAS_CORE_PORT'] (values not printed)
+configured gateway.env: ['MBNAS_GW_CORE_URL', 'MBNAS_GW_PORT'] (values not printed)
+configured runner.env: ['MBNAS_RUNNER_CORE_URL'] (values not printed)
+[t6r2-owner-b 2026-10-28T02:32:27Z] start_owner: exit=0
+[t6r2-owner-b 2026-10-28T02:32:29Z] doctor_owner_strict: exit=0
+[t6r2-owner-b 2026-10-28T02:53:48Z] verify_owner: exit=0
+[t6r2-owner-b 2026-10-28T02:53:50Z] verify_owner_package: exit=0
+[t6r2-owner-b 2026-10-28T02:57:07Z] stop_owner: exit=0
+[t6r2-owner-b 2026-10-28T02:57:15Z] reinvoke_start_core_from_root: exit=0
+[t6r2-owner-b 2026-10-28T02:57:17Z] reinvoke_doctor_from_root: exit=0
+[t6r2-owner-b 2026-10-28T02:57:17Z] reinvoke_stop_from_root: exit=0
+[t6r2-owner-b 2026-10-28T02:57:17Z] leftover service processes: 0

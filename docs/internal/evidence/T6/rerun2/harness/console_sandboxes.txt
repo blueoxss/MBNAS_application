@@ -1,0 +1,2 @@
+[t6r2 2026-10-28T01:58:50Z] registration sandbox run exit=0
+[t6r2 2026-10-28T01:58:55Z] public sandbox run exit=0

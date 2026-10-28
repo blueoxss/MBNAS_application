@@ -1,0 +1,84 @@
+# offline resolution of requirements-<profile>.txt: cwd=<ROOT>/build (./wheels -> build/wheels), inside 'unshare -rn' (no network namespace)
+# command: unshare -rn env -i PATH=/usr/bin:/bin PIP_CONFIG_FILE=/dev/null PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES= <ROOT>/runtime/venv/bin/python -I -m pip install --dry-run --ignore-installed --no-cache-dir --no-index --find-links wheelhouse -c ../constraints.txt -r ../requirements-<profile>.txt --report report_<profile>.json
+## public: last lines of the pip log
+Processing ./wheelhouse/yarl-1.25.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (from -r ../requirements-public.txt (line 152))
+Would install Jinja2-3.1.6 MarkupSafe-3.0.3 PyYAML-6.0.3 Pygments-2.21.0 accelerate-1.15.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.4 aiosignal-1.4.0 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 async-timeout-5.0.1 attrs-26.1.0 av-17.1.0 certifi-2026.7.22 charset-normalizer-3.5.2 click-8.5.0 coloredlogs-15.0.1 contourpy-1.3.2 cycler-0.12.1 defusedxml-0.7.1 exceptiongroup-1.3.1 fastapi-0.142.2 faster-coco-eval-1.8.0 filelock-3.32.3 filetype-1.2.0 flatbuffers-25.12.19 fonttools-4.65.0 frozenlist-1.8.0 fsspec-2026.7.0 h11-0.16.0 hf-xet-1.6.0 hotcoco-1.0.1 httpcore-1.0.9 httptools-0.8.0 httpx
+## owner: last lines of the pip log
+Processing ./wheelhouse/yarl-1.25.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (from -r ../requirements-owner.txt (line 151))
+Would install Jinja2-3.1.6 MarkupSafe-3.0.3 PyYAML-6.0.3 Pygments-2.21.0 accelerate-1.15.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.4 aiosignal-1.4.0 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 async-timeout-5.0.1 attrs-26.1.0 av-17.1.0 certifi-2026.7.22 charset-normalizer-3.5.2 click-8.5.0 coloredlogs-15.0.1 contourpy-1.3.2 cycler-0.12.1 defusedxml-0.7.1 exceptiongroup-1.3.1 fastapi-0.142.2 faster-coco-eval-1.8.0 filelock-3.32.3 filetype-1.2.0 flatbuffers-25.12.19 fonttools-4.65.0 frozenlist-1.8.0 fsspec-2026.7.0 h11-0.16.0 hf-xet-1.6.0 hotcoco-1.0.1 httpcore-1.0.9 httptools-0.8.0 httpx
+## cpu: last lines of the pip log
+ERROR: Could not find a version that satisfies the requirement onnxruntime==1.23.2 (from versions: none)
+ERROR: No matching distribution found for onnxruntime==1.23.2
+## exact-set comparison (report vs requirement lines)
+[public] report pip_version=25.3 install=138 (third-party 134, mbnas 4); req third-party=134 wheels=4
+  requirement lines not installed: []
+  installed but not a requirement line (closure leak): []
+  version mismatches: []
+  mbnas-contracts==0.1.0 <- file://<ROOT>/build/wheels/mbnas_contracts-0.1.0-py3-none-any.whl
+  mbnas-model-runtime==0.1.0 <- file://<ROOT>/build/wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl
+  mbnas-runner==0.1.0 <- file://<ROOT>/build/wheels/mbnas_runner-0.1.0-py3-none-any.whl
+  mbnas-server==0.1.0 <- file://<ROOT>/build/wheels/mbnas_server-0.1.0-py3-none-any.whl
+  non-file:// sources: []
+[owner] report pip_version=25.3 install=139 (third-party 134, mbnas 5); req third-party=134 wheels=5
+  requirement lines not installed: []
+  installed but not a requirement line (closure leak): []
+  version mismatches: []
+  mbnas-contracts==0.1.0 <- file://<ROOT>/build/wheels/mbnas_contracts-0.1.0-py3-none-any.whl
+  mbnas-core==0.1.0 <- file://<ROOT>/build/wheels/mbnas_core-0.1.0-py3-none-any.whl
+  mbnas-model-runtime==0.1.0 <- file://<ROOT>/build/wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl
+  mbnas-runner==0.1.0 <- file://<ROOT>/build/wheels/mbnas_runner-0.1.0-py3-none-any.whl
+  mbnas-server==0.1.0 <- file://<ROOT>/build/wheels/mbnas_server-0.1.0-py3-none-any.whl
+  non-file:// sources: []
+## negative check: same command for public from cwd=<ROOT> (no ./wheels there)
+
+=> project wheel lines are resolved against the current working directory (pip parse_req_from_line: os.path.abspath)
+
+## re-run 2026-10-27T13:30:43+09:00 against build/wheels as rebuilt by the packaging agents (13:18 core, 13:26 others; sha256 prefixes below)
+f96e691a6dfea0e0  build/wheels/mbnas_contracts-0.1.0-py3-none-any.whl
+1d6ff43fd55e006a  build/wheels/mbnas_core-0.1.0-py3-none-any.whl
+b913d18bbae6735c  build/wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl
+f374871bbe68a9bf  build/wheels/mbnas_runner-0.1.0-py3-none-any.whl
+a70d432ea133f9c1  build/wheels/mbnas_server-0.1.0-py3-none-any.whl
+Would install Jinja2-3.1.6 MarkupSafe-3.0.3 PyYAML-6.0.3 Pygments-2.21.0 accelerate-1.15.0 aiohappyeyeballs-2.7.1 aiohtt
+Would install Jinja2-3.1.6 MarkupSafe-3.0.3 PyYAML-6.0.3 Pygments-2.21.0 accelerate-1.15.0 aiohappyeyeballs-2.7.1 aiohtt
+[public] report pip_version=25.3 install=138 (third-party 134, mbnas 4); req third-party=134 wheels=4
+  requirement lines not installed: []
+  installed but not a requirement line (closure leak): []
+  version mismatches: []
+  mbnas-contracts==0.1.0 <- file://<ROOT>/build/wheels/mbnas_contracts-0.1.0-py3-none-any.whl
+  mbnas-model-runtime==0.1.0 <- file://<ROOT>/build/wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl
+  mbnas-runner==0.1.0 <- file://<ROOT>/build/wheels/mbnas_runner-0.1.0-py3-none-any.whl
+  mbnas-server==0.1.0 <- file://<ROOT>/build/wheels/mbnas_server-0.1.0-py3-none-any.whl
+  non-file:// sources: []
+[owner] report pip_version=25.3 install=139 (third-party 134, mbnas 5); req third-party=134 wheels=5
+  requirement lines not installed: []
+  installed but not a requirement line (closure leak): []
+  version mismatches: []
+  mbnas-contracts==0.1.0 <- file://<ROOT>/build/wheels/mbnas_contracts-0.1.0-py3-none-any.whl
+  mbnas-core==0.1.0 <- file://<ROOT>/build/wheels/mbnas_core-0.1.0-py3-none-any.whl
+  mbnas-model-runtime==0.1.0 <- file://<ROOT>/build/wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl
+  mbnas-runner==0.1.0 <- file://<ROOT>/build/wheels/mbnas_runner-0.1.0-py3-none-any.whl
+  mbnas-server==0.1.0 <- file://<ROOT>/build/wheels/mbnas_server-0.1.0-py3-none-any.whl
+  non-file:// sources: []
+
+## FINAL re-run 2026-10-27T14:05:03+09:00 with the final requirements files (header comments changed only); wheels = build/wheels as present then:
+63272b2cd830c8e7  build/wheels/mbnas_contracts-0.1.0-py3-none-any.whl
+292220d35765a271  build/wheels/mbnas_core-0.1.0-py3-none-any.whl
+5887ea33136e6634  build/wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl
+041c27688e342a77  build/wheels/mbnas_runner-0.1.0-py3-none-any.whl
+6b777792775bf479  build/wheels/mbnas_server-0.1.0-py3-none-any.whl
+1856afdbfb5287ea68c9bf5bb8c29a15a84bf3b073c231053357713f75cbc666  requirements-public.txt
+3ca77a106165c919288ff989c9fa16227aeb804e12d78080dad63c6ebf40ff85  requirements-owner.txt
+81522bbeb958ce5a81fecfe336a45487e3de92a74adc1b05270c9b2c8958cc4b  requirements-cpu.txt
+Would install Jinja2-3.1.6 MarkupSafe-3.0.3 PyYAML-6.0.3 Pygments-2.21.0 accelerate-1.15.0 aiohappye
+Would install Jinja2-3.1.6 MarkupSafe-3.0.3 PyYAML-6.0.3 Pygments-2.21.0 accelerate-1.15.0 aiohappye
+[public] report pip_version=25.3 install=138 (third-party 134, mbnas 4); req third-party=134 wheels=4
+  requirement lines not installed: []
+  installed but not a requirement line (closure leak): []
+  version mismatches: []
+  non-file:// sources: []
+[owner] report pip_version=25.3 install=139 (third-party 134, mbnas 5); req third-party=134 wheels=5
+  requirement lines not installed: []
+  installed but not a requirement line (closure leak): []
+  version mismatches: []
+  non-file:// sources: []

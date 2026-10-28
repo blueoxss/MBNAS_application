@@ -1,0 +1,6 @@
+command: cd <ROOT> && CUDA_VISIBLE_DEVICES="" PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null MBNAS_TEST_ROOT=<SCRATCH>/... runtime/venv/bin/python -B -m pytest -p no:cacheprovider tests/public/packaging -m "not gpu and not live and not legacy_records and not host_data" --timeout=900 --basetemp=<SCRATCH>/... -q -rfEs
+start_utc: 2026-10-28T00:30:33Z
+end_utc: 2026-10-28T00:32:27Z
+exit: 1
+result: 63 collected = 62 passed + 1 failed (THIRD_PARTY_NOTICES_WEB.md absent); before round 4: 42 passed (00_baseline_*)
+new __pycache__ in tests/ or scripts/: none

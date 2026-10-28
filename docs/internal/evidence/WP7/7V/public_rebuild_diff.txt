@@ -1,0 +1,4 @@
+tested (T6/offline) sha256 4174060d..., rebuilt with offline_install_evidence sha256 529243cf...
+only in tested: []
+only in rebuilt: []
+changed: ['mbnas_application/BUILD_INFO.json', 'mbnas_application/FILE_MANIFEST.jsonl', 'mbnas_application/PACKAGE_PROFILE.json', 'mbnas_application/README.md', 'mbnas_application/docs/public/COMPATIBILITY.md', 'mbnas_application/docs/public/FEATURES.md', 'mbnas_application/docs/public/INSTALL.md', 'mbnas_application/docs/public/OPERATIONS.md', 'mbnas_application/docs/public/SECURITY_MODEL.md', 'mbnas_application/docs/public/TROUBLESHOOTING.md', 'mbnas_application/mbnas_web/e2e/real-server.spec.ts']

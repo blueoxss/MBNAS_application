@@ -1,0 +1,15 @@
+## docker run --rm --entrypoint python mbnas-public-cpu:final2 -c 'import mbnas_core'
+ModuleNotFoundError: No module named 'mbnas_core'
+exit=1
+## find_spec + installed mbnas distributions + files named *mbnas_core*
+find_spec(mbnas_core)= None
+['mbnas-contracts', 'mbnas-model-runtime', 'mbnas-runner', 'mbnas-server']
+0
+exit=0
+## runner id (DD-A61 b)
+runner_id file: runner-8fc5cbb2 format_ok=1 contains_host_name=0
+core runners rows: [('runner-8fc5cbb2', 'ONLINE', 'cpu')]
+runner-job lease owners: ['runner-8fc5cbb2']
+schema_version: 6
+prune_requests rows: [('DONE', 5)]
+## public responses (dump) containing the host name: 0 of 106

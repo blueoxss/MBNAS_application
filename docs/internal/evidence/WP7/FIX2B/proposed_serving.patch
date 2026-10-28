@@ -1,0 +1,51 @@
+--- a/mbnas_core/src/mbnas_core/artifacts/registry.py
++++ b/mbnas_core/src/mbnas_core/artifacts/registry.py
+@@ -168,11 +168,19 @@
+                                 state="READY", meta=meta or {})
+ 
+ 
+-def resolve_file(run: Mapping[str, Any], row: Mapping[str, Any], output_roots: Sequence[str]) -> Path:
++CORE_LOCAL = "core_local"
++"""``meta.location`` of an artifact registered relative to the core-local run directory ``<core output_root>/<run id>``
++(DD-A62 (c): the evaluation-free generation of a split deployment, ``orchestration.engine.register_generated_architecture``)."""
++
++
++def resolve_file(run: Mapping[str, Any], row: Mapping[str, Any], output_roots: Sequence[str], *,
++                 core_output_root: str | None = None) -> Path:
+     """Real path of a registered artifact's file, or :class:`ArtifactError`.
+ 
+     NOT_READY rows are refused before the disk is touched; the run directory must lie below an output root; the
+     file must resolve below the run directory (symlink escape → ACCESS_DENIED) and exist (else MISSING).
++    DD-A62 (c): a row with ``meta.location = core_local`` is resolved against ``<core_output_root>/<run id>`` (the
++    core-local run directory of ``owner_worker.paths.core_run_dir``) instead of ``run_dir(run)``, with the same checks.
+ 
+     재구현(2026-10-15), 원본 누락, 근거: routes_files.get_artifact (STATUS 매핑)과 tests/api/test_artifacts_export.py
+     (a-pending→409 NOT_READY, 삭제→404 MISSING, 심링크→403 이고 본문에 secret 없음).
+@@ -183,7 +191,14 @@
+     if (not rel or os.path.isabs(rel) or "\x00" in rel
+             or ".." in rel.replace("\\", "/").split("/")):
+         raise ArtifactError("ACCESS_DENIED", "registry holds an unsafe artifact path")
+-    base = run_dir(run)
++    meta = row.get("meta") if isinstance(row.get("meta"), Mapping) else {}
++    if meta.get("location") == CORE_LOCAL:
++        rid = str(run["id"])
++        if not core_output_root or not rid or rid in (".", "..") or "/" in rid or "\x00" in rid:
++            raise ArtifactError("MISSING", "core-local artifact without a core output root")
++        base = Path(str(core_output_root)) / rid
++    else:
++        base = run_dir(run)
+     real_base = os.path.realpath(base)
+     if not any(is_within(real_base, os.path.realpath(r)) for r in output_roots):
+         raise ArtifactError("ACCESS_DENIED", "run directory is outside the server output roots")
+--- a/mbnas_core/src/mbnas_core/console/routes_files.py
++++ b/mbnas_core/src/mbnas_core/console/routes_files.py
+@@ -170,7 +170,8 @@
+                                                       "its bytes from the artifact store, the core host has none")
+         run = get_run_or_404(conn, run_id)
+         try:
+-            path = resolve_file(run, row, svc.settings.output_roots)
++            path = resolve_file(run, row, svc.settings.output_roots,
++                                core_output_root=svc.settings.output_root)  # DD-A62 (c) core-local objects
+             digest = sha256_file(path)
+             if row.get("sha256") and digest != row["sha256"]:
+                 raise ArtifactError("LOAD_FAILED", "artifact bytes no longer match the registry sha256")

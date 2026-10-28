@@ -1,0 +1,55 @@
+$ canary_scan.py --manifest <CANARY_MANIFEST> --profile public --secrets-env <combined env, scratch 0600> --needles-file <scratch> <targets>
+targets: ['/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/proc']
+exit=1
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:6
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:7
+FAIL host_fact HOST_FACT#1 owner data root [raw] proc/gateway.environ:16
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:25
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:29
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:31
+FAIL host_fact HOST_FACT#1 owner data root [raw] proc/gateway.environ:39
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:40
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:48
+FAIL host_fact HOST_FACT#3 original host address [raw] proc/gateway.environ:50
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:51
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:53
+FAIL host_fact HOST_FACT#1 owner data root [raw] proc/gateway.environ:55
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:62
+FAIL host_fact HOST_FACT#1 owner data root [raw] proc/gateway.environ:63
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:71
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:78
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:90
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:91
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:92
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:92
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:92
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:92
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:92
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/gateway.environ:92
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:6
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:7
+FAIL host_fact HOST_FACT#1 owner data root [raw] proc/runner.environ:16
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:25
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:29
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:31
+FAIL host_fact HOST_FACT#1 owner data root [raw] proc/runner.environ:39
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:40
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:48
+FAIL host_fact HOST_FACT#3 original host address [raw] proc/runner.environ:50
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:51
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:53
+FAIL host_fact HOST_FACT#1 owner data root [raw] proc/runner.environ:55
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:62
+FAIL host_fact HOST_FACT#1 owner data root [raw] proc/runner.environ:63
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:71
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:78
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:90
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:91
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:92
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:92
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:92
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:92
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:92
+FAIL host_fact HOST_FACT#5 owner account name [raw] proc/runner.environ:92
+scanned files=4 bytes=13010 containers=0 skipped=0 hits=50 failing=50 unmet=0
+canary_scan: FAIL

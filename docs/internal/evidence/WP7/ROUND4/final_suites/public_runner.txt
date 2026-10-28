@@ -1,0 +1,9 @@
+........................................................................ [ 51%]
+.....................................................................    [100%]
+=============================== warnings summary ===============================
+tests/public/runner/test_benchmark_unit.py::test_export_ultralytics_raw_head_and_restores_pt_path
+  <ROOT>/runtime/venv/lib/python3.10/site-packages/ultralytics/nn/modules/head.py:222: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+    if self.dynamic or self.shape != shape:
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+141 passed, 9 deselected, 1 warning in 120.90s (0:02:00)

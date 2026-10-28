@@ -1,0 +1,156 @@
+import { useEffect, useMemo, useState } from 'react';
+import type { ApiClient } from '../api/client';
+import type { Candidate, CandidateDetail } from '../api/types';
+import { rec, str } from '../api/types';
+import { fmtMb, fmtMs, fmtNum, fmtPct } from '../lib/format';
+import { compareStructure, diffStructureDocuments, structureNodes } from '../lib/structure';
+import { DataTable, type Column } from './DataTable';
+import { SelectField } from './ui';
+
+/**
+ * DD-45: the recorded run conditions of one evaluation row, so that two candidates of a console run are compared with their
+ * conditions beside them. Every value is read from the row (or, for the dataset yaml, from the run protocol both rows share);
+ * a missing value is null ("기록 없음"), never inferred, and a null on either side is not compared.
+ */
+export const EVAL_CONDITION_KEYS = ['dataset_yaml', 'split_hash', 'rung', 'epochs', 'protocol_hash', 'device', 'precision', 'checkpoint_sha256'] as const;
+export type EvalConditionKey = (typeof EVAL_CONDITION_KEYS)[number];
+export const EVAL_CONDITION_LABEL: Record<EvalConditionKey, string> = {
+  dataset_yaml: 'dataset yaml (run protocol)', split_hash: 'split hash', rung: 'rung', epochs: '누적 epoch (기록값)',
+  protocol_hash: 'protocol_hash', device: 'device', precision: 'precision', checkpoint_sha256: 'checkpoint sha256',
+};
+export type EvalConditions = Record<EvalConditionKey, string | number | null>;
+
+export function evaluationConditions(row: Candidate | null | undefined, datasetYaml?: string | null): EvalConditions {
+  const text = (value: unknown): string | null => typeof value === 'string' && value !== '' ? value : null;
+  const r = rec(row);
+  return {
+    dataset_yaml: text(datasetYaml), split_hash: text(r.split_hash), rung: text(r.rung),
+    epochs: typeof r.epochs === 'number' && Number.isFinite(r.epochs) ? r.epochs : null,
+    protocol_hash: text(r.protocol_hash), device: text(r.device), precision: text(r.precision), checkpoint_sha256: text(r.checkpoint_sha256),
+  };
+}
+
+/** Keys whose recorded values are present on both sides and differ; `unknown` lists the keys missing on either side. */
+export function evaluationConditionDifferences(left: EvalConditions, right: EvalConditions): { differing: EvalConditionKey[]; unknown: EvalConditionKey[] } {
+  return {
+    differing: EVAL_CONDITION_KEYS.filter((key) => left[key] !== null && right[key] !== null && left[key] !== right[key]),
+    unknown: EVAL_CONDITION_KEYS.filter((key) => left[key] === null || right[key] === null),
+  };
+}
+
+const NOT_RECORDED = '기록 없음';
+const NOT_EVALUATED = '미평가';
+type RecordedRow = { key: string; label: string; left: string; right: string; condition: boolean; differs: boolean };
+
+/** Recorded metric text of an evaluation row: a value only when the row is an EVALUATED measurement, else 미평가 (no estimate). */
+function metricText(row: Candidate | null | undefined, evaluationStatus: string | undefined, pick: (r: Candidate) => string, present: (r: Candidate) => boolean): string {
+  if (!row || row.status !== 'EVALUATED' || evaluationStatus === 'NOT_EVALUATED' || !present(row)) return NOT_EVALUATED;
+  return pick(row);
+}
+
+/**
+ * Compare this candidate with a second model. `structure` is the shown candidate's structure document (its `edges` feed the
+ * edge diff); the other model's document is read from its own candidate detail. 부모·자식 means the server-recorded
+ * parent relation; every other pair is a plain 두 모델 comparison.
+ */
+export function ModelComparison({ c, blocks, all, client, runId, structure, datasetYaml }: { c: Candidate; blocks: readonly unknown[]; all: readonly Candidate[]; client: ApiClient | null; runId: string; structure?: Record<string, unknown> | null; datasetYaml?: string | null }): JSX.Element {
+  const [otherId, setOtherId] = useState('');
+  const [other, setOther] = useState<CandidateDetail | null>(null);
+  const [error, setError] = useState('');
+  const options = [...new Map(all.filter((candidate) => candidate.candidate_id !== c.candidate_id).map((candidate) => [candidate.candidate_id, candidate])).values()];
+  useEffect(() => {
+    let active = true; setOther(null); setError('');
+    if (client && otherId) void client.candidateDetail(runId, otherId).then((detail) => { if (active) setOther(detail); }).catch((e: unknown) => { if (active) setError(e instanceof Error ? e.message : String(e)); });
+    return () => { active = false; };
+  }, [client, runId, otherId]);
+  const data = useMemo(() => {
+    const left = rec(structure);
+    const right = rec(other?.structure);
+    const rightBlocks = Array.isArray(right.blocks) ? right.blocks : other?.blocks ?? [];
+    const a = structureNodes(blocks, c.candidate_id, { representation: left.representation, schema: left.schema });
+    const b = structureNodes(rightBlocks, otherId, { representation: right.representation, schema: right.schema });
+    const native = left.representation === 'native_modules' || right.representation === 'native_modules';
+    // the server-shaped diff reads blocks + edges of both documents (edges are the report's own, never rebuilt here)
+    const diff = other ? diffStructureDocuments({ blocks, edges: left.edges }, { blocks: rightBlocks, edges: right.edges }) : null;
+    return { a, b, native, diff, differences: other ? compareStructure(a, b) : [], edgesKnown: Array.isArray(left.edges) && Array.isArray(right.edges) };
+  }, [blocks, c.candidate_id, other, otherId, structure]);
+  type Difference = typeof data.differences[number];
+  const fields = new Map((data.diff?.changed ?? []).map((item) => [item.position, item.fields]));
+  // The server-shaped diff compares module/from/repeats/args, which native blocks do not carry (all null), so for native
+  // documents the changed items are read from the recorded native identity fields instead (display only, no parity claim).
+  const nativeFields = (position: number): string[] => {
+    const x = data.a.find((item) => item.position === position), y = data.b.find((item) => item.position === position);
+    if (!x || !y) return [];
+    return ([['native_path', x.nativePath, y.nativePath], ['module_class', x.moduleClass, y.moduleClass], ['section', x.scope, y.scope]] as const)
+      .filter(([, l, r]) => l !== r).map(([key]) => key);
+  };
+  const config = (position: number, side: 'a' | 'b'): string => {
+    const node = data[side].find((item) => item.position === position);
+    if (!node) return '해당 행 없음';
+    return JSON.stringify(node.native
+      ? { native_path: node.nativePath, module_class: node.moduleClass, repeats: node.repeatsDetail.declared, section: node.scope }
+      : { module: node.name, from: node.from, repeats: node.repeats, args: node.args, section: node.scope });
+  };
+  const columns: Column<Difference>[] = [
+    { key: 'position', header: data.native ? '블록 순서' : 'YAML 행 위치', cell: (row) => row.position },
+    { key: 'change', header: '구조 차이', cell: (row) => row.change },
+    { key: 'fields', header: '달라진 항목', cell: (row) => [...(fields.get(row.position) ?? []), ...(data.native ? nativeFields(row.position) : [])].join(', ') || '—' },
+    { key: 'left', header: c.name, cell: (row) => <span className="mono wrap-any">{config(row.position, 'a')}</span> },
+    { key: 'right', header: other?.name ?? '비교 모델', cell: (row) => <span className="mono wrap-any">{config(row.position, 'b')}</span> },
+  ];
+  // DD-45: left = the row shown, right = the row the model list shows for the other candidate (else its latest evaluation row of the detail)
+  const otherRow = otherId ? (options.find((candidate) => candidate.candidate_id === otherId) ?? (other?.evaluations ?? []).slice(-1)[0] ?? null) as Candidate | null : null;
+  const recorded = useMemo(() => {
+    if (!other) return null;
+    const l = evaluationConditions(c, datasetYaml), r = evaluationConditions(otherRow, datasetYaml);
+    const { differing, unknown } = evaluationConditionDifferences(l, r);
+    const show = (value: string | number | null): string => value === null ? NOT_RECORDED : String(value);
+    const rows: RecordedRow[] = EVAL_CONDITION_KEYS.map((key) => ({ key, label: EVAL_CONDITION_LABEL[key], left: show(l[key]), right: show(r[key]), condition: true, differs: differing.includes(key) }));
+    const metric = (key: string, label: string, pick: (x: Candidate) => string, present: (x: Candidate) => boolean): RecordedRow =>
+      ({ key, label, left: metricText(c, str(rec(c).evaluation_status) ?? undefined, pick, present), right: metricText(otherRow, other.evaluation_status, pick, present), condition: false, differs: false });
+    const finite = (value: unknown): boolean => typeof value === 'number' && Number.isFinite(value);
+    rows.push(
+      metric('ap', 'AP', (x) => fmtPct(x.ap), (x) => finite(x.ap)),
+      metric('recall', 'Recall', (x) => fmtPct(x.recall), (x) => finite(x.recall)),
+      metric('latency_ms', 'latency', (x) => fmtMs(x.latency_ms), (x) => finite(x.latency_ms)),
+      metric('size_mb', 'size', (x) => fmtMb(x.size_mb), (x) => finite(x.size_mb)),
+      metric('fitness', 'fitness', (x) => fmtNum(x.fitness), (x) => finite(x.fitness)),
+    );
+    return { rows, differing, unknown, otherLabel: otherRow ? `${otherRow.id} (${otherRow.rung})` : NOT_RECORDED };
+  }, [c, datasetYaml, other, otherRow]);
+  const recordedCols: Column<RecordedRow>[] = [
+    { key: 'label', header: '기록 항목', cell: (row) => row.condition ? row.label : `결과 · ${row.label}` },
+    { key: 'left', header: c.name, cell: (row) => <span className={row.left === NOT_RECORDED || row.left === NOT_EVALUATED ? 'muted' : 'mono wrap-any'}>{row.left}</span> },
+    { key: 'right', header: other?.name ?? '비교 모델', cell: (row) => <span className={row.right === NOT_RECORDED || row.right === NOT_EVALUATED ? 'muted' : 'mono wrap-any'}>{row.right}</span> },
+    { key: 'differs', header: '조건', cell: (row) => row.condition ? (row.differs ? '상이' : '—') : '' },
+  ];
+  const parentChild = otherId && ((c.parents ?? []).includes(otherId) || (other?.parents ?? []).includes(c.candidate_id));
+  const end = (value: string): string => value === '-1' || value === 'None' ? 'INPUT' : /^\d+$/.test(value) ? `row ${value}` : value;
+  const edgeList = (title: string, rows: readonly (readonly string[])[], testId: string): JSX.Element => <div data-testid={testId}>
+    <h5 style={{ margin: '8px 0 4px' }}>{title} ({rows.length})</h5>
+    {rows.length === 0 ? <p className="help">없음</p> : <ul className="mono wrap-any">{rows.map((edge) => <li key={edge.join('|')}>{end(edge[0])} → {end(edge[1])} (from_ref {edge[2] === 'None' ? '없음' : edge[2]})</li>)}</ul>}
+  </div>;
+  return <section aria-label="모델 구조 비교">
+    <h4 data-testid="comparison-kind">{parentChild ? '부모·자식 구조 비교' : '두 모델 구조 비교'}</h4>
+    <SelectField label="비교할 모델" value={otherId} onChange={setOtherId} allowEmpty="모델 선택" options={options.map((candidate) => ({ value: candidate.candidate_id, label: `${candidate.name} · ${candidate.candidate_id}` }))} />
+    <p className="help">{data.native
+      ? 'native 모델에는 YAML 행이 없어 블록 순서(module 경로 목록의 순서)로 비교합니다. 순서 일치는 같은 module이라는 증거가 아닙니다. 측정하지 않은 성능 개선을 추정하지 않습니다.'
+      : '실제 YAML 행 위치를 기준으로 module·from·반복·args·소속 차이를 비교합니다. 위치 일치는 유전적 gene 대응을 증명하지 않습니다. 측정하지 않은 성능 개선을 추정하지 않습니다.'}</p>
+    {error && <p className="field-err" role="alert">{error}</p>}
+    {other && recorded && <div data-testid="eval-conditions">
+      <h5 style={{ margin: '8px 0 4px' }}>기록된 실행 조건과 결과 · 평가 행 기록값 ({c.id} ↔ {recorded.otherLabel})</h5>
+      <DataTable caption="두 모델의 기록된 실행 조건과 결과" rows={recorded.rows} columns={recordedCols} rowKey={(row) => row.key} />
+      {recorded.differing.length > 0 && <p className="field-err" role="alert" data-testid="eval-conditions-differ">조건 상이: {recorded.differing.map((key) => EVAL_CONDITION_LABEL[key]).join(', ')} — 평가 조건이 다르므로 아래 성능 값을 그대로 비교하지 마세요.</p>}
+      {recorded.unknown.length > 0 && <p className="help" data-testid="eval-conditions-unknown">기록 없음으로 비교하지 않은 조건: {recorded.unknown.map((key) => EVAL_CONDITION_LABEL[key]).join(', ')}</p>}
+      <p className="help">값은 서버가 평가 행에 기록한 그대로이며 추정하지 않습니다. 평가되지 않은 모델의 성능은 미평가로 표시합니다.</p>
+    </div>}
+    {other && <DataTable caption="추가·제거·변경 및 연결 차이" rows={data.differences} columns={columns} rowKey={(row) => String(row.position)} maxHeight />}
+    {other && data.diff && (data.edgesKnown
+      ? <div data-testid="edge-diff">
+        <h5 style={{ margin: '8px 0 0' }}>연결(edge) 차이 · 문서에 기록된 edge 기준</h5>
+        {edgeList('이 모델에만 있는 연결 (제거됨)', data.diff.edges_removed, 'edges-removed')}
+        {edgeList('비교 모델에만 있는 연결 (추가됨)', data.diff.edges_added, 'edges-added')}
+      </div>
+      : <p className="help" data-testid="edge-diff-unavailable">한쪽 문서에 edge 기록이 없어 연결 차이는 계산하지 않았습니다 (from 값 차이는 위 표의 달라진 항목에 표시).</p>)}
+  </section>;
+}

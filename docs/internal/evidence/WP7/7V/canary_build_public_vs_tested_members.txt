@@ -1,0 +1,3 @@
+canary test build (deny lines dropped) vs tested public ZIP 4174060d
+added: ['mbnas_application/mbnas_web/dist/assets/index-BnpZcnwU.js', 'mbnas_application/mbnas_web/e2e/checkpoint_structure.spec.ts', 'mbnas_application/mbnas_web/tests/checkpoint_download.test.tsx', 'mbnas_application/mbnas_web/tests/checkpoint_fixtures.ts', 'mbnas_application/tests/public/contracts/test_contract_history.py', 'mbnas_application/tests/public/tools/smoke_api_only.py']
+removed: ['mbnas_application/mbnas_web/dist/assets/index-DlYSES30.js']

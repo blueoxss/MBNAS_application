@@ -1,0 +1,11 @@
+# baseline: tests/public/packaging on an isolated copy of the SHIPPED packager inputs (before any round-4 edit)
+# inputs (sha256): package_build.py 129be019... (= BUILD_INFO packager of the final ZIPs), gen_registration_docs.py 7fa8b151..., allowlists owner 8a88b5d7 / public 1e7c7c5d / registration 4dde6f21
+129be019892164aa96bc8258560167418e01db2bfff95323f5702a43f665047f  scripts/dev/package_build.py
+7fa8b151e48961b0f16d45bd30f24ba104178949bd10e6bc715f68991c804d18  scripts/dev/gen_registration_docs.py
+8a88b5d7bd879663e86684abfb1566736e3f16f4167bf343b9b3a8dbf4b63d06  build/allowlists/owner.txt
+1e7c7c5d7e27fe7491c052a9f65d6bd497875fcb5f5fba9322ab1fca68ba6b38  build/allowlists/public.txt
+4dde6f218933ad1453f2e62eaab3cb94c437539aa6889eb7dea588625f96b34b  build/allowlists/registration.txt
+
+..........................................                               [100%]
+42 passed in 60.43s (0:01:00)
+exit=0

@@ -1,0 +1,60 @@
+# T5 RERUN2 (P2-FINAL-2 brief) — exact commands, in order, with exit codes. Agent P2, 2026-10-28 (UTC times).
+# <ROOT> = TARGET_ROOT; <T> = <ROOT>/runtime/test_root/t4t5; <F2> = <T>/final2; <PY> = conda python3.10 (stdlib client only).
+# Owner core = the CURRENT owner ZIP a43a8a2e... (pre-DD-A73 core; the owner ZIP is being rebuilt) installed on the host.
+# CPU only: CUDA_VISIBLE_DEVICES="" for every process; no GPU, no /data, no etri_nas; PIP_CONFIG_FILE=/dev/null.
+
+## 0. inputs (02:22–02:23Z)
+cp -p <ROOT>/dist/public/mbnas_application-0.1.0-public-runtime-linux_x86_64.zip \
+      <ROOT>/dist/owner/mbnas_application-0.1.0-owner-private-runtime-linux_x86_64.zip <F2>/zips/        # exit 0
+sha256sum <F2>/zips/*.zip                                                                              # exit 0 -> zips_sha256_used.txt
+  public bc0500bdfa43ddf5fb74bde4cf51a967e06f45bd2b901ba26da0794c1f0853d3 (FINAL)
+  owner  a43a8a2ef9fddfa51ed64f3c9053723065a5d274f6126d77c6ecda7c9cb1e138 (current, to be superseded)
+(cd <F2>/t5 && unzip -q <F2>/zips/...public...zip)                                                      # exit 0
+(cd <F2>/ownercur && unzip -q <F2>/zips/...owner...zip)                                                # exit 0
+
+## 1. public image from the extracted FINAL public ZIP (02:23:37–02:28:39Z)
+cd <F2>/t5/mbnas_application && DOCKER_BUILDKIT=0 docker build --no-cache -f deploy/public/Dockerfile.cpu -t mbnas-public-cpu:final2 .
+                                                                                                       # exit 0, 302 s, 0 cache hits, online
+  -> image id sha256:a97cb3dd07c5ba03e59eb274fe393c1240c9c499054b5b283ed299a3cffb04c9, 2 972 655 226 B, 14 layers (image_info.txt)
+
+## 2. host owner core binaries from the CURRENT owner ZIP (offline, inside the T4 bwrap launcher for the install only)
+cd <F2>/ownercur && T4_SUB=final2/ownercur <T>/harness/sbx.sh /bin/bash -c \
+  'bash mbnas_application/scripts/install.sh --profile owner --offline --wheelhouse /opt/wheelhouse --python <PY>'   # exit 0, 94 s
+
+## 3. T5 stack (harness/t5r2_run.sh <phase>; console t5r2_console.txt)
+bash t5r2_run.sh setup              # exit 0  core.env 0600: core secrets generated, DEVICE_SOURCE=runners, core-only dataset root, heartbeat 2 s
+bash t5r2_run.sh core_start         # exit 0  mbnas-core-api --host 127.0.0.1 --port 18750 + mbnas-core-owner-worker --owner (MBNAS_HOME=<F2>/t5/core_home)
+bash t5r2_run.sh runner_id          # exit 0  docker run --rm ... --entrypoint python mbnas-public-cpu:final2 -c "persistent_runner_id()" -> runner-8fc5cbb2
+bash t5r2_run.sh principals         # exit 0  mbnas-core-principal create --kind server / --kind runner --runner-id runner-8fc5cbb2 (tokens file-to-file)
+bash t5r2_run.sh containers_start   # exit 0  docker run -d --rm --init --network host t5r2-gw (gateway :18760) and t5r2-runner (CPU)
+
+## 4. client harness (stdlib) through the gateway
+bash t5r2_run.sh harness --items health,web,structure,gen,waitdev,train,results,download,sse,trainval,decision,train3,genconfig,prunecheck --pause
+                                    # exit 1: 13/14 items PASS; genconfig FAIL (422 STRUCTURE_INVALID, candidate c000 with NASGlobalTransformer)
+  (during train3 the harness ran: bash t5r2_run.sh capture_env during_train3   # exit 0, /proc environ of both containers)
+bash t5r2_run.sh harness --items gencheck,genconfig,prunecheck --gen-candidate "run-e3cadf21247d:RAND:s7:g00:c001"
+                                    # exit 0: explicit candidate structure-check (c000 PASS, c001 PASS), genconfig with c001 PASS, prunecheck PASS
+<PY> -I - (inline, run/t5r2_generated_revision_chain.json)   # exit 0: generated -> selected -> executed revision chain, YAML downloads sha-matched
+
+## 5. T8 runtime checks (scanner = <ROOT>/scripts/dev/canary_scan.py from the source tree, runtime/venv python)
+bash t5r2_run.sh capture_env idle   # exit 0
+canary_scan.py --manifest docs/internal/canary/CANARY_MANIFEST.json --needles-file <owner strings> --secrets-env <14 secrets> --json ... <F2>/t5/dump
+                                    # exit 0, 9 458 response files, 0 hits (t8/scan_responses.txt)
+canary_scan.py ... <public logs: gateway + runner container logs, audit.jsonl>                 # exit 0, 0 hits (t8/scan_logs.txt)
+canary_scan.py ... <F2>/t5/run/runtime (the whole customer-side runtime tree)                 # exit 0, 24 518 files, 0 hits
+canary_scan.py ... --secrets-env <core+owner-install+runner token> <gateway /proc environ x2> # exit 0, 0 hits
+canary_scan.py ... --secrets-env <core+owner-install+gateway tokens> <runner /proc environ x2> # exit 0, 0 hits
+canary_scan.py ... <probe files + the env files themselves>  (positive control)               # exit 1 as expected: 22 hits (owner strings, host fact #5, 7 secrets)
+docker save mbnas-public-cpu:final2 | (unpack 14 layers) ; canary_scan.py --profile public ... --min-files 50000 <layers> <config> <history> <env>
+                                    # exit 0, 52 005 files, 0 hits (leakscan/image_scan.txt); unpacked layers and tar deleted afterwards
+docker run --rm --entrypoint python mbnas-public-cpu:final2 -c "import mbnas_core"           # exit 1 ModuleNotFoundError (expected)
+
+## 6. core down, logs, stop
+bash t5r2_run.sh core_stop          # exit 0 (SIGTERM core + owner worker; both stopped)
+T5_LABEL=t5r2b bash t5r2_run.sh harness --items coredown                                     # exit 0: health degraded, 503 CORE_UNAVAILABLE
+bash t5r2_run.sh logs               # exit 0 (docker logs of both containers -> run/t5r2_*_container.log)
+bash t5r2_run.sh containers_stop    # exit 0, containers left: [] (--rm)
+<PY> -I harness/reqid_link2.py --ids 'run/t5r2*_request_ids.jsonl' ... --gw-access run/t5r2_gateway_container.log --core-access logs/core.log
+                                    # exit 0 -> run/t5r2_request_id_linkage.json
+# Left running: nothing (no container, no core/owner-worker process). Secret needle files used by the scans were 0600
+# scratch files and are deleted after the evidence self-scan.

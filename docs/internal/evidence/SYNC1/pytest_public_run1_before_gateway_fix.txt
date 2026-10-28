@@ -1,0 +1,67 @@
+........................................................................ [ 12%]
+................................................s....................... [ 24%]
+............................s........................................... [ 36%]
+...............ss..s..................................................ss [ 48%]
+sss...................................s.......................F......... [ 60%]
+...ssssssssss.............................xssssssssss................... [ 72%]
+........................................................................ [ 84%]
+........................................................................ [ 96%]
+.......................                                                  [100%]
+=================================== FAILURES ===================================
+_____________________ test_health_with_and_without_bearer ______________________
+
+root = PosixPath('/tmp/pytest-of-mgjeong/pytest-403/test_health_with_and_without_b0/yolo_ga_full_empty')
+
+    def test_health_with_and_without_bearer(root):
+        c = make_client(archive_roots=[root])
+        r = c.get("/api/v1/health", headers=AUTH)
+        assert r.status_code == 200
+        body = r.json()
+>       assert body == {"status": "ok", "version": "1.4.2", "gateway": True, "request_id": r.headers["x-request-id"]}
+E       AssertionError: assert {'status': 'o...1dc9929d2530'} == {'status': 'o...1dc9929d2530'}
+E         
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'version': '1.4.3'} != {'version': '1.4.2'}
+E         Use -v to get more diff
+
+tests/public/server/test_gateway_skeleton.py:131: AssertionError
+=============================== warnings summary ===============================
+runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/public/runner/test_benchmark_unit.py::test_export_ultralytics_raw_head_and_restores_pt_path
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/ultralytics/nn/modules/head.py:222: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+    if self.dynamic or self.shape != shape:
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/public/model_runtime/test_adapters_cpu.py:92: ETRI notebook not present
+SKIPPED [1] tests/public/model_runtime/test_datasets.py: host_data: needs real host data (PILOT subset, probe/bench evidence, real runs, weights or an ETRI reference checkout); set MBNAS_TEST_HOST_DATA=1 and the MBNAS_TEST_* roots to run it
+SKIPPED [1] tests/public/runner/test_benchmark_rfdetr.py:235: official rf-detr-nano.pth not in the weights cache
+SKIPPED [1] tests/public/runner/test_benchmark_rfdetr.py:309: PILOT_VAL search_val images not present on this host
+SKIPPED [1] tests/public/runner/test_benchmark_unit.py:61: PILOT_VAL search_val images not present on this host
+SKIPPED [1] tests/public/server/test_analysis.py:209: real NPS day run not present on this host
+SKIPPED [1] tests/public/server/test_analysis.py:209: real VisDrone smoke run not present on this host
+SKIPPED [1] tests/public/server/test_analysis.py:246: real NPS day run not present on this host
+SKIPPED [1] tests/public/server/test_analysis.py:261: real NPS day run not present on this host
+SKIPPED [1] tests/public/server/test_analysis.py:276: real NPS day run not present on this host
+SKIPPED [1] tests/public/server/test_campaign_adapter.py:546: real campaign root not present on this host
+SKIPPED [1] tests/public/server/test_perf.py:53: real NPS day run not present on this host
+SKIPPED [8] tests/public/server/test_perf.py:64: real NPS day run not present on this host
+SKIPPED [1] tests/public/server/test_perf.py:76: real NPS day run not present on this host
+SKIPPED [1] tests/public/server/test_routes.py:304: real NPS day run not present on this host
+SKIPPED [1] tests/public/server/test_routes.py:304: real VisDrone smoke run not present on this host
+SKIPPED [1] tests/public/server/test_routes.py:304: mini run absent
+SKIPPED [1] tests/public/server/test_routes.py:325: real NPS day run not present on this host
+SKIPPED [1] tests/public/server/test_routes.py:342: real NPS day run not present on this host
+SKIPPED [1] tests/public/server/test_routes.py:364: real NPS day run not present on this host
+SKIPPED [1] tests/public/server/test_routes.py:383: real NPS day run not present on this host
+SKIPPED [1] tests/public/server/test_routes.py:401: real NPS day run not present on this host
+SKIPPED [1] tests/public/server/test_routes.py:426: real NPS day run not present on this host
+SKIPPED [1] tests/public/server/test_routes.py:439: real VisDrone smoke run not present on this host
+XFAIL tests/public/server/test_routes.py::test_health_reports_archive_roots - WP-3 relay health
+FAILED tests/public/server/test_gateway_skeleton.py::test_health_with_and_without_bearer
+1 failed, 566 passed, 31 skipped, 12 deselected, 1 xfailed, 2 warnings in 77.17s (0:01:17)
+exit 1 80s cwd=/home/mgjeong/Desktop/etri_hd/mbnas_application interp=runtime/venv/bin/python

@@ -1,0 +1,8 @@
+command: runtime/venv/bin/python -B -m pytest -p no:cacheprovider tests/public/packaging -m "not gpu and not live and not legacy_records and not host_data" --timeout=600 -q -rfEs --basetemp=<SCRATCH>/suites/public_packaging/bt
+cwd: <ROOT>; env: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null MBNAS_TEST_ROOT/MBNAS_HOME=<SCRATCH>/suites/public_packaging
+start_utc: 2026-10-28T01:01:52Z
+end_utc: 2026-10-28T01:03:50Z
+exit: 0
+source_tree_hash_start: sha256:01c7d785347fea7e63387a650e8aef968b123bf2555dc26db5907265d334bcfd
+source_tree_hash_end: sha256:01c7d785347fea7e63387a650e8aef968b123bf2555dc26db5907265d334bcfd
+summary: 63 passed in 117.22s (0:01:57)

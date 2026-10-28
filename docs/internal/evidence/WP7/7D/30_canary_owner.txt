@@ -1,0 +1,91 @@
+$ bash scripts/package.sh --profile owner --canary
+[package] canary tree build/canary/owner/tree: 965 files; planted POLICY_PRIOR=1, POLICY_REPAIR=1, FITNESS=2, CORE_STATE=1, OWNER_TEST=2, OWNER_DOC=3, OWNER_SECRET=2, OWNER_DEPLOY=2, MANIFEST_SELF=1
+[package] profile=owner version=0.1.0 platform=linux_x86_64 reproducible=False canary_test_build=True root=build/canary/owner/tree
+[package] INFO      canary_expected: config/examples/core.env.example:135 — OWNER_SECRET [raw]
+[package] INFO      canary_expected: config/examples/core.env.example:136 — OWNER_SECRET [raw]
+[package] INFO      canary_expected: config/examples/owner-all-in-one.env.example:340 — OWNER_SECRET [raw]
+[package] INFO      canary_expected: config/examples/owner-all-in-one.env.example:341 — OWNER_SECRET [raw]
+[package] INFO      canary_expected: deploy/owner/mbnas-core.service.example:44 — OWNER_DEPLOY [raw]
+[package] INFO      canary_expected: docs/internal/DECISIONS.md:57 — OWNER_DOC [raw]
+[package] INFO      canary_expected: docs/internal/TASK_STATE.md:36 — OWNER_DOC [raw]
+[package] INFO      canary_expected: docs/internal/provenance/vendored_reference/README.md:20 — OWNER_DOC [raw]
+[package] INFO      canary_expected: mbnas_core/src/mbnas_core/db/schema.sql:289 — CORE_STATE [raw]
+[package] INFO      canary_expected: mbnas_core/src/mbnas_core/protocol/fitness.py:109 — FITNESS [raw]
+[package] INFO      canary_expected: mbnas_core/src/mbnas_core/protocol/promotion.py:96 — FITNESS [raw]
+[package] INFO      canary_expected: mbnas_core/src/mbnas_core/search/mixed_pool/seed_variants.py:117 — POLICY_REPAIR [raw]
+[package] INFO      canary_expected: mbnas_core/src/mbnas_core/search/space.py:534 — POLICY_PRIOR [raw]
+[package] INFO      canary_expected: requirements-owner.txt:159 — OWNER_DEPLOY [raw]
+[package] INFO      canary_expected: tests/_shared/harness.py:354 — OWNER_TEST [raw]
+[package] INFO      canary_expected: tests/owner/conftest.py:96 — OWNER_TEST [raw]
+[package] INFO      canary_expected: wheels/mbnas_core-0.1.0-py3-none-any.whl!mbnas_core/db/schema.sql:289 — CORE_STATE [raw]
+[package] INFO      canary_expected: wheels/mbnas_core-0.1.0-py3-none-any.whl!mbnas_core/protocol/fitness.py:109 — FITNESS [raw]
+[package] INFO      canary_expected: wheels/mbnas_core-0.1.0-py3-none-any.whl!mbnas_core/protocol/promotion.py:96 — FITNESS [raw]
+[package] INFO      canary_expected: wheels/mbnas_core-0.1.0-py3-none-any.whl!mbnas_core/search/mixed_pool/seed_variants.py:117 — POLICY_REPAIR [raw]
+[package] INFO      canary_expected: wheels/mbnas_core-0.1.0-py3-none-any.whl!mbnas_core/search/space.py:534 — POLICY_PRIOR [raw]
+[package] INFO      host_fact: docs/internal/DECISIONS.md:30 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/DECISIONS.md:32 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/DECISIONS.md:32 — HOST_FACT#1 owner data root
+[package] INFO      host_fact: docs/internal/DECISIONS.md:32 — HOST_FACT#3 original host address
+[package] INFO      host_fact: docs/internal/DECISIONS.md:32 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/DECISIONS.md:38 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/DECISIONS.md:45 — HOST_FACT#1 owner data root
+[package] INFO      host_fact: docs/internal/FUNCTION_AND_SECRET_MATRIX.md:38 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/TASK_STATE.md:15 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/TASK_STATE.md:6 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/TASK_STATE.md:7 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-1_SPLIT.md:126 — HOST_FACT#1 owner data root
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-1_SPLIT.md:3 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-1_SPLIT.md:9 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-1_SPLIT.md:9 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-1_SPLIT.md:9 — HOST_FACT#1 owner data root
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-1_SPLIT.md:9 — HOST_FACT#3 original host address
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-1_SPLIT.md:9 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-1_SPLIT.md:9 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-6_WEB.md:10 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-6_WEB.md:10 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/DTO_ALLOWLIST_PROPOSAL.json:1450 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/DTO_ALLOWLIST_PROPOSAL.json:957 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/DTO_ALLOWLIST_PROPOSAL.md:118 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/DTO_ALLOWLIST_PROPOSAL.md:159 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/DTO_ALLOWLIST_PROPOSAL.md:159 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/DTO_ALLOWLIST_PROPOSAL.md:244 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/analysis/DTO_ALLOWLIST_PROPOSAL.md:245 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/analysis/DTO_ALLOWLIST_PROPOSAL.md:245 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/analysis/ETRI_RUNTIME_SCOPE.md:258 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/ETRI_RUNTIME_SCOPE.md:293 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/ETRI_RUNTIME_SCOPE.md:344 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/analysis/ETRI_RUNTIME_SCOPE.md:345 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:107 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:108 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:119 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:119 — HOST_FACT#1 owner data root
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:22 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:24 — HOST_FACT#5 owner account name
+[package] checks: 0 violation(s), 0 warning(s), 873 info; report build/canary/owner/tree/build/package_reports/owner.json
+[package] staged 955 files in build/canary/owner/tree/build/staging/owner/mbnas_application; wheels: mbnas_contracts-0.1.0-py3-none-any.whl, mbnas_model_runtime-0.1.0-py3-none-any.whl, mbnas_runner-0.1.0-py3-none-any.whl, mbnas_server-0.1.0-py3-none-any.whl, mbnas_core-0.1.0-py3-none-any.whl
+[package] zip build/canary/owner/tree/dist/owner/mbnas_application-0.1.0-owner-private-runtime-linux_x86_64.zip (11440029 bytes) sha256=43de46b6629f8381346ed297afa9c5e136a3f9f52eacb0f74d1e4f42dafa2496
+[canary] ok   canary    CORE_STATE: 2 hit(s) (not failing for profile owner)
+[canary] ok   canary    FITNESS: 4 hit(s) (not failing for profile owner)
+[canary] ok   canary    OWNER_DEPLOY: 2 hit(s) (not failing for profile owner)
+[canary] ok   canary    OWNER_DOC: 3 hit(s) (not failing for profile owner)
+[canary] ok   canary    OWNER_SECRET: 4 hit(s) (not failing for profile owner)
+[canary] ok   canary    OWNER_TEST: 2 hit(s) (not failing for profile owner)
+[canary] ok   canary    POLICY_PRIOR: 2 hit(s) (not failing for profile owner)
+[canary] ok   canary    POLICY_REPAIR: 2 hit(s) (not failing for profile owner)
+[canary] ok   host_fact HOST_FACT#1 owner data root: 59 hit(s) (not failing for profile owner)
+[canary] ok   host_fact HOST_FACT#2 original host root: 150 hit(s) (not failing for profile owner)
+[canary] ok   host_fact HOST_FACT#3 original host address: 10 hit(s) (not failing for profile owner)
+[canary] ok   host_fact HOST_FACT#4 original host name: 55 hit(s) (not failing for profile owner)
+[canary] ok   host_fact HOST_FACT#5 owner account name: 578 hit(s) (not failing for profile owner)
+[canary] ok   expect   CORE_STATE present in owner: 2 hit(s)
+[canary] ok   expect   FITNESS present in owner: 4 hit(s)
+[canary] ok   expect   OWNER_DEPLOY present in owner: 2 hit(s)
+[canary] ok   expect   OWNER_DOC present in owner: 3 hit(s)
+[canary] ok   expect   OWNER_SECRET present in owner: 4 hit(s)
+[canary] ok   expect   OWNER_TEST present in owner: 2 hit(s)
+[canary] ok   expect   POLICY_PRIOR present in owner: 2 hit(s)
+[canary] ok   expect   POLICY_REPAIR present in owner: 2 hit(s)
+[canary] scanned files=1191 bytes=39948115 containers=6 skipped=0 hits=873 failing=0 unmet=0
+[canary] canary_scan: PASS
+[canary] report build/canary/owner/tree/dist/owner/mbnas_application-0.1.0-owner-private-runtime-linux_x86_64.zip.canary.json
+exit=0

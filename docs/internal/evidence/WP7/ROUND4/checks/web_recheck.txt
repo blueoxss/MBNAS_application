@@ -1,0 +1,16 @@
+# Independent re-check of the web track's output by the round-4 parent agent (2026-10-28 ~10:15 KST)
+cwd <ROOT>/mbnas_web; CUDA_VISIBLE_DEVICES='' npm_config_cache=<ROOT>/build/npm-cache npm_config_logs_max=0
+shipped dist (sha256sum dist/index.html dist/assets/*):
+9e8c8f761e7b56c7e66ecf90d563a2ff3a4118df75f49d9004423b1ea9897552  dist/index.html
+df0d6b2d9ab5dce599cbb352062be2a2065634c5fe43a152b534f537664171a9  dist/assets/index-7f__3l0I.js
+1e0f94d5b6e2984c057f8522dde0a11beae25c1d5bdff42376f0211413c18da2  dist/assets/index-CG8HuodM.css
+npm run -s check:types  -> exit 0
+npm run -s typecheck    -> exit 0
+npm run -s check:bundle -> "bundle hygiene: OK (0 hits)", exit 0
+npx vitest run --no-cache -> Test Files 46 passed (46), Tests 600 passed (600), exit 0  (--no-cache: the user-tracked node_modules/.vite results.json is not rewritten)
+fresh build into the scratchpad (npx vite build --outDir <SCRATCH>/wp3/r4docs/distcheck --emptyOutDir) -> exit 0, sha256:
+9e8c8f761e7b56c7e66ecf90d563a2ff3a4118df75f49d9004423b1ea9897552  index.html
+df0d6b2d9ab5dce599cbb352062be2a2065634c5fe43a152b534f537664171a9  assets/index-7f__3l0I.js
+1e0f94d5b6e2984c057f8522dde0a11beae25c1d5bdff42376f0211413c18da2  assets/index-CG8HuodM.css
+=> the shipped dist is byte-identical to a fresh build of the current sources.
+The full mock e2e (210 passed) and the dist rebuild were run by the web track: ../../../WP6/ROUND4_WEB/.

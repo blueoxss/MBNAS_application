@@ -1,0 +1,3 @@
+$ (cwd=/) (service env) bash '/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas public final/mbnas_application/scripts/start.sh' --profile public --role gateway
+[start] gateway: ready pid=3433967 HTTP 200 from http://127.0.0.1:18810/api/v1/health status=ok core=reachable log=runtime/logs/gateway.log
+exit=0

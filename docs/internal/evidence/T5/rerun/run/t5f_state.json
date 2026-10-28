@@ -1,0 +1,12 @@
+{
+ "upload_id": "upl-ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720",
+ "gen_run": "run-81d06544bf80",
+ "gen_arch_ok": true,
+ "train_run": "train-aa1d88e939f5",
+ "train_candidate": "model-bf45c0f26fb9",
+ "paused_epochs": [
+  1
+ ],
+ "trainval_run": "train-da239b90980c",
+ "trainval_candidate": "model-44fa07ddf3e9"
+}

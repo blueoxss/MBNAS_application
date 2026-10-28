@@ -1,0 +1,3901 @@
+[
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/__init__.py",
+  "source_module": "mbnas_server",
+  "lines": 6,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core",
+  "role": "package-init",
+  "reason": "원본 루트 docstring만 있는 __init__; 5개 패키지가 각자 __init__을 가진다(대표 대상 core).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/adapters/__init__.py",
+  "source_module": "mbnas_server.adapters",
+  "lines": 5,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.adapters",
+  "role": "model_runtime-adapter",
+  "reason": "adapters 패키지(DD-A1 b).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/adapters/base.py",
+  "source_module": "mbnas_server.adapters.base",
+  "lines": 196,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.adapters.base",
+  "role": "model_runtime-adapter",
+  "reason": "import-light 어댑터 계약(ArchSpec/CapabilityError/ResumeBlocked/LATENCY_SCOPES). resolve_register_hook가 'mbnas_server.' 접두사만 허용(adapters/base.py:192-193) → 'mbnas_model_runtime.' 로 변경.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/adapters/common.py",
+  "source_module": "mbnas_server.adapters.common",
+  "lines": 103,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.adapters.common",
+  "role": "model_runtime-adapter",
+  "reason": "structural_hash(architecture_hash 정의 mbnas-structural/1) 등 어댑터 공용 helper. util→contracts.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/adapters/etri_hybrid/__init__.py",
+  "source_module": "mbnas_server.adapters.etri_hybrid",
+  "lines": 10,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.adapters.etri_hybrid",
+  "role": "model_runtime-adapter",
+  "reason": "ETRI hybrid 상수(FAMILY_LABEL/NOTEBOOK_BLOB_SHA1/ETRI_AUDITED_HEAD).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/adapters/etri_hybrid/adapter.py",
+  "source_module": "mbnas_server.adapters.etri_hybrid.adapter",
+  "lines": 448,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.adapters.etri_hybrid.adapter",
+  "role": "model_runtime-adapter",
+  "reason": "ETRI notebook 발췌 모델/손실/데이터/후처리 + MBNAS 학습 루프(DD-A1 b). registry.specs의 import_class 문자열 'mbnas_server.adapters.etri_hybrid.model.ControlledDetector'(registry/specs.py:92,94) 재작성 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [
+   "L102 mbnas_server.adapters.etri_hybrid.model: audit_architecture, make_detector",
+   "L115 mbnas_server.adapters.etri_hybrid.model: audit_architecture",
+   "L131 mbnas_server.adapters.structure_native: observe_native_structure, unavailable_document",
+   "L204 mbnas_server.adapters.etri_hybrid.data: YoloDetectionDataset",
+   "L210 mbnas_server.adapters.etri_hybrid.postprocess: _original_boxes, postprocess",
+   "L297 mbnas_server.adapters.etri_hybrid.criterion: MbnasSetCriterion",
+   "L298 mbnas_server.adapters.etri_hybrid.data: YoloDetectionDataset",
+   "L337 mbnas_server.adapters.base: ResumeBlocked"
+  ],
+  "third_party": [
+   "PIL",
+   "numpy",
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/adapters/etri_hybrid/boxes.py",
+  "source_module": "mbnas_server.adapters.etri_hybrid.boxes",
+  "lines": 27,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.adapters.etri_hybrid.boxes",
+  "role": "model_runtime-adapter",
+  "reason": "ETRI notebook 발췌 모델/손실/데이터/후처리 + MBNAS 학습 루프(DD-A1 b). registry.specs의 import_class 문자열 'mbnas_server.adapters.etri_hybrid.model.ControlledDetector'(registry/specs.py:92,94) 재작성 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/adapters/etri_hybrid/criterion.py",
+  "source_module": "mbnas_server.adapters.etri_hybrid.criterion",
+  "lines": 60,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.adapters.etri_hybrid.criterion",
+  "role": "model_runtime-adapter",
+  "reason": "ETRI notebook 발췌 모델/손실/데이터/후처리 + MBNAS 학습 루프(DD-A1 b). registry.specs의 import_class 문자열 'mbnas_server.adapters.etri_hybrid.model.ControlledDetector'(registry/specs.py:92,94) 재작성 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "scipy",
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/adapters/etri_hybrid/data.py",
+  "source_module": "mbnas_server.adapters.etri_hybrid.data",
+  "lines": 157,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.adapters.etri_hybrid.data",
+  "role": "model_runtime-adapter",
+  "reason": "ETRI notebook 발췌 모델/손실/데이터/후처리 + MBNAS 학습 루프(DD-A1 b). registry.specs의 import_class 문자열 'mbnas_server.adapters.etri_hybrid.model.ControlledDetector'(registry/specs.py:92,94) 재작성 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "PIL",
+   "numpy",
+   "torch",
+   "yaml"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/adapters/etri_hybrid/loss.py",
+  "source_module": "mbnas_server.adapters.etri_hybrid.loss",
+  "lines": 64,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.adapters.etri_hybrid.loss",
+  "role": "model_runtime-adapter",
+  "reason": "ETRI notebook 발췌 모델/손실/데이터/후처리 + MBNAS 학습 루프(DD-A1 b). registry.specs의 import_class 문자열 'mbnas_server.adapters.etri_hybrid.model.ControlledDetector'(registry/specs.py:92,94) 재작성 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "scipy",
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/adapters/etri_hybrid/model.py",
+  "source_module": "mbnas_server.adapters.etri_hybrid.model",
+  "lines": 114,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.adapters.etri_hybrid.model",
+  "role": "model_runtime-adapter",
+  "reason": "ETRI notebook 발췌 모델/손실/데이터/후처리 + MBNAS 학습 루프(DD-A1 b). registry.specs의 import_class 문자열 'mbnas_server.adapters.etri_hybrid.model.ControlledDetector'(registry/specs.py:92,94) 재작성 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/adapters/etri_hybrid/postprocess.py",
+  "source_module": "mbnas_server.adapters.etri_hybrid.postprocess",
+  "lines": 71,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.adapters.etri_hybrid.postprocess",
+  "role": "model_runtime-adapter",
+  "reason": "ETRI notebook 발췌 모델/손실/데이터/후처리 + MBNAS 학습 루프(DD-A1 b). registry.specs의 import_class 문자열 'mbnas_server.adapters.etri_hybrid.model.ControlledDetector'(registry/specs.py:92,94) 재작성 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/adapters/rfdetr_adapter.py",
+  "source_module": "mbnas_server.adapters.rfdetr_adapter",
+  "lines": 572,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.adapters.rfdetr_adapter",
+  "role": "model_runtime-adapter",
+  "reason": "RF-DETR 어댑터. datasets.coco_convert·training.checkpoint 모두 model_runtime 내부.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [
+   "L242 mbnas_server.adapters.structure_native: observe_native_structure, unavailable_document",
+   "L278 mbnas_server.datasets.coco_convert: write_coco_layout"
+  ],
+  "third_party": [
+   "PIL",
+   "numpy",
+   "pytorch_lightning",
+   "rfdetr",
+   "torch",
+   "torchvision"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/adapters/structure_native.py",
+  "source_module": "mbnas_server.adapters.structure_native",
+  "lines": 735,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.adapters.structure_native",
+  "role": "model_runtime-adapter",
+  "reason": "비-YAML 백엔드의 native 구조 관측(CPU forward hook). search.structure의 SCHEMA/CHECK_NAMES만 사용(adapters/structure_native.py:23,63,82) → 상수를 contracts로 옮기면 core 의존 제거.",
+  "split_needed": true,
+  "split_plan": "import 'from ..search.structure import CHECK_NAMES, SCHEMA'(L23) → mbnas_contracts.structure_doc; block_catalog(L22,495) → mbnas_model_runtime.block_catalog; etri_hybrid NOTEBOOK_BLOB_SHA1(L726) 그대로.",
+  "imports_after_mapping": [
+   "mbnas_core"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [
+   "L487 mbnas_server.adapters.common: structural_hash",
+   "L726 mbnas_server.adapters.etri_hybrid: NOTEBOOK_BLOB_SHA1"
+  ],
+  "third_party": [
+   "rfdetr",
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/adapters/ultralytics_adapter.py",
+  "source_module": "mbnas_server.adapters.ultralytics_adapter",
+  "lines": 696,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.adapters.ultralytics_adapter",
+  "role": "model_runtime-adapter",
+  "reason": "ultralytics 백엔드 어댑터(학습 루프·checkpoint 호출). training.checkpoint→model_runtime.checkpoint.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "cv2",
+   "numpy",
+   "torch",
+   "ultralytics",
+   "yaml"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/__init__.py",
+  "source_module": "mbnas_server.api",
+  "lines": 1,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.console",
+  "role": "core-console",
+  "reason": "api 패키지 → core 콘솔 라우터 패키지(gateway는 mbnas_server.api).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/app.py",
+  "source_module": "mbnas_server.api.app",
+  "lines": 95,
+  "target_package": "mbnas_server",
+  "target_module_path": "mbnas_server.api.app",
+  "role": "server-gateway",
+  "reason": "브라우저 대면 관심사(사용자 bearer, CORS, request-id, body limit, archive 마운트; api/app.py:35-69)는 gateway. 현재 마운트하는 routes_*는 core 콘솔로 가므로 gateway는 relay 라우터를 마운트한다.",
+  "split_needed": true,
+  "split_plan": "① mbnas_server.api.app: create_app(GatewaySettings) = errors.install + RequestId/BodyLimit/CORS + archive_router + gateway relay routers(WP-3 신규, /api/v1 유지) + routes_files(다운로드). ② mbnas_core.api.app(신규): console/runner/owner 라우터 + 서비스 토큰 인증(DD-A3). ③ uvicorn factory 문자열 'mbnas_server.api.app:app_from_env'(L92) 호스트별 재작성; FastAPI(version='1.4.1')(L47)은 contracts openapi 버전과 동기.",
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_core"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_core"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "fastapi",
+   "uvicorn"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/auth.py",
+  "source_module": "mbnas_server.api.auth",
+  "lines": 56,
+  "target_package": "mbnas_server",
+  "target_module_path": "mbnas_server.api.auth",
+  "role": "server-gateway",
+  "reason": "사용자 bearer 검사(api/auth.py:22-36)는 gateway. RequestIdMiddleware(L39-56)는 순수 ASGI → contracts.asgi로 공유; core는 서비스/runner/owner 토큰용 변형을 별도로 가진다.",
+  "split_needed": true,
+  "split_plan": "bearer_ok/require_bearer → mbnas_server.api.auth; RequestIdMiddleware → mbnas_contracts.asgi; 서비스 토큰 dependency → mbnas_core.api.auth(신규).",
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "fastapi"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/candidate_views.py",
+  "source_module": "mbnas_server.api.candidate_views",
+  "lines": 46,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.console.candidate_views",
+  "role": "core-console",
+  "reason": "generation_candidates(DB) → core; candidate_artifacts의 artifact_view(L15) → gateway.",
+  "split_needed": true,
+  "split_plan": "artifact_view/signing_key 호출(L7,10,15,41) 제거, 레코드만 반환.",
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/contract.py",
+  "source_module": "mbnas_server.api.contract",
+  "lines": 126,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.openapi",
+  "role": "contracts-openapi",
+  "reason": "contract()/component()/prune()은 stdlib+json으로 openapi.json을 읽는다(api/contract.py:23-107). openapi.json이 contracts 패키지 데이터가 되므로 함께 이동.",
+  "split_needed": true,
+  "split_plan": "contract/component/prune → mbnas_contracts.openapi (CONTRACT_PATH=SERVER_ROOT/contracts/openapi.json(api/contract.py:17-19) 대신 importlib.resources). validator()/contract_errors()(jsonschema+referencing, api/contract.py:110-126) → mbnas_server.api.contract_check (규칙 ii: contracts는 jsonschema import 불가; 테스트·smoke 전용).",
+  "imports_after_mapping": [
+   "mbnas_core"
+  ],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "jsonschema",
+   "referencing"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/deps.py",
+  "source_module": "mbnas_server.api.deps",
+  "lines": 67,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.console.deps",
+  "role": "core-console",
+  "reason": "요청별 DB 연결/서비스 주입은 core. contract_json(L44-60)은 gateway(archive 라우트 archive/routes.py:12)도 필요.",
+  "split_needed": true,
+  "split_plan": "db/bus/services/get_run_or_404 → mbnas_core.console.deps; contract_json → 양 호스트(공통 prune은 mbnas_contracts.openapi.prune).",
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "fastapi",
+   "pydantic"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/doctor.py",
+  "source_module": "mbnas_server.api.doctor",
+  "lines": 96,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.ops.doctor",
+  "role": "core-ops",
+  "reason": "core 호스트 doctor(DB/registry/presets/allowlists). gateway·runner doctor는 WP-7 신규.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/errors.py",
+  "source_module": "mbnas_server.api.errors",
+  "lines": 73,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.errors",
+  "role": "contracts-util",
+  "reason": "ApiError 예외·pydantic_errors·_HTTP_CODES는 순수 Python/pydantic(api/errors.py:18-45). gateway와 core 두 FastAPI 호스트가 공유.",
+  "split_needed": true,
+  "split_plan": "ApiError/pydantic_errors/_HTTP_CODES → mbnas_contracts.errors; install(app)/error_response(fastapi 의존, api/errors.py:27-73) → mbnas_server.api.errors 와 mbnas_core.api.errors 각각(약 45행 중복).",
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "fastapi",
+   "pydantic",
+   "starlette"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/limits.py",
+  "source_module": "mbnas_server.api.limits",
+  "lines": 61,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.asgi",
+  "role": "contracts-util",
+  "reason": "BodyLimitMiddleware는 stdlib(json)만 쓰는 순수 ASGI(api/limits.py:10-12). 두 HTTP 호스트 공용 → contracts.asgi (대안: 양쪽 복제).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/model_services.py",
+  "source_module": "mbnas_server.api.model_services",
+  "lines": 523,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.console.model_services",
+  "role": "core-console",
+  "reason": "구조 설명/명시적 CPU 구조 검사 서비스(core 호스트 CPU, DD-A4). api/ 위치만 오분류. etri_bridge.load_etri_mixed(L280,510) → model_runtime.operators.ensure_registered; registry → core.registry/model_runtime.registry; etri_nas_root allow root(L483) 제거.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [
+   "L76 mbnas_server.registry: SPEC_BY_ID, arch_spec",
+   "L95 mbnas_server.registry: SPEC_BY_ID, adapter_for",
+   "L107 mbnas_server.adapters.structure_native: declared_native_document",
+   "L150 mbnas_server.datasets.yaml_safe: load_dataset_yaml",
+   "L164 mbnas_server.adapters.base: ArchSpec",
+   "L165 mbnas_server.registry: SPEC_BY_ID, adapter_for",
+   "L280 mbnas_server.search.etri_bridge: load_etri_mixed",
+   "L325 mbnas_server.registry: SPEC_BY_ID",
+   "L345 mbnas_server.registry: SPEC_BY_ID",
+   "L425 mbnas_server.registry: adapter_for",
+   "L445 mbnas_server.util.atomic: atomic_write_json",
+   "L452 mbnas_server.registry: arch_spec",
+   "L480 mbnas_server.util.paths: check_server_path",
+   "L510 mbnas_server.search.etri_bridge: load_etri_mixed"
+  ],
+  "third_party": [
+   "ultralytics",
+   "yaml"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/routes_files.py",
+  "source_module": "mbnas_server.api.routes_files",
+  "lines": 103,
+  "target_package": "mbnas_server",
+  "target_module_path": "mbnas_server.api.routes_files",
+  "role": "server-gateway",
+  "reason": "artifact 바이트 제공(서명 URL 검증, digest 대조 X-Artifact-Sha256; L44-78)은 gateway(DD-A6). 레코드 조회(repo.get_artifact L63)·export zip 생성(L91-103)은 core.",
+  "split_needed": true,
+  "split_plan": "① gateway: _authorize/get_artifact(파일은 artifact store에서 artifact_id→경로, digest 대조)/refresh(서명 재발급)/export relay. ② core 콘솔: artifact 레코드 GET, export zip 생성(bundle_files/build_zip) 엔드포인트. ③ db/export/provenance import(L19-22,27) 제거 → core client.",
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "fastapi"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/routes_meta.py",
+  "source_module": "mbnas_server.api.routes_meta",
+  "lines": 82,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.console.routes_meta",
+  "role": "core-console",
+  "reason": "/health·/presets·/registry(DB+registry+presets). etri_bridge.probe_mixed_pool(L40) → operators.probe; benchmark.capability → model_runtime.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [
+   "L39 mbnas_server.benchmark.capability: device_targets",
+   "L40 mbnas_server.search.etri_bridge: probe_mixed_pool"
+  ],
+  "third_party": [
+   "fastapi"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/routes_registry_structure.py",
+  "source_module": "mbnas_server.api.routes_registry_structure",
+  "lines": 81,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.console.routes_registry_structure",
+  "role": "core-console",
+  "reason": "registry/user YAML 구조 검사 라우트(model_services 호출).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "fastapi"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/routes_runs.py",
+  "source_module": "mbnas_server.api.routes_runs",
+  "lines": 377,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.console.routes_runs",
+  "role": "core-console",
+  "reason": "검증/run 생성/조회/전이 라우트 = DB 로직 → /core/v1/console/*; gateway는 /api/v1 → core relay(DD-A3).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [
+   "L272 mbnas_server.api.model_services: describe_candidate",
+   "L319 mbnas_server.api.model_services: run_structure_check"
+  ],
+  "third_party": [
+   "fastapi"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/routes_stream.py",
+  "source_module": "mbnas_server.api.routes_stream",
+  "lines": 91,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.console.routes_stream",
+  "role": "core-console",
+  "reason": "SSE(events 테이블 폴링) → core 콘솔 스트림; gateway가 relay(WP-3).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "fastapi"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/routes_training.py",
+  "source_module": "mbnas_server.api.routes_training",
+  "lines": 68,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.console.routes_training",
+  "role": "core-console",
+  "reason": "명시적 학습 run 라우트(DB).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "fastapi"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/services.py",
+  "source_module": "mbnas_server.api.services",
+  "lines": 161,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.console.services",
+  "role": "core-console",
+  "reason": "registry/devices/versions/source provider + ValidationContext. importlib.import_module('mbnas_server.registry')(L62) → mbnas_core.registry 직접 import; EXAMPLE_REGISTRY=SERVER_ROOT/config/...(L33) → 패키지 데이터; devices()는 runner 등록 inventory로 대체 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/api/views.py",
+  "source_module": "mbnas_server.api.views",
+  "lines": 54,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.console.views",
+  "role": "core-console",
+  "reason": "evaluation_views는 DB overlay(candidate_status, checkpoint_state)와 artifact 서명 URL 렌더링(L52)을 함께 한다.",
+  "split_needed": true,
+  "split_plan": "DB overlay(L22-50) → core; artifact_view 호출(L52)·signing_key(L17-19) → gateway(mbnas_server.artifacts.signing; core 콘솔은 artifact 레코드만 반환).",
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/archive/__init__.py",
+  "source_module": "mbnas_server.archive",
+  "lines": 11,
+  "target_package": "mbnas_server",
+  "target_module_path": "mbnas_server.archive",
+  "role": "server-archive",
+  "reason": "읽기 전용 archive(DD-A1 e).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/archive/analysis.py",
+  "source_module": "mbnas_server.archive.analysis",
+  "lines": 422,
+  "target_package": "mbnas_server",
+  "target_module_path": "mbnas_server.archive.analysis",
+  "role": "server-archive",
+  "reason": "Pareto/통계 순수 계산.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [
+   "L377 mbnas_server.archive.parsers: iso_from_epoch"
+  ],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/archive/campaign.py",
+  "source_module": "mbnas_server.archive.campaign",
+  "lines": 508,
+  "target_package": "mbnas_server",
+  "target_module_path": "mbnas_server.archive.campaign",
+  "role": "server-archive",
+  "reason": "12-search 캠페인 어댑터(읽기 전용).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/archive/live.py",
+  "source_module": "mbnas_server.archive.live",
+  "lines": 97,
+  "target_package": "mbnas_server",
+  "target_module_path": "mbnas_server.archive.live",
+  "role": "server-archive",
+  "reason": "driver STATUS/NVML 읽기(gateway 호스트 로컬 — 원격 배치 시 의미 재검토).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "pynvml"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/archive/parsers.py",
+  "source_module": "mbnas_server.archive.parsers",
+  "lines": 262,
+  "target_package": "mbnas_server",
+  "target_module_path": "mbnas_server.archive.parsers",
+  "role": "server-archive",
+  "reason": "관용 파서.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/archive/routes.py",
+  "source_module": "mbnas_server.archive.routes",
+  "lines": 136,
+  "target_package": "mbnas_server",
+  "target_module_path": "mbnas_server.archive.routes",
+  "role": "server-archive",
+  "reason": "/api/v1/archive/* 라우트. api.deps.contract_json(L12)·api.errors.ApiError(L13) → gateway deps/contracts.errors.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_core"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "fastapi"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/archive/scanner.py",
+  "source_module": "mbnas_server.archive.scanner",
+  "lines": 615,
+  "target_package": "mbnas_server",
+  "target_module_path": "mbnas_server.archive.scanner",
+  "role": "server-archive",
+  "reason": "archive root 스캔/캐시(파일 읽기만).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [
+   "L145 mbnas_server.archive: campaign",
+   "L190 mbnas_server.archive.campaign: CampaignRunData"
+  ],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/archive/views.py",
+  "source_module": "mbnas_server.archive.views",
+  "lines": 873,
+  "target_package": "mbnas_server",
+  "target_module_path": "mbnas_server.archive.views",
+  "role": "server-archive",
+  "reason": "archive payload 조립(util.time→contracts).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [
+   "L267 mbnas_server.util.time: utcnow_iso",
+   "L824 mbnas_server.util.time: utcnow_iso"
+  ],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/artifacts/__init__.py",
+  "source_module": "mbnas_server.artifacts",
+  "lines": 5,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.artifacts",
+  "role": "core-orchestration",
+  "reason": "artifacts 패키지.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/artifacts/registry.py",
+  "source_module": "mbnas_server.artifacts.registry",
+  "lines": 223,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.artifacts.registry",
+  "role": "core-orchestration",
+  "reason": "register_file/resolve_file/run_dir/ArtifactError는 DB 등록·경로 규칙(core). 서명 URL(sign/verify_signature/artifact_view, L78-108, 193-223)은 사용자 다운로드를 제공하는 gateway의 책임(DD-A6 '다운로드는 server가 digest 대조 후 제공').",
+  "split_needed": true,
+  "split_plan": "① register_file/resolve_file/run_dir/artifact_path/ArtifactError/_relpath_of → mbnas_core.artifacts.registry (artifact_path의 API_PREFIX '/api/v1'(L36,75)은 gateway 공개 경로 → core는 artifact_id만 돌려주고 URL은 gateway가 만든다). ② sign/verify_signature/artifact_view → mbnas_server.artifacts.signing (artifact_signing_key는 gateway 설정). ③ ARTIFACT_KINDS(L37-38)는 contracts.schemas.enums.ArtifactKind와 중복 → enum 사용. ④ runner는 run_dir(run) 대신 envelope의 run_dir 문자열을 쓴다(worker/child.py:130 이미 전달).",
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/benchmark/__init__.py",
+  "source_module": "mbnas_server.benchmark",
+  "lines": 4,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.benchmark",
+  "role": "model_runtime-benchmark",
+  "reason": "benchmark 패키지.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/benchmark/accuracy.py",
+  "source_module": "mbnas_server.benchmark.accuracy",
+  "lines": 108,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.benchmark.accuracy",
+  "role": "model_runtime-benchmark",
+  "reason": "export 정확도 delta(evaluator 재사용).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [
+   "L26 mbnas_server.evaluation.evaluator: EvalConfig",
+   "L43 mbnas_server.evaluation.evaluator: evaluate_predictions, public",
+   "L67 mbnas_server.evaluation.evaluator: EvalConfig"
+  ],
+  "third_party": [
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/benchmark/capability.py",
+  "source_module": "mbnas_server.benchmark.capability",
+  "lines": 151,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.benchmark.capability",
+  "role": "model_runtime-benchmark",
+  "reason": "백엔드 export/runtime 선언 + DECLARED_TARGETS(DATA). core.registry·validator·routes_meta가 import(허용 방향). DEFAULT_POSTPROCESS 중복 정의(benchmark/capability.py:28 = protocol/validator.py:73) → contracts.constants 단일화. 'A100' 호스트 고정 선언(L16)은 runner 등록 정보로 대체 검토.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "onnxruntime",
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/benchmark/handlers.py",
+  "source_module": "mbnas_server.benchmark.handlers",
+  "lines": 173,
+  "target_package": "mbnas_runner",
+  "target_module_path": "mbnas_runner.benchmark.handlers",
+  "role": "runner-handler",
+  "reason": "BENCHMARK 핸들러(DD-A1 c). subjects/capability/pipeline → model_runtime; datasets.manifest → model_runtime; Settings(L148) → runner config.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [
+   "L41 mbnas_server.util.paths: check_server_path",
+   "L50 mbnas_server.benchmark: subjects",
+   "L71 mbnas_server.benchmark.capability: target_status",
+   "L72 mbnas_server.benchmark.pipeline: DEFAULT_RUNTIMES, PostprocessError, resolve_postprocess, run_benchmark",
+   "L73 mbnas_server.benchmark.subjects: SubjectError",
+   "L74 mbnas_server.datasets.manifest: build_manifest",
+   "L148 mbnas_server.config: Settings"
+  ],
+  "third_party": [
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/benchmark/onnx_export.py",
+  "source_module": "mbnas_server.benchmark.onnx_export",
+  "lines": 167,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.benchmark.onnx_export",
+  "role": "model_runtime-benchmark",
+  "reason": "백엔드별 ONNX export.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "onnx",
+   "torch",
+   "ultralytics"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/benchmark/onnx_runtime.py",
+  "source_module": "mbnas_server.benchmark.onnx_runtime",
+  "lines": 67,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.benchmark.onnx_runtime",
+  "role": "model_runtime-benchmark",
+  "reason": "ORT 실행기.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "numpy",
+   "onnxruntime",
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/benchmark/pipeline.py",
+  "source_module": "mbnas_server.benchmark.pipeline",
+  "lines": 194,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.benchmark.pipeline",
+  "role": "model_runtime-benchmark",
+  "reason": "export→engine→runtime별 정확도/지연 절차(백엔드 실행 코드).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [
+   "L83 mbnas_server.benchmark.onnx_runtime: OrtRunner",
+   "L87 mbnas_server.benchmark.trt_runtime: TrtRunner",
+   "L111 mbnas_server.benchmark.trt_build: build_engine"
+  ],
+  "third_party": [
+   "torch",
+   "torchvision"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/benchmark/profile.py",
+  "source_module": "mbnas_server.benchmark.profile",
+  "lines": 95,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.benchmark.profile",
+  "role": "model_runtime-benchmark",
+  "reason": "runtime별 지연 프로파일(evaluation.latency 재사용).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [
+   "L20 mbnas_server.benchmark.capability: host_runtime",
+   "L21 mbnas_server.evaluation.latency: gpu_manifest",
+   "L75 mbnas_server.evaluation.latency: measure"
+  ],
+  "third_party": [
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/benchmark/subjects.py",
+  "source_module": "mbnas_server.benchmark.subjects",
+  "lines": 309,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.benchmark.subjects",
+  "role": "model_runtime-benchmark",
+  "reason": "벤치 subject(adapters+RuntimeModule). ultralytics_from_weights는 runner의 official evaluation이 사용.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [
+   "L111 mbnas_server.adapters.ultralytics_adapter: UltralyticsAdapter",
+   "L136 mbnas_server.adapters.ultralytics_adapter: UltralyticsAdapter",
+   "L154 mbnas_server.adapters.etri_hybrid.adapter: EtriHybridAdapter",
+   "L229 mbnas_server.benchmark.capability: RFDETR_WEIGHTS",
+   "L253 mbnas_server.benchmark.capability: RFDETR_WEIGHTS",
+   "L263 mbnas_server.benchmark.onnx_export: export_rfdetr",
+   "L283 mbnas_server.adapters.rfdetr_adapter: DEFAULT_RF_HOME, RfdetrAdapter",
+   "L284 mbnas_server.benchmark.capability: RFDETR_RESOLUTION",
+   "L301 mbnas_server.adapters.rfdetr_adapter: RfdetrAdapter",
+   "L302 mbnas_server.training: checkpoint"
+  ],
+  "third_party": [
+   "rfdetr",
+   "torch",
+   "ultralytics"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/benchmark/trt_build.py",
+  "source_module": "mbnas_server.benchmark.trt_build",
+  "lines": 128,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.benchmark.trt_build",
+  "role": "model_runtime-benchmark",
+  "reason": "TensorRT 엔진 빌드.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "tensorrt",
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/benchmark/trt_runtime.py",
+  "source_module": "mbnas_server.benchmark.trt_runtime",
+  "lines": 75,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.benchmark.trt_runtime",
+  "role": "model_runtime-benchmark",
+  "reason": "TensorRT 실행기.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "tensorrt",
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/config.py",
+  "source_module": "mbnas_server.config",
+  "lines": 157,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.config",
+  "role": "core-config",
+  "reason": "단일 Settings(config.py:45-157)에 core(db_path, lease_ttl_s, heartbeat_s, max_replay_events, full_state_retention, worker_python), gateway(api_token, cors_origins, archive_*, signed_url_ttl_s, artifact_signing_key), runner(output_root(s), dataset_roots, weights_dir, worker_python) 설정이 섞여 있다.",
+  "split_needed": true,
+  "split_plan": "① mbnas_core.config.CoreSettings: db_path, output_root(s), dataset_roots, weights_dir, worker_python(owner worker), host/port(8700), lease_ttl_s, heartbeat_s, max_replay_events, max_request_body_bytes, min_free_disk_gb, full_state_retention, log_dir, console/runner/owner 서비스 토큰. ② mbnas_server.config.GatewaySettings: api_token(사용자 bearer), cors_origins, host/port(8710), core_url+service token, artifact_signing_key, signed_url_ttl_s, archive_roots/archive_driver_dirs/archive_campaign_roots/archive_cache_ttl_s, max_request_body_bytes, artifact store 경로(DD-A6). ③ mbnas_runner.config.RunnerSettings: core_url+runner token/id, output_root(s), dataset_roots, weights_dir, worker_python, heartbeat_s, log_dir. ④ 제거: etri_nas_root(L66; DD-A2 원본 체크아웃 참조 금지), SERVER_ROOT 기준 경로(L19,57), 호스트 고정 기본값 /root/detection·/data/mgjeong(L20,26-27,52-56) → runtime/ 하위(DD-A7).",
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "pydantic",
+   "pydantic_settings"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/datasets/__init__.py",
+  "source_module": "mbnas_server.datasets",
+  "lines": 6,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.datasets",
+  "role": "model_runtime-dataset",
+  "reason": "datasets 패키지(DD-A1 b 'dataset manifest').",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/datasets/coco_convert.py",
+  "source_module": "mbnas_server.datasets.coco_convert",
+  "lines": 103,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.datasets.coco_convert",
+  "role": "model_runtime-dataset",
+  "reason": "manifest→COCO 변환(evaluator·rfdetr 어댑터 사용).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/datasets/manifest.py",
+  "source_module": "mbnas_server.datasets.manifest",
+  "lines": 339,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.datasets.manifest",
+  "role": "model_runtime-dataset",
+  "reason": "split manifest/DatasetService(캐시 <output_root>/manifests). core validator와 runner context 양쪽이 사용.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "PIL",
+   "pydantic"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/datasets/subset.py",
+  "source_module": "mbnas_server.datasets.subset",
+  "lines": 101,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.datasets.subset",
+  "role": "model_runtime-dataset",
+  "reason": "PILOT_SMOKE subset 작성기(공개 데이터 도구).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/datasets/yaml_safe.py",
+  "source_module": "mbnas_server.datasets.yaml_safe",
+  "lines": 111,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.datasets.yaml_safe",
+  "role": "model_runtime-dataset",
+  "reason": "safe data.yaml 파서(yaml만 사용).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "yaml"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/db/__init__.py",
+  "source_module": "mbnas_server.db",
+  "lines": 1,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.db",
+  "role": "core-db",
+  "reason": "DB 패키지(DD-A1 a 'DB').",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/db/core.py",
+  "source_module": "mbnas_server.db.core",
+  "lines": 153,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.db.core",
+  "role": "core-db",
+  "reason": "SQLite 연결/트랜잭션/마이그레이션(schema.sql 패키지 데이터).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/db/repo.py",
+  "source_module": "mbnas_server.db.repo",
+  "lines": 701,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.db.repo",
+  "role": "core-db",
+  "reason": "저장소 함수(acquire_lease UPDATE…RETURNING 포함, DD-A4 재사용).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/evaluation/__init__.py",
+  "source_module": "mbnas_server.evaluation",
+  "lines": 1,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.evaluation",
+  "role": "model_runtime-evaluation",
+  "reason": "공통 평가기 패키지.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/evaluation/evaluator.py",
+  "source_module": "mbnas_server.evaluation.evaluator",
+  "lines": 185,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.evaluation.evaluator",
+  "role": "model_runtime-evaluation",
+  "reason": "COCO AP/recall 공통 평가기(evaluation_hash 정의). 고객이 검증 가능한 공개 절차.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "numpy",
+   "pycocotools"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/evaluation/handlers.py",
+  "source_module": "mbnas_server.evaluation.handlers",
+  "lines": 259,
+  "target_package": "mbnas_runner",
+  "target_module_path": "mbnas_runner.evaluation.handlers",
+  "role": "runner-handler",
+  "reason": "EVALUATE 핸들러·evaluate_checkpoint는 runner. fitness_and_gate(L169-185)·_fitness_rung(L188-194)와 그 import(protocol.fitness/promotion L29-30)는 core 정책(DD-A5).",
+  "split_needed": true,
+  "split_plan": "① fitness_and_gate/_fitness_rung 삭제(core engine.commit_evaluation이 담당; FINAL 표시용 가중치도 RunContext.final_stage(orchestration/engine.py:150-154)가 rungs[-1]로 처리). run_evaluation_job L230-232의 payload.update(fitness...) 제거, metric emit(L236)에서 'fitness' 제거. ② import L29-30 삭제; Settings(L28) → mbnas_runner.config; adapters/evaluator/images/latency/size → model_runtime; training.context/recipe(L200-203, 252) → mbnas_runner.training. ③ selection.run_official_evaluation이 쓰는 measure_latency/device_identity(L64-86)는 그대로 runner에 남는다.",
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [
+   "L102 mbnas_server.training: checkpoint",
+   "L200 mbnas_server.training.context: JobInputError, SplitAccess, check_run_dir, load_protocol, prepare_backend_env, resolve_model, split_manifests",
+   "L203 mbnas_server.training.recipe: input_shape_for",
+   "L252 mbnas_server.training.context: jsonable"
+  ],
+  "third_party": [
+   "pydantic"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/evaluation/images.py",
+  "source_module": "mbnas_server.evaluation.images",
+  "lines": 109,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.evaluation.images",
+  "role": "model_runtime-evaluation",
+  "reason": "gt/tp/fn/fp 패널 렌더링.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "PIL"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/evaluation/latency.py",
+  "source_module": "mbnas_server.evaluation.latency",
+  "lines": 249,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.evaluation.latency",
+  "role": "model_runtime-evaluation",
+  "reason": "PyTorch 지연 측정(mbnas-latency/4). protocol.validator.DEFAULT_POSTPROCESS(L38) → contracts.constants로 끊는다.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_core"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "pynvml",
+   "torch",
+   "torchvision"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/evaluation/matching.py",
+  "source_module": "mbnas_server.evaluation.matching",
+  "lines": 82,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.evaluation.matching",
+  "role": "model_runtime-evaluation",
+  "reason": "결정적 greedy 매칭 규칙.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "numpy"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/evaluation/size.py",
+  "source_module": "mbnas_server.evaluation.size",
+  "lines": 25,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.evaluation.size",
+  "role": "model_runtime-evaluation",
+  "reason": "FP16 weights-only 크기 정의(training.checkpoint→model_runtime.checkpoint).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/events/__init__.py",
+  "source_module": "mbnas_server.events",
+  "lines": 1,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.events",
+  "role": "core-db",
+  "reason": "이벤트 패키지.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/events/bus.py",
+  "source_module": "mbnas_server.events.bus",
+  "lines": 100,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.events.bus",
+  "role": "core-db",
+  "reason": "events 테이블 기반 버스(DB). gateway SSE는 core 콘솔 스트림을 relay(WP-3).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/export/__init__.py",
+  "source_module": "mbnas_server.export",
+  "lines": 1,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.export",
+  "role": "core-console",
+  "reason": "export 패키지.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/export/bundle.py",
+  "source_module": "mbnas_server.export.bundle",
+  "lines": 194,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.export.bundle",
+  "role": "core-console",
+  "reason": "run 감사 zip 생성(DB 전체 조회). gateway는 core 콘솔 export 응답(zip bytes + sha)을 relay.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/orchestration/__init__.py",
+  "source_module": "mbnas_server.orchestration",
+  "lines": 1,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.orchestration",
+  "role": "core-orchestration",
+  "reason": "orchestration 패키지.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/orchestration/engine.py",
+  "source_module": "mbnas_server.orchestration.engine",
+  "lines": 994,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.orchestration.engine",
+  "role": "core-orchestration",
+  "reason": "run 상태기계·commit_evaluation(fitness/gate 재계산 L538-551, DD-A5 경로).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [
+   "L265 mbnas_server.training.selection: plan_training_run",
+   "L434 mbnas_server.training.model_artifacts: record_model_configuration, record_native_images",
+   "L442 mbnas_server.training.selection: on_training_result",
+   "L824 mbnas_server.training.selection: settle_training_run",
+   "L954 mbnas_server.artifacts.registry: register_file, ArtifactError",
+   "L980 mbnas_server.artifacts.registry: run_dir",
+   "L981 mbnas_server.search.generation: _summary",
+   "L982 mbnas_server.util.paths: is_within"
+  ],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/orchestration/final_retrain.py",
+  "source_module": "mbnas_server.orchestration.final_retrain",
+  "lines": 307,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.orchestration.final_retrain",
+  "role": "core-orchestration",
+  "reason": "최종 재학습 child run 생성(finalist 규칙 = 정책).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [
+   "L151 mbnas_server.search.streams: training_seed_policy",
+   "L283 mbnas_server.db.core: tx"
+  ],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/orchestration/retention.py",
+  "source_module": "mbnas_server.orchestration.retention",
+  "lines": 212,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.orchestration.retention",
+  "role": "core-orchestration",
+  "reason": "full-state 보존 정책(DB).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [
+   "L119 mbnas_server.artifacts.registry: run_dir",
+   "L190 mbnas_server.config: Settings",
+   "L191 mbnas_server.db.core: connect, tx"
+  ],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/orchestration/state.py",
+  "source_module": "mbnas_server.orchestration.state",
+  "lines": 187,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.orchestration.state",
+  "role": "core-orchestration",
+  "reason": "pause/resume/cancel 전이(DB).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/orchestration/views.py",
+  "source_module": "mbnas_server.orchestration.views",
+  "lines": 88,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.orchestration.views",
+  "role": "core-orchestration",
+  "reason": "DB row → 계약 payload 투영(core 내부 투영, DD-A3).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/protocol/__init__.py",
+  "source_module": "mbnas_server.protocol",
+  "lines": 1,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.protocol",
+  "role": "core-protocol",
+  "reason": "protocol 패키지.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/protocol/fitness.py",
+  "source_module": "mbnas_server.protocol.fitness",
+  "lines": 107,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.protocol.fitness",
+  "role": "core-policy",
+  "reason": "named weighted fitness(DD-A1 a 'fitness').",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/protocol/presets.py",
+  "source_module": "mbnas_server.protocol.presets",
+  "lines": 156,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.protocol.presets",
+  "role": "core-protocol",
+  "reason": "handoff 원문(handoff_protocol_20261006.json)·PILOT_SMOKE 템플릿. DD-A8: 웹은 GET /protocols/presets 응답을 쓴다 → core 호스트가 보유·제공. DEFAULT_BASELINE14/BASELINE_FAMILIES(L24-36)는 model_runtime.registry.specs가 import(L12,109) → contracts.constants.",
+  "split_needed": true,
+  "split_plan": "DEFAULT_BASELINE14/BASELINE_FAMILIES → mbnas_contracts.constants; PILOT_DATA_ROOT/DEFAULT_OUTPUT_ROOT/PILOT_OUTPUT_ROOT(L38-46, /root/detection 고정) → runtime/ 기본값 또는 설정.",
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/protocol/promotion.py",
+  "source_module": "mbnas_server.protocol.promotion",
+  "lines": 94,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.protocol.promotion",
+  "role": "core-policy",
+  "reason": "후보 승급 gate(DD-A1 a '승급').",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/protocol/validator.py",
+  "source_module": "mbnas_server.protocol.validator",
+  "lines": 1015,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.protocol.validator",
+  "role": "core-protocol",
+  "reason": "protocol 검증·resolution(registry/dataset/device 조회, budget·rung 규칙) = core 내부 resolution(DD-A5). protocol_hash(L172-183)는 runner(training/context.py:44)·generation(search/generation.py:84)도 쓰는 순수 canon 해시 → contracts.",
+  "split_needed": true,
+  "split_plan": "① protocol_hash + RESOLUTION_HASH_EXCLUDED(L71,172-183) → mbnas_contracts.protocol_hash. ② DEFAULT_POSTPROCESS(L73) → mbnas_contracts.constants. ③ L501 etri_bridge.probe_mixed_pool → mbnas_model_runtime.operators.probe; L678 benchmark.capability → model_runtime; L910 training.validation → mbnas_core.protocol.training_validation. ④ ValidationContext.devices(L131)는 로컬 NVML 대신 runner 등록 inventory(core DB)에서 와야 한다(WP-2 설계 항목).",
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [
+   "L501 mbnas_server.search.etri_bridge: probe_mixed_pool",
+   "L678 mbnas_server.benchmark.capability: declared_target_for, device_targets",
+   "L910 mbnas_server.training.validation: validate_training_protocol"
+  ],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/provenance/__init__.py",
+  "source_module": "mbnas_server.provenance",
+  "lines": 1,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.provenance",
+  "role": "package-init",
+  "reason": "provenance 패키지 init(env_lock의 새 위치).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/provenance/env_lock.py",
+  "source_module": "mbnas_server.provenance.env_lock",
+  "lines": 125,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.provenance.env_lock",
+  "role": "model_runtime-provenance",
+  "reason": "torch/NVML 환경 잠금·GPU inventory 수집(정책 없음). runner가 자기 환경을 보고하고 core가 기록하므로 공개 패키지에 둔다. DEFAULT_LOCK_PATH가 parents[3](리포 루트) 기준(env_lock.py:26) → 설정값으로.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "pynvml",
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/provenance/source_hash.py",
+  "source_module": "mbnas_server.provenance.source_hash",
+  "lines": 107,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.util.source_hash",
+  "role": "contracts-util",
+  "reason": "stdlib만 사용하는 소스트리 해시(artifact_ref). default_roots가 모노레포 경로(MBNAS_server/MBNAS_web, provenance/source_hash.py:39-46)를 가정하므로 패키지별 root 인자화 필요.",
+  "split_needed": true,
+  "split_plan": "DEFAULT_SERVER_ROOT/DEFAULT_WEB_ROOT/SERVER_DIRS/WEB_DIRS 상수 제거, compute_source_tree_hash(roots)만 contracts에 두고 각 호스트가 자기 설치 트리를 넘긴다.",
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/registry/__init__.py",
+  "source_module": "mbnas_server.registry",
+  "lines": 445,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.registry",
+  "role": "core-registry",
+  "reason": "probe/GPU evidence 파일(<output_root>/registry, evidence)로 RegistryEntry 상태를 결정 = core 호스트 상태. adapter_for/arch_spec(L53-86)은 어댑터 팩토리이며 runner의 baseline 해석에도 필요 → model_runtime.",
+  "split_needed": true,
+  "split_plan": "① adapter_for(L53-71)·arch_spec(L74-86) → mbnas_model_runtime.registry (specs와 함께; ArchSpec 생성에 weights_dir 필요). ② build_entry/build_entries/load_registry/registry_lookup/scan_evidence/scan_trt_evidence/latest_probe_path/roots_skipped/device_capability/source_identity(L89-440) → mbnas_core.registry. ③ DEFAULT_OUTPUT_ROOT='/root/detection/MBNAS_runs'(L45)·ETRI_NOTEBOOK 경로(L50) 호스트 고정값 제거(DD-A2/A7).",
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [
+   "L58 mbnas_server.adapters.ultralytics_adapter: RtdetrAdapter, YoloDetectAdapter",
+   "L66 mbnas_server.adapters.rfdetr_adapter: RfdetrAdapter",
+   "L69 mbnas_server.adapters.etri_hybrid.adapter: EtriHybridAdapter",
+   "L77 mbnas_server.adapters.base: ArchSpec",
+   "L204 mbnas_server.registry.specs: ETRI_ID",
+   "L245 mbnas_server.benchmark.capability: DECLARED_TARGETS, SUPPORTED_TARGETS, target_status",
+   "L324 mbnas_server.adapters.etri_hybrid: ETRI_AUDITED_HEAD, NOTEBOOK_BLOB_SHA1, NOTEBOOK_CELLS"
+  ],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/registry/probe.py",
+  "source_module": "mbnas_server.registry.probe",
+  "lines": 248,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.registry.probe",
+  "role": "model_runtime-registry",
+  "reason": "CPU 빌드·weights 검증·ONNX export 프로브(어댑터만 사용, 정책 없음). owner 스크립트(scripts/probe_registry.py)가 core 호스트에서 실행. 'import mbnas_server.adapters.etri_hybrid as eh'(registry/probe.py:74) 재작성.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [
+   "L74 mbnas_server.adapters.etri_hybrid: eh",
+   "L123 mbnas_server.adapters.common: structural_hash",
+   "L124 mbnas_server.adapters.ultralytics_adapter: UltralyticsAdapter",
+   "L146 mbnas_server.adapters.ultralytics_adapter: UltralyticsAdapter",
+   "L160 mbnas_server.adapters.common: structural_hash",
+   "L184 mbnas_server.adapters.base: ArchSpec",
+   "L185 mbnas_server.adapters.etri_hybrid.adapter: EtriHybridAdapter",
+   "L217 mbnas_server.adapters.etri_hybrid.model: make_detector",
+   "L231 mbnas_server.util.time: utcnow_iso"
+  ],
+  "third_party": [
+   "onnx",
+   "rfdetr",
+   "torch",
+   "ultralytics",
+   "yaml"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/registry/specs.py",
+  "source_module": "mbnas_server.registry.specs",
+  "lines": 116,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.registry.specs",
+  "role": "model_runtime-registry",
+  "reason": "ModelSpec 정적 선언(어떤 yaml/weights/loss; registry/specs.py:3 'declarations')은 비밀이 아니며 runner의 baseline→ArchSpec 변환에도 필요. protocol.presets.DEFAULT_BASELINE14(L12,109) → contracts.constants.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_core"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/scheduling/__init__.py",
+  "source_module": "mbnas_server.scheduling",
+  "lines": 1,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.scheduling",
+  "role": "core-orchestration",
+  "reason": "scheduling 패키지.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/scheduling/admission.py",
+  "source_module": "mbnas_server.scheduling.admission",
+  "lines": 131,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.scheduling.admission",
+  "role": "core-orchestration",
+  "reason": "예산 admission(DD-A1 a '예산').",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/scheduling/costs.py",
+  "source_module": "mbnas_server.scheduling.costs",
+  "lines": 290,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.scheduling.costs",
+  "role": "core-orchestration",
+  "reason": "GPU-second 원장(DB).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [
+   "L178 mbnas_server.orchestration: engine",
+   "L244 mbnas_server.events.bus: emit",
+   "L245 mbnas_server.orchestration.views: run_payload"
+  ],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/scheduling/jobs.py",
+  "source_module": "mbnas_server.scheduling.jobs",
+  "lines": 118,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.scheduling.jobs",
+  "role": "core-orchestration",
+  "reason": "job 생성/lease 수명주기(repo.acquire_lease 사용).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/scheduling/planner.py",
+  "source_module": "mbnas_server.scheduling.planner",
+  "lines": 129,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.scheduling.planner",
+  "role": "core-orchestration",
+  "reason": "세대 계획/closure(DB).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/schemas/__init__.py",
+  "source_module": "mbnas_server.schemas",
+  "lines": 40,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.schemas",
+  "role": "contracts-schema",
+  "reason": "DTO 재수출 모듈(DD-A1 d).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/schemas/api.py",
+  "source_module": "mbnas_server.schemas.api",
+  "lines": 187,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.schemas.api",
+  "role": "contracts-schema",
+  "reason": "pydantic 미러(openapi 컴포넌트). pydantic+schemas 내부 import만 사용(DD-A1 d). 공개/owner DTO 분리는 A2 allowlist 결과에 따름.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "pydantic"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/schemas/archive.py",
+  "source_module": "mbnas_server.schemas.archive",
+  "lines": 695,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.schemas.archive",
+  "role": "contracts-schema",
+  "reason": "pydantic 미러(openapi 컴포넌트). pydantic+schemas 내부 import만 사용(DD-A1 d). 공개/owner DTO 분리는 A2 allowlist 결과에 따름.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "pydantic"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/schemas/enums.py",
+  "source_module": "mbnas_server.schemas.enums",
+  "lines": 180,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.schemas.enums",
+  "role": "contracts-schema",
+  "reason": "pydantic 미러(openapi 컴포넌트). pydantic+schemas 내부 import만 사용(DD-A1 d). 공개/owner DTO 분리는 A2 allowlist 결과에 따름.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/schemas/jobs.py",
+  "source_module": "mbnas_server.schemas.jobs",
+  "lines": 130,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.schemas.jobs",
+  "role": "contracts-schema",
+  "reason": "pydantic 미러(openapi 컴포넌트). pydantic+schemas 내부 import만 사용(DD-A1 d). 공개/owner DTO 분리는 A2 allowlist 결과에 따름.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "pydantic"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/schemas/protocol.py",
+  "source_module": "mbnas_server.schemas.protocol",
+  "lines": 92,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.schemas.protocol",
+  "role": "contracts-schema",
+  "reason": "pydantic 미러(openapi 컴포넌트). pydantic+schemas 내부 import만 사용(DD-A1 d). 공개/owner DTO 분리는 A2 allowlist 결과에 따름.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "pydantic"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/schemas/records.py",
+  "source_module": "mbnas_server.schemas.records",
+  "lines": 438,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.schemas.records",
+  "role": "contracts-schema",
+  "reason": "pydantic 미러(openapi 컴포넌트). pydantic+schemas 내부 import만 사용(DD-A1 d). 공개/owner DTO 분리는 A2 allowlist 결과에 따름.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "pydantic"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/search/__init__.py",
+  "source_module": "mbnas_server.search",
+  "lines": 6,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.search",
+  "role": "core-search",
+  "reason": "search 패키지(정책).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/search/audit.py",
+  "source_module": "mbnas_server.search.audit",
+  "lines": 124,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.genotype_audit",
+  "role": "model_runtime-genotype",
+  "reason": "config_estimate(ETRI audit_config 포팅)와 built_audit(빌드 모델 연산자 감사)는 관측/라벨링이며 선택에 쓰이지 않음(search/audit.py:3 'Neither audit drives the search'). core.search.lineage·space가 import(허용 방향). [판단: core 유지도 가능]",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/search/block_catalog.py",
+  "source_module": "mbnas_server.search.block_catalog",
+  "lines": 411,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.block_catalog",
+  "role": "model_runtime-catalog",
+  "reason": "정적 블록 설계 출처 테이블(DATA, DD-38)·DD-A1 b 명시. _E_MODEL='mbnas_server.adapters.etri_hybrid.model'(search/block_catalog.py:234)·ETRI_HYBRID_SOURCE 경로 문자열(L40) 재작성.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/search/etri_bridge.py",
+  "source_module": "mbnas_server.search.etri_bridge",
+  "lines": 233,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.operators",
+  "role": "model_runtime-operator",
+  "reason": "sys.path 삽입 import(search/etri_bridge.py:131-142)는 DD-A2로 제거. 등록/프로브/yaml_uses_mixed_modules/ensure_mixed_registered는 vendoring된 operators 패키지의 함수가 되고, seed variant/audit_config는 core.search.mixed_pool로 간다.",
+  "split_needed": true,
+  "split_plan": "① register(=load_etri_mixed 의 등록 부분)·ensure_mixed_registered(L225)·probe(=probe_mixed_pool, L197: 파일 존재 검사 → 패키지 import 가능성 검사로 단순화)·yaml_uses_mixed_modules(L230)·MIXED_MODULES(L38)·EtriUnavailable(L42→OperatorsUnavailable)·audit_model 노출 → mbnas_model_runtime.operators. ② EtriMixed.make_seed_variants/audit_config(L61-62,157-162) → mbnas_core.search.mixed_pool(make_mixed_seed_variants/audit_config 포팅). ③ SearchSpaceUnavailable(L46-50)은 검색 정책 예외 → mbnas_core.search.space. ④ provenance()['files_sha256'](L149-150)·_git_head(L87)·ETRI_DEFAULT_ROOT/resolve_root(MBNAS_ETRI_NAS_ROOT, L37,107-109) 제거; 대신 vendored 파일 sha256 + 원본 SHA(provenance manifest) 기록. ⑤ 훅 문자열 'mbnas_server.search.etri_bridge:ensure_mixed_registered'(worker/child.py:52, training/selection.py:139) → 'mbnas_model_runtime.operators:ensure_registered'.",
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "ultralytics"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/search/ga.py",
+  "source_module": "mbnas_server.search.ga",
+  "lines": 173,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.search.ga",
+  "role": "core-search",
+  "reason": "GA 부모 선택/교차/변이(DD-A1 a).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/search/generation.py",
+  "source_module": "mbnas_server.search.generation",
+  "lines": 191,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.search.generation",
+  "role": "core-search",
+  "reason": "평가 없는 생성 저널(owner worker). worker.contract import(L28) → contracts.jobs_protocol.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [
+   "L84 mbnas_server.protocol.validator: protocol_hash",
+   "L85 mbnas_server.search.handlers: _architecture_dir, _candidate, shared_space",
+   "L86 mbnas_server.search.random: propose_generation",
+   "L87 mbnas_server.search.space: RepairFailed",
+   "L88 mbnas_server.search.streams: training_seed_policy",
+   "L89 mbnas_server.search.structure: check_structure"
+  ],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/search/genotype.py",
+  "source_module": "mbnas_server.search.genotype",
+  "lines": 538,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.genotype",
+  "role": "model_runtime-genotype",
+  "reason": "Genotype 정규화 + CPU 빌드/forward 관측(inspect_genotype) = 'genotype CPU 관측'(DD-A1 b). 정책 없음. adapters.common.structural_hash(L518) 동일 패키지.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [
+   "L518 mbnas_server.adapters.common: structural_hash"
+  ],
+  "third_party": [
+   "torch",
+   "ultralytics",
+   "yaml"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/search/handlers.py",
+  "source_module": "mbnas_server.search.handlers",
+  "lines": 265,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.search.handlers",
+  "role": "core-search",
+  "reason": "PROPOSE_GENERATION 핸들러 = owner worker 전용(DD-A4). worker.contract.JobFailure/JobPaused(L251) → contracts.jobs_protocol.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [
+   "L49 mbnas_server.datasets.yaml_safe: DatasetYamlError, load_dataset_yaml",
+   "L66 mbnas_server.search.space: SearchSpace",
+   "L87 mbnas_server.search.ga: DEFAULT_CROSSOVER_RATE",
+   "L115 mbnas_server.config: Settings",
+   "L116 mbnas_server.util.paths: check_server_path",
+   "L126 mbnas_server.search: ga, random",
+   "L127 mbnas_server.search.streams: search_rng",
+   "L158 mbnas_server.search.lineage: audit_for, blocks_for, lineage_for",
+   "L159 mbnas_server.search.streams: candidate_id, candidate_name, training_seed",
+   "L160 mbnas_server.util.atomic: atomic_write_bytes",
+   "L168 mbnas_server.search.structure: check_structure",
+   "L191 mbnas_server.protocol.validator: protocol_hash",
+   "L192 mbnas_server.search.space: DEFAULT_FAMILIES, RepairFailed",
+   "L193 mbnas_server.search.streams: search_stream_key, training_seed_policy",
+   "L205 mbnas_server.search.etri_bridge: SearchSpaceUnavailable",
+   "L244 mbnas_server.search.generation: generate",
+   "L251 mbnas_server.worker.contract: JobFailure, JobPaused"
+  ],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/search/lineage.py",
+  "source_module": "mbnas_server.search.lineage",
+  "lines": 83,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.search.lineage",
+  "role": "core-search",
+  "reason": "lineage/blocks 기록(제안 메타데이터).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/search/random.py",
+  "source_module": "mbnas_server.search.random",
+  "lines": 20,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.search.random",
+  "role": "core-search",
+  "reason": "frozen prior 샘플러(DD-A1 a 'prior').",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/search/space.py",
+  "source_module": "mbnas_server.search.space",
+  "lines": 528,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.search.space",
+  "role": "core-search",
+  "reason": "공유 연산자 공간: prior 테이블·legal-shape·repair(DD-A1 a). etri_bridge → model_runtime.operators(등록) + core.search.mixed_pool(seed variants).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "ultralytics",
+   "yaml"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/search/streams.py",
+  "source_module": "mbnas_server.search.streams",
+  "lines": 59,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.search.streams",
+  "role": "core-search",
+  "reason": "검색/학습 seed 스트림(RNG 상태, DD-A1 a).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/search/structure.py",
+  "source_module": "mbnas_server.search.structure",
+  "lines": 537,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.search.structure",
+  "role": "core-search",
+  "reason": "구조 gate 규칙(check_structure L336, _shape_rule/_merge_rule/_head_rule) = core(DD-A1 a). 문서 상수는 contracts로.",
+  "split_needed": true,
+  "split_plan": "SCHEMA/BACKEND/REPRESENTATION/CHECK_NAMES/EVIDENCE_LEVELS/CHECK_EVIDENCE(search/structure.py:29-44) → mbnas_contracts.structure_doc (StructureReport 'mbnas-structure/2' 문서 계약, schemas/records.py:348-349). describe_genotype(L113, 선언 전용 렌더링)은 core 유지(대안: model_runtime로 내려 공개 선언 문서 생성 허용 — 결정 필요).",
+  "imports_after_mapping": [
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/training/__init__.py",
+  "source_module": "mbnas_server.training",
+  "lines": 1,
+  "target_package": "mbnas_runner",
+  "target_module_path": "mbnas_runner.training",
+  "role": "package-init",
+  "reason": "training 패키지 init(핸들러 측).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/training/checkpoint.py",
+  "source_module": "mbnas_server.training.checkpoint",
+  "lines": 386,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.checkpoint",
+  "role": "model_runtime-checkpoint",
+  "reason": "full-state checkpoint 포맷 mbnas.full_state.v1 + sidecar(DD-A1 b 'checkpoint 포맷'). adapters.base.ResumeBlocked 동일 패키지.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "numpy",
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/training/context.py",
+  "source_module": "mbnas_server.training.context",
+  "lines": 196,
+  "target_package": "mbnas_runner",
+  "target_module_path": "mbnas_runner.training.context",
+  "role": "runner-handler",
+  "reason": "핸들러 공용 plumbing. resolve_model(L141-157)이 registry.load_registry로 호스트 로컬 probe 증거를 읽고 AVAILABLE 여부를 판정(L154-156) → 원격 runner 불가.",
+  "split_needed": true,
+  "split_plan": "① load_protocol의 protocol_hash(L44) → mbnas_contracts.protocol_hash. ② resolve_model: baseline도 envelope의 arch(ArchSpec dict, weights_path/sha 포함)를 받도록 바꾸고 adapter_for만 mbnas_model_runtime.registry에서 import; load_registry/AVAILABLE 판정은 core가 job 생성 시 수행(DD-A5 'resolution은 core'). ③ Settings → mbnas_runner.config(output_roots/dataset_roots/weights_dir).",
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [
+   "L44 mbnas_server.protocol.validator: protocol_hash",
+   "L69 mbnas_server.adapters.ultralytics_adapter: prepare_ultralytics_env",
+   "L143 mbnas_server.registry: SPEC_BY_ID, adapter_for, arch_spec, load_registry",
+   "L149 mbnas_server.adapters.ultralytics_adapter: UltralyticsAdapter"
+  ],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/training/dataset_view.py",
+  "source_module": "mbnas_server.training.dataset_view",
+  "lines": 80,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.datasets.yolo_view",
+  "role": "model_runtime-dataset",
+  "reason": "manifest→run-local YOLO view 물질화(백엔드 데이터 준비, 수명주기 로직 없음) → datasets 하위.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/training/handlers.py",
+  "source_module": "mbnas_server.training.handlers",
+  "lines": 227,
+  "target_package": "mbnas_runner",
+  "target_module_path": "mbnas_runner.training.handlers",
+  "role": "runner-handler",
+  "reason": "학습 job 핸들러(DD-A1 c). _evaluate(L186-220)가 evaluation.handlers.fitness_and_gate/_fitness_rung를 lazy import(L189)하여 fitness/gate를 계산·emit(L205-207, 218) → DD-A5 위반.",
+  "split_needed": true,
+  "split_plan": "L189 import에서 fitness_and_gate/_fitness_rung 제거, L205-207 호출 삭제, metric payload(L218)에서 'fitness' 키 제거. core engine.commit_evaluation(orchestration/engine.py:538-551)이 이미 재계산하며 runner 값은 raw_metrics.handler_fitness(L547)로만 보관됨.",
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [
+   "L189 mbnas_server.evaluation.handlers: _fitness_rung, evaluate_checkpoint, fitness_and_gate"
+  ],
+  "third_party": [
+   "pydantic"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/training/model_artifacts.py",
+  "source_module": "mbnas_server.training.model_artifacts",
+  "lines": 115,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.orchestration.model_artifacts",
+  "role": "core-orchestration",
+  "reason": "candidate의 architecture.yaml/native 이미지 artifact 등록(DB + register_file; engine이 lazy import L434). training/ 위치는 오분류 → orchestration 하위로.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "PIL",
+   "yaml"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/training/recipe.py",
+  "source_module": "mbnas_server.training.recipe",
+  "lines": 66,
+  "target_package": "mbnas_runner",
+  "target_module_path": "mbnas_runner.training.recipe",
+  "role": "runner-handler",
+  "reason": "resolved protocol → 백엔드 중립 recipe(protocol의 training 필드 해석). 핸들러·stage_trainer 입력. (대안: model_runtime)",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/training/selection.py",
+  "source_module": "mbnas_server.training.selection",
+  "lines": 493,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.training_runs.selection",
+  "role": "core-console",
+  "reason": "명시적 단일 모델 학습 run 생성(DB·validator·engine·planner 사용) = core 콘솔 서비스. run_official_evaluation(L444-493)만 GPU 자식에서 실행되는 핸들러(worker/child.py:157-159).",
+  "split_needed": true,
+  "split_plan": "① run_official_evaluation(L444-493) → mbnas_runner.evaluation.official_evaluation (TrainingSelectionError(L469) 대신 runner 예외; Settings(L446) → runner config). ② 나머지(TrainingSource/TrainingRunRequest L38-62, resolve_source, prepare_protocol, bind_structure, create_training_run, plan_training_run, on_training_result, settle_training_run) → mbnas_core.training_runs.selection. ③ TrainingSource/TrainingRunRequest는 schemas.api.TrainingSource/TrainingRequest(schemas/api.py:129-147)와 중복 → contracts DTO 사용 검토. ④ register_hook 문자열(L139)·etri_nas_root allow root(L72) 재작성/제거.",
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [
+   "L96 mbnas_server.registry: SPEC_BY_ID, arch_spec",
+   "L106 mbnas_server.search.genotype: Genotype",
+   "L136 mbnas_server.search.etri_bridge: yaml_uses_mixed_modules",
+   "L168 mbnas_server.datasets.yaml_safe: load_dataset_yaml, DatasetYamlError",
+   "L252 mbnas_server.api.model_services: native_structure_for_arch",
+   "L253 mbnas_server.datasets.yaml_safe: load_dataset_yaml",
+   "L271 mbnas_server.datasets.yaml_safe: load_dataset_yaml",
+   "L272 mbnas_server.search.genotype: Genotype",
+   "L273 mbnas_server.search.structure: check_structure",
+   "L279 mbnas_server.api.model_services: derive_model_scale",
+   "L315 mbnas_server.orchestration: engine",
+   "L369 mbnas_server.orchestration: engine",
+   "L397 mbnas_server.orchestration: engine",
+   "L426 mbnas_server.orchestration: engine",
+   "L446 mbnas_server.config: Settings",
+   "L447 mbnas_server.adapters.common: structural_hash",
+   "L448 mbnas_server.benchmark.subjects: ultralytics_from_weights",
+   "L449 mbnas_server.evaluation: evaluator",
+   "L450 mbnas_server.evaluation.handlers: measure_latency, device_identity",
+   "L451 mbnas_server.evaluation.images: render_fixed_samples",
+   "L452 mbnas_server.training.context: split_manifests, SplitAccess, check_run_dir, jsonable"
+  ],
+  "third_party": [
+   "pydantic",
+   "ultralytics",
+   "yaml"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/training/stage_trainer.py",
+  "source_module": "mbnas_server.training.stage_trainer",
+  "lines": 242,
+  "target_package": "mbnas_runner",
+  "target_module_path": "mbnas_runner.training.stage_trainer",
+  "role": "runner-handler",
+  "reason": "고정 horizon 단계 학습 오케스트레이션(DD-A1 c 명시). adapters/checkpoint → model_runtime, util → contracts.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [
+   "L230 mbnas_server.util.atomic: sha256_file"
+  ],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/training/validation.py",
+  "source_module": "mbnas_server.training.validation",
+  "lines": 103,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.protocol.training_validation",
+  "role": "core-protocol",
+  "reason": "validator._Run을 상속하는 명시적 학습 run 검증(training/validation.py:16) — training/ 디렉터리에 있으나 전부 core validator 확장. 위치만 이동.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/util/__init__.py",
+  "source_module": "mbnas_server.util",
+  "lines": 1,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.util",
+  "role": "contracts-util",
+  "reason": "공유 util 패키지(DD-A1 d).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/util/atomic.py",
+  "source_module": "mbnas_server.util.atomic",
+  "lines": 66,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.util.atomic",
+  "role": "contracts-util",
+  "reason": "stdlib만 사용하는 공유 util(DD-A1 d 명시: canon/time/atomic/paths/log_redact).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/util/canon.py",
+  "source_module": "mbnas_server.util.canon",
+  "lines": 55,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.util.canon",
+  "role": "contracts-util",
+  "reason": "stdlib만 사용하는 공유 util(DD-A1 d 명시: canon/time/atomic/paths/log_redact).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/util/log_redact.py",
+  "source_module": "mbnas_server.util.log_redact",
+  "lines": 74,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.util.log_redact",
+  "role": "contracts-util",
+  "reason": "stdlib만 사용하는 공유 util(DD-A1 d 명시: canon/time/atomic/paths/log_redact).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/util/paths.py",
+  "source_module": "mbnas_server.util.paths",
+  "lines": 112,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.util.paths",
+  "role": "contracts-util",
+  "reason": "stdlib만 사용하는 공유 util(DD-A1 d 명시: canon/time/atomic/paths/log_redact).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/util/time.py",
+  "source_module": "mbnas_server.util.time",
+  "lines": 40,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.util.time",
+  "role": "contracts-util",
+  "reason": "stdlib만 사용하는 공유 util(DD-A1 d 명시: canon/time/atomic/paths/log_redact).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/worker/__init__.py",
+  "source_module": "mbnas_server.worker",
+  "lines": 1,
+  "target_package": "mbnas_runner",
+  "target_module_path": "mbnas_runner",
+  "role": "runner-lifecycle",
+  "reason": "worker 패키지 init → runner 패키지 루트.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/worker/__main__.py",
+  "source_module": "mbnas_server.worker.__main__",
+  "lines": 9,
+  "target_package": "mbnas_runner",
+  "target_module_path": "mbnas_runner.__main__",
+  "role": "runner-lifecycle",
+  "reason": "python -m 진입점(core 호스트는 mbnas_core.owner_worker 별도).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/worker/child.py",
+  "source_module": "mbnas_server.worker.child",
+  "lines": 203,
+  "target_package": "mbnas_runner",
+  "target_module_path": "mbnas_runner.child",
+  "role": "runner-lifecycle",
+  "reason": "자식 프로세스 본체는 runner이지만 read-only SQLite로 JobSpec/run/candidate를 읽는다(worker/child.py:3-4, 38-41, 113-148). 원격 runner에는 DB가 없다.",
+  "split_needed": true,
+  "split_plan": "① runner: _protocol_stream/safe_name/NMS_KINDS/run_job/main(L30-46, 49, 151-199) 유지; load_context 대신 runner.worker가 core claim 응답(envelope JSON 파일)을 --spec-file로 넘긴다. ② core: search_arch(L55-68)·native_params(L71-99)·latest_live_full_state(L102-110)·load_context(L113-148)는 orchestrator params→handler 네이티브 params 번역 = core가 envelope를 만들 때 수행 → mbnas_core.runner_api.envelope. ③ run_official_evaluation 분기(L157-159)는 runner 핸들러(mbnas_runner.evaluation.official_evaluation)로. ④ MIXED_HOOK 문자열(L52) 재작성; --db-path 인자(L181) 제거.",
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [
+   "L59 mbnas_server.search.etri_bridge: yaml_uses_mixed_modules",
+   "L115 mbnas_server.artifacts.registry: run_dir",
+   "L158 mbnas_server.training.selection: run_official_evaluation",
+   "L194 mbnas_server.evaluation.latency: ensure_torchvision"
+  ],
+  "third_party": [
+   "yaml"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/worker/contract.py",
+  "source_module": "mbnas_server.worker.contract",
+  "lines": 171,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts.jobs_protocol",
+  "role": "contracts-protocol",
+  "reason": "JobFailure/JobPaused/Emitter/STOP_ENV/PAUSE_REASONS는 handler↔child 프로토콜 타입(DB 접촉 없음, worker/contract.py:2 'nothing in this module touches the DB'). core(search/generation.py:28, search/handlers.py:251)와 runner가 모두 쓰므로 contracts로.",
+  "split_needed": true,
+  "split_plan": "① JobFailure, JobPaused, Emitter, Handler, STOP_ENV, PAUSED_REASON, PAUSE_REASONS, HANDLERS_ENV → mbnas_contracts.jobs_protocol. ② DEFAULT_HANDLERS(worker/contract.py:56-63)·resolve_handler·handler_override·_load → mbnas_runner.contract (허용 kind 5종만, DD-A4) 및 mbnas_core.owner_worker.contract (PROPOSE_GENERATION만). ③ 문자열 핸들러 경로 'mbnas_server.training.handlers:run_training_job' 등 6건을 새 패키지 경로로 재작성.",
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/worker/gpu.py",
+  "source_module": "mbnas_server.worker.gpu",
+  "lines": 123,
+  "target_package": "mbnas_runner",
+  "target_module_path": "mbnas_runner.gpu",
+  "role": "runner-lifecycle",
+  "reason": "NVML 장치 식별/샘플(runner 호스트 전용).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "pynvml"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/worker/gpu_guard.py",
+  "source_module": "mbnas_server.worker.gpu_guard",
+  "lines": 180,
+  "target_package": "mbnas_runner",
+  "target_module_path": "mbnas_runner.gpu_guard",
+  "role": "runner-lifecycle",
+  "reason": "GPU lock 가디언(runner 호스트 전용).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/worker/main.py",
+  "source_module": "mbnas_server.worker.main",
+  "lines": 614,
+  "target_package": "mbnas_runner",
+  "target_module_path": "mbnas_runner.worker",
+  "role": "runner-lifecycle",
+  "reason": "한 파일에 (a) runner 루프(자식 spawn·JSONL 모니터·heartbeat·GPU 대기; worker/main.py:287-454)와 (b) owner 측 DB 상태 전이(acquire_lease/reclaim/_settle_job/apply_retention/publish; L172-199, 241-277, 455-537)가 섞여 있다.",
+  "split_needed": true,
+  "split_plan": "① runner: Worker.run/tick(루프), wait_gpu_clear(L146-171), _spawn(L287-298), execute/_monitor/_pump(L300-454, 562-567), heartbeat 스레드, child_settings_env(L68-75, DB_PATH 제외) → mbnas_runner.worker; DB 호출은 mbnas_runner.client(HTTP: claim→heartbeat→progress→artifact→result→ack, DD-A3/A4)로 대체. ② core: tick의 repo.acquire_lease(L246)·reclaim(L254-277)·_finalize/_settle_job(L455-473, 495-537)·apply_retention(L475-493)·publish/_row/prune_worker_rows/idle_heartbeat(L172-239) → mbnas_core.runner_api.lease (lease_epoch=attempt + runner_id fencing, DD-A4). ③ owner worker(CPU, PROPOSE_GENERATION/structure-check): 같은 루프의 cpu=True 경로(L91-99 WorkerConfig.cpu, L246-247 generation_only)를 mbnas_core.owner_worker.main으로 유지(인프로세스 DB 허용). ④ argv '-m mbnas_server.worker.child'(L293) → 'mbnas_runner.child'; SECRET_ENV(L61)에 runner 토큰 추가.",
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_core"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_core"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "yolo_ga_runtime/__init__.py",
+  "source_module": "yolo_ga_runtime",
+  "lines": 47,
+  "target_package": null,
+  "target_module_path": "(not vendored; provenance SHA only)",
+  "role": "etri-not-vendored",
+  "reason": "패키지 init이 crossover_v22/runtime/pipeline/ga_hooks를 재수출하고 import 시점에 mixed_hooks.install_runtime_hooks()를 실행(yolo_ga_runtime/__init__.py:10-26, 44-46) → 가져오지 않는다(DD-A2).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "yolo_ga_runtime/crossover_v22.py",
+  "source_module": "yolo_ga_runtime.crossover_v22",
+  "lines": 617,
+  "target_package": null,
+  "target_module_path": "(not vendored; provenance SHA only)",
+  "role": "etri-not-vendored",
+  "reason": "ETRI GA 교차(노트북 verbatim). mbnas_server 어디서도 import하지 않음(DD-A2 제외 대상).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "yolo_ga_runtime/ga_hooks.py",
+  "source_module": "yolo_ga_runtime.ga_hooks",
+  "lines": 60,
+  "target_package": null,
+  "target_module_path": "(not vendored; provenance SHA only)",
+  "role": "etri-not-vendored",
+  "reason": "비활성 GA 인터페이스. 미참조.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "yolo_ga_runtime/mixed_blocks.py",
+  "source_module": "yolo_ga_runtime.mixed_blocks",
+  "lines": 314,
+  "target_package": "mbnas_model_runtime",
+  "target_module_path": "mbnas_model_runtime.operators.mixed_blocks",
+  "role": "etri-vendored",
+  "reason": "NASPatchMerge/NASWindowTransformer/NASGlobalTransformer(mixed_blocks.py:39-162) + register_ultralytics_blocks(parse_model 소스 확장, L188-263) + audit_model(L288): 승인 YAML 구축에 필요 → 공개 vendoring(DD-A2). torch/ultralytics만 import.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "torch",
+   "ultralytics"
+  ]
+ },
+ {
+  "source_path": "yolo_ga_runtime/mixed_cli.py",
+  "source_module": "yolo_ga_runtime.mixed_cli",
+  "lines": 519,
+  "target_package": null,
+  "target_module_path": "(not vendored; provenance SHA only)",
+  "role": "etri-not-vendored",
+  "reason": "ETRI 서버 CLI. 미참조; yolo_ga_full_runtime를 import.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [
+   "L38 yolo_ga_runtime.mixed_blocks: register_ultralytics_blocks",
+   "L43 yolo_ga_runtime.runtime: load_config_pool",
+   "L56 yolo_ga_runtime.mixed_hooks: extension_revision",
+   "L66 yolo_ga_runtime.runtime: TorchExecutor",
+   "L78 yolo_ga_runtime.mixed_search_space: make_mixed_seed_variants, audit_config",
+   "L79 yolo_ga_runtime.mixed_hooks: extension_revision",
+   "L143 yolo_ga_runtime: runtime",
+   "L144 yolo_ga_runtime.mixed_blocks: audit_model",
+   "L201 yolo_ga_runtime.runtime: TorchExecutor",
+   "L202 yolo_ga_runtime.mixed_blocks: NASPatchMerge, NASWindowTransformer, NASGlobalTransformer, audit_model",
+   "L239 yolo_ga_runtime: runtime",
+   "L240 yolo_ga_runtime.mixed_search_space: audit_config",
+   "L325 yolo_ga_runtime: runtime",
+   "L326 yolo_ga_runtime.mixed_hooks: extension_revision",
+   "L403 yolo_ga_runtime.mixed_search_space: audit_config",
+   "L423 yolo_ga_runtime.mixed_blocks: register_ultralytics_blocks, audit_model"
+  ],
+  "third_party": [
+   "PIL",
+   "numpy",
+   "torch",
+   "ultralytics",
+   "yaml",
+   "yolo_ga_full_runtime"
+  ]
+ },
+ {
+  "source_path": "yolo_ga_runtime/mixed_hooks.py",
+  "source_module": "yolo_ga_runtime.mixed_hooks",
+  "lines": 249,
+  "target_package": null,
+  "target_module_path": "(not vendored; provenance SHA only)",
+  "role": "etri-not-vendored",
+  "reason": "ETRI GA 런타임 훅(install_runtime_hooks). 미참조; yolo_ga_full_runtime를 import.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [
+   "L31 yolo_ga_runtime.mixed_search_space: mixed_enabled",
+   "L48 yolo_ga_runtime.mixed_blocks: register_ultralytics_blocks",
+   "L65 yolo_ga_runtime: runtime",
+   "L66 yolo_ga_runtime.crossover_v22: Crossover, NASUtils",
+   "L139 yolo_ga_runtime.mixed_blocks: audit_model",
+   "L159 yolo_ga_runtime.mixed_search_space: mutate_operators",
+   "L203 yolo_ga_runtime.mixed_search_space: mutate_operators"
+  ],
+  "third_party": [
+   "yolo_ga_full_runtime"
+  ]
+ },
+ {
+  "source_path": "yolo_ga_runtime/mixed_search_space.py",
+  "source_module": "yolo_ga_runtime.mixed_search_space",
+  "lines": 203,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.search.mixed_pool",
+  "role": "etri-vendored",
+  "reason": "make_mixed_seed_variants(L154-203)/_legal_choices(L78-98)/audit_config(L39-50)/mutate_operators(L101-151) = 검색 정책 → private vendoring(DD-A2). runtime 의존은 R.REPEAT_MODULES(L123,176)와 R.symbolic_shape_propagate(L116, mutate_operators 전용); mixed_blocks.register_ultralytics_blocks(L60) → model_runtime.operators.register. mixed_enabled() ETRI_NAS_MIXED 게이트(L20-22)·ETRI_NAS_MIXED_IMAGE_SIZE(L115)는 인자로 대체.",
+  "split_needed": true,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [
+   "L60 yolo_ga_runtime.mixed_blocks: register_ultralytics_blocks",
+   "L113 yolo_ga_runtime: runtime",
+   "L161 yolo_ga_runtime: runtime"
+  ],
+  "third_party": [
+   "ultralytics"
+  ]
+ },
+ {
+  "source_path": "yolo_ga_runtime/pipeline.py",
+  "source_module": "yolo_ga_runtime.pipeline",
+  "lines": 299,
+  "target_package": null,
+  "target_module_path": "(not vendored; provenance SHA only)",
+  "role": "etri-not-vendored",
+  "reason": "ETRI random-validation 드라이버. 미참조.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [
+   "L238 yolo_ga_runtime.runtime: evaluate_candidate, build_genotype"
+  ],
+  "third_party": [
+   "yaml"
+  ]
+ },
+ {
+  "source_path": "yolo_ga_runtime/runtime.py",
+  "source_module": "yolo_ga_runtime.runtime",
+  "lines": 1023,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core.search.mixed_pool (부분 이식)",
+  "role": "etri-partially-vendored",
+  "reason": "필수: REPEAT_MODULES(runtime.py:60-63). 선택(mutate_operators를 가져올 때만): symbolic_shape_propagate(L365-472) + make_divisible(L85), NodeShape(L106), ValidationFailure(L123), _resolve_scale_and_depth_width(L290), _conv_stride_from_args(L299), _autopad(L306), _conv_hw(L312), _module_out_hw(L319), 분류 집합(L50-83). CompatibilityAwareSampler/TorchExecutor/evaluate_candidate 등 나머지는 가져오지 않음.",
+  "split_needed": true,
+  "split_plan": "필수: REPEAT_MODULES(runtime.py:60-63). 선택(mutate_operators를 가져올 때만): symbolic_shape_propagate(L365-472) + make_divisible(L85), NodeShape(L106), ValidationFailure(L123), _resolve_scale_and_depth_width(L290), _conv_stride_from_args(L299), _autopad(L306), _conv_hw(L312), _module_out_hw(L319), 분류 집합(L50-83). CompatibilityAwareSampler/TorchExecutor/evaluate_candidate 등 나머지는 가져오지 않음.",
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "torch",
+   "ultralytics",
+   "yaml"
+  ]
+ },
+ {
+  "source_path": "yolo_ga_runtime/runtime.py.before_smoke_nc_20261006_043702_dd7da4de.bak",
+  "source_module": null,
+  "lines": null,
+  "target_package": null,
+  "target_module_path": "(not vendored; provenance SHA only)",
+  "role": "etri-not-vendored",
+  "reason": "runtime.py 백업본(diff는 L726 한 줄: Detect nc 참조). 가져오지 않음; provenance SHA만.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/scripts/api_bearer_only.py",
+  "source_module": "scripts.api_bearer_only",
+  "lines": 45,
+  "target_package": "tests(public tools)",
+  "target_module_path": "tests/public/tools/api_bearer_only.py",
+  "role": "script",
+  "reason": "gateway 두 번째 프로세스(서명키 없음) 기동 도구. config.Settings → mbnas_server.config.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_core"
+  ],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "dotenv"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/scripts/bench_host_gpu.py",
+  "source_module": "scripts.bench_host_gpu",
+  "lines": 376,
+  "target_package": "scripts(runner-host)",
+  "target_module_path": "scripts/runner/bench_host_gpu.py",
+  "role": "script",
+  "reason": "BENCHMARK 핸들러로 호스트 GPU 증거 생성. runner+model_runtime만 필요; config → runner config; provenance.source_hash → contracts.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_model_runtime",
+   "mbnas_runner"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_model_runtime",
+   "mbnas_runner"
+  ],
+  "lazy_internal_imports": [
+   "L48 mbnas_server.schemas.jobs: JobKind, JobSpec",
+   "L91 mbnas_server.adapters.ultralytics_adapter: prepare_ultralytics_env",
+   "L97 mbnas_server.benchmark.capability: capability",
+   "L98 mbnas_server.benchmark.handlers: run_benchmark_job",
+   "L99 mbnas_server.config: Settings",
+   "L100 mbnas_server.provenance.source_hash: compute_source_tree_hash, default_roots"
+  ],
+  "third_party": [
+   "yaml"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/scripts/dev_stack.py",
+  "source_module": "scripts.dev_stack",
+  "lines": 283,
+  "target_package": "scripts(dev, superseded)",
+  "target_module_path": "scripts/dev/dev_stack.py",
+  "role": "script",
+  "reason": "API+worker(+web) 개발 스택. WP-7 start/stop(3 프로세스: core 8700/server 8710/web 8720)로 대체; owner 개발 참고용. worker.gpu → runner.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_runner"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_runner"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/scripts/doctor.py",
+  "source_module": "scripts.doctor",
+  "lines": 6,
+  "target_package": "superseded",
+  "target_module_path": "(mbnas-core-doctor 콘솔 스크립트)",
+  "role": "script",
+  "reason": "api.doctor.main 래퍼 6행 → 패키지별 doctor 콘솔 스크립트(WP-7)로 대체.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_core"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_core"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/scripts/download_weights.py",
+  "source_module": "scripts.download_weights",
+  "lines": 95,
+  "target_package": "scripts(runner-host)",
+  "target_module_path": "scripts/runner/download_weights.py",
+  "role": "script",
+  "reason": "공식 가중치 다운로드+manifest. ETRI_NAS/drone_bench 교차검증 참조(L4-5)는 제거(원본 체크아웃 참조 금지).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/scripts/make_pilot_subset.py",
+  "source_module": "scripts.make_pilot_subset",
+  "lines": 40,
+  "target_package": "scripts(public)",
+  "target_module_path": "scripts/public/make_pilot_subset.py",
+  "role": "script",
+  "reason": "datasets.subset 래퍼 → model_runtime만 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_model_runtime"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_model_runtime"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/scripts/probe_registry.py",
+  "source_module": "scripts.probe_registry",
+  "lines": 195,
+  "target_package": "scripts(owner)",
+  "target_module_path": "scripts/owner/probe_registry.py",
+  "role": "script",
+  "reason": "registry probe(CPU) + evidence JSON. core.registry(build_entries 등)+model_runtime.registry.probe. L109-124의 train-smoke 경로는 runner(stage_trainer)까지 import → owner 호스트에 runner 설치 필요 또는 분리.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_model_runtime",
+   "mbnas_runner"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_model_runtime",
+   "mbnas_runner"
+  ],
+  "lazy_internal_imports": [
+   "L45 mbnas_server.adapters.ultralytics_adapter: prepare_ultralytics_env",
+   "L48 mbnas_server.registry: build_entries, scan_evidence, scan_trt_evidence",
+   "L49 mbnas_server.registry.probe: PROBE_SCHEMA, probe_spec, versions",
+   "L50 mbnas_server.registry.specs: SPECS",
+   "L51 mbnas_server.util.atomic: atomic_write_json",
+   "L52 mbnas_server.util.time: utcnow_iso",
+   "L55 mbnas_server.registry: latest_probe_path",
+   "L73 mbnas_server.registry: latest_probe_path",
+   "L109 mbnas_server.adapters.ultralytics_adapter: prepare_ultralytics_env",
+   "L112 mbnas_server.adapters.base: DataSpec",
+   "L113 mbnas_server.datasets.manifest: DatasetService",
+   "L114 mbnas_server.datasets.yaml_safe: load_dataset_yaml",
+   "L115 mbnas_server.evaluation: evaluator",
+   "L116 mbnas_server.protocol.presets: pilot_smoke_protocol",
+   "L117 mbnas_server.registry: adapter_for, arch_spec, load_registry",
+   "L118 mbnas_server.registry.specs: SPECS",
+   "L119 mbnas_server.training.dataset_view: build_yolo_view",
+   "L120 mbnas_server.training.recipe: recipe_from_protocol",
+   "L121 mbnas_server.training.stage_trainer: StageTrainer",
+   "L122 mbnas_server.util.atomic: atomic_write_json",
+   "L123 mbnas_server.util.canon: canonical_sha256",
+   "L124 mbnas_server.util.time: utcnow_iso"
+  ],
+  "third_party": [
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/scripts/resume_equivalence.py",
+  "source_module": "scripts.resume_equivalence",
+  "lines": 340,
+  "target_package": "scripts(runner-host)",
+  "target_module_path": "scripts/runner/resume_equivalence.py",
+  "role": "script",
+  "reason": "GPU resume 동등성 증거. protocol.presets.pilot_smoke_protocol(L41) = core import → protocol JSON 파일 인자로 대체해야 runner 호스트에서 실행 가능.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_model_runtime",
+   "mbnas_runner"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_model_runtime",
+   "mbnas_runner"
+  ],
+  "lazy_internal_imports": [
+   "L38 mbnas_server.adapters.base: DataSpec",
+   "L39 mbnas_server.datasets.manifest: DatasetService",
+   "L40 mbnas_server.datasets.yaml_safe: load_dataset_yaml",
+   "L41 mbnas_server.protocol.presets: pilot_smoke_protocol",
+   "L42 mbnas_server.util.canon: canonical_sha256",
+   "L48 mbnas_server.training.dataset_view: build_yolo_view",
+   "L58 mbnas_server.adapters.ultralytics_adapter: prepare_ultralytics_env",
+   "L62 mbnas_server.registry: SPEC_BY_ID, adapter_for, arch_spec",
+   "L63 mbnas_server.training.recipe: recipe_from_protocol",
+   "L64 mbnas_server.training.stage_trainer: StageTrainer",
+   "L162 mbnas_server.adapters.common: tensor_state_digest",
+   "L163 mbnas_server.training.checkpoint: rng_equal",
+   "L199 mbnas_server.adapters.base: ResumeBlocked",
+   "L200 mbnas_server.registry: SPEC_BY_ID, adapter_for, arch_spec",
+   "L201 mbnas_server.training: checkpoint",
+   "L202 mbnas_server.training.recipe: recipe_from_protocol",
+   "L203 mbnas_server.training.stage_trainer: StageTrainer",
+   "L248 mbnas_server.registry: SPEC_BY_ID, adapter_for",
+   "L311 mbnas_server.util.time: utcnow_iso"
+  ],
+  "third_party": [
+   "torch"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/scripts/run_tests_host.sh",
+  "source_module": null,
+  "lines": 18,
+  "target_package": "tests(owner)",
+  "target_module_path": "tests/owner/run_tests_host.sh",
+  "role": "script",
+  "reason": "테스트 게이트. MBNAS_TEST_ETRI_ROOT 등 호스트 고정 env(L9-14) 재정의 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/scripts/search_dry_run.py",
+  "source_module": "scripts.search_dry_run",
+  "lines": 114,
+  "target_package": "scripts(owner)",
+  "target_module_path": "scripts/owner/search_dry_run.py",
+  "role": "script",
+  "reason": "PROPOSE_GENERATION CPU dry run(core.search.handlers).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_core"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_core"
+  ],
+  "lazy_internal_imports": [
+   "L32 mbnas_server.config: Settings",
+   "L33 mbnas_server.protocol.presets: pilot_smoke_protocol",
+   "L34 mbnas_server.protocol.validator: protocol_hash",
+   "L35 mbnas_server.schemas.jobs: JobKind, JobSpec",
+   "L36 mbnas_server.search.handlers: propose_generation"
+  ],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/scripts/setup_venv.sh",
+  "source_module": null,
+  "lines": 32,
+  "target_package": "superseded",
+  "target_module_path": "(scripts/install: wheelhouse --no-index, DD-A7)",
+  "role": "script",
+  "reason": "온라인 pip 설치 스크립트 → 폐기.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/scripts/smoke_api_only.py",
+  "source_module": "scripts.smoke_api_only",
+  "lines": 312,
+  "target_package": "tests(public tools)",
+  "target_module_path": "tests/public/tools/smoke_api_only.py",
+  "role": "script",
+  "reason": "라이브 gateway+core+runner(stub 핸들러) smoke. api.contract.contract_errors → mbnas_server.api.contract_check; util.atomic → contracts.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_server"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "httpx"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/scripts/smoke_end_to_end.py",
+  "source_module": "scripts.smoke_end_to_end",
+  "lines": 853,
+  "target_package": "scripts(owner)",
+  "target_module_path": "scripts/owner/smoke_end_to_end.py",
+  "role": "script",
+  "reason": "GPU 전 구간 smoke(owner 호스트). orchestration.final_retrain.NO_FINALIST_MESSAGE·presets → core.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts",
+   "mbnas_core"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts",
+   "mbnas_core",
+   "mbnas_server"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": [
+   "dotenv",
+   "httpx",
+   "pynvml"
+  ]
+ },
+ {
+  "source_path": "application/MBNAS_server/scripts/source_tree_hash.py",
+  "source_module": "scripts.source_tree_hash",
+  "lines": 80,
+  "target_package": "scripts(dev)",
+  "target_module_path": "scripts/dev/source_tree_hash.py",
+  "role": "script",
+  "reason": "소스트리 해시 CLI → contracts.util.source_hash(roots 인자화).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [
+   "mbnas_contracts"
+  ],
+  "imports_after_symbol_moves": [
+   "mbnas_contracts"
+  ],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/db/schema.sql",
+  "source_module": null,
+  "lines": 236,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core/db/schema.sql",
+  "role": "package-data",
+  "reason": "SQLite 스키마 v3(db/core.py:42 schema_sql()이 importlib.resources로 읽음) → core 패키지 데이터(private).",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server/protocol/handoff_protocol_20261006.json",
+  "source_module": null,
+  "lines": 329,
+  "target_package": "mbnas_core",
+  "target_module_path": "mbnas_core/protocol/handoff_protocol_20261006.json",
+  "role": "package-data",
+  "reason": "handoff 설계 예시 원문(protocol/presets.py:49 _HANDOFF_FILE). DD-A8: 웹 번들에 embed 금지, core가 GET /protocols/presets로 제공 → core 패키지 데이터.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/openapi.json",
+  "source_module": null,
+  "lines": 11907,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/openapi.json",
+  "role": "package-data",
+  "reason": "정본 계약(info.version 1.4.1; migrate_1.4.1_to_1.4.2.py는 EXPECTED sha '__FILL__' 상태로 미적용 → 스냅샷 계약은 1.4.1). prune()의 CONTRACT_PATH(api/contract.py:17-19) 대신 패키지 리소스.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server.egg-info/PKG-INFO",
+  "source_module": null,
+  "lines": 309,
+  "target_package": null,
+  "target_module_path": "(discard)",
+  "role": "build-artifact",
+  "reason": "setuptools egg-info(2026-10-15 설치 산출물). 소스가 아니므로 복사하지 않음; 패키지별 pyproject로 재생성. entry_points의 mbnas-api/mbnas-worker/mbnas-doctor는 패키지별 콘솔 스크립트로 재정의.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server.egg-info/SOURCES.txt",
+  "source_module": null,
+  "lines": 121,
+  "target_package": null,
+  "target_module_path": "(discard)",
+  "role": "build-artifact",
+  "reason": "setuptools egg-info(2026-10-15 설치 산출물). 소스가 아니므로 복사하지 않음; 패키지별 pyproject로 재생성. entry_points의 mbnas-api/mbnas-worker/mbnas-doctor는 패키지별 콘솔 스크립트로 재정의.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server.egg-info/dependency_links.txt",
+  "source_module": null,
+  "lines": 1,
+  "target_package": null,
+  "target_module_path": "(discard)",
+  "role": "build-artifact",
+  "reason": "setuptools egg-info(2026-10-15 설치 산출물). 소스가 아니므로 복사하지 않음; 패키지별 pyproject로 재생성. entry_points의 mbnas-api/mbnas-worker/mbnas-doctor는 패키지별 콘솔 스크립트로 재정의.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server.egg-info/entry_points.txt",
+  "source_module": null,
+  "lines": 4,
+  "target_package": null,
+  "target_module_path": "(discard)",
+  "role": "build-artifact",
+  "reason": "setuptools egg-info(2026-10-15 설치 산출물). 소스가 아니므로 복사하지 않음; 패키지별 pyproject로 재생성. entry_points의 mbnas-api/mbnas-worker/mbnas-doctor는 패키지별 콘솔 스크립트로 재정의.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server.egg-info/requires.txt",
+  "source_module": null,
+  "lines": 31,
+  "target_package": null,
+  "target_module_path": "(discard)",
+  "role": "build-artifact",
+  "reason": "setuptools egg-info(2026-10-15 설치 산출물). 소스가 아니므로 복사하지 않음; 패키지별 pyproject로 재생성. entry_points의 mbnas-api/mbnas-worker/mbnas-doctor는 패키지별 콘솔 스크립트로 재정의.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/src/mbnas_server.egg-info/top_level.txt",
+  "source_module": null,
+  "lines": 1,
+  "target_package": null,
+  "target_module_path": "(discard)",
+  "role": "build-artifact",
+  "reason": "setuptools egg-info(2026-10-15 설치 산출물). 소스가 아니므로 복사하지 않음; 패키지별 pyproject로 재생성. entry_points의 mbnas-api/mbnas-worker/mbnas-doctor는 패키지별 콘솔 스크립트로 재정의.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/HISTORY.json",
+  "source_module": null,
+  "lines": 142,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/HISTORY.json",
+  "role": "package-data",
+  "reason": "계약 이력(HISTORY.json / openapi-<ver>.json). 패키지 데이터 또는 리포 전용 — 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/migrate_1.0.0_to_1.1.0.py",
+  "source_module": null,
+  "lines": 141,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/migrate_1.0.0_to_1.1.0.py",
+  "role": "package-data",
+  "reason": "계약 마이그레이션 스크립트(stdlib만 import; AST 확인). 패키지 데이터로 동봉(모듈로 수집되지 않게 history/에 __init__ 없이, 또는 리포 전용). 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/migrate_1.1.0_to_1.2.0.py",
+  "source_module": null,
+  "lines": 48,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/migrate_1.1.0_to_1.2.0.py",
+  "role": "package-data",
+  "reason": "계약 마이그레이션 스크립트(stdlib만 import; AST 확인). 패키지 데이터로 동봉(모듈로 수집되지 않게 history/에 __init__ 없이, 또는 리포 전용). 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/migrate_1.2.0_to_1.2.1.py",
+  "source_module": null,
+  "lines": 15,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/migrate_1.2.0_to_1.2.1.py",
+  "role": "package-data",
+  "reason": "계약 마이그레이션 스크립트(stdlib만 import; AST 확인). 패키지 데이터로 동봉(모듈로 수집되지 않게 history/에 __init__ 없이, 또는 리포 전용). 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/migrate_1.2.1_to_1.2.2.py",
+  "source_module": null,
+  "lines": 21,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/migrate_1.2.1_to_1.2.2.py",
+  "role": "package-data",
+  "reason": "계약 마이그레이션 스크립트(stdlib만 import; AST 확인). 패키지 데이터로 동봉(모듈로 수집되지 않게 history/에 __init__ 없이, 또는 리포 전용). 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/migrate_1.2.2_to_1.2.3.py",
+  "source_module": null,
+  "lines": 22,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/migrate_1.2.2_to_1.2.3.py",
+  "role": "package-data",
+  "reason": "계약 마이그레이션 스크립트(stdlib만 import; AST 확인). 패키지 데이터로 동봉(모듈로 수집되지 않게 history/에 __init__ 없이, 또는 리포 전용). 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/migrate_1.2.3_to_1.2.4.py",
+  "source_module": null,
+  "lines": 36,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/migrate_1.2.3_to_1.2.4.py",
+  "role": "package-data",
+  "reason": "계약 마이그레이션 스크립트(stdlib만 import; AST 확인). 패키지 데이터로 동봉(모듈로 수집되지 않게 history/에 __init__ 없이, 또는 리포 전용). 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/migrate_1.2.4_to_1.2.5.py",
+  "source_module": null,
+  "lines": 13,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/migrate_1.2.4_to_1.2.5.py",
+  "role": "package-data",
+  "reason": "계약 마이그레이션 스크립트(stdlib만 import; AST 확인). 패키지 데이터로 동봉(모듈로 수집되지 않게 history/에 __init__ 없이, 또는 리포 전용). 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/migrate_1.2.5_to_1.2.6.py",
+  "source_module": null,
+  "lines": 15,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/migrate_1.2.5_to_1.2.6.py",
+  "role": "package-data",
+  "reason": "계약 마이그레이션 스크립트(stdlib만 import; AST 확인). 패키지 데이터로 동봉(모듈로 수집되지 않게 history/에 __init__ 없이, 또는 리포 전용). 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/migrate_1.2.6_to_1.2.7.py",
+  "source_module": null,
+  "lines": 14,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/migrate_1.2.6_to_1.2.7.py",
+  "role": "package-data",
+  "reason": "계약 마이그레이션 스크립트(stdlib만 import; AST 확인). 패키지 데이터로 동봉(모듈로 수집되지 않게 history/에 __init__ 없이, 또는 리포 전용). 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/migrate_1.2.7_to_1.2.8.py",
+  "source_module": null,
+  "lines": 21,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/migrate_1.2.7_to_1.2.8.py",
+  "role": "package-data",
+  "reason": "계약 마이그레이션 스크립트(stdlib만 import; AST 확인). 패키지 데이터로 동봉(모듈로 수집되지 않게 history/에 __init__ 없이, 또는 리포 전용). 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/migrate_1.2.8_to_1.2.9.py",
+  "source_module": null,
+  "lines": 18,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/migrate_1.2.8_to_1.2.9.py",
+  "role": "package-data",
+  "reason": "계약 마이그레이션 스크립트(stdlib만 import; AST 확인). 패키지 데이터로 동봉(모듈로 수집되지 않게 history/에 __init__ 없이, 또는 리포 전용). 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/migrate_1.2.9_to_1.3.0.py",
+  "source_module": null,
+  "lines": 5477,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/migrate_1.2.9_to_1.3.0.py",
+  "role": "package-data",
+  "reason": "계약 마이그레이션 스크립트(stdlib만 import; AST 확인). 패키지 데이터로 동봉(모듈로 수집되지 않게 history/에 __init__ 없이, 또는 리포 전용). 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/migrate_1.3.0_to_1.4.0.py",
+  "source_module": null,
+  "lines": 2401,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/migrate_1.3.0_to_1.4.0.py",
+  "role": "package-data",
+  "reason": "계약 마이그레이션 스크립트(stdlib만 import; AST 확인). 패키지 데이터로 동봉(모듈로 수집되지 않게 history/에 __init__ 없이, 또는 리포 전용). 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/migrate_1.4.0_to_1.4.1.py",
+  "source_module": null,
+  "lines": 289,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/migrate_1.4.0_to_1.4.1.py",
+  "role": "package-data",
+  "reason": "계약 마이그레이션 스크립트(stdlib만 import; AST 확인). 패키지 데이터로 동봉(모듈로 수집되지 않게 history/에 __init__ 없이, 또는 리포 전용). 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/migrate_1.4.1_to_1.4.2.py",
+  "source_module": null,
+  "lines": 267,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/migrate_1.4.1_to_1.4.2.py",
+  "role": "package-data",
+  "reason": "계약 마이그레이션 스크립트(stdlib만 import; AST 확인). 패키지 데이터로 동봉(모듈로 수집되지 않게 history/에 __init__ 없이, 또는 리포 전용). 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/openapi-1.0.0.json",
+  "source_module": null,
+  "lines": 2006,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/openapi-1.0.0.json",
+  "role": "package-data",
+  "reason": "계약 이력(HISTORY.json / openapi-<ver>.json). 패키지 데이터 또는 리포 전용 — 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/openapi-1.1.0.json",
+  "source_module": null,
+  "lines": 3075,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/openapi-1.1.0.json",
+  "role": "package-data",
+  "reason": "계약 이력(HISTORY.json / openapi-<ver>.json). 패키지 데이터 또는 리포 전용 — 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/openapi-1.2.0.json",
+  "source_module": null,
+  "lines": 3340,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/openapi-1.2.0.json",
+  "role": "package-data",
+  "reason": "계약 이력(HISTORY.json / openapi-<ver>.json). 패키지 데이터 또는 리포 전용 — 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/openapi-1.2.1.json",
+  "source_module": null,
+  "lines": 3536,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/openapi-1.2.1.json",
+  "role": "package-data",
+  "reason": "계약 이력(HISTORY.json / openapi-<ver>.json). 패키지 데이터 또는 리포 전용 — 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/openapi-1.2.2.json",
+  "source_module": null,
+  "lines": 3552,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/openapi-1.2.2.json",
+  "role": "package-data",
+  "reason": "계약 이력(HISTORY.json / openapi-<ver>.json). 패키지 데이터 또는 리포 전용 — 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/openapi-1.2.3.json",
+  "source_module": null,
+  "lines": 3590,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/openapi-1.2.3.json",
+  "role": "package-data",
+  "reason": "계약 이력(HISTORY.json / openapi-<ver>.json). 패키지 데이터 또는 리포 전용 — 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/openapi-1.2.4.json",
+  "source_module": null,
+  "lines": 3740,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/openapi-1.2.4.json",
+  "role": "package-data",
+  "reason": "계약 이력(HISTORY.json / openapi-<ver>.json). 패키지 데이터 또는 리포 전용 — 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/openapi-1.2.5.json",
+  "source_module": null,
+  "lines": 3749,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/openapi-1.2.5.json",
+  "role": "package-data",
+  "reason": "계약 이력(HISTORY.json / openapi-<ver>.json). 패키지 데이터 또는 리포 전용 — 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/openapi-1.2.6.json",
+  "source_module": null,
+  "lines": 3771,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/openapi-1.2.6.json",
+  "role": "package-data",
+  "reason": "계약 이력(HISTORY.json / openapi-<ver>.json). 패키지 데이터 또는 리포 전용 — 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/openapi-1.2.7.json",
+  "source_module": null,
+  "lines": 3779,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/openapi-1.2.7.json",
+  "role": "package-data",
+  "reason": "계약 이력(HISTORY.json / openapi-<ver>.json). 패키지 데이터 또는 리포 전용 — 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/openapi-1.2.8.json",
+  "source_module": null,
+  "lines": 3822,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/openapi-1.2.8.json",
+  "role": "package-data",
+  "reason": "계약 이력(HISTORY.json / openapi-<ver>.json). 패키지 데이터 또는 리포 전용 — 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/openapi-1.2.9.json",
+  "source_module": null,
+  "lines": 3834,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/openapi-1.2.9.json",
+  "role": "package-data",
+  "reason": "계약 이력(HISTORY.json / openapi-<ver>.json). 패키지 데이터 또는 리포 전용 — 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/openapi-1.3.0.json",
+  "source_module": null,
+  "lines": 9294,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/openapi-1.3.0.json",
+  "role": "package-data",
+  "reason": "계약 이력(HISTORY.json / openapi-<ver>.json). 패키지 데이터 또는 리포 전용 — 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/openapi-1.4.0.json",
+  "source_module": null,
+  "lines": 11403,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/openapi-1.4.0.json",
+  "role": "package-data",
+  "reason": "계약 이력(HISTORY.json / openapi-<ver>.json). 패키지 데이터 또는 리포 전용 — 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ },
+ {
+  "source_path": "application/MBNAS_server/contracts/history/openapi-1.4.1.json",
+  "source_module": null,
+  "lines": 11907,
+  "target_package": "mbnas_contracts",
+  "target_module_path": "mbnas_contracts/openapi/history/openapi-1.4.1.json",
+  "role": "package-data",
+  "reason": "계약 이력(HISTORY.json / openapi-<ver>.json). 패키지 데이터 또는 리포 전용 — 결정 필요.",
+  "split_needed": false,
+  "split_plan": null,
+  "imports_after_mapping": [],
+  "imports_after_symbol_moves": [],
+  "lazy_internal_imports": [],
+  "third_party": []
+ }
+]

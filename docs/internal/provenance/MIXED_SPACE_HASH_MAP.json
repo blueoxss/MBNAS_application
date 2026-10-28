@@ -1,0 +1,81 @@
+{
+ "schema": "mbnas.mixed_space_hash_map/1",
+ "created_at": "2026-10-26T18:48:51+0900",
+ "producer": "WP-1V (contract \u00a713.5); SearchSpace.create(nc=1, imgsz=640) with default families",
+ "interpreter": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python",
+ "python": "3.10.22",
+ "ultralytics": "8.4.173",
+ "torch": "2.6.0+cu124",
+ "env": {
+  "CUDA_VISIBLE_DEVICES": "",
+  "MBNAS_HOME": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime"
+ },
+ "v3": {
+  "version": "mbnas-mixed-space/3",
+  "variant": "etri_mixed",
+  "nc": 1,
+  "imgsz": 640,
+  "space_hash": "sha256:f50d490471503f0022fc81f3951e4b7dc6dc926d850f8d1c6257040c7889a8b3",
+  "prior_hash": "sha256:0fbc54132c2dc97af6c64f4295caada6a3cac2d7bcdceb09495dd1935e3b621f",
+  "space_hash_definition": "mbnas-mixed-space/3: canonical sha256 of describe() body; mixed-pool identity = content sha256 of the vendored mixed-pool modules executed for seed variants and parser registration (mixed_pool_files_sha256: mbnas_model_runtime/operators/etri_mixed_blocks.py, mbnas_core/search/mixed_pool/seed_variants.py, mbnas_core/search/mixed_pool/runtime_constants.py), read from the installed files at load time. Supersedes mbnas-mixed-space/2 (content sha256 of every executed yolo_ga_runtime module of an external ETRI_NAS checkout); the /2 inputs and their sha256 are recorded as vendor_origin (provenance, not hashed).",
+  "templates": [
+   "yolo11n:cnn_backbone",
+   "yolo11n:native",
+   "yolo11n:transformer_backbone",
+   "yolo26n:cnn_backbone",
+   "yolo26n:native",
+   "yolo26n:transformer_backbone"
+  ],
+  "rejected_templates": [],
+  "mixed_pool_files_sha256": {
+   "mbnas_core/search/mixed_pool/runtime_constants.py": "a4d264a4ca4c9b2ebf64be26466f5d15237775631f0b98e7ead9caadf181354a",
+   "mbnas_core/search/mixed_pool/seed_variants.py": "f3db8bd2b564275298b7536c21c6d8f3deebb903fd80d5b8a5294fec87dd7f4d",
+   "mbnas_model_runtime/operators/etri_mixed_blocks.py": "12ec1d1c847f2b724e4efb52ef7bf83b57e02ad803d9cbbfe7c33d7f673e973e"
+  },
+  "mixed_pool_files_sha256_on_disk": {
+   "mbnas_core/search/mixed_pool/runtime_constants.py": "a4d264a4ca4c9b2ebf64be26466f5d15237775631f0b98e7ead9caadf181354a",
+   "mbnas_core/search/mixed_pool/seed_variants.py": "f3db8bd2b564275298b7536c21c6d8f3deebb903fd80d5b8a5294fec87dd7f4d",
+   "mbnas_model_runtime/operators/etri_mixed_blocks.py": "12ec1d1c847f2b724e4efb52ef7bf83b57e02ad803d9cbbfe7c33d7f673e973e"
+  },
+  "on_disk_matches": true,
+  "vendored_not_hashed": {
+   "mbnas_model_runtime/operators/parse_model_8_4_173.py": "3a9d4582e61537e58690121902425aeba8f3e50ce3d5f226e39054979a4ee489",
+   "note": "static parse_model copy (registration machinery, outside the /3 hashed inputs); gate EXPECTED_PARSE_MODEL_SHA256=7da6bb14102890302fd9c8708a9f7d0fbb38e94e8f511c0434fc41c0fcff5f6d"
+  }
+ },
+ "v2": {
+  "version": "mbnas-mixed-space/2",
+  "recorded_values": {
+   "space_hash_prefix": "sha256:03e316a81b2f",
+   "prior_hash_prefix": "sha256:fa984229a8aa",
+   "source": "snapshot application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:852 (prefixes only; full values \ud655\uc778 \ubabb \ud568)"
+  },
+  "vendor_origin": {
+   "yolo_ga_runtime/__init__.py": "ef0224c2bab7101623cd7a5c0919aa7ea00615e613ef67ca7cf529224314b63a",
+   "yolo_ga_runtime/crossover_v22.py": "3222dfbdd816c67888ff9a49fe38cb8e054cf5bc3810620e6914c0db88e4056e",
+   "yolo_ga_runtime/ga_hooks.py": "3ce290d9772c9855ae741629ce9d1f2d42f90f9e2a7be2f7d0fc1819a7b01f57",
+   "yolo_ga_runtime/mixed_blocks.py": "4233dd324e755440d1bc223241fe2e0c95ca37f71e4c3aac8513778491496e70",
+   "yolo_ga_runtime/mixed_hooks.py": "297511c927e1c6e192d9ebebcebce2b7977d33c00cc39aaf7dacce580cb9deb7",
+   "yolo_ga_runtime/mixed_search_space.py": "adb6f41302a8ee8b526533edff9b52c916479c93ed08e63173b43241012e5da7",
+   "yolo_ga_runtime/pipeline.py": "0551ae0b25b76980c1a834c36f371384ff67801da34eb8d65b07a232a1115593",
+   "yolo_ga_runtime/runtime.py": "f538c50f415cf0626d70a8be5b3d25550077983451202e2244a8d7423fd045e1",
+   "etri_nas_head": "18c481517d4393f5d7818aba5b37d721e15628c5",
+   "space_version_before": "mbnas-mixed-space/2"
+  },
+  "snapshot_yolo_ga_runtime_sha256": {
+   "yolo_ga_runtime/__init__.py": "ef0224c2bab7101623cd7a5c0919aa7ea00615e613ef67ca7cf529224314b63a",
+   "yolo_ga_runtime/crossover_v22.py": "3222dfbdd816c67888ff9a49fe38cb8e054cf5bc3810620e6914c0db88e4056e",
+   "yolo_ga_runtime/ga_hooks.py": "3ce290d9772c9855ae741629ce9d1f2d42f90f9e2a7be2f7d0fc1819a7b01f57",
+   "yolo_ga_runtime/mixed_blocks.py": "4233dd324e755440d1bc223241fe2e0c95ca37f71e4c3aac8513778491496e70",
+   "yolo_ga_runtime/mixed_cli.py": "80e55c6c71f9d2870eb8c01f0c1b24e9a5f76eb1fb0b6ab07472397c16e944ef",
+   "yolo_ga_runtime/mixed_hooks.py": "297511c927e1c6e192d9ebebcebce2b7977d33c00cc39aaf7dacce580cb9deb7",
+   "yolo_ga_runtime/mixed_search_space.py": "adb6f41302a8ee8b526533edff9b52c916479c93ed08e63173b43241012e5da7",
+   "yolo_ga_runtime/pipeline.py": "0551ae0b25b76980c1a834c36f371384ff67801da34eb8d65b07a232a1115593",
+   "yolo_ga_runtime/runtime.py": "f538c50f415cf0626d70a8be5b3d25550077983451202e2244a8d7423fd045e1"
+  }
+ },
+ "comparable": false,
+ "note": "/2 and /3 digests are not comparable by definition (different hashed inputs); lineage search_space.version distinguishes them. Historical rows are not rewritten.",
+ "duration_s": 4.3,
+ "determinism": "two independent runs (fresh -I -B processes) gave identical space_hash/prior_hash"
+}

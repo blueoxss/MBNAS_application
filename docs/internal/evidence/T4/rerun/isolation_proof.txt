@@ -1,0 +1,16 @@
+uid: 1001
+hostname: t4-sandbox
+network: lo               UNKNOWN        127.0.0.1/8 ::1/128 ;
+/home/<user>/Desktop/etri_hd -> mbnas_application
+<ROOT> -> runtime
+<ROOT>/runtime/test_root/t4t5 -> final
+not visible: <ROOT>/pyproject.toml
+not visible: <ROOT>/build
+not visible: <T>/t4f
+not visible: /home/<user>/Desktop/etri_hd/etri_nas
+not visible: /data
+not visible: /home/<user>/.ssh
+/opt -> harness wheelhouse 
+/dev nvidia nodes: []
+outbound https://pypi.org: 000
+outbound https: failed (exit 6)

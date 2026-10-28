@@ -1,0 +1,121 @@
+{
+ "suite": "unit,integration,relocation,package,gpu",
+ "status": "BLOCKED_BY_ENV",
+ "counts": {
+  "PASS": 3,
+  "FAIL": 0,
+  "NOT_APPLICABLE": 1,
+  "BLOCKED_BY_ENV": 1
+ },
+ "evidence": [
+  "runtime/logs/verify/20261027T045536Z-public"
+ ],
+ "results": [
+  {
+   "suite": "unit",
+   "status": "PASS",
+   "counts": {
+    "tests": 246,
+    "passed": 246,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "summary": "246 passed, 2 deselected in 38.11s",
+    "deselected": 2
+   },
+   "evidence": [
+    "runtime/logs/verify/20261027T045536Z-public/unit.log",
+    "runtime/logs/verify/20261027T045536Z-public/unit.junit.xml"
+   ],
+   "reason": "",
+   "command": [
+    "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application/runtime/venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "-m",
+    "not gpu and not live and not legacy_records and not host_data",
+    "-p",
+    "no:cacheprovider",
+    "--junitxml=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application/runtime/logs/verify/20261027T045536Z-public/unit.junit.xml",
+    "tests/public/contracts",
+    "tests/public/ops"
+   ],
+   "exit_code": 0,
+   "duration_s": 38.7,
+   "scope": {
+    "test_dirs": [],
+    "markers": "not gpu and not live and not legacy_records and not host_data",
+    "not_applicable": [
+     "tests/owner: owner-only tests (public profile)"
+    ]
+   },
+   "profile": "public"
+  },
+  {
+   "suite": "integration",
+   "status": "PASS",
+   "counts": {
+    "checks": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0
+   },
+   "evidence": [
+    "runtime/logs/verify/20261027T045536Z-public/integration_public.json"
+   ],
+   "reason": "",
+   "core_url": "http://127.0.0.1:45567",
+   "duration_s": 0.9,
+   "profile": "public"
+  },
+  {
+   "suite": "relocation",
+   "status": "PASS",
+   "counts": {
+    "checks": 8,
+    "passed": 8,
+    "failed": 0
+   },
+   "evidence": [
+    "runtime/logs/verify/20261027T045536Z-public/relocation.json",
+    "runtime/logs/verify/20261027T045536Z-public/relocation_doctor_external_cwd.log",
+    "runtime/logs/verify/20261027T045536Z-public/relocation_doctor_external_cwd.json",
+    "runtime/logs/verify/20261027T045536Z-public/relocation_doctor_spaced_path.log",
+    "runtime/logs/verify/20261027T045536Z-public/relocation_doctor_spaced_path.json",
+    "runtime/logs/verify/20261027T045536Z-public/relocation_help_spaced.log"
+   ],
+   "reason": "",
+   "duration_s": 2.3,
+   "profile": "public"
+  },
+  {
+   "suite": "package",
+   "status": "NOT_APPLICABLE",
+   "counts": {},
+   "evidence": [],
+   "reason": "no FILE_MANIFEST.jsonl: a source tree, not an extracted package (run this suite in the unpacked ZIP)",
+   "duration_s": 0.0,
+   "profile": "public"
+  },
+  {
+   "suite": "gpu",
+   "status": "BLOCKED_BY_ENV",
+   "counts": {
+    "gpus": 2,
+    "idle": 0
+   },
+   "evidence": [
+    "runtime/logs/verify/20261027T045536Z-public/gpu_inventory.json"
+   ],
+   "reason": "no idle GPU: GPU0 NVIDIA RTX A6000 util 89% mem 23673/49140 MiB compute processes; GPU1 NVIDIA RTX A6000 util 52% mem 6209/49140 MiB compute processes",
+   "duration_s": 0.2,
+   "profile": "public"
+  }
+ ],
+ "schema": "mbnas.verify/1",
+ "root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application",
+ "profile": "public",
+ "started_at": "2026-10-27T04:55:36Z",
+ "finished_at": "2026-10-27T04:56:18Z"
+}

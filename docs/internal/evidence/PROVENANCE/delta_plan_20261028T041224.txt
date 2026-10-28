@@ -1,0 +1,25 @@
+# C01 fix round 1b (EVAL_1 D2): delta plan = the historical delta.py comparison (read-only; nothing applied)
+# cwd TARGET_ROOT, 2026-10-28T04:12:24+09:00; source .git/index mtime before: 2026-10-26 19:31:24.965006689 +0900
+$ CUDA_VISIBLE_DEVICES='' runtime/venv/bin/python -I -B scripts/dev/snapshot_delta.py --source-root /home/mgjeong/Desktop/etri_hd/etri_nas --plan-out docs/internal/evidence/PROVENANCE/delta_plan_20261028T041224.json
+# output: changed missing new new_docs, then one line per path
+0 0 0 17
+NEW_DOC application/docs/integration_20261021/FINAL_REPORT_20261021.md
+NEW_DOC application/docs/integration_20261021/REQUIREMENTS_TRACE_v2.md
+NEW_DOC application/docs/integration_20261021/criteria/S01_iter1.json
+NEW_DOC application/docs/integration_20261021/criteria/S01_iter2.json
+NEW_DOC application/docs/integration_20261021/criteria/S01_iter3.json
+NEW_DOC application/docs/integration_20261021/criteria/S01_iter4.json
+NEW_DOC application/docs/integration_20261021/criteria/S02_iter1.json
+NEW_DOC application/docs/integration_20261021/criteria/S03_iter1.json
+NEW_DOC application/docs/integration_20261021/criteria/S04_iter1.json
+NEW_DOC application/docs/integration_20261021/criteria/S04_iter2.json
+NEW_DOC application/docs/integration_20261021/criteria/S05_iter1.json
+NEW_DOC application/docs/integration_20261021/criteria/S05_iter2.json
+NEW_DOC application/docs/integration_20261021/criteria/S05_iter3.json
+NEW_DOC application/docs/integration_20261021/criteria/S05_iter4.json
+NEW_DOC application/docs/integration_20261021/criteria/S06_iter1.json
+NEW_DOC application/docs/integration_20261021/criteria/S06_iter2.json
+NEW_DOC application/docs/integration_20261021/criteria/S06_iter3.json
+exit=0
+# source .git/index mtime after: 2026-10-26 19:31:24.965006689 +0900
+# new_docs = files of the owner documentation trees (application/docs, server docs, handoff docs) written by the concurrent session after the first copy; not ported (owner reference material), listed for completeness

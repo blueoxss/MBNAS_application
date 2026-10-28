@@ -1,0 +1,47 @@
+# 2026-10-28T04:17:59+09:00 cwd=<copy root> MBNAS_HOME=<copy root>/runtime runtime/venv/bin/python -I -B verify_install_runner_id.py <copy root> install_owner_offline.txt
+{
+ "hostname_checked": "<this host's name, not printed>",
+ "checks": {
+  "one runner principal": true,
+  "principal bound to the generated id": true,
+  "runner's own settings use the same id": true,
+  "generated form runner-<8 hex>": true,
+  "host name not in the id": true,
+  "not runner-<hostname>": true,
+  "transcript names the same id": true,
+  "host name not in runner.env or the id file": true
+ },
+ "runner_env_active_keys": [
+  "MBNAS_RUNNER_ALLOW_PICKLE_RESUME",
+  "MBNAS_RUNNER_TOKEN"
+ ],
+ "runner_env_sets_MBNAS_RUNNER_RUNNER_ID": false,
+ "runtime/runner/runner_id": "runner-88fb1032",
+ "runtime/runner/runner_id mode": "0o644",
+ "RunnerSettings.load(runner.env).runner_id": "runner-88fb1032",
+ "principals": [
+  {
+   "id": "pr-66f7b87fb547175c",
+   "kind": "server",
+   "runner_id": null,
+   "revoked": false
+  },
+  {
+   "id": "pr-dbbb89b0b7339eb8",
+   "kind": "runner",
+   "runner_id": "runner-88fb1032",
+   "revoked": false
+  }
+ ],
+ "runners_rows": [
+  {
+   "id": "runner-88fb1032",
+   "status": "REGISTERED"
+  }
+ ],
+ "transcript_issue_line": [
+  "[install]   runner.env MBNAS_RUNNER_TOKEN: issued runner principal pr-dbbb89b0b7339eb8 for runner id runner-88fb1032"
+ ],
+ "ALL_PASS": true
+}
+exit=0

@@ -1,0 +1,237 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1060" viewBox="0 0 1280 1060" font-family="'Noto Sans KR','Noto Sans CJK KR','Nanum Gothic','Malgun Gothic','Apple SD Gothic Neo',sans-serif" role="img" aria-labelledby="svg-title svg-desc">
+<title id="svg-title">S0 MBNAS Research Console 시스템 구조도</title>
+<desc id="svg-desc">System·Subsystem·Block 구조와 신뢰 영역(브라우저, 고객 호스트, Owner 호스트) 및 인터페이스 ①~⑤. 생성: scripts/dev/gen_registration_docs.py. 좌표는 생성기의 LAYOUT에서 바꾸거나 이 파일을 직접 편집할 수 있다.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1F2328"/></marker><marker id="arrow-dashed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#57606A"/></marker></defs>
+<rect x="0" y="0" width="1280" height="1060" fill="#FFFFFF"/>
+<text x="24" y="34" font-size="18" font-weight="bold" fill="#1F2328" text-anchor="start">S0 MBNAS Research Console — 시스템 구조도 (System · Subsystem · Block)</text>
+<text x="24" y="56" font-size="11" font-weight="normal" fill="#57606A" text-anchor="start">MBNAS 모듈형 신경망 구조 탐색·실험 통합관리 프로그램 · 상세 Module 목록은 SYSTEM_STRUCTURE.md 표 · 생성: scripts/dev/gen_registration_docs.py</text>
+<g id="zone-browser"><rect x="16" y="76" width="236" height="618" rx="10" fill="none" stroke="#8C959F" stroke-width="1.4" stroke-dasharray="7 5"/>
+<text x="28" y="95" font-size="12.5" font-weight="bold" fill="#57606A" text-anchor="start">사용자 브라우저</text>
+</g>
+<g id="zone-customer"><rect x="268" y="76" width="600" height="618" rx="10" fill="none" stroke="#8C959F" stroke-width="1.4" stroke-dasharray="7 5"/>
+<text x="280" y="95" font-size="12.5" font-weight="bold" fill="#57606A" text-anchor="start">고객 호스트 — public-runtime 배포(공개)</text>
+</g>
+<g id="zone-owner"><rect x="884" y="76" width="380" height="618" rx="10" fill="none" stroke="#8C959F" stroke-width="1.4" stroke-dasharray="7 5"/>
+<text x="896" y="95" font-size="12.5" font-weight="bold" fill="#57606A" text-anchor="start">Owner 호스트 — owner-private 배포(비공개)</text>
+</g>
+<g id="SS1"><rect x="28" y="146" width="212" height="222" rx="8" fill="#EEF4FB" stroke="#3C6E9F" stroke-width="1.4"/>
+<text x="38" y="165" font-size="12.5" font-weight="bold" fill="#3C6E9F" text-anchor="start">SS1 웹 콘솔 (mbnas_web)</text>
+<g id="B1_1"><rect x="36" y="182" width="196" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="44" y="198" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B1.1 화면</text>
+<text x="44" y="214" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">7개 화면</text>
+</g>
+<g id="B1_2"><rect x="36" y="228" width="196" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="44" y="244" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B1.2 화면 구성요소</text>
+<text x="44" y="260" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">후보 상세·구조도·학습 패널</text>
+</g>
+<g id="B1_3"><rect x="36" y="274" width="196" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="44" y="290" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B1.3 API 클라이언트·상태</text>
+<text x="44" y="306" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">/api/v1 호출·SSE·상태</text>
+</g>
+<g id="B1_4"><rect x="36" y="320" width="196" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="44" y="336" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B1.4 표시 로직</text>
+<text x="44" y="352" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">세대·구조·평가 표시 계산</text>
+</g>
+</g>
+<g id="SS2"><rect x="280" y="112" width="576" height="176" rx="8" fill="#EEF4FB" stroke="#3C6E9F" stroke-width="1.4"/>
+<text x="290" y="131" font-size="12.5" font-weight="bold" fill="#3C6E9F" text-anchor="start">SS2 게이트웨이 (mbnas_server)</text>
+<g id="B2_1"><rect x="288" y="148" width="182.667" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="296" y="164" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B2.1 API 중계</text>
+<text x="296" y="180" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">/api/v1 → core 콘솔 중계·SSE</text>
+</g>
+<g id="B2_2"><rect x="476.667" y="148" width="182.667" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="484.667" y="164" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B2.2 인증·요청 보호</text>
+<text x="484.667" y="180" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">Bearer 인증·경로 위생·요청 제한</text>
+</g>
+<g id="B2_3"><rect x="665.333" y="148" width="182.667" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="673.333" y="164" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B2.3 구성 YAML 업로드</text>
+<text x="673.333" y="180" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">원문 바이트·sha256 보존</text>
+</g>
+<g id="B2_4"><rect x="288" y="194" width="182.667" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="296" y="210" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B2.4 정적 웹 서빙</text>
+<text x="296" y="226" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">mbnas_web/dist → /</text>
+</g>
+<g id="B2_5"><rect x="476.667" y="194" width="182.667" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="484.667" y="210" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B2.5 읽기 전용 아카이브</text>
+<text x="484.667" y="226" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">고객 호스트 연구 결과 열람</text>
+</g>
+<g id="B2_6"><rect x="665.333" y="194" width="182.667" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="673.333" y="210" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B2.6 설정·진단</text>
+<text x="673.333" y="226" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">MBNAS_GW_* 설정·doctor</text>
+</g>
+<g id="B2_7"><rect x="288" y="240" width="182.667" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="296" y="256" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B2.7 artifact 저장소</text>
+<text x="296" y="272" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">내용 주소 저장·서명 URL·다운로드</text>
+</g>
+</g>
+<g id="SS3"><rect x="576" y="324" width="280" height="222" rx="8" fill="#EEF4FB" stroke="#3C6E9F" stroke-width="1.4"/>
+<text x="586" y="343" font-size="12.5" font-weight="bold" fill="#3C6E9F" text-anchor="start">SS3 실행기(runner) (mbnas_runner)</text>
+<g id="B3_1"><rect x="584" y="360" width="264" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="592" y="376" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B3.1 데몬·원격 프로토콜</text>
+<text x="592" y="392" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">등록·claim·heartbeat·result·journal</text>
+</g>
+<g id="B3_2"><rect x="584" y="406" width="264" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="592" y="422" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B3.2 작업 프로세스 관리</text>
+<text x="592" y="438" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">자식 프로세스·정지·GPU 대기</text>
+</g>
+<g id="B3_3"><rect x="584" y="452" width="264" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="592" y="468" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B3.3 학습 핸들러</text>
+<text x="592" y="484" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">단계 학습·checkpoint</text>
+</g>
+<g id="B3_4"><rect x="584" y="498" width="264" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="592" y="514" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B3.4 평가·벤치마크 핸들러</text>
+<text x="592" y="530" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">raw 지표 측정·보고</text>
+</g>
+</g>
+<g id="SS4"><rect x="280" y="324" width="280" height="314" rx="8" fill="#EEF4FB" stroke="#3C6E9F" stroke-width="1.4"/>
+<text x="290" y="343" font-size="12.5" font-weight="bold" fill="#3C6E9F" text-anchor="start">SS4 모델 런타임 (mbnas_model_runtime)</text>
+<g id="B4_1"><rect x="288" y="360" width="264" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="296" y="376" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B4.1 백엔드 어댑터</text>
+<text x="296" y="392" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">Ultralytics·RF-DETR·ETRI hybrid</text>
+</g>
+<g id="B4_2"><rect x="288" y="406" width="264" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="296" y="422" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B4.2 맞춤 연산자</text>
+<text x="296" y="438" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">ETRI mixed 연산자·parse_model</text>
+</g>
+<g id="B4_3"><rect x="288" y="452" width="264" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="296" y="468" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B4.3 구조 표현·관측</text>
+<text x="296" y="484" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">genotype·블록 카탈로그</text>
+</g>
+<g id="B4_4"><rect x="288" y="498" width="264" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="296" y="514" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B4.4 데이터셋</text>
+<text x="296" y="530" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">manifest·안전 YAML</text>
+</g>
+<g id="B4_5"><rect x="288" y="544" width="264" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="296" y="560" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B4.5 평가·벤치마크 절차</text>
+<text x="296" y="576" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">평가기·latency·ONNX/TRT</text>
+</g>
+<g id="B4_6"><rect x="288" y="590" width="264" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="296" y="606" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B4.6 checkpoint·registry·출처</text>
+<text x="296" y="622" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">checkpoint 형식·모델 명세</text>
+</g>
+</g>
+<g id="SS5"><rect x="16" y="712" width="1248" height="84" rx="8" fill="#EEF4FB" stroke="#3C6E9F" stroke-width="1.4"/>
+<text x="26" y="731" font-size="12.5" font-weight="bold" fill="#3C6E9F" text-anchor="start">SS5 공통 계약 (mbnas_contracts) — 모든 Python 패키지가 의존</text>
+<g id="B5_1"><rect x="24" y="748" width="406.667" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="32" y="764" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B5.1 스키마·OpenAPI</text>
+<text x="32" y="780" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">DTO·openapi.json</text>
+</g>
+<g id="B5_2"><rect x="436.667" y="748" width="406.667" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="444.667" y="764" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B5.2 작업·원격 프로토콜</text>
+<text x="444.667" y="780" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">JobEnvelope·runner 프로토콜</text>
+</g>
+<g id="B5_3"><rect x="849.333" y="748" width="406.667" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="857.333" y="764" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B5.3 공통 유틸·오류</text>
+<text x="857.333" y="780" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">canon·원자적 쓰기·로그 마스킹</text>
+</g>
+</g>
+<g id="SS6"><rect x="896" y="166" width="356" height="406" rx="8" fill="#FBEFEA" stroke="#B5562F" stroke-width="2.2"/>
+<text x="906" y="185" font-size="12.5" font-weight="bold" fill="#B5562F" text-anchor="start">SS6 코어(core) (mbnas_core) · 비공개</text>
+<g id="B6_1"><rect x="904" y="202" width="340" height="40" rx="5" fill="#FFFFFF" stroke="#EBC9BA" stroke-width="1.2"/>
+<text x="912" y="218" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B6.1 콘솔 API</text>
+<text x="912" y="234" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">/core/v1/console (gateway 전용)</text>
+</g>
+<g id="B6_2"><rect x="904" y="248" width="340" height="40" rx="5" fill="#FFFFFF" stroke="#EBC9BA" stroke-width="1.2"/>
+<text x="912" y="264" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B6.2 원격 실행 제어면</text>
+<text x="912" y="280" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">/core/v1/runner · /core/v1/owner</text>
+</g>
+<g id="B6_3"><rect x="904" y="294" width="340" height="40" rx="5" fill="#FFFFFF" stroke="#EBC9BA" stroke-width="1.2"/>
+<text x="912" y="310" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B6.3 탐색 정책 (기여 2)</text>
+<text x="912" y="326" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">후보 제안·세대 진행·RNG 스트림</text>
+</g>
+<g id="B6_4"><rect x="904" y="340" width="340" height="40" rx="5" fill="#FFFFFF" stroke="#EBC9BA" stroke-width="1.2"/>
+<text x="912" y="356" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B6.4 구조 게이트·검사 격리 (기여 1)</text>
+<text x="912" y="372" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">구조 게이트·수리·격리 실행</text>
+</g>
+<g id="B6_5"><rect x="904" y="386" width="340" height="40" rx="5" fill="#FFFFFF" stroke="#EBC9BA" stroke-width="1.2"/>
+<text x="912" y="402" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B6.5 프로토콜 해석·판정</text>
+<text x="912" y="418" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">검증·적합도·승급 판정</text>
+</g>
+<g id="B6_6"><rect x="904" y="432" width="340" height="40" rx="5" fill="#FFFFFF" stroke="#EBC9BA" stroke-width="1.2"/>
+<text x="912" y="448" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B6.6 오케스트레이션·스케줄링</text>
+<text x="912" y="464" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">작업 계획·예산·최종 재학습</text>
+</g>
+<g id="B6_7"><rect x="904" y="478" width="340" height="40" rx="5" fill="#FFFFFF" stroke="#EBC9BA" stroke-width="1.2"/>
+<text x="912" y="494" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B6.7 상태 저장·이벤트</text>
+<text x="912" y="510" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">SQLite 권위 상태·이벤트</text>
+</g>
+<g id="B6_8"><rect x="904" y="524" width="340" height="40" rx="5" fill="#FFFFFF" stroke="#EBC9BA" stroke-width="1.2"/>
+<text x="912" y="540" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B6.8 owner worker·운영</text>
+<text x="912" y="556" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">후보 생성 작업·자격 관리</text>
+</g>
+</g>
+<g id="SS7"><rect x="16" y="808" width="1248" height="84" rx="8" fill="#EEF4FB" stroke="#3C6E9F" stroke-width="1.4"/>
+<text x="26" y="827" font-size="12.5" font-weight="bold" fill="#3C6E9F" text-anchor="start">SS7 운영·배포 도구 (저장소 루트) — 패키지가 아닌 배포 보조물</text>
+<g id="B7_1"><rect x="24" y="844" width="241.6" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="32" y="860" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B7.1 설치·운영 스크립트</text>
+<text x="32" y="876" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">install·start·stop·doctor·verify</text>
+</g>
+<g id="B7_2"><rect x="271.6" y="844" width="241.6" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="279.6" y="860" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B7.2 배포 정의</text>
+<text x="279.6" y="876" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">Docker·compose·service 예시</text>
+</g>
+<g id="B7_3"><rect x="519.2" y="844" width="241.6" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="527.2" y="860" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B7.3 설정·예제</text>
+<text x="527.2" y="876" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">env 예시·protocol 예시·합성 예제</text>
+</g>
+<g id="B7_4"><rect x="766.8" y="844" width="241.6" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="774.8" y="860" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B7.4 공개 보조 도구</text>
+<text x="774.8" y="876" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">pilot 데이터 부분집합 생성</text>
+</g>
+<g id="B7_5"><rect x="1014.4" y="844" width="241.6" height="40" rx="5" fill="#FFFFFF" stroke="#C9D9EA" stroke-width="1.2"/>
+<text x="1022.4" y="860" font-size="11.5" font-weight="bold" fill="#1F2328" text-anchor="start">B7.5 owner 보조 도구</text>
+<text x="1022.4" y="876" font-size="10" font-weight="normal" fill="#57606A" text-anchor="start">가중치·호스트 GPU 벤치·재개 동등성</text>
+</g>
+</g>
+<g id="ST1"><rect x="576" y="572" width="280" height="44" rx="14" fill="#F3F3F1" stroke="#8A8A85" stroke-width="1.2"/>
+<text x="716" y="598" font-size="11" font-weight="normal" fill="#1F2328" text-anchor="middle">artifact 저장소 · 업로드 원문(고객 디스크)</text>
+</g>
+<g id="ST2"><rect x="576" y="628" width="280" height="44" rx="14" fill="#F3F3F1" stroke="#8A8A85" stroke-width="1.2"/>
+<text x="716" y="654" font-size="11" font-weight="normal" fill="#1F2328" text-anchor="middle">데이터셋 · 가중치 · 학습 산출물(고객 디스크)</text>
+</g>
+<g id="ST3"><rect x="896" y="586" width="356" height="44" rx="14" fill="#F3F3F1" stroke="#8A8A85" stroke-width="1.2"/>
+<text x="1074" y="612" font-size="11" font-weight="normal" fill="#1F2328" text-anchor="middle">core DB(SQLite) · 자격 hash · run 기록</text>
+</g>
+<g id="ADMIN"><rect x="968" y="102" width="284" height="34" rx="17" fill="#FFFFFF" stroke="#B5562F" stroke-width="1.2"/>
+<text x="1110" y="123" font-size="11" font-weight="normal" fill="#1F2328" text-anchor="middle">owner 관리자(로컬 CLI)</text>
+</g>
+<g id="USER"><rect x="28" y="102" width="212" height="34" rx="17" fill="#FFFFFF" stroke="#3C6E9F" stroke-width="1.2"/>
+<text x="134" y="123" font-size="11" font-weight="normal" fill="#1F2328" text-anchor="middle">사용자(연구자·운영자)</text>
+</g>
+<line id="user-web" x1="134" y1="136" x2="134" y2="146" stroke="#1F2328" stroke-width="1.6" marker-end="url(#arrow)"/>
+<line id="if-1" x1="240" y1="200" x2="280" y2="200" stroke="#1F2328" stroke-width="1.6" marker-end="url(#arrow)"/>
+<g class="badge"><circle cx="260" cy="186" r="10" fill="#FFFFFF" stroke="#1F2328" stroke-width="1.4"/><text x="260" y="190" font-size="11" font-weight="bold" fill="#1F2328" text-anchor="middle">1</text></g>
+<line id="if-5" x1="280" y1="262" x2="240" y2="262" stroke="#1F2328" stroke-width="1.6" marker-end="url(#arrow)"/>
+<g class="badge"><circle cx="260" cy="248" r="10" fill="#FFFFFF" stroke="#1F2328" stroke-width="1.4"/><text x="260" y="252" font-size="11" font-weight="bold" fill="#1F2328" text-anchor="middle">5</text></g>
+<line id="if-2" x1="856" y1="236" x2="896" y2="236" stroke="#1F2328" stroke-width="1.6" marker-end="url(#arrow)"/>
+<g class="badge"><circle cx="876" cy="222" r="10" fill="#FFFFFF" stroke="#1F2328" stroke-width="1.4"/><text x="876" y="226" font-size="11" font-weight="bold" fill="#1F2328" text-anchor="middle">2</text></g>
+<line id="if-3" x1="856" y1="430" x2="896" y2="430" stroke="#1F2328" stroke-width="1.6" marker-end="url(#arrow)"/>
+<g class="badge"><circle cx="876" cy="416" r="10" fill="#FFFFFF" stroke="#1F2328" stroke-width="1.4"/><text x="876" y="420" font-size="11" font-weight="bold" fill="#1F2328" text-anchor="middle">3</text></g>
+<line id="if-4" x1="1110" y1="136" x2="1110" y2="166" stroke="#1F2328" stroke-width="1.6" marker-end="url(#arrow)"/>
+<g class="badge"><circle cx="1128" cy="151" r="10" fill="#FFFFFF" stroke="#1F2328" stroke-width="1.4"/><text x="1128" y="155" font-size="11" font-weight="bold" fill="#1F2328" text-anchor="middle">4</text></g>
+<line id="dep-runner-runtime" x1="576" y1="372" x2="560" y2="372" stroke="#57606A" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arrow-dashed)"/>
+<line id="dep-gateway-datasets" x1="420" y1="288" x2="420" y2="324" stroke="#57606A" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arrow-dashed)"/>
+<line id="dep-runner-store" x1="716" y1="546" x2="716" y2="572" stroke="#57606A" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arrow-dashed)"/>
+<line id="dep-core-db" x1="1074" y1="572" x2="1074" y2="586" stroke="#57606A" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arrow-dashed)"/>
+<g id="legend">
+<text x="24" y="922" font-size="12" font-weight="bold" fill="#1F2328" text-anchor="start">범례</text>
+<rect x="70" y="910" width="22" height="14" rx="3" fill="#EEF4FB" stroke="#3C6E9F"/>
+<text x="98" y="922" font-size="11" font-weight="normal" fill="#1F2328" text-anchor="start">공개 서브시스템(public·registration 배포)</text>
+<rect x="356.9599999999999" y="910" width="22" height="14" rx="3" fill="#FBEFEA" stroke="#B5562F"/>
+<text x="384.96" y="922" font-size="11" font-weight="normal" fill="#1F2328" text-anchor="start">비공개 서브시스템(owner 전용)</text>
+<rect x="568.68" y="910" width="22" height="14" rx="7" fill="#F3F3F1" stroke="#8A8A85"/>
+<text x="596.68" y="922" font-size="11" font-weight="normal" fill="#1F2328" text-anchor="start">데이터 저장소</text>
+<line x1="689.9799999999999" y1="917" x2="719.9799999999999" y2="917" stroke="#57606A" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arrow-dashed)"/>
+<text x="727.98" y="922" font-size="11" font-weight="normal" fill="#1F2328" text-anchor="start">같은 호스트의 import·로컬 디스크 사용</text>
+<g class="badge"><circle cx="34" cy="942" r="10" fill="#FFFFFF" stroke="#1F2328" stroke-width="1.4"/><text x="34" y="946" font-size="11" font-weight="bold" fill="#1F2328" text-anchor="middle">1</text></g>
+<text x="52" y="946" font-size="11" font-weight="normal" fill="#1F2328" text-anchor="start">SS1 웹 콘솔 → SS2 게이트웨이: /api/v1 — HTTPS, 브라우저 Bearer 토큰, SSE</text>
+<g class="badge"><circle cx="34" cy="964" r="10" fill="#FFFFFF" stroke="#1F2328" stroke-width="1.4"/><text x="34" y="968" font-size="11" font-weight="bold" fill="#1F2328" text-anchor="middle">2</text></g>
+<text x="52" y="968" font-size="11" font-weight="normal" fill="#1F2328" text-anchor="start">SS2 게이트웨이 → SS6 코어(core): /core/v1/console — gateway 서비스 토큰(server scope)</text>
+<g class="badge"><circle cx="34" cy="986" r="10" fill="#FFFFFF" stroke="#1F2328" stroke-width="1.4"/><text x="34" y="990" font-size="11" font-weight="bold" fill="#1F2328" text-anchor="middle">3</text></g>
+<text x="52" y="990" font-size="11" font-weight="normal" fill="#1F2328" text-anchor="start">SS3 실행기(runner) → SS6 코어(core): /core/v1/runner — runner 토큰 + job ticket</text>
+<g class="badge"><circle cx="34" cy="1008" r="10" fill="#FFFFFF" stroke="#1F2328" stroke-width="1.4"/><text x="34" y="1012" font-size="11" font-weight="bold" fill="#1F2328" text-anchor="middle">4</text></g>
+<text x="52" y="1012" font-size="11" font-weight="normal" fill="#1F2328" text-anchor="start">owner 관리자(로컬 CLI) → SS6 코어(core): /core/v1/owner — admin 토큰(원격 배치 시 프록시에서 차단)</text>
+<g class="badge"><circle cx="34" cy="1030" r="10" fill="#FFFFFF" stroke="#1F2328" stroke-width="1.4"/><text x="34" y="1034" font-size="11" font-weight="bold" fill="#1F2328" text-anchor="middle">5</text></g>
+<text x="52" y="1034" font-size="11" font-weight="normal" fill="#1F2328" text-anchor="start">SS2 게이트웨이 → SS1 웹 콘솔: 정적 웹 번들(/) 제공</text>
+</g>
+</svg>

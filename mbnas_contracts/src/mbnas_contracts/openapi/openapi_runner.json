@@ -1,0 +1,3152 @@
+{
+  "components": {
+    "schemas": {
+      "AckRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "attempt": {
+            "minimum": 1,
+            "title": "Attempt",
+            "type": "integer"
+          },
+          "runner_id": {
+            "minLength": 1,
+            "title": "Runner Id",
+            "type": "string"
+          },
+          "ticket": {
+            "minLength": 1,
+            "title": "Ticket",
+            "type": "string"
+          }
+        },
+        "required": [
+          "runner_id",
+          "attempt",
+          "ticket"
+        ],
+        "title": "AckRequest",
+        "type": "object"
+      },
+      "ArtifactItem": {
+        "additionalProperties": false,
+        "properties": {
+          "bytes": {
+            "minimum": 0,
+            "title": "Bytes",
+            "type": "integer"
+          },
+          "candidate_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Candidate Id"
+          },
+          "evaluation_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Evaluation Id"
+          },
+          "kind": {
+            "minLength": 1,
+            "title": "Kind",
+            "type": "string"
+          },
+          "meta": {
+            "additionalProperties": true,
+            "title": "Meta",
+            "type": "object"
+          },
+          "mime_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Mime Type"
+          },
+          "relpath": {
+            "minLength": 1,
+            "title": "Relpath",
+            "type": "string"
+          },
+          "sample_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sample Id"
+          },
+          "sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Sha256",
+            "type": "string"
+          },
+          "split_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Split Hash"
+          },
+          "state": {
+            "default": "NOT_READY",
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "relpath",
+          "sha256",
+          "bytes"
+        ],
+        "title": "ArtifactItem",
+        "type": "object"
+      },
+      "ArtifactRegistered": {
+        "additionalProperties": false,
+        "properties": {
+          "artifact_id": {
+            "minLength": 1,
+            "title": "Artifact Id",
+            "type": "string"
+          },
+          "relpath": {
+            "minLength": 1,
+            "title": "Relpath",
+            "type": "string"
+          },
+          "state": {
+            "minLength": 1,
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "relpath",
+          "artifact_id",
+          "state"
+        ],
+        "title": "ArtifactRegistered",
+        "type": "object"
+      },
+      "ArtifactReport": {
+        "additionalProperties": false,
+        "properties": {
+          "artifacts": {
+            "items": {
+              "$ref": "#/components/schemas/ArtifactItem"
+            },
+            "minItems": 1,
+            "title": "Artifacts",
+            "type": "array"
+          },
+          "attempt": {
+            "minimum": 1,
+            "title": "Attempt",
+            "type": "integer"
+          },
+          "runner_id": {
+            "minLength": 1,
+            "title": "Runner Id",
+            "type": "string"
+          },
+          "ticket": {
+            "minLength": 1,
+            "title": "Ticket",
+            "type": "string"
+          }
+        },
+        "required": [
+          "runner_id",
+          "attempt",
+          "ticket",
+          "artifacts"
+        ],
+        "title": "ArtifactReport",
+        "type": "object"
+      },
+      "ArtifactResponse": {
+        "description": "E7 response: one entry per reported artifact, in request order.",
+        "items": {
+          "$ref": "#/components/schemas/ArtifactRegistered"
+        },
+        "title": "ArtifactResponse",
+        "type": "array"
+      },
+      "CheckpointRef": {
+        "additionalProperties": false,
+        "properties": {
+          "epoch": {
+            "minimum": 0,
+            "title": "Epoch",
+            "type": "integer"
+          },
+          "hashes": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Hashes"
+          },
+          "id": {
+            "minLength": 1,
+            "title": "Id",
+            "type": "string"
+          },
+          "path": {
+            "description": "runner-local location of the checkpoint file (read-only input)",
+            "minLength": 1,
+            "title": "Path",
+            "type": "string"
+          },
+          "rung": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Rung"
+          },
+          "sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Sha256",
+            "type": "string"
+          },
+          "state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "State"
+          }
+        },
+        "required": [
+          "id",
+          "path",
+          "sha256",
+          "epoch"
+        ],
+        "title": "CheckpointRef",
+        "type": "object"
+      },
+      "CheckpointReport": {
+        "additionalProperties": false,
+        "description": "A checkpoint the runner daemon verified (size, inside run_dir, sha256 recomputed) before reporting.",
+        "properties": {
+          "attempt": {
+            "minimum": 1,
+            "title": "Attempt",
+            "type": "integer"
+          },
+          "bytes": {
+            "minimum": 0,
+            "title": "Bytes",
+            "type": "integer"
+          },
+          "candidate_id": {
+            "minLength": 1,
+            "title": "Candidate Id",
+            "type": "string"
+          },
+          "checkpoint_id": {
+            "minLength": 1,
+            "title": "Checkpoint Id",
+            "type": "string"
+          },
+          "epoch": {
+            "minimum": 0,
+            "title": "Epoch",
+            "type": "integer"
+          },
+          "hashes": {
+            "additionalProperties": true,
+            "title": "Hashes",
+            "type": "object"
+          },
+          "kind": {
+            "enum": [
+              "training_full",
+              "eval_ema",
+              "weights_only",
+              "best"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "relpath": {
+            "description": "run_dir-relative location (both sides' common key)",
+            "minLength": 1,
+            "title": "Relpath",
+            "type": "string"
+          },
+          "rung": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Rung"
+          },
+          "runner_id": {
+            "minLength": 1,
+            "title": "Runner Id",
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Sha256",
+            "type": "string"
+          },
+          "ticket": {
+            "minLength": 1,
+            "title": "Ticket",
+            "type": "string"
+          },
+          "uri": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "runner-local ABSOLUTE path of the file (the daemon's realpath). The core stores it in its DB (checkpoints.path, artifact_locations.uri; owner-only) and echoes it to this runner as resume.*.path; it is never projected into a public response",
+            "title": "Uri"
+          }
+        },
+        "required": [
+          "runner_id",
+          "attempt",
+          "ticket",
+          "checkpoint_id",
+          "candidate_id",
+          "kind",
+          "epoch",
+          "relpath",
+          "sha256",
+          "bytes"
+        ],
+        "title": "CheckpointReport",
+        "type": "object"
+      },
+      "CheckpointResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "checkpoint_id": {
+            "minLength": 1,
+            "title": "Checkpoint Id",
+            "type": "string"
+          },
+          "location_id": {
+            "minLength": 1,
+            "title": "Location Id",
+            "type": "string"
+          },
+          "state": {
+            "minLength": 1,
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "checkpoint_id",
+          "location_id",
+          "state"
+        ],
+        "title": "CheckpointResponse",
+        "type": "object"
+      },
+      "ClaimRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "kinds": {
+            "items": {
+              "$ref": "#/components/schemas/JobKind"
+            },
+            "minItems": 1,
+            "title": "Kinds",
+            "type": "array"
+          },
+          "runner_id": {
+            "minLength": 1,
+            "title": "Runner Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "runner_id"
+        ],
+        "title": "ClaimRequest",
+        "type": "object"
+      },
+      "ClaimResponse": {
+        "additionalProperties": false,
+        "description": "200 body of claim (204 = nothing to do): the envelope plus the write ticket and the core clock.",
+        "properties": {
+          "envelope": {
+            "$ref": "#/components/schemas/JobEnvelope"
+          },
+          "server_time": {
+            "minLength": 1,
+            "title": "Server Time",
+            "type": "string"
+          },
+          "ticket": {
+            "minLength": 1,
+            "title": "Ticket",
+            "type": "string"
+          }
+        },
+        "required": [
+          "envelope",
+          "ticket",
+          "server_time"
+        ],
+        "title": "ClaimResponse",
+        "type": "object"
+      },
+      "DatasetYamlRef": {
+        "additionalProperties": false,
+        "properties": {
+          "names": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Names",
+            "type": "object"
+          },
+          "protocol_path": {
+            "minLength": 1,
+            "title": "Protocol Path",
+            "type": "string"
+          }
+        },
+        "required": [
+          "protocol_path",
+          "names"
+        ],
+        "title": "DatasetYamlRef",
+        "type": "object"
+      },
+      "DeregisterRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "runner_id": {
+            "minLength": 1,
+            "title": "Runner Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "runner_id"
+        ],
+        "title": "DeregisterRequest",
+        "type": "object"
+      },
+      "EnvelopeCandidate": {
+        "additionalProperties": false,
+        "properties": {
+          "architecture_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Architecture Hash"
+          },
+          "architecture_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Architecture Path"
+          },
+          "architecture_yaml": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Architecture Yaml"
+          },
+          "arm": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Arm"
+          },
+          "candidate_id": {
+            "minLength": 1,
+            "title": "Candidate Id",
+            "type": "string"
+          },
+          "candidate_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Candidate Status"
+          },
+          "current_rung": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Current Rung"
+          },
+          "family": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Family"
+          },
+          "generation": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Generation"
+          },
+          "genotype": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Genotype"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Name"
+          },
+          "search_seed": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Search Seed"
+          },
+          "training_seed": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Training Seed"
+          }
+        },
+        "required": [
+          "candidate_id"
+        ],
+        "title": "EnvelopeCandidate",
+        "type": "object"
+      },
+      "EnvelopeControl": {
+        "additionalProperties": false,
+        "properties": {
+          "heartbeat_s": {
+            "exclusiveMinimum": 0,
+            "title": "Heartbeat S",
+            "type": "number"
+          },
+          "kill_grace_s": {
+            "minimum": 0,
+            "title": "Kill Grace S",
+            "type": "number"
+          },
+          "lease_ttl_s": {
+            "exclusiveMinimum": 0,
+            "title": "Lease Ttl S",
+            "type": "number"
+          },
+          "progress_interval_s": {
+            "exclusiveMinimum": 0,
+            "title": "Progress Interval S",
+            "type": "number"
+          }
+        },
+        "required": [
+          "lease_ttl_s",
+          "heartbeat_s",
+          "progress_interval_s",
+          "kill_grace_s"
+        ],
+        "title": "EnvelopeControl",
+        "type": "object"
+      },
+      "EnvelopeDataRefs": {
+        "additionalProperties": false,
+        "properties": {
+          "dataset_yaml": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DatasetYamlRef"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "final_eval": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SplitRef"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "search_val": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SplitRef"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "train": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SplitRef"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "title": "EnvelopeDataRefs",
+        "type": "object"
+      },
+      "EnvelopeFence": {
+        "additionalProperties": false,
+        "properties": {
+          "attempt": {
+            "minimum": 1,
+            "title": "Attempt",
+            "type": "integer"
+          },
+          "claim_id": {
+            "minLength": 1,
+            "title": "Claim Id",
+            "type": "string"
+          },
+          "issued_at": {
+            "minLength": 1,
+            "title": "Issued At",
+            "type": "string"
+          },
+          "runner_id": {
+            "minLength": 1,
+            "title": "Runner Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "runner_id",
+          "attempt",
+          "claim_id",
+          "issued_at"
+        ],
+        "title": "EnvelopeFence",
+        "type": "object"
+      },
+      "EnvelopeJob": {
+        "additionalProperties": false,
+        "properties": {
+          "attempt": {
+            "minimum": 1,
+            "title": "Attempt",
+            "type": "integer"
+          },
+          "job_id": {
+            "minLength": 1,
+            "title": "Job Id",
+            "type": "string"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/JobKind"
+          },
+          "lease_expires_at": {
+            "minLength": 1,
+            "title": "Lease Expires At",
+            "type": "string"
+          },
+          "leased_at": {
+            "minLength": 1,
+            "title": "Leased At",
+            "type": "string"
+          },
+          "max_attempts": {
+            "minimum": 1,
+            "title": "Max Attempts",
+            "type": "integer"
+          },
+          "priority": {
+            "title": "Priority",
+            "type": "integer"
+          },
+          "spec": {
+            "additionalProperties": true,
+            "description": "JobSpec (schemas/jobs.py) without ``attempt``; params already filtered (4.3)",
+            "title": "Spec",
+            "type": "object"
+          }
+        },
+        "required": [
+          "job_id",
+          "attempt",
+          "kind",
+          "lease_expires_at",
+          "leased_at",
+          "spec",
+          "max_attempts",
+          "priority"
+        ],
+        "title": "EnvelopeJob",
+        "type": "object"
+      },
+      "EnvelopeResume": {
+        "additionalProperties": false,
+        "properties": {
+          "eval_ema": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CheckpointRef"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "live_latest": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CheckpointRef"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "location": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ResumeLocation"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "recorded_latest": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CheckpointRef"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "title": "EnvelopeResume",
+        "type": "object"
+      },
+      "EnvelopeRun": {
+        "additionalProperties": false,
+        "properties": {
+          "execution_mode": {
+            "minLength": 1,
+            "title": "Execution Mode",
+            "type": "string"
+          },
+          "kind": {
+            "minLength": 1,
+            "title": "Kind",
+            "type": "string"
+          },
+          "protocol_hash": {
+            "minLength": 1,
+            "title": "Protocol Hash",
+            "type": "string"
+          },
+          "resolved_protocol": {
+            "additionalProperties": true,
+            "title": "Resolved Protocol",
+            "type": "object"
+          },
+          "run_id": {
+            "minLength": 1,
+            "title": "Run Id",
+            "type": "string"
+          },
+          "status_at_claim": {
+            "minLength": 1,
+            "title": "Status At Claim",
+            "type": "string"
+          }
+        },
+        "required": [
+          "run_id",
+          "kind",
+          "protocol_hash",
+          "resolved_protocol",
+          "status_at_claim",
+          "execution_mode"
+        ],
+        "title": "EnvelopeRun",
+        "type": "object"
+      },
+      "EnvelopeVersions": {
+        "additionalProperties": false,
+        "properties": {
+          "checkpoint_format": {
+            "minLength": 1,
+            "title": "Checkpoint Format",
+            "type": "string"
+          },
+          "core_contract": {
+            "minLength": 1,
+            "title": "Core Contract",
+            "type": "string"
+          },
+          "progress_version": {
+            "title": "Progress Version",
+            "type": "integer"
+          },
+          "required_runtime": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Required Runtime",
+            "type": "object"
+          }
+        },
+        "required": [
+          "core_contract",
+          "progress_version",
+          "checkpoint_format",
+          "required_runtime"
+        ],
+        "title": "EnvelopeVersions",
+        "type": "object"
+      },
+      "ErrorBody": {
+        "additionalProperties": false,
+        "description": "Error body of every runner endpoint (same shape as the console API ``Error``).",
+        "properties": {
+          "code": {
+            "minLength": 1,
+            "title": "Code",
+            "type": "string"
+          },
+          "errors": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Errors"
+          },
+          "message": {
+            "minLength": 1,
+            "title": "Message",
+            "type": "string"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Request Id"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ErrorBody",
+        "type": "object"
+      },
+      "HeartbeatControl": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "anyOf": [
+              {
+                "enum": [
+                  "pause",
+                  "cancel"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Action"
+          },
+          "prune": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/PruneOrder"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "retention prune orders for checkpoints this runner holds (DD-A66); an order is handed out at most once per lease (job, attempt) until the runner reports it (E11)",
+            "title": "Prune"
+          },
+          "run_status": {
+            "minLength": 1,
+            "title": "Run Status",
+            "type": "string"
+          },
+          "stop_requested": {
+            "title": "Stop Requested",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "run_status",
+          "stop_requested"
+        ],
+        "title": "HeartbeatControl",
+        "type": "object"
+      },
+      "HeartbeatRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "attempt": {
+            "minimum": 1,
+            "title": "Attempt",
+            "type": "integer"
+          },
+          "device_sample": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Device Sample"
+          },
+          "progress": {
+            "additionalProperties": true,
+            "description": "latest progress snapshot shown on the worker row",
+            "title": "Progress",
+            "type": "object"
+          },
+          "runner_id": {
+            "minLength": 1,
+            "title": "Runner Id",
+            "type": "string"
+          },
+          "ticket": {
+            "minLength": 1,
+            "title": "Ticket",
+            "type": "string"
+          }
+        },
+        "required": [
+          "runner_id",
+          "attempt",
+          "ticket"
+        ],
+        "title": "HeartbeatRequest",
+        "type": "object"
+      },
+      "HeartbeatResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "control": {
+            "$ref": "#/components/schemas/HeartbeatControl"
+          },
+          "lease_expires_at": {
+            "minLength": 1,
+            "title": "Lease Expires At",
+            "type": "string"
+          },
+          "server_time": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Server Time"
+          }
+        },
+        "required": [
+          "lease_expires_at",
+          "control"
+        ],
+        "title": "HeartbeatResponse",
+        "type": "object"
+      },
+      "JobEnvelope": {
+        "additionalProperties": false,
+        "description": "Everything a runner needs to execute one leased job without DB access (envelope_version 1).",
+        "properties": {
+          "candidate": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EnvelopeCandidate"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "null for jobs without a candidate"
+          },
+          "control": {
+            "$ref": "#/components/schemas/EnvelopeControl"
+          },
+          "data_refs": {
+            "$ref": "#/components/schemas/EnvelopeDataRefs"
+          },
+          "envelope_version": {
+            "const": 1,
+            "default": 1,
+            "title": "Envelope Version",
+            "type": "integer"
+          },
+          "fence": {
+            "$ref": "#/components/schemas/EnvelopeFence"
+          },
+          "job": {
+            "$ref": "#/components/schemas/EnvelopeJob"
+          },
+          "resume": {
+            "$ref": "#/components/schemas/EnvelopeResume"
+          },
+          "run": {
+            "$ref": "#/components/schemas/EnvelopeRun"
+          },
+          "versions": {
+            "$ref": "#/components/schemas/EnvelopeVersions"
+          }
+        },
+        "required": [
+          "job",
+          "run",
+          "resume",
+          "data_refs",
+          "versions",
+          "fence",
+          "control"
+        ],
+        "title": "JobEnvelope",
+        "type": "object"
+      },
+      "JobKind": {
+        "enum": [
+          "BASELINE_TRAIN",
+          "CANDIDATE_TRAIN",
+          "EVALUATE",
+          "BENCHMARK",
+          "FINAL_RETRAIN",
+          "PROPOSE_GENERATION"
+        ],
+        "title": "JobKind",
+        "type": "string"
+      },
+      "JobResult": {
+        "additionalProperties": false,
+        "description": "Final outcome of one job attempt, stored in ``jobs.result_json`` (or ``error_json`` when failed).\n\n``BLOCKED`` (internal) means the job could not run on its target at all (e.g. ``TARGET_BLOCKED``: the target\ndevice is unavailable); it is never retried and never produces a proxy measurement.",
+        "properties": {
+          "attempt": {
+            "default": 1,
+            "minimum": 1,
+            "title": "Attempt",
+            "type": "integer"
+          },
+          "exit_code": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Exit Code"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Finished At"
+          },
+          "gpu_seconds": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Gpu Seconds"
+          },
+          "job_id": {
+            "minLength": 1,
+            "title": "Job Id",
+            "type": "string"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Message"
+          },
+          "outputs": {
+            "additionalProperties": true,
+            "title": "Outputs",
+            "type": "object"
+          },
+          "reason_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Reason Code"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Started At"
+          },
+          "status": {
+            "enum": [
+              "SUCCEEDED",
+              "FAILED",
+              "CANCELLED",
+              "BLOCKED"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "job_id",
+          "status"
+        ],
+        "title": "JobResult",
+        "type": "object"
+      },
+      "ProgressBatch": {
+        "additionalProperties": false,
+        "properties": {
+          "attempt": {
+            "minimum": 1,
+            "title": "Attempt",
+            "type": "integer"
+          },
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/ProgressMessage"
+            },
+            "minItems": 1,
+            "title": "Messages",
+            "type": "array"
+          },
+          "runner_id": {
+            "minLength": 1,
+            "title": "Runner Id",
+            "type": "string"
+          },
+          "seq_start": {
+            "description": "sequence number of messages[0]; the rest follow densely",
+            "minimum": 1,
+            "title": "Seq Start",
+            "type": "integer"
+          },
+          "ticket": {
+            "minLength": 1,
+            "title": "Ticket",
+            "type": "string"
+          }
+        },
+        "required": [
+          "runner_id",
+          "attempt",
+          "ticket",
+          "seq_start",
+          "messages"
+        ],
+        "title": "ProgressBatch",
+        "type": "object"
+      },
+      "ProgressMessage": {
+        "additionalProperties": false,
+        "description": "One JSONL line from a worker child (``type=result`` carries the JobResult in ``payload``).",
+        "properties": {
+          "epoch": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Epoch"
+          },
+          "epoch_target_total": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Epoch Target Total"
+          },
+          "global_step": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Global Step"
+          },
+          "job_id": {
+            "minLength": 1,
+            "title": "Job Id",
+            "type": "string"
+          },
+          "learning_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Learning Rate"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Message"
+          },
+          "payload": {
+            "additionalProperties": true,
+            "title": "Payload",
+            "type": "object"
+          },
+          "samples_seen": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Samples Seen"
+          },
+          "ts": {
+            "title": "Ts",
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "progress",
+              "log",
+              "metric",
+              "checkpoint",
+              "heartbeat",
+              "result"
+            ],
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "job_id",
+          "ts"
+        ],
+        "title": "ProgressMessage",
+        "type": "object"
+      },
+      "ProgressResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "accepted_seq": {
+            "minimum": 0,
+            "title": "Accepted Seq",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "accepted_seq"
+        ],
+        "title": "ProgressResponse",
+        "type": "object"
+      },
+      "PruneAck": {
+        "additionalProperties": false,
+        "description": "E11 answer: the checkpoint row is PRUNED (``replayed``: the request was already reported; nothing changed).",
+        "properties": {
+          "checkpoint_id": {
+            "minLength": 1,
+            "title": "Checkpoint Id",
+            "type": "string"
+          },
+          "replayed": {
+            "default": false,
+            "title": "Replayed",
+            "type": "boolean"
+          },
+          "request_id": {
+            "minLength": 1,
+            "title": "Request Id",
+            "type": "string"
+          },
+          "state": {
+            "const": "PRUNED",
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "checkpoint_id",
+          "request_id",
+          "state"
+        ],
+        "title": "PruneAck",
+        "type": "object"
+      },
+      "PruneOrder": {
+        "additionalProperties": false,
+        "description": "One retention prune request of the core (DD-A66; WP-5 section 2 R11) for a checkpoint this runner registered.\n\nThe runner deletes ``<work_root>/runs/<run_id>/<relpath>`` - and, for a ``full_eNNNN.pt`` payload, the RF-DETR\n``native_eNNNN.ckpt`` beside it; the ``.sha256.json`` sidecar is kept - only when it is a regular file (no symlink)\ninside its own work root whose bytes hash to ``sha256``, then reports with E11. Nothing is deleted for an order it\ncannot verify. ``request_id`` is the idempotency key of the round trip.",
+        "properties": {
+          "bytes": {
+            "minimum": 0,
+            "title": "Bytes",
+            "type": "integer"
+          },
+          "checkpoint_id": {
+            "minLength": 1,
+            "title": "Checkpoint Id",
+            "type": "string"
+          },
+          "policy": {
+            "description": "retention policy of the run (keep_all never produces an order)",
+            "minLength": 1,
+            "title": "Policy",
+            "type": "string"
+          },
+          "reason": {
+            "minLength": 1,
+            "title": "Reason",
+            "type": "string"
+          },
+          "relpath": {
+            "description": "run_dir-relative location of the full-state payload on this runner",
+            "minLength": 1,
+            "title": "Relpath",
+            "type": "string"
+          },
+          "request_id": {
+            "minLength": 1,
+            "title": "Request Id",
+            "type": "string"
+          },
+          "run_id": {
+            "minLength": 1,
+            "title": "Run Id",
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Sha256",
+            "type": "string"
+          }
+        },
+        "required": [
+          "request_id",
+          "checkpoint_id",
+          "run_id",
+          "relpath",
+          "sha256",
+          "bytes",
+          "policy",
+          "reason"
+        ],
+        "title": "PruneOrder",
+        "type": "object"
+      },
+      "PruneReport": {
+        "additionalProperties": false,
+        "description": "E11 body: the outcome of one :class:`PruneOrder`, sent only after the unlink succeeded (``removed`` lists what was\ndeleted, ``bytes_freed`` their size) or when no file with the ordered digest is at ``relpath`` any more\n(``already_absent``: e.g. the stage trainer pruned it, or other bytes now live under that name - nothing deleted).\nNot job-scoped (no ticket): the order may be reported after its lease ended; only the runner that holds the copy\nmay report it (token binding + the request's runner).",
+        "properties": {
+          "already_absent": {
+            "title": "Already Absent",
+            "type": "boolean"
+          },
+          "bytes": {
+            "minimum": 0,
+            "title": "Bytes",
+            "type": "integer"
+          },
+          "bytes_freed": {
+            "default": 0,
+            "minimum": 0,
+            "title": "Bytes Freed",
+            "type": "integer"
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "maxLength": 500,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Detail"
+          },
+          "pruned_at": {
+            "minLength": 1,
+            "title": "Pruned At",
+            "type": "string"
+          },
+          "relpath": {
+            "minLength": 1,
+            "title": "Relpath",
+            "type": "string"
+          },
+          "removed": {
+            "items": {
+              "$ref": "#/components/schemas/PrunedItem"
+            },
+            "title": "Removed",
+            "type": "array"
+          },
+          "request_id": {
+            "minLength": 1,
+            "title": "Request Id",
+            "type": "string"
+          },
+          "run_id": {
+            "minLength": 1,
+            "title": "Run Id",
+            "type": "string"
+          },
+          "runner_id": {
+            "minLength": 1,
+            "title": "Runner Id",
+            "type": "string"
+          },
+          "sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Sha256",
+            "type": "string"
+          }
+        },
+        "required": [
+          "runner_id",
+          "request_id",
+          "run_id",
+          "relpath",
+          "sha256",
+          "bytes",
+          "already_absent",
+          "pruned_at"
+        ],
+        "title": "PruneReport",
+        "type": "object"
+      },
+      "PrunedItem": {
+        "additionalProperties": false,
+        "description": "A file the runner unlinked for a prune order (run-relative; ``sha256`` known for the payload only).",
+        "properties": {
+          "bytes": {
+            "minimum": 0,
+            "title": "Bytes",
+            "type": "integer"
+          },
+          "relpath": {
+            "minLength": 1,
+            "title": "Relpath",
+            "type": "string"
+          },
+          "sha256": {
+            "anyOf": [
+              {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Sha256"
+          }
+        },
+        "required": [
+          "relpath",
+          "bytes"
+        ],
+        "title": "PrunedItem",
+        "type": "object"
+      },
+      "RegisterRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "data_mounts": {
+            "additionalProperties": {
+              "type": "boolean"
+            },
+            "description": "protocol_root -> mounted (display only)",
+            "title": "Data Mounts",
+            "type": "object"
+          },
+          "device": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Device"
+          },
+          "device_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Device Name"
+          },
+          "device_uuid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Device Uuid"
+          },
+          "host": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Host"
+          },
+          "kinds": {
+            "items": {
+              "$ref": "#/components/schemas/JobKind"
+            },
+            "title": "Kinds",
+            "type": "array"
+          },
+          "runner_id": {
+            "minLength": 1,
+            "title": "Runner Id",
+            "type": "string"
+          },
+          "runtime": {
+            "$ref": "#/components/schemas/RuntimeManifest"
+          }
+        },
+        "required": [
+          "runner_id",
+          "runtime"
+        ],
+        "title": "RegisterRequest",
+        "type": "object"
+      },
+      "RegisterResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "allowed_kinds": {
+            "items": {
+              "$ref": "#/components/schemas/JobKind"
+            },
+            "title": "Allowed Kinds",
+            "type": "array"
+          },
+          "artifact_store": {
+            "minLength": 1,
+            "title": "Artifact Store",
+            "type": "string"
+          },
+          "core_contract": {
+            "minLength": 1,
+            "title": "Core Contract",
+            "type": "string"
+          },
+          "envelope_version": {
+            "title": "Envelope Version",
+            "type": "integer"
+          },
+          "heartbeat_s": {
+            "exclusiveMinimum": 0,
+            "title": "Heartbeat S",
+            "type": "number"
+          },
+          "lease_ttl_s": {
+            "exclusiveMinimum": 0,
+            "title": "Lease Ttl S",
+            "type": "number"
+          },
+          "max_batch_messages": {
+            "minimum": 1,
+            "title": "Max Batch Messages",
+            "type": "integer"
+          },
+          "max_body_bytes": {
+            "minimum": 1,
+            "title": "Max Body Bytes",
+            "type": "integer"
+          },
+          "progress_interval_s": {
+            "exclusiveMinimum": 0,
+            "title": "Progress Interval S",
+            "type": "number"
+          },
+          "runner_id": {
+            "minLength": 1,
+            "title": "Runner Id",
+            "type": "string"
+          },
+          "runtime_verification": {
+            "default": "unknown",
+            "enum": [
+              "verified",
+              "mismatch",
+              "unknown"
+            ],
+            "title": "Runtime Verification",
+            "type": "string"
+          },
+          "server_time": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Server Time"
+          }
+        },
+        "required": [
+          "runner_id",
+          "core_contract",
+          "envelope_version",
+          "lease_ttl_s",
+          "heartbeat_s",
+          "progress_interval_s",
+          "max_batch_messages",
+          "max_body_bytes",
+          "allowed_kinds",
+          "artifact_store"
+        ],
+        "title": "RegisterResponse",
+        "type": "object"
+      },
+      "ResultCommit": {
+        "additionalProperties": false,
+        "properties": {
+          "artifact_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Artifact Ids",
+            "type": "array"
+          },
+          "attempt": {
+            "minimum": 1,
+            "title": "Attempt",
+            "type": "integer"
+          },
+          "cancel_observed": {
+            "default": false,
+            "title": "Cancel Observed",
+            "type": "boolean"
+          },
+          "device_uuid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Device Uuid"
+          },
+          "finished_at": {
+            "minLength": 1,
+            "title": "Finished At",
+            "type": "string"
+          },
+          "payload_digest": {
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "title": "Payload Digest",
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/JobResult"
+          },
+          "runner_id": {
+            "minLength": 1,
+            "title": "Runner Id",
+            "type": "string"
+          },
+          "runner_shutting_down": {
+            "default": false,
+            "title": "Runner Shutting Down",
+            "type": "boolean"
+          },
+          "started_at": {
+            "minLength": 1,
+            "title": "Started At",
+            "type": "string"
+          },
+          "ticket": {
+            "minLength": 1,
+            "title": "Ticket",
+            "type": "string"
+          }
+        },
+        "required": [
+          "runner_id",
+          "attempt",
+          "ticket",
+          "result",
+          "started_at",
+          "finished_at",
+          "payload_digest"
+        ],
+        "title": "ResultCommit",
+        "type": "object"
+      },
+      "ResultResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "job_status": {
+            "minLength": 1,
+            "title": "Job Status",
+            "type": "string"
+          },
+          "outcome": {
+            "minLength": 1,
+            "title": "Outcome",
+            "type": "string"
+          },
+          "response_digest": {
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "title": "Response Digest",
+            "type": "string"
+          },
+          "run_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Run Status"
+          }
+        },
+        "required": [
+          "outcome",
+          "job_status",
+          "response_digest"
+        ],
+        "title": "ResultResponse",
+        "type": "object"
+      },
+      "ResumeLocation": {
+        "additionalProperties": false,
+        "properties": {
+          "runner_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Runner Id"
+          },
+          "store": {
+            "enum": [
+              "runner_local",
+              "server_store",
+              "core_local"
+            ],
+            "title": "Store",
+            "type": "string"
+          },
+          "uri": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Uri"
+          }
+        },
+        "required": [
+          "store"
+        ],
+        "title": "ResumeLocation",
+        "type": "object"
+      },
+      "RunnerAuxCode": {
+        "description": "Further codes named by the design (not part of the mandated enum).",
+        "enum": [
+          "RUNNER_BUSY",
+          "CHECKPOINT_REPORT_REJECTED",
+          "PAYLOAD_TOO_LARGE",
+          "VALIDATION_ERROR",
+          "PRUNE_REQUEST_NOT_FOUND",
+          "PRUNE_REPORT_CONFLICT"
+        ],
+        "type": "string"
+      },
+      "RunnerProtocolError": {
+        "description": "Machine codes of Error.code specific to the runner protocol.",
+        "enum": [
+          "KIND_NOT_ALLOWED",
+          "LEASE_LOST",
+          "RESULT_CONFLICT",
+          "PROCESSING",
+          "COMMIT_FAILED",
+          "RUNNER_MISMATCH",
+          "VERSION_MISMATCH",
+          "TICKET_INVALID",
+          "CORE_URL_INSECURE",
+          "AUTH_REQUIRED",
+          "ACCESS_DENIED"
+        ],
+        "type": "string"
+      },
+      "RuntimeManifest": {
+        "additionalProperties": false,
+        "description": "Runtime manifest reported at register (WP-2 section 2.5, R6).",
+        "properties": {
+          "cuda": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Cuda"
+          },
+          "envelope_version": {
+            "title": "Envelope Version",
+            "type": "integer"
+          },
+          "mbnas_contracts": {
+            "minLength": 1,
+            "title": "Mbnas Contracts",
+            "type": "string"
+          },
+          "mbnas_model_runtime": {
+            "minLength": 1,
+            "title": "Mbnas Model Runtime",
+            "type": "string"
+          },
+          "mbnas_runner": {
+            "minLength": 1,
+            "title": "Mbnas Runner",
+            "type": "string"
+          },
+          "operator_files_sha256": {
+            "additionalProperties": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "description": "operator file name -> sha256 of its bytes",
+            "title": "Operator Files Sha256",
+            "type": "object"
+          },
+          "parser_source_sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Parser Source Sha256",
+            "type": "string"
+          },
+          "python": {
+            "minLength": 1,
+            "title": "Python",
+            "type": "string"
+          },
+          "torch": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Torch"
+          }
+        },
+        "required": [
+          "mbnas_runner",
+          "mbnas_model_runtime",
+          "mbnas_contracts",
+          "python",
+          "envelope_version",
+          "operator_files_sha256",
+          "parser_source_sha256"
+        ],
+        "title": "RuntimeManifest",
+        "type": "object"
+      },
+      "SplitRef": {
+        "additionalProperties": false,
+        "properties": {
+          "allowed": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "final_eval only: whether the final split may be read",
+            "title": "Allowed"
+          },
+          "manifest_hash": {
+            "minLength": 1,
+            "title": "Manifest Hash",
+            "type": "string"
+          },
+          "protocol_root": {
+            "minLength": 1,
+            "title": "Protocol Root",
+            "type": "string"
+          }
+        },
+        "required": [
+          "protocol_root",
+          "manifest_hash"
+        ],
+        "title": "SplitRef",
+        "type": "object"
+      },
+      "StartRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "attempt": {
+            "minimum": 1,
+            "title": "Attempt",
+            "type": "integer"
+          },
+          "device_uuid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Device Uuid"
+          },
+          "runner_id": {
+            "minLength": 1,
+            "title": "Runner Id",
+            "type": "string"
+          },
+          "ticket": {
+            "minLength": 1,
+            "title": "Ticket",
+            "type": "string"
+          }
+        },
+        "required": [
+          "runner_id",
+          "attempt",
+          "ticket"
+        ],
+        "title": "StartRequest",
+        "type": "object"
+      },
+      "StartResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "lease_expires_at": {
+            "minLength": 1,
+            "title": "Lease Expires At",
+            "type": "string"
+          },
+          "server_time": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Server Time"
+          },
+          "started_at": {
+            "minLength": 1,
+            "title": "Started At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "started_at",
+          "lease_expires_at"
+        ],
+        "title": "StartResponse",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "description": "Runner principal token (scope runner), bound to one runner_id",
+        "scheme": "bearer",
+        "type": "http"
+      }
+    }
+  },
+  "info": {
+    "description": "Remote queue protocol between the MBNAS core and a runner (envelope_version 1). Generated from mbnas_contracts.runner_protocol; do not edit by hand.",
+    "title": "MBNAS Runner Protocol",
+    "version": "1.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/core/v1/runner/checkpoints/{checkpoint_id}/pruned": {
+      "post": {
+        "operationId": "runnerCheckpointPruned",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "checkpoint_id",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PruneReport"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PruneAck"
+                }
+              }
+            },
+            "description": "Recorded, or replayed for an already reported request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "AUTH_REQUIRED"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "ACCESS_DENIED, RUNNER_MISMATCH or TICKET_INVALID"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "PRUNE_REQUEST_NOT_FOUND"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "PRUNE_REPORT_CONFLICT"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Report the outcome of a prune order (the core marks the checkpoint PRUNED)",
+        "tags": [
+          "runner"
+        ],
+        "x-endpoint": "E11"
+      }
+    },
+    "/core/v1/runner/claim": {
+      "post": {
+        "operationId": "runnerClaim",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClaimRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimResponse"
+                }
+              }
+            },
+            "description": "Leased job (also re-delivered after a lost response)"
+          },
+          "204": {
+            "description": "No job available"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "KIND_NOT_ALLOWED"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "AUTH_REQUIRED"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "ACCESS_DENIED, RUNNER_MISMATCH or TICKET_INVALID"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "RUNNER_BUSY"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Lease the next job",
+        "tags": [
+          "runner"
+        ],
+        "x-endpoint": "E2"
+      }
+    },
+    "/core/v1/runner/deregister": {
+      "post": {
+        "operationId": "runnerDeregister",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeregisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Deregistered"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "AUTH_REQUIRED"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "ACCESS_DENIED, RUNNER_MISMATCH or TICKET_INVALID"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Graceful shutdown",
+        "tags": [
+          "runner"
+        ],
+        "x-endpoint": "E10"
+      }
+    },
+    "/core/v1/runner/jobs/{job_id}/ack": {
+      "post": {
+        "operationId": "runnerAck",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AckRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Acknowledged"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "AUTH_REQUIRED"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "ACCESS_DENIED, RUNNER_MISMATCH or TICKET_INVALID"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Unknown job/attempt"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Acknowledge receipt of the result response",
+        "tags": [
+          "runner"
+        ],
+        "x-endpoint": "E9"
+      }
+    },
+    "/core/v1/runner/jobs/{job_id}/artifacts": {
+      "post": {
+        "operationId": "runnerArtifacts",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArtifactReport"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArtifactResponse"
+                }
+              }
+            },
+            "description": "Registered"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "AUTH_REQUIRED"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "ACCESS_DENIED, RUNNER_MISMATCH or TICKET_INVALID"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "LEASE_LOST"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Invalid report"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Register evaluation artifacts (batch)",
+        "tags": [
+          "runner"
+        ],
+        "x-endpoint": "E7"
+      }
+    },
+    "/core/v1/runner/jobs/{job_id}/checkpoints": {
+      "post": {
+        "operationId": "runnerCheckpoint",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckpointReport"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckpointResponse"
+                }
+              }
+            },
+            "description": "Registered"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "AUTH_REQUIRED"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "ACCESS_DENIED, RUNNER_MISMATCH or TICKET_INVALID"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "LEASE_LOST"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "CHECKPOINT_REPORT_REJECTED"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Register a verified checkpoint",
+        "tags": [
+          "runner"
+        ],
+        "x-endpoint": "E6"
+      }
+    },
+    "/core/v1/runner/jobs/{job_id}/heartbeat": {
+      "post": {
+        "operationId": "runnerHeartbeat",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HeartbeatRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HeartbeatResponse"
+                }
+              }
+            },
+            "description": "Lease extended"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "AUTH_REQUIRED"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "ACCESS_DENIED, RUNNER_MISMATCH or TICKET_INVALID"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "LEASE_LOST"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Extend the lease and read control flags",
+        "tags": [
+          "runner"
+        ],
+        "x-endpoint": "E4"
+      }
+    },
+    "/core/v1/runner/jobs/{job_id}/progress": {
+      "post": {
+        "operationId": "runnerProgress",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProgressBatch"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProgressResponse"
+                }
+              }
+            },
+            "description": "Accepted"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "AUTH_REQUIRED"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "ACCESS_DENIED, RUNNER_MISMATCH or TICKET_INVALID"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "LEASE_LOST"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "Invalid batch"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Report progress (batch)",
+        "tags": [
+          "runner"
+        ],
+        "x-endpoint": "E5"
+      }
+    },
+    "/core/v1/runner/jobs/{job_id}/result": {
+      "post": {
+        "operationId": "runnerResult",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResultCommit"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultResponse"
+                }
+              }
+            },
+            "description": "Committed or replayed"
+          },
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "PROCESSING (Retry-After: 2)"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "AUTH_REQUIRED"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "ACCESS_DENIED, RUNNER_MISMATCH or TICKET_INVALID"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "RESULT_CONFLICT or LEASE_LOST"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "COMMIT_FAILED"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Commit the job result (idempotent)",
+        "tags": [
+          "runner"
+        ],
+        "x-endpoint": "E8"
+      }
+    },
+    "/core/v1/runner/jobs/{job_id}/start": {
+      "post": {
+        "operationId": "runnerStartJob",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StartResponse"
+                }
+              }
+            },
+            "description": "Started"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "AUTH_REQUIRED"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "ACCESS_DENIED, RUNNER_MISMATCH or TICKET_INVALID"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "LEASE_LOST"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Start the attempt (billing starts)",
+        "tags": [
+          "runner"
+        ],
+        "x-endpoint": "E3"
+      }
+    },
+    "/core/v1/runner/register": {
+      "post": {
+        "operationId": "runnerRegister",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResponse"
+                }
+              }
+            },
+            "description": "Registered"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "AUTH_REQUIRED"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "ACCESS_DENIED, RUNNER_MISMATCH or TICKET_INVALID"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            },
+            "description": "VERSION_MISMATCH"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Register or refresh a runner",
+        "tags": [
+          "runner"
+        ],
+        "x-endpoint": "E1"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "runner"
+    }
+  ]
+}

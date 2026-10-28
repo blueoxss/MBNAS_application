@@ -1,0 +1,13 @@
+--- a/tests/owner/unit/test_db.py
++++ b/tests/owner/unit/test_db.py
+@@ -44,7 +44,9 @@
+     assert {"runs", "validations", "candidates", "evaluations", "generations", "jobs", "workers", "events",
+             "artifacts", "cost_ledger", "checkpoints", "meta"} <= tables
+     connect(settings).close()  # schema re-application is idempotent
+-    assert db.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == "5"
++    assert db.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == "6"
++    # DD-A66 DB v6 (additive): the retention prune round-trip requests
++    assert "prune_requests" in tables
+     # WP-2 DB v4 (contract §1.1, design §12): the four runner-protocol tables
+     assert {"runners", "principals", "idempotent_responses", "artifact_locations"} <= tables
+     # WP-4 DB v5 (additive): configuration revisions (F5d) and the per-database salt of the opaque public ids

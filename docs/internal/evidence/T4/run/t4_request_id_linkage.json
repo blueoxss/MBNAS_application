@@ -1,0 +1,65 @@
+{
+ "harness_request_ids": 84,
+ "echoed_by_gateway": 84,
+ "sources": {
+  "audit": {
+   "side": "gateway",
+   "ids_found": 5,
+   "sample": [
+    "t4_nvml-09f295e1e3fe4f33939e",
+    "t4_nvml-8210b8026d634c10b8ba",
+    "t4_nvml-e1088f42a02e4d3abab3",
+    "t4_nvml-f5341f6b59fb41c99eb3"
+   ]
+  },
+  "gateway_log": {
+   "side": "gateway",
+   "ids_found": 0,
+   "sample": []
+  },
+  "core_log": {
+   "side": "core",
+   "ids_found": 0,
+   "sample": []
+  },
+  "owner_worker_log": {
+   "side": "core",
+   "ids_found": 0,
+   "sample": []
+  },
+  "runner_log": {
+   "side": "core",
+   "ids_found": 0,
+   "sample": []
+  },
+  "core_db": {
+   "side": "core",
+   "ids_found": 4,
+   "by_table": {
+    "events": 4
+   },
+   "sample": [
+    "t4_nvml-232c18910b17403cb9f3",
+    "t4_nvml-b764dc481ec642b99df7",
+    "t4_nvml-b7d06560079c4e04bbf3",
+    "t4_strict-0febc17afb254bcfb352"
+   ]
+  }
+ },
+ "error_bodies_carrying_the_same_request_id": [
+  {
+   "step": "decision-final-retrain",
+   "request_id": "t4_nvml-f2abd37a37c94893b5c4",
+   "code": "INVALID_STATE"
+  },
+  {
+   "step": "train-create",
+   "request_id": "t4_strict-4ddfacc4a0c344799b0e",
+   "code": "TRAINING_PROTOCOL_INVALID"
+  }
+ ],
+ "linked_gateway_and_core_records": {
+  "count": 0,
+  "sample": []
+ }
+}

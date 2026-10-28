@@ -1,0 +1,18 @@
+--- a/application/docs/implementation_20261021/EVALUATION.md
++++ b/application/docs/implementation_20261021/EVALUATION.md
+@@ -171,3 +171,15 @@
+ | browser | 25% | 96 |
+ | regression | 25% | 98 |
+ | documentation | 20% | 98 |
++
++## 최종 트리 기준 갱신 (2026-10-26, DD-46)
++
++위 「Final ten-perspective matrix」와 criterion 표는 **2026-10-21 구현 단계 시점의 기록**이며 이력으로 그대로 둔다. 그 뒤 브랜치 `work/mbnas-integration-20261021`에서는 설계자 결정 DD-1~DD-47에 따라 `application/docs/integration_20261021/criteria/S01–S11.json`을 기준셋으로 하는 새 평가 루프가 진행 중이며, 각 반복의 점수·결함·증거는 `integration_20261021/WORKLOG.md`와 `evidence_impl/S0x_iterN_eval/`에 있다. 이 절은 점수를 새로 매기지 않는다.
++
++이 문서 작성 이후 화면에서 달라진 점은 다음과 같다.
++
++- 진단 이미지에 페이지 안 라이트박스가 생겼다(DD-44): '확대' 버튼 또는 이미지 클릭, 확대/축소·자연 크기·창에 맞춤, 같은 artifact URL과 sha256 표시, 원본 새 탭 링크 유지, Esc/닫기로 닫고 초점을 '확대' 버튼으로 되돌린다. 후보 대화상자 위에서 열리므로 Esc는 가장 안쪽 모달만 닫는다(S06_fix1에서 `Modal.tsx`를 고쳤다).
++- 콘솔 run 안에서 두 후보를 고르면 기록된 실행 조건 표가 나온다(DD-45): dataset yaml(run protocol)·split hash·rung·누적 epoch·protocol_hash·device·precision·checkpoint sha256과 AP·Recall·latency·size·fitness를 평가 행에 기록된 값 그대로 보이고, 조건이 다르면 경고하며, 기록이 없으면 '기록 없음'·미평가이면 '미평가'로 둔다(추정 없음).
++- 'Run 비교' 내비게이션 항목은 'Archive run 비교'로 바뀌었다. 이 화면은 NAS archive 조회 전용이다.
++
++화면 캡처는 `SCREENSHOTS.md`의 「최종 모니터링 화면 추가」에 있다. 이 문서의 아래 한계는 그대로다: 실제 CUDA worker 흐름은 최종 코드에서 재실행하지 못했고(DD-47, 캠페인 종료 후 WP-G1), 조건 비교 표의 캡처는 mock API의 합성 값이다.

@@ -1,0 +1,325 @@
+"""WP-2A unit-level self-tests (scratch, not part of tests/): fencing, idempotent result commit, ticket verification,
+sweeper reclaim, cancel acceptance, auth scopes. Drives the real core app over HTTP (TestClient) with the stub
+handlers executed in-process (the role of a runner)."""
+from __future__ import annotations
+
+import io
+import sqlite3
+import time
+
+import harness
+import pytest
+
+from mbnas_contracts.jobs_protocol import Emitter
+from mbnas_contracts.runner_protocol import compute_payload_digest
+from mbnas_contracts.schemas.jobs import JobResult, JobStatus
+from mbnas_contracts.util.time import iso_after, utcnow_iso
+from mbnas_core.db import repo
+from mbnas_core.db.core import connect, tx
+from mbnas_core.owner_worker import child
+from mbnas_core.runner_api import auth, tickets
+from mbnas_core.runner_api.sweeper import sweep_once
+
+RUNTIME = {"mbnas_runner": "0.1.0", "mbnas_model_runtime": "0.1.0", "mbnas_contracts": "0.1.0", "python": "3.10",
+           "envelope_version": 1, "operator_files_sha256": {}, "parser_source_sha256": "0" * 64}
+
+
+@pytest.fixture
+def env(client, api_settings, protocol, inline_worker):
+    conn = connect(api_settings)
+    _, tok = auth.create_principal(conn, "runner", runner_id="R1")
+    _, tok2 = auth.create_principal(conn, "runner", runner_id="R2")
+    _, srv = auth.create_principal(conn, "server")
+    _, adm = auth.create_principal(conn, "admin")
+    run_id, _ = harness.validate_and_run(client, protocol)
+    inline_worker.cfg.kinds, inline_worker.cfg.generation_only = ["PROPOSE_GENERATION"], None
+    harness.drain(inline_worker)  # owner worker: proposals only
+    yield {"conn": conn, "tok": tok, "tok2": tok2, "srv": srv, "adm": adm, "run_id": run_id, "client": client,
+           "settings": api_settings}
+    conn.close()
+
+
+def H(tok):
+    return {"Authorization": f"Bearer {tok}"}
+
+
+def register(c, tok, rid="R1"):
+    r = c.post("/core/v1/runner/register", json={"runner_id": rid, "runtime": RUNTIME, "device": "dev0",
+                                                 "device_uuid": f"GPU-{rid}", "device_name": "fake"}, headers=H(tok))
+    assert r.status_code == 200, r.text
+    return r.json()
+
+
+def claim(c, tok, rid="R1"):
+    r = c.post("/core/v1/runner/claim", json={"runner_id": rid}, headers=H(tok))
+    assert r.status_code in (200, 204), r.text
+    return r.json() if r.status_code == 200 else None
+
+
+def run_stub(settings, job_id, stop="/nonexistent.stop"):
+    spec = child.load_context(settings.db_path, job_id, stop, native=False)
+    return child.run_job(spec, Emitter(job_id, io.StringIO(), stop))
+
+
+def commit_body(cl, result, started, finished, **kw):
+    w = {"runner_id": cl["envelope"]["fence"]["runner_id"], "attempt": cl["envelope"]["job"]["attempt"], "ticket": cl["ticket"]}
+    dig = compute_payload_digest(result, started, finished, kw.get("cancel_observed", False), kw.get("artifact_ids", []))
+    return {**w, "result": result.model_dump(mode="json"), "started_at": started, "finished_at": finished,
+            "payload_digest": dig, **kw}
+
+
+def write(cl):
+    return {"runner_id": cl["envelope"]["fence"]["runner_id"], "attempt": cl["envelope"]["job"]["attempt"], "ticket": cl["ticket"]}
+
+
+def test_register_claim_envelope_and_filters(env):
+    c, tok = env["client"], env["tok"]
+    reg = register(c, tok)
+    assert reg["allowed_kinds"] == sorted(["BASELINE_TRAIN", "CANDIDATE_TRAIN", "FINAL_RETRAIN", "EVALUATE", "BENCHMARK"])
+    assert reg["max_body_bytes"] == 32 << 20
+    bad = c.post("/core/v1/runner/claim", json={"runner_id": "R1", "kinds": ["PROPOSE_GENERATION"]}, headers=H(tok))
+    assert bad.status_code == 400 and bad.json()["code"] == "KIND_NOT_ALLOWED"
+    cl = claim(c, tok)
+    env_ = cl["envelope"]
+    params = env_["job"]["spec"]["params"]
+    assert "admission" not in params and "fitness_weights" not in params.get("stage", {})
+    assert env_["job"]["kind"] != "PROPOSE_GENERATION" and env_["fence"]["attempt"] == env_["job"]["attempt"] == 1
+    # claim response lost -> same job, same attempt (E2(a))
+    again = claim(c, tok)
+    assert again["envelope"]["job"]["job_id"] == env_["job"]["job_id"] and again["envelope"]["job"]["attempt"] == 1
+    assert repo.get_job(env["conn"], env_["job"]["job_id"])["attempt"] == 1
+
+
+def test_auth_scopes_and_runner_binding(env):
+    c = env["client"]
+    register(c, env["tok"])
+    assert c.post("/core/v1/runner/claim", json={"runner_id": "R1"}, headers=H(env["srv"])).status_code == 403
+    r = c.post("/core/v1/runner/claim", json={"runner_id": "R1"}, headers=H(env["tok2"]))
+    assert r.status_code == 403 and r.json()["code"] == "RUNNER_MISMATCH"
+    assert c.post("/core/v1/runner/claim", json={"runner_id": "R1"}).status_code == 401
+    assert c.post("/core/v1/runner/claim", json={"runner_id": "R1"}, headers=H(env["tok"] + "x")).status_code == 401
+    assert c.get("/core/v1/owner/runners", headers=H(env["tok"])).status_code == 403
+    rr = c.get("/core/v1/owner/runners", headers=H(env["adm"]))
+    assert rr.status_code == 200 and [x["id"] for x in rr.json()["runners"]] == ["R1", "R2"]
+    pr = c.get("/core/v1/owner/principals", headers=H(env["adm"])).json()["principals"]
+    assert all("token_hash" not in p for p in pr) and len(pr) == 4
+    # rotation grace then expiry
+    pid = next(p["id"] for p in pr if p.get("runner_id") == "R1")
+    _, new_tok = auth.rotate_principal(env["conn"], pid, grace_s=0.5)
+    assert c.post("/core/v1/runner/register", json={"runner_id": "R1", "runtime": RUNTIME}, headers=H(env["tok"])).status_code == 200
+    time.sleep(0.7)
+    assert c.post("/core/v1/runner/register", json={"runner_id": "R1", "runtime": RUNTIME}, headers=H(env["tok"])).status_code == 401
+    assert c.post("/core/v1/runner/register", json={"runner_id": "R1", "runtime": RUNTIME}, headers=H(new_tok)).status_code == 200
+    auth.revoke_principal(env["conn"], next(p["id"] for p in auth.list_principals(env["conn"]) if p.get("rotated_from") == pid))
+    assert c.post("/core/v1/runner/register", json={"runner_id": "R1", "runtime": RUNTIME}, headers=H(new_tok)).status_code == 401
+
+
+def test_ticket_issue_verify_unit():
+    k = b"k" * 32
+    t = tickets.issue(k, "job-1", 2, "L0", "R1", int(time.time()) + 60)
+    assert tickets.verify(k, t, job_id="job-1", attempt=2, runner_id="R1")["stage"] == "L0"
+    from mbnas_contracts.errors import ApiError
+    for kw in ({"job_id": "job-2", "attempt": 2, "runner_id": "R1"}, {"job_id": "job-1", "attempt": 1, "runner_id": "R1"},
+               {"job_id": "job-1", "attempt": 2, "runner_id": "R2"}):
+        with pytest.raises(ApiError) as e:
+            tickets.verify(k, t, **kw)
+        assert e.value.code == "TICKET_INVALID"
+    with pytest.raises(ApiError):
+        tickets.verify(b"other" * 8, t, job_id="job-1", attempt=2, runner_id="R1")
+    with pytest.raises(ApiError):
+        tickets.verify(k, t, job_id="job-1", attempt=2, runner_id="R1", now=time.time() + 120)
+    with pytest.raises(ApiError):
+        tickets.verify(k, t[:-1] + ("0" if t[-1] != "0" else "1"), job_id="job-1", attempt=2, runner_id="R1")
+
+
+def test_full_cycle_idempotent_commit_and_ack(env):
+    c, tok, conn = env["client"], env["tok"], env["conn"]
+    register(c, tok)
+    cl = claim(c, tok)
+    jid = cl["envelope"]["job"]["job_id"]
+    # forged ticket
+    bad = {**write(cl), "ticket": "v1.x.y"}
+    assert c.post(f"/core/v1/runner/jobs/{jid}/start", json=bad, headers=H(tok)).json()["code"] == "TICKET_INVALID"
+    st = c.post(f"/core/v1/runner/jobs/{jid}/start", json=write(cl), headers=H(tok))
+    assert st.status_code == 200, st.text
+    again = c.post(f"/core/v1/runner/jobs/{jid}/start", json=write(cl), headers=H(tok))  # retried start: same answer
+    assert again.status_code == 200 and again.json()["started_at"] == st.json()["started_at"]
+    assert repo.get_job(conn, jid)["status"] == "RUNNING"
+    hb = c.post(f"/core/v1/runner/jobs/{jid}/heartbeat", json={**write(cl), "progress": {"epoch": 1}}, headers=H(tok))
+    assert hb.status_code == 200 and hb.json()["control"]["action"] is None, hb.text
+    pg = c.post(f"/core/v1/runner/jobs/{jid}/progress", json={**write(cl), "seq_start": 1, "messages": [
+        {"type": "progress", "job_id": jid, "ts": utcnow_iso(), "epoch": 1, "payload": {"loss": 0.5}}]}, headers=H(tok))
+    assert pg.status_code == 200 and pg.json() == {"accepted_seq": 1}, pg.text
+    gs = c.post(f"/core/v1/runner/jobs/{jid}/progress", json={**write(cl), "seq_start": 2, "messages": [
+        {"type": "progress", "job_id": jid, "ts": utcnow_iso(), "payload": {"generation_summary": {}}}]}, headers=H(tok))
+    assert gs.status_code == 422
+    res = run_stub(env["settings"], jid)
+    assert res.status == JobStatus.SUCCEEDED
+    started = st.json()["started_at"]
+    body = commit_body(cl, res, started, utcnow_iso())
+    n_costs = len(repo.list_costs(conn, env["run_id"]))
+    r1 = c.post(f"/core/v1/runner/jobs/{jid}/result", json=body, headers=H(tok))
+    assert r1.status_code == 200 and r1.json()["outcome"] == "SUCCEEDED", r1.text
+    assert len(repo.list_costs(conn, env["run_id"])) == n_costs + 1
+    seq = repo.get_run(conn, env["run_id"])["last_seq"]
+    r2 = c.post(f"/core/v1/runner/jobs/{jid}/result", json=body, headers=H(tok))
+    assert r2.status_code == 200 and r2.json() == r1.json()
+    assert len(repo.list_costs(conn, env["run_id"])) == n_costs + 1 and repo.get_run(conn, env["run_id"])["last_seq"] == seq
+    other = commit_body(cl, res.model_copy(update={"message": "different"}), started, utcnow_iso())
+    r3 = c.post(f"/core/v1/runner/jobs/{jid}/result", json=other, headers=H(tok))
+    assert r3.status_code == 409 and r3.json()["code"] == "RESULT_CONFLICT"
+    wrong = {**body, "payload_digest": "sha256:" + "0" * 64}
+    assert c.post(f"/core/v1/runner/jobs/{jid}/result", json=wrong, headers=H(tok)).status_code == 422
+    ak = c.post(f"/core/v1/runner/jobs/{jid}/ack", json=write(cl), headers=H(tok))
+    assert ak.status_code == 204
+    assert conn.execute("SELECT acked_at FROM idempotent_responses WHERE job_id=?", (jid,)).fetchone()[0]
+
+
+def test_fencing_stale_attempt_cannot_write(env):
+    c, tok, conn, s = env["client"], env["tok"], env["conn"], env["settings"]
+    register(c, tok)
+    cl = claim(c, tok)
+    jid = cl["envelope"]["job"]["job_id"]
+    assert c.post(f"/core/v1/runner/jobs/{jid}/start", json=write(cl), headers=H(tok)).status_code == 200
+    # expire and re-lease by the same runner -> attempt 2
+    sweep_once(conn, s, now=iso_after(utcnow_iso(), 3600))
+    assert repo.get_job(conn, jid)["status"] == "QUEUED"
+    cl2 = claim(c, tok)
+    while cl2 and cl2["envelope"]["job"]["job_id"] != jid:  # another job came first: put it back
+        pytest.skip("another job leased first (ordering)")
+    assert cl2["envelope"]["job"]["attempt"] == 2
+    for path, extra in (("heartbeat", {}), ("start", {})):
+        r = c.post(f"/core/v1/runner/jobs/{jid}/{path}", json={**write(cl), **extra}, headers=H(tok))
+        assert r.status_code == 409 and r.json()["code"] == "LEASE_LOST", (path, r.text)
+    # repo level: attempt-fenced writes
+    now = utcnow_iso()
+    assert not repo.renew_lease(conn, jid, "R1", now, 30, attempt=1)
+    assert repo.renew_lease(conn, jid, "R1", now, 30, attempt=2)
+    assert repo.renew_lease(conn, jid, "R1", now, 30)  # None keeps old behaviour
+    with tx(conn):
+        assert not repo.mark_job_running(conn, jid, "R1", attempt=1)
+    assert repo.get_job(conn, jid)["status"] == "LEASED" and repo.get_job(conn, jid)["attempt"] == 2
+
+
+def test_sweeper_reclaim_and_late_result_lease_lost(env):
+    c, tok, conn, s = env["client"], env["tok"], env["conn"], env["settings"]
+    register(c, tok)
+    cl = claim(c, tok)
+    jid = cl["envelope"]["job"]["job_id"]
+    st = c.post(f"/core/v1/runner/jobs/{jid}/start", json=write(cl), headers=H(tok)).json()
+    with tx(conn):
+        conn.execute("UPDATE jobs SET heartbeat_at = ? WHERE id = ?", (iso_after(st["started_at"], 3), jid))
+    rep = sweep_once(conn, s, now=iso_after(utcnow_iso(), 3600))
+    assert jid in rep["reclaimed"] and repo.get_job(conn, jid)["status"] == "QUEUED"
+    lost = [r for r in repo.list_costs(conn, env["run_id"]) if r["job_id"] == jid]
+    assert len(lost) == 1 and lost[0]["kind"] == "failed" and lost[0]["gpu_seconds"] == pytest.approx(3.0, abs=0.01)
+    hb = c.post(f"/core/v1/runner/jobs/{jid}/heartbeat", json=write(cl), headers=H(tok))
+    assert hb.status_code == 409 and hb.json()["code"] == "LEASE_LOST"
+    res = run_stub(s, jid)
+    body = commit_body(cl, res, st["started_at"], iso_after(st["started_at"], 8))
+    r = c.post(f"/core/v1/runner/jobs/{jid}/result", json=body, headers=H(tok))
+    assert r.status_code == 409 and r.json()["code"] == "LEASE_LOST", r.text
+    rows = [x for x in repo.list_costs(conn, env["run_id"]) if x["job_id"] == jid]
+    assert len(rows) == 1 and rows[0]["gpu_seconds"] == pytest.approx(8.0, abs=0.01)
+    again = c.post(f"/core/v1/runner/jobs/{jid}/result", json=body, headers=H(tok))
+    assert again.status_code == 409 and again.json()["code"] == "LEASE_LOST"
+    assert len([x for x in repo.list_costs(conn, env["run_id"]) if x["job_id"] == jid]) == 1
+
+
+def test_processing_orphan_202_then_cleared(env):
+    c, tok, conn, s = env["client"], env["tok"], env["conn"], env["settings"]
+    register(c, tok)
+    cl = claim(c, tok)
+    jid = cl["envelope"]["job"]["job_id"]
+    st = c.post(f"/core/v1/runner/jobs/{jid}/start", json=write(cl), headers=H(tok)).json()
+    res = run_stub(s, jid)
+    body = commit_body(cl, res, st["started_at"], utcnow_iso())
+    with tx(conn):
+        conn.execute("INSERT INTO idempotent_responses (job_id, attempt, runner_id, payload_digest, state, processing_since)"
+                     " VALUES (?, 1, 'R1', ?, 'PROCESSING', ?)", (jid, body["payload_digest"], utcnow_iso()))
+    r = c.post(f"/core/v1/runner/jobs/{jid}/result", json=body, headers=H(tok))
+    assert r.status_code == 202 and r.headers["retry-after"] == "2" and r.json()["code"] == "PROCESSING"
+    assert sweep_once(conn, s, now=iso_after(utcnow_iso(), 61))["processing_cleared"] == 1
+    r = c.post(f"/core/v1/runner/jobs/{jid}/result", json=body, headers=H(tok))
+    assert r.status_code in (200, 409), r.text  # 409 only if the +61 s sweep also expired the lease
+
+
+def test_cancel_accepts_result_as_cancelled_with_discarded(env):
+    c, tok, conn, s = env["client"], env["tok"], env["conn"], env["settings"]
+    register(c, tok)
+    cl = claim(c, tok)
+    jid = cl["envelope"]["job"]["job_id"]
+    st = c.post(f"/core/v1/runner/jobs/{jid}/start", json=write(cl), headers=H(tok)).json()
+    res = run_stub(s, jid)
+    assert c.post(f"/api/v1/runs/{env['run_id']}/cancel", json={}, headers=harness.auth()).status_code == 200
+    hb = c.post(f"/core/v1/runner/jobs/{jid}/heartbeat", json=write(cl), headers=H(tok)).json()
+    assert hb["control"]["action"] == "cancel" and hb["control"]["stop_requested"] is True
+    r = c.post(f"/core/v1/runner/jobs/{jid}/result", json=commit_body(cl, res, st["started_at"], utcnow_iso()), headers=H(tok))
+    assert r.status_code == 200 and r.json()["outcome"] == "CANCELLED", r.text
+    job = repo.get_job(conn, jid)
+    assert job["status"] == "CANCELLED" and job["error"]["discarded_result"]["status"] == "SUCCEEDED"
+    assert repo.get_run(conn, env["run_id"])["status"] == "CANCELLED"
+
+
+def test_body_limit_runner_routes_32mib_others_1mib(env):
+    c, tok = env["client"], env["tok"]
+    big = "x" * (2 << 20)
+    r = c.post("/core/v1/runner/register", content=('{"runner_id":"R1","pad":"' + big + '"}').encode(),
+               headers={**H(tok), "content-type": "application/json"})
+    assert r.status_code == 422  # passed the 32 MiB limit, rejected by the model (extra field)
+    r = c.post("/api/v1/protocols/validate", content=('{"pad":"' + big + '"}').encode(),
+               headers={**harness.auth(), "content-type": "application/json"})
+    assert r.status_code == 413
+
+
+def test_preregistered_artifacts_and_execution_configuration_without_core_hashing(env, monkeypatch):
+    import hashlib
+    from mbnas_core.artifacts import registry as reg_mod
+    c, tok, conn, s = env["client"], env["tok"], env["conn"], env["settings"]
+    register(c, tok)
+    cl = claim(c, tok)
+    jid = cl["envelope"]["job"]["job_id"]
+    job = repo.get_job(conn, jid)
+    if job["kind"] not in ("BASELINE_TRAIN", "CANDIDATE_TRAIN"):
+        pytest.skip("first job is not a training job")
+    st = c.post(f"/core/v1/runner/jobs/{jid}/start", json=write(cl), headers=H(tok)).json()
+    res = run_stub(s, jid)
+    cand = repo.get_candidate(conn, job["candidate_id"])
+    import ultralytics, pathlib
+    yaml_text = (pathlib.Path(ultralytics.__file__).parent / "cfg/models/11/yolo11.yaml").read_text().replace("nc: 80", "nc: 1")
+    sha = hashlib.sha256(yaml_text.encode()).hexdigest()
+    items = [{"kind": "architecture", "relpath": f"candidates/{cand['id']}/architecture.yaml", "sha256": sha,
+              "bytes": len(yaml_text.encode()), "state": "READY"},
+             {"kind": "pr_curve", "relpath": f"candidates/{cand['id']}/eval/pr.png", "sha256": "a" * 64, "bytes": 10,
+              "mime_type": "image/png", "state": "READY"}]
+    ar = c.post(f"/core/v1/runner/jobs/{jid}/artifacts", json={**write(cl), "artifacts": items}, headers=H(tok))
+    assert ar.status_code == 200, ar.text
+    ids = [x["artifact_id"] for x in ar.json()]
+    ck = c.post(f"/core/v1/runner/jobs/{jid}/checkpoints", json={**write(cl), "checkpoint_id": "ck-remote1",
+               "candidate_id": cand["id"], "kind": "training_full", "epoch": 1, "relpath": f"candidates/{cand['id']}/ck/full_e1.pt",
+               "uri": "/runner/host/full_e1.pt", "sha256": "b" * 64, "bytes": 5}, headers=H(tok))
+    assert ck.status_code == 200 and ck.json()["state"] == "PRESENT", ck.text
+    bad_ck = c.post(f"/core/v1/runner/jobs/{jid}/checkpoints", json={**write(cl), "checkpoint_id": "ck-x",
+                   "candidate_id": cand["id"], "kind": "bogus", "epoch": 1, "relpath": "a", "sha256": "zz", "bytes": -1}, headers=H(tok))
+    assert bad_ck.status_code == 422 and bad_ck.json()["code"] == "CHECKPOINT_REPORT_REJECTED"
+    calls = []
+    monkeypatch.setattr(reg_mod, "sha256_file", lambda *a, **k: calls.append(a) or "0" * 64)
+    out = dict(res.outputs)
+    if isinstance(out.get("evaluation"), dict):
+        out["evaluation"] = {**out["evaluation"], "artifacts": [{"artifact_id": ids[1], "kind": "pr_curve"}]}
+    out["execution_configuration"] = {"yaml_text": yaml_text, "sha256": sha, "artifact_id": ids[0]}
+    res2 = res.model_copy(update={"outputs": out})
+    r = c.post(f"/core/v1/runner/jobs/{jid}/result", json=commit_body(cl, res2, st["started_at"], utcnow_iso(),
+                                                                       artifact_ids=ids), headers=H(tok))
+    assert r.status_code == 200, r.text
+    assert calls == []
+    cand = repo.get_candidate(conn, cand["id"])
+    ec = (cand.get("audit") or {}).get("execution_configuration")
+    logs = [e["payload"]["message"] for e in repo.get_events_after(conn, env["run_id"], 0, 5000) if e["type"] == "log"]
+    assert ec and ec["artifact_id"] == ids[0], logs[-10:]
+    if isinstance(out.get("evaluation"), dict):
+        evs = repo.list_evaluations(conn, env["run_id"], candidate_id=cand["id"])
+        assert repo.get_artifact(conn, env["run_id"], ids[1])["evaluation_id"] == next(e["id"] for e in evs if e["rung"] == job["rung"])
+    # retention forced keep_all for the remote run (a log line when the run policy differs)
+    from mbnas_core.orchestration import retention
+    assert retention.is_remote_run(conn, env["run_id"])

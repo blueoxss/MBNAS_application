@@ -1,0 +1,26 @@
+[verify] profile=public root=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application suites=unit,relocation evidence=runtime/logs/verify/20261027T181305Z-public
+[verify] unit: running
+[verify]   | SKIPPED [1] tests/public/server/test_security.py:91: owner-only tool not in this bundle
+[verify]   | SKIPPED [1] tests/public/server/test_security.py:99: owner-only tool not in this bundle
+[verify]   | SKIPPED [1] tests/public/server/test_security.py:112: owner-only tool not in this bundle
+[verify]   | SKIPPED [1] tests/public/server/test_security.py:140: owner-only tool not in this bundle
+[verify]   | SKIPPED [1] tests/public/server/test_security.py:157: owner-only tool not in this bundle
+[verify]   | SKIPPED [1] tests/public/server/test_security.py:170: owner-only tool not in this bundle
+[verify]   | SKIPPED [13] tests/public/server/test_security.py:189: owner-only tool not in this bundle
+[verify]   | SKIPPED [13] tests/public/server/test_security.py:201: owner-only tool not in this bundle
+[verify]   | SKIPPED [1] tests/public/server/test_security.py:218: owner-only tool not in this bundle
+[verify]   | SKIPPED [1] tests/public/server/test_security.py:255: owner-only tool not in this bundle
+[verify]   | FAILED tests/public/model_runtime/test_datasets.py::test_subset_cli_unchanged_interface
+[verify]   | = 1 failed, 633 passed, 215 skipped, 44 deselected, 2 warnings in 172.55s (0:02:52) =
+[verify] unit: FAIL (tests=849 passed=633 failed=1 errors=0 skipped=215 deselected=44) - pytest exit 1
+[verify] relocation: running
+[verify]   relocation: module __file__ under ROOT (cwd outside ROOT): ok - all under /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application
+[verify]   relocation: sys.prefix under ROOT: ok - /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application/runtime/venv
+[verify]   relocation: console scripts bound to runtime/venv inside ROOT: ok - ok
+[verify]   relocation: no original-host path strings: ok - 169 files scanned
+[verify]   relocation: doctor.sh from an external working directory: ok - exit 0; origin checks PASS
+[verify]   relocation: doctor.sh through a path with spaces: ok - exit 0; origin checks PASS
+[verify]   relocation: start/stop/install.sh --help through a path with spaces: ok - exit codes [0, 0, 0]
+[verify]   relocation: ROOT itself contains spaces: ok - /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application
+[verify] relocation: PASS (checks=8 passed=8 failed=0)
+[verify] result: FAIL PASS=1 FAIL=1 (report runtime/logs/verify/20261027T181305Z-public/verify.json)

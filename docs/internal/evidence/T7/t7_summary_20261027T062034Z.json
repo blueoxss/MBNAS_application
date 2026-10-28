@@ -1,0 +1,79 @@
+{
+ "exit_codes": {
+  "core": -15,
+  "gateway": -15,
+  "owner": 0,
+  "runner": 0
+ },
+ "finished_utc": "2026-10-27T06:20:47.278498Z",
+ "gpu": 0,
+ "gpu_uuid": "GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9",
+ "gpu_windows": [
+  {
+   "label": "runner-start",
+   "pid": 2419712,
+   "start_utc": "2026-10-27T06:20:41.025505Z"
+  },
+  {
+   "end_utc": "2026-10-27T06:20:44.055452Z",
+   "label": "teardown"
+  }
+ ],
+ "items": {
+  "v": {
+   "nvidia_smi_after": {
+    "compute_apps": [],
+    "compute_apps_exit": 0,
+    "gpus": [
+     "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 49140 MiB, 0 %",
+     "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 49140 MiB, 0 %"
+    ],
+    "gpus_exit": 0,
+    "utc": "2026-10-27T06:20:42.917100Z"
+   },
+   "nvidia_smi_before": {
+    "compute_apps": [],
+    "compute_apps_exit": 0,
+    "gpus": [
+     "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 49140 MiB, 0 %",
+     "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 49140 MiB, 0 %"
+    ],
+    "gpus_exit": 0,
+    "utc": "2026-10-27T06:20:42.388069Z"
+   },
+   "seconds": 0.5,
+   "verdict": "PASS"
+  }
+ },
+ "nvidia_smi_after": {
+  "compute_apps": [],
+  "compute_apps_exit": 0,
+  "gpus": [
+   "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 49140 MiB, 0 %",
+   "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 49140 MiB, 0 %"
+  ],
+  "gpus_exit": 0,
+  "utc": "2026-10-27T06:20:47.058557Z"
+ },
+ "nvidia_smi_before": {
+  "compute_apps": [],
+  "compute_apps_exit": 0,
+  "gpus": [
+   "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 49140 MiB, 0 %",
+   "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 49140 MiB, 0 %"
+  ],
+  "gpus_exit": 0,
+  "utc": "2026-10-27T06:20:34.169383Z"
+ },
+ "pids": {
+  "core": 2419677,
+  "gateway": 2419777,
+  "owner": 2419711,
+  "runner": 2419712
+ },
+ "runner_id": "t7-gpu0",
+ "started_utc": "2026-10-27T06:20:34.169276Z",
+ "stopped_all": true,
+ "tree_hash": "sha256:164292c6e775a52a3da02f98282257b67a282f9e84b236ded3940e592a568f2f",
+ "work_root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062034Z"
+}

@@ -1,0 +1,35 @@
+# C05 fix 1d scratch verifications (test sources in the session scratchpad wp3/c05fix/, not shipped); 2026-10-27T19:21:26Z
+## d3
+C05 error sweep: {"401 no bearer": [401, "AUTH_REQUIRED", "gateway", true], "403 wrong bearer": [403, "ACCESS_DENIED", "gateway", true], "404 unknown api route": [404, "NOT_FOUND", "gateway", true], "404 unknown run": [404, "RUN_NOT_FOUND", "core", true], "404 dot segment": [404, "NOT_FOUND", "gateway", true], "405 method": [405, "METHOD_NOT_ALLOWED", "gateway", true], "413 body": [413, "PAYLOAD_TOO_LARGE", "gateway", true], "422 bad json": [422, "VALIDATION_FAILED", "gateway", true], "422 upload type": [422, "UPLOAD_TYPE_UNSUPPORTED", "gateway", true], "422 path outside": [422, "PATH_OUTSIDE_ALLOWLIST", "gateway", true], "422 relative path": [422, "PATH_NOT_ABSOLUTE", "core", true]}
+C05 error sweep problems: []
+25 passed, 1 warning in 1.47s
+exit=0
+## d3core
+{"console": [413, "PAYLOAD_TOO_LARGE", "core"], "legacy /api/v1 (debug mount)": [413, "PAYLOAD_TOO_LARGE", "gateway"], "runner": [413, "PAYLOAD_TOO_LARGE", "<absent>"], "owner": [413, "PAYLOAD_TOO_LARGE", "<absent>"]}
+1 passed, 1 warning in 1.09s
+exit=0
+## d10
+3 passed in 0.35s
+exit=0
+## d8t8
+public blobs scanned: 146
+1 passed, 1 warning in 14.03s
+exit=0
+## d8val
+1 passed in 0.56s
+exit=0
+## mutation checks (runner_protocol new tests; expected: every mutation fails >=1 test)
+no_expiry                2 failed, 9 passed, 1 warning in 3.64s
+no_runner                3 failed, 8 passed, 1 warning in 3.40s
+oracle                   3 failed, 8 passed, 1 warning in 3.51s
+hb_unchecked             1 failed, 10 passed, 1 warning in 3.43s
+label_always_verified    6 failed, 5 passed, 1 warning in 3.46s
+label_empty_verified     2 failed, 9 passed, 1 warning in 3.46s
+## mutation checks (TLS tests)
+gw_verify_off            2 failed, 7 passed, 2 warnings in 4.39s
+runner_verify_off        4 failed, 5 passed in 4.65s
+no_tls_warning           2 failed, 7 passed, 2 warnings in 4.57s
+warn_not_logged          1 failed, 8 passed, 2 warnings in 4.64s
+## D10 lastResort (fresh interpreter; control = without install_redaction)
+control  GET /core/v1/x?token=SYNTHsecret123 Authorization: Bearer SYNTHbearer456 HTTP Request: GET https://h/a?sig=SYNTHsig789&exp=1 lastResort filters: 0 
+fixed    GET /core/v1/x?token=*** Authorization: *** HTTP Request: GET https://h/a?sig=***&exp=*** lastResort filters: 1 

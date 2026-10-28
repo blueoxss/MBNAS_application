@@ -1,0 +1,112 @@
+{
+ "health": {
+  "http": 200,
+  "status": "ok",
+  "core": {
+   "status": "ok",
+   "reachable": true
+  },
+  "allowlists": {
+   "dataset_roots": [],
+   "output_roots": [
+    "/srv/outputs"
+   ],
+   "archive_roots": []
+  },
+  "devices": [
+   "host-gpu-0",
+   "host-gpu-1"
+  ]
+ },
+ "health_noauth_http": 401,
+ "presets_http": 200,
+ "web_index_http": 200,
+ "upload_http": 200,
+ "structure_check": {
+  "http": 200,
+  "status": "PASS"
+ },
+ "registry_http": 200,
+ "structure_check_broken": {
+  "http": 200,
+  "status": "FAIL",
+  "codes": [
+   "MERGE_INPUT_MISMATCH",
+   "SHAPE_MISMATCH"
+  ]
+ },
+ "validate": {
+  "http": 200,
+  "valid": false,
+  "errors": [
+   {
+    "field": "console.paths.output_root",
+    "message": "resolved path <path> is outside the allowed roots ['<path> owner r2/mbnas_application/runtime/core/runs']",
+    "code": "PATH_OUTSIDE_ALLOWLIST"
+   }
+  ]
+ },
+ "calls": [
+  {
+   "call": "GET /api/v1/health",
+   "http": 200,
+   "bytes": 102395,
+   "request_id": "5b80caf7d58944a1852977192b52dcd2"
+  },
+  {
+   "call": "GET /api/v1/health",
+   "http": 401,
+   "bytes": 127,
+   "request_id": "0e2ae6f8541646088e739a0b09d118b9"
+  },
+  {
+   "call": "GET /api/v1/protocols/presets",
+   "http": 200,
+   "bytes": 14227,
+   "request_id": "eba21c393bf340299f5cb65d85315009"
+  },
+  {
+   "call": "GET /",
+   "http": 200,
+   "bytes": 733,
+   "request_id": "1a1e40019a2f4b5097d29bc2e807cab4"
+  },
+  {
+   "call": "POST /api/v1/uploads/model-config",
+   "http": 200,
+   "bytes": 187,
+   "request_id": "75dc742f7ae74e2ebbe7746420809360"
+  },
+  {
+   "call": "POST /api/v1/structure-check",
+   "http": 200,
+   "bytes": 71294,
+   "request_id": "c26b0677ac5e404dbdb4bdfd2c353e48"
+  },
+  {
+   "call": "GET /api/v1/registry",
+   "http": 200,
+   "bytes": 60360,
+   "request_id": "0877b1900de1487cacd559e6379ca97f"
+  },
+  {
+   "call": "POST /api/v1/uploads/model-config",
+   "http": 200,
+   "bytes": 187,
+   "request_id": "4bfca171542c4968b4f09e525cffe750"
+  },
+  {
+   "call": "POST /api/v1/structure-check",
+   "http": 200,
+   "bytes": 30322,
+   "request_id": "efe17a36aed1409ea6d39b71a1342175"
+  },
+  {
+   "call": "POST /api/v1/protocols/validate",
+   "http": 200,
+   "bytes": 414,
+   "request_id": "6a03b5892a844ac0b47acd89a2d86b86"
+  }
+ ]
+}
+exit=1

@@ -1,0 +1,51 @@
+# Mutation checks (the new tests must FAIL on the pre-fix code). 2026-10-27T18:39:48Z
+# Scratch copy of mbnas_web (src/tests/e2e/configs, node_modules symlinked); the live tree was not modified.
+
+## A) vitest tests/checkpoint_download.test.tsx with the PRE-FIX CandidateView.tsx + ModelStructure.tsx
+     × prefers the store artifact_id, falls back to the checkpoint id for PRESENT / READY, else nothing 54ms
+     × offers "id로 다운로드" for every row the gateway can serve; only the pruned row without a store id reads 저장소 미등록 291ms
+     × a PRESENT row with artifact_id null downloads by its checkpoint id and verifies the bytes against the recorded sha256 1091ms
+     × 404 ARTIFACT_NOT_READY (bytes not transferred yet) reads 아직 저장소에 없음 with the code 1064ms
+     × the graph is a named group (not an img) and no presentational-children role contains a focusable node 53ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  tests/checkpoint_download.test.tsx > checkpointDownloadId (DD-A51 c) > prefers the store artifact_id, falls back to the checkpoint id for PRESENT / READY, else nothing
+TypeError: checkpointDownloadId is not a function
+ FAIL  tests/checkpoint_download.test.tsx > CheckpointTable downloads (V4-B defect 1) > offers "id로 다운로드" for every row the gateway can serve; only the pruned row without a store id reads 저장소 미등록
+TestingLibraryElementError: Unable to find an element by: [data-testid="checkpoint-download-ck-synthetic-0001-btn"]
+ FAIL  tests/checkpoint_download.test.tsx > CheckpointTable downloads (V4-B defect 1) > a PRESENT row with artifact_id null downloads by its checkpoint id and verifies the bytes against the recorded sha256
+TestingLibraryElementError: Unable to find an element by: [data-testid="checkpoint-download-ck-synthetic-0001-btn"]
+     88|     expect(st).toHaveAttribute('data-state', 'READY');
+ FAIL  tests/checkpoint_download.test.tsx > CheckpointTable downloads (V4-B defect 1) > 404 ARTIFACT_NOT_READY (bytes not transferred yet) reads 아직 저장소에 없음 with the code
+TestingLibraryElementError: Unable to find an element by: [data-testid="checkpoint-download-ck-synthetic-0003-btn"]
+    107|     expect(st).toHaveAttribute('data-state', 'NOT_READY');
+ FAIL  tests/checkpoint_download.test.tsx > structure graph semantics (V4-B defect 2, axe nested-interactive) > the graph is a named group (not an img) and no presentational-children role contains a focusable node
+Error: expect(element).toHaveAttribute("role", "group") // element.getAttribute("role") === "group"
+    123|     expect(graph).toHaveAttribute('role', 'group');
+ Test Files  1 failed (1)
+      Tests  5 failed | 1 passed (6)
+exit 1
+
+## B) mock e2e e2e/checkpoint_structure.spec.ts with the PRE-FIX ModelStructure.tsx (fixed CandidateView.tsx)
+  ✘  1 [desktop-1280] › e2e/checkpoint_structure.spec.ts:67:3 › candidate detail: structure graph a11y + checkpoint download by id (V4-B fix) › checkpoint table: PRESENT + artifact_id null downloads by checkpoint id; NOT_READY and PRUNED are explicit (4.0s)
+  ✘  3 [mobile-375] › e2e/checkpoint_structure.spec.ts:67:3 › candidate detail: structure graph a11y + checkpoint download by id (V4-B fix) › checkpoint table: PRESENT + artifact_id null downloads by checkpoint id; NOT_READY and PRUNED are explicit (4.5s)
+  ✘  4 [desktop-1280] › e2e/checkpoint_structure.spec.ts:36:3 › candidate detail: structure graph a11y + checkpoint download by id (V4-B fix) › axe: the structure graph is a named group with keyboard-focusable nodes, no nested-interactive (11.7s)
+  ✘  2 [mobile-375] › e2e/checkpoint_structure.spec.ts:36:3 › candidate detail: structure graph a11y + checkpoint download by id (V4-B fix) › axe: the structure graph is a named group with keyboard-focusable nodes, no nested-interactive (11.8s)
+    Error: expect(locator).toHaveAttribute(expected) failed
+    Expected: "group"
+    Received: "img"
+    +   "serious nested-interactive: svg[role=\"img\"]",
+    Error: expect(locator).toHaveAttribute(expected) failed
+    Expected: "group"
+    Received: "img"
+    +   "serious nested-interactive: svg[role=\"img\"]",
+    +   "serious scrollable-region-focusable: .table-wrap:nth-child(3) | details[data-testid=\"structure-checks\"] > .table-wrap",
+  4 failed
+exit 1
+
+## C) same spec with the FIXED ModelStructure.tsx (control)
+  ✓  4 [desktop-1280] › e2e/checkpoint_structure.spec.ts:67:3 › candidate detail: structure graph a11y + checkpoint download by id (V4-B fix) › checkpoint table: PRESENT + artifact_id null downloads by checkpoint id; NOT_READY and PRUNED are explicit (4.6s)
+  ✓  1 [mobile-375] › e2e/checkpoint_structure.spec.ts:36:3 › candidate detail: structure graph a11y + checkpoint download by id (V4-B fix) › axe: the structure graph is a named group with keyboard-focusable nodes, no nested-interactive (4.8s)
+  ✓  3 [desktop-1280] › e2e/checkpoint_structure.spec.ts:36:3 › candidate detail: structure graph a11y + checkpoint download by id (V4-B fix) › axe: the structure graph is a named group with keyboard-focusable nodes, no nested-interactive (5.1s)
+  ✓  2 [mobile-375] › e2e/checkpoint_structure.spec.ts:67:3 › candidate detail: structure graph a11y + checkpoint download by id (V4-B fix) › checkpoint table: PRESENT + artifact_id null downloads by checkpoint id; NOT_READY and PRUNED are explicit (5.4s)
+  4 passed (18.5s)
+exit 0

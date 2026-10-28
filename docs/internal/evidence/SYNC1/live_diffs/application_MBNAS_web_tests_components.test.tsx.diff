@@ -1,0 +1,62 @@
+--- a/application/MBNAS_web/tests/components.test.tsx
++++ b/application/MBNAS_web/tests/components.test.tsx
+@@ -64,6 +64,47 @@
+   });
+ });
+ 
++function NestedHarness(): JSX.Element {
++  const [outer, setOuter] = useState(false);
++  const [inner, setInner] = useState(false);
++  return (
++    <div id="root">
++      <button onClick={() => setOuter(true)}>open outer</button>
++      {outer && (
++        <Modal titleId="o" onClose={() => setOuter(false)}>
++          <h2 id="o">Outer</h2>
++          <button data-autofocus onClick={() => setInner(true)}>open inner</button>
++          {inner && (
++            <Modal titleId="i" onClose={() => setInner(false)}>
++              <h2 id="i">Inner</h2>
++              <button data-autofocus>inner first</button>
++            </Modal>
++          )}
++        </Modal>
++      )}
++    </div>
++  );
++}
++
++describe('Modal nested (candidate dialog -> image lightbox)', () => {
++  it('Esc closes only the innermost modal, focus returns to the button that opened it, the page stays inert until the last one closes', async () => {
++    const user = userEvent.setup();
++    render(<NestedHarness />);
++    await user.click(screen.getByText('open outer'));
++    const openInner = screen.getByText('open inner');
++    await user.click(openInner);
++    expect(screen.getAllByRole('dialog')).toHaveLength(2);
++    await user.keyboard('{Escape}');
++    expect(screen.getAllByRole('dialog')).toHaveLength(1);
++    expect(screen.getByRole('dialog')).toHaveAccessibleName('Outer');
++    expect(openInner).toHaveFocus();
++    expect(document.getElementById('root')).toHaveAttribute('inert');
++    await user.keyboard('{Escape}');
++    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
++    expect(document.getElementById('root')).not.toHaveAttribute('inert');
++  });
++});
++
+ describe('Scatter', () => {
+   const pts = buildPlotPoints(fixtureCandidates(), 'fitness').points.filter((p) => p.c.arm === 'Baseline');
+   it('renders focusable points that open on click, Enter and Space', async () => {
+@@ -119,6 +160,11 @@
+     expect(within(nav).getAllByRole('button')).toHaveLength(7);
+     expect(within(nav).getByRole('button', { current: 'page' })).toHaveTextContent('탐색 모니터링');
+   });
++  it('labels the archive-only compare entry so it is not read as a console-run comparison', () => {
++    setMobile(false);
++    render(<Nav screen="monitor" onSelect={() => undefined} />);
++    expect(screen.getByTestId('nav-compare')).toHaveTextContent('Archive run 비교');
++  });
+   it('on desktop the navigation is always available', () => {
+     setMobile(false);
+     render(<Nav screen="server" onSelect={() => undefined} />);

@@ -1,0 +1,17 @@
+--- a/tests/owner/artifacts/conftest.py
++++ b/tests/owner/artifacts/conftest.py
+@@ -146,8 +146,12 @@
+     ds = make_dataset("w", counts={"train": 4, "val": 2, "test": 2})
+ 
+     def build(targets=(2,), output_root: str | None = None):
+-        return harness.small_protocol(ds, output_root or str(tmp_roots["runs"] / "out"), arms=(),
+-                                      baselines=("yolo11n",), targets=targets)
++        proto = harness.small_protocol(ds, output_root or str(tmp_roots["runs"] / "out"), arms=(),
++                                       baselines=("yolo11n",), targets=targets)
++        # DD-A66: remote runs now apply their retention policy (PILOT_SMOKE default last_rung_end_only would prune
++        # epoch 1 on the runner during the job); these artifact / download tests are not about retention
++        proto["console"]["retention"] = {"full_state": "keep_all"}
++        return proto
+     return build
+ 
+ 

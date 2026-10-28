@@ -1,0 +1,49 @@
+2026-10-27T23:05:19.835Z INFO mbnas_core.access method=POST path=/api/v1/protocols/validate status=200 request_id=1081933c102f4b369e914e04bbdf7d43 duration_ms=249.8 client=testclient:50000
+2026-10-27T23:05:19.906Z INFO mbnas_core.access method=POST path=/api/v1/runs status=200 request_id=e15429a6403f430c98f476d64e194dcc duration_ms=66.1 client=testclient:50000
+2026-10-27T23:05:19.986Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=9c2055073c9940a1a9bcc4139d733428 duration_ms=62.4 client=testclient:50000
+2026-10-27T23:05:20.133Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=c980d07921534e4ba94a1750593c4a42 duration_ms=144.4 client=testclient:50000
+2026-10-27T23:05:20.148Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-83bf43738eef4afb/start status=200 request_id=06ca0d325f2647649db078ae28dc3fcc duration_ms=12.6 client=testclient:50000
+2026-10-27T23:05:20.174Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=986b985043d843b4838b1d388bf4032c duration_ms=8.4 client=testclient:50000
+2026-10-27T23:05:20.190Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=8aca6c25e8f54999a580ce2cfb89de43 duration_ms=13.9 client=testclient:50000
+2026-10-27T23:05:20.208Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-83bf43738eef4afb/start status=200 request_id=f5a33190ee7d446cab48ca89d6bc97c6 duration_ms=10.6 client=testclient:50000
+2026-10-27T23:05:20.300Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-83bf43738eef4afb/checkpoints status=200 request_id=6f53645672094d9c884ee60083a21cc0 duration_ms=12.2 client=testclient:50000
+2026-10-27T23:05:20.312Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-83bf43738eef4afb/checkpoints status=200 request_id=55a610b2cbe44c8ba0ac42e11c62fc67 duration_ms=8.4 client=testclient:50000
+2026-10-27T23:05:20.348Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-83bf43738eef4afb/progress status=200 request_id=1d78c068a49b44b49b230cdc9d5534df duration_ms=33.6 client=testclient:50000
+2026-10-27T23:05:20.366Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-83bf43738eef4afb/artifacts status=200 request_id=91f880b59c684b9fb30ac1b6510445ca duration_ms=12.4 client=testclient:50000
+2026-10-27T23:05:20.406Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-83bf43738eef4afb/result status=200 request_id=20fc09f8eb62468286130033bf0f4e08 duration_ms=36.3 client=testclient:50000
+2026-10-27T23:05:20.416Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-83bf43738eef4afb/ack status=204 request_id=defd5a88e35d4478a9fc0cbe4dff66d1 duration_ms=7.0 client=testclient:50000
+CLAIM_BEFORE_SWEEP ('job-83bf43738eef4afb', 2)
+JOB_AFTER_CLAIM {'status': 'LEASED', 'attempt': 2, 'lease_owner': 'R2', 'error': None}
+LEDGER_AFTER_CLAIM []
+SWEEP {'reclaimed': [], 'workers_pruned': 0, 'runners_lost': 0, 'processing_cleared': 0}
+LEDGER_AFTER_SWEEP []
+library noise on stdout must not break the JSONL protocol
+ATTEMPT2 200 {'outcome': 'SUCCEEDED', 'job_status': 'SUCCEEDED', 'run_status': 'COMPLETED', 'response_digest': 'sha256:813b0be714f585d412043bc6a70a49a1c1be2c71ebbf4d484628edb916307f3c'}
+LEDGER_FINAL [(2, 'train', 0.165, None)]
+RUN_COSTS {'actual_gpu_seconds': 0.16537, 'baseline_gpu_seconds': 0.16537, 'overshoot_gpu_seconds': 0.0, 'overshoot_gpu_seconds.Baseline': 0.0}
+.2026-10-27T23:05:20.889Z INFO mbnas_core.access method=POST path=/api/v1/protocols/validate status=200 request_id=afc1fdad4ced4d37bcab988327b85f1f duration_ms=234.7 client=testclient:50000
+2026-10-27T23:05:20.978Z INFO mbnas_core.access method=POST path=/api/v1/runs status=200 request_id=6c7d705d2f134a62a90e4a8c19e97a67 duration_ms=84.5 client=testclient:50000
+2026-10-27T23:05:21.060Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=86adbc1959e44f8abd4d79fdeb54e3f3 duration_ms=63.7 client=testclient:50000
+2026-10-27T23:05:21.078Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=8039161f189040b6b576015b395ffb36 duration_ms=15.3 client=testclient:50000
+2026-10-27T23:05:21.096Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-39d6541b44844eb2/start status=200 request_id=009fb4cb0cf9468a8ee37c74f5be3118 duration_ms=13.9 client=testclient:50000
+2026-10-27T23:05:21.124Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=3a0a3319b9544adc857fae2c5cc10496 duration_ms=8.9 client=testclient:50000
+2026-10-27T23:05:21.143Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=4619d9b739804016be6619cfbe124351 duration_ms=15.5 client=testclient:50000
+2026-10-27T23:05:21.160Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-39d6541b44844eb2/result status=409 request_id=7fa3e2c14218444eac3ad9fabc876c1f duration_ms=13.0 client=testclient:50000
+LATE_RESULT 409 LEASE_LOST LEDGER [(1, 'failed', 20.0, 'LEASE_LOST')]
+.2026-10-27T23:05:22.187Z INFO mbnas_core.access method=POST path=/api/v1/training-runs status=200 request_id=1bf5942c354a452d899d637980b9e090 duration_ms=638.1 client=testclient:50000
+2026-10-27T23:05:22.273Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=ac26b86184d54629b2362ee34d94b466 duration_ms=63.7 client=testclient:50000
+2026-10-27T23:05:22.299Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=8463c70735854a1089e52c7e79c22d98 duration_ms=8.5 client=testclient:50000
+2026-10-27T23:05:22.326Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=045f6dd17bff4167940a7e16041d56c9 duration_ms=8.3 client=testclient:50000
+2026-10-27T23:05:22.348Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=78944d2ee0224280bd7a72f30366bc63 duration_ms=18.4 client=testclient:50000
+2026-10-27T23:05:22.392Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-2906b660717f4519/start status=200 request_id=18dae6b459214798a1d20e570d3dbe56 duration_ms=41.2 client=testclient:50000
+2026-10-27T23:05:22.412Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=2f81771fc5214c24ab69a33c1a8f1781 duration_ms=15.6 client=testclient:50000
+CPU_PATH_CALLS 2 SECOND 2
+SWEEP {'reclaimed': [], 'workers_pruned': 0, 'runners_lost': 0, 'processing_cleared': 0} LEDGER []
+.
+=============================== warnings summary ===============================
+test_probe_claim_race.py::test_claim_of_expired_lease_before_sweep
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+3 passed, 1 warning in 5.21s

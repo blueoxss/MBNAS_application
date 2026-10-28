@@ -1,0 +1,5 @@
+.s.......                                                                [100%]
+=========================== short test summary info ============================
+SKIPPED [1] tests/owner/registry/test_set3_registry_devices.py:62: no real bench_host_gpu evidence under $MBNAS_TEST_RUNS_ROOT/evidence on this host
+8 passed, 1 skipped in 0.92s
+exit 0

@@ -1,0 +1,293 @@
+..FF.F.........................FFF............F..............FF          [100%]
+=================================== FAILURES ===================================
+_________________ test_tick_waits_for_stale_pid_before_leasing _________________
+
+api_settings = CoreSettings(api_token=SecretStr('**********'), artifact_signing_key=SecretStr('**********'), cors_origins=['http://lo...t_bytes=33554432, device_source='local', remote_retention_policy='keep_all', sweeper_enabled=True, ticket_ttl_s=604800)
+run_id = 'run-32d5f08408e2'
+inline_worker = <harness.make_inline_worker.<locals>.InlineWorker object at 0x7fddca87a650>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fdf2b58a290>
+
+    def test_tick_waits_for_stale_pid_before_leasing(api_settings, run_id, inline_worker, monkeypatch):
+        stale = _dead_pid()
+        fake = FakeNvml([stale], clear_after_s=0.4)
+        inline_worker.gpu_pids_fn = fake
+        inline_worker.cfg.gpu_clear_timeout_s = 10
+        seen: list[tuple[list[int], float]] = []
+        real = repo.acquire_lease
+    
+        def spy(*a, **kw):
+            seen.append((fake.listing_now(), time.monotonic()))
+            return real(*a, **kw)
+    
+        monkeypatch.setattr(repo, "acquire_lease", spy)
+        t0 = time.monotonic()
+        assert inline_worker.tick()
+>       assert seen and seen[0][0] == [] and seen[0][1] - t0 >= 0.4 - 0.05  # leased only after the pid left NVML
+E       assert ([([1335767], 2352068.59042701)] and [1335767] == []
+E         
+E         Left contains one more item: 1335767
+E         Use -v to get more diff)
+
+tests/owner/worker/test_gpu_occupancy.py:95: AssertionError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:69 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+----------------------------- Captured stdout call -----------------------------
+library noise on stdout must not break the JSONL protocol
+____________ test_execute_waits_before_spawning_and_logs_to_the_run ____________
+
+api_settings = CoreSettings(api_token=SecretStr('**********'), artifact_signing_key=SecretStr('**********'), cors_origins=['http://lo...t_bytes=33554432, device_source='local', remote_retention_policy='keep_all', sweeper_enabled=True, ticket_ttl_s=604800)
+run_id = 'run-ba71df6c7718'
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fddcabe3b50>
+
+    def test_execute_waits_before_spawning_and_logs_to_the_run(api_settings, run_id, monkeypatch):
+        stale = _dead_pid()
+        fake = FakeNvml([stale], clear_after_s=0.4)
+        w = Worker(api_settings, WorkerConfig(gpu_index=0, poll_s=0.05, kill_grace_s=2, gpu_clear_timeout_s=10),
+                   worker_id="w-occ:1")
+        w.gpu_pids_fn = fake
+        spawned: list[list[int]] = []
+        real_spawn = w._spawn
+    
+        def spawn(job, stop, log):
+            spawned.append(fake.listing_now())
+            return real_spawn(job, stop, log)
+    
+        w._spawn = spawn
+        try:
+            before = utcnow_iso()
+            job = repo.acquire_lease(w.conn, w.id, before, 60)
+            assert job is not None
+            w.execute(job)
+        finally:
+            w.conn.close()
+>       assert spawned == [[]], "child spawned while NVML still listed a stale compute pid"
+E       AssertionError: child spawned while NVML still listed a stale compute pid
+E       assert [[1335780]] == [[]]
+E         
+E         At index 0 diff: [1335780] != []
+E         Use -v to get more diff
+
+tests/owner/worker/test_gpu_occupancy.py:120: AssertionError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:69 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+____ test_wait_is_bounded_logged_and_a_live_foreign_pid_is_waited_for_once _____
+
+api_settings = CoreSettings(api_token=SecretStr('**********'), artifact_signing_key=SecretStr('**********'), cors_origins=['http://lo...t_bytes=33554432, device_source='local', remote_retention_policy='keep_all', sweeper_enabled=True, ticket_ttl_s=604800)
+run_id = 'run-3d79f9c7729d'
+capsys = <_pytest.capture.CaptureFixture object at 0x7fddcabad900>
+
+    def test_wait_is_bounded_logged_and_a_live_foreign_pid_is_waited_for_once(api_settings, run_id, capsys):
+        stale = _dead_pid()
+        live = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(30)"])
+        w = Worker(api_settings, WorkerConfig(gpu_clear_timeout_s=0.3), worker_id="w-bound:1")
+        try:
+            w.gpu_pids_fn = lambda i: [stale, live.pid]
+            t0 = time.monotonic()
+            out = w.wait_gpu_clear()
+>           assert not out["cleared"] and 0.3 <= time.monotonic() - t0 < 2 and set(out["foreign"]) == {stale, live.pid}
+E           assert (not True)
+
+tests/owner/worker/test_gpu_occupancy.py:154: AssertionError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:69 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+_____________ test_worker_kill9_lease_reclaimed_once_by_new_worker _____________
+
+client = <starlette.testclient.TestClient object at 0x7fddd30c3970>
+base_proto = <function base_proto.<locals>.build at 0x7fddf2d55990>
+api_settings = CoreSettings(api_token=SecretStr('**********'), artifact_signing_key=SecretStr('**********'), cors_origins=['http://lo...t_bytes=33554432, device_source='local', remote_retention_policy='keep_all', sweeper_enabled=True, ticket_ttl_s=604800)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fddf2d12c50>
+tmp_path = PosixPath('/tmp/pytest-of-mgjeong/pytest-424/test_worker_kill9_lease_reclai0')
+
+    def test_worker_kill9_lease_reclaimed_once_by_new_worker(client, base_proto, api_settings, monkeypatch, tmp_path):
+        harness.stub_env(monkeypatch)
+        hang = tmp_path / "hang"
+        hang.write_text("1")
+        run_id, _ = harness.validate_and_run(client, base_proto())
+        first = _spawn_worker(api_settings, tmp_path / "w1.log", MBNAS_STUB_HANG_FILE=hang)
+        try:
+>           harness.wait_for(lambda: _q(api_settings, lambda c: repo.list_checkpoints(c, run_id)), timeout=30)
+
+tests/owner/worker/test_subprocess.py:112: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+predicate = <function test_worker_kill9_lease_reclaimed_once_by_new_worker.<locals>.<lambda> at 0x7fddd2c984c0>
+timeout = 30, interval = 0.05
+
+    def wait_for(predicate: Any, timeout: float = 30.0, interval: float = 0.05) -> Any:
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            value = predicate()
+            if value:
+                return value
+            time.sleep(interval)
+>       raise AssertionError(f"condition not met within {timeout}s")
+E       AssertionError: condition not met within 30s
+
+tests/_shared/harness.py:174: AssertionError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:69 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+___________________ test_pause_at_epoch_boundary_then_resume ___________________
+
+client = <starlette.testclient.TestClient object at 0x7fddd30c3790>
+base_proto = <function base_proto.<locals>.build at 0x7fddf2c3eef0>
+api_settings = CoreSettings(api_token=SecretStr('**********'), artifact_signing_key=SecretStr('**********'), cors_origins=['http://lo...t_bytes=33554432, device_source='local', remote_retention_policy='keep_all', sweeper_enabled=True, ticket_ttl_s=604800)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fddca879510>
+tmp_path = PosixPath('/tmp/pytest-of-mgjeong/pytest-424/test_pause_at_epoch_boundary_t0')
+
+    def test_pause_at_epoch_boundary_then_resume(client, base_proto, api_settings, monkeypatch, tmp_path):
+        harness.stub_env(monkeypatch)
+        run_id, _ = harness.validate_and_run(client, base_proto(targets=(6,)))
+        worker = _spawn_worker(api_settings, tmp_path / "w.log", MBNAS_STUB_EPOCH_S="0.4")
+        try:
+>           harness.wait_for(lambda: _q(api_settings, lambda c: repo.list_checkpoints(c, run_id)), timeout=30)
+
+tests/owner/worker/test_subprocess.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+predicate = <function test_pause_at_epoch_boundary_then_resume.<locals>.<lambda> at 0x7fddf2c49ea0>
+timeout = 30, interval = 0.05
+
+    def wait_for(predicate: Any, timeout: float = 30.0, interval: float = 0.05) -> Any:
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            value = predicate()
+            if value:
+                return value
+            time.sleep(interval)
+>       raise AssertionError(f"condition not met within {timeout}s")
+E       AssertionError: condition not met within 30s
+
+tests/_shared/harness.py:174: AssertionError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:69 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+_____________________ test_cancel_terminates_running_child _____________________
+
+client = <starlette.testclient.TestClient object at 0x7fddf2bc7d30>
+base_proto = <function base_proto.<locals>.build at 0x7fddf2c5b010>
+api_settings = CoreSettings(api_token=SecretStr('**********'), artifact_signing_key=SecretStr('**********'), cors_origins=['http://lo...t_bytes=33554432, device_source='local', remote_retention_policy='keep_all', sweeper_enabled=True, ticket_ttl_s=604800)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fddd30c36a0>
+tmp_path = PosixPath('/tmp/pytest-of-mgjeong/pytest-424/test_cancel_terminates_running0')
+
+    def test_cancel_terminates_running_child(client, base_proto, api_settings, monkeypatch, tmp_path):
+        harness.stub_env(monkeypatch)
+        hang = tmp_path / "hang"
+        hang.write_text("1")
+        run_id, _ = harness.validate_and_run(client, base_proto())
+        worker = _spawn_worker(api_settings, tmp_path / "w.log", MBNAS_STUB_HANG_FILE=hang)
+        try:
+>           harness.wait_for(lambda: _q(api_settings, lambda c: repo.list_checkpoints(c, run_id)), timeout=30)
+
+tests/owner/worker/test_subprocess.py:179: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+predicate = <function test_cancel_terminates_running_child.<locals>.<lambda> at 0x7fddf2bea3b0>
+timeout = 30, interval = 0.05
+
+    def wait_for(predicate: Any, timeout: float = 30.0, interval: float = 0.05) -> Any:
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            value = predicate()
+            if value:
+                return value
+            time.sleep(interval)
+>       raise AssertionError(f"condition not met within {timeout}s")
+E       AssertionError: condition not met within 30s
+
+tests/_shared/harness.py:174: AssertionError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:69 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+___________________________ test_pragmas_and_schema ____________________________
+
+db = <sqlite3.Connection object at 0x7fddf2aaca40>
+settings = CoreSettings(api_token=None, artifact_signing_key=None, cors_origins=[], db_path='/tmp/pytest-of-mgjeong/pytest-424/te...t_bytes=33554432, device_source='local', remote_retention_policy='keep_all', sweeper_enabled=True, ticket_ttl_s=604800)
+
+    def test_pragmas_and_schema(db, settings) -> None:
+        assert db.execute("PRAGMA journal_mode").fetchone()[0] == "wal"
+        assert db.execute("PRAGMA foreign_keys").fetchone()[0] == 1
+        assert db.execute("PRAGMA busy_timeout").fetchone()[0] == 10000
+        assert db.execute("PRAGMA synchronous").fetchone()[0] == 1  # NORMAL
+        tables = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+        assert {"runs", "validations", "candidates", "evaluations", "generations", "jobs", "workers", "events",
+                "artifacts", "cost_ledger", "checkpoints", "meta"} <= tables
+        connect(settings).close()  # schema re-application is idempotent
+>       assert db.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == "3"
+E       AssertionError: assert '4' == '3'
+E         
+E         - 3
+E         + 4
+
+tests/owner/unit/test_db.py:47: AssertionError
+___________________ test_v1_database_is_migrated_additively ____________________
+
+tmp_path = PosixPath('/tmp/pytest-of-mgjeong/pytest-424/test_v1_database_is_migrated_a0')
+
+    def test_v1_database_is_migrated_additively(tmp_path) -> None:
+        path = str(tmp_path / "v1.sqlite3")
+        old = sqlite3.connect(path)
+        old.executescript(_v1_schema())
+        _old_run(old)
+        old.execute("INSERT INTO checkpoints (id, run_id, candidate_id, epoch, kind, path, sha256, bytes, created_at, "
+                    "updated_at) VALUES ('ck1', 'run-old', 'c', 1, 'training_full', '/x', 's', 1, 't', 't')")
+        old.commit()
+        assert "kind" not in {r[1] for r in old.execute("PRAGMA table_info(runs)")}
+        old.close()
+        conn = connect(db_path=path)
+        try:
+            run = repo.get_run(conn, "run-old")
+            assert run["kind"] == "SEARCH" and run["parent_run_id"] is None and run["finalists"] == []
+            ck = repo.list_checkpoints(conn, "run-old")[0]
+            assert ck["state"] == "PRESENT" and ck["pruned_at"] is None and ck["prune"] is None
+>           assert conn.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == SCHEMA_VERSION == "3"
+E           AssertionError: assert '4' == '3'
+E             
+E             - 3
+E             + 4
+
+tests/owner/unit/test_db_migration.py:69: AssertionError
+_________ test_v2_database_events_check_is_widened_without_losing_rows _________
+
+tmp_path = PosixPath('/tmp/pytest-of-mgjeong/pytest-424/test_v2_database_events_check_0')
+
+    def test_v2_database_events_check_is_widened_without_losing_rows(tmp_path) -> None:
+        """S9-F3: a v2 DB (events.type CHECK without generation.updated) is rebuilt forward; old events survive."""
+        path = str(tmp_path / "v2.sqlite3")
+        old = sqlite3.connect(path)
+        old.executescript(_v2_schema())
+        old.execute("UPDATE meta SET value = '2' WHERE key = 'schema_version'")
+        _old_run(old)
+        old.commit()
+        with pytest.raises(sqlite3.IntegrityError):  # the old CHECK really rejects the new type
+            old.execute("INSERT INTO events (run_id, seq, type, payload_json, created_at) "
+                        "VALUES ('run-old', 3, 'generation.updated', '{}', 't')")
+        old.rollback()
+        before = old.execute("SELECT run_id, seq, type, payload_json, created_at FROM events ORDER BY seq").fetchall()
+        old.close()
+        conn = connect(db_path=path)
+        try:
+            after = [tuple(r) for r in conn.execute(
+                "SELECT run_id, seq, type, payload_json, created_at FROM events ORDER BY seq")]
+            assert after == before and len(after) == 2
+>           assert conn.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == SCHEMA_VERSION == "3"
+E           AssertionError: assert '4' == '3'
+E             
+E             - 3
+E             + 4
+
+tests/owner/unit/test_db_migration.py:105: AssertionError
+=============================== warnings summary ===============================
+tests/owner/worker/test_blocked_result.py::test_blocked_benchmark_job_is_final_and_not_retried
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/owner/worker/test_gpu_occupancy.py::test_tick_waits_for_stale_pid_before_leasing
+FAILED tests/owner/worker/test_gpu_occupancy.py::test_execute_waits_before_spawning_and_logs_to_the_run
+FAILED tests/owner/worker/test_gpu_occupancy.py::test_wait_is_bounded_logged_and_a_live_foreign_pid_is_waited_for_once
+FAILED tests/owner/worker/test_subprocess.py::test_worker_kill9_lease_reclaimed_once_by_new_worker
+FAILED tests/owner/worker/test_subprocess.py::test_pause_at_epoch_boundary_then_resume
+FAILED tests/owner/worker/test_subprocess.py::test_cancel_terminates_running_child
+FAILED tests/owner/unit/test_db.py::test_pragmas_and_schema - AssertionError:...
+FAILED tests/owner/unit/test_db_migration.py::test_v1_database_is_migrated_additively
+FAILED tests/owner/unit/test_db_migration.py::test_v2_database_events_check_is_widened_without_losing_rows
+9 failed, 54 passed, 1 warning in 146.95s (0:02:26)

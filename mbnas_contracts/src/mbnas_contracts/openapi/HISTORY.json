@@ -1,0 +1,176 @@
+{
+ "note": "Every contract version, its author, time, model and sha256. 1.0.0 is the handoff file. Each migrate script is the verbatim commander script (1.0.0->1.2.1 extracted from the commander transcript; replay verified byte-identical on 2026-10-07). Correction (2026-10-27, DD-A41): the eleven scripts migrate_1.0.0_to_1.1.0.py ... migrate_1.2.8_to_1.2.9.py were path-scrubbed by WP-7C (their host paths now read /ABSOLUTE/PATH/TO/...), so they are no longer verbatim commander scripts; every snapshot sha256 below is unchanged and tests/public/contracts/test_contract_history.py still replays 1.2.2 onward byte for byte (34 passed on 2026-10-27).",
+ "versions": [
+  {
+   "version": "1.0.0",
+   "file": "openapi-1.0.0.json",
+   "sha256": "66722f146b167924d4f57578a4f057747294949748049558f6ffc8307d2f6943",
+   "author": "handoff (NAS_Console_API_Contract_20261006.json)",
+   "created": "2026-10-06 (handoff)",
+   "model": null,
+   "migration": null
+  },
+  {
+   "version": "1.1.0",
+   "file": "openapi-1.1.0.json",
+   "sha256": "704e26675da56e60e436d22c8339afb5164afe0cbad8d76d6b2f4f476059b35e",
+   "author": "commander (main loop)",
+   "created": "2026-10-06T10:38:25Z",
+   "model": "claude-fable-5-1",
+   "migration": "migrate_1.0.0_to_1.1.0.py"
+  },
+  {
+   "version": "1.2.0",
+   "file": "openapi-1.2.0.json",
+   "sha256": "f60787dcce0104dd5261d29d5834e7aae31c99eb92dd782589086f6ae6dc0778",
+   "author": "commander (main loop)",
+   "created": "2026-10-06T15:11:18Z",
+   "model": "claude-fable-5-1",
+   "migration": "migrate_1.1.0_to_1.2.0.py"
+  },
+  {
+   "version": "1.2.1",
+   "file": "openapi-1.2.1.json",
+   "sha256": "432e2361aa90ee93396ec66d980f4a02a3abb6f436d24ca19b836faa7e3df814",
+   "author": "commander (main loop)",
+   "created": "2026-10-06T17:24:23Z",
+   "model": "claude-fable-5-1",
+   "migration": "migrate_1.2.0_to_1.2.1.py"
+  },
+  {
+   "version": "1.2.2",
+   "file": "openapi-1.2.2.json",
+   "sha256": "e9840709e9116b36b16fa767aad19e72dbe12dcfa23d1de6226ff6bc73e1120b",
+   "author": "commander (main loop)",
+   "created": "2026-10-07T09:40Z",
+   "model": "claude-opus-5-5",
+   "migration": "migrate_1.2.1_to_1.2.2.py"
+  },
+  {
+   "version": "1.2.3",
+   "file": "openapi-1.2.3.json",
+   "sha256": "ad473a2ebe0d4bd36d0160712a0b3ab24bad15f3a0fdc2b6819c4331c59709e7",
+   "author": "commander (main loop)",
+   "created": "2026-10-07T20:16:59+09:00",
+   "model": "claude-opus-5-5",
+   "migration": "migrate_1.2.2_to_1.2.3.py"
+  },
+  {
+   "version": "1.2.4",
+   "file": "openapi-1.2.4.json",
+   "sha256": "a9c442da3b61788d96e6fafdde409775225bdc536a205177de536c2bc21ac02d",
+   "author": "commander (main loop)",
+   "created": "2026-10-07T20:42:49+09:00",
+   "model": "claude-opus-5-5",
+   "migration": "migrate_1.2.3_to_1.2.4.py"
+  },
+  {
+   "version": "1.2.5",
+   "file": "openapi-1.2.5.json",
+   "sha256": "919124bafc009ceb79e282975c920a44a04b99298cad2d7d455240e62d1a041e",
+   "author": "commander (main loop)",
+   "created": "2026-10-07T21:31:51+09:00",
+   "model": "claude-opus-5-5",
+   "migration": "migrate_1.2.4_to_1.2.5.py"
+  },
+  {
+   "version": "1.2.6",
+   "file": "openapi-1.2.6.json",
+   "sha256": "35b24cebba10fb075eb381ff8720e1238e1319c1972f9538626535a321f0afb4",
+   "author": "commander (main loop)",
+   "created": "2026-10-07T22:36:34+09:00",
+   "model": "claude-opus-5-5",
+   "migration": "migrate_1.2.5_to_1.2.6.py"
+  },
+  {
+   "version": "1.2.7",
+   "file": "openapi-1.2.7.json",
+   "sha256": "8484190d937f7984b44ec07120b51117afd47d40fc88567b9050f9b9f10d36c3",
+   "author": "commander (main loop)",
+   "created": "2026-10-07T22:53:06+09:00",
+   "model": "claude-opus-5-5",
+   "migration": "migrate_1.2.6_to_1.2.7.py"
+  },
+  {
+   "version": "1.2.8",
+   "file": "openapi-1.2.8.json",
+   "sha256": "99236ad68fceea28bcb807dd16e19a0887122c7467675e71e74aceef246caa1e",
+   "author": "commander (main loop)",
+   "created": "2026-10-08T01:09:00+09:00",
+   "model": "claude-opus-5-5",
+   "migration": "migrate_1.2.7_to_1.2.8.py"
+  },
+  {
+   "version": "1.2.9",
+   "file": "openapi-1.2.9.json",
+   "sha256": "641432f38ea16fa6c1bc43564cb3fbfd55739a7e5e8de5d6d0431681e66d67a6",
+   "author": "commander (main loop)",
+   "created": "2026-10-08T01:41:28+09:00",
+   "model": "claude-opus-5-5",
+   "migration": "migrate_1.2.8_to_1.2.9.py"
+  },
+  {
+   "version": "1.3.0",
+   "file": "openapi-1.3.0.json",
+   "sha256": "ee9b0fbb4585909b6ccbe7696ddb3a05e967adb651cf7e07620d5ced05eae34e",
+   "author": "fable/sonnet 2026-10-15",
+   "created": "2026-10-15",
+   "model": "claude-sonnet-5-5 (under fable 5.1 design)",
+   "migration": "migrate_1.2.9_to_1.3.0.py"
+  },
+  {
+   "version": "1.4.0",
+   "file": "openapi-1.4.0.json",
+   "sha256": "b89047dfd3d3a055d6f4d14e19c300170a62ec4328cbb625f82e757f4d621bb9",
+   "author": "integration 2026-10-22 (design: claude-fable-5-1; implementation: claude-sonnet-5-5)",
+   "created": "2026-10-22",
+   "model": "claude-sonnet-5-5 (under claude-fable-5-1 design)",
+   "migration": "migrate_1.3.0_to_1.4.0.py"
+  },
+  {
+   "version": "1.4.1",
+   "file": "openapi-1.4.1.json",
+   "sha256": "d6f1ac2a9a40b4646e626616ba1975e76507728f2423c4ebb35ed4b27469a993",
+   "author": "integration 2026-10-22 (design: claude-fable-5-1; implementation: claude-sonnet-5-5)",
+   "created": "2026-10-22",
+   "model": "claude-sonnet-5-5 (under claude-fable-5-1 design)",
+   "migration": "migrate_1.4.0_to_1.4.1.py"
+  },
+  {
+   "version": "1.4.2",
+   "file": "openapi-1.4.2.json",
+   "sha256": "9a17ae5dd7c3df0f28e1e149a73692e4cf183a124fb0fea407aea4233d707704",
+   "author": "integration 2026-10-23 (design: claude-fable-5-1; implementation: claude-sonnet-5-5)",
+   "created": "2026-10-23",
+   "model": "claude-sonnet-5-5 (under claude-fable-5-1 design)",
+   "migration": "migrate_1.4.1_to_1.4.2.py"
+  },
+  {
+   "version": "1.4.3",
+   "file": "openapi-1.4.3.json",
+   "sha256": "f3fe8ea672ee106d41c5c92723f7002136c7181892933aff7653a31c83f8c738",
+   "author": "integration 2026-10-26 (design: claude-fable-5-1; implementation: claude-sonnet-5-5)",
+   "created": "2026-10-26",
+   "model": "claude-sonnet-5-5 (under claude-fable-5-1 design)",
+   "migration": "migrate_1.4.2_to_1.4.3.py"
+  },
+  {
+   "version": "1.5.0",
+   "file": "openapi-1.5.0.json",
+   "sha256": "70e0cffaab8fafd9c7f230af9169dbbe8812b3eccf7ad7838ca3f46fa9eebc2a",
+   "author": "WP-4A draft + WP-4B promotion 2026-10-27 (design: claude-fable-5-1; implementation: claude-opus-5-5)",
+   "created": "2026-10-27",
+   "model": "claude-opus-5-5 (under claude-fable-5-1 design)",
+   "migration": "migrate_1.4.3_to_1.5.0.py",
+   "predecessor": {
+    "version": "1.4.3",
+    "file": "openapi-1.4.3.json",
+    "sha256": "f3fe8ea672ee106d41c5c92723f7002136c7181892933aff7653a31c83f8c738"
+   },
+   "script_note": "Written for this repository by WP-4A (draft, sha256 70edb8ef...) and completed at promotion by WP-4B (DD-A42 Block user-model keys, DD-A44 upload 422 / gateway path hygiene, DD-A46 final-retrain STALE_VALIDATION); standard library only, no host path, no commander transcript. It asserts the sha256 above when replayed on openapi-1.4.3.json. Unlike the note above says for the older links, nothing in it is verbatim from the original commander."
+  }
+ ],
+ "writers_of_contracts_openapi_json": [
+  "commander (main loop) only; no subagent Write/Edit/Bash target on contracts/ (OWNERSHIP_LOG.json contract_writers)"
+ ]
+}

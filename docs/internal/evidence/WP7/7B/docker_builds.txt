@@ -1,0 +1,40 @@
+# WP-7B Docker builds - docker 26.1.3, legacy builder (DOCKER_BUILDKIT=0; no buildx plugin on this host), compose v5.3.1
+# Build contexts: staged ZIP-like trees build/docker/public-context (4 public wheels) and build/docker/owner-context (+ core
+# wheel) holding requirements-*.txt, constraints.txt, wheels/, mbnas_web/dist (vite build --outDir into the context), deploy/*.
+# No GPU was used by any build or container (no --gpus, no nvidia runtime configured on this host).
+## timeline (wall clock seconds from the build logs; 'mirror' = pip from a loopback HTTP mirror of build/wheelhouse via
+##   --network host --build-arg PIP_EXTRA_ARGS='--no-index --find-links http://127.0.0.1:8731/'; 'online' = PyPI + PyTorch index)
+  build_cpu    end 2026-10-27T13:28:24+09:00 exit=0 seconds=372
+  build_cuda   end 2026-10-27T13:33:44+09:00 exit=0 seconds=672
+  build_owner  end 2026-10-27T13:34:08+09:00 exit=0 seconds=10
+  build_cpu2   end 2026-10-27T13:35:16+09:00 exit=0 seconds=308
+  build_cuda2  end 2026-10-27T13:34:11+09:00 exit=0 seconds=3
+  online CUDA  rebuild after --no-log-init with PIP_EXTRA_ARGS='' -> full ONLINE install of requirements-public.txt: 1007 s, exit 0 (cache hits 4)
+  final_cpu    end 2026-10-27T14:09:38+09:00 exit=0 seconds=306 cache_hits=9
+  final_cuda   end 2026-10-27T14:13:52+09:00 exit=0 seconds=560 cache_hits=4
+  final_owner  end 2026-10-27T14:13:58+09:00 exit=0 seconds=6 cache_hits=10
+  cur_mbnas-public-cpu_0.1.0     cache_hits=11 Successfully tagged mbnas-public-cpu:0.1.0
+  cur_mbnas-public_0.1.0         cache_hits=10 Successfully tagged mbnas-public:0.1.0
+  cur_mbnas-owner_0.1.0          cache_hits=11 Successfully tagged mbnas-owner:0.1.0
+  notes: build_cpu (372 s, 3.45 GB) superseded - requirements-cpu.txt then lacked the triton pin (torch-hungarian pulled triton 3.8.0).
+         build_cuda = 672 s cold incl. the 3.32 GB nvidia/cuda base pull, apt python3.10 and the mirror install; owner image 6-10 s
+         on top (base/apt/venv/third-party layers shared). final_* = builds from the final requirements files (comment-only
+         changes force the third-party layer): CPU 306 s online, CUDA 560 s mirror, owner 6 s. cur_* (6-8 s) = the same images
+         with project wheels rebuilt from the source tree at 14:15 (incl. DD-A41 d gateway rule) - the images checked below.
+## online CUDA build (official DD-A31 path) - index lines and sources seen in its log
+  Looking in indexes: https://pypi.org/simple, https://download.pytorch.org/whl/cu124
+  wheel downloads by host:       5 https://download.pytorch.org;      6 https://download-r2.pytorch.org;     12 https://pypi.nvidia.com; + 233 relative (PyPI files.pythonhosted.org) downloads
+  Downloading https://pypi.nvidia.com/nvidia-cublas-cu12/nvidia_cublas_cu12-12.4.5.8-py3-none-manylinux2014_x86_64.whl (363.4 MB)
+  Downloading https://download.pytorch.org/whl/cu124/nvidia_cudnn_cu12-9.1.0.70-py3-none-manylinux2014_x86_64.whl (664.8 MB)
+  Downloading https://download-r2.pytorch.org/whl/cu124/torch-2.6.0%2Bcu124-cp310-cp310-linux_x86_64.whl (768.4 MB)
+## final images
+  mbnas-public-cpu:0.1.0 id=sha256:41b17ab6bf9156e6014619ded2ec4d6578c1d08c0cc7fd5dd8a54722ef05cca3 size_bytes=2972260556 fs_layers=14
+  mbnas-public:0.1.0 id=sha256:721d42299f708ce917d030cd6fa25b5259edc24ed4fb58187f7fdf66779717e6 size_bytes=10594200216 fs_layers=20
+  mbnas-owner:0.1.0 id=sha256:41c3d5d3acc180c7fa1ca3e46deced9808289ba60fc0fc3e66074c9abad59f7f size_bytes=10596101197 fs_layers=21
+  layer overlap: mbnas-public and mbnas-owner share their first 15 of 20/21 filesystem layers (base, apt, venv, third-party ~7.03 GB);
+  the owner image adds only the project-wheel/web/entrypoint layers (a few MB) on a host that has both
+  sizes: CUDA images 10.6 GB (nvidia/cuda cudnn-runtime base 3.32 GB + third-party layer 7.03 GB: torch cu124 bundles its own CUDA
+         libraries as nvidia-*-cu12 wheels); CPU image 2.97 GB (python:3.10-slim 0.12 GB + third-party 2.61 GB)
+## base images
+  nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04 nvidia/cuda@sha256:2fcc4280646484290cc50dce5e65f388dd04352b07cbe89a635703bd1f9aedb6 size_bytes=3317458178
+  python:3.10-slim python@sha256:6ff506466f8b1e981719b468cc0023b8ef000b983cdec0eafe119d01f379e31d size_bytes=122494505

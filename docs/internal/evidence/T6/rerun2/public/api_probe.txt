@@ -1,0 +1,166 @@
+{
+ "health": {
+  "http": 200,
+  "status": "ok",
+  "core": {
+   "status": "ok",
+   "reachable": true
+  },
+  "allowlists": {
+   "dataset_roots": [
+    "/srv/data"
+   ],
+   "output_roots": [
+    "/srv/outputs"
+   ],
+   "archive_roots": []
+  },
+  "devices": [
+   "host-gpu-0",
+   "host-gpu-1"
+  ]
+ },
+ "health_noauth_http": 401,
+ "presets_http": 200,
+ "web_index_http": 200,
+ "upload_http": 200,
+ "structure_check": {
+  "http": 200,
+  "status": "PASS"
+ },
+ "registry_http": 200,
+ "structure_check_broken": {
+  "http": 200,
+  "status": "FAIL",
+  "codes": [
+   "MERGE_INPUT_MISMATCH",
+   "SHAPE_MISMATCH"
+  ]
+ },
+ "validate": {
+  "http": 200,
+  "valid": true,
+  "errors": []
+ },
+ "run_create_http": 200,
+ "run": {
+  "run_id": "run-8fc6bba8ea04",
+  "status": "COMPLETED"
+ },
+ "snapshot": {
+  "http": 200,
+  "candidates": 2
+ },
+ "candidate_detail_http": 200,
+ "config_revisions_http": 200,
+ "export": {
+  "http": 200,
+  "bytes": 11512
+ },
+ "runs_list_http": 200,
+ "calls": [
+  {
+   "call": "GET /api/v1/health",
+   "http": 200,
+   "bytes": 102406,
+   "request_id": "fefd6167262a429cb5119a498db8293a"
+  },
+  {
+   "call": "GET /api/v1/health",
+   "http": 401,
+   "bytes": 127,
+   "request_id": "e8bdda29e0cf483092dbe70a2ad83fda"
+  },
+  {
+   "call": "GET /api/v1/protocols/presets",
+   "http": 200,
+   "bytes": 14227,
+   "request_id": "91429143447147bda597701ab46f6fee"
+  },
+  {
+   "call": "GET /",
+   "http": 200,
+   "bytes": 733,
+   "request_id": "8a44352fff2f44dc8e1627dd12191c15"
+  },
+  {
+   "call": "POST /api/v1/uploads/model-config",
+   "http": 200,
+   "bytes": 187,
+   "request_id": "0f5bcd73b1264f438bc7981727247258"
+  },
+  {
+   "call": "POST /api/v1/structure-check",
+   "http": 200,
+   "bytes": 71294,
+   "request_id": "2beb1ed4222c40ba9f1a96242d689e21"
+  },
+  {
+   "call": "GET /api/v1/registry",
+   "http": 200,
+   "bytes": 60360,
+   "request_id": "4da1c4ffa57f460e86b67b104789a78e"
+  },
+  {
+   "call": "POST /api/v1/uploads/model-config",
+   "http": 200,
+   "bytes": 187,
+   "request_id": "a57b4d62fd06403386538d3cf94bd9b9"
+  },
+  {
+   "call": "POST /api/v1/structure-check",
+   "http": 200,
+   "bytes": 30322,
+   "request_id": "f4493118d22247d284c8f72e688d622f"
+  },
+  {
+   "call": "POST /api/v1/protocols/validate",
+   "http": 200,
+   "bytes": 1564,
+   "request_id": "9f10cbfcfe7f482dbef5bafd7424b417"
+  },
+  {
+   "call": "POST /api/v1/runs",
+   "http": 200,
+   "bytes": 152,
+   "request_id": "b698198b1fc847c08066e24ab82d9713"
+  },
+  {
+   "call": "GET /api/v1/runs/run-8fc6bba8ea04",
+   "http": 200,
+   "bytes": 1902,
+   "request_id": "a0be16cfe89c4901b21697c522cb0808"
+  },
+  {
+   "call": "GET /api/v1/runs/run-8fc6bba8ea04/snapshot",
+   "http": 200,
+   "bytes": 29706,
+   "request_id": "281bfae2316246b7ae2e86f2c2463733"
+  },
+  {
+   "call": "GET /api/v1/runs/run-8fc6bba8ea04/candidates/run-8fc6bba8ea04:RAND:s7:g00:c000",
+   "http": 200,
+   "bytes": 154592,
+   "request_id": "249b5e4ee2fc4668a9ebf5f7bc70018f"
+  },
+  {
+   "call": "GET /api/v1/runs/run-8fc6bba8ea04/candidates/run-8fc6bba8ea04:RAND:s7:g00:c000/config-revisions",
+   "http": 200,
+   "bytes": 537,
+   "request_id": "9be837aef2694a94af868a8730586292"
+  },
+  {
+   "call": "GET /api/v1/runs/run-8fc6bba8ea04/export",
+   "http": 200,
+   "bytes": 11512,
+   "request_id": "3ecbbe11641c47b39c7e1a5c28dc3394"
+  },
+  {
+   "call": "GET /api/v1/runs",
+   "http": 200,
+   "bytes": 1086,
+   "request_id": "d42ec2c8f1cb43e1bbf638aee303f5c1"
+  }
+ ]
+}
+exit=0

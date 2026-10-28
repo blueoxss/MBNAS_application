@@ -1,0 +1,6 @@
+# SYNTHETIC example dataset (examples/make_synthetic_dataset.py): solid-colour images, one box each.
+# No 'path' key: the dataset root is the directory of this file.
+train: images/train
+val: images/val
+test: images/test
+names: ["drone"]

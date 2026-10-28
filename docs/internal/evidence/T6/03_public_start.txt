@@ -1,0 +1,3 @@
+[start] gateway: ready pid=2757109 HTTP 200 from http://127.0.0.1:18710/api/v1/health status=ok core=reachable log=runtime/logs/gateway.log
+[start] runner: ready pid=2757211 alive after 5 s log=runtime/logs/runner.log
+[start] public profile: no core here - the gateway and runner use the remote core of the owner

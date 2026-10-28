@@ -1,0 +1,9 @@
+$ /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python -I -B scripts/dev/canary_scan.py --manifest /home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/canary/CANARY_MANIFEST.json --profile owner --min-files 100 --json /home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/WP7/7D/20_scan_release_owner.json dist/owner/mbnas_application-0.1.0-owner-private-runtime-linux_x86_64.zip
+ok   host_fact HOST_FACT#1 owner data root: 59 hit(s) (not failing for profile owner)
+ok   host_fact HOST_FACT#2 original host root: 150 hit(s) (not failing for profile owner)
+ok   host_fact HOST_FACT#3 original host address: 10 hit(s) (not failing for profile owner)
+ok   host_fact HOST_FACT#4 original host name: 55 hit(s) (not failing for profile owner)
+ok   host_fact HOST_FACT#5 owner account name: 542 hit(s) (not failing for profile owner)
+scanned files=1178 bytes=39464870 containers=6 skipped=0 hits=816 failing=0 unmet=0
+canary_scan: PASS
+exit=0

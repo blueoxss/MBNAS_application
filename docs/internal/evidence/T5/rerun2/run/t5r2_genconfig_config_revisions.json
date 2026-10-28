@@ -1,0 +1,26 @@
+{
+ "run_id": "train-2cffd9d419da",
+ "candidate_id": "model-6f8a8212299c",
+ "revisions": [
+  {
+   "revision_id": "rev-56b3153eee83a844",
+   "source_sha256": "sha256:be167ecf1c6c2b9da5715292442a7b9cbfded8763456d42f61c382081f84ac1e",
+   "canonical_hash": "sha256:73b6e1aa4abc16fbbb8153a2740ad2fcdd5cf760b4841d7a605964841eba88d4",
+   "architecture_hash": "sha256:039444474a44b7682218cf620b6ff14532aba67d0487bdca64eb8fc6c851a35b",
+   "kind": "selected",
+   "created_at": "2026-10-28T02:32:19.119542Z",
+   "parent_revision_id": "rev-cdeee2465de0ac92",
+   "artifact_id": null
+  },
+  {
+   "revision_id": "rev-09fb9f37707231ad",
+   "source_sha256": "sha256:ff68f48994f6e85e582bbca400e39a162fe8e4d8cce85116ece776a8a182b453",
+   "canonical_hash": "sha256:73b6e1aa4abc16fbbb8153a2740ad2fcdd5cf760b4841d7a605964841eba88d4",
+   "architecture_hash": "sha256:039444474a44b7682218cf620b6ff14532aba67d0487bdca64eb8fc6c851a35b",
+   "kind": "executed",
+   "created_at": "2026-10-28T02:32:28.405831Z",
+   "parent_revision_id": "rev-56b3153eee83a844",
+   "artifact_id": "art-f3db7d8a543302f19d4e"
+  }
+ ]
+}

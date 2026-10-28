@@ -1,0 +1,8 @@
+$ /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python -I -B scripts/dev/canary_scan.py dist/public/mbnas_application-0.1.0-public-runtime-linux_x86_64.zip
+scanned files=528 bytes=11405295 containers=5 skipped=0 hits=0 failing=0 unmet=0
+canary_scan: PASS
+exit=0
+$ /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python -I -B scripts/dev/canary_scan.py --manifest /home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/canary/CANARY_MANIFEST.json --profile public --min-files 100 --json /home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/WP7/7D/20_scan_release_public.json dist/public/mbnas_application-0.1.0-public-runtime-linux_x86_64.zip
+scanned files=528 bytes=11405295 containers=5 skipped=0 hits=0 failing=0 unmet=0
+canary_scan: PASS
+exit=0

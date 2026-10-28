@@ -1,0 +1,195 @@
+# MBNAS Research Console — owner-private-runtime ZIP allowlist (WP-7D; read by scripts/dev/package_build.py)
+#
+# Format: see public.txt (same syntax and sections).
+# Scope: public-runtime (public.txt [include], DD-A41) + the private core package and wheel, requirements-owner.txt,
+# deploy/owner, owner tests and all of tests/_shared, the root pyproject.toml (pytest configuration), all scripts
+# (owner/dev/runner/public tools), LICENSE_STATUS.md and the internal documents except the canary manifest
+# (docs/internal/canary/, denied everywhere) and the source-snapshot provenance manifests (the snapshot itself is
+# build/source_snapshot, denied with build/). Private to the owner: host facts are reported, not failed, and there is
+# no private-package check (the web bundle gate and the canary/secret checks still apply).
+
+[profile]
+name = owner
+web_dist = optional
+private_package_check = off
+host_facts = report
+# C09: the wheel member listing of this build also ships here (owner-only evidence area; declared in [generated])
+wheel_listing_member = docs/internal/evidence/package_build/owner_wheels.txt
+
+[wheels]
+mbnas_contracts
+mbnas_model_runtime
+mbnas_runner
+mbnas_server
+mbnas_core
+
+[include]
+# --- public-runtime part (same as public.txt [include]) ---
+mbnas_contracts/pyproject.toml
+mbnas_contracts/src/**
+mbnas_model_runtime/pyproject.toml
+mbnas_model_runtime/src/**
+mbnas_runner/pyproject.toml
+mbnas_runner/src/**
+mbnas_server/pyproject.toml
+mbnas_server/src/**
+mbnas_web/src/**
+mbnas_web/public/**
+mbnas_web/index.html
+mbnas_web/README.md
+mbnas_web/package.json
+mbnas_web/package-lock.json
+mbnas_web/vite.config.ts
+mbnas_web/tsconfig*.json
+mbnas_web/playwright*.config.ts
+mbnas_web/tests/**
+mbnas_web/e2e/**
+mbnas_web/scripts/**
+mbnas_web/dist/**
+tests/public/**
+tests/_shared/conftest_common.py
+tests/_shared/datasets.py
+tests/_shared/gpu_guard.py
+tests/_shared/fake_core.py
+tests/_shared/stub_core.py
+tests/_shared/stub_handlers.py
+requirements-public.txt
+requirements-cpu.txt
+constraints.txt
+scripts/install.sh
+scripts/doctor.sh
+scripts/start.sh
+scripts/stop.sh
+scripts/verify.sh
+# public tools (DD-A59 b): host-default-free CLIs shipped with the bundle (make_pilot_subset.py; its interface test
+# tests/public/model_runtime/test_datasets.py::test_subset_cli_unchanged_interface runs from the bundle)
+scripts/public/**
+config/examples/**
+deploy/public/**
+docs/public/**
+examples/**
+README.md
+VERSION
+# root LICENSE: DD-A65 placeholder (all rights reserved, licence undetermined)
+LICENSE*
+THIRD_PARTY_NOTICES.md
+# npm licences of the web bundle (DD-A65, scripts/dev/gen_npm_notices.py)
+THIRD_PARTY_NOTICES_WEB.md
+# docker build from the unpacked ZIP: only the files the Dockerfiles COPY reach the builder (WP-7B probe)
+.dockerignore
+# --- owner-only part ---
+LICENSE_STATUS.md
+mbnas_core/pyproject.toml
+mbnas_core/src/**
+requirements-owner.txt
+deploy/owner/**
+tests/owner/**
+tests/_shared/**
+pyproject.toml
+scripts/**
+docs/internal/**
+
+[deny]
+# --- everywhere (as in public.txt / registration.txt, except that evidence logs under docs/internal stay) ---
+runtime/**
+build/**
+dist/**
+**/node_modules/**
+**/pw-browsers/**
+**/__pycache__/**
+**/*.pyc
+**/*.pyo
+**/*.egg-info/**
+**/.env
+**/.env.*
+**/*.env
+docs/internal/canary/**
+**/.git/**
+**/.pytest_cache/**
+**/.mypy_cache/**
+**/.ruff_cache/**
+**/.vite/**
+**/test-results/**
+**/playwright-report/**
+**/*.sqlite3
+**/*.sqlite
+**/*.db
+**/*.pem
+**/*.key
+**/id_rsa*
+**/*.p12
+**/*.pfx
+**/*.pt
+**/*.pth
+**/*.ckpt
+**/*.safetensors
+**/*.onnx
+**/*.engine
+# logs: everywhere except docs/internal (evidence logs are owner documents)
+mbnas_*/**/*.log
+tests/**/*.log
+scripts/**/*.log
+config/**/*.log
+deploy/**/*.log
+examples/**/*.log
+docs/public/**/*.log
+*.log
+**/.DS_Store
+mbnas_web/runtime/**
+# --- owner: no source-snapshot provenance manifests ---
+docs/internal/provenance/SOURCE_SNAPSHOT_* :: snapshot provenance of the original checkout stays on the build host
+# --- owner: no T8 owner static-scan dumps (DD-A74, C10 D8): tens of MB of host-fact match listings that grow with
+# every scan cycle because each owner ZIP scan re-matches the dumps of the previous one; the summaries stay in SUMMARY.md
+# and in the t8 README; the dumps stay on the build host under docs/internal/evidence/ ---
+docs/internal/evidence/**/t8/zip_leak_scan_owner.* :: T8 owner static-scan dumps stay on the build host (DD-A74)
+
+[generated]
+BUILD_INFO.json
+PACKAGE_PROFILE.json
+FILE_MANIFEST.jsonl
+# human-readable contents table rendered from FILE_MANIFEST.jsonl (C10)
+PACKAGE_CONTENTS.md
+wheels/*.whl
+# wheel member listing of this build (C09; [profile] wheel_listing_member)
+docs/internal/evidence/package_build/owner_wheels.txt
+
+[required]
+VERSION
+.dockerignore
+constraints.txt
+LICENSE
+THIRD_PARTY_NOTICES.md
+THIRD_PARTY_NOTICES_WEB.md
+LICENSE_STATUS.md
+mbnas_contracts/pyproject.toml
+mbnas_model_runtime/pyproject.toml
+mbnas_runner/pyproject.toml
+mbnas_server/pyproject.toml
+mbnas_core/pyproject.toml
+mbnas_web/package.json
+pyproject.toml
+
+[expected]
+README.md
+requirements-public.txt
+requirements-cpu.txt
+requirements-owner.txt
+scripts/install.sh
+scripts/doctor.sh
+scripts/start.sh
+scripts/stop.sh
+scripts/verify.sh
+config/examples/gateway.env.example
+config/examples/runner.env.example
+config/examples/core.env.example
+config/examples/owner-all-in-one.env.example
+deploy/public/Dockerfile
+deploy/public/docker-compose.yml
+deploy/owner/Dockerfile
+deploy/owner/docker-compose.yml
+docs/public/INSTALL.md
+examples/**
+mbnas_web/package-lock.json
+mbnas_web/src/**
+tests/public/conftest.py
+tests/_shared/conftest_common.py

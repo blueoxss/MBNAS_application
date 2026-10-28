@@ -1,0 +1,37 @@
+--- a/application/docs/integration_20261021/harness/verify_cpu_training_browser.mjs
++++ b/application/docs/integration_20261021/harness/verify_cpu_training_browser.mjs
+@@ -26,6 +26,25 @@
+  const response=await page.request.get(await image.getAttribute('src'));
+  if(response.status()!==200||!response.headers()['content-type']?.startsWith('image/')||!response.headers()['x-artifact-sha256'])throw Error('Actual artifact bytes/hash not served');
+  await page.screenshot({path:c.evidence+'/live-cpu-synthetic-training-images.png',fullPage:false});
++ // REQ-9.03 / DD-44: the original link must point at the real artifact URL and the in-page 확대 lightbox must open on the same image.
++ // original_zoom_link below is derived from these assertions; if any fails the script throws before printing it.
++ const originalLink=first.getByRole('link',{name:'원본 새 탭'});
++ await expect(originalLink).toHaveAttribute('href',/^https?:/);
++ const originalHref=await originalLink.getAttribute('href');
++ const zoomButton=first.getByTestId(/artifact-zoom-/);
++ await zoomButton.click();
++ await expect(page.getByTestId('lightbox-image')).toBeVisible();
++ await expect.poll(()=>page.getByTestId('lightbox-image').evaluate(i=>i.naturalWidth)).toBeGreaterThan(0);
++ await expect(page.getByTestId('lightbox-original')).toHaveAttribute('href',/^https?:/);
++ const lightboxShown=await page.getByTestId('lightbox-image').isVisible();
++ const lightboxOriginalHref=await page.getByTestId('lightbox-original').getAttribute('href');
++ await page.screenshot({path:c.evidence+'/live-cpu-synthetic-training-lightbox.png',fullPage:false});
++ await page.keyboard.press('Escape');
++ await expect(page.getByTestId('lightbox-image')).toHaveCount(0);
++ await expect(page.getByRole('dialog')).toBeVisible(); // Esc closes only the lightbox, not the candidate dialog
++ await expect(zoomButton).toBeFocused();
++ const originalZoomLink=/^https?:/.test(originalHref??'')&&lightboxShown&&/^https?:/.test(lightboxOriginalHref??'')&&await zoomButton.evaluate(b=>b===document.activeElement);
++ if(!originalZoomLink)throw Error('original link / lightbox checks did not hold');
+  const training=figures.filter({hasText:/training_batch|train_batch/}).first();
+  if(await training.count()){
+   await training.scrollIntoViewIfNeeded();await expect(training).toHaveAttribute('data-loaded','true',{timeout:20000});
+@@ -33,7 +52,7 @@
+  }
+  if(errors.length)throw Error(errors.join(';'));
+  console.log(JSON.stringify({actual_native_gallery:true,visible_registered_images:await figures.count(),
+-  actual_artifact_image_bytes_http200:true,artifact_sha256_header:true,original_zoom_link:true,unmeasured_badge:true,native_validation_placeholder_warning:true,
++  actual_artifact_image_bytes_http200:true,artifact_sha256_header:true,original_zoom_link:originalZoomLink,unmeasured_badge:true,native_validation_placeholder_warning:true,
+   source_run_id:c.run_id,source_candidate_id:c.candidate_id,
+   evidence_label:'actual CPU training on four synthetic images; validation OFF; direct handler, API CUDA worker unchanged',page_errors:errors}));
+ }finally{await browser.close();}

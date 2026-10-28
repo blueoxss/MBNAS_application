@@ -1,0 +1,18 @@
+--- a/application/MBNAS_server/contracts/history/HISTORY.json
++++ b/application/MBNAS_server/contracts/history/HISTORY.json
+@@ -144,6 +144,15 @@
+    "created": "2026-10-23",
+    "model": "claude-sonnet-5-5 (under claude-fable-5-1 design)",
+    "migration": "migrate_1.4.1_to_1.4.2.py"
++  },
++  {
++   "version": "1.4.3",
++   "file": "openapi-1.4.3.json",
++   "sha256": "f3fe8ea672ee106d41c5c92723f7002136c7181892933aff7653a31c83f8c738",
++   "author": "integration 2026-10-26 (design: claude-fable-5-1; implementation: claude-sonnet-5-5)",
++   "created": "2026-10-26",
++   "model": "claude-sonnet-5-5 (under claude-fable-5-1 design)",
++   "migration": "migrate_1.4.2_to_1.4.3.py"
+   }
+  ],
+  "writers_of_contracts_openapi_json": [

@@ -1,0 +1,1931 @@
+{
+ "kind": "bench_host_gpu",
+ "created_at": "20261028_030918",
+ "command": [
+  "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/venv/bin/python",
+  "scripts/runner/bench_host_gpu.py",
+  "--data-root",
+  "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/runner_data/coco128",
+  "--val-dir",
+  "images/train2017",
+  "--weights-dir",
+  "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/weights",
+  "--weights",
+  "yolo11n.pt",
+  "--runs-root",
+  "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/bench_g2"
+ ],
+ "cwd": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2",
+ "evidence_type": "real_gpu (NVIDIA RTX A6000), measured",
+ "source_tree": {
+  "algorithm": "mbnas-source-tree/2",
+  "sha256": "sha256:24c2214807a62b29aa8c717c3edb77d1f3743f0efb458dca261b89d722bd65b9",
+  "files": 99
+ },
+ "cuda_visible_devices": "1",
+ "tensorrt": {
+  "status": "BLOCKED_BY_ENV",
+  "error": "ModuleNotFoundError: No module named 'tensorrt'",
+  "reason": "tensorrt is not importable in this environment (not in the offline wheelhouse): the TensorRT engines are BLOCKED and no TensorRT number is produced or substituted"
+ },
+ "paths": {
+  "data_root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/runner_data/coco128",
+  "weights_dir": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/weights",
+  "runs_root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/bench_g2",
+  "out_root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/bench_g2/benchmark/host_gpu_20261028_030918"
+ },
+ "capability": {
+  "backends": {
+   "ultralytics": {
+    "export_onnx": {
+     "supported": true,
+     "method": "ultralytics Exporter(format='onnx') on the evaluated module",
+     "opset": 17,
+     "dynamic": false,
+     "half": false,
+     "batch": 1,
+     "simplify": false,
+     "simplify_reason": "onnxslim is not installed (PLAN \u00a78.9)",
+     "nms": false,
+     "nms_reason": "raw head exported; decode/NMS runs in the adapter postprocess so PyTorch/ORT/TRT share one postprocess"
+    },
+    "output_semantics": {
+     "YOLO11": "output0[1, 4+nc, anchors]: xywh in input pixels + per-class sigmoid scores (one-to-many); adapter postprocess = NMS + scale to source pixels",
+     "YOLO26": "output0[1, 300, 6]: one-to-one end2end head (nms=False): xyxy input pixels, score, class; adapter postprocess = confidence filter + scale (no NMS)",
+     "RTDETR": "output0[1, 300, 6]: cx, cy, w, h normalised, score, class (top-k queries, no NMS)"
+    },
+    "export_trt": {
+     "supported": true,
+     "method": "TensorRT python API from the exported ONNX (benchmark.trt_build)"
+    },
+    "runtimes": [
+     "pytorch",
+     "onnxruntime",
+     "tensorrt"
+    ]
+   },
+   "etri_hybrid": {
+    "export_onnx": {
+     "supported": true,
+     "method": "torch.onnx.export of the evaluated ControlledDetector",
+     "opset": 17,
+     "dynamic": false,
+     "batch": 1,
+     "outputs": [
+      "pred_logits",
+      "pred_boxes"
+     ]
+    },
+    "output_semantics": "pred_logits[1, tokens, nc+1] (softmax, background last), pred_boxes[1, tokens, 4] cxcywh normalised; adapter postprocess = softmax, class NMS, restore to source pixels",
+    "export_trt": {
+     "supported": true,
+     "method": "TensorRT python API from the exported ONNX"
+    },
+    "runtimes": [
+     "pytorch",
+     "onnxruntime",
+     "tensorrt"
+    ]
+   },
+   "rfdetr": {
+    "export_onnx": {
+     "supported": true,
+     "method": "rfdetr RFDETR.export(format='onnx', opset_version=17, batch_size=1, dynamic_batch=False, shape=(R, R)) on a deepcopy of the evaluated LWDETR",
+     "opset": 17,
+     "dynamic": false,
+     "batch": 1,
+     "simplify": "not offered by rfdetr 1.11.2",
+     "resolution_by_class": "RFDETR_RESOLUTION (nano 384, small 512, medium 576, large 704); eval snapshots export at their trained resolution",
+     "outputs": [
+      "dets",
+      "labels"
+     ]
+    },
+    "output_semantics": "dets[1, 300, 4] cxcywh normalised + labels[1, 300, C] logits (no NMS); the adapter postprocess (rfdetr PostProcess: top-k num_select over sigmoid(query x class), boxes scaled to source pixels, then the conf threshold) runs on these outputs for every runtime",
+    "export_trt": {
+     "supported": true,
+     "method": "TensorRT python API from the exported ONNX"
+    },
+    "runtimes": [
+     "pytorch",
+     "onnxruntime",
+     "tensorrt"
+    ],
+    "accuracy_delta": "adapters/rfdetr_adapter.py predict(): the ONNX Runtime / TensorRT forward replaces LWDETR inside RFDETR.predict (same resize/normalise preprocessing, same PostProcess and threshold), scored by the common evaluator against pytorch:FP32"
+   }
+  },
+  "targets": {
+   "host-gpu-0": {
+    "device": "host-gpu-0",
+    "status": "AVAILABLE",
+    "kind": "host_gpu"
+   },
+   "jetson-orin-nx": {
+    "device": "jetson-orin-nx",
+    "status": "BLOCKED",
+    "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted."
+   }
+  },
+  "host": {
+   "torch": {
+    "available": true,
+    "version": "2.6.0+cu124",
+    "cuda": "12.4",
+    "cuda_available": true,
+    "devices": [
+     "NVIDIA RTX A6000"
+    ]
+   },
+   "torchvision": {
+    "available": true,
+    "version": "0.21.0+cu124"
+   },
+   "onnx": {
+    "available": true,
+    "version": "1.23.2"
+   },
+   "onnxruntime": {
+    "available": true,
+    "version": "1.23.2",
+    "providers": [
+     "TensorrtExecutionProvider",
+     "CUDAExecutionProvider",
+     "CPUExecutionProvider"
+    ]
+   },
+   "tensorrt": {
+    "available": false,
+    "error": "ModuleNotFoundError: No module named 'tensorrt'"
+   },
+   "ultralytics": {
+    "available": true,
+    "version": "8.4.173"
+   },
+   "rfdetr": {
+    "available": true,
+    "version": "1.11.2",
+    "imported": false
+   }
+  }
+ },
+ "split": {
+  "root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/runner_data/coco128/images/train2017",
+  "names": {
+   "0": "person",
+   "1": "bicycle",
+   "2": "car",
+   "3": "motorcycle",
+   "4": "airplane",
+   "5": "bus",
+   "6": "train",
+   "7": "truck",
+   "8": "boat",
+   "9": "traffic light",
+   "10": "fire hydrant",
+   "11": "stop sign",
+   "12": "parking meter",
+   "13": "bench",
+   "14": "bird",
+   "15": "cat",
+   "16": "dog",
+   "17": "horse",
+   "18": "sheep",
+   "19": "cow",
+   "20": "elephant",
+   "21": "bear",
+   "22": "zebra",
+   "23": "giraffe",
+   "24": "backpack",
+   "25": "umbrella",
+   "26": "handbag",
+   "27": "tie",
+   "28": "suitcase",
+   "29": "frisbee",
+   "30": "skis",
+   "31": "snowboard",
+   "32": "sports ball",
+   "33": "kite",
+   "34": "baseball bat",
+   "35": "baseball glove",
+   "36": "skateboard",
+   "37": "surfboard",
+   "38": "tennis racket",
+   "39": "bottle",
+   "40": "wine glass",
+   "41": "cup",
+   "42": "fork",
+   "43": "knife",
+   "44": "spoon",
+   "45": "bowl",
+   "46": "banana",
+   "47": "apple",
+   "48": "sandwich",
+   "49": "orange",
+   "50": "broccoli",
+   "51": "carrot",
+   "52": "hot dog",
+   "53": "pizza",
+   "54": "donut",
+   "55": "cake",
+   "56": "chair",
+   "57": "couch",
+   "58": "potted plant",
+   "59": "bed",
+   "60": "dining table",
+   "61": "toilet",
+   "62": "tv",
+   "63": "laptop",
+   "64": "mouse",
+   "65": "remote",
+   "66": "keyboard",
+   "67": "cell phone",
+   "68": "microwave",
+   "69": "oven",
+   "70": "toaster",
+   "71": "sink",
+   "72": "refrigerator",
+   "73": "book",
+   "74": "clock",
+   "75": "vase",
+   "76": "scissors",
+   "77": "teddy bear",
+   "78": "hair drier",
+   "79": "toothbrush"
+  }
+ },
+ "subjects": [
+  {
+   "weights": "yolo11n.pt",
+   "job_result": {
+    "job_id": "bench-yolo11n",
+    "status": "SUCCEEDED",
+    "attempt": 1,
+    "exit_code": 0,
+    "reason_code": null,
+    "message": null,
+    "outputs": {
+     "status": "MEASURED",
+     "target": {
+      "device": "host-gpu-0",
+      "status": "AVAILABLE",
+      "kind": "host_gpu"
+     },
+     "benchmark_path": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/bench_g2/benchmark/host_gpu_20261028_030918/yolo11n/benchmark.json",
+     "latency_table": [
+      {
+       "runtime": "pytorch",
+       "precision": "FP32",
+       "key": "pytorch:FP32",
+       "scope": "forward_only",
+       "p50_ms": 5.6777,
+       "p95_ms": 5.7993,
+       "mean_ms": 5.7115,
+       "fps_batch1": 176.13
+      },
+      {
+       "runtime": "pytorch",
+       "precision": "FP32",
+       "key": "pytorch:FP32",
+       "scope": "forward_and_postprocess",
+       "p50_ms": 6.3809,
+       "p95_ms": 6.558,
+       "mean_ms": 6.4314,
+       "fps_batch1": 156.72
+      },
+      {
+       "runtime": "pytorch",
+       "precision": "FP32",
+       "key": "pytorch:FP32",
+       "scope": "end_to_end",
+       "p50_ms": 7.4945,
+       "p95_ms": 7.8597,
+       "mean_ms": 7.548,
+       "fps_batch1": 133.43
+      },
+      {
+       "runtime": "pytorch",
+       "precision": "FP16",
+       "key": "pytorch:FP16",
+       "scope": "forward_only",
+       "p50_ms": 7.6932,
+       "p95_ms": 7.7749,
+       "mean_ms": 7.7091,
+       "fps_batch1": 129.98
+      },
+      {
+       "runtime": "pytorch",
+       "precision": "FP16",
+       "key": "pytorch:FP16",
+       "scope": "forward_and_postprocess",
+       "p50_ms": 8.3925,
+       "p95_ms": 8.4889,
+       "mean_ms": 8.4395,
+       "fps_batch1": 119.15
+      },
+      {
+       "runtime": "pytorch",
+       "precision": "FP16",
+       "key": "pytorch:FP16",
+       "scope": "end_to_end",
+       "p50_ms": 9.483,
+       "p95_ms": 9.7052,
+       "mean_ms": 9.5266,
+       "fps_batch1": 105.45
+      },
+      {
+       "runtime": "onnxruntime",
+       "precision": "FP32",
+       "key": "onnxruntime:FP32",
+       "scope": "forward_only",
+       "p50_ms": 2.0962,
+       "p95_ms": 2.1501,
+       "mean_ms": 2.1046,
+       "fps_batch1": 477.05
+      },
+      {
+       "runtime": "onnxruntime",
+       "precision": "FP32",
+       "key": "onnxruntime:FP32",
+       "scope": "forward_and_postprocess",
+       "p50_ms": 2.8377,
+       "p95_ms": 2.9014,
+       "mean_ms": 2.8668,
+       "fps_batch1": 352.39
+      },
+      {
+       "runtime": "onnxruntime",
+       "precision": "FP32",
+       "key": "onnxruntime:FP32",
+       "scope": "end_to_end",
+       "p50_ms": 3.7993,
+       "p95_ms": 3.8882,
+       "mean_ms": 3.7989,
+       "fps_batch1": 263.21
+      }
+     ],
+     "accuracy_delta": {
+      "pytorch:FP32": {
+       "ap_delta": 0.0,
+       "ap_50_delta": 0.0,
+       "recall_delta": 0.0
+      },
+      "pytorch:FP16": {
+       "ap_delta": 2.1311036583093745e-05,
+       "ap_50_delta": -0.0006047599997967001,
+       "recall_delta": -5.545081512703387e-05
+      },
+      "onnxruntime:FP32": {
+       "ap_delta": 0.0005060316259095643,
+       "ap_50_delta": -0.0005358495617778791,
+       "recall_delta": 0.0
+      },
+      "tensorrt:FP16": null,
+      "tensorrt:FP32": null
+     },
+     "accuracy_delta_class_agnostic": {
+      "pytorch:FP32": {
+       "ap_delta": 0.0,
+       "ap_50_delta": 0.0,
+       "recall_delta": 0.0
+      },
+      "pytorch:FP16": {
+       "ap_delta": 0.00010281027951580812,
+       "ap_50_delta": -5.1156649297223744e-05,
+       "recall_delta": -0.0010764262648008671
+      },
+      "onnxruntime:FP32": {
+       "ap_delta": 0.00013606571947416546,
+       "ap_50_delta": -0.00018043197574824088,
+       "recall_delta": 0.0
+      },
+      "tensorrt:FP16": null,
+      "tensorrt:FP32": null
+     },
+     "engines": {
+      "FP16": {
+       "status": "BLOCKED",
+       "sha256": null,
+       "error": "tensorrt import failed: ModuleNotFoundError: No module named 'tensorrt'"
+      },
+      "FP32": {
+       "status": "BLOCKED",
+       "sha256": null,
+       "error": "tensorrt import failed: ModuleNotFoundError: No module named 'tensorrt'"
+      }
+     },
+     "runtime_status": {
+      "pytorch:FP32": "MEASURED",
+      "pytorch:FP16": "MEASURED",
+      "onnxruntime:FP32": "MEASURED",
+      "tensorrt:FP16": "FAILED",
+      "tensorrt:FP32": "FAILED"
+     },
+     "postprocess_runtime": {
+      "torchvision": "0.21.0+cu124",
+      "ultralytics_nms": "torchvision.ops.nms",
+      "backend": "ultralytics",
+      "implementation": "one2many + NMS",
+      "device": "same CUDA device as the forward for every runtime (torch ops on the runtime's output tensors)"
+     },
+     "postprocess_operating_point": {
+      "latency": {
+       "conf": 0.25,
+       "iou": 0.7,
+       "max_det": 300,
+       "source": "default (contract v1.2.0 benchmark.postprocess)",
+       "applied_by_adapter": true,
+       "latency_fns_parameter": "postprocess"
+      },
+      "accuracy": {
+       "conf": 0.001,
+       "max_det": 300,
+       "recall_iou": 0.5,
+       "recall_conf": 0.25,
+       "source": "common evaluator EvalConfig defaults (conf_floor, max_det); NMS IoU (when the head uses NMS) from the adapter defaults",
+       "adapter_postprocess": {
+        "head": "one2many + NMS",
+        "nms": true,
+        "nms_impl": "ultralytics.utils.nms (torchvision.ops.nms when torchvision is imported, else TorchNMS python loop)",
+        "conf": 0.001,
+        "iou": 0.7,
+        "max_det": 300,
+        "preprocess": "letterbox center pad 114"
+       }
+      }
+     }
+    },
+    "gpu_seconds": null,
+    "started_at": "2026-10-27T18:09:21.238799Z",
+    "finished_at": "2026-10-27T18:09:44.264210Z"
+   },
+   "seconds": 23.0,
+   "record": {
+    "batch": 1,
+    "device": {
+     "cuda_index": 0,
+     "cuda_runtime": "12.4",
+     "cudnn": 90100,
+     "cudnn_benchmark": false,
+     "driver": "555.42.02",
+     "host_runtime": {
+      "onnx": {
+       "available": true,
+       "version": "1.23.2"
+      },
+      "onnxruntime": {
+       "available": true,
+       "providers": [
+        "TensorrtExecutionProvider",
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+       ],
+       "version": "1.23.2"
+      },
+      "rfdetr": {
+       "available": true,
+       "imported": false,
+       "version": "1.11.2"
+      },
+      "tensorrt": {
+       "available": false,
+       "error": "ModuleNotFoundError: No module named 'tensorrt'"
+      },
+      "torch": {
+       "available": true,
+       "cuda": "12.4",
+       "cuda_available": true,
+       "devices": [
+        "NVIDIA RTX A6000"
+       ],
+       "version": "2.6.0+cu124"
+      },
+      "torchvision": {
+       "available": true,
+       "version": "0.21.0+cu124"
+      },
+      "ultralytics": {
+       "available": true,
+       "version": "8.4.173"
+      }
+     },
+     "mem_clock_mhz": 8000,
+     "name": "NVIDIA RTX A6000",
+     "nvml_lookup": "uuid",
+     "persistence_mode": 0,
+     "power_limit_w": 300.0,
+     "sm_clock_max_mhz": 2100,
+     "sm_clock_mhz": 1800,
+     "temperature_c": 46,
+     "tf32": {
+      "cuda_matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "float32_matmul_precision": "highest"
+     },
+     "torch": "2.6.0+cu124",
+     "torch_device_name": "NVIDIA RTX A6000",
+     "utilization_percent": 0,
+     "uuid": "GPU-a27ee4cd-f0d5-9281-b474-4793ce913449"
+    },
+    "device_after": {
+     "cuda_index": 0,
+     "cuda_runtime": "12.4",
+     "cudnn": 90100,
+     "cudnn_benchmark": false,
+     "driver": "555.42.02",
+     "host_runtime": {
+      "onnx": {
+       "available": true,
+       "version": "1.23.2"
+      },
+      "onnxruntime": {
+       "available": true,
+       "providers": [
+        "TensorrtExecutionProvider",
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+       ],
+       "version": "1.23.2"
+      },
+      "rfdetr": {
+       "available": true,
+       "imported": false,
+       "version": "1.11.2"
+      },
+      "tensorrt": {
+       "available": false,
+       "error": "ModuleNotFoundError: No module named 'tensorrt'"
+      },
+      "torch": {
+       "available": true,
+       "cuda": "12.4",
+       "cuda_available": true,
+       "devices": [
+        "NVIDIA RTX A6000"
+       ],
+       "version": "2.6.0+cu124"
+      },
+      "torchvision": {
+       "available": true,
+       "version": "0.21.0+cu124"
+      },
+      "ultralytics": {
+       "available": true,
+       "version": "8.4.173"
+      }
+     },
+     "mem_clock_mhz": 8000,
+     "name": "NVIDIA RTX A6000",
+     "nvml_lookup": "uuid",
+     "persistence_mode": 0,
+     "power_limit_w": 300.0,
+     "sm_clock_max_mhz": 2100,
+     "sm_clock_mhz": 1935,
+     "temperature_c": 54,
+     "tf32": {
+      "cuda_matmul_allow_tf32": false,
+      "cudnn_allow_tf32": true,
+      "float32_matmul_precision": "highest"
+     },
+     "torch": "2.6.0+cu124",
+     "torch_device_name": "NVIDIA RTX A6000",
+     "utilization_percent": 66,
+     "uuid": "GPU-a27ee4cd-f0d5-9281-b474-4793ce913449"
+    },
+    "engines": {
+     "FP16": {
+      "builder_config": {},
+      "bytes": null,
+      "engine_path": null,
+      "error": "tensorrt import failed: ModuleNotFoundError: No module named 'tensorrt'",
+      "network": {},
+      "onnx_sha256": "ec0f190570b9bc2e3e5ba040589a151fdcddc9209170a8262fb64460bdb6b542",
+      "precision": "FP16",
+      "seconds": null,
+      "sha256": null,
+      "status": "BLOCKED",
+      "tensorrt_version": null,
+      "timing_cache": {}
+     },
+     "FP32": {
+      "builder_config": {},
+      "bytes": null,
+      "engine_path": null,
+      "error": "tensorrt import failed: ModuleNotFoundError: No module named 'tensorrt'",
+      "network": {},
+      "onnx_sha256": "ec0f190570b9bc2e3e5ba040589a151fdcddc9209170a8262fb64460bdb6b542",
+      "precision": "FP32",
+      "seconds": null,
+      "sha256": null,
+      "status": "BLOCKED",
+      "tensorrt_version": null,
+      "timing_cache": {}
+     }
+    },
+    "export": {
+     "backend": "ultralytics",
+     "bytes": 10701974,
+     "error": null,
+     "flags": {
+      "batch": 1,
+      "device": "cpu",
+      "dynamic": false,
+      "format": "onnx",
+      "graph_precision": "FP32",
+      "imgsz": 640,
+      "nms": false,
+      "opset": 17,
+      "simplify": false,
+      "verbose": false
+     },
+     "inputs": [
+      {
+       "elem_type": "FLOAT",
+       "name": "images",
+       "shape": [
+        1,
+        3,
+        640,
+        640
+       ]
+      }
+     ],
+     "method": "ultralytics 8.4.173 Exporter",
+     "ok": true,
+     "opset": 17,
+     "output_semantics": "output0[1, 4+nc, anchors]: xywh in input pixels + per-class sigmoid scores (one-to-many); adapter postprocess = NMS + scale to source pixels",
+     "outputs": [
+      {
+       "elem_type": "FLOAT",
+       "name": "output0",
+       "shape": [
+        1,
+        84,
+        8400
+       ]
+      }
+     ],
+     "path": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/bench_g2/benchmark/host_gpu_20261028_030918/yolo11n/onnx/yolo11n.onnx",
+     "seconds": 0.763,
+     "sha256": "ec0f190570b9bc2e3e5ba040589a151fdcddc9209170a8262fb64460bdb6b542"
+    },
+    "finished_at": "2026-10-27T18:09:44.230941Z",
+    "input_shape": [
+     1,
+     3,
+     640,
+     640
+    ],
+    "latency_source": "measured",
+    "latency_table": [
+     {
+      "fps_batch1": 176.13,
+      "key": "pytorch:FP32",
+      "mean_ms": 5.7115,
+      "p50_ms": 5.6777,
+      "p95_ms": 5.7993,
+      "precision": "FP32",
+      "runtime": "pytorch",
+      "scope": "forward_only"
+     },
+     {
+      "fps_batch1": 156.72,
+      "key": "pytorch:FP32",
+      "mean_ms": 6.4314,
+      "p50_ms": 6.3809,
+      "p95_ms": 6.558,
+      "precision": "FP32",
+      "runtime": "pytorch",
+      "scope": "forward_and_postprocess"
+     },
+     {
+      "fps_batch1": 133.43,
+      "key": "pytorch:FP32",
+      "mean_ms": 7.548,
+      "p50_ms": 7.4945,
+      "p95_ms": 7.8597,
+      "precision": "FP32",
+      "runtime": "pytorch",
+      "scope": "end_to_end"
+     },
+     {
+      "fps_batch1": 129.98,
+      "key": "pytorch:FP16",
+      "mean_ms": 7.7091,
+      "p50_ms": 7.6932,
+      "p95_ms": 7.7749,
+      "precision": "FP16",
+      "runtime": "pytorch",
+      "scope": "forward_only"
+     },
+     {
+      "fps_batch1": 119.15,
+      "key": "pytorch:FP16",
+      "mean_ms": 8.4395,
+      "p50_ms": 8.3925,
+      "p95_ms": 8.4889,
+      "precision": "FP16",
+      "runtime": "pytorch",
+      "scope": "forward_and_postprocess"
+     },
+     {
+      "fps_batch1": 105.45,
+      "key": "pytorch:FP16",
+      "mean_ms": 9.5266,
+      "p50_ms": 9.483,
+      "p95_ms": 9.7052,
+      "precision": "FP16",
+      "runtime": "pytorch",
+      "scope": "end_to_end"
+     },
+     {
+      "fps_batch1": 477.05,
+      "key": "onnxruntime:FP32",
+      "mean_ms": 2.1046,
+      "p50_ms": 2.0962,
+      "p95_ms": 2.1501,
+      "precision": "FP32",
+      "runtime": "onnxruntime",
+      "scope": "forward_only"
+     },
+     {
+      "fps_batch1": 352.39,
+      "key": "onnxruntime:FP32",
+      "mean_ms": 2.8668,
+      "p50_ms": 2.8377,
+      "p95_ms": 2.9014,
+      "precision": "FP32",
+      "runtime": "onnxruntime",
+      "scope": "forward_and_postprocess"
+     },
+     {
+      "fps_batch1": 263.21,
+      "key": "onnxruntime:FP32",
+      "mean_ms": 3.7989,
+      "p50_ms": 3.7993,
+      "p95_ms": 3.8882,
+      "precision": "FP32",
+      "runtime": "onnxruntime",
+      "scope": "end_to_end"
+     }
+    ],
+    "limitations": [
+     "Measured on the host GPU only (latency_source=measured, device host-gpu-0). Engines are device-specific and are not evidence for Jetson or any other target; those targets are BLOCKED.",
+     "Batch 1, static input shape; fps_batch1 = 1000/p50 is a batch-1 rate, not a throughput measurement.",
+     "pytorch:FP16 is autocast over FP32 weights; tensorrt:FP16 is a TensorRT FP16-flag engine (TF32 flag recorded).",
+     "Accuracy deltas compare runtimes of the same weights on one split with the common evaluator; absolute AP is not a model-quality claim.",
+     "raw_output_max_abs_diff_vs_reference is a diagnostic only: for top-k heads (RT-DETR, YOLO26 end2end) query order and the class-index column can differ between runtimes.",
+     "Accuracy deltas use the evaluator operating point (conf floor 0.001, max_det 300); latency uses postprocess_operating_point.latency only where postprocess_operating_point.latency.applied_by_adapter is true."
+    ],
+    "postprocess_operating_point": {
+     "accuracy": {
+      "adapter_postprocess": {
+       "conf": 0.001,
+       "head": "one2many + NMS",
+       "iou": 0.7,
+       "max_det": 300,
+       "nms": true,
+       "nms_impl": "ultralytics.utils.nms (torchvision.ops.nms when torchvision is imported, else TorchNMS python loop)",
+       "preprocess": "letterbox center pad 114"
+      },
+      "conf": 0.001,
+      "max_det": 300,
+      "recall_conf": 0.25,
+      "recall_iou": 0.5,
+      "source": "common evaluator EvalConfig defaults (conf_floor, max_det); NMS IoU (when the head uses NMS) from the adapter defaults"
+     },
+     "latency": {
+      "applied_by_adapter": true,
+      "conf": 0.25,
+      "iou": 0.7,
+      "latency_fns_parameter": "postprocess",
+      "max_det": 300,
+      "source": "default (contract v1.2.0 benchmark.postprocess)"
+     }
+    },
+    "postprocess_runtime": {
+     "backend": "ultralytics",
+     "device": "same CUDA device as the forward for every runtime (torch ops on the runtime's output tensors)",
+     "implementation": "one2many + NMS",
+     "torchvision": "0.21.0+cu124",
+     "ultralytics_nms": "torchvision.ops.nms"
+    },
+    "reference": "pytorch:FP32",
+    "repeats": 100,
+    "runtimes": {
+     "onnxruntime:FP32": {
+      "accuracy": {
+       "ap": 0.5039354019663703,
+       "ap_50": 0.6711596696520536,
+       "ap_for_delta": 0.5039354019663703,
+       "ap_for_delta_source": "evaluator.ap",
+       "ap_per_class_mean": 0.5039354019663705,
+       "class_agnostic": {
+        "ap": 0.457180735521621,
+        "ap_50": 0.6564811384624902,
+        "ap_for_delta": 0.457180735521621,
+        "ap_for_delta_source": "evaluator.ap",
+        "counts": {
+         "fn": 432,
+         "fp": 161,
+         "gt": 929,
+         "images": 128,
+         "kept": 658,
+         "predictions": 16009,
+         "tp": 497
+        },
+        "recall": 0.534983853606028
+       },
+       "coco_stats": {
+        "ap": 0.5039354019663703,
+        "ap_50": 0.6711596696520536,
+        "ap_75": 0.5539548831178478,
+        "ap_large": 0.7053923566237859,
+        "ap_medium": 0.45886922966736965,
+        "ap_small": 0.20286571057260688,
+        "ar": 0.6328518006909865,
+        "max_det": 300
+       },
+       "counts": {
+        "fn": 444,
+        "fp": 173,
+        "gt": 929,
+        "images": 128,
+        "kept": 658,
+        "predictions": 16009,
+        "tp": 485
+       },
+       "detections": 16009,
+       "evaluation_hash": "sha256:11dfc70362fdb186bb356dc24790ea1b1f06da40099127cf5c7627db84d040a5",
+       "invalid_reason": null,
+       "metric_definitions": {
+        "ap": "COCO AP@[.50:.95] (pycocotools, maxDets[2]=300), fraction 0-1",
+        "ap_50": "COCO AP@.50, fraction 0-1",
+        "coordinates": "source image pixels",
+        "evaluator_version": "mbnas-evaluator/1",
+        "recall": "recall at IoU 0.5, score >= 0.25, macro over classes with GT, rule greedy_conf_desc_iou_v1"
+       },
+       "no_predictions": false,
+       "per_class_ap": {
+        "0": 0.5426023903830494,
+        "1": 0.19358993042161357,
+        "10": null,
+        "11": 0.7504950495049505,
+        "12": null,
+        "13": 0.3626522332024473,
+        "14": 0.628286132184647,
+        "15": 0.7650165016501651,
+        "16": 0.6705343995938056,
+        "17": 0.700990099009901,
+        "18": null,
+        "19": null,
+        "2": 0.1625964972106057,
+        "20": 0.7600302838554532,
+        "21": 0.9999999999999998,
+        "22": 0.9752475247524752,
+        "23": 0.7299923929968025,
+        "24": 0.24106082036775106,
+        "25": 0.4029272785808626,
+        "26": 0.06485401246024641,
+        "27": 0.5838283828382839,
+        "28": 0.6101485148514851,
+        "29": 0.6765676567656765,
+        "3": 0.7821782178217822,
+        "30": 0.6999999999999998,
+        "31": 0.506072838053036,
+        "32": 0.3156765676567657,
+        "33": 0.24820806600348957,
+        "34": 0.10994059405940595,
+        "35": 0.21848184818481847,
+        "36": 0.438998899889989,
+        "37": null,
+        "38": 0.29517137357300083,
+        "39": 0.31121889184716794,
+        "4": 0.926930693069307,
+        "40": 0.4071494355977548,
+        "41": 0.28622545473497113,
+        "42": 0.3219840413528532,
+        "43": 0.41610962331491536,
+        "44": 0.3101982467950409,
+        "45": 0.5827770485839285,
+        "46": 0.5,
+        "47": null,
+        "48": 0.6666666666666666,
+        "49": 0.5989273927392739,
+        "5": 0.6656765676567656,
+        "50": 0.22119987103752395,
+        "51": 0.40029947845552594,
+        "52": 1.0,
+        "53": 0.8217821782178217,
+        "54": 0.7959098409840984,
+        "55": 0.6527436260109527,
+        "56": 0.31070263154566913,
+        "57": 0.5828389185072352,
+        "58": 0.5577188574953873,
+        "59": 0.43524752475247513,
+        "6": 0.9108910891089109,
+        "60": 0.4846580197172477,
+        "61": 0.5734958111195735,
+        "62": 0.8504950495049505,
+        "63": 0.5306930693069307,
+        "64": 0.0,
+        "65": 0.44404233526800957,
+        "66": null,
+        "67": 0.03885221855518885,
+        "68": 0.9336633663366337,
+        "69": 0.2723095838995664,
+        "7": 0.17909157525046823,
+        "70": null,
+        "71": 0.16514074192229342,
+        "72": 0.7268976897689768,
+        "73": 0.21796150886254287,
+        "74": 0.7537010843941536,
+        "75": 0.900990099009901,
+        "76": 0.0,
+        "77": 0.46832351703657094,
+        "78": null,
+        "79": 0.5738316356552599,
+        "8": 0.39021007870017765,
+        "9": 0.1557095709570957
+       },
+       "per_class_recall": {
+        "0": 0.6692913385826772,
+        "1": 0.16666666666666666,
+        "11": 1.0,
+        "13": 0.3333333333333333,
+        "14": 1.0,
+        "15": 1.0,
+        "16": 0.7777777777777778,
+        "17": 1.0,
+        "2": 0.17391304347826086,
+        "20": 0.9411764705882353,
+        "21": 1.0,
+        "22": 1.0,
+        "23": 0.8888888888888888,
+        "24": 0.3333333333333333,
+        "25": 0.3888888888888889,
+        "26": 0.0,
+        "27": 0.42857142857142855,
+        "28": 1.0,
+        "29": 0.8,
+        "3": 1.0,
+        "30": 1.0,
+        "31": 0.5714285714285714,
+        "32": 0.3333333333333333,
+        "33": 0.4,
+        "34": 0.0,
+        "35": 0.42857142857142855,
+        "36": 0.4,
+        "38": 0.42857142857142855,
+        "39": 0.2777777777777778,
+        "4": 0.8333333333333334,
+        "40": 0.4375,
+        "41": 0.2777777777777778,
+        "42": 0.16666666666666666,
+        "43": 0.4375,
+        "44": 0.2727272727272727,
+        "45": 0.6785714285714286,
+        "46": 1.0,
+        "48": 1.0,
+        "49": 0.0,
+        "5": 0.7142857142857143,
+        "50": 0.18181818181818182,
+        "51": 0.5,
+        "52": 1.0,
+        "53": 1.0,
+        "54": 1.0,
+        "55": 0.75,
+        "56": 0.5428571428571428,
+        "57": 0.8333333333333334,
+        "58": 0.5,
+        "59": 0.6666666666666666,
+        "6": 1.0,
+        "60": 0.6923076923076923,
+        "61": 0.5,
+        "62": 1.0,
+        "63": 0.0,
+        "64": 0.0,
+        "65": 0.5,
+        "67": 0.0,
+        "68": 1.0,
+        "69": 0.4,
+        "7": 0.16666666666666666,
+        "71": 0.16666666666666666,
+        "72": 1.0,
+        "73": 0.13793103448275862,
+        "74": 0.7777777777777778,
+        "75": 1.0,
+        "76": 0.0,
+        "77": 0.3333333333333333,
+        "79": 0.8,
+        "8": 0.3333333333333333,
+        "9": 0.14285714285714285
+       },
+       "predict_seconds": 1.001,
+       "recall": 0.5702173926092243,
+       "signature": {
+        "batch": 1,
+        "class_aggregation": "macro",
+        "conf_floor": 0.001,
+        "device_class": "host-gpu",
+        "evaluator_version": "mbnas-evaluator/1",
+        "iou_thresholds": [
+         0.5,
+         0.55,
+         0.6,
+         0.65,
+         0.7,
+         0.75,
+         0.8,
+         0.85,
+         0.9,
+         0.95
+        ],
+        "matching_rule": "greedy_conf_desc_iou_v1",
+        "max_det": 300,
+        "precision": "FP32",
+        "recall_conf": 0.25,
+        "recall_iou": 0.5,
+        "resolved_input_shape": [
+         640,
+         640
+        ],
+        "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb"
+       },
+       "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb"
+      },
+      "accuracy_class_agnostic_delta_vs_reference": {
+       "ap_50_delta": -0.00018043197574824088,
+       "ap_delta": 0.00013606571947416546,
+       "recall_delta": 0.0
+      },
+      "accuracy_delta_vs_reference": {
+       "ap_50_delta": -0.0005358495617778791,
+       "ap_delta": 0.0005060316259095643,
+       "recall_delta": 0.0
+      },
+      "describe": {
+       "inputs": [
+        {
+         "name": "images",
+         "shape": [
+          1,
+          3,
+          640,
+          640
+         ],
+         "type": "tensor(float)"
+        }
+       ],
+       "outputs": [
+        {
+         "name": "output0",
+         "shape": [
+          1,
+          84,
+          8400
+         ],
+         "type": "tensor(float)"
+        }
+       ],
+       "providers": [
+        "CUDAExecutionProvider",
+        "CPUExecutionProvider"
+       ],
+       "runtime": "onnxruntime",
+       "version": "1.23.2"
+      },
+      "latency": {
+       "batch": 1,
+       "device_sampling": {
+        "after_repeats": {
+         "power_draw_w": 128.115,
+         "sm_clock_mhz": 1935
+        },
+        "after_warmup": {
+         "power_draw_w": 76.869,
+         "sm_clock_mhz": 1800
+        },
+        "cuda_index": 0,
+        "error": null,
+        "method": "nvmlDeviceGetPowerUsage / nvmlDeviceGetClockInfo(SM) sampled after the warm-up, after every repeat round (outside the timed window) and after the repeats",
+        "nvml_index": 1,
+        "nvml_lookup": "uuid",
+        "power_draw_w": {
+         "max": 128.115,
+         "mean": 104.07519607843138,
+         "min": 76.869,
+         "n": 102
+        },
+        "sm_clock_mhz": {
+         "max": 1935,
+         "mean": 1932.3529411764705,
+         "min": 1800,
+         "n": 102
+        }
+       },
+       "latency_source": "measured",
+       "postprocess_operating_point": {
+        "applied_by_adapter": true,
+        "conf": 0.25,
+        "iou": 0.7,
+        "latency_fns_parameter": "postprocess",
+        "max_det": 300,
+        "source": "default (contract v1.2.0 benchmark.postprocess)"
+       },
+       "preprocess_ms": 0.9615502785891294,
+       "preprocess_ms_definition": "p50(end_to_end) - p50(forward_and_postprocess), both timed in the same round-robin repeats; preprocessing is not timed on its own, timing noise can make it slightly negative",
+       "preprocess_ms_method": "derived",
+       "repeats": 100,
+       "runtime": "pytorch",
+       "scopes": {
+        "end_to_end": {
+         "fps_batch1": 263.21,
+         "max_ms": 3.952902276068926,
+         "mean_ms": 3.7989144446328282,
+         "min_ms": 3.6975089460611343,
+         "n": 100,
+         "p50_ms": 3.799280384555459,
+         "p95_ms": 3.888204414397478
+        },
+        "forward_and_postprocess": {
+         "fps_batch1": 352.39,
+         "max_ms": 5.289727821946144,
+         "mean_ms": 2.8668085485696793,
+         "min_ms": 2.742424141615629,
+         "n": 100,
+         "p50_ms": 2.8377301059663296,
+         "p95_ms": 2.901383163407445
+        },
+        "forward_only": {
+         "fps_batch1": 477.05,
+         "max_ms": 2.261660061776638,
+         "mean_ms": 2.1046372409909964,
+         "min_ms": 2.0267870277166367,
+         "n": 100,
+         "p50_ms": 2.0962306298315525,
+         "p95_ms": 2.1501495270058513
+        }
+       },
+       "throughput_fps": null,
+       "throughput_fps_note": "not measured (batch 1 only)",
+       "timer": "time.perf_counter with torch.cuda.synchronize around each repeat; scopes interleaved round-robin per repeat after per-scope warmup",
+       "version": "mbnas-latency/4",
+       "warmup": 20
+      },
+      "precision": "FP32",
+      "raw_output_max_abs_diff_vs_reference": 0.7718505859375,
+      "runtime": "onnxruntime",
+      "status": "MEASURED"
+     },
+     "pytorch:FP16": {
+      "accuracy": {
+       "ap": 0.5034506813770439,
+       "ap_50": 0.6710907592140348,
+       "ap_for_delta": 0.5034506813770439,
+       "ap_for_delta_source": "evaluator.ap",
+       "ap_per_class_mean": 0.5034506813770437,
+       "class_agnostic": {
+        "ap": 0.4571474800816626,
+        "ap_50": 0.6566104137889412,
+        "ap_for_delta": 0.4571474800816626,
+        "ap_for_delta_source": "evaluator.ap",
+        "counts": {
+         "fn": 433,
+         "fp": 159,
+         "gt": 929,
+         "images": 128,
+         "kept": 655,
+         "predictions": 15998,
+         "tp": 496
+        },
+        "recall": 0.5339074273412271
+       },
+       "coco_stats": {
+        "ap": 0.5034506813770439,
+        "ap_50": 0.6710907592140348,
+        "ap_75": 0.5529926418360989,
+        "ap_large": 0.7053493551806465,
+        "ap_medium": 0.4584032163896708,
+        "ap_small": 0.20296016788272,
+        "ar": 0.6326680602542517,
+        "max_det": 300
+       },
+       "counts": {
+        "fn": 445,
+        "fp": 171,
+        "gt": 929,
+        "images": 128,
+        "kept": 655,
+        "predictions": 15998,
+        "tp": 484
+       },
+       "detections": 15998,
+       "evaluation_hash": "sha256:f436b0bf437d4fc6a1e02ceaf98b071deac5cfaa7db194cc54771f405cd7de95",
+       "invalid_reason": null,
+       "metric_definitions": {
+        "ap": "COCO AP@[.50:.95] (pycocotools, maxDets[2]=300), fraction 0-1",
+        "ap_50": "COCO AP@.50, fraction 0-1",
+        "coordinates": "source image pixels",
+        "evaluator_version": "mbnas-evaluator/1",
+        "recall": "recall at IoU 0.5, score >= 0.25, macro over classes with GT, rule greedy_conf_desc_iou_v1"
+       },
+       "no_predictions": false,
+       "per_class_ap": {
+        "0": 0.5426737637371035,
+        "1": 0.19652689078431648,
+        "10": null,
+        "11": 0.7504950495049505,
+        "12": null,
+        "13": 0.3626522332024473,
+        "14": 0.6285725632957222,
+        "15": 0.7650165016501651,
+        "16": 0.6705343995938056,
+        "17": 0.700990099009901,
+        "18": null,
+        "19": null,
+        "2": 0.1626414059372043,
+        "20": 0.7600302838554532,
+        "21": 0.9999999999999998,
+        "22": 0.9752475247524752,
+        "23": 0.7299923929968025,
+        "24": 0.24106082036775106,
+        "25": 0.40661542818689966,
+        "26": 0.064852258044633,
+        "27": 0.5838283828382839,
+        "28": 0.6101485148514851,
+        "29": 0.6765676567656765,
+        "3": 0.7821782178217822,
+        "30": 0.6999999999999998,
+        "31": 0.5058003300330033,
+        "32": 0.3156765676567657,
+        "33": 0.2516829617236214,
+        "34": 0.11130363036303631,
+        "35": 0.21848184818481847,
+        "36": 0.4393373952779893,
+        "37": null,
+        "38": 0.29702729981736037,
+        "39": 0.31121889184716794,
+        "4": 0.9067326732673266,
+        "40": 0.4127269933535304,
+        "41": 0.2859283081725411,
+        "42": 0.3219840413528532,
+        "43": 0.41305636546528507,
+        "44": 0.3120829544148153,
+        "45": 0.5829080910999448,
+        "46": 0.5,
+        "47": null,
+        "48": 0.6666666666666666,
+        "49": 0.5556105610561056,
+        "5": 0.6656765676567656,
+        "50": 0.22119987103752395,
+        "51": 0.3955580555593346,
+        "52": 1.0,
+        "53": 0.8217821782178217,
+        "54": 0.7959098409840984,
+        "55": 0.6489718202589491,
+        "56": 0.3139009926040556,
+        "57": 0.5833198237406159,
+        "58": 0.5575632979115299,
+        "59": 0.4358709204253758,
+        "6": 0.9108910891089109,
+        "60": 0.4845450661950489,
+        "61": 0.5734958111195735,
+        "62": 0.8504950495049505,
+        "63": 0.5306930693069307,
+        "64": 0.0,
+        "65": 0.44455445544554456,
+        "66": null,
+        "67": 0.03885221855518885,
+        "68": 0.9336633663366337,
+        "69": 0.2723095838995664,
+        "7": 0.1791495729578318,
+        "70": null,
+        "71": 0.16394706778370138,
+        "72": 0.7268976897689768,
+        "73": 0.21827475102328328,
+        "74": 0.7537010843941536,
+        "75": 0.900990099009901,
+        "76": 0.0,
+        "77": 0.4715577725923011,
+        "78": null,
+        "79": 0.5913091309130913,
+        "8": 0.39021007870017765,
+        "9": 0.15085808580858087
+       },
+       "per_class_recall": {
+        "0": 0.6653543307086615,
+        "1": 0.16666666666666666,
+        "11": 1.0,
+        "13": 0.3333333333333333,
+        "14": 1.0,
+        "15": 1.0,
+        "16": 0.7777777777777778,
+        "17": 1.0,
+        "2": 0.17391304347826086,
+        "20": 0.9411764705882353,
+        "21": 1.0,
+        "22": 1.0,
+        "23": 0.8888888888888888,
+        "24": 0.3333333333333333,
+        "25": 0.3888888888888889,
+        "26": 0.0,
+        "27": 0.42857142857142855,
+        "28": 1.0,
+        "29": 0.8,
+        "3": 1.0,
+        "30": 1.0,
+        "31": 0.5714285714285714,
+        "32": 0.3333333333333333,
+        "33": 0.4,
+        "34": 0.0,
+        "35": 0.42857142857142855,
+        "36": 0.4,
+        "38": 0.42857142857142855,
+        "39": 0.2777777777777778,
+        "4": 0.8333333333333334,
+        "40": 0.4375,
+        "41": 0.2777777777777778,
+        "42": 0.16666666666666666,
+        "43": 0.4375,
+        "44": 0.2727272727272727,
+        "45": 0.6785714285714286,
+        "46": 1.0,
+        "48": 1.0,
+        "49": 0.0,
+        "5": 0.7142857142857143,
+        "50": 0.18181818181818182,
+        "51": 0.5,
+        "52": 1.0,
+        "53": 1.0,
+        "54": 1.0,
+        "55": 0.75,
+        "56": 0.5428571428571428,
+        "57": 0.8333333333333334,
+        "58": 0.5,
+        "59": 0.6666666666666666,
+        "6": 1.0,
+        "60": 0.6923076923076923,
+        "61": 0.5,
+        "62": 1.0,
+        "63": 0.0,
+        "64": 0.0,
+        "65": 0.5,
+        "67": 0.0,
+        "68": 1.0,
+        "69": 0.4,
+        "7": 0.16666666666666666,
+        "71": 0.16666666666666666,
+        "72": 1.0,
+        "73": 0.13793103448275862,
+        "74": 0.7777777777777778,
+        "75": 1.0,
+        "76": 0.0,
+        "77": 0.3333333333333333,
+        "79": 0.8,
+        "8": 0.3333333333333333,
+        "9": 0.14285714285714285
+       },
+       "predict_seconds": 1.656,
+       "recall": 0.5701619417940973,
+       "signature": {
+        "batch": 1,
+        "class_aggregation": "macro",
+        "conf_floor": 0.001,
+        "device_class": "host-gpu",
+        "evaluator_version": "mbnas-evaluator/1",
+        "iou_thresholds": [
+         0.5,
+         0.55,
+         0.6,
+         0.65,
+         0.7,
+         0.75,
+         0.8,
+         0.85,
+         0.9,
+         0.95
+        ],
+        "matching_rule": "greedy_conf_desc_iou_v1",
+        "max_det": 300,
+        "precision": "FP16",
+        "recall_conf": 0.25,
+        "recall_iou": 0.5,
+        "resolved_input_shape": [
+         640,
+         640
+        ],
+        "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb"
+       },
+       "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb"
+      },
+      "accuracy_class_agnostic_delta_vs_reference": {
+       "ap_50_delta": -5.1156649297223744e-05,
+       "ap_delta": 0.00010281027951580812,
+       "recall_delta": -0.0010764262648008671
+      },
+      "accuracy_delta_vs_reference": {
+       "ap_50_delta": -0.0006047599997967001,
+       "ap_delta": 2.1311036583093745e-05,
+       "recall_delta": -5.545081512703387e-05
+      },
+      "describe": {
+       "module": "DetectionModel",
+       "runtime": "pytorch"
+      },
+      "latency": {
+       "batch": 1,
+       "device_sampling": {
+        "after_repeats": {
+         "power_draw_w": 88.935,
+         "sm_clock_mhz": 1800
+        },
+        "after_warmup": {
+         "power_draw_w": 79.634,
+         "sm_clock_mhz": 1800
+        },
+        "cuda_index": 0,
+        "error": null,
+        "method": "nvmlDeviceGetPowerUsage / nvmlDeviceGetClockInfo(SM) sampled after the warm-up, after every repeat round (outside the timed window) and after the repeats",
+        "nvml_index": 1,
+        "nvml_lookup": "uuid",
+        "power_draw_w": {
+         "max": 88.935,
+         "mean": 86.91223529411765,
+         "min": 79.634,
+         "n": 102
+        },
+        "sm_clock_mhz": {
+         "max": 1800,
+         "mean": 1800.0,
+         "min": 1800,
+         "n": 102
+        }
+       },
+       "latency_source": "measured",
+       "postprocess_operating_point": {
+        "applied_by_adapter": true,
+        "conf": 0.25,
+        "iou": 0.7,
+        "latency_fns_parameter": "postprocess",
+        "max_det": 300,
+        "source": "default (contract v1.2.0 benchmark.postprocess)"
+       },
+       "preprocess_ms": 1.0905342642217875,
+       "preprocess_ms_definition": "p50(end_to_end) - p50(forward_and_postprocess), both timed in the same round-robin repeats; preprocessing is not timed on its own, timing noise can make it slightly negative",
+       "preprocess_ms_method": "derived",
+       "repeats": 100,
+       "runtime": "pytorch",
+       "scopes": {
+        "end_to_end": {
+         "fps_batch1": 105.45,
+         "max_ms": 10.46671997755766,
+         "mean_ms": 9.52657861635089,
+         "min_ms": 9.382047690451145,
+         "n": 100,
+         "p50_ms": 9.482995374128222,
+         "p95_ms": 9.705207031220198
+        },
+        "forward_and_postprocess": {
+         "fps_batch1": 119.15,
+         "max_ms": 10.579165071249008,
+         "mean_ms": 8.43945627566427,
+         "min_ms": 8.353754878044128,
+         "n": 100,
+         "p50_ms": 8.392461109906435,
+         "p95_ms": 8.488850248977542
+        },
+        "forward_only": {
+         "fps_batch1": 129.98,
+         "max_ms": 8.201033342629671,
+         "mean_ms": 7.709088581614196,
+         "min_ms": 7.647426798939705,
+         "n": 100,
+         "p50_ms": 7.693198975175619,
+         "p95_ms": 7.774949260056019
+        }
+       },
+       "throughput_fps": null,
+       "throughput_fps_note": "not measured (batch 1 only)",
+       "timer": "time.perf_counter with torch.cuda.synchronize around each repeat; scopes interleaved round-robin per repeat after per-scope warmup",
+       "version": "mbnas-latency/4",
+       "warmup": 20
+      },
+      "precision": "FP16",
+      "raw_output_max_abs_diff_vs_reference": 3.169830322265625,
+      "runtime": "pytorch",
+      "status": "MEASURED"
+     },
+     "pytorch:FP32": {
+      "accuracy": {
+       "ap": 0.5034293703404608,
+       "ap_50": 0.6716955192138315,
+       "ap_for_delta": 0.5034293703404608,
+       "ap_for_delta_source": "evaluator.ap",
+       "ap_per_class_mean": 0.5034293703404608,
+       "class_agnostic": {
+        "ap": 0.4570446698021468,
+        "ap_50": 0.6566615704382385,
+        "ap_for_delta": 0.4570446698021468,
+        "ap_for_delta_source": "evaluator.ap",
+        "counts": {
+         "fn": 432,
+         "fp": 161,
+         "gt": 929,
+         "images": 128,
+         "kept": 658,
+         "predictions": 16007,
+         "tp": 497
+        },
+        "recall": 0.534983853606028
+       },
+       "coco_stats": {
+        "ap": 0.5034293703404608,
+        "ap_50": 0.6716955192138315,
+        "ap_75": 0.553657156151436,
+        "ap_large": 0.7053606860858738,
+        "ap_medium": 0.45825412852651126,
+        "ap_small": 0.20300983597687267,
+        "ar": 0.6324236763896228,
+        "max_det": 300
+       },
+       "counts": {
+        "fn": 444,
+        "fp": 173,
+        "gt": 929,
+        "images": 128,
+        "kept": 658,
+        "predictions": 16007,
+        "tp": 485
+       },
+       "detections": 16007,
+       "evaluation_hash": "sha256:11dfc70362fdb186bb356dc24790ea1b1f06da40099127cf5c7627db84d040a5",
+       "invalid_reason": null,
+       "metric_definitions": {
+        "ap": "COCO AP@[.50:.95] (pycocotools, maxDets[2]=300), fraction 0-1",
+        "ap_50": "COCO AP@.50, fraction 0-1",
+        "coordinates": "source image pixels",
+        "evaluator_version": "mbnas-evaluator/1",
+        "recall": "recall at IoU 0.5, score >= 0.25, macro over classes with GT, rule greedy_conf_desc_iou_v1"
+       },
+       "no_predictions": false,
+       "per_class_ap": {
+        "0": 0.5426466272000795,
+        "1": 0.19478070884011478,
+        "10": null,
+        "11": 0.7504950495049505,
+        "12": null,
+        "13": 0.3626522332024473,
+        "14": 0.628286132184647,
+        "15": 0.7650165016501651,
+        "16": 0.6705343995938056,
+        "17": 0.700990099009901,
+        "18": null,
+        "19": null,
+        "2": 0.1625673111925367,
+        "20": 0.7600302838554532,
+        "21": 0.9999999999999998,
+        "22": 0.9752475247524752,
+        "23": 0.7299487478159581,
+        "24": 0.24106082036775106,
+        "25": 0.40661542818689966,
+        "26": 0.06484040632281829,
+        "27": 0.5838283828382839,
+        "28": 0.6101485148514851,
+        "29": 0.6765676567656765,
+        "3": 0.7821782178217822,
+        "30": 0.6999999999999998,
+        "31": 0.506072838053036,
+        "32": 0.3156765676567657,
+        "33": 0.25381142065703416,
+        "34": 0.11130363036303631,
+        "35": 0.21848184818481847,
+        "36": 0.438998899889989,
+        "37": null,
+        "38": 0.29517137357300083,
+        "39": 0.31121889184716794,
+        "4": 0.926930693069307,
+        "40": 0.4071494355977548,
+        "41": 0.2861998148615898,
+        "42": 0.3219566913956352,
+        "43": 0.4160713159127465,
+        "44": 0.3104466105064035,
+        "45": 0.5827770485839285,
+        "46": 0.5,
+        "47": null,
+        "48": 0.6666666666666666,
+        "49": 0.550990099009901,
+        "5": 0.6656765676567656,
+        "50": 0.22120636792781445,
+        "51": 0.40029402782642953,
+        "52": 1.0,
+        "53": 0.8217821782178217,
+        "54": 0.7959098409840984,
+        "55": 0.6527436260109527,
+        "56": 0.3114921668057594,
+        "57": 0.5828389185072352,
+        "58": 0.5577188574953873,
+        "59": 0.43412541254125403,
+        "6": 0.9108910891089109,
+        "60": 0.4847286395306198,
+        "61": 0.5734958111195735,
+        "62": 0.8504950495049505,
+        "63": 0.5306930693069307,
+        "64": 0.0,
+        "65": 0.44404233526800957,
+        "66": null,
+        "67": 0.03885221855518885,
+        "68": 0.9336633663366337,
+        "69": 0.2723095838995664,
+        "7": 0.17920098194488437,
+        "70": null,
+        "71": 0.1654284630020937,
+        "72": 0.7268976897689768,
+        "73": 0.21789612715685647,
+        "74": 0.7537010843941536,
+        "75": 0.900990099009901,
+        "76": 0.0,
+        "77": 0.4683015451934047,
+        "78": null,
+        "79": 0.5738316356552599,
+        "8": 0.39021007870017765,
+        "9": 0.1557095709570957
+       },
+       "per_class_recall": {
+        "0": 0.6692913385826772,
+        "1": 0.16666666666666666,
+        "11": 1.0,
+        "13": 0.3333333333333333,
+        "14": 1.0,
+        "15": 1.0,
+        "16": 0.7777777777777778,
+        "17": 1.0,
+        "2": 0.17391304347826086,
+        "20": 0.9411764705882353,
+        "21": 1.0,
+        "22": 1.0,
+        "23": 0.8888888888888888,
+        "24": 0.3333333333333333,
+        "25": 0.3888888888888889,
+        "26": 0.0,
+        "27": 0.42857142857142855,
+        "28": 1.0,
+        "29": 0.8,
+        "3": 1.0,
+        "30": 1.0,
+        "31": 0.5714285714285714,
+        "32": 0.3333333333333333,
+        "33": 0.4,
+        "34": 0.0,
+        "35": 0.42857142857142855,
+        "36": 0.4,
+        "38": 0.42857142857142855,
+        "39": 0.2777777777777778,
+        "4": 0.8333333333333334,
+        "40": 0.4375,
+        "41": 0.2777777777777778,
+        "42": 0.16666666666666666,
+        "43": 0.4375,
+        "44": 0.2727272727272727,
+        "45": 0.6785714285714286,
+        "46": 1.0,
+        "48": 1.0,
+        "49": 0.0,
+        "5": 0.7142857142857143,
+        "50": 0.18181818181818182,
+        "51": 0.5,
+        "52": 1.0,
+        "53": 1.0,
+        "54": 1.0,
+        "55": 0.75,
+        "56": 0.5428571428571428,
+        "57": 0.8333333333333334,
+        "58": 0.5,
+        "59": 0.6666666666666666,
+        "6": 1.0,
+        "60": 0.6923076923076923,
+        "61": 0.5,
+        "62": 1.0,
+        "63": 0.0,
+        "64": 0.0,
+        "65": 0.5,
+        "67": 0.0,
+        "68": 1.0,
+        "69": 0.4,
+        "7": 0.16666666666666666,
+        "71": 0.16666666666666666,
+        "72": 1.0,
+        "73": 0.13793103448275862,
+        "74": 0.7777777777777778,
+        "75": 1.0,
+        "76": 0.0,
+        "77": 0.3333333333333333,
+        "79": 0.8,
+        "8": 0.3333333333333333,
+        "9": 0.14285714285714285
+       },
+       "predict_seconds": 1.678,
+       "recall": 0.5702173926092243,
+       "signature": {
+        "batch": 1,
+        "class_aggregation": "macro",
+        "conf_floor": 0.001,
+        "device_class": "host-gpu",
+        "evaluator_version": "mbnas-evaluator/1",
+        "iou_thresholds": [
+         0.5,
+         0.55,
+         0.6,
+         0.65,
+         0.7,
+         0.75,
+         0.8,
+         0.85,
+         0.9,
+         0.95
+        ],
+        "matching_rule": "greedy_conf_desc_iou_v1",
+        "max_det": 300,
+        "precision": "FP32",
+        "recall_conf": 0.25,
+        "recall_iou": 0.5,
+        "resolved_input_shape": [
+         640,
+         640
+        ],
+        "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb"
+       },
+       "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb"
+      },
+      "accuracy_class_agnostic_delta_vs_reference": {
+       "ap_50_delta": 0.0,
+       "ap_delta": 0.0,
+       "recall_delta": 0.0
+      },
+      "accuracy_delta_vs_reference": {
+       "ap_50_delta": 0.0,
+       "ap_delta": 0.0,
+       "recall_delta": 0.0
+      },
+      "describe": {
+       "module": "DetectionModel",
+       "runtime": "pytorch"
+      },
+      "latency": {
+       "batch": 1,
+       "device_sampling": {
+        "after_repeats": {
+         "power_draw_w": 100.285,
+         "sm_clock_mhz": 1800
+        },
+        "after_warmup": {
+         "power_draw_w": 74.58,
+         "sm_clock_mhz": 1800
+        },
+        "cuda_index": 0,
+        "error": null,
+        "method": "nvmlDeviceGetPowerUsage / nvmlDeviceGetClockInfo(SM) sampled after the warm-up, after every repeat round (outside the timed window) and after the repeats",
+        "nvml_index": 1,
+        "nvml_lookup": "uuid",
+        "power_draw_w": {
+         "max": 100.367,
+         "mean": 94.15732352941177,
+         "min": 74.58,
+         "n": 102
+        },
+        "sm_clock_mhz": {
+         "max": 1800,
+         "mean": 1800.0,
+         "min": 1800,
+         "n": 102
+        }
+       },
+       "latency_source": "measured",
+       "postprocess_operating_point": {
+        "applied_by_adapter": true,
+        "conf": 0.25,
+        "iou": 0.7,
+        "latency_fns_parameter": "postprocess",
+        "max_det": 300,
+        "source": "default (contract v1.2.0 benchmark.postprocess)"
+       },
+       "preprocess_ms": 1.1135796085000038,
+       "preprocess_ms_definition": "p50(end_to_end) - p50(forward_and_postprocess), both timed in the same round-robin repeats; preprocessing is not timed on its own, timing noise can make it slightly negative",
+       "preprocess_ms_method": "derived",
+       "repeats": 100,
+       "runtime": "pytorch",
+       "scopes": {
+        "end_to_end": {
+         "fps_batch1": 133.43,
+         "max_ms": 8.499135728925467,
+         "mean_ms": 7.548045618459582,
+         "min_ms": 7.380411960184574,
+         "n": 100,
+         "p50_ms": 7.494452642276883,
+         "p95_ms": 7.859744504094124
+        },
+        "forward_and_postprocess": {
+         "fps_batch1": 156.72,
+         "max_ms": 8.754957932978868,
+         "mean_ms": 6.431361231952906,
+         "min_ms": 6.334703881293535,
+         "n": 100,
+         "p50_ms": 6.380873033776879,
+         "p95_ms": 6.558015919290483
+        },
+        "forward_only": {
+         "fps_batch1": 176.13,
+         "max_ms": 7.098546251654625,
+         "mean_ms": 5.711498102173209,
+         "min_ms": 5.6463852524757385,
+         "n": 100,
+         "p50_ms": 5.677684908732772,
+         "p95_ms": 5.799300502985716
+        }
+       },
+       "throughput_fps": null,
+       "throughput_fps_note": "not measured (batch 1 only)",
+       "timer": "time.perf_counter with torch.cuda.synchronize around each repeat; scopes interleaved round-robin per repeat after per-scope warmup",
+       "version": "mbnas-latency/4",
+       "warmup": 20
+      },
+      "precision": "FP32",
+      "raw_output_max_abs_diff_vs_reference": 0.0,
+      "runtime": "pytorch",
+      "status": "MEASURED"
+     },
+     "tensorrt:FP16": {
+      "error": "RuntimeError: TensorRT engine BLOCKED: tensorrt import failed: ModuleNotFoundError: No module named 'tensorrt'",
+      "precision": "FP16",
+      "runtime": "tensorrt",
+      "status": "FAILED"
+     },
+     "tensorrt:FP32": {
+      "error": "RuntimeError: TensorRT engine BLOCKED: tensorrt import failed: ModuleNotFoundError: No module named 'tensorrt'",
+      "precision": "FP32",
+      "runtime": "tensorrt",
+      "status": "FAILED"
+     }
+    },
+    "sample_image": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/runner_data/coco128/images/train2017/000000000009.jpg",
+    "schema": "mbnas-benchmark/1",
+    "seconds_wall": 22.65,
+    "split": {
+     "images": 128,
+     "root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/runner_data/coco128/images/train2017",
+     "roots": [
+      "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/runner_data/coco128/images/train2017"
+     ],
+     "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb"
+    },
+    "started_at": "2026-10-27T18:09:21.584942Z",
+    "subject": {
+     "backend": "ultralytics",
+     "imgsz": 640,
+     "name": "yolo11n",
+     "params": 2616248,
+     "postprocess": {
+      "conf": 0.001,
+      "head": "one2many + NMS",
+      "iou": 0.7,
+      "max_det": 300,
+      "nms": true,
+      "nms_impl": "ultralytics.utils.nms (torchvision.ops.nms when torchvision is imported, else TorchNMS python loop)",
+      "preprocess": "letterbox center pad 114"
+     },
+     "source": {
+      "bytes": 5613764,
+      "family": "YOLO11",
+      "inference_head": "native",
+      "kind": "official_weights",
+      "manifest": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/weights/weights_manifest.json",
+      "path": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/weights/yolo11n.pt",
+      "sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+      "source_url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt"
+     }
+    },
+    "warmup": 20
+   }
+  }
+ ],
+ "blocked_targets": [
+  {
+   "job_id": "bench-jetson",
+   "status": "BLOCKED",
+   "attempt": 1,
+   "exit_code": 1,
+   "reason_code": "TARGET_BLOCKED",
+   "message": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+   "outputs": {
+    "status": "BLOCKED",
+    "target": {
+     "device": "jetson-orin-nx",
+     "status": "BLOCKED",
+     "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted."
+    }
+   },
+   "gpu_seconds": null,
+   "started_at": "2026-10-27T18:09:44.266088Z",
+   "finished_at": "2026-10-27T18:09:44.266174Z"
+  }
+ ]
+}

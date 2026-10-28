@@ -1,0 +1,18 @@
+command: runtime/venv/bin/python -I -B docs/internal/evidence/WP7/7C/check_docs.py   (cwd <ROOT>; after the --help text changes of doctor/start/stop/verify)
+exit: 0
+[options] install                  defined=['--offline', '--profile', '--python', '--requirements', '--web', '--wheelhouse'] documented=['--offline', '--profile', '--python', '--requirements', '--web', '--wheelhouse'] not_in_docs=[]
+[options] doctor                   defined=['--json', '--profile', '--strict'] documented=['--json', '--profile', '--strict'] not_in_docs=[]
+[options] start                    defined=['--env-dir', '--profile', '--role', '--wait-s'] documented=['--env-dir', '--profile', '--role', '--wait-s'] not_in_docs=[]
+[options] stop                     defined=['--profile', '--role', '--timeout-s'] documented=['--profile', '--role', '--timeout-s'] not_in_docs=[]
+[options] verify                   defined=['--allow-gpu', '--json', '--profile', '--pytest-args', '--suite'] documented=['--json', '--profile', '--suite'] not_in_docs=[]
+[options] package                  defined=['--allow-missing-web', '--canary', '--platform', '--profile', '--reproducible'] documented=['--platform', '--profile', '--reproducible'] not_in_docs=[]
+[options] mbnas-gateway            defined=['--env-file', '--host', '--port'] documented=['--env-file', '--host', '--port'] not_in_docs=[]
+[options] mbnas-gateway-doctor     defined=['--env-file'] documented=['--env-file'] not_in_docs=[]
+[options] mbnas-runner             defined=['--env-file', '--max-jobs', '--once', '--spec-file'] documented=['--env-file', '--max-jobs', '--once', '--spec-file'] not_in_docs=[]
+[options] mbnas-core-api           defined=['--env-file', '--host', '--port'] documented=['--env-file', '--host', '--port'] not_in_docs=[]
+[options] mbnas-core-doctor        defined=['--env-file', '--strict'] documented=['--env-file', '--strict'] not_in_docs=[]
+[options] mbnas-core-owner-worker  defined=['--cpu', '--env-file', '--gpu-clear-timeout-s', '--gpu-index', '--kill-grace-s', '--kinds', '--max-jobs', '--once', '--owner', '--poll-s', '--worker-id'] documented=['--cpu', '--env-file', '--gpu-clear-timeout-s', '--gpu-index', '--kill-grace-s', '--kinds', '--max-jobs', '--once', '--owner', '--poll-s', '--worker-id'] not_in_docs=[]
+[options] mbnas-core-principal     defined=['--env-file', '--grace-s', '--kind', '--runner-id', '--ttl-days'] documented=['--env-file', '--grace-s', '--kind', '--runner-id', '--ttl-days'] not_in_docs=[]
+[svg] elements=259 ids=67 missing=[]
+[needles] files=55 hits=0
+RESULT PASS (0 problem(s))

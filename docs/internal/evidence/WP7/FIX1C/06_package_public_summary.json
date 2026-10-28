@@ -1,0 +1,55 @@
+{
+ "command": "bash scripts/package.sh --profile public (no dry-run/scan-only option exists in scripts/dev/package_build.py)",
+ "status": "built",
+ "counts": {
+  "violation": 0,
+  "warning": 0,
+  "info": 47
+ },
+ "zip": "dist/public/mbnas_application-0.1.0-public-runtime-linux_x86_64.zip",
+ "zip_sha256": "b095c565c39af49a33ab1b0a88a7abba36129bd0341005423ecef17c21ca8e62",
+ "staged_files": 461,
+ "content_scan": {
+  "files": 605,
+  "bytes": 10912733,
+  "containers": 4,
+  "hits": 0
+ },
+ "findings_for_scripts_public": [],
+ "scripts_public_in_zip": [
+  {
+   "bytes": 2369,
+   "licence": "project (licence undetermined; LICENSE_STATUS.md)",
+   "origin": "tree",
+   "relpath": "scripts/public/make_pilot_subset.py",
+   "role": "script",
+   "sha256": "c36b1a6e258fb9985ebf3606b2eba57b2b8d880b687304cc6fbcab7a2add6bd7"
+  }
+ ],
+ "offline_install": {
+  "install.offline_install": true,
+  "install.offline_install_verified_zip_sha256": "4174060dde93ce8aa941f2cbd36fcb8b0230f5f184e68f8ccbc71d49bcd9ae86"
+ },
+ "previous_build": {
+  "zip_sha256": "529243cfe506ee6aa39ed74eb8939e34844eeda0562367b16a77d46180e96792",
+  "counts": {
+   "violation": 0,
+   "warning": 0,
+   "info": 45
+  },
+  "staged_files": 454
+ },
+ "findings_new_vs_previous": [
+  [
+   "private_mention",
+   "info",
+   "tests/public/contracts/test_contract_history.py"
+  ],
+  [
+   "private_mention",
+   "info",
+   "tests/public/server/test_health_allowlists_split.py"
+  ]
+ ],
+ "findings_gone_vs_previous": []
+}

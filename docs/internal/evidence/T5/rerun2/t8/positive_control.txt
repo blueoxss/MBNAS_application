@@ -1,0 +1,25 @@
+FAIL extra     NEEDLE#4 [raw] owner_path_probe.txt:1
+FAIL extra     NEEDLE#6 [raw] owner_path_probe.txt:1
+FAIL extra     NEEDLE#6 [urlencoded] owner_path_probe.txt:1
+FAIL host_fact HOST_FACT#5 owner account name [raw] host_fact_probe.txt:1
+FAIL extra     SECRET:T5GW_MBNAS_GW_API_TOKEN [raw] public/gateway.env:1
+FAIL extra     SECRET:T5GW_MBNAS_GW_API_TOKEN [urlencoded] public/gateway.env:1
+FAIL extra     SECRET:T5GW_MBNAS_GW_ARTIFACT_SIGNING_KEY [raw] public/gateway.env:2
+FAIL extra     SECRET:T5GW_MBNAS_GW_ARTIFACT_SIGNING_KEY [urlencoded] public/gateway.env:2
+FAIL extra     SECRET:T5GW_MBNAS_GW_CORE_TOKEN [raw] public/gateway.env:4
+FAIL extra     SECRET:T5GW_MBNAS_GW_CORE_TOKEN [urlencoded] public/gateway.env:4
+FAIL extra     SECRET:T5RUN_MBNAS_RUNNER_TOKEN [raw] public/runner.env:2
+FAIL extra     SECRET:T5RUN_MBNAS_RUNNER_TOKEN [urlencoded] public/runner.env:2
+FAIL extra     NEEDLE#1 [raw] core.env:1
+FAIL extra     SECRET:T5CORE_MBNAS_CORE_API_TOKEN [raw] core.env:4
+FAIL extra     SECRET:T5CORE_MBNAS_CORE_API_TOKEN [urlencoded] core.env:4
+FAIL extra     SECRET:T5CORE_MBNAS_CORE_ARTIFACT_SIGNING_KEY [raw] core.env:5
+FAIL extra     SECRET:T5CORE_MBNAS_CORE_ARTIFACT_SIGNING_KEY [urlencoded] core.env:5
+FAIL extra     SECRET:T5CORE_MBNAS_CORE_TICKET_KEY [raw] core.env:6
+FAIL extra     SECRET:T5CORE_MBNAS_CORE_TICKET_KEY [urlencoded] core.env:6
+FAIL extra     NEEDLE#1 [raw] core.env:7
+FAIL extra     NEEDLE#7 [raw] core.env:7
+FAIL extra     NEEDLE#7 [urlencoded] core.env:7
+scanned files=5 bytes=1252 containers=0 skipped=0 hits=22 failing=22 unmet=0
+canary_scan: FAIL
+positive control exit=1

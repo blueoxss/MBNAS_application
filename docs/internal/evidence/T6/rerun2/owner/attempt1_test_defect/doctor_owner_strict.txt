@@ -1,0 +1,35 @@
+$ (cwd=/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/pfinal2/t6r2) bash /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application/scripts/doctor.sh --profile owner --strict --json /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/evidence/doctor_owner.json
+[PASS] interpreter: Python 3.10.22 venv /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application/runtime/venv
+[PASS] package:mbnas-contracts: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_contracts
+[PASS] package:mbnas-model-runtime: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime
+[PASS] package:mbnas-runner: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_runner
+[PASS] package:mbnas-server: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_server
+[PASS] package:mbnas-core: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core
+[PASS] entry_points: 7 console scripts in runtime/venv/bin
+[PASS] path_strings: 275 files scanned, no original-host path string
+[PASS] config:core: listen 127.0.0.1:18900, db /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application/runtime/core/db/mbnas.sqlite3; secrets set: MBNAS_CORE_API_TOKEN, MBNAS_CORE_ARTIFACT_SIGNING_KEY, MBNAS_CORE_TICKET_KEY
+[PASS] config:gateway: core_url http://127.0.0.1:18900, listen 127.0.0.1:18911; secrets set: MBNAS_GW_API_TOKEN, MBNAS_GW_ARTIFACT_SIGNING_KEY, MBNAS_GW_CORE_TOKEN
+[PASS] config:runner: core_url http://127.0.0.1:18900, runner_id runner-376f5e0e; secrets set: MBNAS_RUNNER_TOKEN|_TOKEN_FILE
+[PASS] process:core: running (pid 3908088)
+[PASS] process:owner-worker: running (pid 3908132)
+[PASS] process:gateway: running (pid 3908233)
+[PASS] process:runner: running (pid 3908510)
+[PASS] env:core: pid 3908088: no PYTHONPATH / PYTHONHOME in its environment
+[PASS] env:owner-worker: pid 3908132: no PYTHONPATH / PYTHONHOME in its environment
+[PASS] env:gateway: pid 3908233: no PYTHONPATH / PYTHONHOME in its environment
+[PASS] env:runner: pid 3908510: no PYTHONPATH / PYTHONHOME in its environment
+[PASS] port:core: 127.0.0.1:18900 held by this tree's core (pid 3908088)
+[PASS] port:gateway: 127.0.0.1:18911 held by this tree's gateway (pid 3908233)
+[PASS] port:web: 127.0.0.1:8720 free
+[PASS] gpu: GPU0 NVIDIA RTX A6000 2579/49140 MiB util 27%; GPU1 NVIDIA RTX A6000 6725/49140 MiB util 1%
+[PASS] gateway:core_url: loopback http
+[PASS] gateway:core_tls: plain http core_url: no TLS on this connection (see core_url)
+[PASS] core:gateway: http://127.0.0.1:18900/core/v1/console/health -> HTTP 200 status=ok
+[PASS] gateway:store: /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application/runtime/gateway/artifacts
+[PASS] gateway:log_dir: /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application/runtime/gateway/logs
+[PASS] core:runner: http://127.0.0.1:18900 answers (HTTP 401 without a token)
+[PASS] core_doctor: db present (schema 6); registry 17 entries (mbnas_core.registry.load_registry); free 132.9 GB
+[PASS] disk: 132.9 GB free under runtime/
+[PASS] web_dist: mbnas_web/dist present (served by the gateway at /)
+doctor: profile=owner root=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application PASS=32 WARN=0 FAIL=0
+exit=0

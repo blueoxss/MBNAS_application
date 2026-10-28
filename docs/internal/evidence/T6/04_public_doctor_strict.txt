@@ -1,0 +1,23 @@
+[PASS] interpreter: Python 3.10.22 venv /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application/runtime/venv
+[PASS] package:mbnas-contracts: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_contracts
+[PASS] package:mbnas-model-runtime: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime
+[PASS] package:mbnas-runner: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_runner
+[PASS] package:mbnas-server: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_server
+[PASS] package:mbnas-core: absent (public profile)
+[PASS] entry_points: 3 console scripts in runtime/venv/bin
+[PASS] path_strings: 169 files scanned, no original-host path string
+[PASS] config:gateway: core_url http://127.0.0.1:18700, listen 127.0.0.1:18710; secrets set: MBNAS_GW_API_TOKEN, MBNAS_GW_ARTIFACT_SIGNING_KEY, MBNAS_GW_CORE_TOKEN
+[PASS] config:runner: core_url http://127.0.0.1:18700, runner_id runner-t6-public; secrets set: MBNAS_RUNNER_TOKEN|_TOKEN_FILE
+[PASS] process:gateway: running (pid 2757109)
+[PASS] process:runner: running (pid 2757211)
+[PASS] port:gateway: 127.0.0.1:18710 held by this tree's gateway (pid 2757109)
+[PASS] port:web: 127.0.0.1:8720 free
+[PASS] gpu: GPU0 NVIDIA RTX A6000 42/49140 MiB util 0%; GPU1 NVIDIA RTX A6000 18/49140 MiB util 1%
+[PASS] gateway:core_url: loopback http
+[PASS] core:gateway: http://127.0.0.1:18700/core/v1/console/health -> HTTP 200 status=ok
+[PASS] gateway:store: /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application/runtime/gateway/artifacts
+[PASS] gateway:log_dir: /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application/runtime/gateway/logs
+[PASS] core:runner: http://127.0.0.1:18700 answers (HTTP 401 without a token)
+[PASS] disk: 286.2 GB free under runtime/
+[PASS] web_dist: mbnas_web/dist present (served by the gateway at /)
+doctor: profile=public root=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application PASS=22 WARN=0 FAIL=0

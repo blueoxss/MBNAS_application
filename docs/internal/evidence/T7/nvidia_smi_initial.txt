@@ -1,0 +1,5 @@
+# TREE_HASH sha256:164292c6e775a52a3da02f98282257b67a282f9e84b236ded3940e592a568f2f
+# before any G2 GPU work (verification required by the task): 2026-10-27T06:02:11Z (15:02:11 KST)
+0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 49140 MiB, 0 %
+1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 49140 MiB, 0 %
+compute apps: (none) - only Xorg/gnome-shell graphics (type G) on GPU 0/1

@@ -1,0 +1,36 @@
+# 2026-10-26T18:47:32+09:00 cwd=/home/mgjeong/Desktop/etri_hd/mbnas_application
+## grep -rnF over */src (excluding __pycache__, *.egg-info) for each forbidden string
+/root/detection: 2
+    mbnas_web/src/lib/policy.ts:392:const PILOT_ROOT = '/root/detection/MBNAS_data/pilot_visdrone_v1';
+    mbnas_web/src/lib/policy.ts:421:      output_root: '/root/detection/MBNAS_runs/pilot_smoke',
+/data/mgjeong: 0
+147.46.114.253: 0
+pc2300: 0
+mgjeong: 0
+MBNAS_server: 6
+    mbnas_contracts/src/mbnas_contracts/openapi/openapi.json:6:  "description": "Canonical web/server contract for MBNAS_server (package mbnas_server). Derived from NAS_Console_API_Contract_20261006.json 
+    mbnas_web/src/lib/policy.ts:5: * - `pilotSmokePolicy()` = the PILOT_SMOKE preset, built exactly like MBNAS_server/src/mbnas_server/protocol/presets.py
+    mbnas_web/src/lib/policy.ts:41:// Handoff protocol, verbatim copy of MBNAS_server/src/mbnas_server/protocol/handoff_protocol_20261006.json
+    mbnas_web/src/lib/validate.ts:3: * (MBNAS_server/src/mbnas_server/protocol/validator.py, util/paths.py) that can be decided without the server's file
+    mbnas_web/src/lib/fitness.ts:2: * Named weighted fitness, identical to the server (MBNAS_server/src/mbnas_server/protocol/fitness.py):
+    mbnas_web/src/api/types.ts:3: * `npm run gen:types` from MBNAS_server/contracts/openapi.json and must not be edited).
+etri_nas_root: 0
+## yolo_ga_runtime import statements
+0
+## package-source (non-web) hits are exactly the DD-A26 data exceptions (expire WP-4):
+   mbnas_contracts/src/mbnas_contracts/openapi/openapi.json:6 MBNAS_server (info.description; 1.4.2 bytes)
+   (base.py:32 legacy REGISTER_HOOKS key is not a forbidden-substring hit; it is the DD-A26 string-reference exception of the import checker)
+## NOTE: the grep glob mbnas_*/src also matched mbnas_web/src; those lines are WP-6 scope, not package sources
+## $ runtime/venv/bin/python -B -m pytest -p no:cacheprovider --timeout=600 -q tests/public/infra/test_no_host_facts.py -rs -s
+..DD-A26 data exceptions present (expire WP-4): [('mbnas_contracts/src/mbnas_contracts/openapi/openapi.json', 'MBNAS_server', 'WP-4'), ('mbnas_model_runtime/src/mbnas_model_runtime/adapters/base.py', 'mbnas_server.search.etri_bridge:ensure_mixed_registered', 'WP-4')]
+......
+8 passed in 0.55s
+exit=0
+## web (mbnas_web/src) forbidden hits, informational, WP-6 scope
+mbnas_web/src/lib/fitness.ts:2: * Named weighted fitness, identical to the server (MBNAS_server/src/mbnas_server/protocol/fitness.py):
+mbnas_web/src/lib/validate.ts:3: * (MBNAS_server/src/mbnas_server/protocol/validator.py, util/paths.py) that can be decided without the server's file
+mbnas_web/src/lib/policy.ts:5: * - `pilotSmokePolicy()` = the PILOT_SMOKE preset, built exactly like MBNAS_server/src/mbnas_server/protocol/presets.py
+mbnas_web/src/lib/policy.ts:41:// Handoff protocol, verbatim copy of MBNAS_server/src/mbnas_server/protocol/handoff_protocol_20261006.json
+mbnas_web/src/lib/policy.ts:392:const PILOT_ROOT = '/root/detection/MBNAS_data/pilot_visdrone_v1';
+mbnas_web/src/lib/policy.ts:421:      output_root: '/root/detection/MBNAS_runs/pilot_smoke',
+mbnas_web/src/api/types.ts:3: * `npm run gen:types` from MBNAS_server/contracts/openapi.json and must not be edited).

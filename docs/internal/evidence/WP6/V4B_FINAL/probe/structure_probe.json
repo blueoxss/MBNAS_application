@@ -1,0 +1,290 @@
+{
+ "url": "http://127.0.0.1:33943",
+ "runId": "train-717ba042b950",
+ "rowId": "model-70c320af044a.TRAIN.eval",
+ "errors": [],
+ "genes": [
+  "#0 · CNN Conv backbone[0]",
+  "#1 · CNN Conv backbone[1]",
+  "#2 · CNN C3k2 backbone[2]",
+  "#3 · CNN Conv backbone[3]",
+  "#4 · CNN C3k2 backbone[4]",
+  "#5 · CNN Conv backbone[5]",
+  "#6 · CNN C3k2 backbone[6]",
+  "#7 · CNN Conv backbone[7]",
+  "#8 · CNN C3k2 backbone[8]",
+  "#9 · CNN SPPF backbone[9]",
+  "#10 · Transformer C2PSA backbone[10]",
+  "#11 · Other nn.Upsample head[0]",
+  "#12 · Merge Concat head[1]",
+  "#13 · CNN C3k2 head[2]",
+  "#14 · Other nn.Upsample head[3]",
+  "#15 · Merge Concat head[4]",
+  "#16 · CNN C3k2 head[5]",
+  "#17 · CNN Conv head[6]",
+  "#18 · Merge Concat head[7]",
+  "#19 · CNN C3k2 head[8]",
+  "#20 · CNN Conv head[9]",
+  "#21 · Merge Concat head[10]",
+  "#22 · CNN C3k2 head[11]",
+  "#23 · Detection Detect head[12]"
+ ],
+ "kinds": {
+  "CNN": 16,
+  "Transformer": 1,
+  "Other": 2,
+  "Merge": 4,
+  "Detection": 1
+ },
+ "edges": [
+  {
+   "s": "INPUT",
+   "t": "block-0000",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0000",
+   "t": "block-0001",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0001",
+   "t": "block-0002",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0002",
+   "t": "block-0003",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0003",
+   "t": "block-0004",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0004",
+   "t": "block-0005",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0005",
+   "t": "block-0006",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0006",
+   "t": "block-0007",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0007",
+   "t": "block-0008",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0008",
+   "t": "block-0009",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0009",
+   "t": "block-0010",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0010",
+   "t": "block-0011",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0011",
+   "t": "block-0012",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0006",
+   "t": "block-0012",
+   "from": "6",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0012",
+   "t": "block-0013",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0013",
+   "t": "block-0014",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0014",
+   "t": "block-0015",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0004",
+   "t": "block-0015",
+   "from": "4",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0015",
+   "t": "block-0016",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0016",
+   "t": "block-0017",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0017",
+   "t": "block-0018",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0013",
+   "t": "block-0018",
+   "from": "13",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0018",
+   "t": "block-0019",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0019",
+   "t": "block-0020",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0020",
+   "t": "block-0021",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0010",
+   "t": "block-0021",
+   "from": "10",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0021",
+   "t": "block-0022",
+   "from": "-1",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0016",
+   "t": "block-0023",
+   "from": "16",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0019",
+   "t": "block-0023",
+   "from": "19",
+   "c": "yaml_from"
+  },
+  {
+   "s": "block-0022",
+   "t": "block-0023",
+   "from": "22",
+   "c": "yaml_from"
+  }
+ ],
+ "multi_input_targets": {
+  "block-0012": [
+   "block-0011",
+   "block-0006"
+  ],
+  "block-0015": [
+   "block-0014",
+   "block-0004"
+  ],
+  "block-0018": [
+   "block-0017",
+   "block-0013"
+  ],
+  "block-0021": [
+   "block-0020",
+   "block-0010"
+  ],
+  "block-0023": [
+   "block-0016",
+   "block-0019",
+   "block-0022"
+  ]
+ },
+ "graph_nodes": 24,
+ "via_graph": {
+  "detail": "선택 블록 #12 · Concat\nblock ID\nblock-0012\nstable_id\nul:head[1]@a48faaf59672\nYAML 위치\nhead[1]\nnative path\nmodel.12\n소속 / 유형\nneck / Merge\nsection_basis\nderived:non-detection head row -> neck\nmodule (선언)\nConcat\nmodule_class (관측)\nConcat\nwrapper\n미기록\nwrapped_module\n미기록\nconnection_source\nyaml_from\nfrom\n[-1,6]\nargs\n[1]\n선언 channels\n미기록\n입력 channels (합)\n384\n출력 channels\n384\n입력 shape\n[4,4]\n출력 shape\n[4,4]\nstride\n16\n실제 parameters\n0\n계산량 (기록값)\n미기록\n부모 출처\n미기록\n부모 block ID\n미기록\noperation\n미기록\n출처 계열\nYOLOv5\n도입 버전\n출처 미상\n역할\n지정 차원(기본 채널)으로 텐서를 이어 붙이는 병합\n참고\nhttps://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.Concat\n설치본 소스\nultralytics/nn/modules/conv.py\n카탈로그 메모\nultralytics/yolov5의 models/common.py에도 같은 이름이 있음. 최초 도입 시점 unknown\n반복 수: 선언 · scale 공식 · 관측 (서로 대체하지 않음)\n선언 (D)\tscale (R, depth 공식 파생)\t관측 (O)\n1\t1\t1\n입력 (소스별 실제 전달된 tensor)\n소스\tc\th\tw\nrow 11\t256\t4\t4\nrow 6\t128\t4\t4\n\n내부 layer 대응은 기록되지 않았습니다. YAML 반복 수로 내부 layer를 추정하지 않습니다.",
+  "block": "block-0012",
+  "pressed": "true"
+ },
+ "after_gene0": "block-0000",
+ "via_gene": {
+  "detail": "선택 블록 #12 · Concat\nblock ID\nblock-0012\nstable_id\nul:head[1]@a48faaf59672\nYAML 위치\nhead[1]\nnative path\nmodel.12\n소속 / 유형\nneck / Merge\nsection_basis\nderived:non-detection head row -> neck\nmodule (선언)\nConcat\nmodule_class (관측)\nConcat\nwrapper\n미기록\nwrapped_module\n미기록\nconnection_source\nyaml_from\nfrom\n[-1,6]\nargs\n[1]\n선언 channels\n미기록\n입력 channels (합)\n384\n출력 channels\n384\n입력 shape\n[4,4]\n출력 shape\n[4,4]\nstride\n16\n실제 parameters\n0\n계산량 (기록값)\n미기록\n부모 출처\n미기록\n부모 block ID\n미기록\noperation\n미기록\n출처 계열\nYOLOv5\n도입 버전\n출처 미상\n역할\n지정 차원(기본 채널)으로 텐서를 이어 붙이는 병합\n참고\nhttps://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.Concat\n설치본 소스\nultralytics/nn/modules/conv.py\n카탈로그 메모\nultralytics/yolov5의 models/common.py에도 같은 이름이 있음. 최초 도입 시점 unknown\n반복 수: 선언 · scale 공식 · 관측 (서로 대체하지 않음)\n선언 (D)\tscale (R, depth 공식 파생)\t관측 (O)\n1\t1\t1\n입력 (소스별 실제 전달된 tensor)\n소스\tc\th\tw\nrow 11\t256\t4\t4\nrow 6\t128\t4\t4\n\n내부 layer 대응은 기록되지 않았습니다. YAML 반복 수로 내부 layer를 추정하지 않습니다.",
+  "block": "block-0012",
+  "graph_pressed": "true"
+ },
+ "graph_and_gene_same_detail": true,
+ "repeat_block": {
+  "detail_head": "선택 블록 #2 · C3k2\nblock ID\nblock-0002\nstable_id\nul:backbone[2]@a48faaf59672\nYAML 위치\nbackbone[2]\nnative path\nmodel.2\n소속 / 유형\nbackbone / CNN\nsection_basis\nyaml:backbone\nmodule (선언)\nC3k2\nmodule_class (관측)\nC3k2\nwrapper\n미기록\nwrapped_module\n미기록\nconnection_source\nyaml_from\nfrom\n-1\nargs\n[256,false,0.25]\n선언 channels\n256\n입력 channels (합)\n32\n출력 channels\n64\n입력 shape\n[16,16]\n출력 shape\n[16,16]\nstride\n4\n실제 parameters\n6640\n계산량 (기록값)\n미기록\n부모 출처\n미기록\n부모 block ID\n미기록\noperation\n미기록\n출처 계열\nYOLO11\n도입 버전\nYOLO11\n역할\nC3k2: C2f 변형. 내부 블록이 Bottleneck, C3k, 또는 (attn 설정 시) Bottleneck + PSABlock\n참고\nhttps://docs.ultralytics.com/refe",
+  "summary": "기록된 내부 layer (18, 공유 4)",
+  "rows": 18,
+  "shared_rows": 4,
+  "paths": [
+   "2.cv1",
+   "2.cv1.conv",
+   "2.cv1.bn",
+   "2.cv1.act",
+   "2.cv2",
+   "2.cv2.conv",
+   "2.cv2.bn",
+   "2.cv2.act",
+   "2.m",
+   "2.m.0",
+   "2.m.0.cv1",
+   "2.m.0.cv1.conv",
+   "2.m.0.cv1.bn",
+   "2.m.0.cv1.act",
+   "2.m.0.cv2",
+   "2.m.0.cv2.conv",
+   "2.m.0.cv2.bn",
+   "2.m.0.cv2.act"
+  ],
+  "repeats": {
+   "declared": "2",
+   "scaled": "1",
+   "observed": "1"
+  }
+ },
+ "block_table_rows": 24,
+ "block_table_row_buttons": 0
+}

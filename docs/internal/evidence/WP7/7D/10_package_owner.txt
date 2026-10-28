@@ -1,0 +1,67 @@
+$ bash scripts/package.sh --profile owner --reproducible
+[package] profile=owner version=0.1.0 platform=linux_x86_64 reproducible=True canary_test_build=False root=.
+[package] INFO      host_fact: docs/internal/DECISIONS.md:30 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/DECISIONS.md:32 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/DECISIONS.md:32 — HOST_FACT#1 owner data root
+[package] INFO      host_fact: docs/internal/DECISIONS.md:32 — HOST_FACT#3 original host address
+[package] INFO      host_fact: docs/internal/DECISIONS.md:32 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/DECISIONS.md:38 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/DECISIONS.md:45 — HOST_FACT#1 owner data root
+[package] INFO      host_fact: docs/internal/FUNCTION_AND_SECRET_MATRIX.md:38 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/TASK_STATE.md:15 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/TASK_STATE.md:6 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/TASK_STATE.md:7 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-1_SPLIT.md:126 — HOST_FACT#1 owner data root
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-1_SPLIT.md:3 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-1_SPLIT.md:9 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-1_SPLIT.md:9 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-1_SPLIT.md:9 — HOST_FACT#1 owner data root
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-1_SPLIT.md:9 — HOST_FACT#3 original host address
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-1_SPLIT.md:9 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-1_SPLIT.md:9 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-6_WEB.md:10 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/WORK_PACKAGES/WP-6_WEB.md:10 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/DTO_ALLOWLIST_PROPOSAL.json:1450 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/DTO_ALLOWLIST_PROPOSAL.json:957 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/DTO_ALLOWLIST_PROPOSAL.md:118 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/DTO_ALLOWLIST_PROPOSAL.md:159 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/DTO_ALLOWLIST_PROPOSAL.md:159 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/DTO_ALLOWLIST_PROPOSAL.md:244 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/analysis/DTO_ALLOWLIST_PROPOSAL.md:245 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/analysis/DTO_ALLOWLIST_PROPOSAL.md:245 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/analysis/ETRI_RUNTIME_SCOPE.md:258 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/ETRI_RUNTIME_SCOPE.md:293 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/ETRI_RUNTIME_SCOPE.md:344 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/analysis/ETRI_RUNTIME_SCOPE.md:345 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:107 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:108 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:119 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:119 — HOST_FACT#1 owner data root
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:22 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:24 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:2979 — HOST_FACT#2 original host root
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:2979 — HOST_FACT#1 owner data root
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:371 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:372 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:48 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:528 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:529 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:554 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:580 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:581 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:6 — HOST_FACT#5 owner account name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:623 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:633 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:653 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:654 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:699 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:700 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:791 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:792 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:813 — HOST_FACT#4 original host name
+[package] INFO      host_fact: docs/internal/analysis/FUNCTION_BASELINE.json:836 — HOST_FACT#4 original host name
+[package] checks: 0 violation(s), 0 warning(s), 816 info; report build/package_reports/owner.json
+[package] reproducible: two builds IDENTICAL (e7fcc17dde28b2a5 / e7fcc17dde28b2a5)
+[package] staged 942 files in build/staging/owner/mbnas_application; wheels: mbnas_contracts-0.1.0-py3-none-any.whl, mbnas_model_runtime-0.1.0-py3-none-any.whl, mbnas_runner-0.1.0-py3-none-any.whl, mbnas_server-0.1.0-py3-none-any.whl, mbnas_core-0.1.0-py3-none-any.whl
+[package] zip dist/owner/mbnas_application-0.1.0-owner-private-runtime-linux_x86_64.zip (11414475 bytes) sha256=c2d863c9a88d2addca04c55ae7543da3cdcbb7e2f77035d1a03bd2061ff59e27
+exit=0

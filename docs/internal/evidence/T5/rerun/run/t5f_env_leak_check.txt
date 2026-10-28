@@ -1,0 +1,233 @@
+# command (<T>=runtime/test_root/t4t5):
+<PY310_ENV>/bin/python3.10 -I <T>/harness/env_leak_check.py --container t5f-gw --container t5f-runner  --group t5_core_secrets=<T>/final/t5/core_home/core.env:*secret*  --group owner_install_core_secrets=<T>/final/t4/mbnas_application/config/owner/core.env:*secret*  --group owner_install_gateway_secrets=<T>/final/t4/mbnas_application/config/owner/gateway.env:*secret*  --group owner_install_runner_token=<T>/final/t4/mbnas_application/config/owner/runner.env:*secret*  --group t5_gateway_console_token=<T>/final/t5/run/config/public/gateway.env:MBNAS_GW_API_TOKEN,MBNAS_GW_ARTIFACT_SIGNING_KEY  --group t5_gateway_server_principal=<T>/final/t5/run/config/public/gateway.env:MBNAS_GW_CORE_TOKEN  --group t5_runner_token=<T>/final/t5/run/config/public/runner.env:MBNAS_RUNNER_TOKEN  --canary <ROOT>/docs/internal/canary/CANARY_MANIFEST.json  --expect t5f-gw:t5_gateway_console_token --expect t5f-gw:t5_gateway_server_principal --expect t5f-runner:t5_runner_token
+{
+ "groups": {
+  "t5_core_secrets": 3,
+  "owner_install_core_secrets": 3,
+  "owner_install_gateway_secrets": 3,
+  "owner_install_runner_token": 1,
+  "t5_gateway_console_token": 2,
+  "t5_gateway_server_principal": 1,
+  "t5_runner_token": 1,
+  "canary_values": 9,
+  "canary_prefix": 1
+ },
+ "containers": {
+  "t5f-gw": {
+   "inspect_exit": 0,
+   "exec_exit": 0,
+   "env_keys": [
+    "MBNAS_GW_API_TOKEN",
+    "MBNAS_GW_ARTIFACT_SIGNING_KEY",
+    "MBNAS_GW_ARTIFACT_STORE",
+    "MBNAS_GW_CORE_TOKEN",
+    "MBNAS_GW_CORE_URL",
+    "MBNAS_GW_DATASET_ROOTS",
+    "MBNAS_GW_HOST",
+    "MBNAS_GW_OUTPUT_ROOTS",
+    "MBNAS_GW_PORT",
+    "MBNAS_GW_WEB_DIST",
+    "MBNAS_HOME"
+   ],
+   "t5_core_secrets@config_env": {
+    "hits": 0,
+    "of": 3,
+    "expected": false
+   },
+   "t5_core_secrets@live_env": {
+    "hits": 0,
+    "of": 3,
+    "expected": false
+   },
+   "owner_install_core_secrets@config_env": {
+    "hits": 0,
+    "of": 3,
+    "expected": false
+   },
+   "owner_install_core_secrets@live_env": {
+    "hits": 0,
+    "of": 3,
+    "expected": false
+   },
+   "owner_install_gateway_secrets@config_env": {
+    "hits": 0,
+    "of": 3,
+    "expected": false
+   },
+   "owner_install_gateway_secrets@live_env": {
+    "hits": 0,
+    "of": 3,
+    "expected": false
+   },
+   "owner_install_runner_token@config_env": {
+    "hits": 0,
+    "of": 1,
+    "expected": false
+   },
+   "owner_install_runner_token@live_env": {
+    "hits": 0,
+    "of": 1,
+    "expected": false
+   },
+   "t5_gateway_console_token@config_env": {
+    "hits": 2,
+    "of": 2,
+    "expected": true
+   },
+   "t5_gateway_console_token@live_env": {
+    "hits": 2,
+    "of": 2,
+    "expected": true
+   },
+   "t5_gateway_server_principal@config_env": {
+    "hits": 1,
+    "of": 1,
+    "expected": true
+   },
+   "t5_gateway_server_principal@live_env": {
+    "hits": 1,
+    "of": 1,
+    "expected": true
+   },
+   "t5_runner_token@config_env": {
+    "hits": 0,
+    "of": 1,
+    "expected": false
+   },
+   "t5_runner_token@live_env": {
+    "hits": 0,
+    "of": 1,
+    "expected": false
+   },
+   "canary_values@config_env": {
+    "hits": 0,
+    "of": 9,
+    "expected": false
+   },
+   "canary_values@live_env": {
+    "hits": 0,
+    "of": 9,
+    "expected": false
+   },
+   "canary_prefix@config_env": {
+    "hits": 0,
+    "of": 1,
+    "expected": false
+   },
+   "canary_prefix@live_env": {
+    "hits": 0,
+    "of": 1,
+    "expected": false
+   }
+  },
+  "t5f-runner": {
+   "inspect_exit": 0,
+   "exec_exit": 0,
+   "env_keys": [
+    "MBNAS_GW_HOST",
+    "MBNAS_GW_PORT",
+    "MBNAS_GW_WEB_DIST",
+    "MBNAS_HOME",
+    "MBNAS_RUNNER_ARTIFACT_STORE_DIR",
+    "MBNAS_RUNNER_ARTIFACT_STORE_MODE",
+    "MBNAS_RUNNER_ARTIFACT_TRANSFER",
+    "MBNAS_RUNNER_CORE_URL",
+    "MBNAS_RUNNER_DATASET_ROOTS",
+    "MBNAS_RUNNER_TOKEN"
+   ],
+   "t5_core_secrets@config_env": {
+    "hits": 0,
+    "of": 3,
+    "expected": false
+   },
+   "t5_core_secrets@live_env": {
+    "hits": 0,
+    "of": 3,
+    "expected": false
+   },
+   "owner_install_core_secrets@config_env": {
+    "hits": 0,
+    "of": 3,
+    "expected": false
+   },
+   "owner_install_core_secrets@live_env": {
+    "hits": 0,
+    "of": 3,
+    "expected": false
+   },
+   "owner_install_gateway_secrets@config_env": {
+    "hits": 0,
+    "of": 3,
+    "expected": false
+   },
+   "owner_install_gateway_secrets@live_env": {
+    "hits": 0,
+    "of": 3,
+    "expected": false
+   },
+   "owner_install_runner_token@config_env": {
+    "hits": 0,
+    "of": 1,
+    "expected": false
+   },
+   "owner_install_runner_token@live_env": {
+    "hits": 0,
+    "of": 1,
+    "expected": false
+   },
+   "t5_gateway_console_token@config_env": {
+    "hits": 0,
+    "of": 2,
+    "expected": false
+   },
+   "t5_gateway_console_token@live_env": {
+    "hits": 0,
+    "of": 2,
+    "expected": false
+   },
+   "t5_gateway_server_principal@config_env": {
+    "hits": 0,
+    "of": 1,
+    "expected": false
+   },
+   "t5_gateway_server_principal@live_env": {
+    "hits": 0,
+    "of": 1,
+    "expected": false
+   },
+   "t5_runner_token@config_env": {
+    "hits": 1,
+    "of": 1,
+    "expected": true
+   },
+   "t5_runner_token@live_env": {
+    "hits": 1,
+    "of": 1,
+    "expected": true
+   },
+   "canary_values@config_env": {
+    "hits": 0,
+    "of": 9,
+    "expected": false
+   },
+   "canary_values@live_env": {
+    "hits": 0,
+    "of": 9,
+    "expected": false
+   },
+   "canary_prefix@config_env": {
+    "hits": 0,
+    "of": 1,
+    "expected": false
+   },
+   "canary_prefix@live_env": {
+    "hits": 0,
+    "of": 1,
+    "expected": false
+   }
+  }
+ },
+ "unexpected_hits": 0,
+ "verdict": "PASS"
+}
+# exit=0

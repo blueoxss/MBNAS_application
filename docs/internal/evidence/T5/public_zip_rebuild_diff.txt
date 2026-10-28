@@ -1,0 +1,23 @@
+# tested public ZIP (4174060d...) vs dist/public file rebuilt at 2026-10-28 03:14:39 KST (529243cf...): diff -rq of the unpacked trees
+Files <tested>/mbnas_application/BUILD_INFO.json and <current>/mbnas_application/BUILD_INFO.json differ
+Files <tested>/mbnas_application/docs/public/COMPATIBILITY.md and <current>/mbnas_application/docs/public/COMPATIBILITY.md differ
+Files <tested>/mbnas_application/docs/public/FEATURES.md and <current>/mbnas_application/docs/public/FEATURES.md differ
+Files <tested>/mbnas_application/docs/public/INSTALL.md and <current>/mbnas_application/docs/public/INSTALL.md differ
+Files <tested>/mbnas_application/docs/public/OPERATIONS.md and <current>/mbnas_application/docs/public/OPERATIONS.md differ
+Files <tested>/mbnas_application/docs/public/SECURITY_MODEL.md and <current>/mbnas_application/docs/public/SECURITY_MODEL.md differ
+Files <tested>/mbnas_application/docs/public/TROUBLESHOOTING.md and <current>/mbnas_application/docs/public/TROUBLESHOOTING.md differ
+Files <tested>/mbnas_application/FILE_MANIFEST.jsonl and <current>/mbnas_application/FILE_MANIFEST.jsonl differ
+Files <tested>/mbnas_application/mbnas_web/e2e/real-server.spec.ts and <current>/mbnas_application/mbnas_web/e2e/real-server.spec.ts differ
+Files <tested>/mbnas_application/PACKAGE_PROFILE.json and <current>/mbnas_application/PACKAGE_PROFILE.json differ
+Files <tested>/mbnas_application/README.md and <current>/mbnas_application/README.md differ
+# files relevant to the T5 image build (Dockerfile.cpu COPY sources) compared:
+requirements-cpu.txt tested=81522bbeb958ce5a current=81522bbeb958ce5a same
+deploy/public/Dockerfile.cpu tested=e63a6eb5ffa78975 current=e63a6eb5ffa78975 same
+deploy/public/docker-entrypoint.sh tested=4e77661e56df551c current=4e77661e56df551c same
+wheels/mbnas_contracts-0.1.0-py3-none-any.whl tested=30eb8b81abf96bf3 current=30eb8b81abf96bf3 same
+wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl tested=8c1ee1febda9d887 current=8c1ee1febda9d887 same
+wheels/mbnas_runner-0.1.0-py3-none-any.whl tested=8b55cda5fcf721b9 current=8b55cda5fcf721b9 same
+wheels/mbnas_server-0.1.0-py3-none-any.whl tested=8f036d9da5f120be current=8f036d9da5f120be same
+mbnas_web/dist/index.html tested=9bdba1519bb98a84 current=9bdba1519bb98a84 same
+mbnas_web/dist tree: same
+examples tree: same

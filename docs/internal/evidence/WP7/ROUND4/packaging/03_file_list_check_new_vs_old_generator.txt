@@ -1,0 +1,12 @@
+# C11 D7 negative/positive control on a registration ZIP built by the NEW packager (synthetic tree, scratch)
+# command: gen_registration_docs.py --only file-list --check --root <unpacked>/mbnas_application --manifest <unpacked>/mbnas_application/FILE_MANIFEST.jsonl
+## new generator (round 4): expected exit 0
+unchanged docs/registration/FILE_LIST.md
+note      매니페스트: <SCRATCH>/wp3/r4pkg/smoke1_x/mbnas_application/FILE_MANIFEST.jsonl
+check: OK
+exit=0
+## old generator (copy taken before the edit, sha 7fa8b151...): expected drift
+DRIFT     docs/registration/FILE_LIST.md
+note      매니페스트: <SCRATCH>/wp3/r4pkg/smoke1_x/mbnas_application/FILE_MANIFEST.jsonl
+check: FAIL (drift 1, warnings 0)
+exit=1

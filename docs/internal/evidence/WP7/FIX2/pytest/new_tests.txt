@@ -1,0 +1,28 @@
+# after_owner_api
+passed    0.32s tests.owner.api.test_dd_a60_access_log::test_one_line_per_request_on_both_sides_with_the_same_request_id
+passed    0.35s tests.owner.api.test_dd_a60_access_log::test_secrets_in_the_query_string_are_redacted_and_control_characters_escaped
+passed    0.01s tests.owner.api.test_dd_a60_access_log::test_the_console_entry_point_runs_uvicorn_without_its_own_access_line
+# after_owner_worker
+passed    4.80s tests.owner.worker.test_dd_a60_owner_worker::test_customer_only_output_root_off_generation_completes_with_core_local_files
+passed    1.05s tests.owner.worker.test_dd_a60_owner_worker::test_a_failing_job_is_failed_with_a_reason_and_the_worker_keeps_running
+passed    3.98s tests.owner.worker.test_dd_a60_owner_worker::test_evaluation_on_proposal_uses_the_gateway_dataset_summary
+passed    0.51s tests.owner.worker.test_dd_a60_owner_worker::test_without_a_gateway_summary_the_core_local_read_is_the_fallback
+passed    0.19s tests.owner.worker.test_dd_a60_owner_worker::test_owner_params_leaves_other_kinds_and_explicit_nc_alone
+passed    0.77s tests.owner.worker.test_dd_a60_owner_worker::test_worker_entry_point_log_lines_are_redacted
+passed    0.00s tests.owner.worker.test_dd_a60_owner_worker::test_configure_logging_installs_the_redaction_filter_on_its_handler
+# after_owner_rp
+passed    0.68s tests.owner.runner_protocol.test_dd_a60_cpu_fleet::test_cpu_runners_form_one_cpu_device_entry_instead_of_being_left_out
+passed   10.84s tests.owner.runner_protocol.test_dd_a60_cpu_fleet::test_cpu_only_fleet_refuses_evaluation_on_and_validates_training_and_generation
+passed    0.76s tests.owner.runner_protocol.test_dd_a60_cpu_fleet::test_mixed_fleet_keeps_the_gpu_and_refuses_only_the_cpu_benchmark_device
+passed    0.58s tests.owner.runner_protocol.test_dd_a60_cpu_fleet::test_empty_inventory_is_not_a_cpu_fleet
+passed    2.35s tests.owner.runner_protocol.test_dd_a60_cpu_training_validation::test_cpu_training_with_validation_succeeds_not_evaluated_and_keeps_the_checkpoint
+# after_public_runner
+passed    0.14s tests.public.runner.test_dd_a60_cpu_evaluation::test_evaluate_checkpoint_on_cpu_is_not_evaluated_and_touches_no_cuda
+passed    0.10s tests.public.runner.test_dd_a60_cpu_evaluation::test_a_corrupt_snapshot_on_cpu_still_fails_like_before
+passed    0.14s tests.public.runner.test_dd_a60_cpu_evaluation::test_training_job_evaluation_step_on_cpu_returns_the_not_evaluated_payload_with_the_checkpoint
+passed    0.12s tests.public.runner.test_dd_a60_cpu_evaluation::test_evaluate_job_on_cpu_succeeds_with_the_not_evaluated_payload
+passed    0.02s tests.public.runner.test_dd_a60_cpu_evaluation::test_official_evaluation_on_cpu_succeeds_without_loading_weights
+# after_public_server
+passed    0.12s tests.public.server.test_dd_a60_access_log_gateway::test_exactly_one_line_per_request_with_the_echoed_request_id
+passed    0.13s tests.public.server.test_dd_a60_access_log_gateway::test_early_answers_are_logged_and_query_secrets_redacted
+passed    0.01s tests.public.server.test_dd_a60_access_log_gateway::test_mbnas_gateway_runs_uvicorn_without_its_own_access_line

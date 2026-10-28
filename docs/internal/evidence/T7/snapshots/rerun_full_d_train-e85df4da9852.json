@@ -1,0 +1,3050 @@
+{
+ "data": {
+  "_harness_trimmed_keys": {},
+  "candidates": [
+   {
+    "ap": null,
+    "architecture_hash": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+    "architecture_id": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+    "architecture_path": "architectures/model-940cf624e34d.yaml",
+    "arm": "Baseline",
+    "artifacts": [],
+    "attempt": 1,
+    "batch": 1,
+    "blocks": [
+     {
+      "args": [
+       64,
+       3,
+       2
+      ],
+      "from": -1,
+      "module": "Conv",
+      "mutated": false,
+      "name": "Conv",
+      "parent_block_id": null,
+      "position": 0,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       128,
+       3,
+       2
+      ],
+      "from": -1,
+      "module": "Conv",
+      "mutated": false,
+      "name": "Conv",
+      "parent_block_id": null,
+      "position": 1,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       256,
+       false,
+       0.25
+      ],
+      "from": -1,
+      "module": "C3k2",
+      "mutated": false,
+      "name": "C3k2",
+      "parent_block_id": null,
+      "position": 2,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       256,
+       3,
+       2
+      ],
+      "from": -1,
+      "module": "Conv",
+      "mutated": false,
+      "name": "Conv",
+      "parent_block_id": null,
+      "position": 3,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       512,
+       false,
+       0.25
+      ],
+      "from": -1,
+      "module": "C3k2",
+      "mutated": false,
+      "name": "C3k2",
+      "parent_block_id": null,
+      "position": 4,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       512,
+       3,
+       2
+      ],
+      "from": -1,
+      "module": "Conv",
+      "mutated": false,
+      "name": "Conv",
+      "parent_block_id": null,
+      "position": 5,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       512,
+       true
+      ],
+      "from": -1,
+      "module": "C3k2",
+      "mutated": false,
+      "name": "C3k2",
+      "parent_block_id": null,
+      "position": 6,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       1024,
+       3,
+       2
+      ],
+      "from": -1,
+      "module": "Conv",
+      "mutated": false,
+      "name": "Conv",
+      "parent_block_id": null,
+      "position": 7,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       1024,
+       true
+      ],
+      "from": -1,
+      "module": "C3k2",
+      "mutated": false,
+      "name": "C3k2",
+      "parent_block_id": null,
+      "position": 8,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       1024,
+       5
+      ],
+      "from": -1,
+      "module": "SPPF",
+      "mutated": false,
+      "name": "SPPF",
+      "parent_block_id": null,
+      "position": 9,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       1024
+      ],
+      "from": -1,
+      "module": "C2PSA",
+      "mutated": false,
+      "name": "C2PSA",
+      "parent_block_id": null,
+      "position": 10,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       "None",
+       2,
+       "nearest"
+      ],
+      "from": -1,
+      "module": "nn.Upsample",
+      "mutated": false,
+      "name": "nn.Upsample",
+      "parent_block_id": null,
+      "position": 11,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       1
+      ],
+      "from": [
+       -1,
+       6
+      ],
+      "module": "Concat",
+      "mutated": false,
+      "name": "Concat",
+      "parent_block_id": null,
+      "position": 12,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       512,
+       false
+      ],
+      "from": -1,
+      "module": "C3k2",
+      "mutated": false,
+      "name": "C3k2",
+      "parent_block_id": null,
+      "position": 13,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       "None",
+       2,
+       "nearest"
+      ],
+      "from": -1,
+      "module": "nn.Upsample",
+      "mutated": false,
+      "name": "nn.Upsample",
+      "parent_block_id": null,
+      "position": 14,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       1
+      ],
+      "from": [
+       -1,
+       4
+      ],
+      "module": "Concat",
+      "mutated": false,
+      "name": "Concat",
+      "parent_block_id": null,
+      "position": 15,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       256,
+       false
+      ],
+      "from": -1,
+      "module": "C3k2",
+      "mutated": false,
+      "name": "C3k2",
+      "parent_block_id": null,
+      "position": 16,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       256,
+       3,
+       2
+      ],
+      "from": -1,
+      "module": "Conv",
+      "mutated": false,
+      "name": "Conv",
+      "parent_block_id": null,
+      "position": 17,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       1
+      ],
+      "from": [
+       -1,
+       13
+      ],
+      "module": "Concat",
+      "mutated": false,
+      "name": "Concat",
+      "parent_block_id": null,
+      "position": 18,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       512,
+       false
+      ],
+      "from": -1,
+      "module": "C3k2",
+      "mutated": false,
+      "name": "C3k2",
+      "parent_block_id": null,
+      "position": 19,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       512,
+       3,
+       2
+      ],
+      "from": -1,
+      "module": "Conv",
+      "mutated": false,
+      "name": "Conv",
+      "parent_block_id": null,
+      "position": 20,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       1
+      ],
+      "from": [
+       -1,
+       10
+      ],
+      "module": "Concat",
+      "mutated": false,
+      "name": "Concat",
+      "parent_block_id": null,
+      "position": 21,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       1024,
+       true
+      ],
+      "from": -1,
+      "module": "C3k2",
+      "mutated": false,
+      "name": "C3k2",
+      "parent_block_id": null,
+      "position": 22,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       "nc"
+      ],
+      "from": [
+       16,
+       19,
+       22
+      ],
+      "module": "Detect",
+      "mutated": false,
+      "name": "Detect",
+      "parent_block_id": null,
+      "position": 23,
+      "repeats": 1,
+      "source": null
+     }
+    ],
+    "candidate_id": "model-940cf624e34d",
+    "candidate_status": "CANCELLED",
+    "checkpoint_path": null,
+    "checkpoint_sha256": null,
+    "checkpoint_state": null,
+    "comparison_group": "common_scratch",
+    "device": "NVIDIA RTX A6000",
+    "epoch_target_total": 8,
+    "epochs": 8,
+    "evaluation_hash": "pending",
+    "execution_mode": "PILOT",
+    "family": "upload-72a67f2ffe87",
+    "fitness": null,
+    "fitness_weights": {
+     "ap": 0.2,
+     "latency_reward": 0.4,
+     "recall": 0.1,
+     "size_reward": 0.3
+    },
+    "generation": 0,
+    "id": "model-940cf624e34d.TRAIN.eval",
+    "immutable": false,
+    "job_id": "job-ec440d5242284dea",
+    "latency_ms": null,
+    "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+    "latency_source": "pending",
+    "name": "upload-72a67f2ffe87",
+    "namespace": "pilot_smoke",
+    "objective_hash": "sha256:4b0167bcac4c496d9ea754ebb2ac4a298e4236d4393df9efacc4562c18939e21",
+    "parents": [],
+    "precision": "FP16",
+    "protocol_hash": "sha256:6d003a9dbc2459b1289b6011699964630f7053c7b78406b5a2cf9fbfbf1d6915",
+    "reason_code": "RUN_CANCELLED",
+    "recall": null,
+    "requested_input_shape": [
+     128,
+     128
+    ],
+    "resolved_input_shape": [
+     128,
+     128
+    ],
+    "revision": 1,
+    "rung": "TRAIN",
+    "size_mb": null,
+    "split_hash": "sha256:879be4fa5fcec52d7f267c924d3d64573a1ffb5cbaa4c32fd9a717a7c318b728",
+    "status": "CANCELLED",
+    "supersedes_evaluation_id": null,
+    "training_seed": 41,
+    "training_status": "UNTRAINED"
+   }
+  ],
+  "events": [
+   {
+    "created_at": "2026-10-27T18:24:10.210706Z",
+    "payload": {
+     "budget": {
+      "scope": "explicit_training",
+      "unit": "gpu_seconds"
+     },
+     "costs": {},
+     "created_at": "2026-10-27T18:24:10.088918Z",
+     "execution_mode": "PILOT",
+     "id": "train-e85df4da9852",
+     "kind": "SEARCH",
+     "namespace": "pilot_smoke",
+     "parent_run_id": null,
+     "preset": "PILOT_SMOKE",
+     "protocol_canonicalization": "mbnas-canon/1 sha256",
+     "protocol_hash": "sha256:6d003a9dbc2459b1289b6011699964630f7053c7b78406b5a2cf9fbfbf1d6915",
+     "purpose": "MODEL_TRAINING",
+     "reason_code": null,
+     "source_commit": "sha256:cd42e89b54d40c8913807fe05d078435626e335c79bf866b3a77b83277e61a22",
+     "status": "QUEUED",
+     "terminal": false,
+     "updated_at": "2026-10-27T18:24:10.088918Z"
+    },
+    "run_id": "train-e85df4da9852",
+    "seq": 1,
+    "type": "run.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:24:10.210860Z",
+    "payload": {
+     "level": "info",
+     "message": "explicit model run created",
+     "mode": "scratch",
+     "request_id": "smoke3-015704c0a6f445d3",
+     "source": {
+      "architecture_hash": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+      "kind": "user",
+      "mode": "scratch",
+      "source_sha256": "sha256:72a67f2ffe873cde82430a2d1d06fd87e295434cd4fe2d04cb93ba8ae5a3eff2",
+      "yaml_hash": "sha256:a48faaf596727b3c6d96b9f0b8bac3dadfa0db32673450065d5753418e714525"
+     }
+    },
+    "run_id": "train-e85df4da9852",
+    "seq": 2,
+    "type": "log"
+   },
+   {
+    "created_at": "2026-10-27T18:24:10.224380Z",
+    "payload": {
+     "ap": null,
+     "architecture_hash": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+     "architecture_id": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+     "architecture_path": "architectures/model-940cf624e34d.yaml",
+     "arm": "Baseline",
+     "artifacts": [],
+     "batch": 1,
+     "blocks": [
+      {
+       "args": [
+        64,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 0,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        128,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 1,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        false,
+        0.25
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 2,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 3,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false,
+        0.25
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 4,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 5,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 6,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 7,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 8,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        5
+       ],
+       "from": -1,
+       "module": "SPPF",
+       "mutated": false,
+       "name": "SPPF",
+       "parent_block_id": null,
+       "position": 9,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024
+       ],
+       "from": -1,
+       "module": "C2PSA",
+       "mutated": false,
+       "name": "C2PSA",
+       "parent_block_id": null,
+       "position": 10,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "from": -1,
+       "module": "nn.Upsample",
+       "mutated": false,
+       "name": "nn.Upsample",
+       "parent_block_id": null,
+       "position": 11,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        6
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 12,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 13,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "from": -1,
+       "module": "nn.Upsample",
+       "mutated": false,
+       "name": "nn.Upsample",
+       "parent_block_id": null,
+       "position": 14,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        4
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 15,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 16,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 17,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        13
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 18,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 19,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 20,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        10
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 21,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 22,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "nc"
+       ],
+       "from": [
+        16,
+        19,
+        22
+       ],
+       "module": "Detect",
+       "mutated": false,
+       "name": "Detect",
+       "parent_block_id": null,
+       "position": 23,
+       "repeats": 1,
+       "source": null
+      }
+     ],
+     "candidate_id": "model-940cf624e34d",
+     "candidate_status": "QUEUED",
+     "checkpoint_path": null,
+     "checkpoint_sha256": null,
+     "comparison_group": "common_scratch",
+     "device": "NVIDIA RTX A6000",
+     "epoch_target_total": 8,
+     "epochs": 8,
+     "evaluation_hash": "pending",
+     "execution_mode": "PILOT",
+     "family": "upload-72a67f2ffe87",
+     "fitness": null,
+     "fitness_weights": {
+      "ap": 0.2,
+      "latency_reward": 0.4,
+      "recall": 0.1,
+      "size_reward": 0.3
+     },
+     "generation": 0,
+     "id": "model-940cf624e34d.TRAIN.eval",
+     "job_id": "job-ec440d5242284dea",
+     "latency_ms": null,
+     "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+     "latency_source": "pending",
+     "name": "upload-72a67f2ffe87",
+     "namespace": "pilot_smoke",
+     "objective_hash": "sha256:4b0167bcac4c496d9ea754ebb2ac4a298e4236d4393df9efacc4562c18939e21",
+     "parents": [],
+     "performance_status": "NOT_EVALUATED",
+     "precision": "FP16",
+     "protocol_hash": "sha256:6d003a9dbc2459b1289b6011699964630f7053c7b78406b5a2cf9fbfbf1d6915",
+     "reason_code": null,
+     "recall": null,
+     "requested_input_shape": [
+      128,
+      128
+     ],
+     "resolved_input_shape": [
+      128,
+      128
+     ],
+     "revision": 1,
+     "rung": "TRAIN",
+     "size_mb": null,
+     "source_kind": "user",
+     "split_hash": "sha256:879be4fa5fcec52d7f267c924d3d64573a1ffb5cbaa4c32fd9a717a7c318b728",
+     "status": "QUEUED",
+     "supersedes_evaluation_id": null,
+     "training_mode": "scratch",
+     "training_seed": 41,
+     "training_status": "UNTRAINED"
+    },
+    "run_id": "train-e85df4da9852",
+    "seq": 3,
+    "type": "candidate.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:24:10.416830Z",
+    "payload": {
+     "budget": {
+      "scope": "explicit_training",
+      "unit": "gpu_seconds"
+     },
+     "costs": {},
+     "created_at": "2026-10-27T18:24:10.088918Z",
+     "execution_mode": "PILOT",
+     "id": "train-e85df4da9852",
+     "kind": "SEARCH",
+     "namespace": "pilot_smoke",
+     "parent_run_id": null,
+     "preset": "PILOT_SMOKE",
+     "protocol_canonicalization": "mbnas-canon/1 sha256",
+     "protocol_hash": "sha256:6d003a9dbc2459b1289b6011699964630f7053c7b78406b5a2cf9fbfbf1d6915",
+     "purpose": "MODEL_TRAINING",
+     "reason_code": null,
+     "source_commit": "sha256:cd42e89b54d40c8913807fe05d078435626e335c79bf866b3a77b83277e61a22",
+     "status": "RUNNING",
+     "terminal": false,
+     "updated_at": "2026-10-27T18:24:10.416295Z"
+    },
+    "run_id": "train-e85df4da9852",
+    "seq": 4,
+    "type": "run.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:24:10.526873Z",
+    "payload": {
+     "ap": null,
+     "architecture_hash": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+     "architecture_id": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+     "architecture_path": "architectures/model-940cf624e34d.yaml",
+     "arm": "Baseline",
+     "artifacts": [],
+     "attempt": 1,
+     "batch": 1,
+     "blocks": [
+      {
+       "args": [
+        64,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 0,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        128,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 1,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        false,
+        0.25
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 2,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 3,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false,
+        0.25
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 4,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 5,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 6,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 7,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 8,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        5
+       ],
+       "from": -1,
+       "module": "SPPF",
+       "mutated": false,
+       "name": "SPPF",
+       "parent_block_id": null,
+       "position": 9,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024
+       ],
+       "from": -1,
+       "module": "C2PSA",
+       "mutated": false,
+       "name": "C2PSA",
+       "parent_block_id": null,
+       "position": 10,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "from": -1,
+       "module": "nn.Upsample",
+       "mutated": false,
+       "name": "nn.Upsample",
+       "parent_block_id": null,
+       "position": 11,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        6
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 12,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 13,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "from": -1,
+       "module": "nn.Upsample",
+       "mutated": false,
+       "name": "nn.Upsample",
+       "parent_block_id": null,
+       "position": 14,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        4
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 15,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 16,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 17,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        13
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 18,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 19,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 20,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        10
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 21,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 22,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "nc"
+       ],
+       "from": [
+        16,
+        19,
+        22
+       ],
+       "module": "Detect",
+       "mutated": false,
+       "name": "Detect",
+       "parent_block_id": null,
+       "position": 23,
+       "repeats": 1,
+       "source": null
+      }
+     ],
+     "candidate_id": "model-940cf624e34d",
+     "candidate_status": "TRAINING",
+     "checkpoint_path": null,
+     "checkpoint_sha256": null,
+     "comparison_group": "common_scratch",
+     "device": "NVIDIA RTX A6000",
+     "epoch_target_total": 8,
+     "epochs": 8,
+     "evaluation_hash": "pending",
+     "execution_mode": "PILOT",
+     "family": "upload-72a67f2ffe87",
+     "fitness": null,
+     "fitness_weights": {
+      "ap": 0.2,
+      "latency_reward": 0.4,
+      "recall": 0.1,
+      "size_reward": 0.3
+     },
+     "generation": 0,
+     "id": "model-940cf624e34d.TRAIN.eval",
+     "job_id": "job-ec440d5242284dea",
+     "latency_ms": null,
+     "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+     "latency_source": "pending",
+     "name": "upload-72a67f2ffe87",
+     "namespace": "pilot_smoke",
+     "objective_hash": "sha256:4b0167bcac4c496d9ea754ebb2ac4a298e4236d4393df9efacc4562c18939e21",
+     "parents": [],
+     "precision": "FP16",
+     "protocol_hash": "sha256:6d003a9dbc2459b1289b6011699964630f7053c7b78406b5a2cf9fbfbf1d6915",
+     "reason_code": null,
+     "recall": null,
+     "requested_input_shape": [
+      128,
+      128
+     ],
+     "resolved_input_shape": [
+      128,
+      128
+     ],
+     "revision": 1,
+     "rung": "TRAIN",
+     "size_mb": null,
+     "split_hash": "sha256:879be4fa5fcec52d7f267c924d3d64573a1ffb5cbaa4c32fd9a717a7c318b728",
+     "status": "TRAINING",
+     "supersedes_evaluation_id": null,
+     "training_seed": 41,
+     "training_status": "UNTRAINED"
+    },
+    "run_id": "train-e85df4da9852",
+    "seq": 5,
+    "type": "candidate.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:24:10.529610Z",
+    "payload": {
+     "attempt": 1,
+     "candidate_id": "model-940cf624e34d",
+     "device": "host-gpu-0",
+     "device_id": "dev-53b2bb3b41f06e04",
+     "device_name": "NVIDIA RTX A6000",
+     "heartbeat_at": "2026-10-27T18:24:10.529382Z",
+     "id": "t7-gpu0",
+     "job_id": "job-ec440d5242284dea",
+     "run_id": "train-e85df4da9852",
+     "rung": "TRAIN",
+     "runner_id": "t7-gpu0",
+     "runtime_manifest_status": "verified",
+     "status": "busy"
+    },
+    "run_id": "train-e85df4da9852",
+    "seq": 6,
+    "type": "worker.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:24:25.252721Z",
+    "payload": {
+     "ap": null,
+     "architecture_hash": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+     "architecture_id": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+     "architecture_path": "architectures/model-940cf624e34d.yaml",
+     "arm": "Baseline",
+     "artifacts": [],
+     "attempt": 1,
+     "batch": 1,
+     "blocks": [
+      {
+       "args": [
+        64,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 0,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        128,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 1,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        false,
+        0.25
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 2,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 3,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false,
+        0.25
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 4,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 5,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 6,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 7,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 8,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        5
+       ],
+       "from": -1,
+       "module": "SPPF",
+       "mutated": false,
+       "name": "SPPF",
+       "parent_block_id": null,
+       "position": 9,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024
+       ],
+       "from": -1,
+       "module": "C2PSA",
+       "mutated": false,
+       "name": "C2PSA",
+       "parent_block_id": null,
+       "position": 10,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "from": -1,
+       "module": "nn.Upsample",
+       "mutated": false,
+       "name": "nn.Upsample",
+       "parent_block_id": null,
+       "position": 11,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        6
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 12,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 13,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "from": -1,
+       "module": "nn.Upsample",
+       "mutated": false,
+       "name": "nn.Upsample",
+       "parent_block_id": null,
+       "position": 14,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        4
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 15,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 16,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 17,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        13
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 18,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 19,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 20,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        10
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 21,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 22,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "nc"
+       ],
+       "from": [
+        16,
+        19,
+        22
+       ],
+       "module": "Detect",
+       "mutated": false,
+       "name": "Detect",
+       "parent_block_id": null,
+       "position": 23,
+       "repeats": 1,
+       "source": null
+      }
+     ],
+     "candidate_id": "model-940cf624e34d",
+     "candidate_status": "TRAINING",
+     "checkpoint_path": null,
+     "checkpoint_sha256": null,
+     "comparison_group": "common_scratch",
+     "device": "NVIDIA RTX A6000",
+     "epoch_target_total": 8,
+     "epochs": 8,
+     "evaluation_hash": "pending",
+     "execution_mode": "PILOT",
+     "family": "upload-72a67f2ffe87",
+     "fitness": null,
+     "fitness_weights": {
+      "ap": 0.2,
+      "latency_reward": 0.4,
+      "recall": 0.1,
+      "size_reward": 0.3
+     },
+     "generation": 0,
+     "id": "model-940cf624e34d.TRAIN.eval",
+     "job_id": "job-ec440d5242284dea",
+     "latency_ms": null,
+     "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+     "latency_source": "pending",
+     "name": "upload-72a67f2ffe87",
+     "namespace": "pilot_smoke",
+     "objective_hash": "sha256:4b0167bcac4c496d9ea754ebb2ac4a298e4236d4393df9efacc4562c18939e21",
+     "parents": [],
+     "precision": "FP16",
+     "progress": {
+      "epoch": 1,
+      "epoch_target_total": 8,
+      "global_step": 60,
+      "learning_rate": 0.001,
+      "native_metrics": {
+       "metrics/mAP50(B)": 0.0,
+       "metrics/mAP50-95(B)": 0.0,
+       "metrics/precision(B)": 0.0,
+       "metrics/recall(B)": 0.0,
+       "val/box_loss": 6.89162,
+       "val/cls_loss": 4.36261,
+       "val/dfl_loss": 4.22816
+      },
+      "samples_seen": 480
+     },
+     "protocol_hash": "sha256:6d003a9dbc2459b1289b6011699964630f7053c7b78406b5a2cf9fbfbf1d6915",
+     "reason_code": null,
+     "recall": null,
+     "requested_input_shape": [
+      128,
+      128
+     ],
+     "resolved_input_shape": [
+      128,
+      128
+     ],
+     "revision": 1,
+     "rung": "TRAIN",
+     "size_mb": null,
+     "split_hash": "sha256:879be4fa5fcec52d7f267c924d3d64573a1ffb5cbaa4c32fd9a717a7c318b728",
+     "status": "TRAINING",
+     "supersedes_evaluation_id": null,
+     "training_seed": 41,
+     "training_status": "TRAINED"
+    },
+    "run_id": "train-e85df4da9852",
+    "seq": 7,
+    "type": "candidate.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:24:25.254967Z",
+    "payload": {
+     "attempt": 1,
+     "candidate_id": "model-940cf624e34d",
+     "device": "host-gpu-0",
+     "device_id": "dev-53b2bb3b41f06e04",
+     "device_name": "NVIDIA RTX A6000",
+     "epoch": 1,
+     "epoch_target_total": 8,
+     "global_step": 60,
+     "heartbeat_at": "2026-10-27T18:24:25.254741Z",
+     "id": "t7-gpu0",
+     "job_id": "job-ec440d5242284dea",
+     "learning_rate": 0.001,
+     "run_id": "train-e85df4da9852",
+     "rung": "TRAIN",
+     "runner_id": "t7-gpu0",
+     "runtime_manifest_status": "verified",
+     "status": "busy"
+    },
+    "run_id": "train-e85df4da9852",
+    "seq": 8,
+    "type": "worker.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:24:25.309014Z",
+    "payload": {
+     "budget": {
+      "scope": "explicit_training",
+      "unit": "gpu_seconds"
+     },
+     "cancel": {
+      "active_jobs": [
+       "job-ec440d5242284dea"
+      ],
+      "cleanup": "checkpoints and artifacts are kept for audit; nothing is deleted",
+      "kill_policy": "worker sends SIGTERM to the job child, SIGKILL after the grace period; partial attempt time is billed as failed cost",
+      "queued_jobs_cancelled": 0,
+      "reason": "T7 cancel during GPU training",
+      "requested_at": "2026-10-27T18:24:25.307881Z",
+      "scope": "run",
+      "state": "REQUESTED"
+     },
+     "costs": {},
+     "created_at": "2026-10-27T18:24:10.088918Z",
+     "execution_mode": "PILOT",
+     "id": "train-e85df4da9852",
+     "kind": "SEARCH",
+     "namespace": "pilot_smoke",
+     "parent_run_id": null,
+     "preset": "PILOT_SMOKE",
+     "protocol_canonicalization": "mbnas-canon/1 sha256",
+     "protocol_hash": "sha256:6d003a9dbc2459b1289b6011699964630f7053c7b78406b5a2cf9fbfbf1d6915",
+     "purpose": "MODEL_TRAINING",
+     "reason_code": "CANCELLED_BY_USER",
+     "source_commit": "sha256:cd42e89b54d40c8913807fe05d078435626e335c79bf866b3a77b83277e61a22",
+     "status": "CANCEL_REQUESTED",
+     "terminal": false,
+     "updated_at": "2026-10-27T18:24:25.308481Z"
+    },
+    "run_id": "train-e85df4da9852",
+    "seq": 9,
+    "type": "run.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:24:27.116512Z",
+    "payload": {
+     "ap": null,
+     "architecture_hash": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+     "architecture_id": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+     "architecture_path": "architectures/model-940cf624e34d.yaml",
+     "arm": "Baseline",
+     "artifacts": [],
+     "attempt": 1,
+     "batch": 1,
+     "blocks": [
+      {
+       "args": [
+        64,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 0,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        128,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 1,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        false,
+        0.25
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 2,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 3,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false,
+        0.25
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 4,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 5,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 6,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 7,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 8,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        5
+       ],
+       "from": -1,
+       "module": "SPPF",
+       "mutated": false,
+       "name": "SPPF",
+       "parent_block_id": null,
+       "position": 9,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024
+       ],
+       "from": -1,
+       "module": "C2PSA",
+       "mutated": false,
+       "name": "C2PSA",
+       "parent_block_id": null,
+       "position": 10,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "from": -1,
+       "module": "nn.Upsample",
+       "mutated": false,
+       "name": "nn.Upsample",
+       "parent_block_id": null,
+       "position": 11,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        6
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 12,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 13,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "from": -1,
+       "module": "nn.Upsample",
+       "mutated": false,
+       "name": "nn.Upsample",
+       "parent_block_id": null,
+       "position": 14,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        4
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 15,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 16,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 17,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        13
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 18,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 19,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 20,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        10
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 21,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 22,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "nc"
+       ],
+       "from": [
+        16,
+        19,
+        22
+       ],
+       "module": "Detect",
+       "mutated": false,
+       "name": "Detect",
+       "parent_block_id": null,
+       "position": 23,
+       "repeats": 1,
+       "source": null
+      }
+     ],
+     "candidate_id": "model-940cf624e34d",
+     "candidate_status": "CANCELLED",
+     "checkpoint_path": null,
+     "checkpoint_sha256": null,
+     "comparison_group": "common_scratch",
+     "device": "NVIDIA RTX A6000",
+     "epoch_target_total": 8,
+     "epochs": 8,
+     "evaluation_hash": "pending",
+     "execution_mode": "PILOT",
+     "family": "upload-72a67f2ffe87",
+     "fitness": null,
+     "fitness_weights": {
+      "ap": 0.2,
+      "latency_reward": 0.4,
+      "recall": 0.1,
+      "size_reward": 0.3
+     },
+     "generation": 0,
+     "id": "model-940cf624e34d.TRAIN.eval",
+     "job_id": "job-ec440d5242284dea",
+     "latency_ms": null,
+     "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+     "latency_source": "pending",
+     "name": "upload-72a67f2ffe87",
+     "namespace": "pilot_smoke",
+     "objective_hash": "sha256:4b0167bcac4c496d9ea754ebb2ac4a298e4236d4393df9efacc4562c18939e21",
+     "parents": [],
+     "precision": "FP16",
+     "protocol_hash": "sha256:6d003a9dbc2459b1289b6011699964630f7053c7b78406b5a2cf9fbfbf1d6915",
+     "reason_code": "RUN_CANCELLED",
+     "recall": null,
+     "requested_input_shape": [
+      128,
+      128
+     ],
+     "resolved_input_shape": [
+      128,
+      128
+     ],
+     "revision": 1,
+     "rung": "TRAIN",
+     "size_mb": null,
+     "split_hash": "sha256:879be4fa5fcec52d7f267c924d3d64573a1ffb5cbaa4c32fd9a717a7c318b728",
+     "status": "CANCELLED",
+     "supersedes_evaluation_id": null,
+     "training_seed": 41,
+     "training_status": "UNTRAINED"
+    },
+    "run_id": "train-e85df4da9852",
+    "seq": 10,
+    "type": "candidate.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:24:27.129584Z",
+    "payload": {
+     "budget": {
+      "scope": "explicit_training",
+      "unit": "gpu_seconds"
+     },
+     "cancel": {
+      "active_jobs": [
+       "job-ec440d5242284dea"
+      ],
+      "cleanup": "checkpoints and artifacts are kept for audit; nothing is deleted",
+      "kill_policy": "worker sends SIGTERM to the job child, SIGKILL after the grace period; partial attempt time is billed as failed cost",
+      "queued_jobs_cancelled": 0,
+      "reason": "T7 cancel during GPU training",
+      "requested_at": "2026-10-27T18:24:25.307881Z",
+      "scope": "run",
+      "state": "REQUESTED"
+     },
+     "costs": {},
+     "created_at": "2026-10-27T18:24:10.088918Z",
+     "execution_mode": "PILOT",
+     "id": "train-e85df4da9852",
+     "kind": "SEARCH",
+     "namespace": "pilot_smoke",
+     "parent_run_id": null,
+     "preset": "PILOT_SMOKE",
+     "protocol_canonicalization": "mbnas-canon/1 sha256",
+     "protocol_hash": "sha256:6d003a9dbc2459b1289b6011699964630f7053c7b78406b5a2cf9fbfbf1d6915",
+     "purpose": "MODEL_TRAINING",
+     "reason_code": "CANCELLED_BY_USER",
+     "source_commit": "sha256:cd42e89b54d40c8913807fe05d078435626e335c79bf866b3a77b83277e61a22",
+     "status": "CANCELLED",
+     "terminal": true,
+     "updated_at": "2026-10-27T18:24:27.129223Z"
+    },
+    "run_id": "train-e85df4da9852",
+    "seq": 11,
+    "type": "run.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:24:27.132425Z",
+    "payload": {
+     "device": "host-gpu-0",
+     "device_id": "dev-53b2bb3b41f06e04",
+     "device_name": "NVIDIA RTX A6000",
+     "heartbeat_at": "2026-10-27T18:24:27.132223Z",
+     "id": "t7-gpu0",
+     "runner_id": "t7-gpu0",
+     "runtime_manifest_status": "verified",
+     "status": "idle"
+    },
+    "run_id": "train-e85df4da9852",
+    "seq": 12,
+    "type": "worker.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:24:27.135676Z",
+    "payload": {
+     "candidate_id": "model-940cf624e34d",
+     "forced_policy": "keep_all",
+     "level": "info",
+     "message": "remote run: retention policy last_rung_end_only not applied, forced keep_all until the prune round trip (WP-5)",
+     "policy": "last_rung_end_only",
+     "reason_code": "REMOTE_RETENTION_FORCED"
+    },
+    "run_id": "train-e85df4da9852",
+    "seq": 13,
+    "type": "log"
+   }
+  ],
+  "generated_candidates": [],
+  "generations": [],
+  "last_seq": 13,
+  "run": {
+   "budget": {
+    "scope": "explicit_training",
+    "unit": "gpu_seconds"
+   },
+   "cancel": {
+    "active_jobs": [
+     "job-ec440d5242284dea"
+    ],
+    "cleanup": "checkpoints and artifacts are kept for audit; nothing is deleted",
+    "kill_policy": "worker sends SIGTERM to the job child, SIGKILL after the grace period; partial attempt time is billed as failed cost",
+    "queued_jobs_cancelled": 0,
+    "reason": "T7 cancel during GPU training",
+    "requested_at": "2026-10-27T18:24:25.307881Z",
+    "scope": "run",
+    "state": "REQUESTED"
+   },
+   "costs": {
+    "actual_gpu_seconds": 16.502456,
+    "baseline_gpu_seconds": 16.502456,
+    "failed_gpu_seconds": 16.502456
+   },
+   "created_at": "2026-10-27T18:24:10.088918Z",
+   "execution_mode": "PILOT",
+   "id": "train-e85df4da9852",
+   "kind": "SEARCH",
+   "namespace": "pilot_smoke",
+   "parent_run_id": null,
+   "preset": "PILOT_SMOKE",
+   "protocol_canonicalization": "mbnas-canon/1 sha256",
+   "protocol_hash": "sha256:6d003a9dbc2459b1289b6011699964630f7053c7b78406b5a2cf9fbfbf1d6915",
+   "purpose": "MODEL_TRAINING",
+   "reason_code": "CANCELLED_BY_USER",
+   "resolved_protocol": {
+    "allocation": {
+     "budget_missing_or_exhausted": "eligible_but_not_admitted",
+     "eligibility_is_not_gpu_allocation": true,
+     "incomplete_rung_is_valid_result": false,
+     "queue_policy": "stable_trial_id_order"
+    },
+    "backend_capabilities_verified": false,
+    "backend_versions": null,
+    "comparison": {
+     "arms": [
+      "GA",
+      "IndependentRandom"
+     ],
+     "candidate_count": "secondary_observed_outcome",
+     "global_best_fitness_stop": false,
+     "global_stagnation_stop": false,
+     "independent_search_seed_pairs": [
+      101
+     ],
+     "physical_actual_GPU_seconds_separately_reported": true,
+     "primary_budget_unit": "arm_equivalent_billed_GPU_seconds",
+     "search_budget_GPU_hours_per_arm_per_seed": 0.75,
+     "shared_protocol_hash_required": true
+    },
+    "console": {
+     "baseline_budget_gpu_hours": 0.25,
+     "baseline_capture_rungs": true,
+     "baseline_epoch_target": 8,
+     "baseline_override": {
+      "added": [],
+      "missing_from_default": [
+       "yolo11s",
+       "yolo11m",
+       "yolo11l",
+       "yolo11x",
+       "yolo26s",
+       "yolo26m",
+       "yolo26l",
+       "yolo26x",
+       "rf-detr-small",
+       "rf-detr-medium",
+       "rf-detr-large",
+       "rt-detr-l",
+       "rt-detr-x",
+       "etri-controlled-cnn-transformer"
+      ],
+      "reason": "explicit single-model training selection"
+     },
+     "baseline_override_reason": "explicit single-model training selection",
+     "baselines": [],
+     "benchmark": {
+      "batch": 1,
+      "device": "host-gpu-0",
+      "device_resolved": {
+       "id": "host-gpu-0",
+       "name": "NVIDIA RTX A6000",
+       "uuid": "GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9"
+      },
+      "postprocess": {
+       "conf": 0.25,
+       "iou": 0.7,
+       "max_det": 300
+      },
+      "precision": "FP16",
+      "repeats": 100,
+      "warmup": 20
+     },
+     "execution_mode": "PILOT",
+     "extra": {
+      "training": {
+       "arch": {
+        "backend": "ultralytics",
+        "config": {
+         "backbone": [
+          [
+           -1,
+           1,
+           "Conv",
+           [
+            64,
+            3,
+            2
+           ]
+          ],
+          [
+           -1,
+           1,
+           "Conv",
+           [
+            128,
+            3,
+            2
+           ]
+          ],
+          [
+           -1,
+           2,
+           "C3k2",
+           [
+            256,
+            false,
+            0.25
+           ]
+          ],
+          [
+           -1,
+           1,
+           "Conv",
+           [
+            256,
+            3,
+            2
+           ]
+          ],
+          [
+           -1,
+           2,
+           "C3k2",
+           [
+            512,
+            false,
+            0.25
+           ]
+          ],
+          [
+           -1,
+           1,
+           "Conv",
+           [
+            512,
+            3,
+            2
+           ]
+          ],
+          [
+           -1,
+           2,
+           "C3k2",
+           [
+            512,
+            true
+           ]
+          ],
+          [
+           -1,
+           1,
+           "Conv",
+           [
+            1024,
+            3,
+            2
+           ]
+          ],
+          [
+           -1,
+           2,
+           "C3k2",
+           [
+            1024,
+            true
+           ]
+          ],
+          [
+           -1,
+           1,
+           "SPPF",
+           [
+            1024,
+            5
+           ]
+          ],
+          [
+           -1,
+           2,
+           "C2PSA",
+           [
+            1024
+           ]
+          ]
+         ],
+         "head": [
+          [
+           -1,
+           1,
+           "nn.Upsample",
+           [
+            "None",
+            2,
+            "nearest"
+           ]
+          ],
+          [
+           [
+            -1,
+            6
+           ],
+           1,
+           "Concat",
+           [
+            1
+           ]
+          ],
+          [
+           -1,
+           2,
+           "C3k2",
+           [
+            512,
+            false
+           ]
+          ],
+          [
+           -1,
+           1,
+           "nn.Upsample",
+           [
+            "None",
+            2,
+            "nearest"
+           ]
+          ],
+          [
+           [
+            -1,
+            4
+           ],
+           1,
+           "Concat",
+           [
+            1
+           ]
+          ],
+          [
+           -1,
+           2,
+           "C3k2",
+           [
+            256,
+            false
+           ]
+          ],
+          [
+           -1,
+           1,
+           "Conv",
+           [
+            256,
+            3,
+            2
+           ]
+          ],
+          [
+           [
+            -1,
+            13
+           ],
+           1,
+           "Concat",
+           [
+            1
+           ]
+          ],
+          [
+           -1,
+           2,
+           "C3k2",
+           [
+            512,
+            false
+           ]
+          ],
+          [
+           -1,
+           1,
+           "Conv",
+           [
+            512,
+            3,
+            2
+           ]
+          ],
+          [
+           [
+            -1,
+            10
+           ],
+           1,
+           "Concat",
+           [
+            1
+           ]
+          ],
+          [
+           -1,
+           2,
+           "C3k2",
+           [
+            1024,
+            true
+           ]
+          ],
+          [
+           [
+            16,
+            19,
+            22
+           ],
+           1,
+           "Detect",
+           [
+            "nc"
+           ]
+          ]
+         ],
+         "nc": 1,
+         "scale": "n",
+         "scales": {
+          "l": [
+           1.0,
+           1.0,
+           512
+          ],
+          "m": [
+           0.5,
+           1.0,
+           512
+          ],
+          "n": [
+           0.5,
+           0.25,
+           1024
+          ],
+          "s": [
+           0.5,
+           0.5,
+           1024
+          ],
+          "x": [
+           1.0,
+           1.5,
+           512
+          ]
+         }
+        },
+        "family": "YOLO11",
+        "model_id": "upload-72a67f2ffe87",
+        "register_hook": null,
+        "variant": "detect"
+       },
+       "architecture_hash": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+       "custom_initial_weights": false,
+       "device": "cuda:0",
+       "enabled": true,
+       "epoch_target_total": 8,
+       "mode": "scratch",
+       "native_image_artifacts": true,
+       "scheduler_horizon_epochs": 8,
+       "seed": 41,
+       "source": {
+        "kind": "user",
+        "source_sha256": "sha256:72a67f2ffe873cde82430a2d1d06fd87e295434cd4fe2d04cb93ba8ae5a3eff2"
+       },
+       "source_architecture_hash": null,
+       "source_yaml_hash": "sha256:a48faaf596727b3c6d96b9f0b8bac3dadfa0db32673450065d5753418e714525",
+       "validation_enabled": true
+      }
+     },
+     "label": "PILOT_SMOKE (smoke values, not research results)",
+     "paths": {
+      "dataset_yaml": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T181305Z/core_data/t7shapes_big/data.yaml",
+      "final_eval_root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T181305Z/core_data/t7shapes_big/images/test",
+      "output_root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T181305Z/core/runs",
+      "search_val_root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T181305Z/core_data/t7shapes_big/images/val",
+      "train_root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T181305Z/core_data/t7shapes_big/images/train"
+     },
+     "preset": "PILOT_SMOKE",
+     "purpose": "SMOKE",
+     "retention": {
+      "full_state": "last_rung_end_only"
+     },
+     "run_namespace": "pilot_smoke",
+     "search": {
+      "arms": [],
+      "budget_gpu_hours": 0.75,
+      "crossover_rate": 1.0,
+      "evaluation_enabled": true,
+      "generations": 2,
+      "mutation_rate": 0.35,
+      "population": 4,
+      "seeds": [
+       101
+      ]
+     }
+    },
+    "continuation": {
+     "checkpoint_architecture_hash_must_match": true,
+     "evaluation_checkpoint": "ema_snapshot_at_exact_rung_end",
+     "missing_state_action": "block_no_silent_weights_only_fallback",
+     "mode": "full_state_resume_same_architecture",
+     "restore": [
+      "model",
+      "optimizer",
+      "scheduler_or_exact_reconstruction",
+      "amp_scaler",
+      "ema_and_updates",
+      "epoch_and_optimizer_steps",
+      "rng",
+      "sampler_data_order"
+     ],
+     "training_checkpoint": "unstripped_rung_end_state"
+    },
+    "dataset": {
+     "all_stage_same_data": true,
+     "class_handling": "explicit_filter_and_mapping_required",
+     "class_mapping_hash": "sha256:b2fbb0b7405952f7adf801ad58aeb984de08a666981af1c60cafae71083f3886",
+     "counts": {
+      "search_val": {
+       "boxes": 30,
+       "empty_labels": 0,
+       "images": 16,
+       "issues": 0,
+       "labelled": 16,
+       "missing_labels": 0,
+       "per_class": {
+        "0": 30
+       }
+      },
+      "train": {
+       "boxes": 946,
+       "empty_labels": 0,
+       "images": 480,
+       "issues": 0,
+       "labelled": 480,
+       "missing_labels": 0,
+       "per_class": {
+        "0": 946
+       }
+      }
+     },
+     "search_validation_manifest_hash": "sha256:879be4fa5fcec52d7f267c924d3d64573a1ffb5cbaa4c32fd9a717a7c318b728",
+     "test_access_during_search": false,
+     "train_fraction": 1,
+     "train_manifest_hash": "sha256:0cb9859c0e409de35099336f138f86483a2e6607d672e27319dc10351a8fb431"
+    },
+    "final_retraining": {
+     "budget_GPU_hours_separate": null,
+     "epoch_target_total": 2,
+     "finalist_selection": "highest_AP_at_L2_with_measured_latency_constraint",
+     "initialization": "scratch_with_pinned_recipe",
+     "reporting": "search_metrics_and_final_retrained_metrics_separate",
+     "scheduler_horizon_epochs": 2,
+     "top_k_per_arm_per_seed": 1
+    },
+    "fitness": {
+     "accuracy_input_unit": "fraction_0_to_1",
+     "accuracy_metric": "AP_IoU_0.50_to_0.95",
+     "display_accuracy_unit": "percent",
+     "formula_version": "named_weighted_reward_v1",
+     "latency_batch": 1,
+     "latency_bounds_ms": [
+      20,
+      200
+     ],
+     "latency_device_manifest": null,
+     "latency_precision": "FP16",
+     "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+     "latency_source": "target_device_measured_or_explicit_calibrated_proxy",
+     "metric_missing_action": "pending_or_eval_failure_not_zero",
+     "normalizer_scope": "fixed_shared_preregistered_anchors",
+     "out_of_range": "clip_reward_to_0_to_1_and_keep_raw_value",
+     "recall_evaluator_version": null,
+     "recall_metric": "recall_IoU_0.50_conf_0.25_macro_class",
+     "size_bounds_MB": [
+      5,
+      100
+     ],
+     "size_definition": "pinned_weights_only_artifact_without_optimizer_decimal_MB"
+    },
+    "git_commit": null,
+    "hard_constraints": {
+     "latency_le_ms": 1000,
+     "proxy_may_certify_final_deployment": false,
+     "weights_size_le_MB": 500
+    },
+    "original_status": "PRESET_PILOT_SMOKE",
+    "proposal": {
+     "GA": {
+      "parent_objective": "L0_named_weights",
+      "parent_selection_fidelity": "L0",
+      "policy_note": "new_protocol_not_claimed_historical_GA"
+     },
+     "IndependentRandom": {
+      "candidate_proposals_use_observed_fitness": false,
+      "prior_frozen_before_search": true,
+      "source_pool_updated_from_GA_history": false
+     }
+    },
+    "protocol_id": "mbnas-pilot-smoke",
+    "resolution": {
+     "canonicalization": "mbnas-canon/1",
+     "hash_excluded": [
+      "console.label",
+      "resolution.validated_at",
+      "console.retention",
+      "resolution.paths"
+     ],
+     "paths": {
+      "dataset_yaml": {
+       "requested": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T181305Z/core_data/t7shapes_big/data.yaml"
+      },
+      "output_root": {
+       "requested": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T181305Z/core/runs"
+      },
+      "search_val_root": {
+       "requested": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T181305Z/core_data/t7shapes_big/images/val"
+      },
+      "train_root": {
+       "requested": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T181305Z/core_data/t7shapes_big/images/train"
+      }
+     },
+     "validated_at": "2026-10-27T18:24:09.811958Z",
+     "validator": "mbnas-validator/1"
+    },
+    "rungs": [
+     {
+      "epoch_target_total": 8,
+      "epochs_added": 8,
+      "fitness_weights": {
+       "ap": 0.2,
+       "latency_reward": 0.4,
+       "recall": 0.1,
+       "size_reward": 0.3
+      },
+      "id": "TRAIN",
+      "promotion": null
+     }
+    ],
+    "schedule_scope": "candidate_local",
+    "schema_version": "nas-console/1.0",
+    "status": "RESOLVED_PILOT",
+    "training": {
+     "augmentation_profile": "PINNED_NATIVE_PROFILE_REQUIRED",
+     "automatic_batch_fallback": "reject_and_record",
+     "backend_resolved": {
+      "ultralytics": {
+       "accumulate": 1,
+       "batches_per_epoch": 60,
+       "nbs": 8,
+       "optimizer": {
+        "lr": 0.001,
+        "name": "AdamW",
+        "rule": "as requested"
+       },
+       "optimizer_iterations": 480,
+       "rule": "ultralytics 8.4.173 trainer",
+       "train_images": 480,
+       "warmup_iterations": 0
+      }
+     },
+     "batch_per_gpu": 8,
+     "betas": [
+      0.9,
+      0.999
+     ],
+     "candidate_early_stop": "disabled_for_search_rung_comparability",
+     "change_loss_weights_at_promotion": false,
+     "close_mosaic_epochs": 0,
+     "effective_batch": 8,
+     "fixed_horizon_epochs": 8,
+     "gpus_per_candidate": 1,
+     "gradient_accumulation": 1,
+     "initialization": "scratch",
+     "loss_profile": "model_version_native_pinned_and_exported",
+     "lr_final_ratio": 0.01,
+     "lr_initial": 0.001,
+     "nbs": 8,
+     "optimizer": "AdamW",
+     "precision": "amp_fp16_fp32",
+     "repeat_warmup_on_promotion": false,
+     "requested_input_size": [
+      128,
+      128
+     ],
+     "resolved_input_size_required": true,
+     "scheduler": "cosine_global_search_horizon",
+     "scheduler_horizon_epochs": 8,
+     "validation_interval_epochs": 1,
+     "warmup_epochs": 0,
+     "weight_decay": 0.0005,
+     "weight_inheritance": false,
+     "workers": 0
+    },
+    "unresolved_before_real_execution": [
+     "서버 절대 경로 및 데이터 manifest 확인",
+     "backend·registry·native recipe 버전 고정",
+     "full-state pause/resume 검증",
+     "pilot epochs·weights·threshold 검증",
+     "장치 측정 조건과 예산 승인"
+    ],
+    "value_provenance": "pilot_smoke_values_for_pipeline_verification_not_research_values"
+   },
+   "source_commit": "sha256:cd42e89b54d40c8913807fe05d078435626e335c79bf866b3a77b83277e61a22",
+   "status": "CANCELLED",
+   "terminal": true,
+   "updated_at": "2026-10-27T18:24:27.135676Z"
+  },
+  "workers": [
+   {
+    "candidate_id": null,
+    "device": "host-gpu-0",
+    "device_id": "dev-53b2bb3b41f06e04",
+    "device_name": "NVIDIA RTX A6000",
+    "heartbeat_at": "2026-10-27T18:24:27.132223Z",
+    "id": "t7-gpu0",
+    "job_id": null,
+    "power_w": null,
+    "run_id": null,
+    "runner_id": "t7-gpu0",
+    "runtime_manifest_status": "verified",
+    "sm_clock_mhz": null,
+    "status": "idle",
+    "utilization_percent": null,
+    "vram_mb": null
+   },
+   {
+    "candidate_id": null,
+    "device": "cpu",
+    "device_id": "dev-69b6e26ecb0cedfe",
+    "device_name": "CPU structure generation",
+    "heartbeat_at": "2026-10-27T18:24:29.827511Z",
+    "id": "wrk-64a3dc1c0ee8ed47",
+    "job_id": null,
+    "power_w": null,
+    "run_id": null,
+    "runner_id": null,
+    "sm_clock_mhz": null,
+    "status": "idle",
+    "utilization_percent": null,
+    "vram_mb": null
+   }
+  ]
+ },
+ "item": "d",
+ "saved_utc": "2026-10-27T18:24:31.403800Z",
+ "tree_hash": "sha256:9dafe4d021ab572058c306e596b686d3f19a1203cab7504c4c2662973fb670ea"
+}

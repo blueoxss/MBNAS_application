@@ -1,0 +1,43 @@
+# systemd unit EXAMPLE - MBNAS core API (owner host, PRIVATE): /core/v1/console (gateways), /core/v1/runner (runners),
+# /core/v1/owner (admin) on 127.0.0.1:8700. Adapted from the MBNAS_server mbnas-api.service.example of the source
+# snapshot (split architecture: the core keeps the DB, the search policy and the job queue).
+#
+# Assumes the pip install path (DD-A31) in /opt/mbnas = the unpacked owner ZIP root:
+#   cd /opt/mbnas && python3.10 -m venv .venv && .venv/bin/python -m pip install -r requirements-owner.txt
+# and /opt/mbnas/config/owner/core.env (from config/examples/core.env.example, owner mbnas, mode 0600) with the
+# generated MBNAS_CORE_API_TOKEN, MBNAS_CORE_ARTIFACT_SIGNING_KEY and MBNAS_CORE_TICKET_KEY.
+# Replace /opt/mbnas and the service user, then:
+#   sudo cp mbnas-core.service.example /etc/systemd/system/mbnas-core.service
+#   sudo systemctl daemon-reload && sudo systemctl enable --now mbnas-core
+# Tokens for gateways and runners: sudo -u mbnas env MBNAS_HOME=/opt/mbnas/runtime /opt/mbnas/.venv/bin/mbnas-core-principal
+#   --env-file /opt/mbnas/config/owner/core.env create --kind server|runner [--runner-id <id>]   (printed once)
+# The core stays on loopback: remote gateways and runners reach it through a TLS reverse proxy (runners refuse plain
+# http to a non-loopback core). Jobs run in the runner and owner-worker processes, not in the API process; set
+# MBNAS_CORE_TICKET_KEY so that job tickets stay valid across an API restart (unset = a new random key per start).
+[Unit]
+Description=MBNAS core API (owner)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mbnas
+Group=mbnas
+WorkingDirectory=/opt/mbnas
+Environment=MBNAS_HOME=/opt/mbnas/runtime
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/opt/mbnas/.venv/bin/mbnas-core-api --env-file /opt/mbnas/config/owner/core.env --host 127.0.0.1 --port 8700
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=30
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/opt/mbnas/runtime
+# the structure-check sandbox uses `unshare -rn` when unprivileged user namespaces are available: do not add
+# RestrictNamespaces= here (the isolation level actually used is recorded in every structure-check result)
+
+[Install]
+WantedBy=multi-user.target

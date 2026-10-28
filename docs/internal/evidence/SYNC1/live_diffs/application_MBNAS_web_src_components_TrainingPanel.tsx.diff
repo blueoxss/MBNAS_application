@@ -1,0 +1,27 @@
+--- a/application/MBNAS_web/src/components/TrainingPanel.tsx
++++ b/application/MBNAS_web/src/components/TrainingPanel.tsx
+@@ -106,6 +106,9 @@
+       dataset: previous.dataset || stringAt(next, 'console.paths.dataset_yaml'), output: previous.output || stringAt(next, 'console.paths.output_root'),
+     }));
+   }
++  // The server accepts evaluate_only only for an official baseline (selection.py EVAL_ONLY_UNSUPPORTED: search/generated candidates and
++  // user models are refused with 422), so the option exists only where it can succeed; 'resume' is the mirror rule (fixed source only).
++  const evaluateOnlyAllowed = (fixedSource?.kind ?? kind) === 'baseline';
+   const needsCheckpoint = mode === 'pretrained' && (fixedSource?.kind ?? kind) !== 'baseline';
+   return <Card title={fixedSource ? '이 모델 학습 · 별도 run' : '개별 모델 학습 · baseline / 사용자 모델'}>
+     {!hasRecipe && <Banner tone="warn">원본 생성 작업에는 학습 recipe·단계별 지표 가중치·정규화 설정이 없습니다. 새 학습용 전체 설정을 입력하거나 아래 예시를 명시적으로 선택한 뒤 실제 데이터·학습 조건을 확인하세요.</Banner>}
+@@ -133,12 +136,12 @@
+     </details>
+     <p className="help">서버 경로를 입력합니다. 원본 후보 run은 변경하지 않습니다. 검증은 원본 생성 작업의 평가 ON/OFF와 별개입니다. epoch·batch·seed 값은 이 별도 실행의 설정입니다.</p>
+     {fixedSource ? <p className="mono wrap-any">출처: {fixedSource.kind} · {fixedSource.run_id} / {fixedSource.candidate_id}</p> : <div className="grid-2">
+-      <SelectField label="모델 출처" value={kind} options={[{ value: 'baseline', label: 'baseline · 서버 registry' }, { value: 'user', label: '사용자 지정 모델 · 서버 YAML' }]} onChange={(v) => { setKind(v as typeof kind); setModel(''); }} />
++      <SelectField label="모델 출처" value={kind} options={[{ value: 'baseline', label: 'baseline · 서버 registry' }, { value: 'user', label: '사용자 지정 모델 · 서버 YAML' }]} onChange={(v) => { setKind(v as typeof kind); setModel(''); if (v !== 'baseline' && mode === 'evaluate_only') setMode('scratch'); }} />
+       <TextField label={kind === 'baseline' ? 'Baseline registry ID' : '모델 구성 YAML 서버 절대경로'} value={model} onChange={setModel} mono help="브라우저 로컬 파일 경로가 아닙니다. 서버가 허용 경로와 지원 여부를 확인합니다." />
+       <RegistryStructureButton client={client} kind={kind} model={model} />
+     </div>}
+     <div className="grid-3">
+-      <SelectField label="실행 방식" value={mode} options={[{ value: 'scratch', label: '처음부터 학습' }, { value: 'pretrained', label: '사전학습 가중치로 추가 학습' }, ...(fixedSource ? [{ value: 'resume', label: '기존 학습 run의 full-state 재개' }] : []), { value: 'evaluate_only', label: '공식 가중치 평가 전용' }]} onChange={(v) => setMode(v as typeof mode)} testId="training-mode" />
++      <SelectField label="실행 방식" value={mode} options={[{ value: 'scratch', label: '처음부터 학습' }, { value: 'pretrained', label: '사전학습 가중치로 추가 학습' }, ...(fixedSource ? [{ value: 'resume', label: '기존 학습 run의 full-state 재개' }] : []), ...(evaluateOnlyAllowed ? [{ value: 'evaluate_only', label: '공식 가중치 평가 전용' }] : [])]} onChange={(v) => setMode(v as typeof mode)} testId="training-mode" />
+       <TextField label="학습 장치" value="worker assigned · cuda:0" onChange={() => undefined} readOnly help="선택한 worker GPU가 작업 안에서 cuda:0으로 매핑됩니다. 실제 GPU 정보는 모니터링에서 확인합니다." />
+       <TextField label="데이터셋 YAML · 서버 경로" value={fields.dataset} onChange={(v) => edit('dataset', v)} mono />
+       <TextField label="결과 저장 · 서버 경로" value={fields.output} onChange={(v) => edit('output', v)} mono />

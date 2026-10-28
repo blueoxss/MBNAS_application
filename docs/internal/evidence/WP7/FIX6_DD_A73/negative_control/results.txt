@@ -1,0 +1,10 @@
+# DD-A73 negative control and branch probe, fresh interpreters (2026-10-28T02:43:59Z)
+# command per mode: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 HF_HUB_OFFLINE=1 YOLO_OFFLINE=1 runtime/venv/bin/python -I -B probe_bind_structure.py t5_rerun2_c000.yaml <mode>
+# t5_rerun2_c000.yaml = architecture_yaml of run-e3cadf21247d:RAND:s7:g00:c000 (T5 rerun2 gen candidate detail), byte-identical
+# expected: fix -> PASS; noop (pre-DD-A73) -> STRUCTURE_INVALID BLOCK_UNSUPPORTED KeyError 'NASGlobalTransformer' (the T5 genconfig-create 422); raise -> UNVERIFIED STRUCTURE_RUNTIME_UNAVAILABLE
+RESULT {"mode": "fix", "registered_before": false, "raised": null, "status": "PASS", "codes": [], "causes": [], "n_blocks": 24, "architecture_hash": "sha256:ed0f4eee38c2a994c68e52d79a1fe8e11894234cda5d7fa839288996e39bbcb1", "resolved_arch_hash": "sha256:ed0f4eee38c2a994c68e52d79a1fe8e11894234cda5d7fa839288996e39bbcb1", "registered_after": true}
+exit=0 mode=fix
+RESULT {"mode": "noop", "registered_before": false, "raised": "STRUCTURE_INVALID", "errors": [{"code": "BLOCK_UNSUPPORTED", "path": "backbone[6]", "cause": "build at row 6 (NASGlobalTransformer): KeyError: 'NASGlobalTransformer'"}], "registered_after": false}
+exit=0 mode=noop
+RESULT {"mode": "raise", "registered_before": false, "raised": null, "status": "UNVERIFIED", "codes": ["STRUCTURE_RUNTIME_UNAVAILABLE"], "causes": ["configured mixed-block backend is unavailable: EtriUnavailable"], "n_blocks": 0, "architecture_hash": null, "resolved_arch_hash": null, "registered_after": false}
+exit=0 mode=raise

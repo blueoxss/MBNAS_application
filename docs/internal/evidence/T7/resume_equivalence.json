@@ -1,0 +1,507 @@
+{
+ "kind": "resume_equivalence",
+ "model_id": "yolo11n",
+ "verdict": "PASS",
+ "created_at": "2026-10-27T06:23:23.128731Z",
+ "seconds": 45.9,
+ "summary": "yolo11n: 2/4->6 vs continuous 6: counters/LR exact=True, bitwise=True, final model max|d|=0.0, EMA max|d|=0.0, negative cases blocked=True",
+ "settings": {
+  "horizon": 6,
+  "cuts": [
+   2,
+   4
+  ],
+  "seed": 101,
+  "imgsz": 640,
+  "warmup_epochs": 3.0,
+  "dataset": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/g2_3/data/pilot_synth",
+  "train_dir": "images/train",
+  "val_dir": "images/search_val",
+  "weights_dir": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/g2_3/weights",
+  "protocol_json": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/g2_3/protocol_pilot_smoke.json",
+  "process_isolation": true,
+  "device": "cuda:0 = ['NVIDIA RTX A6000'] (CUDA_VISIBLE_DEVICES='1')"
+ },
+ "A_stage": {
+  "seconds": 13.74,
+  "epochs_done": 6,
+  "device_name": "NVIDIA RTX A6000",
+  "cuda_visible_devices": "1",
+  "resumed_from": null,
+  "steps": 24,
+  "stopped": "TARGET_REACHED",
+  "events": 14,
+  "recipe_optimizer": "AdamW",
+  "notes": []
+ },
+ "B_stages": [
+  {
+   "seconds": 6.91,
+   "epochs_done": 2,
+   "device_name": "NVIDIA RTX A6000",
+   "cuda_visible_devices": "1",
+   "resumed_from": null,
+   "steps": 8,
+   "stopped": "TARGET_REACHED",
+   "events": 6,
+   "recipe_optimizer": "AdamW",
+   "notes": []
+  },
+  {
+   "seconds": 8.09,
+   "epochs_done": 4,
+   "device_name": "NVIDIA RTX A6000",
+   "cuda_visible_devices": "1",
+   "resumed_from": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/g2_3/runs/evidence_work/resume_yolo11n_20261027T152237/B/ckpt/full_e0002.pt",
+   "steps": 16,
+   "stopped": "TARGET_REACHED",
+   "events": 6,
+   "recipe_optimizer": "AdamW",
+   "notes": []
+  },
+  {
+   "seconds": 7.96,
+   "epochs_done": 6,
+   "device_name": "NVIDIA RTX A6000",
+   "cuda_visible_devices": "1",
+   "resumed_from": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/g2_3/runs/evidence_work/resume_yolo11n_20261027T152237/B/ckpt/full_e0004.pt",
+   "steps": 24,
+   "stopped": "TARGET_REACHED",
+   "events": 6,
+   "recipe_optimizer": "AdamW",
+   "notes": []
+  }
+ ],
+ "boundaries": {
+  "2": {
+   "epochs_done": [
+    2,
+    2
+   ],
+   "global_step": [
+    8,
+    8
+   ],
+   "samples_seen": [
+    64,
+    64
+   ],
+   "lr_equal": true,
+   "lr_A": [
+    [
+     0.00025,
+     0.00025,
+     0.07525000000000001
+    ],
+    [
+     0.00054464816867609,
+     0.00054464816867609,
+     0.04221131483534275
+    ]
+   ],
+   "lr_B": [
+    [
+     0.00025,
+     0.00025,
+     0.07525000000000001
+    ],
+    [
+     0.00054464816867609,
+     0.00054464816867609,
+     0.04221131483534275
+    ]
+   ],
+   "ema_updates": [
+    8,
+    8
+   ],
+   "optimizer_digest": [
+    "sha256:25932eb9f82da5179da010559bea47eefa88ab88a99a726a6f658ce3c20d04e6",
+    "sha256:25932eb9f82da5179da010559bea47eefa88ab88a99a726a6f658ce3c20d04e6"
+   ],
+   "scheduler": [
+    1,
+    1
+   ],
+   "scaler": [
+    {
+     "scale": 512.0,
+     "growth_factor": 2.0,
+     "backoff_factor": 0.5,
+     "growth_interval": 2000,
+     "_growth_tracker": 0
+    },
+    {
+     "scale": 512.0,
+     "growth_factor": 2.0,
+     "backoff_factor": 0.5,
+     "growth_interval": 2000,
+     "_growth_tracker": 0
+    }
+   ],
+   "model_bitwise": true,
+   "model_max_abs_diff": 0.0,
+   "ema_bitwise": true,
+   "ema_max_abs_diff": 0.0,
+   "rng_equal": {
+    "python": true,
+    "numpy": true,
+    "torch_cpu": true,
+    "torch_cuda": true
+   },
+   "loader_generator_equal": true,
+   "adapter_meta_equal": {
+    "accumulate": true,
+    "batch_size": true,
+    "batches_per_epoch": true,
+    "criterion_updates": true,
+    "dataset_buffer": true,
+    "fitness": true,
+    "loader_pending_tail": true,
+    "optimizer_steps": true,
+    "stopper": true
+   },
+   "optimizer_equal": true,
+   "counters_equal": true
+  },
+  "4": {
+   "epochs_done": [
+    4,
+    4
+   ],
+   "global_step": [
+    16,
+    16
+   ],
+   "samples_seen": [
+    128,
+    128
+   ],
+   "lr_equal": true,
+   "lr_A": [
+    [
+     0.00025,
+     0.00025,
+     0.07525000000000001
+    ],
+    [
+     0.00054464816867609,
+     0.00054464816867609,
+     0.04221131483534275
+    ],
+    [
+     0.0006897916666666667,
+     0.0006897916666666667,
+     0.009023125000000007
+    ],
+    [
+     0.0005050000000000001,
+     0.0005050000000000001,
+     0.0005050000000000001
+    ]
+   ],
+   "lr_B": [
+    [
+     0.00025,
+     0.00025,
+     0.07525000000000001
+    ],
+    [
+     0.00054464816867609,
+     0.00054464816867609,
+     0.04221131483534275
+    ],
+    [
+     0.0006897916666666667,
+     0.0006897916666666667,
+     0.009023125000000007
+    ],
+    [
+     0.0005050000000000001,
+     0.0005050000000000001,
+     0.0005050000000000001
+    ]
+   ],
+   "ema_updates": [
+    16,
+    16
+   ],
+   "optimizer_digest": [
+    "sha256:6a5740be90a9848f6dc3df43f46e72b91917b04fa5e8aabafb26a65cfba78542",
+    "sha256:6a5740be90a9848f6dc3df43f46e72b91917b04fa5e8aabafb26a65cfba78542"
+   ],
+   "scheduler": [
+    3,
+    3
+   ],
+   "scaler": [
+    {
+     "scale": 512.0,
+     "growth_factor": 2.0,
+     "backoff_factor": 0.5,
+     "growth_interval": 2000,
+     "_growth_tracker": 8
+    },
+    {
+     "scale": 512.0,
+     "growth_factor": 2.0,
+     "backoff_factor": 0.5,
+     "growth_interval": 2000,
+     "_growth_tracker": 8
+    }
+   ],
+   "model_bitwise": true,
+   "model_max_abs_diff": 0.0,
+   "ema_bitwise": true,
+   "ema_max_abs_diff": 0.0,
+   "rng_equal": {
+    "python": true,
+    "numpy": true,
+    "torch_cpu": true,
+    "torch_cuda": true
+   },
+   "loader_generator_equal": true,
+   "adapter_meta_equal": {
+    "accumulate": true,
+    "batch_size": true,
+    "batches_per_epoch": true,
+    "criterion_updates": true,
+    "dataset_buffer": true,
+    "fitness": true,
+    "loader_pending_tail": true,
+    "optimizer_steps": true,
+    "stopper": true
+   },
+   "optimizer_equal": true,
+   "counters_equal": true
+  },
+  "6": {
+   "epochs_done": [
+    6,
+    6
+   ],
+   "global_step": [
+    24,
+    24
+   ],
+   "samples_seen": [
+    192,
+    192
+   ],
+   "lr_equal": true,
+   "lr_A": [
+    [
+     0.00025,
+     0.00025,
+     0.07525000000000001
+    ],
+    [
+     0.00054464816867609,
+     0.00054464816867609,
+     0.04221131483534275
+    ],
+    [
+     0.0006897916666666667,
+     0.0006897916666666667,
+     0.009023125000000007
+    ],
+    [
+     0.0005050000000000001,
+     0.0005050000000000001,
+     0.0005050000000000001
+    ],
+    [
+     0.0002575000000000001,
+     0.0002575000000000001,
+     0.0002575000000000001
+    ],
+    [
+     7.631742512670281e-05,
+     7.631742512670281e-05,
+     7.631742512670281e-05
+    ]
+   ],
+   "lr_B": [
+    [
+     0.00025,
+     0.00025,
+     0.07525000000000001
+    ],
+    [
+     0.00054464816867609,
+     0.00054464816867609,
+     0.04221131483534275
+    ],
+    [
+     0.0006897916666666667,
+     0.0006897916666666667,
+     0.009023125000000007
+    ],
+    [
+     0.0005050000000000001,
+     0.0005050000000000001,
+     0.0005050000000000001
+    ],
+    [
+     0.0002575000000000001,
+     0.0002575000000000001,
+     0.0002575000000000001
+    ],
+    [
+     7.631742512670281e-05,
+     7.631742512670281e-05,
+     7.631742512670281e-05
+    ]
+   ],
+   "ema_updates": [
+    24,
+    24
+   ],
+   "optimizer_digest": [
+    "sha256:d756ddf2870a7076fd9aab2014e6fd173e99e1a2023b553e0206d82dbd76bec4",
+    "sha256:d756ddf2870a7076fd9aab2014e6fd173e99e1a2023b553e0206d82dbd76bec4"
+   ],
+   "scheduler": [
+    5,
+    5
+   ],
+   "scaler": [
+    {
+     "scale": 512.0,
+     "growth_factor": 2.0,
+     "backoff_factor": 0.5,
+     "growth_interval": 2000,
+     "_growth_tracker": 16
+    },
+    {
+     "scale": 512.0,
+     "growth_factor": 2.0,
+     "backoff_factor": 0.5,
+     "growth_interval": 2000,
+     "_growth_tracker": 16
+    }
+   ],
+   "model_bitwise": true,
+   "model_max_abs_diff": 0.0,
+   "ema_bitwise": true,
+   "ema_max_abs_diff": 0.0,
+   "rng_equal": {
+    "python": true,
+    "numpy": true,
+    "torch_cpu": true,
+    "torch_cuda": true
+   },
+   "loader_generator_equal": true,
+   "adapter_meta_equal": {
+    "accumulate": true,
+    "batch_size": true,
+    "batches_per_epoch": true,
+    "criterion_updates": true,
+    "dataset_buffer": true,
+    "fitness": true,
+    "loader_pending_tail": true,
+    "optimizer_steps": true,
+    "stopper": true
+   },
+   "optimizer_equal": true,
+   "counters_equal": true
+  }
+ },
+ "negative_cases": {
+  "stripped_optimizer": {
+   "blocked": true,
+   "reason": "MISSING_STATE:optimizer",
+   "detail": "full-state resume needs it; no weights-only fallback",
+   "new_checkpoints_written": []
+  },
+  "wrong_architecture_hash": {
+   "blocked": true,
+   "reason": "HASH_MISMATCH:architecture",
+   "detail": "checkpoint sha256:0000000000000000000000000000000000000000000000000000000000000000 != expected sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+   "new_checkpoints_written": []
+  },
+  "native_last_pt": {
+   "blocked": true,
+   "reason": "FORMAT_UNKNOWN",
+   "path": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/g2_3/runs/evidence_work/resume_yolo11n_20261027T152237/B/native/stage_e0000_e0002/weights/last.pt"
+  }
+ },
+ "restoration": {
+  "declared": "EXACT_UNDER_PILOT_PROFILE",
+  "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+  "state_keys": [
+   "adapter",
+   "adapter_meta",
+   "best_fitness",
+   "ema_fp32",
+   "ema_updates",
+   "env",
+   "epoch",
+   "epochs_done",
+   "format",
+   "global_step",
+   "hashes",
+   "loader_generator_state",
+   "lr_history",
+   "model_fp32",
+   "optimizer",
+   "rng",
+   "samples_seen",
+   "scaler",
+   "scheduler"
+  ],
+  "adapter_meta": {
+   "dataset_buffer": [
+    28,
+    29,
+    18,
+    14,
+    4,
+    30,
+    2,
+    16,
+    26,
+    7,
+    19,
+    25,
+    31,
+    5,
+    27,
+    21,
+    11,
+    9,
+    20,
+    8,
+    17,
+    24,
+    1,
+    12,
+    13,
+    22,
+    23,
+    0,
+    10,
+    15,
+    6
+   ],
+   "stopper": {
+    "best_fitness": 0.00021,
+    "best_epoch": 4
+   },
+   "accumulate": 1,
+   "optimizer_steps": 24,
+   "loader_pending_tail": true,
+   "criterion_updates": null,
+   "batch_size": 8,
+   "batches_per_epoch": 4,
+   "fitness": 0.00021
+  },
+  "native": null
+ },
+ "log": "/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/T7/logs/resume_equivalence_yolo11n.log",
+ "workdir": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/g2_3/runs/evidence_work/resume_yolo11n_20261027T152237",
+ "tree_hash": "sha256:164292c6e775a52a3da02f98282257b67a282f9e84b236ded3940e592a568f2f",
+ "script_sha256": "e8cb2c291774102e69cd13920ca07437232baf902a6f3a07c33aa8ddce935c25",
+ "command": "cd runtime/test_root/g2_tree && CUDA_VISIBLE_DEVICES=1 PYTHONDONTWRITEBYTECODE=1 MBNAS_HOME=<g2>/runtime HTTPS_PROXY=http://127.0.0.1:9 NO_PROXY=127.0.0.1,localhost YOLO_OFFLINE=1 HF_HUB_OFFLINE=1 runtime/venv/bin/python -B scripts/runner/resume_equivalence.py --model yolo11n --horizon 6 --cuts 2,4 --data-root <g2>/runtime/g2_3/data/pilot_synth --protocol-json <g2>/runtime/g2_3/protocol_pilot_smoke.json --weights-dir <g2>/runtime/g2_3/weights --runs-root <g2>/runtime/g2_3/runs --out <this file> --log docs/internal/evidence/T7/logs/resume_equivalence_yolo11n.log",
+ "evidence_note": "WP-G2 G2-3 on GPU 1 (RTX A6000) of the frozen copy; dataset = SYNTHETIC PILOT-layout shapes set (32 train / 16 search_val / 16 final_eval, 160 px PNG, 1 class) because the PILOT VisDrone subset is not on this host; protocol = PILOT_SMOKE preset (AdamW, amp_fp16_fp32, batch 8); tree_hash/script_sha256/command/evidence_note keys added by the G2 agent after the script wrote the report"
+}

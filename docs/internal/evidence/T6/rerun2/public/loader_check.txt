@@ -1,0 +1,2 @@
+mbnas_core: no loader, no spec, not in sys.modules after importing the public apps; mbnas_server from /srv/mbnas public r2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_server/__init__.py
+exit=0

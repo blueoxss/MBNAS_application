@@ -1,0 +1,82 @@
+{
+ "suite": "unit,relocation",
+ "status": "FAIL",
+ "counts": {
+  "PASS": 1,
+  "FAIL": 1,
+  "NOT_APPLICABLE": 0,
+  "BLOCKED_BY_ENV": 0
+ },
+ "evidence": [
+  "runtime/logs/verify/20261027T181305Z-public"
+ ],
+ "results": [
+  {
+   "suite": "unit",
+   "status": "FAIL",
+   "counts": {
+    "tests": 849,
+    "passed": 633,
+    "failed": 1,
+    "errors": 0,
+    "skipped": 215,
+    "summary": "1 failed, 633 passed, 215 skipped, 44 deselected, 2 warnings in 172.55s (0:02:52)",
+    "deselected": 44
+   },
+   "evidence": [
+    "runtime/logs/verify/20261027T181305Z-public/unit.log",
+    "runtime/logs/verify/20261027T181305Z-public/unit.junit.xml"
+   ],
+   "reason": "pytest exit 1",
+   "command": [
+    "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application/runtime/venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "-m",
+    "not gpu and not live and not legacy_records and not host_data",
+    "-p",
+    "no:cacheprovider",
+    "--junitxml=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application/runtime/logs/verify/20261027T181305Z-public/unit.junit.xml",
+    "tests/public"
+   ],
+   "exit_code": 1,
+   "duration_s": 174.8,
+   "scope": {
+    "test_dirs": [
+     "tests/public"
+    ],
+    "markers": "not gpu and not live and not legacy_records and not host_data",
+    "not_applicable": [
+     "tests/owner: owner-only tests (public profile)"
+    ]
+   },
+   "profile": "public"
+  },
+  {
+   "suite": "relocation",
+   "status": "PASS",
+   "counts": {
+    "checks": 8,
+    "passed": 8,
+    "failed": 0
+   },
+   "evidence": [
+    "runtime/logs/verify/20261027T181305Z-public/relocation.json",
+    "runtime/logs/verify/20261027T181305Z-public/relocation_doctor_external_cwd.log",
+    "runtime/logs/verify/20261027T181305Z-public/relocation_doctor_external_cwd.json",
+    "runtime/logs/verify/20261027T181305Z-public/relocation_doctor_spaced_path.log",
+    "runtime/logs/verify/20261027T181305Z-public/relocation_doctor_spaced_path.json",
+    "runtime/logs/verify/20261027T181305Z-public/relocation_help_spaced.log"
+   ],
+   "reason": "",
+   "duration_s": 2.4,
+   "profile": "public"
+  }
+ ],
+ "schema": "mbnas.verify/1",
+ "root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas public test/mbnas_application",
+ "profile": "public",
+ "started_at": "2026-10-27T18:13:05Z",
+ "finished_at": "2026-10-27T18:16:02Z"
+}

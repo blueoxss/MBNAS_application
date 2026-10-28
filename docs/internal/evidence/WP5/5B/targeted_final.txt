@@ -1,0 +1,57 @@
+# WP-5B targeted final run 2026-10-27T07:12:17Z
+# 1) tests/public/server
+527 passed, 1 skipped, 25 deselected, 1 xfailed, 1 warning in 55.63s
+# 2) owner artifact/export: tests/owner/artifacts tests/owner/api/test_artifacts_export.py tests/owner/runner_protocol/test_artifact_transfer.py tests/owner/qa/test_security_negatives.py tests/owner/api/test_auth_cors.py tests/owner/api/test_access_log_redaction.py tests/owner/projection/test_config_revisions.py
+166 passed, 1 deselected, 7 warnings in 152.87s (0:02:32)
+# 3) the new files alone, verbose
+__________ test_tampered_store_bytes_are_409_and_recorded_load_failed __________
+    def test_tampered_store_bytes_are_409_and_recorded_load_failed(gateway, core, server_headers, db, finished_run,
+__________ test_tampered_store_bytes_are_409_load_failed_and_reported __________
+PASSED tests/public/server/test_artifact_routes.py::test_settings_defaults_and_store_on_app_state
+PASSED tests/public/server/test_artifact_routes.py::test_startup_sweeps_stale_temp_files_only
+PASSED tests/public/server/test_artifact_routes.py::test_artifact_verification_header_is_exposed_to_the_browser
+PASSED tests/public/server/test_artifact_routes.py::test_download_from_store_with_digest_headers_and_one_location_report
+PASSED tests/public/server/test_artifact_routes.py::test_prefixed_digest_in_the_record_is_served
+PASSED tests/public/server/test_artifact_routes.py::test_tampered_store_bytes_are_409_load_failed_and_reported
+PASSED tests/public/server/test_artifact_routes.py::test_size_mismatch_between_record_and_store_is_409
+PASSED tests/public/server/test_artifact_routes.py::test_untransferred_runner_object_is_404_artifact_not_ready
+PASSED tests/public/server/test_artifact_routes.py::test_core_object_is_relayed_from_core_with_its_digest
+PASSED tests/public/server/test_artifact_routes.py::test_checkpoint_is_served_from_the_store_and_never_relayed_from_core
+PASSED tests/public/server/test_artifact_routes.py::test_signed_query_with_the_gateway_key_needs_no_bearer
+PASSED tests/public/server/test_artifact_routes.py::test_expired_gateway_signature_is_410_without_core
+PASSED tests/public/server/test_artifact_routes.py::test_foreign_signature_is_delegated_to_core_before_any_byte
+PASSED tests/public/server/test_artifact_routes.py::test_no_credentials_never_reach_core
+PASSED tests/public/server/test_artifact_routes.py::test_unknown_id_is_core_404_and_a_foreign_record_is_502
+PASSED tests/public/server/test_artifact_routes.py::test_refresh_signs_with_the_gateway_key_when_the_bytes_are_in_the_store
+PASSED tests/public/server/test_artifact_routes.py::test_refresh_of_a_checkpoint_is_an_artifact_view
+PASSED tests/public/server/test_artifact_routes.py::test_export_zip_adds_yaml_bytes_from_the_store_and_core_and_is_deterministic
+PASSED tests/public/server/test_artifact_routes.py::test_export_never_includes_a_tampered_object
+PASSED tests/public/server/test_artifact_routes.py::test_export_with_a_malformed_manifest_is_502
+PASSED tests/public/server/test_artifact_routes.py::test_config_revision_routes_are_relayed
+PASSED tests/public/server/test_artifact_routes.py::test_revision_bytes_core_does_not_hold_come_from_the_gateway_stores
+PASSED tests/public/server/test_artifact_routes.py::test_validate_caches_inputs_and_runs_attach_a_fresh_measurement
+PASSED tests/public/server/test_artifact_routes.py::test_cache_entry_is_attached_when_there_is_nothing_to_measure
+PASSED tests/public/server/test_artifact_routes.py::test_runs_training_and_final_retrain_measure_their_protocol
+PASSED tests/public/server/test_artifact_routes.py::test_resume_attaches_the_runs_host_inputs
+PASSED tests/public/server/test_artifact_routes.py::test_owner_all_in_one_attaches_nothing_and_drops_browser_inputs
+PASSED tests/public/server/test_artifact_routes.py::test_empty_body_and_non_object_bodies_still_reach_core
+PASSED tests/public/server/test_artifact_routes.py::test_model_path_goes_to_core_unchanged_without_gateway_roots
+PASSED tests/owner/artifacts/test_split_output_root.py::test_core_alone_refuses_the_customer_paths
+FAILED tests/owner/artifacts/test_artifact_wiring.py::test_register_transfer_download_digest_match_and_location_transition
+FAILED tests/owner/artifacts/test_artifact_wiring.py::test_urls_signed_in_core_views_work_through_the_gateway
+FAILED tests/owner/artifacts/test_artifact_wiring.py::test_signed_url_expiry_is_410_for_both_keys
+FAILED tests/owner/artifacts/test_artifact_wiring.py::test_tampered_store_bytes_are_409_and_recorded_load_failed
+FAILED tests/owner/artifacts/test_artifact_wiring.py::test_untransferred_objects_are_404_artifact_not_ready
+FAILED tests/owner/artifacts/test_artifact_wiring.py::test_view_overlays_follow_the_locations
+FAILED tests/owner/artifacts/test_artifact_wiring.py::test_runner_artifacts_are_never_flipped_missing_by_a_core_disk_lookup[none]
+FAILED tests/owner/artifacts/test_artifact_wiring.py::test_runner_artifacts_are_never_flipped_missing_by_a_core_disk_lookup[local]
+FAILED tests/owner/artifacts/test_artifact_wiring.py::test_location_report_is_server_scoped_and_checked
+FAILED tests/owner/artifacts/test_artifact_wiring.py::test_export_zip_carries_the_executed_yaml_bytes_from_the_store
+FAILED tests/owner/artifacts/test_split_output_root.py::test_run_with_customer_side_paths_completes_through_the_gateway
+11 failed, 30 passed, 1 warning in 55.69s
+# dur=267s
+# 3b) re-run of step 3 at 2026-10-27T07:19:38Z (step 3 above: 11 job-running owner tests failed once while the full owner gate and the public suite ran concurrently; a re-run at 07:2xZ passed 41/41 - see below; cause not captured: 확인 못 함, suspected concurrent edits by WP-4B to modules the job child imports)
+41 passed, 1 warning in 59.62s
+# 4) 2026-10-27T07:28:36Z runner-daemon suites after the concurrent mbnas_runner edits of another agent (child.py 07:14:41Z, journal.py 07:16:19Z, daemon.py 07:16:59Z) settled: tests/owner/runner_protocol tests/owner/artifacts
+54 passed, 1 warning in 155.35s (0:02:35)
+# dur=156s

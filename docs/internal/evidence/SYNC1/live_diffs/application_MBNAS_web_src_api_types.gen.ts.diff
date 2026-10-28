@@ -1,0 +1,11 @@
+--- a/application/MBNAS_web/src/api/types.gen.ts
++++ b/application/MBNAS_web/src/api/types.gen.ts
+@@ -4749,7 +4749,7 @@
+                     "application/json": components["schemas"]["Error"];
+                 };
+             };
+-            /** @description Semantic validation failed: TRAINING_RECIPE_MISSING, CLASS_COUNT_MISMATCH, STRUCTURE_INVALID, EPOCH_TARGET_INVALID, MODEL_CONFIG_INVALID, BASELINE_UNAVAILABLE, path codes */
++            /** @description Semantic validation failed: TRAINING_RECIPE_MISSING, CLASS_COUNT_MISMATCH, STRUCTURE_INVALID, EPOCH_TARGET_INVALID, MODEL_CONFIG_INVALID, BASELINE_UNAVAILABLE, DEVICE_UNSUPPORTED, EVAL_ONLY_UNSUPPORTED, VALIDATION_DISABLED_UNSUPPORTED, INITIAL_WEIGHTS_REQUIRED, RESUME_SOURCE_REQUIRED (meanings in x-status-vocabulary.error_codes_note), path codes */
+             422: {
+                 headers: {
+                     [name: string]: unknown;

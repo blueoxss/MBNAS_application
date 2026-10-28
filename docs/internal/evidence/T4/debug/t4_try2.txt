@@ -1,0 +1,37 @@
+[t4 2026-10-27T18:13:01Z] env overrides: MBNAS_RUNNER_ARTIFACT_TRANSFER=local MBNAS_RUNNER_ARTIFACT_STORE_DIR=<ROOT>/runtime/gateway/artifacts MBNAS_CORE_HEARTBEAT_S=2 
+ls: cannot access '/sys/class/net': No such file or directory
+[t4 2026-10-27T18:13:01Z] isolation: original tree visible? no; etri_nas visible? no; /data visible? no; network interfaces: 
+[t4 2026-10-27T18:13:01Z] doctor
+[t4 2026-10-27T18:13:02Z] doctor exit=0
+[t4 2026-10-27T18:13:02Z] start
+[t4 2026-10-27T18:13:16Z] start exit=0
+[start] core: ready pid=52 HTTP 401 from http://127.0.0.1:8700/core/v1/console/health log=runtime/logs/core.log
+[start] owner-worker: ready pid=74 alive after 5 s log=runtime/logs/owner-worker.log
+[start] gateway: ready pid=90 HTTP 200 from http://127.0.0.1:8710/api/v1/health status=ok core=reachable log=runtime/logs/gateway.log
+[start] runner: ready pid=117 alive after 5 s log=runtime/logs/runner.log
+[t4 2026-10-27T18:13:16Z] harness items=gen,train,results,download,decision,reqids
+{"utc": "2026-10-27T18:13:16.754997Z", "label": "t4", "step": "gen-validate", "verdict": "PASS", "seconds": 0.05, "http": 200, "request_id": "t4-364ab7be50704b5a8b74", "errors": [], "capabilities": {"generation": {"execution": "CPU", "structure_status": "UNVERIFIED", "evaluation_enabled": false}}}
+{"utc": "2026-10-27T18:13:23.063714Z", "label": "t4", "step": "gen-run", "verdict": "PASS", "seconds": 6.31, "run_id": "run-0671da2eedbf", "run_status": "COMPLETED", "request_ids": ["t4-10d46d6d0a5f4ec6b090", "t4-76971a65950b4907a637", "t4-773bea9017a74bf09b38"], "candidates": 2, "training_status": ["UNTRAINED", "UNTRAINED"], "evaluation_status": ["NOT_EVALUATED", "NOT_EVALUATED"], "jobs": [["PROPOSE_GENERATION", "SUCCEEDED", "t4-sandbox:74"]], "candidate_detail_ok": true}
+{"utc": "2026-10-27T18:13:23.242977Z", "label": "t4", "step": "train-create", "verdict": "FAIL", "seconds": 0.18, "http": 422, "request_id": "t4-b89f6a1c325a40958056", "body": {"code": "TRAINING_PROTOCOL_INVALID", "location": "core", "message": "training data/recipe validation failed", "request_id": "t4-b89f6a1c325a40958056", "errors": [{"field": "console.benchmark.device", "message": "device 'host-gpu-0' is not available; available: [] (declared target host-gpu-0: host-gpu-0 is a measurable target but is not in the live device inventory (no NVML device / CUDA_VISIBLE_DEVICES hides it))", "code": "DEVICE_UNAVAILABLE"}]}}
+{"utc": "2026-10-27T18:13:23.243157Z", "label": "t4", "step": "results-error", "verdict": "FAIL", "seconds": 0.0, "error": "KeyError: 'train_run'"}
+{"utc": "2026-10-27T18:13:23.243262Z", "label": "t4", "step": "download-error", "verdict": "FAIL", "seconds": 0.0, "error": "KeyError: 'train_run'"}
+{"utc": "2026-10-27T18:13:23.378830Z", "label": "t4", "step": "decision-validate", "verdict": "FAIL", "seconds": 0.14, "http": 200, "request_id": "t4-1970d8fcf04d409098b7", "errors": [{"field": "console.benchmark.device", "message": "device 'host-gpu-0' is not available; available: [] (declared target host-gpu-0: host-gpu-0 is a measurable target but is not in the live device inventory (no NVML device / CUDA_VISIBLE_DEVICES hides it))", "code": "DEVICE_UNAVAILABLE"}]}
+{"utc": "2026-10-27T18:13:23.379513Z", "label": "t4", "step": "request-ids", "verdict": "PASS", "seconds": 0.0, "harness_ids": 28, "echoed_this_session": "12/12", "found": {"audit": {"file": "<T>/t4/mbnas_application/runtime/gateway/logs/audit.jsonl", "ids_found": 1, "sample": ["t4-773bea9017a74bf09b38"]}, "gateway_log": {"file": "<T>/t4/mbnas_application/runtime/logs/gateway.log", "ids_found": 0, "sample": []}, "core_log": {"file": "<T>/t4/mbnas_application/runtime/logs/core.log", "ids_found": 0, "sample": []}}}
+{"utc": "2026-10-27T18:13:23.379821Z", "label": "t4", "step": "summary", "verdict": "FAIL", "seconds": 0.0, "items": {"gen": "PASS", "train": "FAIL", "results": "FAIL", "download": "FAIL", "decision": "FAIL", "reqids": "PASS"}}
+[t4 2026-10-27T18:13:23Z] harness exit=1
+[t4 2026-10-27T18:13:23Z] processes before stop:
+      1       0 bwrap --die-with-parent --unshare-net --unshare-pid --unshare-ipc --unshare-uts --hostname t4-sandbox --ro-bind /usr /usr --symlink usr/bin /bin --symlink usr/lib /lib --symlink usr/li
+     52       1 <T>/t4/mbnas_application/runtime/venv/bin/python <ROOT>/runtime/test_root/t4
+     74       1 <T>/t4/mbnas_application/runtime/venv/bin/python <ROOT>/runtime/test_root/t4
+     90       1 <T>/t4/mbnas_application/runtime/venv/bin/python <ROOT>/runtime/test_root/t4
+    117       1 <T>/t4/mbnas_application/runtime/venv/bin/python <ROOT>/runtime/test_root/t4
+[t4 2026-10-27T18:13:23Z] stop
+[t4 2026-10-27T18:13:25Z] stop exit=0
+[stop] web: not running (no pid file)
+[stop] runner: stopped (pid 117, SIGTERM)
+[stop] gateway: stopped (pid 90, SIGTERM)
+[stop] owner-worker: stopped (pid 74, SIGTERM)
+[stop] core: stopped (pid 52, SIGTERM)
+[t4 2026-10-27T18:13:27Z] processes after stop:
+      1 bwrap --die-with-parent --unshare-net --unshare-pid --unshare-ipc --unshare-uts --hostname t4-sandbox --ro-bind /usr /usr --symlink usr/bin /bin --symlink usr/lib /lib --symlink usr/lib64 /lib
+[t4 2026-10-27T18:13:27Z] end

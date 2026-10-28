@@ -1,0 +1,16 @@
+[verify] profile=owner root=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas owner test/mbnas_application suites=unit,integration,relocation evidence=runtime/logs/verify/20261027T181603Z-owner
+[verify] unit: running
+[verify] unit: PASS (tests=2583 passed=2537 failed=0 errors=0 skipped=46 deselected=91)
+[verify] integration: running
+[verify] integration: PASS (steps=17 passed=17 failed=0)
+[verify] relocation: running
+[verify]   relocation: module __file__ under ROOT (cwd outside ROOT): ok - all under /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas owner test/mbnas_application
+[verify]   relocation: sys.prefix under ROOT: ok - /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas owner test/mbnas_application/runtime/venv
+[verify]   relocation: console scripts bound to runtime/venv inside ROOT: ok - ok
+[verify]   relocation: no original-host path strings: ok - 274 files scanned
+[verify]   relocation: doctor.sh from an external working directory: ok - exit 0; origin checks PASS
+[verify]   relocation: doctor.sh through a path with spaces: ok - exit 0; origin checks PASS
+[verify]   relocation: start/stop/install.sh --help through a path with spaces: ok - exit codes [0, 0, 0]
+[verify]   relocation: ROOT itself contains spaces: ok - /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/mbnas owner test/mbnas_application
+[verify] relocation: PASS (checks=8 passed=8 failed=0)
+[verify] result: PASS PASS=3 (report runtime/logs/verify/20261027T181603Z-owner/verify.json)

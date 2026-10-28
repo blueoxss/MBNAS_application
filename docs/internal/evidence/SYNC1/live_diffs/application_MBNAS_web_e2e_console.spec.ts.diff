@@ -1,0 +1,10 @@
+--- a/application/MBNAS_web/e2e/console.spec.ts
++++ b/application/MBNAS_web/e2e/console.spec.ts
+@@ -36,6 +36,7 @@
+     for (const [id, title] of heads) {
+       await openScreen(page, id);
+       await expect(page.getByRole('heading', { level: 1 })).toContainText(title);
++      if (id === 'compare') await expect(page.getByTestId('nav-compare')).toHaveText('Archive run 비교'); // archive-only: not a console-run comparison
+       await noHorizontalScroll(page);
+       await shot(page, `screen-${id}`);
+     }

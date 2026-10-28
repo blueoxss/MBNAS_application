@@ -1,0 +1,50 @@
+FIX3 / DD-A64 (C04 EVAL_2 N1) - claim reclaims expired leases before leasing. Evidence index.
+Time: 2026-10-27T23:05Z-23:26Z (2026-10-28 08:05-08:26 KST). CPU only: CUDA_VISIBLE_DEVICES="", PYTHONDONTWRITEBYTECODE=1,
+PIP_CONFIG_FILE=/dev/null, interpreter runtime/venv/bin/python, -p no:cacheprovider; MBNAS_TEST_ROOT and --basetemp in the
+session scratchpad (run.sh.txt = the wrapper used for every pytest run). No GPU, /data, etri_nas or snapshot access.
+
+CHANGE
+  mbnas_core/src/mbnas_core/runner_api/routes.py  ef331bdd...38a9 -> 1cbcc212db2be07b374004768761ce7746edd75f7a8e1cdd7c9543e6bd1ffc58
+    E2 claim: each claim iteration calls sweeper.reclaim(conn, settings, now) with the iteration's now, before the
+    E2(a) re-delivery query and before leasing (GPU path repo.acquire_lease and DD-A63 (d) CPU path
+    _lease_for_cpu_runner); run ids of reclaimed jobs are notified (SSE wake). Docstrings updated. routes_dd_a64.diff.
+  tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py (new) d41740f0a0ea095b77c417d92892658898155ad4870fb65b12408899cae02212
+  Unchanged: mbnas_core/src/mbnas_core/db/repo.py (6c2ab17d...), mbnas_core/src/mbnas_core/runner_api/sweeper.py (ef09c1d6...;
+    reclaim() was already a public entry point).
+  Source tree (mbnas-source-tree/2, 221 files) at 23:26Z: sha256:e220e72137165c57b08cd24388c11d64762b689b376a17911a774b8a3bb45236.
+    Recomputed with the pre-fix routes.py substituted: sha256:5a7bc5920ac3c1fe630a45c8ea0dd4661cb754661a90da5c09441fb7237c4223
+    (= the EVAL_2 tree), i.e. routes.py is the only package-source change since EVAL_2.
+
+PROBE (EVAL_2 appendix C; evaluator sources copied unchanged, probe_src/*.py.txt, sha256 b52150c3 / 2b80bcfb / 52932b91)
+  probe_before_after.txt (extract), logs/probe_before.*, logs/probe_after.*
+  BEFORE (pre-fix): CLAIM_BEFORE_SWEEP (job, 2); error None; LEDGER_AFTER_CLAIM []; SWEEP reclaimed []; LEDGER_FINAL [(2,'train',0.165)]
+                    CPU path: CPU_PATH_CALLS 2 SECOND 2, SWEEP reclaimed [], LEDGER []
+                    late result: 409 LEASE_LOST, LEDGER [(1,'failed',20.0,'LEASE_LOST')] (row appended by the late result)
+  AFTER (DD-A64):   CLAIM_BEFORE_SWEEP (job, 2); error LEASE_EXPIRED (attempt 1, lease_owner R1); LEDGER_AFTER_CLAIM [(1,'failed',3.0,'LEASE_EXPIRED')];
+                    SWEEP reclaimed []; LEDGER_FINAL [(1,'failed',3.0,'LEASE_EXPIRED'), (2,'retry',0.176)]; failed_gpu_seconds 3.000092
+                    CPU path: CPU_PATH_CALLS 2 SECOND 2, SWEEP reclaimed [], LEDGER [(1,'failed',3.0,'LEASE_EXPIRED')]
+                    late result: 409 LEASE_LOST, LEDGER [(1,'failed',20.06,'LEASE_LOST')] (the reclaim row extended in place, T3-16)
+
+REGRESSION TEST (9 items) - logs/new_after.*, logs/new_repeat_{1,2,3}.*
+  with the fix: 9 passed (and 3/3 repeats 9 passed).
+  negative control (negative_control/dd_a64_nofix_plugin.py.txt: routes.sweeper.reclaim -> no-op, project tree untouched,
+  logs/new_nofix.*): 6 failed / 3 passed - failed: [claim] GPU order, CPU [mixed], CPU [cpu_only], late result, attempts
+  exhausted, own expired lease re-delivered; passed: [sweeper] order, normal path, concurrent (race-dependent without the fix).
+
+SUITES (markers "not gpu and not live and not legacy_records and not host_data", --timeout=180) - logs/suite_*.{txt,meta}
+  tests/owner/runner_protocol  76 passed (67 + 9 new)   exit 0  149 s
+  tests/owner/worker           50 passed                exit 0   92 s
+  tests/owner/api             209 passed                exit 0  213 s
+  tests/owner/orchestration    36 passed                exit 0   44 s
+  tests/public/runner         115 passed, 9 deselected  exit 0  120 s
+  extra (they drive real claims): tests/owner/artifacts 15 passed exit 0 75 s; tests/owner/projection 259 passed exit 0 21 s
+
+STATIC
+  scripts/dev/check_import_closure.py   exit 0: ok, violations 0, unresolved 0, forbidden 0, excepted 1 (DD-A26)  import_closure.json
+  scripts/dev/placement_coverage.py     exit 0: ok, 221/221 covered, missing 0, errors 0 (sha_drift 48, informational,
+                                        none for the two files above)  placement_coverage.json
+  PLACEMENT_MANIFEST.jsonl: 2 rows appended (owner_wp FIX3/DD-A64): routes.py modified, the new test file new.
+
+NOT VERIFIED (확인 못 함)
+  GPU / real multi-process HTTP behaviour (TestClient in-process threads only, as T3-01/P2); frequency of the race in
+  production (only the evaluator's estimate exists).

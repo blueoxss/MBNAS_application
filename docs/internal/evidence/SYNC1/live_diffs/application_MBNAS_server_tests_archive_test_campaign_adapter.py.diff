@@ -1,0 +1,19 @@
+--- a/application/MBNAS_server/tests/archive/test_campaign_adapter.py
++++ b/application/MBNAS_server/tests/archive/test_campaign_adapter.py
+@@ -530,15 +530,13 @@
+ 
+ 
+ def test_create_app_wires_the_setting_into_the_store(tmp_roots, registry, host_devices, croot):
+-    """Skipped until api/app.py passes ``campaign_roots=settings.archive_campaign_roots`` (request R1 in evidence_impl/WPS7/requests.md)."""
++    """``create_app`` passes ``campaign_roots=settings.archive_campaign_roots`` to the store (WPS7 request R1, wired in S01_fix1)."""
+     import harness
+ 
+     from mbnas_server.api.app import create_app
+ 
+     settings = harness.make_settings(tmp_roots, archive_roots=[], archive_driver_dirs=[], archive_campaign_roots=[str(croot)])
+     app = create_app(settings, harness.make_services(settings, registry, host_devices))
+-    if not app.state.archive.campaign_roots:
+-        pytest.skip("api/app.py does not yet pass archive_campaign_roots to ArchiveStore (WPS7 request R1)")
+     assert app.state.archive.campaign_roots == [str(croot)]
+ 
+ 

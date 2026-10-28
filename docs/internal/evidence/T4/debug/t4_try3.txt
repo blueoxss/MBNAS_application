@@ -1,0 +1,35 @@
+[t4 2026-10-27T18:13:57Z] env overrides: MBNAS_RUNNER_ARTIFACT_TRANSFER=local MBNAS_RUNNER_ARTIFACT_STORE_DIR=<ROOT>/runtime/gateway/artifacts MBNAS_CORE_HEARTBEAT_S=2 MBNAS_CORE_DEVICE_SOURCE=runners 
+ls: cannot access '/sys/class/net': No such file or directory
+[t4 2026-10-27T18:13:57Z] isolation: original tree visible? no; etri_nas visible? no; /data visible? no; network interfaces: 
+[t4 2026-10-27T18:13:57Z] doctor
+[t4 2026-10-27T18:13:58Z] doctor exit=0
+[t4 2026-10-27T18:13:58Z] start
+[t4 2026-10-27T18:14:12Z] start exit=0
+[start] core: ready pid=52 HTTP 401 from http://127.0.0.1:8700/core/v1/console/health log=runtime/logs/core.log
+[start] owner-worker: ready pid=74 alive after 5 s log=runtime/logs/owner-worker.log
+[start] gateway: ready pid=90 HTTP 200 from http://127.0.0.1:8710/api/v1/health status=ok core=reachable log=runtime/logs/gateway.log
+[start] runner: ready pid=114 alive after 5 s log=runtime/logs/runner.log
+[t4 2026-10-27T18:14:12Z] harness items=train,results,download,decision,reqids
+{"utc": "2026-10-27T18:14:12.777294Z", "label": "t4", "step": "train-create", "verdict": "FAIL", "seconds": 0.11, "http": 422, "request_id": "t4-49bd2f6942954d05a4d5", "body": {"code": "TRAINING_PROTOCOL_INVALID", "location": "core", "message": "training data/recipe validation failed", "request_id": "t4-49bd2f6942954d05a4d5", "errors": [{"field": "console.benchmark.device", "message": "device 'runner-t4-sandbox' is not available; available: []", "code": "DEVICE_UNAVAILABLE"}]}}
+{"utc": "2026-10-27T18:14:12.777470Z", "label": "t4", "step": "results-error", "verdict": "FAIL", "seconds": 0.0, "error": "KeyError: 'train_run'"}
+{"utc": "2026-10-27T18:14:12.777558Z", "label": "t4", "step": "download-error", "verdict": "FAIL", "seconds": 0.0, "error": "KeyError: 'train_run'"}
+{"utc": "2026-10-27T18:14:12.824646Z", "label": "t4", "step": "decision-validate", "verdict": "FAIL", "seconds": 0.05, "http": 200, "request_id": "t4-d98efb6e39154041bf56", "errors": [{"field": "console.benchmark.device", "message": "device 'runner-t4-sandbox' is not available; available: []", "code": "DEVICE_UNAVAILABLE"}]}
+{"utc": "2026-10-27T18:14:12.825986Z", "label": "t4", "step": "request-ids", "verdict": "PASS", "seconds": 0.0, "harness_ids": 32, "echoed_this_session": "4/4", "found": {"audit": {"file": "<T>/t4/mbnas_application/runtime/gateway/logs/audit.jsonl", "ids_found": 1, "sample": ["t4-773bea9017a74bf09b38"]}, "gateway_log": {"file": "<T>/t4/mbnas_application/runtime/logs/gateway.log", "ids_found": 0, "sample": []}, "core_log": {"file": "<T>/t4/mbnas_application/runtime/logs/core.log", "ids_found": 0, "sample": []}}}
+{"utc": "2026-10-27T18:14:12.826483Z", "label": "t4", "step": "summary", "verdict": "FAIL", "seconds": 0.0, "items": {"train": "FAIL", "results": "FAIL", "download": "FAIL", "decision": "FAIL", "reqids": "PASS"}}
+[t4 2026-10-27T18:14:12Z] harness exit=1
+[t4 2026-10-27T18:14:12Z] processes before stop:
+      1       0 bwrap --die-with-parent --unshare-net --unshare-pid --unshare-ipc --unshare-uts --hostname t4-sandbox --ro-bind /usr /usr --symlink usr/bin /bin --symlink usr/lib /lib --symlink usr/li
+     52       1 <T>/t4/mbnas_application/runtime/venv/bin/python <ROOT>/runtime/test_root/t4
+     74       1 <T>/t4/mbnas_application/runtime/venv/bin/python <ROOT>/runtime/test_root/t4
+     90       1 <T>/t4/mbnas_application/runtime/venv/bin/python <ROOT>/runtime/test_root/t4
+    114       1 <T>/t4/mbnas_application/runtime/venv/bin/python <ROOT>/runtime/test_root/t4
+[t4 2026-10-27T18:14:12Z] stop
+[t4 2026-10-27T18:14:15Z] stop exit=0
+[stop] web: not running (no pid file)
+[stop] runner: stopped (pid 114, SIGTERM)
+[stop] gateway: stopped (pid 90, SIGTERM)
+[stop] owner-worker: stopped (pid 74, SIGTERM)
+[stop] core: stopped (pid 52, SIGTERM)
+[t4 2026-10-27T18:14:17Z] processes after stop:
+      1 bwrap --die-with-parent --unshare-net --unshare-pid --unshare-ipc --unshare-uts --hostname t4-sandbox --ro-bind /usr /usr --symlink usr/bin /bin --symlink usr/lib /lib --symlink usr/lib64 /lib
+[t4 2026-10-27T18:14:17Z] end

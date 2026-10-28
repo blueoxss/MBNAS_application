@@ -1,0 +1,16 @@
+....s.......sss......................................................... [ 66%]
+...............................sss..                                     [100%]
+=============================== warnings summary ===============================
+tests/owner/api/test_set3_health.py::test_health_lists_declared_but_absent_targets
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/owner/registry/test_set3_registry_devices.py:61: no real bench_host_gpu evidence under $MBNAS_TEST_RUNS_ROOT/evidence on this host
+SKIPPED [3] tests/owner/unit/test_protocol_validator.py: host_data: needs real host data (PILOT subset, probe/bench evidence, real runs, weights or an ETRI reference checkout); set MBNAS_TEST_HOST_DATA=1 and the MBNAS_TEST_* roots to run it
+SKIPPED [1] tests/owner/qa/test_benchmark_evidence.py:128: no bench_host_gpu evidence on this host
+SKIPPED [1] tests/owner/qa/test_benchmark_evidence.py:134: no bench_host_gpu evidence on this host
+SKIPPED [1] tests/owner/qa/test_benchmark_evidence.py:152: no blocked-target evidence
+101 passed, 7 skipped, 2 deselected, 1 warning in 19.11s
+exit 0

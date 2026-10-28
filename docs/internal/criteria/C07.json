@@ -1,0 +1,62 @@
+{
+ "id": "C07",
+ "name": "UI·기능",
+ "version": "1.0 (2026-10-23 22:4x, 설계자 claude-fable-5-1 고정; 변경 시 사유·버전 기록)",
+ "pass_condition": {
+  "total_score": "> 90 of 100",
+  "blocker": 0,
+  "critical": 0,
+  "mandatory_evidence": "all criteria must cite artifacts produced in TARGET_ROOT by executed commands (no source-doc reported values)"
+ },
+ "criteria": [
+  {
+   "id": "gene_links",
+   "points": 25,
+   "observable_evidence": "gene 기반 블록 구성도·실제 from/분기/Concat/Add·CNN/attention 혼합, 그래프/표/목록 클릭→동일 상세",
+   "mandatory_checks": "vitest model_detail_v2/structure 통과; e2e(mock) 통과; live 하네스 스크린샷(CPU)",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "block_table",
+   "points": 25,
+   "observable_evidence": "블록 구성 표(논리 블록↔YAML 행↔내부 계층, 1:1 가정 금지)",
+   "mandatory_checks": "vitest + 구조 route live 검사 기록",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "yaml_original_executed",
+   "points": 25,
+   "observable_evidence": "YAML 원본 업로드·안전 검증·원본 보존·버전/hash·실행본 diff·다운로드·export 바이트",
+   "mandatory_checks": "WP-3/5/6 테스트: 업로드 → revision → diff → export zip에 yaml 바이트 포함 확인",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "compare_onoff_baseline",
+   "points": 25,
+   "observable_evidence": "비교·ON/OFF·baseline: OFF=UNTRAINED·UNEVALUATED 표시, core 장애 시 OFF 자동 전환 없음, baseline 학습 흐름",
+   "mandatory_checks": "e2e generation.spec; 장애 주입 테스트(core 종료 시 명시 실패)",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  }
+ ],
+ "notes": "점수는 자체 품질 평가이며 보안 확률·실측 성능이 아니다. 미실행 시험은 0점이고 BLOCKED_BY_ENV는 별도 표기(점수 아님)."
+}

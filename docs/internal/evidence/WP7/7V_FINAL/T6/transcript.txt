@@ -1,0 +1,65 @@
+[07:10:35] configured mbnas owner final/mbnas_application/config/owner/core.env: ['MBNAS_CORE_PORT'] (values not printed)
+[07:10:35] configured mbnas owner final/mbnas_application/config/owner/gateway.env: ['MBNAS_GW_CORE_URL', 'MBNAS_GW_PORT'] (values not printed)
+[07:10:35] configured mbnas owner final/mbnas_application/config/owner/runner.env: ['MBNAS_RUNNER_CORE_URL'] (values not printed)
+[07:10:35] issued server principal pr-e6ea8db31ef11d2a
+[07:10:36] issued runner principal pr-3214dee17b0530f8
+[07:10:36] configured mbnas public final/mbnas_application/config/public/gateway.env: ['MBNAS_GW_CORE_TOKEN', 'MBNAS_GW_CORE_URL', 'MBNAS_GW_PORT'] (values not printed)
+[07:10:36] configured mbnas public final/mbnas_application/config/public/runner.env: ['MBNAS_RUNNER_CORE_URL', 'MBNAS_RUNNER_RUNNER_ID', 'MBNAS_RUNNER_TOKEN'] (values not printed)
+[07:10:36] issued server principal pr-4471c2f96c78109a
+[07:10:37] issued runner principal pr-0f1ec3962532c01b
+[07:10:37] configured mbnas registration final/mbnas_application/config/public/gateway.env: ['MBNAS_GW_CORE_TOKEN', 'MBNAS_GW_CORE_URL', 'MBNAS_GW_PORT'] (values not printed)
+[07:10:37] configured mbnas registration final/mbnas_application/config/public/runner.env: ['MBNAS_RUNNER_CORE_URL', 'MBNAS_RUNNER_RUNNER_ID', 'MBNAS_RUNNER_TOKEN'] (values not printed)
+[07:10:37] summary -> docs/internal/evidence/WP7/7V_FINAL/T6/summary_configure.json
+[07:10:41] == T6 final up: external cwd /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6final
+[07:10:55] owner_start: exit=0 (13.5 s)
+[07:10:57] owner_doctor_strict: exit=0 (1.8 s)
+[07:10:58] public_doctor_strict_prestart: exit=0 (1.0 s)
+[07:11:04] public_start: exit=0 (6.7 s)
+[07:11:05] public_doctor_strict: exit=0 (1.1 s)
+[07:11:06] reg_doctor_strict_prestart: exit=0 (1.1 s)
+[07:11:13] reg_start: exit=0 (6.8 s)
+[07:11:14] reg_doctor_strict: exit=0 (1.2 s)
+[07:11:15] api GET http://127.0.0.1:18810/api/v1/health -> HTTP 200 (102381 B)
+[07:11:15] api GET http://127.0.0.1:18810/api/v1/health -> HTTP 401 (127 B)
+[07:11:15] api GET http://127.0.0.1:18810/api/v1/protocols/presets -> HTTP 200 (14227 B)
+[07:11:15] api GET http://127.0.0.1:18810/api/v1/registry -> HTTP 200 (60360 B)
+[07:11:15] api GET http://127.0.0.1:18810/ -> HTTP 200 (733 B)
+[07:11:15] api POST http://127.0.0.1:18810/api/v1/uploads/model-config?filename=yolo11n_user.yaml -> HTTP 200 (187 B)
+[07:11:19] api POST http://127.0.0.1:18810/api/v1/structure-check -> HTTP 200 (71294 B)
+[07:11:19] api POST http://127.0.0.1:18810/api/v1/uploads/model-config?filename=yolo11n_user_broken.yaml -> HTTP 200 (187 B)
+[07:11:21] api POST http://127.0.0.1:18810/api/v1/structure-check -> HTTP 200 (30322 B)
+[07:11:21] api POST http://127.0.0.1:18810/api/v1/protocols/validate -> HTTP 200 (1792 B)
+[07:11:21] api POST http://127.0.0.1:18810/api/v1/runs -> HTTP 200 (152 B)
+[07:11:28] api GET http://127.0.0.1:18810/api/v1/runs/run-3b4cc8f33a39 -> HTTP 200 (2158 B)
+[07:11:28] api GET http://127.0.0.1:18810/api/v1/runs/run-3b4cc8f33a39/snapshot -> HTTP 200 (30337 B)
+[07:11:28] api GET http://127.0.0.1:18810/api/v1/runs/run-3b4cc8f33a39/candidates/run-3b4cc8f33a39:RAND:s7:g00:c000 -> HTTP 200 (154592 B)
+[07:11:28] api GET http://127.0.0.1:18810/api/v1/runs/run-3b4cc8f33a39/candidates/run-3b4cc8f33a39:RAND:s7:g00:c000/config-revisions -> HTTP 200 (537 B)
+[07:11:28] api GET http://127.0.0.1:18810/api/v1/runs/run-3b4cc8f33a39/export -> HTTP 200 (11637 B)
+[07:11:28] api GET http://127.0.0.1:18810/api/v1/runs -> HTTP 200 (1086 B)
+[07:11:28] api GET http://127.0.0.1:18812/api/v1/health -> HTTP 200 (102381 B)
+[07:11:28] api GET http://127.0.0.1:18812/api/v1/protocols/presets -> HTTP 200 (14227 B)
+[07:11:28] api GET http://127.0.0.1:18812/ -> HTTP 200 (733 B)
+[07:11:28] api POST http://127.0.0.1:18812/api/v1/uploads/model-config?filename=yolo11n_user.yaml -> HTTP 200 (187 B)
+[07:11:30] api POST http://127.0.0.1:18812/api/v1/structure-check -> HTTP 200 (71294 B)
+[07:11:31] public_no_mbnas_core_loader: exit=0 (0.9 s)
+[07:11:32] reg_no_mbnas_core_loader: exit=0 (0.9 s)
+[07:11:32] summary -> docs/internal/evidence/WP7/7V_FINAL/T6/summary_up.json
+[07:15:15] public_verify_unit_relocation: exit=0 (185.0 s)
+[07:15:15] public_verify_package: exit=0 (0.4 s)
+[07:18:26] reg_verify_unit_relocation: exit=0 (191.0 s)
+[07:18:27] reg_verify_package: exit=0 (0.4 s)
+[07:38:27] owner_verify_unit_integration_relocation: exit=0 (1199.9 s)
+[07:38:27] summary -> docs/internal/evidence/WP7/7V_FINAL/T6/summary_verify.json
+[07:38:52] public_stop: exit=0 (1.1 s)
+[07:38:53] reg_stop: exit=0 (1.1 s)
+[07:38:55] owner_stop: exit=0 (1.7 s)
+[07:38:55] summary -> docs/internal/evidence/WP7/7V_FINAL/T6/summary_down.json
+[07:38:55] == T6 final re-invocation from another external cwd /
+[07:39:02] re_owner_start: exit=0 (7.2 s)
+[07:39:04] re_public_start: exit=0 (1.5 s)
+[07:39:04] api GET http://127.0.0.1:18810/api/v1/health -> HTTP 200 (102381 B)
+[07:39:05] re_public_doctor_relative: exit=0 (1.1 s)
+[07:39:05] re_public_stop: exit=0 (0.3 s)
+[07:39:06] re_owner_stop: exit=0 (0.6 s)
+[07:39:06] leftover service processes of the final trees: 0
+[07:39:06] summary -> docs/internal/evidence/WP7/7V_FINAL/T6/summary_reinvoke.json

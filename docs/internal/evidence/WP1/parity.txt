@@ -1,0 +1,40 @@
+# 2026-10-26T18:47:56+09:00 cwd=/home/mgjeong/Desktop/etri_hd/mbnas_application interpreter=runtime/venv/bin/python -B
+## diff snapshot tests/search/test_repair_evidence_seed.py -> tests/owner/search/test_repair_evidence_seed.py
+9a10
+> import importlib.resources
+17,20c18,21
+< from mbnas_server.protocol.presets import pilot_smoke_protocol
+< from mbnas_server.protocol.validator import protocol_hash
+< from mbnas_server.schemas.jobs import JobKind, JobSpec
+< from mbnas_server.search.handlers import propose_generation
+---
+> from mbnas_core.protocol.presets import pilot_smoke_protocol
+> from mbnas_contracts.protocol_hash import protocol_hash
+> from mbnas_contracts.schemas.jobs import JobKind, JobSpec
+> from mbnas_core.search.handlers import propose_generation
+22c23,24
+< CONTRACT = json.loads((Path(__file__).resolve().parents[2] / "contracts" / "openapi.json").read_text())
+---
+> CONTRACT = json.loads((importlib.resources.files("mbnas_contracts.openapi") / "openapi.json")
+>                       .read_text(encoding="utf-8"))  # package data of mbnas_contracts (DD-A10)
+diff exit=1
+## $ pytest -p no:cacheprovider --timeout=600 -v tests/owner/search/test_repair_evidence_seed.py tests/owner/search/test_operators_parity.py tests/public/model_runtime/test_parse_model_gate.py
+tests/owner/search/test_repair_evidence_seed.py::test_seed_116_generation_0_contains_a_c2psa_shape_repair PASSED [  5%]
+tests/owner/search/test_operators_parity.py::test_both_children_built_every_variant PASSED [ 11%]
+tests/owner/search/test_operators_parity.py::test_variant_is_identical[yolo11n:cnn_backbone] PASSED [ 17%]
+tests/owner/search/test_operators_parity.py::test_variant_is_identical[yolo11n:native] PASSED [ 23%]
+tests/owner/search/test_operators_parity.py::test_variant_is_identical[yolo11n:transformer_backbone] PASSED [ 29%]
+tests/owner/search/test_operators_parity.py::test_variant_is_identical[yolo11n:transformer_global_extra] PASSED [ 35%]
+tests/owner/search/test_operators_parity.py::test_variant_is_identical[yolo26n:cnn_backbone] PASSED [ 41%]
+tests/owner/search/test_operators_parity.py::test_variant_is_identical[yolo26n:native] PASSED [ 47%]
+tests/owner/search/test_operators_parity.py::test_variant_is_identical[yolo26n:transformer_backbone] PASSED [ 52%]
+tests/owner/search/test_operators_parity.py::test_variant_is_identical[yolo26n:transformer_global_extra] PASSED [ 58%]
+tests/owner/search/test_operators_parity.py::test_operator_variants_really_use_the_operators PASSED [ 64%]
+tests/owner/search/test_operators_parity.py::test_registration_capabilities PASSED [ 70%]
+tests/public/model_runtime/test_parse_model_gate.py::test_installed_parser_matches_the_pinned_source PASSED [ 76%]
+tests/public/model_runtime/test_parse_model_gate.py::test_static_module_sets_are_37_and_17 PASSED [ 82%]
+tests/public/model_runtime/test_parse_model_gate.py::test_static_copy_equals_the_etri_ast_patch_of_the_installed_parser PASSED [ 88%]
+tests/public/model_runtime/test_parse_model_gate.py::test_registration_installs_the_copy_and_is_idempotent PASSED [ 94%]
+tests/public/model_runtime/test_parse_model_gate.py::test_source_mismatch_is_refused_without_fallback PASSED [100%]
+============================= 17 passed in 16.22s ==============================
+exit=0 duration=18s

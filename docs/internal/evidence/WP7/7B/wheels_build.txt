@@ -1,0 +1,28 @@
+# project wheels, built once into build/wheels/ from isolated copies under build/wheel-src/ (no in-tree build/ or egg-info)
+# per package: <ROOT>/runtime/venv/bin/python -I -m pip wheel --no-deps --no-index --no-build-isolation --no-cache-dir -w build/wheels build/wheel-src/<pkg>
+# env: PIP_CONFIG_FILE=/dev/null PYTHONDONTWRITEBYTECODE=1 CUDA_VISIBLE_DEVICES= PYTHONNOUSERSITE=1; setuptools 80.10.2, wheel 0.48.0 (venv)
+mbnas_contracts pip-wheel exit=0 seconds=1.2
+mbnas_model_runtime pip-wheel exit=0 seconds=1.3
+mbnas_runner pip-wheel exit=0 seconds=1.2
+mbnas_server pip-wheel exit=0 seconds=1.2
+mbnas_core pip-wheel exit=0 seconds=1.1
+합계 708
+-rw-rw-r-- 1 <user> <group>  99413 Oct 27 13:02 mbnas_contracts-0.1.0-py3-none-any.whl
+-rw-rw-r-- 1 <user> <group> 282779 Oct 27 13:03 mbnas_core-0.1.0-py3-none-any.whl
+-rw-rw-r-- 1 <user> <group> 177956 Oct 27 13:03 mbnas_model_runtime-0.1.0-py3-none-any.whl
+-rw-rw-r-- 1 <user> <group>  71503 Oct 27 13:03 mbnas_runner-0.1.0-py3-none-any.whl
+-rw-rw-r-- 1 <user> <group>  77908 Oct 27 13:03 mbnas_server-0.1.0-py3-none-any.whl
+eeab7dd04cbfdbbf5b0371b469a70470e9ab16420aa13616f6fab5ba5e7e0e1b  <ROOT>/build/wheels/mbnas_contracts-0.1.0-py3-none-any.whl
+a2da48d8733c76c0b17522024068db7799b553389bb92471186c5ae05be80b3d  <ROOT>/build/wheels/mbnas_core-0.1.0-py3-none-any.whl
+cb3289d7d19d497a4b43f0b33b02acbb36e795c0e51b3b5f20afecf387e09373  <ROOT>/build/wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl
+85c21549511b07a1ab3dd4a06c325e842ec45e7cfe528df50156cea06198724e  <ROOT>/build/wheels/mbnas_runner-0.1.0-py3-none-any.whl
+302ee3f6ab185cb10819a62d152a69b8eaab3c841fa4144e5eb793c8bc0596fe  <ROOT>/build/wheels/mbnas_server-0.1.0-py3-none-any.whl
+## wheel contents (measured 13:28 on build/wheels as already rebuilt by the packaging agents at 13:18/13:26 from newer sources; the WP-7B 13:02 build is listed above)
+mbnas_contracts-0.1.0-py3-none-any.whl: members=31 py=24 package_data=['mbnas_contracts/openapi/HISTORY.json', 'mbnas_contracts/openapi/openapi.json', 'mbnas_contracts/openapi/openapi_runner.json'] pycache/egg-info/tests=[]
+mbnas_core-0.1.0-py3-none-any.whl: members=91 py=83 package_data=['mbnas_core/db/schema.sql', 'mbnas_core/protocol/handoff_protocol_20261006.json', 'mbnas_core/registry/model_registry.example.json'] pycache/egg-info/tests=[]
+   console_scripts: mbnas-core-api = mbnas_core.api.app:main; mbnas-core-doctor = mbnas_core.ops.doctor:main; mbnas-core-owner-worker = mbnas_core.owner_worker.main:main; mbnas-core-principal = mbnas_core.ops.principals:main
+mbnas_model_runtime-0.1.0-py3-none-any.whl: members=53 py=49 package_data=[] pycache/egg-info/tests=[]
+mbnas_runner-0.1.0-py3-none-any.whl: members=28 py=23 package_data=[] pycache/egg-info/tests=[]
+   console_scripts: mbnas-runner = mbnas_runner.__main__:main
+mbnas_server-0.1.0-py3-none-any.whl: members=32 py=27 package_data=[] pycache/egg-info/tests=[]
+   console_scripts: mbnas-gateway = mbnas_server.api.app:main; mbnas-gateway-doctor = mbnas_server.doctor:main

@@ -1,0 +1,66 @@
+Traceback (most recent call last):
+  File "<T>/t4f/mbnas_application/runtime/venv/bin/mbnas-core-owner-worker", line 8, in <module>
+    sys.exit(main())
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core/owner_worker/main.py", line 546, in main
+    settings = CoreSettings.load(args.env_file)
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core/config.py", line 229, in load
+    return cls(_env_file=path) if path else cls()
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/pydantic_settings/main.py", line 262, in __init__
+    super().__init__(**__pydantic_self__.__class__._settings_build_values(sources, init_kwargs))
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/pydantic/main.py", line 263, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CoreSettings
+dataset_roots
+  Value error, Expecting value: line 1 column 2 (char 1) [type=value_error, input_value='[/srv/mbnas/data]', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/value_error
+Traceback (most recent call last):
+  File "<PY310_ENV>/lib/python3.10/pathlib.py", line 1175, in mkdir
+    self._accessor.mkdir(self, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/srv/mbnas/runtime/outputs/run-8c5d97da5cc8/control'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<PY310_ENV>/lib/python3.10/pathlib.py", line 1175, in mkdir
+    self._accessor.mkdir(self, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/srv/mbnas/runtime/outputs/run-8c5d97da5cc8'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<PY310_ENV>/lib/python3.10/pathlib.py", line 1175, in mkdir
+    self._accessor.mkdir(self, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/srv/mbnas/runtime/outputs'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<PY310_ENV>/lib/python3.10/pathlib.py", line 1175, in mkdir
+    self._accessor.mkdir(self, mode)
+FileNotFoundError: [Errno 2] No such file or directory: '/srv/mbnas/runtime'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<T>/t4f/mbnas_application/runtime/venv/bin/mbnas-core-owner-worker", line 8, in <module>
+    sys.exit(main())
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core/owner_worker/main.py", line 560, in main
+    return worker.run()
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core/owner_worker/main.py", line 208, in run
+    worked = self.tick()
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core/owner_worker/main.py", line 246, in tick
+    self.execute(job)
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core/owner_worker/main.py", line 298, in execute
+    base, stop, log = self._paths(job)
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core/owner_worker/main.py", line 280, in _paths
+    p.parent.mkdir(parents=True, exist_ok=True)
+  File "<PY310_ENV>/lib/python3.10/pathlib.py", line 1179, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+  File "<PY310_ENV>/lib/python3.10/pathlib.py", line 1179, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+  File "<PY310_ENV>/lib/python3.10/pathlib.py", line 1179, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+  [Previous line repeated 1 more time]
+  File "<PY310_ENV>/lib/python3.10/pathlib.py", line 1175, in mkdir
+    self._accessor.mkdir(self, mode)
+PermissionError: [Errno 13] Permission denied: '/srv/mbnas'

@@ -1,0 +1,163 @@
+........................................................................ [  6%]
+........................................................................ [ 12%]
+........................................................................ [ 19%]
+................................................s....................... [ 25%]
+........................................................................ [ 32%]
+........................................................................ [ 38%]
+........................................................................ [ 45%]
+........................................................................ [ 51%]
+........................................................................ [ 58%]
+........................................................................ [ 64%]
+........................................................................ [ 70%]
+........................................................................ [ 77%]
+........................................................................ [ 83%]
+........................................................................ [ 90%]
+........................................................................ [ 96%]
+....F..........................FFF...                                    [100%]
+=================================== FAILURES ===================================
+______________ test_own_child_and_own_process_are_not_waited_for _______________
+
+api_settings = CoreSettings(api_token=SecretStr('**********'), artifact_signing_key=SecretStr('**********'), cors_origins=['http://lo...ess0/runs/logs', min_free_disk_gb=0.0, full_state_retention='keep_all', preset_data_root=None, preset_output_root=None)
+
+    def test_own_child_and_own_process_are_not_waited_for(api_settings):
+        w = Worker(api_settings, WorkerConfig(gpu_clear_timeout_s=5), worker_id="w-own:1")
+        try:
+            w._child_pid = 4_000_001
+            w.gpu_pids_fn = lambda i: [4_000_001, os.getpid(), os.getppid()]
+            t0 = time.monotonic()
+            out = w.wait_gpu_clear()
+>           assert out["cleared"] and time.monotonic() - t0 < 0.5
+E           assert (False)
+
+tests/owner/worker/test_gpu_occupancy.py:141: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-10-26T11:10:57.085909Z worker w-own:1: gpu 0: waiting up to 5.0 s for foreign compute pids [1] (states ['S']) to leave NVML
+2026-10-26T11:11:02.102688Z worker w-own:1: gpu 0: compute pids [1] still listed after 5.017 s; giving up the wait
+_____________ test_worker_kill9_lease_reclaimed_once_by_new_worker _____________
+
+client = <starlette.testclient.TestClient object at 0x7f55cf719c00>
+base_proto = <function base_proto.<locals>.build at 0x7f55cf728430>
+api_settings = CoreSettings(api_token=SecretStr('**********'), artifact_signing_key=SecretStr('**********'), cors_origins=['http://lo...lai0/runs/logs', min_free_disk_gb=0.0, full_state_retention='keep_all', preset_data_root=None, preset_output_root=None)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f5647bf53c0>
+tmp_path = PosixPath('/tmp/pytest-of-mgjeong/pytest-400/test_worker_kill9_lease_reclai0')
+
+    def test_worker_kill9_lease_reclaimed_once_by_new_worker(client, base_proto, api_settings, monkeypatch, tmp_path):
+        harness.stub_env(monkeypatch)
+        hang = tmp_path / "hang"
+        hang.write_text("1")
+        run_id, _ = harness.validate_and_run(client, base_proto())
+        first = _spawn_worker(api_settings, tmp_path / "w1.log", MBNAS_STUB_HANG_FILE=hang)
+        try:
+>           harness.wait_for(lambda: _q(api_settings, lambda c: repo.list_checkpoints(c, run_id)), timeout=30)
+
+tests/owner/worker/test_subprocess.py:112: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+predicate = <function test_worker_kill9_lease_reclaimed_once_by_new_worker.<locals>.<lambda> at 0x7f55cf1ccf70>
+timeout = 30, interval = 0.05
+
+    def wait_for(predicate: Any, timeout: float = 30.0, interval: float = 0.05) -> Any:
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            value = predicate()
+            if value:
+                return value
+            time.sleep(interval)
+>       raise AssertionError(f"condition not met within {timeout}s")
+E       AssertionError: condition not met within 30s
+
+tests/_shared/harness.py:174: AssertionError
+___________________ test_pause_at_epoch_boundary_then_resume ___________________
+
+client = <starlette.testclient.TestClient object at 0x7f55cf718fd0>
+base_proto = <function base_proto.<locals>.build at 0x7f55fa5257e0>
+api_settings = CoreSettings(api_token=SecretStr('**********'), artifact_signing_key=SecretStr('**********'), cors_origins=['http://lo...y_t0/runs/logs', min_free_disk_gb=0.0, full_state_retention='keep_all', preset_data_root=None, preset_output_root=None)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f55cf71a8f0>
+tmp_path = PosixPath('/tmp/pytest-of-mgjeong/pytest-400/test_pause_at_epoch_boundary_t0')
+
+    def test_pause_at_epoch_boundary_then_resume(client, base_proto, api_settings, monkeypatch, tmp_path):
+        harness.stub_env(monkeypatch)
+        run_id, _ = harness.validate_and_run(client, base_proto(targets=(6,)))
+        worker = _spawn_worker(api_settings, tmp_path / "w.log", MBNAS_STUB_EPOCH_S="0.4")
+        try:
+>           harness.wait_for(lambda: _q(api_settings, lambda c: repo.list_checkpoints(c, run_id)), timeout=30)
+
+tests/owner/worker/test_subprocess.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+predicate = <function test_pause_at_epoch_boundary_then_resume.<locals>.<lambda> at 0x7f55cf76c820>
+timeout = 30, interval = 0.05
+
+    def wait_for(predicate: Any, timeout: float = 30.0, interval: float = 0.05) -> Any:
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            value = predicate()
+            if value:
+                return value
+            time.sleep(interval)
+>       raise AssertionError(f"condition not met within {timeout}s")
+E       AssertionError: condition not met within 30s
+
+tests/_shared/harness.py:174: AssertionError
+_____________________ test_cancel_terminates_running_child _____________________
+
+client = <starlette.testclient.TestClient object at 0x7f563b17ada0>
+base_proto = <function base_proto.<locals>.build at 0x7f55f8351510>
+api_settings = CoreSettings(api_token=SecretStr('**********'), artifact_signing_key=SecretStr('**********'), cors_origins=['http://lo...ing0/runs/logs', min_free_disk_gb=0.0, full_state_retention='keep_all', preset_data_root=None, preset_output_root=None)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f55cf71a740>
+tmp_path = PosixPath('/tmp/pytest-of-mgjeong/pytest-400/test_cancel_terminates_running0')
+
+    def test_cancel_terminates_running_child(client, base_proto, api_settings, monkeypatch, tmp_path):
+        harness.stub_env(monkeypatch)
+        hang = tmp_path / "hang"
+        hang.write_text("1")
+        run_id, _ = harness.validate_and_run(client, base_proto())
+        worker = _spawn_worker(api_settings, tmp_path / "w.log", MBNAS_STUB_HANG_FILE=hang)
+        try:
+>           harness.wait_for(lambda: _q(api_settings, lambda c: repo.list_checkpoints(c, run_id)), timeout=30)
+
+tests/owner/worker/test_subprocess.py:179: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+predicate = <function test_cancel_terminates_running_child.<locals>.<lambda> at 0x7f55f942c550>
+timeout = 30, interval = 0.05
+
+    def wait_for(predicate: Any, timeout: float = 30.0, interval: float = 0.05) -> Any:
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            value = predicate()
+            if value:
+                return value
+            time.sleep(interval)
+>       raise AssertionError(f"condition not met within {timeout}s")
+E       AssertionError: condition not met within 30s
+
+tests/_shared/harness.py:174: AssertionError
+=============================== warnings summary ===============================
+tests/owner/adapters/test_structure_native_cpu.py::test_rfdetr_nano_matches_adapter_build_and_probe
+tests/owner/adapters/test_structure_native_cpu.py::test_rfdetr_wrong_input_size_is_a_fail_document
+tests/owner/api/test_training_selection.py::test_non_ultralytics_baseline_binding_records_native_structure[rf-detr-nano-rfdetr-30147076]
+tests/owner/search/test_block_catalog.py::test_rfdetr_document_blocks_are_catalogued
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/pydantic/main.py:263: PretrainWeightsCompatibilityWarning: RFDETRNanoConfig was instantiated with pretrain_weights=None. The model will be initialised from scratch, which typically produces lower accuracy than fine-tuning from the published checkpoint ('rf-detr-nano.pth').
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+
+tests/owner/api/test_artifact_signature_non_ascii.py::test_non_ascii_signature_is_403_access_denied[exp={exp}&sig=%C3%A9]
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/health]
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/registry]
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/runs]
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/runs/run-x/snapshot]
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/runs/run-x/events]
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/runs/run-x/export]
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:463: DeprecationWarning: Setting per-request cookies=<...> is being deprecated, because the expected behaviour on cookie persistence is ambiguous. Set cookies directly on the client instance instead.
+    return super().request(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/owner/worker/test_gpu_occupancy.py::test_own_child_and_own_process_are_not_waited_for
+FAILED tests/owner/worker/test_subprocess.py::test_worker_kill9_lease_reclaimed_once_by_new_worker
+FAILED tests/owner/worker/test_subprocess.py::test_pause_at_epoch_boundary_then_resume
+FAILED tests/owner/worker/test_subprocess.py::test_cancel_terminates_running_child
+4 failed, 1112 passed, 1 skipped, 47 deselected, 11 warnings in 2115.31s (0:35:15)

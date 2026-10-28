@@ -1,0 +1,39 @@
+# systemd unit EXAMPLE - MBNAS owner worker (owner host, PRIVATE): leases PROPOSE_GENERATION jobs from the core DB and
+# runs them in child processes on the CPU (GPU job kinds are claimed by runners). Adapted from the MBNAS_server
+# mbnas-worker.service.example of the source snapshot (the GPU work moved to mbnas-runner).
+#
+# Same install and env file as deploy/owner/mbnas-core.service.example (/opt/mbnas, config/owner/core.env). Replace
+# /opt/mbnas and the service user, then:
+#   sudo cp mbnas-core-owner-worker.service.example /etc/systemd/system/mbnas-core-owner-worker.service
+#   sudo systemctl daemon-reload && sudo systemctl enable --now mbnas-core-owner-worker
+# Stop: KillMode=mixed sends SIGTERM to the worker only; it stops its job child (SIGTERM, SIGKILL after the grace
+# period) and records the interrupted attempt as a retryable WORKER_SHUTDOWN failure; anything left gets SIGKILL
+# after TimeoutStopSec.
+[Unit]
+Description=MBNAS owner worker (generation jobs)
+After=network-online.target mbnas-core.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mbnas
+Group=mbnas
+WorkingDirectory=/opt/mbnas
+Environment=MBNAS_HOME=/opt/mbnas/runtime
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=YOLO_OFFLINE=1
+Environment=YOLO_AUTOINSTALL=false
+ExecStart=/opt/mbnas/.venv/bin/mbnas-core-owner-worker --owner --env-file /opt/mbnas/config/owner/core.env
+KillMode=mixed
+TimeoutStopSec=60
+Restart=on-failure
+RestartSec=5
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/opt/mbnas/runtime
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,36 @@
+$ /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python -I -B -c import\ json\;\ d=json.load\(open\(\'/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/canary/CANARY_MANIFEST.json\'\)\)\;\ \[print\(a\[\'area\'\]\,\ \'expected_in=\'\,\ a\[\'expected_in\'\]\,\ \'must_not_in=\'\,\ a\[\'must_not_in\'\]\,\ \'planted_in=\'\,\ \[p\[\'path\'\]\ +\ \(\'\ \(created\)\'\ if\ p.get\(\'created\'\)\ else\ \'\'\)\ for\ p\ in\ a\[\'planted_in\'\]\]\)\ for\ a\ in\ d\[\'areas\'\]\]
+POLICY_PRIOR expected_in= ['owner'] must_not_in= ['public', 'registration', 'web_dist', 'public_openapi', 'public_api_responses', 'gateway_logs', 'runner_logs'] planted_in= ['mbnas_core/src/mbnas_core/search/space.py']
+POLICY_REPAIR expected_in= ['owner'] must_not_in= ['public', 'registration', 'web_dist', 'public_openapi', 'public_api_responses', 'gateway_logs', 'runner_logs'] planted_in= ['mbnas_core/src/mbnas_core/search/mixed_pool/seed_variants.py']
+FITNESS expected_in= ['owner'] must_not_in= ['public', 'registration', 'web_dist', 'public_openapi', 'public_api_responses', 'gateway_logs', 'runner_logs'] planted_in= ['mbnas_core/src/mbnas_core/protocol/fitness.py', 'mbnas_core/src/mbnas_core/protocol/promotion.py']
+CORE_STATE expected_in= ['owner'] must_not_in= ['public', 'registration', 'web_dist', 'public_openapi', 'public_api_responses', 'gateway_logs', 'runner_logs'] planted_in= ['mbnas_core/src/mbnas_core/db/schema.sql']
+OWNER_TEST expected_in= ['owner'] must_not_in= ['public', 'registration', 'web_dist', 'public_openapi', 'public_api_responses', 'gateway_logs', 'runner_logs'] planted_in= ['tests/owner/conftest.py', 'tests/_shared/harness.py']
+OWNER_DOC expected_in= ['owner'] must_not_in= ['public', 'registration', 'web_dist', 'public_openapi', 'public_api_responses', 'gateway_logs', 'runner_logs'] planted_in= ['docs/internal/DECISIONS.md', 'docs/internal/TASK_STATE.md', 'docs/internal/provenance/vendored_reference/README.md']
+OWNER_SECRET expected_in= ['owner'] must_not_in= ['public', 'registration', 'web_dist', 'public_openapi', 'public_api_responses', 'gateway_logs', 'runner_logs'] planted_in= ['config/examples/core.env.example', 'config/examples/owner-all-in-one.env.example']
+OWNER_DEPLOY expected_in= ['owner'] must_not_in= ['public', 'registration', 'web_dist', 'public_openapi', 'public_api_responses', 'gateway_logs', 'runner_logs'] planted_in= ['deploy/owner/mbnas-core.service.example', 'requirements-owner.txt']
+MANIFEST_SELF expected_in= [] must_not_in= ['owner', 'public', 'registration', 'web_dist', 'public_openapi', 'public_api_responses', 'gateway_logs', 'runner_logs'] planted_in= ['docs/internal/canary/CANARY_MANIFEST.json']
+exit=0
+$ /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python -I -B scripts/dev/canary_scan.py --manifest /home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/canary/CANARY_MANIFEST.json --profile owner --expect-present build/canary/owner/tree/dist/owner/
+ok   canary    CORE_STATE: 2 hit(s) (not failing for profile owner)
+ok   canary    FITNESS: 4 hit(s) (not failing for profile owner)
+ok   canary    OWNER_DEPLOY: 2 hit(s) (not failing for profile owner)
+ok   canary    OWNER_DOC: 3 hit(s) (not failing for profile owner)
+ok   canary    OWNER_SECRET: 4 hit(s) (not failing for profile owner)
+ok   canary    OWNER_TEST: 2 hit(s) (not failing for profile owner)
+ok   canary    POLICY_PRIOR: 2 hit(s) (not failing for profile owner)
+ok   canary    POLICY_REPAIR: 2 hit(s) (not failing for profile owner)
+ok   host_fact HOST_FACT#1 owner data root: 59 hit(s) (not failing for profile owner)
+ok   host_fact HOST_FACT#2 original host root: 150 hit(s) (not failing for profile owner)
+ok   host_fact HOST_FACT#3 original host address: 10 hit(s) (not failing for profile owner)
+ok   host_fact HOST_FACT#4 original host name: 55 hit(s) (not failing for profile owner)
+ok   host_fact HOST_FACT#5 owner account name: 598 hit(s) (not failing for profile owner)
+ok   expect   CORE_STATE present in owner: 2 hit(s)
+ok   expect   FITNESS present in owner: 4 hit(s)
+ok   expect   OWNER_DEPLOY present in owner: 2 hit(s)
+ok   expect   OWNER_DOC present in owner: 3 hit(s)
+ok   expect   OWNER_SECRET present in owner: 4 hit(s)
+ok   expect   OWNER_TEST present in owner: 2 hit(s)
+ok   expect   POLICY_PRIOR present in owner: 2 hit(s)
+ok   expect   POLICY_REPAIR present in owner: 2 hit(s)
+scanned files=1193 bytes=40273567 containers=6 skipped=0 hits=893 failing=0 unmet=0
+canary_scan: PASS
+exit=0

@@ -1,0 +1,114 @@
+# MBNAS Research Console 0.1.0 - PUBLIC deployment (DD-A31, WP-7 section 1b): gateway (user API /api/v1 + web console
+# on port 8710) and a runner (GPU job daemon). The core runs on the owner host; this deployment needs it reachable.
+#
+# Files next to this deployment, relative to the unpacked ZIP root (the build context):
+#   config/public/gateway.env  from config/examples/gateway.env.example (MBNAS_GW_API_TOKEN, MBNAS_GW_CORE_URL,
+#                              MBNAS_GW_CORE_TOKEN, MBNAS_GW_ARTIFACT_SIGNING_KEY, ...), mode 0600
+#   config/public/runner.env   from config/examples/runner.env.example (MBNAS_RUNNER_CORE_URL, MBNAS_RUNNER_TOKEN,
+#                              MBNAS_RUNNER_RUNNER_ID, ...), mode 0600
+#   runtime/                   all state (gateway artifacts and logs, runner runs and logs, weights), writable by
+#                              MBNAS_UID
+#   data/                      datasets, mounted read-only at /srv/mbnas/data
+# The containers see MBNAS_HOME=/srv/mbnas/runtime (= runtime/) and datasets under /srv/mbnas/data (= data/): dataset
+# paths in protocols are these container paths, e.g. /srv/mbnas/data/<dataset>/data.yaml. The settings below under
+# `environment:` override the env files (container paths, listen address, artifact transfer to the gateway store).
+# Set MBNAS_GW_OUTPUT_ROOTS in config/public/gateway.env: with the gateway dataset roots set here every
+# console.paths.output_root is checked against it, and the core uses the same path on the core host (see the
+# comment of that key in config/examples/gateway.env.example).
+#
+# Usage, from the unpacked ZIP root:
+#   export MBNAS_UID=$(id -u) MBNAS_GID=$(id -g)        # owner of runtime/ and data/ (default 10001)
+#   docker compose -f deploy/public/docker-compose.yml build
+#   docker compose -f deploy/public/docker-compose.yml up -d                     # gateway + GPU runner (GPU 0)
+#   docker compose -f deploy/public/docker-compose.yml logs -f gateway
+#   docker compose -f deploy/public/docker-compose.yml down
+# CPU-only host (deploy/public/Dockerfile.cpu; no NVIDIA runtime needed):
+#   export MBNAS_PUBLIC_IMAGE=mbnas-public-cpu:0.1.0 MBNAS_PUBLIC_DOCKERFILE=deploy/public/Dockerfile.cpu
+#   docker compose -f deploy/public/docker-compose.yml --profile cpu up -d gateway runner-cpu
+# Core on THIS host's loopback (smoke/T5; the runner accepts plain http only for a loopback core): host networking,
+#   export MBNAS_NETWORK_MODE=host MBNAS_GW_BIND_HOST=127.0.0.1 [MBNAS_GW_LISTEN_PORT=<free host port>]
+#   and MBNAS_GW_CORE_URL / MBNAS_RUNNER_CORE_URL = http://127.0.0.1:8700 in the env files (published ports are
+#   ignored in host mode: the gateway listens on MBNAS_GW_LISTEN_PORT of the host itself).
+# The core URL must be https:// (TLS proxy on the owner host) or loopback: runner and gateway refuse plain http to a
+# non-loopback core (CORE_URL_INSECURE; the gateway only with MBNAS_GW_CORE_ALLOW_INSECURE_HTTP=true set explicitly).
+# Second GPU: copy the runner service (runner-gpu1, MBNAS_RUNNER_GPU=1, its own env file with its own runner id/token).
+# GPU reservation needs the NVIDIA Container Toolkit; the gateway is published on 127.0.0.1 only - put TLS in front
+# (deploy/public/nginx.example.conf) or set MBNAS_GW_PUBLISH deliberately.
+name: mbnas-public
+
+x-mbnas-image: &mbnas-image
+  image: ${MBNAS_PUBLIC_IMAGE:-mbnas-public:0.1.0}
+  build:
+    context: ../..
+    dockerfile: ${MBNAS_PUBLIC_DOCKERFILE:-deploy/public/Dockerfile}
+  user: "${MBNAS_UID:-10001}:${MBNAS_GID:-10001}"
+  init: true
+  network_mode: ${MBNAS_NETWORK_MODE:-bridge}
+  volumes:
+    - ../../runtime:/srv/mbnas/runtime
+    - ../../data:/srv/mbnas/data:ro
+
+# same-host artifact store: the runner links/copies registered files into the gateway's store (same runtime/ volume);
+# gateway and runner run as the same uid (`user:` above), hence same-uid (two different users: link-0644)
+x-runner-env: &runner-env
+  MBNAS_HOME: /srv/mbnas/runtime
+  MBNAS_RUNNER_DATASET_ROOTS: /srv/mbnas/data
+  MBNAS_RUNNER_ARTIFACT_TRANSFER: local
+  MBNAS_RUNNER_ARTIFACT_STORE_DIR: /srv/mbnas/runtime/gateway/artifacts
+  MBNAS_RUNNER_ARTIFACT_STORE_MODE: same-uid
+
+services:
+  gateway:
+    <<: *mbnas-image
+    command: ["gateway"]
+    env_file:
+      - ../../config/public/gateway.env
+    environment:
+      MBNAS_HOME: /srv/mbnas/runtime
+      MBNAS_GW_HOST: ${MBNAS_GW_BIND_HOST:-0.0.0.0}
+      MBNAS_GW_PORT: "${MBNAS_GW_LISTEN_PORT:-8710}"
+      MBNAS_GW_WEB_DIST: /opt/mbnas/web/dist
+      MBNAS_GW_DATASET_ROOTS: /srv/mbnas/data
+      MBNAS_GW_ARTIFACT_STORE: /srv/mbnas/runtime/gateway/artifacts
+    ports:
+      - "${MBNAS_GW_PUBLISH:-127.0.0.1:8710}:${MBNAS_GW_LISTEN_PORT:-8710}"
+    healthcheck:
+      # liveness only: any HTTP answer (200, or 401 without a token) means the gateway serves requests
+      test: ["CMD", "python", "-c", "import http.client,os,sys; c=http.client.HTTPConnection('127.0.0.1', int(os.environ.get('MBNAS_GW_PORT','8710')), timeout=5); c.request('GET','/api/v1/health'); sys.exit(0 if c.getresponse().status in (200,401) else 1)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    stop_grace_period: 30s
+    restart: unless-stopped
+
+  runner:
+    <<: *mbnas-image
+    command: ["runner"]
+    env_file:
+      - ../../config/public/runner.env
+    environment:
+      <<: *runner-env
+    shm_size: ${MBNAS_RUNNER_SHM_SIZE:-8gb}   # PyTorch data loader workers need more than the 64 MB default
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${MBNAS_RUNNER_GPU:-0}"]
+              capabilities: [gpu]
+    stop_grace_period: 90s   # SIGTERM -> the daemon stops its job child (kill_grace_s) and deregisters
+    restart: unless-stopped
+
+  runner-cpu:
+    <<: *mbnas-image
+    profiles: ["cpu"]
+    command: ["runner"]
+    env_file:
+      - ../../config/public/runner.env
+    environment:
+      <<: *runner-env
+      CUDA_VISIBLE_DEVICES: ""   # set and empty = CPU runner (DD-A32)
+    shm_size: ${MBNAS_RUNNER_SHM_SIZE:-2gb}
+    stop_grace_period: 90s
+    restart: unless-stopped

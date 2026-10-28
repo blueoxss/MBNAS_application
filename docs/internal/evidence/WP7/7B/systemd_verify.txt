@@ -1,0 +1,5 @@
+# systemd-analyze verify (systemd 245) of the final deploy/*/*.service.example; scratch copies with /opt/mbnas/.venv/bin -> <ROOT>/runtime/venv/bin so ExecStart resolves
+mbnas-core-owner-worker.service exit=0 findings_for_this_unit=none
+mbnas-core.service exit=0 findings_for_this_unit=none
+mbnas-gateway.service exit=0 findings_for_this_unit=none
+mbnas-runner.service exit=0 findings_for_this_unit=none

@@ -1,0 +1,52 @@
+C01 fix round 1b (2026-10-28 KST) - evidence index for docs/internal/evidence/CRITERIA/C01/EVAL_1.md defects D1-D9
+Commands ran in TARGET_ROOT with runtime/venv/bin/python -I -B, CUDA_VISIBLE_DEVICES='' and PYTHONDONTWRITEBYTECODE=1.
+The original checkout was only read (git --no-optional-locks, read-only subcommands; .git/index and .git/HEAD mtime/size
+unchanged, recorded in live_compare_*.json and delta_plan_*.txt). /data was not read. No GPU was touched (sandboxed runs had
+no /dev/nvidia* nodes). Paths below are relative to this directory unless they start with a repository directory.
+
+D1  PLACEMENT coverage of the five package source trees
+    tool      scripts/dev/placement_coverage.py ; gate test tests/public/infra/test_placement_coverage.py (7 tests,
+              incl. negative controls on a synthetic tree)
+    before    placement_coverage_before.txt   exit 1: 212/221 covered (py 206/214), 9 missing (= EVAL_1 D1 list)
+    after     placement_coverage_after.txt/.json   exit 0: 221/221 (py 215/215), 0 missing, 0 unrecorded deletions,
+              0 row errors, 1 recorded deletion; sha_drift 60 (informational: target_sha256 is the sha at row time)
+    rows      docs/internal/provenance/PLACEMENT_MANIFEST.jsonl lines 589-597 (9 kind=new backfill rows: WP-4A draft,
+              WP-4B x4, WP-5B x3, WP-5C x1), line 598 (deletion of the 1.5.0 draft, written by the fix-round-1 agent),
+              lines 599-606 (files created/modified in this round), lines 607-612 (fix-round-1 agent), line 613
+              (backfill: mbnas_core/owner_worker/paths.py, created 04:15:56 by the DD-A60 (2) agent without a row; the
+              new gate test caught it at 04:17)
+D2  designer sha comparison log and snapshot tools inside TARGET_ROOT
+    tools     scripts/dev/snapshot_copy.py, snapshot_delta.py, snapshot_compare.py (provenance note in each docstring);
+              verbatim originals and their outputs in historical/ (ORIGIN.txt lists origin, sha256 verified, role)
+    live      live_compare_20261028T035809.txt/.json   exit 0: 603 manifest rows vs the live original: sha256 match 603,
+              differ 0, missing 0; git fields 603/603 (tracked_clean 416, tracked_modified 93, untracked 94; 509 in HEAD
+              tree); HEAD 18c48151 = snapshot HEAD, 0 commits since; 0 new files in the copied code trees (17 new owner
+              docs); 0 selected files modified after the last delta (newest 2026-10-26 19:28:59 KST); whole-checkout mtime
+              scan: 551 files modified after the first copy (all under application/; + 17 .pyc in skipped __pycache__ =
+              EVAL_1's 568), 0 after the last delta, newest 2026-10-26 19:30:52 KST; snapshot copy 603/603; delta chain
+              51/51 paths, 6/6 supersedes links
+    plan      delta_plan_20261028T041224.txt/.json   0 changed, 0 missing, 0 new (17 new owner docs listed, not ported)
+    selftest  selftest_snapshot_tools.sh/.txt   synthetic git repo: copy, write-once refusal, refusal to write into the
+              source, compare in sync / advanced, plan, apply refusals (no --write, stale plan -> exit 2), apply, compare
+D3  research-environment freeze baselines: ../ENV/env_baseline_run_20261028T041035.txt (exit 0) and .json,
+    ../ENV/freeze_{sg26,sg,mbnas310}.txt (pip freeze --all in a read-only bwrap sandbox), ../ENV/freeze_original_venv.metadata.txt
+    (metadata only, never executed; method cross-checked against pip on the other three: agrees), project runtime/venv
+    137/137 == constraints.txt, editable 5, pip check clean; 0 site/bin entries newer than 2026-10-23 20:00 KST in all four
+    research environments (no pre-project freeze exists: this is the first baseline; mtime is the proxy)
+D4  docs/internal/provenance/SOURCE_SNAPSHOT_SUMMARY.json: top-level counts = the manifest (603 files, 10373926 bytes,
+    416/93/94), first-copy values under initial_copy, counts_basis note; snapshot_compare.py summary check True;
+    docs/internal/TASK_STATE.md lines 8-9
+D5  D5_block_catalog_source.txt: PLACEMENT line 447 source_sha256 = 77e2f1a5... (chain through line 266 and the designer's
+    pre-edit copy historical/block_catalog.before.py)
+D6  not in this round (closure checker label: the concurrent fix-round-1 agent, FIX_ROUND_1 C06-D3; the checker now prints
+    "expires 1.6")
+D7  D7_campaign_smoke.txt (+ gen_synth_campaign.py): rate limit off + load-aware budget; synthetic 12-arm root: before
+    exit 1 (429 RATE_LIMITED), after exit 0 (cold list 141 ms, budget 2405 ms at load1 9.65 / 48 CPUs); default gate 19 passed
+    + 1 skipped (as EVAL_1 #6)
+D8  ../ENV/make_dev_venv_rerecord.txt: whole script re-run into a throw-away venv (sandboxed): exit 0, version line prints
+    rfdetr 1.11.2; old line AttributeError (exit 1) vs new line (exit 0); fresh venv freeze 137/137 == constraints.txt
+D9  D9_web_comment.txt: closure --include-web forbidden 0 (EVAL_1 #3: 1), check:bundle 0 hits, typecheck exit 0
+
+Not verified in this round (확인 못 함): the real-campaign smoke on /data (D7; /data was off limits); a freeze-to-freeze
+comparison against a pre-project baseline (none exists; D3 uses mtimes); REVIEW_LOG.jsonl references to these files
+(REVIEW_LOG is the designer's file).

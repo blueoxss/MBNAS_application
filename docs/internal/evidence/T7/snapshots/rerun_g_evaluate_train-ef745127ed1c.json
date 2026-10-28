@@ -1,0 +1,3870 @@
+{
+ "data": {
+  "_harness_trimmed_keys": {},
+  "candidates": [
+   {
+    "ap": 0.5034483556233402,
+    "architecture_hash": "sha256:053576e05c12418cab7602e174495488cfa874c90259ad7b6318328f89b3755e",
+    "architecture_id": "sha256:053576e05c12418cab7602e174495488cfa874c90259ad7b6318328f89b3755e",
+    "architecture_path": "architectures/model-736efe39f3d1.yaml",
+    "arm": "Baseline",
+    "artifacts": [
+     {
+      "auth_mode": "bearer_fetch",
+      "evaluation_id": "model-736efe39f3d1.TRAIN.eval",
+      "expires_at": null,
+      "id": "art-6f07394d38cf474414db",
+      "kind": "gt",
+      "matching": {
+       "boxes_drawn": 8,
+       "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+       "conf": 0.25,
+       "counts": {
+        "fn": 4,
+        "fp": 1,
+        "gt": 8,
+        "kept": 5,
+        "matched_gt": 4,
+        "tp": 4
+       },
+       "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+       "iou": 0.5,
+       "render_scale": 1.0,
+       "rule": "greedy_conf_desc_iou_v1",
+       "sample_id": "000000000009",
+       "sample_precision": 0.8,
+       "sample_recall": 0.5,
+       "sample_rule": "first_n_sorted_sample_ids",
+       "split": "search_val"
+      },
+      "metadata": {},
+      "mime_type": "image/png",
+      "refresh_url": null,
+      "sample_id": "000000000009",
+      "sha256": "c6e36ce14b032b85a1ef63be6bf034819c5ec1bc75fdd77b7af54e445da9b1c4",
+      "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+      "state": "NOT_READY",
+      "url": "/api/v1/runs/train-ef745127ed1c/artifacts/art-6f07394d38cf474414db"
+     },
+     {
+      "auth_mode": "bearer_fetch",
+      "evaluation_id": "model-736efe39f3d1.TRAIN.eval",
+      "expires_at": null,
+      "id": "art-f804df4b589e4ae1db3d",
+      "kind": "tp",
+      "matching": {
+       "boxes_drawn": 4,
+       "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+       "conf": 0.25,
+       "counts": {
+        "fn": 4,
+        "fp": 1,
+        "gt": 8,
+        "kept": 5,
+        "matched_gt": 4,
+        "tp": 4
+       },
+       "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+       "iou": 0.5,
+       "render_scale": 1.0,
+       "rule": "greedy_conf_desc_iou_v1",
+       "sample_id": "000000000009",
+       "sample_precision": 0.8,
+       "sample_recall": 0.5,
+       "sample_rule": "first_n_sorted_sample_ids",
+       "split": "search_val"
+      },
+      "metadata": {},
+      "mime_type": "image/png",
+      "refresh_url": null,
+      "sample_id": "000000000009",
+      "sha256": "3086e1bfc493b26c7b7f34d28951f7bcd1812068a0bddc1a6c5ee88ebdfa1937",
+      "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+      "state": "NOT_READY",
+      "url": "/api/v1/runs/train-ef745127ed1c/artifacts/art-f804df4b589e4ae1db3d"
+     },
+     {
+      "auth_mode": "bearer_fetch",
+      "evaluation_id": "model-736efe39f3d1.TRAIN.eval",
+      "expires_at": null,
+      "id": "art-bf35eab3d48c5109bcc6",
+      "kind": "fn",
+      "matching": {
+       "boxes_drawn": 4,
+       "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+       "conf": 0.25,
+       "counts": {
+        "fn": 4,
+        "fp": 1,
+        "gt": 8,
+        "kept": 5,
+        "matched_gt": 4,
+        "tp": 4
+       },
+       "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+       "iou": 0.5,
+       "render_scale": 1.0,
+       "rule": "greedy_conf_desc_iou_v1",
+       "sample_id": "000000000009",
+       "sample_precision": 0.8,
+       "sample_recall": 0.5,
+       "sample_rule": "first_n_sorted_sample_ids",
+       "split": "search_val"
+      },
+      "metadata": {},
+      "mime_type": "image/png",
+      "refresh_url": null,
+      "sample_id": "000000000009",
+      "sha256": "c92b323dbc9e8068fc00dc040a0ff3404158ed40f7f542a9c603bac4c273cd5e",
+      "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+      "state": "NOT_READY",
+      "url": "/api/v1/runs/train-ef745127ed1c/artifacts/art-bf35eab3d48c5109bcc6"
+     },
+     {
+      "auth_mode": "bearer_fetch",
+      "evaluation_id": "model-736efe39f3d1.TRAIN.eval",
+      "expires_at": null,
+      "id": "art-dfd3090291ef49c4aa83",
+      "kind": "fp",
+      "matching": {
+       "boxes_drawn": 1,
+       "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+       "conf": 0.25,
+       "counts": {
+        "fn": 4,
+        "fp": 1,
+        "gt": 8,
+        "kept": 5,
+        "matched_gt": 4,
+        "tp": 4
+       },
+       "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+       "iou": 0.5,
+       "render_scale": 1.0,
+       "rule": "greedy_conf_desc_iou_v1",
+       "sample_id": "000000000009",
+       "sample_precision": 0.8,
+       "sample_recall": 0.5,
+       "sample_rule": "first_n_sorted_sample_ids",
+       "split": "search_val"
+      },
+      "metadata": {},
+      "mime_type": "image/png",
+      "refresh_url": null,
+      "sample_id": "000000000009",
+      "sha256": "a4ed49883b1fbf02995cb1d06c36de797ff81da118c4093d11fadb4408cdf1f7",
+      "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+      "state": "NOT_READY",
+      "url": "/api/v1/runs/train-ef745127ed1c/artifacts/art-dfd3090291ef49c4aa83"
+     },
+     {
+      "auth_mode": "bearer_fetch",
+      "evaluation_id": "model-736efe39f3d1.TRAIN.eval",
+      "expires_at": null,
+      "id": "art-0efb4cf55c981da0b66b",
+      "kind": "gt",
+      "matching": {
+       "boxes_drawn": 2,
+       "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+       "conf": 0.25,
+       "counts": {
+        "fn": 1,
+        "fp": 0,
+        "gt": 2,
+        "kept": 1,
+        "matched_gt": 1,
+        "tp": 1
+       },
+       "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+       "iou": 0.5,
+       "render_scale": 1.0,
+       "rule": "greedy_conf_desc_iou_v1",
+       "sample_id": "000000000025",
+       "sample_precision": 1.0,
+       "sample_recall": 0.5,
+       "sample_rule": "first_n_sorted_sample_ids",
+       "split": "search_val"
+      },
+      "metadata": {},
+      "mime_type": "image/png",
+      "refresh_url": null,
+      "sample_id": "000000000025",
+      "sha256": "f09f86e117d4fb575d391d7a56ed856b43a4a602b6cd1304318b8b31b41c3c28",
+      "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+      "state": "NOT_READY",
+      "url": "/api/v1/runs/train-ef745127ed1c/artifacts/art-0efb4cf55c981da0b66b"
+     },
+     {
+      "auth_mode": "bearer_fetch",
+      "evaluation_id": "model-736efe39f3d1.TRAIN.eval",
+      "expires_at": null,
+      "id": "art-38c54de254ba35c1b11b",
+      "kind": "tp",
+      "matching": {
+       "boxes_drawn": 1,
+       "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+       "conf": 0.25,
+       "counts": {
+        "fn": 1,
+        "fp": 0,
+        "gt": 2,
+        "kept": 1,
+        "matched_gt": 1,
+        "tp": 1
+       },
+       "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+       "iou": 0.5,
+       "render_scale": 1.0,
+       "rule": "greedy_conf_desc_iou_v1",
+       "sample_id": "000000000025",
+       "sample_precision": 1.0,
+       "sample_recall": 0.5,
+       "sample_rule": "first_n_sorted_sample_ids",
+       "split": "search_val"
+      },
+      "metadata": {},
+      "mime_type": "image/png",
+      "refresh_url": null,
+      "sample_id": "000000000025",
+      "sha256": "932b11ceb7a45e8612df9001fe48438d118d6050fc01c42310ff11d8c11ac70a",
+      "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+      "state": "NOT_READY",
+      "url": "/api/v1/runs/train-ef745127ed1c/artifacts/art-38c54de254ba35c1b11b"
+     },
+     {
+      "auth_mode": "bearer_fetch",
+      "evaluation_id": "model-736efe39f3d1.TRAIN.eval",
+      "expires_at": null,
+      "id": "art-b0f530818209185edaa7",
+      "kind": "fn",
+      "matching": {
+       "boxes_drawn": 1,
+       "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+       "conf": 0.25,
+       "counts": {
+        "fn": 1,
+        "fp": 0,
+        "gt": 2,
+        "kept": 1,
+        "matched_gt": 1,
+        "tp": 1
+       },
+       "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+       "iou": 0.5,
+       "render_scale": 1.0,
+       "rule": "greedy_conf_desc_iou_v1",
+       "sample_id": "000000000025",
+       "sample_precision": 1.0,
+       "sample_recall": 0.5,
+       "sample_rule": "first_n_sorted_sample_ids",
+       "split": "search_val"
+      },
+      "metadata": {},
+      "mime_type": "image/png",
+      "refresh_url": null,
+      "sample_id": "000000000025",
+      "sha256": "49fff65531d24744c8090c4e4ee891847faa89bc49ee0fb75fe3fd47dadffd21",
+      "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+      "state": "NOT_READY",
+      "url": "/api/v1/runs/train-ef745127ed1c/artifacts/art-b0f530818209185edaa7"
+     },
+     {
+      "auth_mode": "bearer_fetch",
+      "evaluation_id": "model-736efe39f3d1.TRAIN.eval",
+      "expires_at": null,
+      "id": "art-cd92d194d9f9c6210eca",
+      "kind": "fp",
+      "matching": {
+       "boxes_drawn": 0,
+       "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+       "conf": 0.25,
+       "counts": {
+        "fn": 1,
+        "fp": 0,
+        "gt": 2,
+        "kept": 1,
+        "matched_gt": 1,
+        "tp": 1
+       },
+       "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+       "iou": 0.5,
+       "render_scale": 1.0,
+       "rule": "greedy_conf_desc_iou_v1",
+       "sample_id": "000000000025",
+       "sample_precision": 1.0,
+       "sample_recall": 0.5,
+       "sample_rule": "first_n_sorted_sample_ids",
+       "split": "search_val"
+      },
+      "metadata": {},
+      "mime_type": "image/png",
+      "refresh_url": null,
+      "sample_id": "000000000025",
+      "sha256": "f645b61a7ecb4e1051d4a5cfba5635466d73f723403e1787f8102526f48a132a",
+      "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+      "state": "NOT_READY",
+      "url": "/api/v1/runs/train-ef745127ed1c/artifacts/art-cd92d194d9f9c6210eca"
+     }
+    ],
+    "attempt": 1,
+    "batch": 1,
+    "blocks": [
+     {
+      "args": [
+       64,
+       3,
+       2
+      ],
+      "from": -1,
+      "module": "Conv",
+      "mutated": false,
+      "name": "Conv",
+      "parent_block_id": null,
+      "position": 0,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       128,
+       3,
+       2
+      ],
+      "from": -1,
+      "module": "Conv",
+      "mutated": false,
+      "name": "Conv",
+      "parent_block_id": null,
+      "position": 1,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       256,
+       false,
+       0.25
+      ],
+      "from": -1,
+      "module": "C3k2",
+      "mutated": false,
+      "name": "C3k2",
+      "parent_block_id": null,
+      "position": 2,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       256,
+       3,
+       2
+      ],
+      "from": -1,
+      "module": "Conv",
+      "mutated": false,
+      "name": "Conv",
+      "parent_block_id": null,
+      "position": 3,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       512,
+       false,
+       0.25
+      ],
+      "from": -1,
+      "module": "C3k2",
+      "mutated": false,
+      "name": "C3k2",
+      "parent_block_id": null,
+      "position": 4,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       512,
+       3,
+       2
+      ],
+      "from": -1,
+      "module": "Conv",
+      "mutated": false,
+      "name": "Conv",
+      "parent_block_id": null,
+      "position": 5,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       512,
+       true
+      ],
+      "from": -1,
+      "module": "C3k2",
+      "mutated": false,
+      "name": "C3k2",
+      "parent_block_id": null,
+      "position": 6,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       1024,
+       3,
+       2
+      ],
+      "from": -1,
+      "module": "Conv",
+      "mutated": false,
+      "name": "Conv",
+      "parent_block_id": null,
+      "position": 7,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       1024,
+       true
+      ],
+      "from": -1,
+      "module": "C3k2",
+      "mutated": false,
+      "name": "C3k2",
+      "parent_block_id": null,
+      "position": 8,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       1024,
+       5
+      ],
+      "from": -1,
+      "module": "SPPF",
+      "mutated": false,
+      "name": "SPPF",
+      "parent_block_id": null,
+      "position": 9,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       1024
+      ],
+      "from": -1,
+      "module": "C2PSA",
+      "mutated": false,
+      "name": "C2PSA",
+      "parent_block_id": null,
+      "position": 10,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       "None",
+       2,
+       "nearest"
+      ],
+      "from": -1,
+      "module": "nn.Upsample",
+      "mutated": false,
+      "name": "nn.Upsample",
+      "parent_block_id": null,
+      "position": 11,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       1
+      ],
+      "from": [
+       -1,
+       6
+      ],
+      "module": "Concat",
+      "mutated": false,
+      "name": "Concat",
+      "parent_block_id": null,
+      "position": 12,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       512,
+       false
+      ],
+      "from": -1,
+      "module": "C3k2",
+      "mutated": false,
+      "name": "C3k2",
+      "parent_block_id": null,
+      "position": 13,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       "None",
+       2,
+       "nearest"
+      ],
+      "from": -1,
+      "module": "nn.Upsample",
+      "mutated": false,
+      "name": "nn.Upsample",
+      "parent_block_id": null,
+      "position": 14,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       1
+      ],
+      "from": [
+       -1,
+       4
+      ],
+      "module": "Concat",
+      "mutated": false,
+      "name": "Concat",
+      "parent_block_id": null,
+      "position": 15,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       256,
+       false
+      ],
+      "from": -1,
+      "module": "C3k2",
+      "mutated": false,
+      "name": "C3k2",
+      "parent_block_id": null,
+      "position": 16,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       256,
+       3,
+       2
+      ],
+      "from": -1,
+      "module": "Conv",
+      "mutated": false,
+      "name": "Conv",
+      "parent_block_id": null,
+      "position": 17,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       1
+      ],
+      "from": [
+       -1,
+       13
+      ],
+      "module": "Concat",
+      "mutated": false,
+      "name": "Concat",
+      "parent_block_id": null,
+      "position": 18,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       512,
+       false
+      ],
+      "from": -1,
+      "module": "C3k2",
+      "mutated": false,
+      "name": "C3k2",
+      "parent_block_id": null,
+      "position": 19,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       512,
+       3,
+       2
+      ],
+      "from": -1,
+      "module": "Conv",
+      "mutated": false,
+      "name": "Conv",
+      "parent_block_id": null,
+      "position": 20,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       1
+      ],
+      "from": [
+       -1,
+       10
+      ],
+      "module": "Concat",
+      "mutated": false,
+      "name": "Concat",
+      "parent_block_id": null,
+      "position": 21,
+      "repeats": 1,
+      "source": null
+     },
+     {
+      "args": [
+       1024,
+       true
+      ],
+      "from": -1,
+      "module": "C3k2",
+      "mutated": false,
+      "name": "C3k2",
+      "parent_block_id": null,
+      "position": 22,
+      "repeats": 2,
+      "source": null
+     },
+     {
+      "args": [
+       "nc"
+      ],
+      "from": [
+       16,
+       19,
+       22
+      ],
+      "module": "Detect",
+      "mutated": false,
+      "name": "Detect",
+      "parent_block_id": null,
+      "position": 23,
+      "repeats": 1,
+      "source": null
+     }
+    ],
+    "candidate_id": "model-736efe39f3d1",
+    "candidate_status": "EVALUATED",
+    "checkpoint_path": "yolo11n.pt",
+    "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+    "checkpoint_state": "PRESENT",
+    "comparison_group": "official_evaluation",
+    "cost": {
+     "val": 9.37181
+    },
+    "device": "host-gpu-0",
+    "epochs": 0,
+    "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+    "execution_mode": "PILOT",
+    "family": "YOLO11",
+    "fitness": 0.8557676631988147,
+    "fitness_weights": {
+     "ap": 0.2,
+     "latency_reward": 0.4,
+     "recall": 0.1,
+     "size_reward": 0.3
+    },
+    "generation": 0,
+    "id": "model-736efe39f3d1.TRAIN.eval",
+    "immutable": true,
+    "job_id": "job-72a1285d22d043a3",
+    "latency_ms": 8.481317898258567,
+    "latency_scope": "forward_and_postprocess(conf=0.25,iou=0.7,max_det=300)",
+    "latency_source": "measured",
+    "latency_statistics": {
+     "mean_ms": 8.525095931254327,
+     "p50_ms": 8.481317898258567,
+     "p95_ms": 8.690473297610879
+    },
+    "metric_definitions": {
+     "ap": "COCO AP@[.50:.95] (pycocotools, maxDets[2]=300), fraction 0-1",
+     "ap_50": "COCO AP@.50, fraction 0-1",
+     "coordinates": "source image pixels",
+     "evaluator_version": "mbnas-evaluator/1",
+     "recall": "recall at IoU 0.5, score >= 0.25, macro over classes with GT, rule greedy_conf_desc_iou_v1"
+    },
+    "name": "yolo11n",
+    "namespace": "pilot_smoke",
+    "objective_hash": "sha256:4b0167bcac4c496d9ea754ebb2ac4a298e4236d4393df9efacc4562c18939e21",
+    "parents": [],
+    "postprocess_runtime": "torchvision_cuda_nms",
+    "precision": "FP16",
+    "protocol_hash": "sha256:641e58ad63f027591f4a7d0db882d67b3b14f2dcb467236ee8a24dffb5a98940",
+    "raw_metrics": {
+     "ap_50": 0.6711294071965658,
+     "coco_stats": {
+      "ap": 0.5034483556233402,
+      "ap_50": 0.6711294071965658,
+      "ap_75": 0.5528105815530203,
+      "ap_large": 0.7056227955769865,
+      "ap_medium": 0.45962370155939525,
+      "ap_small": 0.20271564903035696,
+      "ar": 0.6327288546234201,
+      "max_det": 300
+     },
+     "counts": {
+      "fn": 445,
+      "fp": 171,
+      "gt": 929,
+      "images": 128,
+      "kept": 655,
+      "predictions": 16000,
+      "tp": 484
+     },
+     "device_id": "dev-4856bdf2d606a4e4",
+     "device_name": "NVIDIA RTX A6000",
+     "device_used": "cuda:0",
+     "epochs": 0,
+     "eval_split": "search_val",
+     "invalid_reason": null,
+     "latency": {
+      "batch": 1,
+      "device_sampling": {
+       "after_repeats": {
+        "power_draw_w": 77.854,
+        "sm_clock_mhz": 1800
+       },
+       "after_warmup": {
+        "power_draw_w": 65.418,
+        "sm_clock_mhz": 1800
+       },
+       "cuda_index": 0,
+       "error": null,
+       "method": "nvmlDeviceGetPowerUsage / nvmlDeviceGetClockInfo(SM) sampled after the warm-up, after every repeat round (outside the timed window) and after the repeats",
+       "nvml_index": 0,
+       "nvml_lookup": "uuid",
+       "power_draw_w": {
+        "max": 77.854,
+        "mean": 69.51485294117647,
+        "min": 65.418,
+        "n": 102
+       },
+       "sm_clock_mhz": {
+        "max": 1800,
+        "mean": 1800.0,
+        "min": 1800,
+        "n": 102
+       }
+      },
+      "latency_scope": "forward_and_postprocess(conf=0.25,iou=0.7,max_det=300)",
+      "latency_source": "measured",
+      "manifest": {
+       "batch": 1,
+       "cuda_index": 0,
+       "cuda_runtime": "12.4",
+       "cudnn": 90100,
+       "device_entry": "host-gpu-0",
+       "device_id": "dev-4856bdf2d606a4e4",
+       "device_sampling": {
+        "after_repeats": {
+         "power_draw_w": 77.854,
+         "sm_clock_mhz": 1800
+        },
+        "after_warmup": {
+         "power_draw_w": 65.418,
+         "sm_clock_mhz": 1800
+        },
+        "cuda_index": 0,
+        "error": null,
+        "method": "nvmlDeviceGetPowerUsage / nvmlDeviceGetClockInfo(SM) sampled after the warm-up, after every repeat round (outside the timed window) and after the repeats",
+        "nvml_index": 0,
+        "nvml_lookup": "uuid",
+        "power_draw_w": {
+         "max": 77.854,
+         "mean": 69.51485294117647,
+         "min": 65.418,
+         "n": 102
+        },
+        "sm_clock_mhz": {
+         "max": 1800,
+         "mean": 1800.0,
+         "min": 1800,
+         "n": 102
+        }
+       },
+       "driver": "555.42.02",
+       "input_shape": [
+        640,
+        640
+       ],
+       "latency_scope": "forward_and_postprocess(conf=0.25,iou=0.7,max_det=300)",
+       "mem_clock_mhz": 8000,
+       "name": "NVIDIA RTX A6000",
+       "nvml_lookup": "uuid",
+       "persistence_mode": 0,
+       "postprocess": {
+        "conf": 0.001,
+        "head": "one2many + NMS",
+        "iou": 0.7,
+        "max_det": 300,
+        "nms": true,
+        "nms_impl": "ultralytics.utils.nms (torchvision.ops.nms when torchvision is imported, else TorchNMS python loop)",
+        "preprocess": "letterbox center pad 114"
+       },
+       "postprocess_operating_point": {
+        "conf": 0.25,
+        "iou": 0.7,
+        "max_det": 300
+       },
+       "postprocess_runtime": "torchvision_cuda_nms",
+       "power_limit_w": 300.0,
+       "precision": "FP16",
+       "precision_mode": "torch.autocast(float16) over FP32 weights",
+       "sm_clock_max_mhz": 2100,
+       "sm_clock_mhz": 1800,
+       "temperature_c": 35,
+       "torch": "2.6.0+cu124",
+       "torch_device_name": "NVIDIA RTX A6000",
+       "torchvision": "0.21.0+cu124",
+       "utilization_percent": 1
+      },
+      "operating_point": {
+       "conf": 0.25,
+       "iou": 0.7,
+       "max_det": 300
+      },
+      "postprocess": {
+       "conf": 0.001,
+       "head": "one2many + NMS",
+       "iou": 0.7,
+       "max_det": 300,
+       "nms": true,
+       "nms_impl": "ultralytics.utils.nms (torchvision.ops.nms when torchvision is imported, else TorchNMS python loop)",
+       "preprocess": "letterbox center pad 114"
+      },
+      "postprocess_runtime": "torchvision_cuda_nms",
+      "preprocess_ms": null,
+      "preprocess_ms_definition": "end_to_end and forward_and_postprocess were not both measured",
+      "preprocess_ms_method": "not available",
+      "repeats": 100,
+      "runtime": "pytorch",
+      "scopes": {
+       "forward_and_postprocess": {
+        "max_ms": 10.565129574388266,
+        "mean_ms": 8.525095931254327,
+        "min_ms": 8.382235188037157,
+        "n": 100,
+        "p50_ms": 8.481317898258567,
+        "p95_ms": 8.690473297610879,
+        "samples_ms": [
+         8.4514,
+         8.4174,
+         8.449,
+         8.4334,
+         8.5192,
+         8.4676,
+         8.465,
+         8.4698,
+         8.4803,
+         8.4719,
+         8.5133,
+         8.451,
+         8.4622,
+         8.5298,
+         8.5752,
+         8.7002,
+         8.69,
+         8.6215,
+         8.6137,
+         8.5957,
+         8.543,
+         8.6193,
+         8.5966,
+         8.5605,
+         8.5215,
+         8.5132,
+         8.5018,
+         8.5455,
+         8.5329,
+         8.5038,
+         8.4945,
+         8.5229,
+         8.5271,
+         8.5437,
+         8.4751,
+         8.5051,
+         8.459,
+         8.4814,
+         8.4846,
+         8.4648,
+         8.4645,
+         8.4861,
+         8.4524,
+         8.4726,
+         8.5068,
+         8.5492,
+         8.5008,
+         8.5544,
+         8.4968,
+         8.4592,
+         8.4736,
+         8.4518,
+         8.4451,
+         8.4469,
+         8.4644,
+         8.4285,
+         8.467,
+         8.4996,
+         9.2689,
+         8.789,
+         8.5238,
+         8.5023,
+         8.5224,
+         8.5603,
+         8.6003,
+         8.5468,
+         8.5107,
+         8.5065,
+         10.5651,
+         8.8909,
+         8.5347,
+         8.4941,
+         8.4835,
+         8.4586,
+         8.6779,
+         8.4305,
+         8.4552,
+         8.4372,
+         8.4078,
+         8.4046,
+         8.4904,
+         8.4086,
+         8.4225,
+         8.4141,
+         8.3822,
+         8.4039,
+         8.384,
+         8.3908,
+         8.416,
+         8.3914,
+         8.4208,
+         8.4337,
+         8.4813,
+         8.4046,
+         8.4179,
+         8.4522,
+         8.4624,
+         8.468,
+         8.4596,
+         8.4405
+        ]
+       }
+      },
+      "throughput_fps": null,
+      "throughput_fps_note": "not measured (batch 1 only)",
+      "timer": "time.perf_counter with torch.cuda.synchronize around each repeat; scopes interleaved round-robin per repeat after per-scope warmup",
+      "torchvision": "0.21.0+cu124",
+      "version": "mbnas-latency/4",
+      "warmup": 20
+     },
+     "no_predictions": false,
+     "per_class_ap": {
+      "0": 0.5406073159314003,
+      "1": 0.20254544502069255,
+      "10": null,
+      "11": 0.7504950495049505,
+      "12": null,
+      "13": 0.3626522332024473,
+      "14": 0.6189683503234045,
+      "15": 0.7650165016501651,
+      "16": 0.6705343995938056,
+      "17": 0.700990099009901,
+      "18": null,
+      "19": null,
+      "2": 0.16192335863328744,
+      "20": 0.7561078580424594,
+      "21": 0.9999999999999998,
+      "22": 0.9752475247524752,
+      "23": 0.7299487478159581,
+      "24": 0.24111406939013227,
+      "25": 0.40755703469464527,
+      "26": 0.06482378429285822,
+      "27": 0.5838283828382839,
+      "28": 0.6101485148514851,
+      "29": 0.6765676567656765,
+      "3": 0.7821782178217822,
+      "30": 0.6999999999999998,
+      "31": 0.5097772277227722,
+      "32": 0.29884488448844887,
+      "33": 0.23726187799323412,
+      "34": 0.11980198019801981,
+      "35": 0.21848184818481847,
+      "36": 0.438998899889989,
+      "37": null,
+      "38": 0.31193069306930693,
+      "39": 0.31724907466116065,
+      "4": 0.9067326732673266,
+      "40": 0.4156125980904747,
+      "41": 0.28807204231755856,
+      "42": 0.3219566913956352,
+      "43": 0.41629879679996157,
+      "44": 0.30679059116079554,
+      "45": 0.5840889095865462,
+      "46": 0.5,
+      "47": null,
+      "48": 0.6666666666666666,
+      "49": 0.5138613861386139,
+      "5": 0.6656765676567656,
+      "50": 0.22101372027859523,
+      "51": 0.4018853499513997,
+      "52": 1.0,
+      "53": 0.8217821782178217,
+      "54": 0.8011353635363536,
+      "55": 0.6489718202589491,
+      "56": 0.3146039535634731,
+      "57": 0.5822634763476348,
+      "58": 0.5609798071299001,
+      "59": 0.43524752475247513,
+      "6": 0.9108910891089109,
+      "60": 0.48497427167717344,
+      "61": 0.5734958111195735,
+      "62": 0.8504950495049505,
+      "63": 0.5306930693069307,
+      "64": 0.0,
+      "65": 0.44455445544554456,
+      "66": null,
+      "67": 0.03885221855518885,
+      "68": 0.9336633663366337,
+      "69": 0.2723095838995664,
+      "7": 0.17996399639963995,
+      "70": null,
+      "71": 0.16538072566327747,
+      "72": 0.7186468646864685,
+      "73": 0.21873119848535183,
+      "74": 0.7537010843941536,
+      "75": 0.9504950495049505,
+      "76": 0.0,
+      "77": 0.47053570684165735,
+      "78": null,
+      "79": 0.5914114667280682,
+      "8": 0.3779390083300262,
+      "9": 0.15085808580858087
+     },
+     "per_class_recall": {
+      "0": 0.6653543307086615,
+      "1": 0.16666666666666666,
+      "11": 1.0,
+      "13": 0.3333333333333333,
+      "14": 1.0,
+      "15": 1.0,
+      "16": 0.7777777777777778,
+      "17": 1.0,
+      "2": 0.17391304347826086,
+      "20": 0.9411764705882353,
+      "21": 1.0,
+      "22": 1.0,
+      "23": 0.8888888888888888,
+      "24": 0.3333333333333333,
+      "25": 0.3888888888888889,
+      "26": 0.0,
+      "27": 0.42857142857142855,
+      "28": 1.0,
+      "29": 0.8,
+      "3": 1.0,
+      "30": 1.0,
+      "31": 0.5714285714285714,
+      "32": 0.3333333333333333,
+      "33": 0.4,
+      "34": 0.0,
+      "35": 0.42857142857142855,
+      "36": 0.4,
+      "38": 0.42857142857142855,
+      "39": 0.2777777777777778,
+      "4": 0.8333333333333334,
+      "40": 0.4375,
+      "41": 0.2777777777777778,
+      "42": 0.16666666666666666,
+      "43": 0.4375,
+      "44": 0.2727272727272727,
+      "45": 0.6785714285714286,
+      "46": 1.0,
+      "48": 1.0,
+      "49": 0.0,
+      "5": 0.7142857142857143,
+      "50": 0.18181818181818182,
+      "51": 0.5,
+      "52": 1.0,
+      "53": 1.0,
+      "54": 1.0,
+      "55": 0.75,
+      "56": 0.5428571428571428,
+      "57": 0.8333333333333334,
+      "58": 0.5,
+      "59": 0.6666666666666666,
+      "6": 1.0,
+      "60": 0.6923076923076923,
+      "61": 0.5,
+      "62": 1.0,
+      "63": 0.0,
+      "64": 0.0,
+      "65": 0.5,
+      "67": 0.0,
+      "68": 1.0,
+      "69": 0.4,
+      "7": 0.16666666666666666,
+      "71": 0.16666666666666666,
+      "72": 1.0,
+      "73": 0.13793103448275862,
+      "74": 0.7777777777777778,
+      "75": 1.0,
+      "76": 0.0,
+      "77": 0.3333333333333333,
+      "79": 0.8,
+      "8": 0.3333333333333333,
+      "9": 0.14285714285714285
+     },
+     "postprocess_operating_point": {
+      "conf": 0.25,
+      "iou": 0.7,
+      "max_det": 300
+     },
+     "signature": {
+      "batch": 8,
+      "class_aggregation": "macro",
+      "conf_floor": 0.001,
+      "device_class": "NVIDIA RTX A6000",
+      "evaluator_version": "mbnas-evaluator/1",
+      "iou_thresholds": [
+       0.5,
+       0.55,
+       0.6,
+       0.65,
+       0.7,
+       0.75,
+       0.8,
+       0.85,
+       0.9,
+       0.95
+      ],
+      "matching_rule": "greedy_conf_desc_iou_v1",
+      "max_det": 300,
+      "precision": "FP16",
+      "recall_conf": 0.25,
+      "recall_iou": 0.5,
+      "resolved_input_shape": [
+       640,
+       640
+      ],
+      "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb"
+     },
+     "size_definition": "actual official checkpoint bytes / 1e6 (not FP16 weights-only)",
+     "source": "official_weights",
+     "timings": {
+      "predict_s": 1.2066,
+      "score_s": 1.6432
+     },
+     "training_mode": "evaluate_only"
+    },
+    "reason_code": null,
+    "recall": 0.5701619417940973,
+    "requested_input_shape": [
+     640,
+     640
+    ],
+    "resolved_input_shape": [
+     640,
+     640
+    ],
+    "revision": 1,
+    "rewards": {
+     "latency_reward": 1.0,
+     "size_reward": 0.9935393263157895
+    },
+    "rung": "TRAIN",
+    "size_mb": 5.613764,
+    "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+    "status": "EVALUATED",
+    "supersedes_evaluation_id": null,
+    "training_seed": 41,
+    "training_status": "TRAINED"
+   }
+  ],
+  "events": [
+   {
+    "created_at": "2026-10-27T18:08:01.616268Z",
+    "payload": {
+     "budget": {
+      "scope": "explicit_training",
+      "unit": "gpu_seconds"
+     },
+     "costs": {},
+     "created_at": "2026-10-27T18:08:01.551056Z",
+     "execution_mode": "PILOT",
+     "id": "train-ef745127ed1c",
+     "kind": "SEARCH",
+     "namespace": "pilot_smoke",
+     "parent_run_id": null,
+     "preset": "PILOT_SMOKE",
+     "protocol_canonicalization": "mbnas-canon/1 sha256",
+     "protocol_hash": "sha256:641e58ad63f027591f4a7d0db882d67b3b14f2dcb467236ee8a24dffb5a98940",
+     "purpose": "MODEL_EVALUATION",
+     "reason_code": null,
+     "source_commit": "sha256:cd42e89b54d40c8913807fe05d078435626e335c79bf866b3a77b83277e61a22",
+     "status": "QUEUED",
+     "terminal": false,
+     "updated_at": "2026-10-27T18:08:01.551056Z"
+    },
+    "run_id": "train-ef745127ed1c",
+    "seq": 1,
+    "type": "run.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:08:01.616632Z",
+    "payload": {
+     "level": "info",
+     "message": "explicit model run created",
+     "mode": "evaluate_only",
+     "request_id": "smoke3-9d02e6a07ac74ea0",
+     "source": {
+      "architecture_hash": "sha256:053576e05c12418cab7602e174495488cfa874c90259ad7b6318328f89b3755e",
+      "baseline_id": "yolo11n",
+      "kind": "baseline",
+      "mode": "evaluate_only",
+      "yaml_hash": "sha256:341ed4ae55ddca2965d0c32a9a8157f3932f565cc64187dee1d9efaaf3198b1c"
+     }
+    },
+    "run_id": "train-ef745127ed1c",
+    "seq": 2,
+    "type": "log"
+   },
+   {
+    "created_at": "2026-10-27T18:08:01.641793Z",
+    "payload": {
+     "ap": null,
+     "architecture_hash": "sha256:053576e05c12418cab7602e174495488cfa874c90259ad7b6318328f89b3755e",
+     "architecture_id": "sha256:053576e05c12418cab7602e174495488cfa874c90259ad7b6318328f89b3755e",
+     "architecture_path": "architectures/model-736efe39f3d1.yaml",
+     "arm": "Baseline",
+     "artifacts": [],
+     "batch": 1,
+     "blocks": [
+      {
+       "args": [
+        64,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 0,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        128,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 1,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        false,
+        0.25
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 2,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 3,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false,
+        0.25
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 4,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 5,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 6,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 7,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 8,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        5
+       ],
+       "from": -1,
+       "module": "SPPF",
+       "mutated": false,
+       "name": "SPPF",
+       "parent_block_id": null,
+       "position": 9,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024
+       ],
+       "from": -1,
+       "module": "C2PSA",
+       "mutated": false,
+       "name": "C2PSA",
+       "parent_block_id": null,
+       "position": 10,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "from": -1,
+       "module": "nn.Upsample",
+       "mutated": false,
+       "name": "nn.Upsample",
+       "parent_block_id": null,
+       "position": 11,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        6
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 12,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 13,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "from": -1,
+       "module": "nn.Upsample",
+       "mutated": false,
+       "name": "nn.Upsample",
+       "parent_block_id": null,
+       "position": 14,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        4
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 15,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 16,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 17,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        13
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 18,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 19,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 20,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        10
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 21,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 22,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "nc"
+       ],
+       "from": [
+        16,
+        19,
+        22
+       ],
+       "module": "Detect",
+       "mutated": false,
+       "name": "Detect",
+       "parent_block_id": null,
+       "position": 23,
+       "repeats": 1,
+       "source": null
+      }
+     ],
+     "candidate_id": "model-736efe39f3d1",
+     "candidate_status": "QUEUED",
+     "checkpoint_path": null,
+     "checkpoint_sha256": null,
+     "comparison_group": "official_evaluation",
+     "device": "NVIDIA RTX A6000",
+     "epochs": 0,
+     "evaluation_hash": "pending",
+     "execution_mode": "PILOT",
+     "family": "YOLO11",
+     "fitness": null,
+     "fitness_weights": {
+      "ap": 0.2,
+      "latency_reward": 0.4,
+      "recall": 0.1,
+      "size_reward": 0.3
+     },
+     "generation": 0,
+     "id": "model-736efe39f3d1.TRAIN.eval",
+     "job_id": "job-72a1285d22d043a3",
+     "latency_ms": null,
+     "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+     "latency_source": "pending",
+     "name": "yolo11n",
+     "namespace": "pilot_smoke",
+     "objective_hash": "sha256:4b0167bcac4c496d9ea754ebb2ac4a298e4236d4393df9efacc4562c18939e21",
+     "parents": [],
+     "performance_status": "NOT_EVALUATED",
+     "precision": "FP16",
+     "protocol_hash": "sha256:641e58ad63f027591f4a7d0db882d67b3b14f2dcb467236ee8a24dffb5a98940",
+     "reason_code": null,
+     "recall": null,
+     "requested_input_shape": [
+      640,
+      640
+     ],
+     "resolved_input_shape": [
+      640,
+      640
+     ],
+     "revision": 1,
+     "rung": "TRAIN",
+     "size_mb": null,
+     "source_kind": "baseline",
+     "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+     "status": "QUEUED",
+     "supersedes_evaluation_id": null,
+     "training_mode": "evaluate_only",
+     "training_seed": 41,
+     "training_status": "TRAINED"
+    },
+    "run_id": "train-ef745127ed1c",
+    "seq": 3,
+    "type": "candidate.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:08:01.817208Z",
+    "payload": {
+     "budget": {
+      "scope": "explicit_training",
+      "unit": "gpu_seconds"
+     },
+     "costs": {},
+     "created_at": "2026-10-27T18:08:01.551056Z",
+     "execution_mode": "PILOT",
+     "id": "train-ef745127ed1c",
+     "kind": "SEARCH",
+     "namespace": "pilot_smoke",
+     "parent_run_id": null,
+     "preset": "PILOT_SMOKE",
+     "protocol_canonicalization": "mbnas-canon/1 sha256",
+     "protocol_hash": "sha256:641e58ad63f027591f4a7d0db882d67b3b14f2dcb467236ee8a24dffb5a98940",
+     "purpose": "MODEL_EVALUATION",
+     "reason_code": null,
+     "source_commit": "sha256:cd42e89b54d40c8913807fe05d078435626e335c79bf866b3a77b83277e61a22",
+     "status": "RUNNING",
+     "terminal": false,
+     "updated_at": "2026-10-27T18:08:01.816320Z"
+    },
+    "run_id": "train-ef745127ed1c",
+    "seq": 4,
+    "type": "run.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:08:01.843477Z",
+    "payload": {
+     "ap": null,
+     "architecture_hash": "sha256:053576e05c12418cab7602e174495488cfa874c90259ad7b6318328f89b3755e",
+     "architecture_id": "sha256:053576e05c12418cab7602e174495488cfa874c90259ad7b6318328f89b3755e",
+     "architecture_path": "architectures/model-736efe39f3d1.yaml",
+     "arm": "Baseline",
+     "artifacts": [],
+     "attempt": 1,
+     "batch": 1,
+     "blocks": [
+      {
+       "args": [
+        64,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 0,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        128,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 1,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        false,
+        0.25
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 2,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 3,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false,
+        0.25
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 4,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 5,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 6,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 7,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 8,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        5
+       ],
+       "from": -1,
+       "module": "SPPF",
+       "mutated": false,
+       "name": "SPPF",
+       "parent_block_id": null,
+       "position": 9,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024
+       ],
+       "from": -1,
+       "module": "C2PSA",
+       "mutated": false,
+       "name": "C2PSA",
+       "parent_block_id": null,
+       "position": 10,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "from": -1,
+       "module": "nn.Upsample",
+       "mutated": false,
+       "name": "nn.Upsample",
+       "parent_block_id": null,
+       "position": 11,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        6
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 12,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 13,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "from": -1,
+       "module": "nn.Upsample",
+       "mutated": false,
+       "name": "nn.Upsample",
+       "parent_block_id": null,
+       "position": 14,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        4
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 15,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 16,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 17,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        13
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 18,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 19,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 20,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        10
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 21,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 22,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "nc"
+       ],
+       "from": [
+        16,
+        19,
+        22
+       ],
+       "module": "Detect",
+       "mutated": false,
+       "name": "Detect",
+       "parent_block_id": null,
+       "position": 23,
+       "repeats": 1,
+       "source": null
+      }
+     ],
+     "candidate_id": "model-736efe39f3d1",
+     "candidate_status": "EVALUATING",
+     "checkpoint_path": null,
+     "checkpoint_sha256": null,
+     "comparison_group": "official_evaluation",
+     "device": "NVIDIA RTX A6000",
+     "epochs": 0,
+     "evaluation_hash": "pending",
+     "execution_mode": "PILOT",
+     "family": "YOLO11",
+     "fitness": null,
+     "fitness_weights": {
+      "ap": 0.2,
+      "latency_reward": 0.4,
+      "recall": 0.1,
+      "size_reward": 0.3
+     },
+     "generation": 0,
+     "id": "model-736efe39f3d1.TRAIN.eval",
+     "job_id": "job-72a1285d22d043a3",
+     "latency_ms": null,
+     "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+     "latency_source": "pending",
+     "name": "yolo11n",
+     "namespace": "pilot_smoke",
+     "objective_hash": "sha256:4b0167bcac4c496d9ea754ebb2ac4a298e4236d4393df9efacc4562c18939e21",
+     "parents": [],
+     "precision": "FP16",
+     "protocol_hash": "sha256:641e58ad63f027591f4a7d0db882d67b3b14f2dcb467236ee8a24dffb5a98940",
+     "reason_code": null,
+     "recall": null,
+     "requested_input_shape": [
+      640,
+      640
+     ],
+     "resolved_input_shape": [
+      640,
+      640
+     ],
+     "revision": 1,
+     "rung": "TRAIN",
+     "size_mb": null,
+     "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+     "status": "EVALUATING",
+     "supersedes_evaluation_id": null,
+     "training_seed": 41,
+     "training_status": "TRAINED"
+    },
+    "run_id": "train-ef745127ed1c",
+    "seq": 5,
+    "type": "candidate.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:08:01.847575Z",
+    "payload": {
+     "attempt": 1,
+     "candidate_id": "model-736efe39f3d1",
+     "device": "host-gpu-0",
+     "device_id": "dev-4856bdf2d606a4e4",
+     "device_name": "NVIDIA RTX A6000",
+     "heartbeat_at": "2026-10-27T18:08:01.847128Z",
+     "id": "t7-gpu0",
+     "job_id": "job-72a1285d22d043a3",
+     "run_id": "train-ef745127ed1c",
+     "rung": "TRAIN",
+     "runner_id": "t7-gpu0",
+     "runtime_manifest_status": "verified",
+     "status": "busy"
+    },
+    "run_id": "train-ef745127ed1c",
+    "seq": 6,
+    "type": "worker.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:08:11.736163Z",
+    "payload": {
+     "ap": 0.5034483556233402,
+     "architecture_hash": "sha256:053576e05c12418cab7602e174495488cfa874c90259ad7b6318328f89b3755e",
+     "architecture_id": "sha256:053576e05c12418cab7602e174495488cfa874c90259ad7b6318328f89b3755e",
+     "architecture_path": "architectures/model-736efe39f3d1.yaml",
+     "arm": "Baseline",
+     "artifacts": [
+      {
+       "auth_mode": "bearer_fetch",
+       "evaluation_id": "model-736efe39f3d1.TRAIN.eval",
+       "expires_at": null,
+       "id": "art-6f07394d38cf474414db",
+       "kind": "gt",
+       "matching": {
+        "boxes_drawn": 8,
+        "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+        "conf": 0.25,
+        "counts": {
+         "fn": 4,
+         "fp": 1,
+         "gt": 8,
+         "kept": 5,
+         "matched_gt": 4,
+         "tp": 4
+        },
+        "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+        "iou": 0.5,
+        "render_scale": 1.0,
+        "rule": "greedy_conf_desc_iou_v1",
+        "sample_id": "000000000009",
+        "sample_precision": 0.8,
+        "sample_recall": 0.5,
+        "sample_rule": "first_n_sorted_sample_ids",
+        "split": "search_val"
+       },
+       "mime_type": "image/png",
+       "refresh_url": null,
+       "sample_id": "000000000009",
+       "sha256": "c6e36ce14b032b85a1ef63be6bf034819c5ec1bc75fdd77b7af54e445da9b1c4",
+       "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+       "state": "READY",
+       "url": "/api/v1/runs/train-ef745127ed1c/artifacts/art-6f07394d38cf474414db"
+      },
+      {
+       "auth_mode": "bearer_fetch",
+       "evaluation_id": "model-736efe39f3d1.TRAIN.eval",
+       "expires_at": null,
+       "id": "art-f804df4b589e4ae1db3d",
+       "kind": "tp",
+       "matching": {
+        "boxes_drawn": 4,
+        "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+        "conf": 0.25,
+        "counts": {
+         "fn": 4,
+         "fp": 1,
+         "gt": 8,
+         "kept": 5,
+         "matched_gt": 4,
+         "tp": 4
+        },
+        "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+        "iou": 0.5,
+        "render_scale": 1.0,
+        "rule": "greedy_conf_desc_iou_v1",
+        "sample_id": "000000000009",
+        "sample_precision": 0.8,
+        "sample_recall": 0.5,
+        "sample_rule": "first_n_sorted_sample_ids",
+        "split": "search_val"
+       },
+       "mime_type": "image/png",
+       "refresh_url": null,
+       "sample_id": "000000000009",
+       "sha256": "3086e1bfc493b26c7b7f34d28951f7bcd1812068a0bddc1a6c5ee88ebdfa1937",
+       "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+       "state": "READY",
+       "url": "/api/v1/runs/train-ef745127ed1c/artifacts/art-f804df4b589e4ae1db3d"
+      },
+      {
+       "auth_mode": "bearer_fetch",
+       "evaluation_id": "model-736efe39f3d1.TRAIN.eval",
+       "expires_at": null,
+       "id": "art-bf35eab3d48c5109bcc6",
+       "kind": "fn",
+       "matching": {
+        "boxes_drawn": 4,
+        "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+        "conf": 0.25,
+        "counts": {
+         "fn": 4,
+         "fp": 1,
+         "gt": 8,
+         "kept": 5,
+         "matched_gt": 4,
+         "tp": 4
+        },
+        "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+        "iou": 0.5,
+        "render_scale": 1.0,
+        "rule": "greedy_conf_desc_iou_v1",
+        "sample_id": "000000000009",
+        "sample_precision": 0.8,
+        "sample_recall": 0.5,
+        "sample_rule": "first_n_sorted_sample_ids",
+        "split": "search_val"
+       },
+       "mime_type": "image/png",
+       "refresh_url": null,
+       "sample_id": "000000000009",
+       "sha256": "c92b323dbc9e8068fc00dc040a0ff3404158ed40f7f542a9c603bac4c273cd5e",
+       "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+       "state": "READY",
+       "url": "/api/v1/runs/train-ef745127ed1c/artifacts/art-bf35eab3d48c5109bcc6"
+      },
+      {
+       "auth_mode": "bearer_fetch",
+       "evaluation_id": "model-736efe39f3d1.TRAIN.eval",
+       "expires_at": null,
+       "id": "art-dfd3090291ef49c4aa83",
+       "kind": "fp",
+       "matching": {
+        "boxes_drawn": 1,
+        "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+        "conf": 0.25,
+        "counts": {
+         "fn": 4,
+         "fp": 1,
+         "gt": 8,
+         "kept": 5,
+         "matched_gt": 4,
+         "tp": 4
+        },
+        "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+        "iou": 0.5,
+        "render_scale": 1.0,
+        "rule": "greedy_conf_desc_iou_v1",
+        "sample_id": "000000000009",
+        "sample_precision": 0.8,
+        "sample_recall": 0.5,
+        "sample_rule": "first_n_sorted_sample_ids",
+        "split": "search_val"
+       },
+       "mime_type": "image/png",
+       "refresh_url": null,
+       "sample_id": "000000000009",
+       "sha256": "a4ed49883b1fbf02995cb1d06c36de797ff81da118c4093d11fadb4408cdf1f7",
+       "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+       "state": "READY",
+       "url": "/api/v1/runs/train-ef745127ed1c/artifacts/art-dfd3090291ef49c4aa83"
+      },
+      {
+       "auth_mode": "bearer_fetch",
+       "evaluation_id": "model-736efe39f3d1.TRAIN.eval",
+       "expires_at": null,
+       "id": "art-0efb4cf55c981da0b66b",
+       "kind": "gt",
+       "matching": {
+        "boxes_drawn": 2,
+        "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+        "conf": 0.25,
+        "counts": {
+         "fn": 1,
+         "fp": 0,
+         "gt": 2,
+         "kept": 1,
+         "matched_gt": 1,
+         "tp": 1
+        },
+        "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+        "iou": 0.5,
+        "render_scale": 1.0,
+        "rule": "greedy_conf_desc_iou_v1",
+        "sample_id": "000000000025",
+        "sample_precision": 1.0,
+        "sample_recall": 0.5,
+        "sample_rule": "first_n_sorted_sample_ids",
+        "split": "search_val"
+       },
+       "mime_type": "image/png",
+       "refresh_url": null,
+       "sample_id": "000000000025",
+       "sha256": "f09f86e117d4fb575d391d7a56ed856b43a4a602b6cd1304318b8b31b41c3c28",
+       "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+       "state": "READY",
+       "url": "/api/v1/runs/train-ef745127ed1c/artifacts/art-0efb4cf55c981da0b66b"
+      },
+      {
+       "auth_mode": "bearer_fetch",
+       "evaluation_id": "model-736efe39f3d1.TRAIN.eval",
+       "expires_at": null,
+       "id": "art-38c54de254ba35c1b11b",
+       "kind": "tp",
+       "matching": {
+        "boxes_drawn": 1,
+        "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+        "conf": 0.25,
+        "counts": {
+         "fn": 1,
+         "fp": 0,
+         "gt": 2,
+         "kept": 1,
+         "matched_gt": 1,
+         "tp": 1
+        },
+        "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+        "iou": 0.5,
+        "render_scale": 1.0,
+        "rule": "greedy_conf_desc_iou_v1",
+        "sample_id": "000000000025",
+        "sample_precision": 1.0,
+        "sample_recall": 0.5,
+        "sample_rule": "first_n_sorted_sample_ids",
+        "split": "search_val"
+       },
+       "mime_type": "image/png",
+       "refresh_url": null,
+       "sample_id": "000000000025",
+       "sha256": "932b11ceb7a45e8612df9001fe48438d118d6050fc01c42310ff11d8c11ac70a",
+       "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+       "state": "READY",
+       "url": "/api/v1/runs/train-ef745127ed1c/artifacts/art-38c54de254ba35c1b11b"
+      },
+      {
+       "auth_mode": "bearer_fetch",
+       "evaluation_id": "model-736efe39f3d1.TRAIN.eval",
+       "expires_at": null,
+       "id": "art-b0f530818209185edaa7",
+       "kind": "fn",
+       "matching": {
+        "boxes_drawn": 1,
+        "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+        "conf": 0.25,
+        "counts": {
+         "fn": 1,
+         "fp": 0,
+         "gt": 2,
+         "kept": 1,
+         "matched_gt": 1,
+         "tp": 1
+        },
+        "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+        "iou": 0.5,
+        "render_scale": 1.0,
+        "rule": "greedy_conf_desc_iou_v1",
+        "sample_id": "000000000025",
+        "sample_precision": 1.0,
+        "sample_recall": 0.5,
+        "sample_rule": "first_n_sorted_sample_ids",
+        "split": "search_val"
+       },
+       "mime_type": "image/png",
+       "refresh_url": null,
+       "sample_id": "000000000025",
+       "sha256": "49fff65531d24744c8090c4e4ee891847faa89bc49ee0fb75fe3fd47dadffd21",
+       "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+       "state": "READY",
+       "url": "/api/v1/runs/train-ef745127ed1c/artifacts/art-b0f530818209185edaa7"
+      },
+      {
+       "auth_mode": "bearer_fetch",
+       "evaluation_id": "model-736efe39f3d1.TRAIN.eval",
+       "expires_at": null,
+       "id": "art-cd92d194d9f9c6210eca",
+       "kind": "fp",
+       "matching": {
+        "boxes_drawn": 0,
+        "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+        "conf": 0.25,
+        "counts": {
+         "fn": 1,
+         "fp": 0,
+         "gt": 2,
+         "kept": 1,
+         "matched_gt": 1,
+         "tp": 1
+        },
+        "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+        "iou": 0.5,
+        "render_scale": 1.0,
+        "rule": "greedy_conf_desc_iou_v1",
+        "sample_id": "000000000025",
+        "sample_precision": 1.0,
+        "sample_recall": 0.5,
+        "sample_rule": "first_n_sorted_sample_ids",
+        "split": "search_val"
+       },
+       "mime_type": "image/png",
+       "refresh_url": null,
+       "sample_id": "000000000025",
+       "sha256": "f645b61a7ecb4e1051d4a5cfba5635466d73f723403e1787f8102526f48a132a",
+       "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+       "state": "READY",
+       "url": "/api/v1/runs/train-ef745127ed1c/artifacts/art-cd92d194d9f9c6210eca"
+      }
+     ],
+     "attempt": 1,
+     "batch": 1,
+     "blocks": [
+      {
+       "args": [
+        64,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 0,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        128,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 1,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        false,
+        0.25
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 2,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 3,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false,
+        0.25
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 4,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 5,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 6,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 7,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 8,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        5
+       ],
+       "from": -1,
+       "module": "SPPF",
+       "mutated": false,
+       "name": "SPPF",
+       "parent_block_id": null,
+       "position": 9,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024
+       ],
+       "from": -1,
+       "module": "C2PSA",
+       "mutated": false,
+       "name": "C2PSA",
+       "parent_block_id": null,
+       "position": 10,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "from": -1,
+       "module": "nn.Upsample",
+       "mutated": false,
+       "name": "nn.Upsample",
+       "parent_block_id": null,
+       "position": 11,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        6
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 12,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 13,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "None",
+        2,
+        "nearest"
+       ],
+       "from": -1,
+       "module": "nn.Upsample",
+       "mutated": false,
+       "name": "nn.Upsample",
+       "parent_block_id": null,
+       "position": 14,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        4
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 15,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 16,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        256,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 17,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        13
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 18,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        false
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 19,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        512,
+        3,
+        2
+       ],
+       "from": -1,
+       "module": "Conv",
+       "mutated": false,
+       "name": "Conv",
+       "parent_block_id": null,
+       "position": 20,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1
+       ],
+       "from": [
+        -1,
+        10
+       ],
+       "module": "Concat",
+       "mutated": false,
+       "name": "Concat",
+       "parent_block_id": null,
+       "position": 21,
+       "repeats": 1,
+       "source": null
+      },
+      {
+       "args": [
+        1024,
+        true
+       ],
+       "from": -1,
+       "module": "C3k2",
+       "mutated": false,
+       "name": "C3k2",
+       "parent_block_id": null,
+       "position": 22,
+       "repeats": 2,
+       "source": null
+      },
+      {
+       "args": [
+        "nc"
+       ],
+       "from": [
+        16,
+        19,
+        22
+       ],
+       "module": "Detect",
+       "mutated": false,
+       "name": "Detect",
+       "parent_block_id": null,
+       "position": 23,
+       "repeats": 1,
+       "source": null
+      }
+     ],
+     "candidate_id": "model-736efe39f3d1",
+     "candidate_status": "EVALUATED",
+     "checkpoint_path": "yolo11n.pt",
+     "checkpoint_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+     "comparison_group": "official_evaluation",
+     "cost": {
+      "val": 9.37181
+     },
+     "device": "host-gpu-0",
+     "epochs": 0,
+     "evaluation_hash": "sha256:ba9c20dab9ea140c60481cba116a45340063e866a4f61a2b524baa3596685e87",
+     "execution_mode": "PILOT",
+     "family": "YOLO11",
+     "fitness": 0.8557676631988147,
+     "fitness_weights": {
+      "ap": 0.2,
+      "latency_reward": 0.4,
+      "recall": 0.1,
+      "size_reward": 0.3
+     },
+     "generation": 0,
+     "id": "model-736efe39f3d1.TRAIN.eval",
+     "job_id": "job-72a1285d22d043a3",
+     "latency_ms": 8.481317898258567,
+     "latency_scope": "forward_and_postprocess(conf=0.25,iou=0.7,max_det=300)",
+     "latency_source": "measured",
+     "latency_statistics": {
+      "mean_ms": 8.525095931254327,
+      "p50_ms": 8.481317898258567,
+      "p95_ms": 8.690473297610879
+     },
+     "metric_definitions": {
+      "ap": "COCO AP@[.50:.95] (pycocotools, maxDets[2]=300), fraction 0-1",
+      "ap_50": "COCO AP@.50, fraction 0-1",
+      "coordinates": "source image pixels",
+      "evaluator_version": "mbnas-evaluator/1",
+      "recall": "recall at IoU 0.5, score >= 0.25, macro over classes with GT, rule greedy_conf_desc_iou_v1"
+     },
+     "name": "yolo11n",
+     "namespace": "pilot_smoke",
+     "objective_hash": "sha256:4b0167bcac4c496d9ea754ebb2ac4a298e4236d4393df9efacc4562c18939e21",
+     "parents": [],
+     "postprocess_runtime": "torchvision_cuda_nms",
+     "precision": "FP16",
+     "protocol_hash": "sha256:641e58ad63f027591f4a7d0db882d67b3b14f2dcb467236ee8a24dffb5a98940",
+     "raw_metrics": {
+      "ap_50": 0.6711294071965658,
+      "coco_stats": {
+       "ap": 0.5034483556233402,
+       "ap_50": 0.6711294071965658,
+       "ap_75": 0.5528105815530203,
+       "ap_large": 0.7056227955769865,
+       "ap_medium": 0.45962370155939525,
+       "ap_small": 0.20271564903035696,
+       "ar": 0.6327288546234201,
+       "max_det": 300
+      },
+      "counts": {
+       "fn": 445,
+       "fp": 171,
+       "gt": 929,
+       "images": 128,
+       "kept": 655,
+       "predictions": 16000,
+       "tp": 484
+      },
+      "device_id": "dev-4856bdf2d606a4e4",
+      "device_name": "NVIDIA RTX A6000",
+      "device_used": "cuda:0",
+      "epochs": 0,
+      "eval_split": "search_val",
+      "invalid_reason": null,
+      "latency": {
+       "batch": 1,
+       "device_sampling": {
+        "after_repeats": {
+         "power_draw_w": 77.854,
+         "sm_clock_mhz": 1800
+        },
+        "after_warmup": {
+         "power_draw_w": 65.418,
+         "sm_clock_mhz": 1800
+        },
+        "cuda_index": 0,
+        "error": null,
+        "method": "nvmlDeviceGetPowerUsage / nvmlDeviceGetClockInfo(SM) sampled after the warm-up, after every repeat round (outside the timed window) and after the repeats",
+        "nvml_index": 0,
+        "nvml_lookup": "uuid",
+        "power_draw_w": {
+         "max": 77.854,
+         "mean": 69.51485294117647,
+         "min": 65.418,
+         "n": 102
+        },
+        "sm_clock_mhz": {
+         "max": 1800,
+         "mean": 1800.0,
+         "min": 1800,
+         "n": 102
+        }
+       },
+       "latency_scope": "forward_and_postprocess(conf=0.25,iou=0.7,max_det=300)",
+       "latency_source": "measured",
+       "manifest": {
+        "batch": 1,
+        "cuda_index": 0,
+        "cuda_runtime": "12.4",
+        "cudnn": 90100,
+        "device_entry": "host-gpu-0",
+        "device_id": "dev-4856bdf2d606a4e4",
+        "device_sampling": {
+         "after_repeats": {
+          "power_draw_w": 77.854,
+          "sm_clock_mhz": 1800
+         },
+         "after_warmup": {
+          "power_draw_w": 65.418,
+          "sm_clock_mhz": 1800
+         },
+         "cuda_index": 0,
+         "error": null,
+         "method": "nvmlDeviceGetPowerUsage / nvmlDeviceGetClockInfo(SM) sampled after the warm-up, after every repeat round (outside the timed window) and after the repeats",
+         "nvml_index": 0,
+         "nvml_lookup": "uuid",
+         "power_draw_w": {
+          "max": 77.854,
+          "mean": 69.51485294117647,
+          "min": 65.418,
+          "n": 102
+         },
+         "sm_clock_mhz": {
+          "max": 1800,
+          "mean": 1800.0,
+          "min": 1800,
+          "n": 102
+         }
+        },
+        "driver": "555.42.02",
+        "input_shape": [
+         640,
+         640
+        ],
+        "latency_scope": "forward_and_postprocess(conf=0.25,iou=0.7,max_det=300)",
+        "mem_clock_mhz": 8000,
+        "name": "NVIDIA RTX A6000",
+        "nvml_lookup": "uuid",
+        "persistence_mode": 0,
+        "postprocess": {
+         "conf": 0.001,
+         "head": "one2many + NMS",
+         "iou": 0.7,
+         "max_det": 300,
+         "nms": true,
+         "nms_impl": "ultralytics.utils.nms (torchvision.ops.nms when torchvision is imported, else TorchNMS python loop)",
+         "preprocess": "letterbox center pad 114"
+        },
+        "postprocess_operating_point": {
+         "conf": 0.25,
+         "iou": 0.7,
+         "max_det": 300
+        },
+        "postprocess_runtime": "torchvision_cuda_nms",
+        "power_limit_w": 300.0,
+        "precision": "FP16",
+        "precision_mode": "torch.autocast(float16) over FP32 weights",
+        "sm_clock_max_mhz": 2100,
+        "sm_clock_mhz": 1800,
+        "temperature_c": 35,
+        "torch": "2.6.0+cu124",
+        "torch_device_name": "NVIDIA RTX A6000",
+        "torchvision": "0.21.0+cu124",
+        "utilization_percent": 1
+       },
+       "operating_point": {
+        "conf": 0.25,
+        "iou": 0.7,
+        "max_det": 300
+       },
+       "postprocess": {
+        "conf": 0.001,
+        "head": "one2many + NMS",
+        "iou": 0.7,
+        "max_det": 300,
+        "nms": true,
+        "nms_impl": "ultralytics.utils.nms (torchvision.ops.nms when torchvision is imported, else TorchNMS python loop)",
+        "preprocess": "letterbox center pad 114"
+       },
+       "postprocess_runtime": "torchvision_cuda_nms",
+       "preprocess_ms": null,
+       "preprocess_ms_definition": "end_to_end and forward_and_postprocess were not both measured",
+       "preprocess_ms_method": "not available",
+       "repeats": 100,
+       "runtime": "pytorch",
+       "scopes": {
+        "forward_and_postprocess": {
+         "max_ms": 10.565129574388266,
+         "mean_ms": 8.525095931254327,
+         "min_ms": 8.382235188037157,
+         "n": 100,
+         "p50_ms": 8.481317898258567,
+         "p95_ms": 8.690473297610879,
+         "samples_ms": [
+          8.4514,
+          8.4174,
+          8.449,
+          8.4334,
+          8.5192,
+          8.4676,
+          8.465,
+          8.4698,
+          8.4803,
+          8.4719,
+          8.5133,
+          8.451,
+          8.4622,
+          8.5298,
+          8.5752,
+          8.7002,
+          8.69,
+          8.6215,
+          8.6137,
+          8.5957,
+          8.543,
+          8.6193,
+          8.5966,
+          8.5605,
+          8.5215,
+          8.5132,
+          8.5018,
+          8.5455,
+          8.5329,
+          8.5038,
+          8.4945,
+          8.5229,
+          8.5271,
+          8.5437,
+          8.4751,
+          8.5051,
+          8.459,
+          8.4814,
+          8.4846,
+          8.4648,
+          8.4645,
+          8.4861,
+          8.4524,
+          8.4726,
+          8.5068,
+          8.5492,
+          8.5008,
+          8.5544,
+          8.4968,
+          8.4592,
+          8.4736,
+          8.4518,
+          8.4451,
+          8.4469,
+          8.4644,
+          8.4285,
+          8.467,
+          8.4996,
+          9.2689,
+          8.789,
+          8.5238,
+          8.5023,
+          8.5224,
+          8.5603,
+          8.6003,
+          8.5468,
+          8.5107,
+          8.5065,
+          10.5651,
+          8.8909,
+          8.5347,
+          8.4941,
+          8.4835,
+          8.4586,
+          8.6779,
+          8.4305,
+          8.4552,
+          8.4372,
+          8.4078,
+          8.4046,
+          8.4904,
+          8.4086,
+          8.4225,
+          8.4141,
+          8.3822,
+          8.4039,
+          8.384,
+          8.3908,
+          8.416,
+          8.3914,
+          8.4208,
+          8.4337,
+          8.4813,
+          8.4046,
+          8.4179,
+          8.4522,
+          8.4624,
+          8.468,
+          8.4596,
+          8.4405
+         ]
+        }
+       },
+       "throughput_fps": null,
+       "throughput_fps_note": "not measured (batch 1 only)",
+       "timer": "time.perf_counter with torch.cuda.synchronize around each repeat; scopes interleaved round-robin per repeat after per-scope warmup",
+       "torchvision": "0.21.0+cu124",
+       "version": "mbnas-latency/4",
+       "warmup": 20
+      },
+      "no_predictions": false,
+      "per_class_ap": {
+       "0": 0.5406073159314003,
+       "1": 0.20254544502069255,
+       "10": null,
+       "11": 0.7504950495049505,
+       "12": null,
+       "13": 0.3626522332024473,
+       "14": 0.6189683503234045,
+       "15": 0.7650165016501651,
+       "16": 0.6705343995938056,
+       "17": 0.700990099009901,
+       "18": null,
+       "19": null,
+       "2": 0.16192335863328744,
+       "20": 0.7561078580424594,
+       "21": 0.9999999999999998,
+       "22": 0.9752475247524752,
+       "23": 0.7299487478159581,
+       "24": 0.24111406939013227,
+       "25": 0.40755703469464527,
+       "26": 0.06482378429285822,
+       "27": 0.5838283828382839,
+       "28": 0.6101485148514851,
+       "29": 0.6765676567656765,
+       "3": 0.7821782178217822,
+       "30": 0.6999999999999998,
+       "31": 0.5097772277227722,
+       "32": 0.29884488448844887,
+       "33": 0.23726187799323412,
+       "34": 0.11980198019801981,
+       "35": 0.21848184818481847,
+       "36": 0.438998899889989,
+       "37": null,
+       "38": 0.31193069306930693,
+       "39": 0.31724907466116065,
+       "4": 0.9067326732673266,
+       "40": 0.4156125980904747,
+       "41": 0.28807204231755856,
+       "42": 0.3219566913956352,
+       "43": 0.41629879679996157,
+       "44": 0.30679059116079554,
+       "45": 0.5840889095865462,
+       "46": 0.5,
+       "47": null,
+       "48": 0.6666666666666666,
+       "49": 0.5138613861386139,
+       "5": 0.6656765676567656,
+       "50": 0.22101372027859523,
+       "51": 0.4018853499513997,
+       "52": 1.0,
+       "53": 0.8217821782178217,
+       "54": 0.8011353635363536,
+       "55": 0.6489718202589491,
+       "56": 0.3146039535634731,
+       "57": 0.5822634763476348,
+       "58": 0.5609798071299001,
+       "59": 0.43524752475247513,
+       "6": 0.9108910891089109,
+       "60": 0.48497427167717344,
+       "61": 0.5734958111195735,
+       "62": 0.8504950495049505,
+       "63": 0.5306930693069307,
+       "64": 0.0,
+       "65": 0.44455445544554456,
+       "66": null,
+       "67": 0.03885221855518885,
+       "68": 0.9336633663366337,
+       "69": 0.2723095838995664,
+       "7": 0.17996399639963995,
+       "70": null,
+       "71": 0.16538072566327747,
+       "72": 0.7186468646864685,
+       "73": 0.21873119848535183,
+       "74": 0.7537010843941536,
+       "75": 0.9504950495049505,
+       "76": 0.0,
+       "77": 0.47053570684165735,
+       "78": null,
+       "79": 0.5914114667280682,
+       "8": 0.3779390083300262,
+       "9": 0.15085808580858087
+      },
+      "per_class_recall": {
+       "0": 0.6653543307086615,
+       "1": 0.16666666666666666,
+       "11": 1.0,
+       "13": 0.3333333333333333,
+       "14": 1.0,
+       "15": 1.0,
+       "16": 0.7777777777777778,
+       "17": 1.0,
+       "2": 0.17391304347826086,
+       "20": 0.9411764705882353,
+       "21": 1.0,
+       "22": 1.0,
+       "23": 0.8888888888888888,
+       "24": 0.3333333333333333,
+       "25": 0.3888888888888889,
+       "26": 0.0,
+       "27": 0.42857142857142855,
+       "28": 1.0,
+       "29": 0.8,
+       "3": 1.0,
+       "30": 1.0,
+       "31": 0.5714285714285714,
+       "32": 0.3333333333333333,
+       "33": 0.4,
+       "34": 0.0,
+       "35": 0.42857142857142855,
+       "36": 0.4,
+       "38": 0.42857142857142855,
+       "39": 0.2777777777777778,
+       "4": 0.8333333333333334,
+       "40": 0.4375,
+       "41": 0.2777777777777778,
+       "42": 0.16666666666666666,
+       "43": 0.4375,
+       "44": 0.2727272727272727,
+       "45": 0.6785714285714286,
+       "46": 1.0,
+       "48": 1.0,
+       "49": 0.0,
+       "5": 0.7142857142857143,
+       "50": 0.18181818181818182,
+       "51": 0.5,
+       "52": 1.0,
+       "53": 1.0,
+       "54": 1.0,
+       "55": 0.75,
+       "56": 0.5428571428571428,
+       "57": 0.8333333333333334,
+       "58": 0.5,
+       "59": 0.6666666666666666,
+       "6": 1.0,
+       "60": 0.6923076923076923,
+       "61": 0.5,
+       "62": 1.0,
+       "63": 0.0,
+       "64": 0.0,
+       "65": 0.5,
+       "67": 0.0,
+       "68": 1.0,
+       "69": 0.4,
+       "7": 0.16666666666666666,
+       "71": 0.16666666666666666,
+       "72": 1.0,
+       "73": 0.13793103448275862,
+       "74": 0.7777777777777778,
+       "75": 1.0,
+       "76": 0.0,
+       "77": 0.3333333333333333,
+       "79": 0.8,
+       "8": 0.3333333333333333,
+       "9": 0.14285714285714285
+      },
+      "postprocess_operating_point": {
+       "conf": 0.25,
+       "iou": 0.7,
+       "max_det": 300
+      },
+      "signature": {
+       "batch": 8,
+       "class_aggregation": "macro",
+       "conf_floor": 0.001,
+       "device_class": "NVIDIA RTX A6000",
+       "evaluator_version": "mbnas-evaluator/1",
+       "iou_thresholds": [
+        0.5,
+        0.55,
+        0.6,
+        0.65,
+        0.7,
+        0.75,
+        0.8,
+        0.85,
+        0.9,
+        0.95
+       ],
+       "matching_rule": "greedy_conf_desc_iou_v1",
+       "max_det": 300,
+       "precision": "FP16",
+       "recall_conf": 0.25,
+       "recall_iou": 0.5,
+       "resolved_input_shape": [
+        640,
+        640
+       ],
+       "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb"
+      },
+      "size_definition": "actual official checkpoint bytes / 1e6 (not FP16 weights-only)",
+      "source": "official_weights",
+      "timings": {
+       "predict_s": 1.2066,
+       "score_s": 1.6432
+      },
+      "training_mode": "evaluate_only"
+     },
+     "reason_code": null,
+     "recall": 0.5701619417940973,
+     "requested_input_shape": [
+      640,
+      640
+     ],
+     "resolved_input_shape": [
+      640,
+      640
+     ],
+     "revision": 1,
+     "rewards": {
+      "latency_reward": 1.0,
+      "size_reward": 0.9935393263157895
+     },
+     "rung": "TRAIN",
+     "size_mb": 5.613764,
+     "split_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+     "status": "EVALUATED",
+     "supersedes_evaluation_id": null,
+     "training_seed": 41,
+     "training_status": "TRAINED"
+    },
+    "run_id": "train-ef745127ed1c",
+    "seq": 7,
+    "type": "candidate.evaluated"
+   },
+   {
+    "created_at": "2026-10-27T18:08:11.750600Z",
+    "payload": {
+     "budget": {
+      "scope": "explicit_training",
+      "unit": "gpu_seconds"
+     },
+     "costs": {},
+     "created_at": "2026-10-27T18:08:01.551056Z",
+     "execution_mode": "PILOT",
+     "id": "train-ef745127ed1c",
+     "kind": "SEARCH",
+     "namespace": "pilot_smoke",
+     "parent_run_id": null,
+     "preset": "PILOT_SMOKE",
+     "protocol_canonicalization": "mbnas-canon/1 sha256",
+     "protocol_hash": "sha256:641e58ad63f027591f4a7d0db882d67b3b14f2dcb467236ee8a24dffb5a98940",
+     "purpose": "MODEL_EVALUATION",
+     "reason_code": null,
+     "source_commit": "sha256:cd42e89b54d40c8913807fe05d078435626e335c79bf866b3a77b83277e61a22",
+     "status": "COMPLETED",
+     "terminal": true,
+     "updated_at": "2026-10-27T18:08:11.750252Z"
+    },
+    "run_id": "train-ef745127ed1c",
+    "seq": 8,
+    "type": "run.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:08:11.753158Z",
+    "payload": {
+     "device": "host-gpu-0",
+     "device_id": "dev-4856bdf2d606a4e4",
+     "device_name": "NVIDIA RTX A6000",
+     "heartbeat_at": "2026-10-27T18:08:11.752938Z",
+     "id": "t7-gpu0",
+     "runner_id": "t7-gpu0",
+     "runtime_manifest_status": "verified",
+     "status": "idle"
+    },
+    "run_id": "train-ef745127ed1c",
+    "seq": 9,
+    "type": "worker.updated"
+   },
+   {
+    "created_at": "2026-10-27T18:08:11.757093Z",
+    "payload": {
+     "candidate_id": "model-736efe39f3d1",
+     "forced_policy": "keep_all",
+     "level": "info",
+     "message": "remote run: retention policy last_rung_end_only not applied, forced keep_all until the prune round trip (WP-5)",
+     "policy": "last_rung_end_only",
+     "reason_code": "REMOTE_RETENTION_FORCED"
+    },
+    "run_id": "train-ef745127ed1c",
+    "seq": 10,
+    "type": "log"
+   }
+  ],
+  "generated_candidates": [],
+  "generations": [],
+  "last_seq": 10,
+  "run": {
+   "budget": {
+    "scope": "explicit_training",
+    "unit": "gpu_seconds"
+   },
+   "costs": {
+    "actual_gpu_seconds": 9.37181,
+    "baseline_gpu_seconds": 9.37181
+   },
+   "created_at": "2026-10-27T18:08:01.551056Z",
+   "execution_mode": "PILOT",
+   "id": "train-ef745127ed1c",
+   "kind": "SEARCH",
+   "namespace": "pilot_smoke",
+   "parent_run_id": null,
+   "preset": "PILOT_SMOKE",
+   "protocol_canonicalization": "mbnas-canon/1 sha256",
+   "protocol_hash": "sha256:641e58ad63f027591f4a7d0db882d67b3b14f2dcb467236ee8a24dffb5a98940",
+   "purpose": "MODEL_EVALUATION",
+   "reason_code": null,
+   "resolved_protocol": {
+    "allocation": {
+     "budget_missing_or_exhausted": "eligible_but_not_admitted",
+     "eligibility_is_not_gpu_allocation": true,
+     "incomplete_rung_is_valid_result": false,
+     "queue_policy": "stable_trial_id_order"
+    },
+    "backend_capabilities_verified": false,
+    "backend_versions": null,
+    "comparison": {
+     "arms": [
+      "GA",
+      "IndependentRandom"
+     ],
+     "candidate_count": "secondary_observed_outcome",
+     "global_best_fitness_stop": false,
+     "global_stagnation_stop": false,
+     "independent_search_seed_pairs": [
+      101
+     ],
+     "physical_actual_GPU_seconds_separately_reported": true,
+     "primary_budget_unit": "arm_equivalent_billed_GPU_seconds",
+     "search_budget_GPU_hours_per_arm_per_seed": 0.75,
+     "shared_protocol_hash_required": true
+    },
+    "console": {
+     "baseline_budget_gpu_hours": 0.25,
+     "baseline_capture_rungs": true,
+     "baseline_epoch_target": 1,
+     "baseline_override": {
+      "added": [
+       "yolo11n"
+      ],
+      "missing_from_default": [
+       "yolo11s",
+       "yolo11m",
+       "yolo11l",
+       "yolo11x",
+       "yolo26s",
+       "yolo26m",
+       "yolo26l",
+       "yolo26x",
+       "rf-detr-small",
+       "rf-detr-medium",
+       "rf-detr-large",
+       "rt-detr-l",
+       "rt-detr-x",
+       "etri-controlled-cnn-transformer"
+      ],
+      "reason": "explicit single-model training selection"
+     },
+     "baseline_override_reason": "explicit single-model training selection",
+     "baselines": [
+      {
+       "enabled": true,
+       "id": "yolo11n",
+       "init": "pretrained_native",
+       "resolved": {
+        "backend": "ultralytics",
+        "comparison_group": "native_pretrained",
+        "inference_head": "native",
+        "init": "pretrained_native",
+        "registry_status": "AVAILABLE",
+        "requested_input_shape": [
+         640,
+         640
+        ],
+        "resolved_input_shape": [
+         640,
+         640
+        ],
+        "version": "8.4.173"
+       }
+      }
+     ],
+     "benchmark": {
+      "batch": 1,
+      "device": "host-gpu-0",
+      "device_resolved": {
+       "id": "host-gpu-0",
+       "name": "NVIDIA RTX A6000",
+       "uuid": "GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9"
+      },
+      "postprocess": {
+       "conf": 0.25,
+       "iou": 0.7,
+       "max_det": 300
+      },
+      "precision": "FP16",
+      "repeats": 100,
+      "warmup": 20
+     },
+     "execution_mode": "PILOT",
+     "extra": {
+      "training": {
+       "arch": {
+        "backend": "ultralytics",
+        "config": "yolo11n.yaml",
+        "family": "YOLO11",
+        "inference_head": "native",
+        "model_id": "yolo11n",
+        "register_hook": null,
+        "variant": "detect",
+        "weights_path": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/weights/yolo11n.pt",
+        "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1"
+       },
+       "architecture_hash": "sha256:053576e05c12418cab7602e174495488cfa874c90259ad7b6318328f89b3755e",
+       "custom_initial_weights": false,
+       "device": "cuda:0",
+       "enabled": true,
+       "epoch_target_note": "official evaluation trains no epochs; protocol rung/horizon value 1 is a structural placeholder",
+       "epoch_target_total": 0,
+       "ignored_requested_epoch_target_total": 1,
+       "mode": "evaluate_only",
+       "native_image_artifacts": true,
+       "scheduler_horizon_epochs": 0,
+       "seed": 41,
+       "source": {
+        "baseline_id": "yolo11n",
+        "kind": "baseline"
+       },
+       "source_architecture_hash": null,
+       "source_yaml_hash": null,
+       "validation_enabled": true
+      }
+     },
+     "label": "PILOT_SMOKE (smoke values, not research results)",
+     "paths": {
+      "dataset_yaml": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/core_data/coco128/data.yaml",
+      "final_eval_root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/core_data/coco128/images/train2017",
+      "output_root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/core/runs",
+      "search_val_root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/core_data/coco128/images/train2017",
+      "train_root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/core_data/coco128/images/train2017"
+     },
+     "preset": "PILOT_SMOKE",
+     "purpose": "SMOKE",
+     "retention": {
+      "full_state": "last_rung_end_only"
+     },
+     "run_namespace": "pilot_smoke",
+     "search": {
+      "arms": [],
+      "budget_gpu_hours": 0.75,
+      "crossover_rate": 1.0,
+      "evaluation_enabled": true,
+      "generations": 2,
+      "mutation_rate": 0.35,
+      "population": 4,
+      "seeds": [
+       101
+      ]
+     }
+    },
+    "continuation": {
+     "checkpoint_architecture_hash_must_match": true,
+     "evaluation_checkpoint": "ema_snapshot_at_exact_rung_end",
+     "missing_state_action": "block_no_silent_weights_only_fallback",
+     "mode": "full_state_resume_same_architecture",
+     "restore": [
+      "model",
+      "optimizer",
+      "scheduler_or_exact_reconstruction",
+      "amp_scaler",
+      "ema_and_updates",
+      "epoch_and_optimizer_steps",
+      "rng",
+      "sampler_data_order"
+     ],
+     "training_checkpoint": "unstripped_rung_end_state"
+    },
+    "dataset": {
+     "all_stage_same_data": true,
+     "class_handling": "explicit_filter_and_mapping_required",
+     "class_mapping_hash": "sha256:fc16aed5b33e17f0f43e7fcecc36d57991794e4195dd5924ab2833a57a270d82",
+     "counts": {
+      "search_val": {
+       "boxes": 929,
+       "empty_labels": 0,
+       "images": 128,
+       "issues": 0,
+       "labelled": 126,
+       "missing_labels": 2,
+       "per_class": {
+        "0": 254,
+        "1": 6,
+        "11": 2,
+        "13": 9,
+        "14": 16,
+        "15": 4,
+        "16": 9,
+        "17": 2,
+        "2": 46,
+        "20": 17,
+        "21": 1,
+        "22": 4,
+        "23": 9,
+        "24": 6,
+        "25": 18,
+        "26": 19,
+        "27": 7,
+        "28": 4,
+        "29": 5,
+        "3": 5,
+        "30": 1,
+        "31": 7,
+        "32": 6,
+        "33": 10,
+        "34": 4,
+        "35": 7,
+        "36": 5,
+        "38": 7,
+        "39": 18,
+        "4": 6,
+        "40": 16,
+        "41": 36,
+        "42": 6,
+        "43": 16,
+        "44": 22,
+        "45": 28,
+        "46": 1,
+        "48": 2,
+        "49": 4,
+        "5": 7,
+        "50": 11,
+        "51": 24,
+        "52": 2,
+        "53": 5,
+        "54": 14,
+        "55": 4,
+        "56": 35,
+        "57": 6,
+        "58": 14,
+        "59": 3,
+        "6": 3,
+        "60": 13,
+        "61": 2,
+        "62": 2,
+        "63": 3,
+        "64": 2,
+        "65": 8,
+        "67": 8,
+        "68": 3,
+        "69": 5,
+        "7": 12,
+        "71": 6,
+        "72": 5,
+        "73": 29,
+        "74": 9,
+        "75": 2,
+        "76": 1,
+        "77": 21,
+        "79": 5,
+        "8": 6,
+        "9": 14
+       }
+      }
+     },
+     "search_validation_manifest_hash": "sha256:f21f1b44e4990c5236760743400a9ba6c7bf70939fb4960ee57a87201f523deb",
+     "test_access_during_search": false,
+     "train_fraction": 1
+    },
+    "final_retraining": {
+     "budget_GPU_hours_separate": null,
+     "epoch_target_total": 2,
+     "finalist_selection": "highest_AP_at_L2_with_measured_latency_constraint",
+     "initialization": "scratch_with_pinned_recipe",
+     "reporting": "search_metrics_and_final_retrained_metrics_separate",
+     "scheduler_horizon_epochs": 2,
+     "top_k_per_arm_per_seed": 1
+    },
+    "fitness": {
+     "accuracy_input_unit": "fraction_0_to_1",
+     "accuracy_metric": "AP_IoU_0.50_to_0.95",
+     "display_accuracy_unit": "percent",
+     "formula_version": "named_weighted_reward_v1",
+     "latency_batch": 1,
+     "latency_bounds_ms": [
+      20,
+      200
+     ],
+     "latency_device_manifest": null,
+     "latency_precision": "FP16",
+     "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+     "latency_source": "target_device_measured_or_explicit_calibrated_proxy",
+     "metric_missing_action": "pending_or_eval_failure_not_zero",
+     "normalizer_scope": "fixed_shared_preregistered_anchors",
+     "out_of_range": "clip_reward_to_0_to_1_and_keep_raw_value",
+     "recall_evaluator_version": null,
+     "recall_metric": "recall_IoU_0.50_conf_0.25_macro_class",
+     "size_bounds_MB": [
+      5,
+      100
+     ],
+     "size_definition": "pinned_weights_only_artifact_without_optimizer_decimal_MB"
+    },
+    "git_commit": null,
+    "hard_constraints": {
+     "latency_le_ms": 1000,
+     "proxy_may_certify_final_deployment": false,
+     "weights_size_le_MB": 500
+    },
+    "original_status": "PRESET_PILOT_SMOKE",
+    "proposal": {
+     "GA": {
+      "parent_objective": "L0_named_weights",
+      "parent_selection_fidelity": "L0",
+      "policy_note": "new_protocol_not_claimed_historical_GA"
+     },
+     "IndependentRandom": {
+      "candidate_proposals_use_observed_fitness": false,
+      "prior_frozen_before_search": true,
+      "source_pool_updated_from_GA_history": false
+     }
+    },
+    "protocol_id": "mbnas-pilot-smoke",
+    "resolution": {
+     "canonicalization": "mbnas-canon/1",
+     "hash_excluded": [
+      "console.label",
+      "resolution.validated_at",
+      "console.retention",
+      "resolution.paths"
+     ],
+     "paths": {
+      "dataset_yaml": {
+       "requested": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/core_data/coco128/data.yaml"
+      },
+      "output_root": {
+       "requested": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/core/runs"
+      },
+      "search_val_root": {
+       "requested": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree2/runtime/t7/20261027T180728Z/core_data/coco128/images/train2017"
+      }
+     },
+     "validated_at": "2026-10-27T18:08:01.202956Z",
+     "validator": "mbnas-validator/1"
+    },
+    "rungs": [
+     {
+      "epoch_target_total": 1,
+      "epochs_added": 1,
+      "fitness_weights": {
+       "ap": 0.2,
+       "latency_reward": 0.4,
+       "recall": 0.1,
+       "size_reward": 0.3
+      },
+      "id": "TRAIN",
+      "promotion": null
+     }
+    ],
+    "schedule_scope": "candidate_local",
+    "schema_version": "nas-console/1.0",
+    "status": "RESOLVED_PILOT",
+    "training": {
+     "augmentation_profile": "PINNED_NATIVE_PROFILE_REQUIRED",
+     "automatic_batch_fallback": "reject_and_record",
+     "batch_per_gpu": 8,
+     "betas": [
+      0.9,
+      0.999
+     ],
+     "candidate_early_stop": "disabled_for_search_rung_comparability",
+     "change_loss_weights_at_promotion": false,
+     "close_mosaic_epochs": 0,
+     "effective_batch": 8,
+     "fixed_horizon_epochs": 1,
+     "gpus_per_candidate": 1,
+     "gradient_accumulation": 1,
+     "initialization": "pretrained_native",
+     "loss_profile": "model_version_native_pinned_and_exported",
+     "lr_final_ratio": 0.01,
+     "lr_initial": 0.001,
+     "nbs": 8,
+     "optimizer": "AdamW",
+     "precision": "amp_fp16_fp32",
+     "repeat_warmup_on_promotion": false,
+     "requested_input_size": [
+      640,
+      640
+     ],
+     "resolved_input_size_required": true,
+     "scheduler": "cosine_global_search_horizon",
+     "scheduler_horizon_epochs": 1,
+     "validation_interval_epochs": 1,
+     "warmup_epochs": 0,
+     "weight_decay": 0.0005,
+     "weight_inheritance": false,
+     "workers": 0
+    },
+    "unresolved_before_real_execution": [
+     "서버 절대 경로 및 데이터 manifest 확인",
+     "backend·registry·native recipe 버전 고정",
+     "full-state pause/resume 검증",
+     "pilot epochs·weights·threshold 검증",
+     "장치 측정 조건과 예산 승인"
+    ],
+    "value_provenance": "pilot_smoke_values_for_pipeline_verification_not_research_values"
+   },
+   "source_commit": "sha256:cd42e89b54d40c8913807fe05d078435626e335c79bf866b3a77b83277e61a22",
+   "status": "COMPLETED",
+   "terminal": true,
+   "updated_at": "2026-10-27T18:08:11.757093Z"
+  },
+  "workers": [
+   {
+    "candidate_id": null,
+    "device": "host-gpu-0",
+    "device_id": "dev-4856bdf2d606a4e4",
+    "device_name": "NVIDIA RTX A6000",
+    "heartbeat_at": "2026-10-27T18:08:11.752938Z",
+    "id": "t7-gpu0",
+    "job_id": null,
+    "power_w": null,
+    "run_id": null,
+    "runner_id": "t7-gpu0",
+    "runtime_manifest_status": "verified",
+    "sm_clock_mhz": null,
+    "status": "idle",
+    "utilization_percent": null,
+    "vram_mb": null
+   },
+   {
+    "candidate_id": null,
+    "device": "cpu",
+    "device_id": "dev-8308f18633b5fa6e",
+    "device_name": "CPU structure generation",
+    "heartbeat_at": "2026-10-27T18:08:12.761005Z",
+    "id": "wrk-99b261bdb5e0f9ab",
+    "job_id": null,
+    "power_w": null,
+    "run_id": null,
+    "runner_id": null,
+    "sm_clock_mhz": null,
+    "status": "idle",
+    "utilization_percent": null,
+    "vram_mb": null
+   }
+  ]
+ },
+ "item": "g",
+ "saved_utc": "2026-10-27T18:08:13.931375Z",
+ "tree_hash": "sha256:9dafe4d021ab572058c306e596b686d3f19a1203cab7504c4c2662973fb670ea"
+}

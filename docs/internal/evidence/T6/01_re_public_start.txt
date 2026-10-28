@@ -1,0 +1,1 @@
+[start] gateway: ready pid=2943380 HTTP 200 from http://127.0.0.1:18710/api/v1/health status=ok core=reachable log=runtime/logs/gateway.log

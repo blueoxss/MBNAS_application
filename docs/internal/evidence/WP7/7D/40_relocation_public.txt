@@ -1,0 +1,160 @@
+$ unzip -q /home/mgjeong/Desktop/etri_hd/mbnas_application/dist/public/mbnas_application-0.1.0-public-runtime-linux_x86_64.zip -d /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation\ test/unzip\ public\ \(spaces\)
+exit=0
+$ ls -la /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation\ test/unzip\ public\ \(spaces\) /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation\ test/unzip\ public\ \(spaces\)/mbnas_application
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces):
+합계 12
+drwxrwxr-x  3 mgjeong mgjeong 4096 Oct 27 14:06 .
+drwxrwxr-x  3 mgjeong mgjeong 4096 Oct 27 14:06 ..
+drwxrwxr-x 14 mgjeong mgjeong 4096 Oct 27 14:06 mbnas_application
+
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application:
+합계 208
+drwxrwxr-x 14 mgjeong mgjeong  4096 Oct 27 14:06 .
+drwxrwxr-x  3 mgjeong mgjeong  4096 Oct 27 14:06 ..
+-rw-r--r--  1 mgjeong mgjeong  3933 Jan  1  1980 BUILD_INFO.json
+drwxrwxr-x  3 mgjeong mgjeong  4096 Oct 27 14:06 config
+-rw-r--r--  1 mgjeong mgjeong  2691 Jan  1  1980 constraints.txt
+drwxrwxr-x  3 mgjeong mgjeong  4096 Oct 27 14:06 deploy
+drwxrwxr-x  3 mgjeong mgjeong  4096 Oct 27 14:06 docs
+drwxrwxr-x  4 mgjeong mgjeong  4096 Oct 27 14:06 examples
+-rw-r--r--  1 mgjeong mgjeong 94361 Jan  1  1980 FILE_MANIFEST.jsonl
+drwxrwxr-x  3 mgjeong mgjeong  4096 Oct 27 14:06 mbnas_contracts
+drwxrwxr-x  3 mgjeong mgjeong  4096 Oct 27 14:06 mbnas_model_runtime
+drwxrwxr-x  3 mgjeong mgjeong  4096 Oct 27 14:06 mbnas_runner
+drwxrwxr-x  3 mgjeong mgjeong  4096 Oct 27 14:06 mbnas_server
+drwxrwxr-x  6 mgjeong mgjeong  4096 Oct 27 14:06 mbnas_web
+-rw-r--r--  1 mgjeong mgjeong  6394 Jan  1  1980 PACKAGE_PROFILE.json
+-rw-r--r--  1 mgjeong mgjeong  1077 Jan  1  1980 pyproject.toml
+-rw-r--r--  1 mgjeong mgjeong 10492 Jan  1  1980 README.md
+-rw-r--r--  1 mgjeong mgjeong  3944 Jan  1  1980 requirements-cpu.txt
+-rw-r--r--  1 mgjeong mgjeong  4388 Jan  1  1980 requirements-public.txt
+drwxrwxr-x  2 mgjeong mgjeong  4096 Oct 27 14:06 scripts
+drwxrwxr-x  4 mgjeong mgjeong  4096 Oct 27 14:06 tests
+-rw-r--r--  1 mgjeong mgjeong  8086 Jan  1  1980 THIRD_PARTY_NOTICES.md
+-rw-r--r--  1 mgjeong mgjeong     6 Jan  1  1980 VERSION
+drwxrwxr-x  2 mgjeong mgjeong  4096 Oct 27 14:06 wheels
+exit=0
+--- files whose path names the private package (expect none):
+$ find /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation\ test/unzip\ public\ \(spaces\) -iname \*mbnas_core\* -o -iname \*mbnas-core\*
+exit=0
+--- owner-only or excluded material present in the unzip (expect none; tests/public and mbnas_web sources ship by DD-A41):
+$ find /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation\ test/unzip\ public\ \(spaces\)/mbnas_application \( -path \*/tests/owner -o -path \*/docs/internal -o -path \*/deploy/owner -o -name requirements-owner.txt -o -name core.env.example -o -name owner-all-in-one.env.example -o -name .env -o -name \*.env -o -path \*/mbnas_application/runtime -o -path \*/mbnas_application/build -o -name LICENSE_STATUS.md -o -name harness.py -o -name test_no_host_facts.py -o -name node_modules -o -name __pycache__ -o -name \*.pyc -o -name \*.map -o -path \*/tests/public/packaging \)
+exit=0
+--- test and web source trees that do ship (DD-A41):
+$ find /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation\ test/unzip\ public\ \(spaces\)/mbnas_application/tests /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation\ test/unzip\ public\ \(spaces\)/mbnas_application/mbnas_web -maxdepth 1
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/tests
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/tests/public
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/tests/_shared
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/mbnas_web
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/mbnas_web/playwright.config.ts
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/mbnas_web/src
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/mbnas_web/package-lock.json
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/mbnas_web/tsconfig.json
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/mbnas_web/index.html
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/mbnas_web/scripts
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/mbnas_web/dist
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/mbnas_web/package.json
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/mbnas_web/playwright.real.config.ts
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/mbnas_web/playwright.archive-real.config.ts
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/mbnas_web/vite.config.ts
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/mbnas_web/tests
+exit=0
+--- wheels (expect the four public wheels only):
+$ ls /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation\ test/unzip\ public\ \(spaces\)/mbnas_application/wheels
+mbnas_contracts-0.1.0-py3-none-any.whl
+mbnas_model_runtime-0.1.0-py3-none-any.whl
+mbnas_runner-0.1.0-py3-none-any.whl
+mbnas_server-0.1.0-py3-none-any.whl
+exit=0
+--- import statements of the private package in unzipped files (expect only the Dockerfile negative assertions):
+$ grep -rnI -E \(\^\|\[\^A-Za-z_\]\)\(import\|from\)\[\[:space:\]\]+mbnas_core /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation\ test/unzip\ public\ \(spaces\)/mbnas_application
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/deploy/public/Dockerfile:57: && ! python -c "import mbnas_core" 2>/dev/null
+/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation test/unzip public (spaces)/mbnas_application/deploy/public/Dockerfile.cpu:57: && ! python -c "import mbnas_core" 2>/dev/null
+exit=0
+--- FILE_MANIFEST.jsonl vs extracted bytes:
+$ /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python -I -B -c $'\nimport hashlib, json, os, sys\ntop = sys.argv[1]\nrows = [json.loads(l) for l in open(os.path.join(top, \'FILE_MANIFEST.jsonl\'), encoding=\'utf-8\')]\nbad = [r[\'relpath\'] for r in rows if hashlib.sha256(open(os.path.join(top, r[\'relpath\']), \'rb\').read()).hexdigest() != r[\'sha256\']]\non_disk = sorted(os.path.relpath(os.path.join(d, n), top) for d, _, ns in os.walk(top) for n in ns)\nlisted = sorted([r[\'relpath\'] for r in rows] + [\'FILE_MANIFEST.jsonl\'])\nprint(\'manifest entries\', len(rows), \'files on disk\', len(on_disk), \'digest mismatches\', len(bad), \'unlisted\', sorted(set(on_disk) - set(listed)), \'missing\', sorted(set(listed) - set(on_disk)))\nsys.exit(1 if bad or set(on_disk) != set(listed) else 0)\n' /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation\ test/unzip\ public\ \(spaces\)/mbnas_application
+manifest entries 382 files on disk 383 digest mismatches 0 unlisted [] missing []
+exit=0
+--- scan of the unzipped tree (generic tokens + host facts):
+$ /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python -I -B scripts/dev/canary_scan.py --manifest /home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/canary/CANARY_MANIFEST.json --profile public --min-files 100 /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation\ test/unzip\ public\ \(spaces\)/mbnas_application
+scanned files=527 bytes=9239330 containers=4 skipped=0 hits=0 failing=0 unmet=0
+canary_scan: PASS
+exit=0
+--- the relocated BUILD_INFO / PACKAGE_PROFILE (excerpt):
+$ /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python -I -B -c $'\nimport json, sys\nb = json.load(open(sys.argv[1] + \'/BUILD_INFO.json\')); p = json.load(open(sys.argv[1] + \'/PACKAGE_PROFILE.json\'))\nprint(json.dumps({k: b[k] for k in (\'version\', \'profile\', \'build_id\', \'source_tree\', \'payload_sha256\', \'web_dist\', \'reproducibility\')}, indent=1))\nprint(json.dumps({k: p[k] for k in (\'zip\', \'packages\', \'core_connection_required\', \'install\')}, indent=1))\n' /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp7d/relocation\ test/unzip\ public\ \(spaces\)/mbnas_application
+{
+ "version": "0.1.0",
+ "profile": "public",
+ "build_id": "r-2d8d34d9ec58720a",
+ "source_tree": {
+  "algorithm": "mbnas-source-tree/2",
+  "sha256": "sha256:ad0ee1e6c772be2e8c91f4a00fc2f6d3ee4fd9f54351fd0932f643a40521b6f2",
+  "roots": [
+   "mbnas_contracts",
+   "mbnas_model_runtime",
+   "mbnas_runner",
+   "mbnas_server"
+  ],
+  "files": 127,
+  "computed_over": "the staged package directories <pkg>/src/<pkg> of this bundle",
+  "tool": "scripts/dev/source_tree_hash.py (mbnas_contracts.util.source_hash)",
+  "git": null
+ },
+ "payload_sha256": "sha256:ee68e134b363c5721bf4eea84ea4b74e3733164dfeb88b0a4494a872f992c7ed",
+ "web_dist": {
+  "present": true,
+  "bundle_gate": {
+   "tool": "mbnas_web/scripts/check-bundle.mjs",
+   "status": "pass",
+   "node": "v24.20.0",
+   "exit": 0,
+   "files": 3,
+   "bytes": 513523,
+   "needles": 22,
+   "hits": 0
+  },
+  "files": 3,
+  "status": "present (prebuilt, copied as-is)"
+ },
+ "reproducibility": {
+  "requested": true,
+  "builds": 2,
+  "equal": true,
+  "zip_sha256": [
+   "c673070781a73c1779bddd59814e2fe0385390e8b1c3e736dfef84167fcd53c1",
+   "c673070781a73c1779bddd59814e2fe0385390e8b1c3e736dfef84167fcd53c1"
+  ],
+  "payload_sha256": [
+   "sha256:ee68e134b363c5721bf4eea84ea4b74e3733164dfeb88b0a4494a872f992c7ed",
+   "sha256:ee68e134b363c5721bf4eea84ea4b74e3733164dfeb88b0a4494a872f992c7ed"
+  ],
+  "method": "two complete builds (staging, wheels, metadata, zip) with fixed timestamps; the second re-stages the first build's source snapshot; ZIP digests compared before this verdict was written into BUILD_INFO",
+  "timestamp_epoch": 315532800
+ }
+}
+{
+ "zip": "mbnas_application-0.1.0-public-runtime-linux_x86_64.zip",
+ "packages": {
+  "included": [
+   "mbnas_contracts",
+   "mbnas_model_runtime",
+   "mbnas_runner",
+   "mbnas_server"
+  ],
+  "excluded": [
+   "core (private; runs on the owner host and is reached through its URL)"
+  ]
+ },
+ "core_connection_required": true,
+ "install": {
+  "methods": [
+   "docker compose (deploy/public/)",
+   "pip install -r requirements-public.txt (project wheels in wheels/)",
+   "bash scripts/install.sh (wrapper)"
+  ],
+  "network_dependency": "online install downloads pinned third-party packages from PyPI and the PyTorch cu124 index (download.pytorch.org); the project wheels are bundled",
+  "offline_install": false,
+  "offline_install_note": "not verified for this package (WP-7 \u00a74: true only after an install with the network removed succeeds)"
+ }
+}
+exit=0

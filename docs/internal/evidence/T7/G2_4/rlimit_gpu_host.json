@@ -1,0 +1,315 @@
+{
+ "tree_hash": "sha256:164292c6e775a52a3da02f98282257b67a282f9e84b236ded3940e592a568f2f",
+ "host": "dev1",
+ "nproc": 48,
+ "python": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/venv/bin/python",
+ "unshare_available": true,
+ "safe_env_default": {
+  "ULTRALYTICS_SAFE_LOAD": "1",
+  "YOLO_AUTOINSTALL": "false",
+  "YOLO_OFFLINE": "1",
+  "CUDA_VISIBLE_DEVICES": ""
+ },
+ "runs": [
+  {
+   "variant": "production",
+   "model": "yolo11n",
+   "input_size": 640,
+   "as_gib": 5,
+   "worker_CUDA_VISIBLE_DEVICES": "",
+   "status": "PASS",
+   "codes": [],
+   "sandbox": {
+    "isolation": "unshare-rn+setsid+rlimits",
+    "limits": {
+     "cpu_s": 900,
+     "as_bytes": 5368709120,
+     "nofile": 1024,
+     "fsize_bytes": 67108864,
+     "core": 0
+    },
+    "wall_timeout_s": 300.0,
+    "elapsed_s": 2.172,
+    "exit_code": 0
+   },
+   "seconds": 2.17
+  },
+  {
+   "variant": "production",
+   "model": "yolo11n",
+   "input_size": 640,
+   "as_gib": 6,
+   "worker_CUDA_VISIBLE_DEVICES": "",
+   "status": "PASS",
+   "codes": [],
+   "sandbox": {
+    "isolation": "unshare-rn+setsid+rlimits",
+    "limits": {
+     "cpu_s": 900,
+     "as_bytes": 6442450944,
+     "nofile": 1024,
+     "fsize_bytes": 67108864,
+     "core": 0
+    },
+    "wall_timeout_s": 300.0,
+    "elapsed_s": 2.221,
+    "exit_code": 0
+   },
+   "seconds": 2.22
+  },
+  {
+   "variant": "production",
+   "model": "yolo11n",
+   "input_size": 640,
+   "as_gib": 8,
+   "worker_CUDA_VISIBLE_DEVICES": "",
+   "status": "PASS",
+   "codes": [],
+   "sandbox": {
+    "isolation": "unshare-rn+setsid+rlimits",
+    "limits": {
+     "cpu_s": 900,
+     "as_bytes": 8589934592,
+     "nofile": 1024,
+     "fsize_bytes": 67108864,
+     "core": 0
+    },
+    "wall_timeout_s": 300.0,
+    "elapsed_s": 2.07,
+    "exit_code": 0
+   },
+   "seconds": 2.07
+  },
+  {
+   "variant": "production",
+   "model": "yolo11x",
+   "input_size": 1280,
+   "as_gib": 5,
+   "worker_CUDA_VISIBLE_DEVICES": "",
+   "status": "SANDBOX_FAILURE",
+   "code": "STRUCTURE_CHECK_RESOURCE_LIMIT",
+   "cause": "allocation refused under the sandbox memory limit (STRUCTURE_BUILD_FAILED)",
+   "sandbox": {
+    "isolation": "unshare-rn+setsid+rlimits",
+    "limits": {
+     "cpu_s": 900,
+     "as_bytes": 5368709120,
+     "nofile": 1024,
+     "fsize_bytes": 67108864,
+     "core": 0
+    },
+    "wall_timeout_s": 300.0,
+    "elapsed_s": 2.773,
+    "exit_code": 0
+   },
+   "seconds": 2.77
+  },
+  {
+   "variant": "production",
+   "model": "yolo11x",
+   "input_size": 1280,
+   "as_gib": 6,
+   "worker_CUDA_VISIBLE_DEVICES": "",
+   "status": "PASS",
+   "codes": [],
+   "sandbox": {
+    "isolation": "unshare-rn+setsid+rlimits",
+    "limits": {
+     "cpu_s": 900,
+     "as_bytes": 6442450944,
+     "nofile": 1024,
+     "fsize_bytes": 67108864,
+     "core": 0
+    },
+    "wall_timeout_s": 300.0,
+    "elapsed_s": 5.432,
+    "exit_code": 0
+   },
+   "seconds": 5.44
+  },
+  {
+   "variant": "production",
+   "model": "yolo11x",
+   "input_size": 1280,
+   "as_gib": 8,
+   "worker_CUDA_VISIBLE_DEVICES": "",
+   "status": "PASS",
+   "codes": [],
+   "sandbox": {
+    "isolation": "unshare-rn+setsid+rlimits",
+    "limits": {
+     "cpu_s": 900,
+     "as_bytes": 8589934592,
+     "nofile": 1024,
+     "fsize_bytes": 67108864,
+     "core": 0
+    },
+    "wall_timeout_s": 300.0,
+    "elapsed_s": 5.277,
+    "exit_code": 0
+   },
+   "seconds": 5.28
+  },
+  {
+   "variant": "production",
+   "model": "rt-detr-x",
+   "input_size": 1280,
+   "as_gib": 5,
+   "worker_CUDA_VISIBLE_DEVICES": "",
+   "status": "PASS",
+   "codes": [],
+   "sandbox": {
+    "isolation": "unshare-rn+setsid+rlimits",
+    "limits": {
+     "cpu_s": 900,
+     "as_bytes": 5368709120,
+     "nofile": 1024,
+     "fsize_bytes": 67108864,
+     "core": 0
+    },
+    "wall_timeout_s": 300.0,
+    "elapsed_s": 5.181,
+    "exit_code": 0
+   },
+   "seconds": 5.19
+  },
+  {
+   "variant": "production",
+   "model": "rt-detr-x",
+   "input_size": 1280,
+   "as_gib": 6,
+   "worker_CUDA_VISIBLE_DEVICES": "",
+   "status": "PASS",
+   "codes": [],
+   "sandbox": {
+    "isolation": "unshare-rn+setsid+rlimits",
+    "limits": {
+     "cpu_s": 900,
+     "as_bytes": 6442450944,
+     "nofile": 1024,
+     "fsize_bytes": 67108864,
+     "core": 0
+    },
+    "wall_timeout_s": 300.0,
+    "elapsed_s": 5.379,
+    "exit_code": 0
+   },
+   "seconds": 5.38
+  },
+  {
+   "variant": "production",
+   "model": "rt-detr-x",
+   "input_size": 1280,
+   "as_gib": 8,
+   "worker_CUDA_VISIBLE_DEVICES": "",
+   "status": "PASS",
+   "codes": [],
+   "sandbox": {
+    "isolation": "unshare-rn+setsid+rlimits",
+    "limits": {
+     "cpu_s": 900,
+     "as_bytes": 8589934592,
+     "nofile": 1024,
+     "fsize_bytes": 67108864,
+     "core": 0
+    },
+    "wall_timeout_s": 300.0,
+    "elapsed_s": 5.281,
+    "exit_code": 0
+   },
+   "seconds": 5.29
+  },
+  {
+   "variant": "cuda_visible",
+   "model": "yolo11n",
+   "input_size": 640,
+   "as_gib": 6,
+   "worker_CUDA_VISIBLE_DEVICES": "1",
+   "status": "PASS",
+   "codes": [],
+   "sandbox": {
+    "isolation": "unshare-rn+setsid+rlimits",
+    "limits": {
+     "cpu_s": 900,
+     "as_bytes": 6442450944,
+     "nofile": 1024,
+     "fsize_bytes": 67108864,
+     "core": 0
+    },
+    "wall_timeout_s": 300.0,
+    "elapsed_s": 1.921,
+    "exit_code": 0
+   },
+   "seconds": 1.92
+  },
+  {
+   "variant": "cuda_visible",
+   "model": "yolo11n",
+   "input_size": 640,
+   "as_gib": 8,
+   "worker_CUDA_VISIBLE_DEVICES": "1",
+   "status": "PASS",
+   "codes": [],
+   "sandbox": {
+    "isolation": "unshare-rn+setsid+rlimits",
+    "limits": {
+     "cpu_s": 900,
+     "as_bytes": 8589934592,
+     "nofile": 1024,
+     "fsize_bytes": 67108864,
+     "core": 0
+    },
+    "wall_timeout_s": 300.0,
+    "elapsed_s": 2.021,
+    "exit_code": 0
+   },
+   "seconds": 2.02
+  },
+  {
+   "variant": "cuda_visible",
+   "model": "yolo11x",
+   "input_size": 1280,
+   "as_gib": 6,
+   "worker_CUDA_VISIBLE_DEVICES": "1",
+   "status": "PASS",
+   "codes": [],
+   "sandbox": {
+    "isolation": "unshare-rn+setsid+rlimits",
+    "limits": {
+     "cpu_s": 900,
+     "as_bytes": 6442450944,
+     "nofile": 1024,
+     "fsize_bytes": 67108864,
+     "core": 0
+    },
+    "wall_timeout_s": 300.0,
+    "elapsed_s": 6.083,
+    "exit_code": 0
+   },
+   "seconds": 6.09
+  },
+  {
+   "variant": "cuda_visible",
+   "model": "yolo11x",
+   "input_size": 1280,
+   "as_gib": 8,
+   "worker_CUDA_VISIBLE_DEVICES": "1",
+   "status": "PASS",
+   "codes": [],
+   "sandbox": {
+    "isolation": "unshare-rn+setsid+rlimits",
+    "limits": {
+     "cpu_s": 900,
+     "as_bytes": 8589934592,
+     "nofile": 1024,
+     "fsize_bytes": 67108864,
+     "core": 0
+    },
+    "wall_timeout_s": 300.0,
+    "elapsed_s": 6.181,
+    "exit_code": 0
+   },
+   "seconds": 6.19
+  }
+ ]
+}

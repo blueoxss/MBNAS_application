@@ -1,0 +1,42 @@
+# WP-7B container smoke 20261027T051744Z image=mbnas-public-cpu:0.1.0 result=PASS
+# core: native runtime/venv uvicorn on 127.0.0.1:<ephemeral>; gateway + runner: docker --network host --user <uid> (CPU image)
+# tokens generated at run time, never printed; scratch root removed after the run
+  {"step": "core-start(native, loopback)", "ok": true, "pid": 2321419, "port": 39771, "seconds": 1.1}
+  {"step": "principals(server, runner, admin)", "ok": true}
+  {"step": "gateway-container serves web console at /", "ok": true, "http": 200, "content_type": "text/html; charset=utf-8", "seconds_to_ready": 1.8}
+  {"step": "gateway health (no token -> 401; token -> 200 with core status)", "ok": true, "no_token": 401, "with_token": 200, "health": {"status": "degraded", "core": {"status": "degraded", "reachable": true}, "contract_version": null, "web_dist": null}}
+  {"step": "runner-container registers ONLINE (CPU)", "ok": true, "runner": {"id": "wp7b-cpu-runner", "status": "ONLINE", "device": "cpu", "kinds": ["BASELINE_TRAIN", "BENCHMARK", "CANDIDATE_TRAIN", "EVALUATE", "FINAL_RETRAIN"]}}
+  {"step": "structure-check via gateway container: yolo11n_user.yaml", "ok": true, "upload_http": 200, "check_http": 200, "status": "PASS", "codes": []}
+  {"step": "structure-check via gateway container: yolo11n_user_broken.yaml", "ok": true, "upload_http": 200, "check_http": 200, "status": "FAIL", "codes": ["MERGE_INPUT_MISMATCH", "SHAPE_MISMATCH"]}
+  {"step": "cleanup (own containers removed, core stopped)", "ok": true, "left": []}
+# log:
+  05:17:45 STEP core-start(native, loopback): PASS {"pid": 2321419, "port": 39771, "seconds": 1.1}
+  05:17:46 STEP principals(server, runner, admin): PASS {}
+  05:17:48 STEP gateway-container serves web console at /: PASS {"http": 200, "content_type": "text/html; charset=utf-8", "seconds_to_ready": 1.8}
+  05:17:48 STEP gateway health (no token -> 401; token -> 200 with core status): PASS {"no_token": 401, "with_token": 200, "health": {"status": "degraded", "core": {"status": "degraded", "reachable": true}, "contract_version": null, "web_dist": null}}
+  05:17:49 STEP runner-container registers ONLINE (CPU): PASS {"runner": {"id": "wp7b-cpu-runner", "status": "ONLINE", "device": "cpu", "kinds": ["BASELINE_TRAIN", "BENCHMARK", "CANDIDATE_TRAIN", "EVALUATE", "FINAL_RETRAIN"]}}
+  05:17:53 STEP structure-check via gateway container: yolo11n_user.yaml: PASS {"upload_http": 200, "check_http": 200, "status": "PASS", "codes": []}
+  05:17:55 STEP structure-check via gateway container: yolo11n_user_broken.yaml: PASS {"upload_http": 200, "check_http": 200, "status": "FAIL", "codes": ["MERGE_INPUT_MISMATCH", "SHAPE_MISMATCH"]}
+  05:17:55 container wp7b-gw-20261027t051744z stopped exit=143 (0.4 s)
+  05:17:56 container wp7b-runner-20261027t051744z stopped exit=0 (0.9 s)
+  05:17:57 core pid 2321419 exit=-15
+  05:17:57 STEP cleanup (own containers removed, core stopped): PASS {"left": []}
+# tail core.log:
+# tail wp7b-gw-20261027t051744z.log:
+  INFO:     127.0.0.1:40124 - "GET /api/v1/health HTTP/1.1" 401 Unauthorized
+  INFO:     127.0.0.1:40130 - "GET / HTTP/1.1" 200 OK
+  INFO:     127.0.0.1:40146 - "GET /api/v1/health HTTP/1.1" 401 Unauthorized
+  INFO:     127.0.0.1:40150 - "GET /api/v1/health HTTP/1.1" 200 OK
+  INFO:     127.0.0.1:40160 - "POST /api/v1/uploads/model-config HTTP/1.1" 200 OK
+  INFO:     127.0.0.1:40172 - "POST /api/v1/structure-check HTTP/1.1" 200 OK
+  INFO:     127.0.0.1:40182 - "POST /api/v1/uploads/model-config HTTP/1.1" 200 OK
+  INFO:     127.0.0.1:40196 - "POST /api/v1/structure-check HTTP/1.1" 200 OK
+  INFO:     Started server process [7]
+  INFO:     Waiting for application startup.
+  INFO:     Application startup complete.
+  INFO:     Uvicorn running on http://127.0.0.1:58627 (Press CTRL+C to quit)
+# tail wp7b-runner-20261027t051744z.log:
+  Creating new Ultralytics Settings v0.0.8 file ✅ 
+  View Ultralytics Settings with 'yolo settings' or at '/tmp/mbnas-home/.config/Ultralytics/settings.json'
+  Update Settings with 'yolo settings key=value', i.e. 'yolo settings runs_dir=path/to/dir'. For help see https://docs.ultralytics.com/usage/settings.
+  2026-10-27T05:17:48.169180Z runner wp7b-cpu-runner: artifact transfer: local into /srv/mbnas/runtime/gateway/artifacts (store mode same-uid, max 6 tries per file)

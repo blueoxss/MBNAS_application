@@ -1,0 +1,4 @@
+packaging @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_packaging_1785888127/work
+pip @ file:///home/conda/feedstock_root/build_artifacts/pip_1785914405025/work
+setuptools==84.0.0
+wheel==0.48.0

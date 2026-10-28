@@ -1,0 +1,17 @@
+--- a/tests/owner/runner_protocol/conftest.py
++++ b/tests/owner/runner_protocol/conftest.py
+@@ -152,8 +152,12 @@
+     ds = make_dataset("w", counts={"train": 4, "val": 2, "test": 2})
+ 
+     def build(targets=(2,)):
+-        return harness.small_protocol(ds, str(tmp_roots["runs"] / "out"), arms=(), baselines=("yolo11n",),
+-                                      targets=targets)
++        proto = harness.small_protocol(ds, str(tmp_roots["runs"] / "out"), arms=(), baselines=("yolo11n",),
++                                       targets=targets)
++        # DD-A66: remote runs now apply their retention policy (PILOT_SMOKE default last_rung_end_only would prune
++        # epoch 1 on the runner during the job); these protocols are not about retention (T3-34 sets its own policy)
++        proto["console"]["retention"] = {"full_state": "keep_all"}
++        return proto
+     return build
+ 
+ 

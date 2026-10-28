@@ -1,0 +1,13 @@
+
+> mbnas-web@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.3 /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web
+
+
+ Test Files  37 passed (37)
+      Tests  504 passed (504)
+   Start at  21:20:01
+   Duration  10.65s (tests 33%, environment 31%, transform 25%, import 7%, setup 4%)
+

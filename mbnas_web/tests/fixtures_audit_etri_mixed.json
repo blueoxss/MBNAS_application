@@ -1,0 +1,132 @@
+{
+ "architecture_hash_scheme": "mbnas-structural/1 (adapters.common.structural_hash)",
+ "built": {
+  "backbone_family": "hybrid_backbone",
+  "detect_head": {
+   "class": "Detect",
+   "conv_modules": 48,
+   "end2end": false,
+   "reg_max": 1
+  },
+  "flops": 5740236800,
+  "flops_input": [
+   1,
+   3,
+   640,
+   640
+  ],
+  "flops_method": "torch.utils.flop_counter.FlopCounterMode, eval, MHA fast path disabled",
+  "full_transformer": false,
+  "label": "hybrid_backbone with CNN detection head",
+  "neck_family": "hybrid_neck",
+  "params": 2504190,
+  "scope": "built_model_operator_audit",
+  "scopes": {
+   "backbone": {
+    "attention_markers": 3,
+    "conv_modules": 40,
+    "linear_modules": 0,
+    "multihead_attention": 0,
+    "nas_custom_blocks": {},
+    "native_attention_blocks": {
+     "C2PSA": 1,
+     "PSABlock": 1
+    },
+    "params": 1365472
+   },
+   "detect": {
+    "attention_markers": 0,
+    "conv_modules": 48,
+    "linear_modules": 0,
+    "multihead_attention": 0,
+    "nas_custom_blocks": {},
+    "native_attention_blocks": {},
+    "params": 241566
+   },
+   "full_model": {
+    "attention_markers": 5,
+    "conv_modules": 126,
+    "linear_modules": 0,
+    "multihead_attention": 0,
+    "nas_custom_blocks": {},
+    "native_attention_blocks": {
+     "C2PSA": 1,
+     "PSABlock": 2
+    },
+    "params": 2504190
+   },
+   "neck": {
+    "attention_markers": 2,
+    "conv_modules": 38,
+    "linear_modules": 0,
+    "multihead_attention": 0,
+    "nas_custom_blocks": {},
+    "native_attention_blocks": {
+     "PSABlock": 1
+    },
+    "params": 897152
+   }
+  }
+ },
+ "config_estimate": {
+  "backbone_attention_rows": 1,
+  "backbone_family": "hybrid_backbone",
+  "backbone_operator_counts": {
+   "C2PSA": 1,
+   "C3k2": 4,
+   "Conv": 5,
+   "SPPF": 1
+  },
+  "detect_rows": 1,
+  "head_preserved": true,
+  "label": "hybrid_backbone with CNN detection head",
+  "neck_attention_rows": 1,
+  "neck_operator_counts": {
+   "C3k2": 4,
+   "Concat": 4,
+   "Conv": 2,
+   "Upsample": 2
+  },
+  "proof_of_model_family": false,
+  "rules": "ETRI mixed_search_space.audit_config (ported) + neck rows",
+  "scope": "config_estimate",
+  "selection_policy": "single mixed pool; no family quotas"
+ },
+ "etri_audit_model": {
+  "attention_modules": 5,
+  "backbone_family": "cnn_transformer",
+  "conv_modules": 126,
+  "feature_family": "cnn_transformer",
+  "full_model_family": "cnn_transformer",
+  "implementation_version": "1.0.0",
+  "params": 2504190,
+  "scopes": {
+   "backbone": {
+    "attention_modules": 3,
+    "conv_modules": 40,
+    "family": "cnn_transformer",
+    "params": 1365472
+   },
+   "features": {
+    "attention_modules": 5,
+    "conv_modules": 78,
+    "family": "cnn_transformer",
+    "params": 2262624
+   },
+   "full_model": {
+    "attention_modules": 5,
+    "conv_modules": 126,
+    "family": "cnn_transformer",
+    "params": 2504190
+   }
+  },
+  "terminal_detect": true
+ },
+ "fallback_reason": null,
+ "flops": 5740236800,
+ "imgsz": 640,
+ "label": "hybrid_backbone with CNN detection head",
+ "params": 2504190,
+ "search_space_variant": "etri_mixed",
+ "structure_signature_sha256": "sha256:3a5b3273d3a0e6081af0780fe1b6962a5bba4773bab5f48ae935499cdc27c7da"
+}

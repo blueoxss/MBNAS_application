@@ -1,0 +1,44 @@
+Package-source files changed after the GPU evidence tree (T7 re-run, TREE_HASH 9dafe4d0..., frozen copy runtime/test_root/g2_tree2).
+Command (read only): runtime/venv/bin/python -I -B <SCRATCH>/wp3/r4docs/tools/gpu_tree_diff.py <ROOT> <ROOT>/runtime/test_root/g2_tree2  (sha256 per file of the five */src/<pkg> trees, __pycache__ skipped)
+Live tree at the time: source tree hash sha256:01c7d785347fea7e63387a650e8aef968b123bf2555dc26db5907265d334bcfd (2026-10-28 ~10:00 KST). Every change below was validated on CPU only (DD-A56 c, DD-A64, DD-A66).
+frozen files 221, live files 221: modified 38, added 1, removed 1
+M mbnas_contracts/src/mbnas_contracts/asgi.py
+M mbnas_contracts/src/mbnas_contracts/openapi/openapi_runner.json
+M mbnas_contracts/src/mbnas_contracts/protocol_hash.py
+M mbnas_contracts/src/mbnas_contracts/runner_protocol.py
+M mbnas_core/src/mbnas_core/api/app.py
+M mbnas_core/src/mbnas_core/artifacts/registry.py
+M mbnas_core/src/mbnas_core/config.py
+M mbnas_core/src/mbnas_core/console/model_services.py
+M mbnas_core/src/mbnas_core/console/routes_files.py
+M mbnas_core/src/mbnas_core/console/routes_runs.py
+M mbnas_core/src/mbnas_core/console/services.py
+M mbnas_core/src/mbnas_core/db/core.py
+M mbnas_core/src/mbnas_core/db/schema.sql
+M mbnas_core/src/mbnas_core/orchestration/engine.py
+M mbnas_core/src/mbnas_core/orchestration/retention.py
+M mbnas_core/src/mbnas_core/owner_worker/child.py
+M mbnas_core/src/mbnas_core/owner_worker/main.py
+M mbnas_core/src/mbnas_core/protocol/validator.py
+M mbnas_core/src/mbnas_core/runner_api/routes.py
+M mbnas_core/src/mbnas_core/runner_api/sweeper.py
+M mbnas_core/src/mbnas_core/search/__init__.py
+M mbnas_core/src/mbnas_core/search/handlers.py
+M mbnas_core/src/mbnas_core/search/space.py
+M mbnas_core/src/mbnas_core/training_runs/selection.py
+M mbnas_model_runtime/src/mbnas_model_runtime/checkpoint.py
+M mbnas_model_runtime/src/mbnas_model_runtime/genotype.py
+M mbnas_runner/src/mbnas_runner/__main__.py
+M mbnas_runner/src/mbnas_runner/client.py
+M mbnas_runner/src/mbnas_runner/config.py
+M mbnas_runner/src/mbnas_runner/daemon.py
+M mbnas_runner/src/mbnas_runner/evaluation/handlers.py
+M mbnas_runner/src/mbnas_runner/evaluation/official_evaluation.py
+M mbnas_runner/src/mbnas_runner/journal.py
+M mbnas_runner/src/mbnas_runner/reports.py
+M mbnas_server/src/mbnas_server/api/app.py
+M mbnas_server/src/mbnas_server/api/relay.py
+M mbnas_server/src/mbnas_server/config.py
+M mbnas_server/src/mbnas_server/doctor.py
+A mbnas_core/src/mbnas_core/owner_worker/paths.py
+D mbnas_contracts/src/mbnas_contracts/openapi/drafts/openapi-1.5.0.draft.json

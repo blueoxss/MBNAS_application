@@ -1,0 +1,139 @@
+[
+ {
+  "normalized_replacements": 41,
+  "set": "public"
+ },
+ {
+  "name": "public_raw_responses_logs",
+  "exit": 1,
+  "files": 57,
+  "needles": 120,
+  "hits_by_label": {
+   "HOST_FACT#5 owner account name": 6,
+   "NEEDLE#5": 9
+  },
+  "failing_hits": 15,
+  "status": "FAIL"
+ },
+ {
+  "name": "public_raw_proc",
+  "exit": 1,
+  "files": 4,
+  "needles": 120,
+  "hits_by_label": {
+   "HOST_FACT#5 owner account name": 14
+  },
+  "failing_hits": 14,
+  "status": "FAIL"
+ },
+ {
+  "name": "public_raw_install_logs",
+  "exit": 1,
+  "files": 1,
+  "needles": 120,
+  "hits_by_label": {
+   "HOST_FACT#5 owner account name": 20
+  },
+  "failing_hits": 20,
+  "status": "FAIL"
+ },
+ {
+  "name": "public_normalized_responses_logs",
+  "exit": 0,
+  "files": 57,
+  "needles": 120,
+  "hits_by_label": {},
+  "failing_hits": 0,
+  "status": "PASS"
+ },
+ {
+  "name": "public_normalized_proc",
+  "exit": 1,
+  "files": 4,
+  "needles": 120,
+  "hits_by_label": {
+   "HOST_FACT#5 owner account name": 2
+  },
+  "failing_hits": 2,
+  "status": "FAIL"
+ },
+ {
+  "name": "public_normalized_install_logs",
+  "exit": 1,
+  "files": 1,
+  "needles": 120,
+  "hits_by_label": {
+   "HOST_FACT#5 owner account name": 20
+  },
+  "failing_hits": 20,
+  "status": "FAIL"
+ },
+ {
+  "normalized_replacements": 32,
+  "set": "registration"
+ },
+ {
+  "name": "registration_raw_responses_logs",
+  "exit": 1,
+  "files": 6,
+  "needles": 120,
+  "hits_by_label": {
+   "HOST_FACT#5 owner account name": 6
+  },
+  "failing_hits": 6,
+  "status": "FAIL"
+ },
+ {
+  "name": "registration_raw_proc",
+  "exit": 1,
+  "files": 4,
+  "needles": 120,
+  "hits_by_label": {
+   "HOST_FACT#5 owner account name": 14
+  },
+  "failing_hits": 14,
+  "status": "FAIL"
+ },
+ {
+  "name": "registration_raw_install_logs",
+  "exit": 1,
+  "files": 1,
+  "needles": 120,
+  "hits_by_label": {
+   "HOST_FACT#5 owner account name": 20
+  },
+  "failing_hits": 20,
+  "status": "FAIL"
+ },
+ {
+  "name": "registration_normalized_responses_logs",
+  "exit": 0,
+  "files": 6,
+  "needles": 120,
+  "hits_by_label": {},
+  "failing_hits": 0,
+  "status": "PASS"
+ },
+ {
+  "name": "registration_normalized_proc",
+  "exit": 1,
+  "files": 4,
+  "needles": 120,
+  "hits_by_label": {
+   "HOST_FACT#5 owner account name": 2
+  },
+  "failing_hits": 2,
+  "status": "FAIL"
+ },
+ {
+  "name": "registration_normalized_install_logs",
+  "exit": 1,
+  "files": 1,
+  "needles": 120,
+  "hits_by_label": {
+   "HOST_FACT#5 owner account name": 20
+  },
+  "failing_hits": 20,
+  "status": "FAIL"
+ }
+]

@@ -1,0 +1,2 @@
+[start] core: ready pid=2942723 HTTP 401 from http://127.0.0.1:18700/core/v1/console/health log=runtime/logs/core.log
+[start] owner-worker: ready pid=2942856 alive after 5 s log=runtime/logs/owner-worker.log

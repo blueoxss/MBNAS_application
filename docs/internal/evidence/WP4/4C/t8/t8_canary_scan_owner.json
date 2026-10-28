@@ -1,0 +1,3734 @@
+{
+ "_stderr": "",
+ "_stdout": "  canary    OWNER_DTO_48: 11 hit(s) (not failing for profile owner)\nok   canary    OWNER_DTO_49: 11 hit(s) (not failing for profile owner)\nok   canary    OWNER_DTO_50: 11 hit(s) (not failing for profile owner)\nok   canary    OWNER_DTO_51: 11 hit(s) (not failing for profile owner)\nok   canary    OWNER_DTO_60: 1 hit(s) (not failing for profile owner)\nok   canary    OWNER_DTO_62: 5 hit(s) (not failing for profile owner)\nok   canary    OWNER_DTO_63: 2 hit(s) (not failing for profile owner)\nok   canary    OWNER_DTO_64: 1 hit(s) (not failing for profile owner)\nok   expect   OWNER_DTO_01 present in owner: 34 hit(s)\nok   expect   OWNER_DTO_02 present in owner: 34 hit(s)\nok   expect   OWNER_DTO_03 present in owner: 34 hit(s)\nok   expect   OWNER_DTO_04 present in owner: 34 hit(s)\nok   expect   OWNER_DTO_05 present in owner: 34 hit(s)\nok   expect   OWNER_DTO_06 present in owner: 6 hit(s)\nok   expect   OWNER_DTO_07 present in owner: 6 hit(s)\nok   expect   OWNER_DTO_08 present in owner: 6 hit(s)\nok   expect   OWNER_DTO_09 present in owner: 6 hit(s)\nok   expect   OWNER_DTO_10 present in owner: 6 hit(s)\nok   expect   OWNER_DTO_11 present in owner: 6 hit(s)\nok   expect   OWNER_DTO_12 present in owner: 6 hit(s)\nok   expect   OWNER_DTO_13 present in owner: 9 hit(s)\nok   expect   OWNER_DTO_14 present in owner: 2 hit(s)\nok   expect   OWNER_DTO_15 present in owner: 1 hit(s)\nok   expect   OWNER_DTO_18 present in owner: 1 hit(s)\nok   expect   OWNER_DTO_19 present in owner: 1 hit(s)\nok   expect   OWNER_DTO_21 present in owner: 1 hit(s)\nok   expect   OWNER_DTO_22 present in owner: 13 hit(s)\nok   expect   OWNER_DTO_23 present in owner: 13 hit(s)\nok   expect   OWNER_DTO_24 present in owner: 13 hit(s)\nok   expect   OWNER_DTO_25 present in owner: 13 hit(s)\nok   expect   OWNER_DTO_26 present in owner: 13 hit(s)\nok   expect   OWNER_DTO_27 present in owner: 13 hit(s)\nok   expect   OWNER_DTO_28 present in owner: 13 hit(s)\nok   expect   OWNER_DTO_29 present in owner: 13 hit(s)\nok   expect   OWNER_DTO_30 present in owner: 13 hit(s)\nok   expect   OWNER_DTO_31 present in owner: 13 hit(s)\nok   expect   OWNER_DTO_32 present in owner: 1 hit(s)\nok   expect   OWNER_DTO_33 present in owner: 1 hit(s)\nok   expect   OWNER_DTO_34 present in owner: 1 hit(s)\nok   expect   OWNER_DTO_35 present in owner: 1 hit(s)\nok   expect   OWNER_DTO_36 present in owner: 1 hit(s)\nok   expect   OWNER_DTO_37 present in owner: 1 hit(s)\nok   expect   OWNER_DTO_38 present in owner: 1 hit(s)\nok   expect   OWNER_DTO_48 present in owner: 11 hit(s)\nok   expect   OWNER_DTO_49 present in owner: 11 hit(s)\nok   expect   OWNER_DTO_50 present in owner: 11 hit(s)\nok   expect   OWNER_DTO_51 present in owner: 11 hit(s)\nok   expect   OWNER_DTO_60 present in owner: 1 hit(s)\nok   expect   OWNER_DTO_62 present in owner: 5 hit(s)\nok   expect   OWNER_DTO_63 present in owner: 2 hit(s)\nok   expect   OWNER_DTO_64 present in owner: 1 hit(s)\nscanned files=22 bytes=676432 containers=1 skipped=0 hits=417 failing=0 unmet=0\ncanary_scan: PASS\n",
+ "exit": 0,
+ "expect_present": true,
+ "expectations": [
+  {
+   "area": "OWNER_DTO_01",
+   "hits": 34,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "hits": 34,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "hits": 34,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "hits": 34,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "hits": 34,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_06",
+   "hits": 6,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_07",
+   "hits": 6,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_08",
+   "hits": 6,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_09",
+   "hits": 6,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_10",
+   "hits": 6,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_11",
+   "hits": 6,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_12",
+   "hits": 6,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_13",
+   "hits": 9,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_14",
+   "hits": 2,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_15",
+   "hits": 1,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_18",
+   "hits": 1,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_19",
+   "hits": 1,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_21",
+   "hits": 1,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_22",
+   "hits": 13,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_23",
+   "hits": 13,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_24",
+   "hits": 13,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_25",
+   "hits": 13,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_26",
+   "hits": 13,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_27",
+   "hits": 13,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_28",
+   "hits": 13,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_29",
+   "hits": 13,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_30",
+   "hits": 13,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_31",
+   "hits": 13,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_32",
+   "hits": 1,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_33",
+   "hits": 1,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_34",
+   "hits": 1,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_35",
+   "hits": 1,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_36",
+   "hits": 1,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_37",
+   "hits": 1,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_38",
+   "hits": 1,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_48",
+   "hits": 11,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_49",
+   "hits": 11,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_50",
+   "hits": 11,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_51",
+   "hits": 11,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_60",
+   "hits": 1,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_62",
+   "hits": 5,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_63",
+   "hits": 2,
+   "ok": true,
+   "profile": "owner"
+  },
+  {
+   "area": "OWNER_DTO_64",
+   "hits": 1,
+   "ok": true,
+   "profile": "owner"
+  }
+ ],
+ "failing_hits": 0,
+ "hits": [
+  {
+   "area": "OWNER_DTO_25",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_25",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_22",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_22",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_26",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_26",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_31",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_31",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_23",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_23",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_28",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_28",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_27",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_27",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_30",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_30",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_29",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_29",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_24",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_24",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_32",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_32",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_33",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_33",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_34",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_34",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_64",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_64",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_35",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_35",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_36",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_36",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_37",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_37",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_38",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_38",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_49",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_49",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_48",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_48",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_51",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_51",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_50",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_50",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_49",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_49",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_48",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_48",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_51",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_51",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_50",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_50",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_49",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_49",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_48",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_48",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_51",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_51",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_50",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_50",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_49",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_49",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_48",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_48",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_51",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_51",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_50",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_50",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_49",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_49",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_48",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_48",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_51",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_51",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_50",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_50",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_49",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_49",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_48",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_48",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_51",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_51",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_50",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_50",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_49",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_49",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_48",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_48",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_51",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_51",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_50",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_50",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_49",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_49",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_48",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_48",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_51",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_51",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_50",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_50",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_49",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_49",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_48",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_48",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_51",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_51",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_50",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_50",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_49",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_49",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_48",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_48",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_51",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_51",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_50",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_50",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_49",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_49",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_48",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_48",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_51",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_51",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_50",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_50",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_25",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_25",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_22",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_22",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_26",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_26",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_31",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_31",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_23",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_23",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_28",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_28",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_27",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_27",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_30",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_30",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_29",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_29",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_24",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_24",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_09",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_09",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_10",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_10",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_07",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_07",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_12",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_12",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_11",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_11",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_08",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_08",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_06",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_06",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_09",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_09",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_10",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_10",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_07",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_07",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_12",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_12",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_11",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_11",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_08",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_08",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_06",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_06",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_63",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_63",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_candidates_canary_audit.json:1",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_63",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_63",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!checkpoints.json:12",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_60",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_60",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!cost_ledger.csv:20",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_21",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_21",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!environment.lock.json:7",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_09",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_09",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_10",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_10",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_07",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_07",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_12",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_12",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_11",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_11",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_08",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_08",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_06",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_06",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:2",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_09",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_09",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_10",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_10",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_07",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_07",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_12",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_12",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_11",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_11",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_08",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_08",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_06",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_06",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!evaluations.jsonl:3",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_19",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_19",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:154",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_18",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_18",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:156",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_13",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_13",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:157",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_14",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_14",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:158",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_09",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_09",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_10",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_10",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_07",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_07",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_12",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_12",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_11",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_11",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_08",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_08",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_06",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_06",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_09",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_09",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_10",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_10",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_07",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_07",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_12",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_12",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_11",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_11",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_08",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_08",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_06",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_06",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!events.jsonl:160",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_13",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_13",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!generations.json:9",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_13",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_13",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!generations.json:28",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_13",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_13",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!generations.json:47",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_13",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_13",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!generations.json:66",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_13",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_13",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!generations.json:85",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_13",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_13",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!generations.json:104",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_13",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_13",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!generations.json:123",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_13",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_13",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!generations.json:142",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:9",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:12",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:16",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:27",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:31",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:37",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:40",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:44",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:55",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:59",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_25",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_25",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:72",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_22",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_22",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:74",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_26",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_26",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:78",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_31",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_31",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:83",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_23",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_23",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:89",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_28",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_28",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:94",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_27",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_27",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:98",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_30",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_30",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:103",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_29",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_29",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:104",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_24",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_24",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:109",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:131",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:134",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:138",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:149",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:153",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:159",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:162",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:166",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:177",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:181",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_25",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_25",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:194",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_22",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_22",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:196",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_26",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_26",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:200",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_31",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_31",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:205",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_23",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_23",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:211",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_28",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_28",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:216",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_27",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_27",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:220",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_30",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_30",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:225",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_29",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_29",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:226",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_24",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_24",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:231",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:252",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:255",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:259",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:270",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:274",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:280",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:283",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:287",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:298",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:302",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_25",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_25",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:315",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_22",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_22",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:317",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_26",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_26",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:321",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_31",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_31",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:326",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_23",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_23",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:332",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_28",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_28",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:337",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_27",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_27",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:341",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_30",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_30",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:346",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_29",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_29",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:347",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_24",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_24",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:352",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:373",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:376",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:380",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:391",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:395",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:401",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:404",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:408",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:419",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:423",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_25",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_25",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:436",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_22",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_22",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:438",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_26",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_26",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:442",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_31",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_31",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:447",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_23",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_23",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:453",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_28",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_28",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:458",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_27",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_27",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:462",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_30",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_30",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:467",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_29",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_29",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:468",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_24",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_24",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:473",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:494",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:497",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:501",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:512",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:516",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:522",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:525",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:529",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:540",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:544",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_25",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_25",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:557",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_22",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_22",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:559",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_26",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_26",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:563",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_31",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_31",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:568",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_23",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_23",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:574",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_28",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_28",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:579",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_27",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_27",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:583",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_30",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_30",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:588",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_29",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_29",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:589",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_24",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_24",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:594",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:615",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:618",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:622",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:633",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:637",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:643",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:646",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:650",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:661",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:665",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_25",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_25",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:678",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_22",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_22",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:680",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_26",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_26",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:684",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_31",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_31",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:689",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_23",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_23",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:695",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_28",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_28",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:700",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_27",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_27",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:704",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_30",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_30",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:709",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_29",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_29",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:710",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_24",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_24",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:715",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:736",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:739",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:743",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:754",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:758",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:764",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:767",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:771",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:782",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:786",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_25",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_25",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:799",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_22",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_22",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:801",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_26",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_26",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:805",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_31",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_31",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:810",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_23",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_23",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:816",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_28",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_28",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:821",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_27",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_27",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:825",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_30",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_30",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:830",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_29",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_29",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:831",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_24",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_24",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:836",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:857",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:860",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:864",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:875",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:879",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:885",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:888",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:892",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:903",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:907",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_25",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_25",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:920",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_22",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_22",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:922",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_26",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_26",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:926",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_31",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_31",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:931",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_23",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_23",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:937",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_28",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_28",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:942",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_27",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_27",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:946",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_30",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_30",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:951",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_29",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_29",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:952",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_24",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_24",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:957",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:981",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:984",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:988",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:999",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1003",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1009",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1012",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1016",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1027",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1031",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_25",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_25",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1044",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_22",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_22",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1046",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_26",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_26",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1050",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_31",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_31",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1055",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_23",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_23",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1061",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_28",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_28",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1066",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_27",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_27",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1070",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_30",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_30",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1075",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_29",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_29",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1076",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_24",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_24",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1081",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1104",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1107",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1111",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1122",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1126",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_04",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1132",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_03",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1135",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_02",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1139",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_01",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_01",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1150",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_05",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1154",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_25",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_25",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1167",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_22",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_22",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1169",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_26",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_26",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1173",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_31",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_31",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1178",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_23",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_23",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1184",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_28",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_28",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1189",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_27",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_27",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1193",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_30",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_30",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1198",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_29",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_29",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1199",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_24",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_24",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1204",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_25",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_25",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1288",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_22",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_22",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1290",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_26",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_26",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1294",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_31",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_31",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1299",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_23",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_23",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1305",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_28",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_28",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1310",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_27",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_27",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1314",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_30",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_30",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1319",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_29",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_29",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1320",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_24",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_24",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!lineage.json:1325",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_15",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_15",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!protocol/resolved.json:123",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_62",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_62",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!protocol/resolved.json:257",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_62",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_62",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!protocol/resolved.json:261",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_62",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_62",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!protocol/resolved.json:265",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_62",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_62",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!protocol/resolved.json:269",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_62",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_62",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!protocol/resolved.json:273",
+   "variant": "raw"
+  },
+  {
+   "area": "OWNER_DTO_14",
+   "failing": false,
+   "kind": "canary",
+   "label": "OWNER_DTO_14",
+   "location": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner/core-admin_GET_owner_runs_run_export.zip!provenance.json:9",
+   "variant": "raw"
+  }
+ ],
+ "hits_by_label": {
+  "OWNER_DTO_01": 34,
+  "OWNER_DTO_02": 34,
+  "OWNER_DTO_03": 34,
+  "OWNER_DTO_04": 34,
+  "OWNER_DTO_05": 34,
+  "OWNER_DTO_06": 6,
+  "OWNER_DTO_07": 6,
+  "OWNER_DTO_08": 6,
+  "OWNER_DTO_09": 6,
+  "OWNER_DTO_10": 6,
+  "OWNER_DTO_11": 6,
+  "OWNER_DTO_12": 6,
+  "OWNER_DTO_13": 9,
+  "OWNER_DTO_14": 2,
+  "OWNER_DTO_15": 1,
+  "OWNER_DTO_18": 1,
+  "OWNER_DTO_19": 1,
+  "OWNER_DTO_21": 1,
+  "OWNER_DTO_22": 13,
+  "OWNER_DTO_23": 13,
+  "OWNER_DTO_24": 13,
+  "OWNER_DTO_25": 13,
+  "OWNER_DTO_26": 13,
+  "OWNER_DTO_27": 13,
+  "OWNER_DTO_28": 13,
+  "OWNER_DTO_29": 13,
+  "OWNER_DTO_30": 13,
+  "OWNER_DTO_31": 13,
+  "OWNER_DTO_32": 1,
+  "OWNER_DTO_33": 1,
+  "OWNER_DTO_34": 1,
+  "OWNER_DTO_35": 1,
+  "OWNER_DTO_36": 1,
+  "OWNER_DTO_37": 1,
+  "OWNER_DTO_38": 1,
+  "OWNER_DTO_48": 11,
+  "OWNER_DTO_49": 11,
+  "OWNER_DTO_50": 11,
+  "OWNER_DTO_51": 11,
+  "OWNER_DTO_60": 1,
+  "OWNER_DTO_62": 5,
+  "OWNER_DTO_63": 2,
+  "OWNER_DTO_64": 1
+ },
+ "host_facts": false,
+ "manifest": {
+  "areas": [
+   "OWNER_DTO_01",
+   "OWNER_DTO_02",
+   "OWNER_DTO_03",
+   "OWNER_DTO_04",
+   "OWNER_DTO_05",
+   "OWNER_DTO_06",
+   "OWNER_DTO_07",
+   "OWNER_DTO_08",
+   "OWNER_DTO_09",
+   "OWNER_DTO_10",
+   "OWNER_DTO_11",
+   "OWNER_DTO_12",
+   "OWNER_DTO_13",
+   "OWNER_DTO_14",
+   "OWNER_DTO_15",
+   "OWNER_DTO_18",
+   "OWNER_DTO_19",
+   "OWNER_DTO_20",
+   "OWNER_DTO_21",
+   "OWNER_DTO_22",
+   "OWNER_DTO_23",
+   "OWNER_DTO_24",
+   "OWNER_DTO_25",
+   "OWNER_DTO_26",
+   "OWNER_DTO_27",
+   "OWNER_DTO_28",
+   "OWNER_DTO_29",
+   "OWNER_DTO_30",
+   "OWNER_DTO_31",
+   "OWNER_DTO_32",
+   "OWNER_DTO_33",
+   "OWNER_DTO_34",
+   "OWNER_DTO_35",
+   "OWNER_DTO_36",
+   "OWNER_DTO_37",
+   "OWNER_DTO_38",
+   "OWNER_DTO_39",
+   "OWNER_DTO_40",
+   "OWNER_DTO_41",
+   "OWNER_DTO_42",
+   "OWNER_DTO_43",
+   "OWNER_DTO_44",
+   "OWNER_DTO_45",
+   "OWNER_DTO_46",
+   "OWNER_DTO_47",
+   "OWNER_DTO_48",
+   "OWNER_DTO_49",
+   "OWNER_DTO_50",
+   "OWNER_DTO_51",
+   "OWNER_DTO_52",
+   "OWNER_DTO_53",
+   "OWNER_DTO_54",
+   "OWNER_DTO_55",
+   "OWNER_DTO_56",
+   "OWNER_DTO_57",
+   "OWNER_DTO_58",
+   "OWNER_DTO_60",
+   "OWNER_DTO_61",
+   "OWNER_DTO_62",
+   "OWNER_DTO_63",
+   "OWNER_DTO_64"
+  ],
+  "path": "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/CANARY_MANIFEST.json",
+  "sha256": "6a582a28fee193675157b6ebd75e75d304caf07f6a7b6209169a20b7c359234c"
+ },
+ "needle_count": 434,
+ "profile": "owner",
+ "scanned": {
+  "bytes": 676432,
+  "containers": 1,
+  "files": 22,
+  "min_files": 1,
+  "skipped": []
+ },
+ "schema": "mbnas.canary_scan/1",
+ "status": "PASS",
+ "targets": [
+  "/tmp/pytest-of-mgjeong/pytest-857/wp4c_t80/owner"
+ ],
+ "too_few_files": false,
+ "unmet_expectations": 0
+}

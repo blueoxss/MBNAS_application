@@ -1,0 +1,5 @@
+manifest rows 603
+snapshot copy: match 603, differ 0, missing 0, extra 0, pyc 0, __pycache__ 0
+delta chain: files 2, rows 57, last row == manifest 51/51, supersedes links ok 6 bad 0, summary listing mismatch 0
+summary counts == manifest: True
+ok True (0.05 s)

@@ -1,0 +1,24 @@
+$ python -I scripts/dev/canary_scan.py --manifest docs/internal/canary/CANARY_MANIFEST.json --profile public --secrets-env <combined env files, scratch 0600> --needles-file <owner-side strings, scratch 0600> capture/registration/install_logs
+exit=1
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:1
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:1
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:2
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:3
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:4
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:7
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:8
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:8
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:8
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:8
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:9
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:14
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:15
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:16
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:17
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:18
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:19
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:20
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:21
+FAIL host_fact HOST_FACT#5 owner account name [raw] install_logs/install-20261027T220849Z.log:22
+scanned files=1 bytes=26449 containers=0 skipped=0 hits=20 failing=20 unmet=0
+canary_scan: FAIL

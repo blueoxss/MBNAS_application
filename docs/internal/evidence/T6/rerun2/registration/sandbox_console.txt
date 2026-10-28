@@ -1,0 +1,18 @@
+[t6r2-registration 2026-10-28T02:01:02Z] isolation: /home visible? no; project tree visible? no; etri_nas visible? no; /data visible? no; interfaces: lo: enp2s0: enp0s31f6: br-14accfc64692: docker0: br-229eaf04b605: veth2d0f766: ; /opt: harness py310 scanner wheelhouse ; cwd /tmp
+[t6r2-registration 2026-10-28T02:01:02Z] python: /opt/py310/bin/python3.10; PYTHONPATH=<unset>; editable finders: 0 ; mbnas dists: mbnas_contracts mbnas_contracts-0.1.0.dist-info mbnas_model_runtime mbnas_model_runtime-0.1.0.dist-info mbnas_runner mbnas_runner-0.1.0.dist-info mbnas_server mbnas_server-0.1.0.dist-info 
+[t6r2-registration 2026-10-28T02:01:02Z] runner id file: runner-0a212a58; runner.env RUNNER_ID lines: 0
+[t6r2-registration 2026-10-28T02:01:03Z] doctor_strict_prestart exit=0
+[t6r2-registration 2026-10-28T02:01:10Z] start exit=0
+[t6r2-registration 2026-10-28T02:01:11Z] doctor_strict exit=0
+[t6r2-registration 2026-10-28T02:01:14Z] api_probe exit=0
+[t6r2-registration 2026-10-28T02:01:14Z] gateway pid 55 environ keys: CUDA_VISIBLE_DEVICES HF_HUB_OFFLINE HOME LANG MBNAS_HOME PATH PIP_CONFIG_FILE PWD PYTHONDONTWRITEBYTECODE PYTHONNOUSERSITE PYTHONUNBUFFERED SHLVL T6_LABEL TMPDIR YOLO_OFFLINE 
+[t6r2-registration 2026-10-28T02:01:14Z] gateway /proc/55/maps lines naming mbnas_core: 0
+[t6r2-registration 2026-10-28T02:01:14Z] runner pid 76 environ keys: CUDA_VISIBLE_DEVICES HF_HUB_OFFLINE HOME LANG MBNAS_HOME PATH PIP_CONFIG_FILE PWD PYTHONDONTWRITEBYTECODE PYTHONNOUSERSITE PYTHONUNBUFFERED SHLVL T6_LABEL TMPDIR YOLO_OFFLINE 
+[t6r2-registration 2026-10-28T02:01:14Z] runner /proc/76/maps lines naming mbnas_core: 0
+[t6r2-registration 2026-10-28T02:01:15Z] loader_check exit=0
+[t6r2-registration 2026-10-28T02:01:15Z] verify caller env (PYTHON*/OLDPWD/VIRTUAL_ENV): PYTHONDONTWRITEBYTECODE=1 
+[t6r2-registration 2026-10-28T02:04:18Z] verify_unit_relocation exit=0
+[t6r2-registration 2026-10-28T02:04:18Z] verify_package exit=0
+[t6r2-registration 2026-10-28T02:04:19Z] stop exit=0
+[t6r2-registration 2026-10-28T02:04:21Z] processes after stop (pid namespace of the sandbox): 1
+[t6r2-registration 2026-10-28T02:04:21Z] end

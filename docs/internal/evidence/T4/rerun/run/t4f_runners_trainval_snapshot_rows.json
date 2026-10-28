@@ -1,0 +1,576 @@
+[
+ {
+  "ap": null,
+  "architecture_hash": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+  "architecture_id": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+  "architecture_path": "architectures/model-6676d75f3e1e.yaml",
+  "arm": "Baseline",
+  "artifacts": [],
+  "attempt": 1,
+  "batch": 1,
+  "blocks": [
+   {
+    "args": [
+     64,
+     3,
+     2
+    ],
+    "from": -1,
+    "module": "Conv",
+    "mutated": false,
+    "name": "Conv",
+    "parent_block_id": null,
+    "position": 0,
+    "repeats": 1,
+    "source": null
+   },
+   {
+    "args": [
+     128,
+     3,
+     2
+    ],
+    "from": -1,
+    "module": "Conv",
+    "mutated": false,
+    "name": "Conv",
+    "parent_block_id": null,
+    "position": 1,
+    "repeats": 1,
+    "source": null
+   },
+   {
+    "args": [
+     256,
+     false,
+     0.25
+    ],
+    "from": -1,
+    "module": "C3k2",
+    "mutated": false,
+    "name": "C3k2",
+    "parent_block_id": null,
+    "position": 2,
+    "repeats": 2,
+    "source": null
+   },
+   {
+    "args": [
+     256,
+     3,
+     2
+    ],
+    "from": -1,
+    "module": "Conv",
+    "mutated": false,
+    "name": "Conv",
+    "parent_block_id": null,
+    "position": 3,
+    "repeats": 1,
+    "source": null
+   },
+   {
+    "args": [
+     512,
+     false,
+     0.25
+    ],
+    "from": -1,
+    "module": "C3k2",
+    "mutated": false,
+    "name": "C3k2",
+    "parent_block_id": null,
+    "position": 4,
+    "repeats": 2,
+    "source": null
+   },
+   {
+    "args": [
+     512,
+     3,
+     2
+    ],
+    "from": -1,
+    "module": "Conv",
+    "mutated": false,
+    "name": "Conv",
+    "parent_block_id": null,
+    "position": 5,
+    "repeats": 1,
+    "source": null
+   },
+   {
+    "args": [
+     512,
+     true
+    ],
+    "from": -1,
+    "module": "C3k2",
+    "mutated": false,
+    "name": "C3k2",
+    "parent_block_id": null,
+    "position": 6,
+    "repeats": 2,
+    "source": null
+   },
+   {
+    "args": [
+     1024,
+     3,
+     2
+    ],
+    "from": -1,
+    "module": "Conv",
+    "mutated": false,
+    "name": "Conv",
+    "parent_block_id": null,
+    "position": 7,
+    "repeats": 1,
+    "source": null
+   },
+   {
+    "args": [
+     1024,
+     true
+    ],
+    "from": -1,
+    "module": "C3k2",
+    "mutated": false,
+    "name": "C3k2",
+    "parent_block_id": null,
+    "position": 8,
+    "repeats": 2,
+    "source": null
+   },
+   {
+    "args": [
+     1024,
+     5
+    ],
+    "from": -1,
+    "module": "SPPF",
+    "mutated": false,
+    "name": "SPPF",
+    "parent_block_id": null,
+    "position": 9,
+    "repeats": 1,
+    "source": null
+   },
+   {
+    "args": [
+     1024
+    ],
+    "from": -1,
+    "module": "C2PSA",
+    "mutated": false,
+    "name": "C2PSA",
+    "parent_block_id": null,
+    "position": 10,
+    "repeats": 2,
+    "source": null
+   },
+   {
+    "args": [
+     "None",
+     2,
+     "nearest"
+    ],
+    "from": -1,
+    "module": "nn.Upsample",
+    "mutated": false,
+    "name": "nn.Upsample",
+    "parent_block_id": null,
+    "position": 11,
+    "repeats": 1,
+    "source": null
+   },
+   {
+    "args": [
+     1
+    ],
+    "from": [
+     -1,
+     6
+    ],
+    "module": "Concat",
+    "mutated": false,
+    "name": "Concat",
+    "parent_block_id": null,
+    "position": 12,
+    "repeats": 1,
+    "source": null
+   },
+   {
+    "args": [
+     512,
+     false
+    ],
+    "from": -1,
+    "module": "C3k2",
+    "mutated": false,
+    "name": "C3k2",
+    "parent_block_id": null,
+    "position": 13,
+    "repeats": 2,
+    "source": null
+   },
+   {
+    "args": [
+     "None",
+     2,
+     "nearest"
+    ],
+    "from": -1,
+    "module": "nn.Upsample",
+    "mutated": false,
+    "name": "nn.Upsample",
+    "parent_block_id": null,
+    "position": 14,
+    "repeats": 1,
+    "source": null
+   },
+   {
+    "args": [
+     1
+    ],
+    "from": [
+     -1,
+     4
+    ],
+    "module": "Concat",
+    "mutated": false,
+    "name": "Concat",
+    "parent_block_id": null,
+    "position": 15,
+    "repeats": 1,
+    "source": null
+   },
+   {
+    "args": [
+     256,
+     false
+    ],
+    "from": -1,
+    "module": "C3k2",
+    "mutated": false,
+    "name": "C3k2",
+    "parent_block_id": null,
+    "position": 16,
+    "repeats": 2,
+    "source": null
+   },
+   {
+    "args": [
+     256,
+     3,
+     2
+    ],
+    "from": -1,
+    "module": "Conv",
+    "mutated": false,
+    "name": "Conv",
+    "parent_block_id": null,
+    "position": 17,
+    "repeats": 1,
+    "source": null
+   },
+   {
+    "args": [
+     1
+    ],
+    "from": [
+     -1,
+     13
+    ],
+    "module": "Concat",
+    "mutated": false,
+    "name": "Concat",
+    "parent_block_id": null,
+    "position": 18,
+    "repeats": 1,
+    "source": null
+   },
+   {
+    "args": [
+     512,
+     false
+    ],
+    "from": -1,
+    "module": "C3k2",
+    "mutated": false,
+    "name": "C3k2",
+    "parent_block_id": null,
+    "position": 19,
+    "repeats": 2,
+    "source": null
+   },
+   {
+    "args": [
+     512,
+     3,
+     2
+    ],
+    "from": -1,
+    "module": "Conv",
+    "mutated": false,
+    "name": "Conv",
+    "parent_block_id": null,
+    "position": 20,
+    "repeats": 1,
+    "source": null
+   },
+   {
+    "args": [
+     1
+    ],
+    "from": [
+     -1,
+     10
+    ],
+    "module": "Concat",
+    "mutated": false,
+    "name": "Concat",
+    "parent_block_id": null,
+    "position": 21,
+    "repeats": 1,
+    "source": null
+   },
+   {
+    "args": [
+     1024,
+     true
+    ],
+    "from": -1,
+    "module": "C3k2",
+    "mutated": false,
+    "name": "C3k2",
+    "parent_block_id": null,
+    "position": 22,
+    "repeats": 2,
+    "source": null
+   },
+   {
+    "args": [
+     "nc"
+    ],
+    "from": [
+     16,
+     19,
+     22
+    ],
+    "module": "Detect",
+    "mutated": false,
+    "name": "Detect",
+    "parent_block_id": null,
+    "position": 23,
+    "repeats": 1,
+    "source": null
+   }
+  ],
+  "candidate_id": "model-6676d75f3e1e",
+  "candidate_status": "SEARCH_COMPLETE",
+  "checkpoint_path": "candidates/model-6676d75f3e1e/ckpt/full_e0002.pt",
+  "checkpoint_sha256": "e73bfb65a1b3e7d490776cde73f6a92cef3eb858c3eb38e95aa516d837bb9758",
+  "comparison_group": "common_scratch",
+  "cost": {
+   "train": 8.544687
+  },
+  "device": "cpu",
+  "epoch_target_total": 2,
+  "epochs": 2,
+  "evaluation_hash": "pending",
+  "execution_mode": "PILOT",
+  "family": "upload-ecb6c44bd2b0",
+  "fitness": null,
+  "fitness_weights": {
+   "ap": 0.2,
+   "latency_reward": 0.4,
+   "recall": 0.1,
+   "size_reward": 0.3
+  },
+  "generation": 0,
+  "id": "model-6676d75f3e1e.TRAIN.eval",
+  "job_id": "job-328ca11a924047b9",
+  "latency_ms": null,
+  "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+  "latency_source": "pending",
+  "name": "upload-ecb6c44bd2b0",
+  "namespace": "pilot_smoke",
+  "objective_hash": "sha256:4b0167bcac4c496d9ea754ebb2ac4a298e4236d4393df9efacc4562c18939e21",
+  "parents": [],
+  "performance_status": "NOT_EVALUATED",
+  "precision": "FP16",
+  "protocol_hash": "sha256:559142585349f34c5039563578dcc4518413dae8b5c10c9fcf7d545a6140f3de",
+  "raw_metrics": {
+   "ap_50": null,
+   "checkpoint_sha256s": {
+    "eval_ema": "06299ee170beae4610f615a2e688189f5cb87548e031c7bf2ada497bc4eef71e",
+    "training_full": "e73bfb65a1b3e7d490776cde73f6a92cef3eb858c3eb38e95aa516d837bb9758",
+    "weights_only": "b89e74471a3e5073adbde5a643d5f6093518e47f6cb4844baf106c8f6ca779cc"
+   },
+   "device_name": null,
+   "device_used": "cpu",
+   "epoch_target_total": 2,
+   "epochs": 2,
+   "eval_batch": 8,
+   "eval_checkpoint_sha256": "06299ee170beae4610f615a2e688189f5cb87548e031c7bf2ada497bc4eef71e",
+   "eval_split": "search_val",
+   "global_step": 4,
+   "latency_scope_base": "forward_and_postprocess",
+   "resolved_recipe": {
+    "accumulate": 1,
+    "agnostic_nms": false,
+    "amp": false,
+    "amp_resolved": false,
+    "angle": 1.0,
+    "augment": false,
+    "auto_augment": "randaugment",
+    "batch": 2,
+    "batches_per_epoch": 2,
+    "bgr": 0.0,
+    "box": 7.5,
+    "cache": false,
+    "cfg": null,
+    "channels_last": null,
+    "classes": null,
+    "close_mosaic": 0,
+    "cls": 0.5,
+    "cls_pw": 0.0,
+    "cls_remap": true,
+    "compile": false,
+    "conf": null,
+    "copy_paste": 0.0,
+    "copy_paste_mode": "flip",
+    "cos_lr": true,
+    "cutmix": 0.0,
+    "data": "<T>/final/t4/mbnas_application/runtime/runner/runs/runs/train-e04ffc38bb5f/data_view/2d3fb087c8875d9f/data.yaml",
+    "degrees": 0.0,
+    "deterministic": true,
+    "device": "cpu",
+    "dfl": 1.5,
+    "dgrad": 0.5,
+    "dis": 6.0,
+    "distill_model": null,
+    "dlam": 1.0,
+    "dlog": 1.0,
+    "dnn": false,
+    "dropout": 0.0,
+    "dynamic": false,
+    "embed": null,
+    "epochs": 2,
+    "erasing": 0.4,
+    "exist_ok": true,
+    "fliplr": 0.5,
+    "flipud": 0.0,
+    "format": "torchscript",
+    "fraction": 1.0,
+    "freeze": null,
+    "fused_optimizer": false,
+    "hsv_h": 0.015,
+    "hsv_s": 0.7,
+    "hsv_v": 0.4,
+    "imgsz": 64,
+    "iou": 0.7,
+    "kobj": 1.0,
+    "line_width": null,
+    "lr0": 0.001,
+    "lrf": 0.01,
+    "mask_ratio": 4,
+    "max_det": 300,
+    "mixup": 0.0,
+    "mode": "train",
+    "model": "<T>/final/t4/mbnas_application/runtime/runner/runs/runs/train-e04ffc38bb5f/candidates/model-6676d75f3e1e/architecture.yaml",
+    "momentum": 0.9,
+    "mosaic": 1.0,
+    "multi_scale": 0.0,
+    "name": "stage_e0000_e0002",
+    "nbs": 2,
+    "nms": null,
+    "opset": null,
+    "optimize": false,
+    "optimizer": "SGD",
+    "optimizer_class": "SGD",
+    "overlap_mask": true,
+    "patience": 0,
+    "perspective": 0.0,
+    "plots": true,
+    "pose": 12.0,
+    "pretrained": false,
+    "profile": false,
+    "project": "<T>/final/t4/mbnas_application/runtime/runner/runs/runs/train-e04ffc38bb5f/candidates/model-6676d75f3e1e/native",
+    "quantize": null,
+    "rect": false,
+    "resolved_lr0": 0.001,
+    "resolved_optimizer": "SGD",
+    "resume": false,
+    "retina_masks": false,
+    "rle": 1.0,
+    "save": true,
+    "save_conf": false,
+    "save_crop": false,
+    "save_dir": "<T>/final/t4/mbnas_application/runtime/runner/runs/runs/train-e04ffc38bb5f/candidates/model-6676d75f3e1e/native/stage_e0000_e0002",
+    "save_frames": false,
+    "save_json": false,
+    "save_period": -1,
+    "save_txt": false,
+    "scale": 0.5,
+    "seed": 41,
+    "shear": 0.0,
+    "show": false,
+    "show_boxes": true,
+    "show_conf": true,
+    "show_labels": true,
+    "simplify": true,
+    "single_cls": false,
+    "source": null,
+    "split": "val",
+    "stream_buffer": false,
+    "task": "detect",
+    "time": null,
+    "tracker": "tracktrack.yaml",
+    "train_images": 4,
+    "translate": 0.1,
+    "val": true,
+    "verbose": false,
+    "vid_stride": 1,
+    "visualize": false,
+    "warmup_bias_lr": 0.1,
+    "warmup_epochs": 0.0,
+    "warmup_iterations": 0,
+    "warmup_momentum": 0.8,
+    "weight_decay": 0.0005,
+    "workers": 0,
+    "workspace": null
+   },
+   "samples_seen": 8,
+   "timings": {
+    "profile_s": 0.0,
+    "val_s": 0.0
+   },
+   "train_batch": 2,
+   "validation_enabled": true
+  },
+  "reason_code": "EVALUATION_REQUIRES_CUDA",
+  "recall": null,
+  "requested_input_shape": [
+   64,
+   64
+  ],
+  "resolved_input_shape": [
+   64,
+   64
+  ],
+  "revision": 1,
+  "rung": "TRAIN",
+  "size_mb": null,
+  "source_kind": "user",
+  "split_hash": null,
+  "status": "SEARCH_COMPLETE",
+  "supersedes_evaluation_id": null,
+  "training_mode": "scratch",
+  "training_seed": 41,
+  "immutable": false,
+  "checkpoint_state": "PRESENT",
+  "training_status": "TRAINED"
+ }
+]

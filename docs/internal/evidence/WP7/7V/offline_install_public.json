@@ -1,0 +1,13 @@
+{
+ "profile": "public",
+ "network": "none (unshare -rn)",
+ "exit": 0,
+ "verified_at": "2026-10-28 (KST)",
+ "command": "unshare -rn bash \"<T6>/mbnas offline test/mbnas_application/scripts/install.sh\" --profile public --offline --wheelhouse <SOURCE_ROOT>/build/wheelhouse --python <python3.10>",
+ "cwd": "external (WP-7V scratch folder, outside the extracted tree)",
+ "wheelhouse": "external, not bundled: <SOURCE_ROOT>/build/wheelhouse (141 wheels, pins of constraints.txt); project wheels from the ZIP's wheels/",
+ "tested_zip": "dist/public/mbnas_application-0.1.0-public-runtime-linux_x86_64.zip",
+ "tested_zip_sha256": "4174060dde93ce8aa941f2cbd36fcb8b0230f5f184e68f8ccbc71d49bcd9ae86",
+ "evidence": ["docs/internal/evidence/WP7/7V/install_public_offline_unshare.txt",
+              "docs/internal/evidence/WP7/7V/unshare_network_proof.txt"]
+}

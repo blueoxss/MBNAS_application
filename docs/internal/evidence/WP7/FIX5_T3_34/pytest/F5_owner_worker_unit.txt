@@ -1,0 +1,97 @@
+........................................................................ [ 15%]
+F..............FF....................................................... [ 30%]
+........................................................................ [ 46%]
+........................................................................ [ 61%]
+........................................................................ [ 77%]
+........................................................................ [ 92%]
+.................................                                        [100%]
+=================================== FAILURES ===================================
+___________________________ test_pragmas_and_schema ____________________________
+
+db = <sqlite3.Connection object at 0x7f2768843b40>
+settings = CoreSettings(api_token=None, artifact_signing_key=None, cors_origins=[], db_path='/tmp/claude-1001/-home-mgjeong-Deskt...ile=1024, structure_check_fsize_bytes=67108864, structure_check_max_output_bytes=1048576, structure_check_unshare=True)
+
+    def test_pragmas_and_schema(db, settings) -> None:
+        assert db.execute("PRAGMA journal_mode").fetchone()[0] == "wal"
+        assert db.execute("PRAGMA foreign_keys").fetchone()[0] == 1
+        assert db.execute("PRAGMA busy_timeout").fetchone()[0] == 10000
+        assert db.execute("PRAGMA synchronous").fetchone()[0] == 1  # NORMAL
+        tables = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+        assert {"runs", "validations", "candidates", "evaluations", "generations", "jobs", "workers", "events",
+                "artifacts", "cost_ledger", "checkpoints", "meta"} <= tables
+        connect(settings).close()  # schema re-application is idempotent
+>       assert db.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == "5"
+E       AssertionError: assert '6' == '5'
+E         
+E         - 5
+E         + 6
+
+tests/owner/unit/test_db.py:47: AssertionError
+___________________ test_v1_database_is_migrated_additively ____________________
+
+tmp_path = PosixPath('/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/fix5/runs/bt_F5_owner_worker_unit/test_v1_database_is_migrated_a0')
+
+    def test_v1_database_is_migrated_additively(tmp_path) -> None:
+        path = str(tmp_path / "v1.sqlite3")
+        old = sqlite3.connect(path)
+        old.executescript(_v1_schema())
+        _old_run(old)
+        old.execute("INSERT INTO checkpoints (id, run_id, candidate_id, epoch, kind, path, sha256, bytes, created_at, "
+                    "updated_at) VALUES ('ck1', 'run-old', 'c', 1, 'training_full', '/x', 's', 1, 't', 't')")
+        old.commit()
+        assert "kind" not in {r[1] for r in old.execute("PRAGMA table_info(runs)")}
+        old.close()
+        conn = connect(db_path=path)
+        try:
+            run = repo.get_run(conn, "run-old")
+            assert run["kind"] == "SEARCH" and run["parent_run_id"] is None and run["finalists"] == []
+            ck = repo.list_checkpoints(conn, "run-old")[0]
+            assert ck["state"] == "PRESENT" and ck["pruned_at"] is None and ck["prune"] is None
+>           assert conn.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == SCHEMA_VERSION == "5"
+E           AssertionError: assert '6' == '5'
+E             
+E             - 5
+E             + 6
+
+tests/owner/unit/test_db_migration.py:69: AssertionError
+_________ test_v2_database_events_check_is_widened_without_losing_rows _________
+
+tmp_path = PosixPath('/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/fix5/runs/bt_F5_owner_worker_unit/test_v2_database_events_check_0')
+
+    def test_v2_database_events_check_is_widened_without_losing_rows(tmp_path) -> None:
+        """S9-F3: a v2 DB (events.type CHECK without generation.updated) is rebuilt forward; old events survive."""
+        path = str(tmp_path / "v2.sqlite3")
+        old = sqlite3.connect(path)
+        old.executescript(_v2_schema())
+        old.execute("UPDATE meta SET value = '2' WHERE key = 'schema_version'")
+        _old_run(old)
+        old.commit()
+        with pytest.raises(sqlite3.IntegrityError):  # the old CHECK really rejects the new type
+            old.execute("INSERT INTO events (run_id, seq, type, payload_json, created_at) "
+                        "VALUES ('run-old', 3, 'generation.updated', '{}', 't')")
+        old.rollback()
+        before = old.execute("SELECT run_id, seq, type, payload_json, created_at FROM events ORDER BY seq").fetchall()
+        old.close()
+        conn = connect(db_path=path)
+        try:
+            after = [tuple(r) for r in conn.execute(
+                "SELECT run_id, seq, type, payload_json, created_at FROM events ORDER BY seq")]
+            assert after == before and len(after) == 2
+>           assert conn.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == SCHEMA_VERSION == "5"
+E           AssertionError: assert '6' == '5'
+E             
+E             - 5
+E             + 6
+
+tests/owner/unit/test_db_migration.py:108: AssertionError
+=============================== warnings summary ===============================
+tests/owner/worker/test_blocked_result.py::test_blocked_benchmark_job_is_final_and_not_retried
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/owner/unit/test_db.py::test_pragmas_and_schema - AssertionError:...
+FAILED tests/owner/unit/test_db_migration.py::test_v1_database_is_migrated_additively
+FAILED tests/owner/unit/test_db_migration.py::test_v2_database_events_check_is_widened_without_losing_rows
+3 failed, 462 passed, 3 deselected, 1 warning in 131.14s (0:02:11)

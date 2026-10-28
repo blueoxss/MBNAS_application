@@ -1,0 +1,430 @@
+{
+ "candidates(evaluation rows)": [
+  {
+   "ap": null,
+   "architecture_hash": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+   "architecture_id": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1",
+   "architecture_path": "architectures/model-2279b48b3896.yaml",
+   "arm": "Baseline",
+   "artifacts": [],
+   "batch": 1,
+   "blocks": [
+    {
+     "args": [
+      64,
+      3,
+      2
+     ],
+     "from": -1,
+     "module": "Conv",
+     "mutated": false,
+     "name": "Conv",
+     "parent_block_id": null,
+     "position": 0,
+     "repeats": 1,
+     "source": null
+    },
+    {
+     "args": [
+      128,
+      3,
+      2
+     ],
+     "from": -1,
+     "module": "Conv",
+     "mutated": false,
+     "name": "Conv",
+     "parent_block_id": null,
+     "position": 1,
+     "repeats": 1,
+     "source": null
+    },
+    {
+     "args": [
+      256,
+      false,
+      0.25
+     ],
+     "from": -1,
+     "module": "C3k2",
+     "mutated": false,
+     "name": "C3k2",
+     "parent_block_id": null,
+     "position": 2,
+     "repeats": 2,
+     "source": null
+    },
+    {
+     "args": [
+      256,
+      3,
+      2
+     ],
+     "from": -1,
+     "module": "Conv",
+     "mutated": false,
+     "name": "Conv",
+     "parent_block_id": null,
+     "position": 3,
+     "repeats": 1,
+     "source": null
+    },
+    {
+     "args": [
+      512,
+      false,
+      0.25
+     ],
+     "from": -1,
+     "module": "C3k2",
+     "mutated": false,
+     "name": "C3k2",
+     "parent_block_id": null,
+     "position": 4,
+     "repeats": 2,
+     "source": null
+    },
+    {
+     "args": [
+      512,
+      3,
+      2
+     ],
+     "from": -1,
+     "module": "Conv",
+     "mutated": false,
+     "name": "Conv",
+     "parent_block_id": null,
+     "position": 5,
+     "repeats": 1,
+     "source": null
+    },
+    {
+     "args": [
+      512,
+      true
+     ],
+     "from": -1,
+     "module": "C3k2",
+     "mutated": false,
+     "name": "C3k2",
+     "parent_block_id": null,
+     "position": 6,
+     "repeats": 2,
+     "source": null
+    },
+    {
+     "args": [
+      1024,
+      3,
+      2
+     ],
+     "from": -1,
+     "module": "Conv",
+     "mutated": false,
+     "name": "Conv",
+     "parent_block_id": null,
+     "position": 7,
+     "repeats": 1,
+     "source": null
+    },
+    {
+     "args": [
+      1024,
+      true
+     ],
+     "from": -1,
+     "module": "C3k2",
+     "mutated": false,
+     "name": "C3k2",
+     "parent_block_id": null,
+     "position": 8,
+     "repeats": 2,
+     "source": null
+    },
+    {
+     "args": [
+      1024,
+      5
+     ],
+     "from": -1,
+     "module": "SPPF",
+     "mutated": false,
+     "name": "SPPF",
+     "parent_block_id": null,
+     "position": 9,
+     "repeats": 1,
+     "source": null
+    },
+    {
+     "args": [
+      1024
+     ],
+     "from": -1,
+     "module": "C2PSA",
+     "mutated": false,
+     "name": "C2PSA",
+     "parent_block_id": null,
+     "position": 10,
+     "repeats": 2,
+     "source": null
+    },
+    {
+     "args": [
+      "None",
+      2,
+      "nearest"
+     ],
+     "from": -1,
+     "module": "nn.Upsample",
+     "mutated": false,
+     "name": "nn.Upsample",
+     "parent_block_id": null,
+     "position": 11,
+     "repeats": 1,
+     "source": null
+    },
+    {
+     "args": [
+      1
+     ],
+     "from": [
+      -1,
+      6
+     ],
+     "module": "Concat",
+     "mutated": false,
+     "name": "Concat",
+     "parent_block_id": null,
+     "position": 12,
+     "repeats": 1,
+     "source": null
+    },
+    {
+     "args": [
+      512,
+      false
+     ],
+     "from": -1,
+     "module": "C3k2",
+     "mutated": false,
+     "name": "C3k2",
+     "parent_block_id": null,
+     "position": 13,
+     "repeats": 2,
+     "source": null
+    },
+    {
+     "args": [
+      "None",
+      2,
+      "nearest"
+     ],
+     "from": -1,
+     "module": "nn.Upsample",
+     "mutated": false,
+     "name": "nn.Upsample",
+     "parent_block_id": null,
+     "position": 14,
+     "repeats": 1,
+     "source": null
+    },
+    {
+     "args": [
+      1
+     ],
+     "from": [
+      -1,
+      4
+     ],
+     "module": "Concat",
+     "mutated": false,
+     "name": "Concat",
+     "parent_block_id": null,
+     "position": 15,
+     "repeats": 1,
+     "source": null
+    },
+    {
+     "args": [
+      256,
+      false
+     ],
+     "from": -1,
+     "module": "C3k2",
+     "mutated": false,
+     "name": "C3k2",
+     "parent_block_id": null,
+     "position": 16,
+     "repeats": 2,
+     "source": null
+    },
+    {
+     "args": [
+      256,
+      3,
+      2
+     ],
+     "from": -1,
+     "module": "Conv",
+     "mutated": false,
+     "name": "Conv",
+     "parent_block_id": null,
+     "position": 17,
+     "repeats": 1,
+     "source": null
+    },
+    {
+     "args": [
+      1
+     ],
+     "from": [
+      -1,
+      13
+     ],
+     "module": "Concat",
+     "mutated": false,
+     "name": "Concat",
+     "parent_block_id": null,
+     "position": 18,
+     "repeats": 1,
+     "source": null
+    },
+    {
+     "args": [
+      512,
+      false
+     ],
+     "from": -1,
+     "module": "C3k2",
+     "mutated": false,
+     "name": "C3k2",
+     "parent_block_id": null,
+     "position": 19,
+     "repeats": 2,
+     "source": null
+    },
+    {
+     "args": [
+      512,
+      3,
+      2
+     ],
+     "from": -1,
+     "module": "Conv",
+     "mutated": false,
+     "name": "Conv",
+     "parent_block_id": null,
+     "position": 20,
+     "repeats": 1,
+     "source": null
+    },
+    {
+     "args": [
+      1
+     ],
+     "from": [
+      -1,
+      10
+     ],
+     "module": "Concat",
+     "mutated": false,
+     "name": "Concat",
+     "parent_block_id": null,
+     "position": 21,
+     "repeats": 1,
+     "source": null
+    },
+    {
+     "args": [
+      1024,
+      true
+     ],
+     "from": -1,
+     "module": "C3k2",
+     "mutated": false,
+     "name": "C3k2",
+     "parent_block_id": null,
+     "position": 22,
+     "repeats": 2,
+     "source": null
+    },
+    {
+     "args": [
+      "nc"
+     ],
+     "from": [
+      16,
+      19,
+      22
+     ],
+     "module": "Detect",
+     "mutated": false,
+     "name": "Detect",
+     "parent_block_id": null,
+     "position": 23,
+     "repeats": 1,
+     "source": null
+    }
+   ],
+   "candidate_id": "model-2279b48b3896",
+   "candidate_status": "SEARCH_COMPLETE",
+   "checkpoint_path": "candidates/model-2279b48b3896/ckpt/full_e0002.pt",
+   "checkpoint_sha256": null,
+   "comparison_group": "common_scratch",
+   "device": "NVIDIA RTX A6000",
+   "epoch_target_total": 2,
+   "epochs": 2,
+   "evaluation_hash": "pending",
+   "execution_mode": "PILOT",
+   "family": "upload-ecb6c44bd2b0",
+   "fitness": null,
+   "fitness_weights": {
+    "ap": 0.2,
+    "latency_reward": 0.4,
+    "recall": 0.1,
+    "size_reward": 0.3
+   },
+   "generation": 0,
+   "id": "model-2279b48b3896.TRAIN.eval",
+   "job_id": "job-59130f1a59c649db",
+   "latency_ms": null,
+   "latency_scope": "forward_and_postprocessing_with_preprocessing_reported_separately",
+   "latency_source": "pending",
+   "name": "upload-ecb6c44bd2b0",
+   "namespace": "pilot_smoke",
+   "objective_hash": "sha256:4b0167bcac4c496d9ea754ebb2ac4a298e4236d4393df9efacc4562c18939e21",
+   "parents": [],
+   "performance_status": "NOT_EVALUATED",
+   "precision": "FP16",
+   "protocol_hash": "sha256:2ba359fd06b8057cb8b823686652c88fe9f175ae84c070986d76c6f7585e6015",
+   "raw_metrics": {
+    "device_used": "cpu",
+    "validation_enabled": false
+   },
+   "reason_code": null,
+   "recall": null,
+   "requested_input_shape": [
+    64,
+    64
+   ],
+   "resolved_input_shape": [
+    64,
+    64
+   ],
+   "revision": 1,
+   "rung": "TRAIN",
+   "size_mb": null,
+   "source_kind": "user",
+   "split_hash": null,
+   "status": "SEARCH_COMPLETE",
+   "supersedes_evaluation_id": null,
+   "training_mode": "scratch",
+   "training_seed": 41,
+   "immutable": false,
+   "checkpoint_state": "PRESENT",
+   "training_status": "TRAINED"
+  }
+ ],
+ "generated_candidates": []
+}

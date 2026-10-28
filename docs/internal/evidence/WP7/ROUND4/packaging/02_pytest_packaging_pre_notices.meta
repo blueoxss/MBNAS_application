@@ -1,0 +1,5 @@
+command: cd <ROOT> && CUDA_VISIBLE_DEVICES="" PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null MBNAS_TEST_ROOT=<SCRATCH>/... runtime/venv/bin/python -B -m pytest -p no:cacheprovider tests/public/packaging -m "not gpu and not live and not legacy_records and not host_data" --timeout=900 --basetemp=<SCRATCH>/... -q -rfEs
+start_utc: 2026-10-28T00:14:17Z
+end_utc: 2026-10-28T00:16:10Z
+exit: 1
+result: 62 passed, 1 failed (test_real_allowlists_ship_licence_notices_and_contents_in_every_profile: THIRD_PARTY_NOTICES_WEB.md absent at that time)

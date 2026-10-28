@@ -1,0 +1,26 @@
+tests/owner/projection rc=0 wall=22s
+  [tests/owner/projection] 
+  [tests/owner/projection] -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+  [tests/owner/projection] 259 passed, 1 warning in 20.91s
+tests/owner/orchestration rc=0 wall=50s
+  [tests/owner/orchestration] 
+  [tests/owner/orchestration] -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+  [tests/owner/orchestration] 36 passed, 1 warning in 49.06s
+tests/public/server rc=0 wall=60s
+  [tests/public/server] =========================== short test summary info ============================
+  [tests/public/server] SKIPPED [1] tests/public/server/test_routes.py:306: mini run absent
+  [tests/public/server] 539 passed, 1 skipped, 25 deselected, 1 warning in 59.86s
+tests/owner/search rc=0 wall=63s
+  [tests/owner/search] 
+  [tests/owner/search] -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+  [tests/owner/search] 153 passed, 2 warnings in 61.66s (0:01:01)
+tests/owner/worker rc=0 wall=101s
+  [tests/owner/worker] =========================== short test summary info ============================
+  [tests/owner/worker] XFAIL tests/owner/worker/test_dd_a62_core_local_generation.py::test_core_download_route_serves_a_core_local_architecture - FIX2B cross-package request: the core download route resolves every artifact against run_dir(run) (artifacts.registry.resolve_file); meta.location=core_local must resolve against core_run_dir(settings, run)
+  [tests/owner/worker] 45 passed, 1 xfailed, 1 warning in 99.14s (0:01:39)
+tests/owner/api rc=0 wall=224s
+  [tests/owner/api] 
+  [tests/owner/api] -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+  [tests/owner/api] 209 passed, 2 warnings in 221.88s (0:03:41)
+tests/owner/runner_protocol rc=143 wall=439s
+  [tests/owner/runner_protocol] FF..........................ALL DONE

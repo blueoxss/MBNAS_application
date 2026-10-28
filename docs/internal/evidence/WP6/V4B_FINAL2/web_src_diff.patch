@@ -1,0 +1,242 @@
+--- /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp3/c07r2/prev_web/src/components/CandidateView.tsx	2026-10-28 10:16:41.024818765 +0900
++++ /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web/src/components/CandidateView.tsx	2026-10-28 08:37:26.686719787 +0900
+@@ -14,8 +14,8 @@
+ import { DASH, fmtAny, fmtMb, fmtMs, fmtNum, fmtPct, fmtShape } from '../lib/format';
+ import { getIn } from '../lib/policy';
+ import { generationOnlyRow } from '../lib/generation';
+-import { isTrainedNotEvaluated, isUntrainedUnevaluated, TRAINED_NOT_EVALUATED, UNTRAINED_UNEVALUATED } from '../lib/evaluation';
+-import { hashVerdict, sha256OfBlob, type HashVerdict } from '../lib/structure';
++import { isTrainedNotEvaluated, isUntrainedUnevaluated, TRAINED_NOT_EVALUATED, trainedNotEvaluatedTitle, UNTRAINED_UNEVALUATED } from '../lib/evaluation';
++import { hashVerdict, sha256OfBlob, structureNodes, type HashVerdict } from '../lib/structure';
+ import { ArtifactDownload } from './ArtifactDownload';
+ import { ConfigRevisionsPanel, revisionsNote, useConfigRevisions } from './ConfigRevisions';
+ import { ModelComparison } from './ModelComparison';
+@@ -92,13 +92,35 @@
+ }
+ 
+ /**
++ * C07-D1: the structure block id of each YAML position, derived with the same `structureNodes` call (same blocks, model key
++ * and document options) as the ModelStructure view, so a block-table row opens exactly the block detail that its graph node
++ * and gene button open. A native-module document has no YAML row <-> module correspondence, so it maps nothing.
++ */
++export function structureBlockIdsByPosition(structureBlocks: readonly unknown[], modelKey: string, structure: Record<string, unknown>): Map<number, string> {
++  const ids = new Map<number, string>();
++  for (const node of structureNodes(structureBlocks, modelKey, { representation: structure.representation, schema: structure.schema })) {
++    if (!node.native && !ids.has(node.position)) ids.set(node.position, node.id);
++  }
++  return ids;
++}
++
++/**
+  * Public block lineage (contract 1.5.0 / DD-A19): position, block, source kind (a repaired row is reported with the source it
+  * was repaired from; the repair trace, old names and before/after are owner-only and never reach the console), operation,
+- * parent block and the YAML row.
++ * parent block and the YAML row. C07-D1: the Pos cell of a row whose position is a node of the structure view is a button
++ * that opens the same block detail as the graph node / gene button (`?block=`, `model_tab=structure`); a row without such a
++ * node keeps a plain cell.
+  */
+-function BlockTable({ blocks }: { blocks: Block[] }): JSX.Element {
++function BlockTable({ blocks, structureIds, onOpenBlock }: { blocks: Block[]; structureIds?: ReadonlyMap<number, string>; onOpenBlock?: (id: string) => void }): JSX.Element {
++  const posCell = (b: Block): React.ReactNode => {
++    const id = typeof b.position === 'number' ? structureIds?.get(b.position) : undefined;
++    if (id == null || !onOpenBlock) return fmtAny(b.position);
++    return <button type="button" className="btn btn-sm" data-testid={`block-row-${b.position}`} data-block-id={id}
++      aria-label={`${b.position} · ${b.name}: 구조·gene 탭에서 이 블록 상세 보기`} title={`${id}: 구조·gene 탭의 같은 블록 상세(그래프·gene 목록과 동일)`}
++      onClick={() => onOpenBlock(id)}>{b.position}</button>;
++  };
+   const cols: Column<Block>[] = [
+-    { key: 'pos', header: 'Pos', cell: (b) => fmtAny(b.position), sort: (b) => b.position ?? null, num: true },
++    { key: 'pos', header: 'Pos', cell: posCell, sort: (b) => b.position ?? null, num: true },
+     { key: 'name', header: 'Block', cell: (b) => <span className="mono wrap-any">{b.name}</span>, sort: (b) => b.name },
+     { key: 'kind', header: 'Source', cell: (b) => <SourceBadge kind={b.source_kind} />, sort: (b) => b.source_kind },
+     { key: 'op', header: 'Operation', cell: (b) => b.operation ?? DASH, sort: (b) => b.operation },
+@@ -106,7 +128,7 @@
+     { key: 'parent', header: 'parent_block_id', cell: (b) => <span className="mono wrap-any">{b.parent_block_id ?? DASH}</span> },
+     { key: 'row', header: 'YAML row', cell: (b) => <span className="mono wrap-any">{yamlRow(b)}</span> },
+   ];
+-  return <DataTable caption="Blocks (position, source kind, operation, YAML row)" columns={cols} rows={blocks} rowKey={(b) => `${b.position ?? ''}:${b.name}`} empty="No block records for this candidate." testId="block-table" />;
++  return <DataTable caption="Blocks (position, source kind, operation, YAML row; Pos opens the block detail)" columns={cols} rows={blocks} rowKey={(b) => `${b.position ?? ''}:${b.name}`} empty="No block records for this candidate." testId="block-table" />;
+ }
+ 
+ /** Checkpoint states in which the gateway may hold the bytes: PRESENT (contract 1.5.0) and READY (an artifact-style state). */
+@@ -331,6 +353,13 @@
+   const [detail, setDetail] = useState<CandidateDetail | null>(null);
+   const [wantedTab, setTab] = useState(() => typeof window === 'undefined' ? 'all' : new URL(window.location.href).searchParams.get('model_tab') ?? 'all');
+   const chooseTab = (value: string): void => { setTab(value); const url = new URL(window.location.href); url.searchParams.set('model_tab', value); window.history.replaceState(null, '', url); };
++  // C07-D1: a block-table row asks the structure view to select its block (each click a new seq)
++  const [blockRequest, setBlockRequest] = useState<{ id: string; seq: number } | null>(null);
++  useEffect(() => setBlockRequest(null), [c.candidate_id]);
++  const openBlock = (id: string): void => {
++    chooseTab('structure');
++    setBlockRequest((previous) => ({ id, seq: (previous?.seq ?? 0) + 1 }));
++  };
+   const [checking, setChecking] = useState(false);
+   const [download, setDownload] = useState<{ verdict: HashVerdict; bytes: number; error?: string } | null>(null);
+   const [detailErr, setDetailErr] = useState<string | null>(null);
+@@ -366,6 +395,9 @@
+   const structureStatus = detail?.structure_status ?? row.structure_status ?? structure.status;
+   const blocks = c.blocks?.length ? c.blocks : (detail?.blocks ?? []);
+   const structureBlocks = Array.isArray(structure.blocks) ? structure.blocks : blocks;
++  const structureIds = useMemo(() => structureBlockIdsByPosition(structureBlocks, c.candidate_id, structure),
++    // eslint-disable-next-line react-hooks/exhaustive-deps -- the document options are the only fields of `structure` read
++    [structureBlocks, c.candidate_id, structure.representation, structure.schema]);
+   const generation = rec(rec(detail?.audit).generation);
+   // DD-5: the row's performance_status may only be known from the audit of the opened detail
+   const trainedNotEvaluated = isTrainedNotEvaluated({ ...c, performance_status: (c as unknown as Record<string, unknown>).performance_status ?? rec(rec(detail?.audit).performance).status }, run);
+@@ -429,7 +461,7 @@
+         <Badge tone="info">{originLabel}</Badge>
+         <Badge>{c.family}</Badge>
+         {trainedNotEvaluated
+-          ? <Badge tone="info" title="DD-5: explicit training with validation OFF finishes as SEARCH_COMPLETE + performance_status NOT_EVALUATED; no metric was measured"><span data-testid="trained-not-evaluated">{TRAINED_NOT_EVALUATED}</span></Badge>
++          ? <Badge tone="info" title={trainedNotEvaluatedTitle(c, run)}><span data-testid="trained-not-evaluated">{TRAINED_NOT_EVALUATED}</span></Badge>
+           : untrained
+             ? <Badge tone="warn" className="b-nowrap" title={`training_status ${String(trainingRow.training_status ?? 'not reported (generated candidate: generation never trains)')} · evaluation_status ${String(trainingRow.evaluation_status ?? 'NOT_EVALUATED')}: no weights were trained and no metric was measured`}><span data-testid="untrained-unevaluated">{UNTRAINED_UNEVALUATED}</span></Badge>
+             : <Badge tone={c.status === 'EVALUATED' ? 'ok' : 'warn'}>{generated ? '미평가 · NOT_EVALUATED' : c.status}</Badge>}
+@@ -481,7 +513,7 @@
+         ]} />
+         <button className="btn btn-sm" type="button" disabled={!client || checking} onClick={() => void checkStructure()} data-testid="structure-check">{checking ? 'CPU 구조 검사 중…' : 'CPU 구조 검사 실행'}</button>
+         {detailErr && <p className="field-err" role="alert">{detailErr}</p>}
+-        <ModelStructure blocks={structureBlocks} modelKey={c.candidate_id} status={typeof structureStatus === 'string' ? structureStatus : undefined} diagnostics={Array.isArray(structure.diagnostics) ? structure.diagnostics : undefined} report={detail ? structure : null} />
++        <ModelStructure blocks={structureBlocks} modelKey={c.candidate_id} status={typeof structureStatus === 'string' ? structureStatus : undefined} diagnostics={Array.isArray(structure.diagnostics) ? structure.diagnostics : undefined} report={detail ? structure : null} selectRequest={blockRequest} />
+         <ModelComparison c={c} blocks={structureBlocks} all={all} client={client} runId={runId} structure={detail ? structure : null} datasetYaml={str(getIn(run?.resolved_protocol, 'console.paths.dataset_yaml'))} />
+       </section>
+       <div hidden={tab !== 'all' && tab !== 'training'}><TrainingPanel client={client} protocol={(run?.resolved_protocol ?? {}) as Record<string, unknown>} source={{ kind: trainingSourceKind, run_id: runId, candidate_id: c.candidate_id, ...(trainingSourceKind === 'baseline' ? { baseline_id: baselineId } : {}) }} onCreated={onTrainingCreated} /></div>
+@@ -506,7 +538,7 @@
+           </ul>
+         )}
+         {detailErr && <p className="help">Candidate detail endpoint: {detailErr}</p>}
+-        <BlockTable blocks={blocks} />
++        <BlockTable blocks={blocks} structureIds={structureIds} onOpenBlock={openBlock} />
+       </section>
+ 
+       {configTab && (
+--- /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp3/c07r2/prev_web/src/components/ModelStructure.tsx	2026-10-28 10:16:41.024818765 +0900
++++ /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web/src/components/ModelStructure.tsx	2026-10-28 08:37:02.538486501 +0900
+@@ -1,4 +1,4 @@
+-import { useEffect, useId, useMemo, useState } from 'react';
++import { useEffect, useId, useMemo, useRef, useState } from 'react';
+ import { catalogSummaryOf, EVIDENCE_ORDER, formatOriginDistribution, lowestEvidenceLevel, originDistribution, structureEdges, structureNodes, structureRecord, unobservedCodes, type BlockCatalog, type ConnectionSource, type StructureEdge, type StructureKind, type StructureNode } from '../lib/structure';
+ import { Badge, Banner, KV } from './ui';
+ 
+@@ -32,6 +32,12 @@
+   diagnostics?: unknown;
+   /** The whole mbnas-structure document: lets the view read representation, report edges, edges_unobserved and checks. */
+   report?: Record<string, unknown> | null;
++  /**
++   * C07-D1: a selection asked for outside the view (the candidate block table). Each new `seq` selects block `id` exactly as
++   * a click on its graph node or gene button does (same detail, URL `?block=`) and then moves focus to the block detail.
++   * An id that is not a node of this document is ignored.
++   */
++  selectRequest?: { id: string; seq: number } | null;
+ }
+ 
+ const inputSource = (value: unknown): string => value == null || value === -1 || (typeof value === 'string' && /^input$/i.test(value)) ? 'INPUT (모델 입력)' : typeof value === 'number' ? `row ${value}` : String(value);
+@@ -79,7 +85,7 @@
+ }
+ 
+ /** Recorded genes / native modules and actual connections. This view never infers runtime measurements. */
+-export function ModelStructure({ blocks, modelKey, status, diagnostics, report }: ModelStructureProps): JSX.Element {
++export function ModelStructure({ blocks, modelKey, status, diagnostics, report, selectRequest }: ModelStructureProps): JSX.Element {
+   const doc = structureRecord(report);
+   const representation = doc.representation;
+   const native = representation === 'native_modules';
+@@ -93,6 +99,8 @@
+     return new URL(window.location.href).searchParams.get('block');
+   });
+   const [zoom, setZoom] = useState(1);
++  const [focusDetail, setFocusDetail] = useState(false);
++  const sectionRef = useRef<HTMLElement | null>(null);
+   const uid = useId().replace(/:/g, '');
+   const marker = `structure-arrow-${uid}`;
+   const current = nodes.find((node) => node.id === selected) ?? nodes[0];
+@@ -116,6 +124,20 @@
+       window.history.replaceState(window.history.state, '', url);
+     }
+   };
++  // C07-D1: only a new request (seq) selects; the same select() as a node / gene click, then focus moves to the detail
++  // heading (the table button that asked is hidden by the tab switch, so focus must not stay on it).
++  const requestSeq = selectRequest?.seq;
++  useEffect(() => {
++    if (!selectRequest || !nodes.some((node) => node.id === selectRequest.id)) return;
++    select(selectRequest.id);
++    setFocusDetail(true);
++    // eslint-disable-next-line react-hooks/exhaustive-deps -- runs per request; nodes and select are read at that moment
++  }, [requestSeq]);
++  useEffect(() => {
++    if (!focusDetail) return;
++    setFocusDetail(false);
++    sectionRef.current?.querySelector<HTMLElement>('[data-testid="selected-block"] h4')?.focus();
++  }, [focusDetail]);
+ 
+   const notices = <>
+     {unobservedNotice.length > 0 && <Banner tone="info" role="status"><span data-testid="structure-unobserved-notice"><strong>구조 관측 없음 / 지원되지 않음</strong> (status UNVERIFIED · {unobservedNotice.join(', ')}). 이 모델 또는 이 실행 환경에서는 요청한 구조를 관측할 수 없습니다. 검사가 실패한 것(FAIL)이 아니며, 관측하지 못한 값은 비어 있습니다.</span></Banner>}
+@@ -130,7 +152,7 @@
+   const unit = native ? 'native 모듈' : 'gene';
+   const drawn = edges.filter((edge) => edge.state !== 'unresolved');
+   return (
+-    <section data-testid="model-structure" aria-label="모델 구조 상세">
++    <section data-testid="model-structure" aria-label="모델 구조 상세" ref={sectionRef}>
+       {notices}
+       <div className="row" style={{ justifyContent: 'space-between', marginBottom: 8 }}>
+         <h3 style={{ margin: 0 }}>{native ? '모델 구조 · native 모듈 / 연결' : '모델 구조 · gene / 실제 연결'}</h3>
+@@ -273,7 +295,7 @@
+     ['부모 출처', current.record.source], ['부모 block ID', current.record.parent_block_id], ['operation', current.record.operation],
+   ];
+   return <section aria-label="선택 블록 상세" data-testid="selected-block" style={{ marginTop: 14 }}>
+-    <h4>선택 블록 #{current.position} · {current.name}</h4>
++    <h4 tabIndex={-1}>선택 블록 #{current.position} · {current.name}</h4>
+     <dl style={{ display: 'grid', gridTemplateColumns: 'minmax(110px, 180px) minmax(0, 1fr)', gap: '6px 12px' }}>
+       {rows.map(([label, value]) => <div key={label} style={{ display: 'contents' }}><dt>{label}</dt><dd className="mono wrap-any" style={{ margin: 0 }}>{fmt(value)}</dd></div>)}
+     </dl>
+--- /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp3/c07r2/prev_web/src/lib/evaluation.ts	2026-10-28 10:16:41.032818926 +0900
++++ /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web/src/lib/evaluation.ts	2026-10-28 08:36:47.438338991 +0900
+@@ -25,6 +25,29 @@
+   return r.reason_code === EVALUATION_REQUIRES_CUDA && r.training_status !== 'UNTRAINED';
+ }
+ 
++/** Storage shape every "학습 완료 · 미평가" row shares (DD-5, DD-A63 a). */
++const TRAINED_NOT_EVALUATED_STORED = 'SEARCH_COMPLETE + performance_status NOT_EVALUATED';
++
++/**
++ * Tooltip of the "학습 완료 · 미평가" badge (C07-D2), shared by the Monitor candidate table and the candidate detail.
++ * The badge covers two cases with the same stored shape: an explicit training run with validation OFF (DD-5), and a row
++ * that a runner without CUDA trained but could not evaluate (`reason_code=EVALUATION_REQUIRES_CUDA`, DD-A62 a / DD-A63 a:
++ * a search arm or an explicit training run with validation ON). The title names the case from the row's reason code
++ * and the run's validation switch; any other row gets the generic text. Nothing is guessed.
++ */
++export function trainedNotEvaluatedTitle(row: unknown, run?: Run | null): string {
++  const r = rec(row);
++  if (r.reason_code === EVALUATION_REQUIRES_CUDA) {
++    return `학습은 끝났지만 평가하지 못했습니다: 이 job을 실행한 runner에 CUDA가 없습니다(reason_code ${EVALUATION_REQUIRES_CUDA}, 지연시간은 CUDA에서만 측정). ${TRAINED_NOT_EVALUATED_STORED} · AP·recall·latency·size·fitness·gate는 없음(null, latency pending) · checkpoint는 유지됩니다.`;
++  }
++  const validation = rec(rec(rec(rec(run?.resolved_protocol).console).extra).training).validation_enabled;
++  if (validation === false) {
++    return `validation OFF 명시 학습(DD-5): ${TRAINED_NOT_EVALUATED_STORED}로 끝나며 지표를 측정하지 않았습니다.`;
++  }
++  const code = typeof r.reason_code === 'string' && r.reason_code !== '' ? `, reason_code ${r.reason_code}` : '';
++  return `학습은 끝났지만 성능 평가 기록이 없습니다(${TRAINED_NOT_EVALUATED_STORED}${code}). 측정된 지표가 없으며 값을 추정하지 않습니다.`;
++}
++
+ /** Badge of a candidate that was neither trained nor evaluated (DD-A23: an evaluation-OFF generated candidate). */
+ export const UNTRAINED_UNEVALUATED = 'UNTRAINED · UNEVALUATED';
+ 
+--- /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp3/c07r2/prev_web/src/screens/Monitor.tsx	2026-10-28 10:16:41.036819007 +0900
++++ /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web/src/screens/Monitor.tsx	2026-10-28 08:36:49.106355350 +0900
+@@ -14,7 +14,7 @@
+ import { rec, str } from '../api/types';
+ import { applyFacetFilters, buildPlotPoints, FACETS, facetOptions, isFinalRow, selectCohort, UNRESOLVED_COHORT, type FacetFilters, type FacetName, type PlotPoint } from '../lib/cohort';
+ import { evaluationEnabled, generatedAsCandidate, inGenerationOrder } from '../lib/generation';
+-import { isTrainedNotEvaluated, isUntrainedUnevaluated, TRAINED_NOT_EVALUATED, UNTRAINED_UNEVALUATED } from '../lib/evaluation';
++import { isTrainedNotEvaluated, isUntrainedUnevaluated, TRAINED_NOT_EVALUATED, trainedNotEvaluatedTitle, UNTRAINED_UNEVALUATED } from '../lib/evaluation';
+ import { DASH, fmtAny, fmtGpuHours, fmtMs, fmtNum, fmtPct, fmtMb, fmtSeconds, latencyToFps } from '../lib/format';
+ import { baselineLines, countsInvariant, generationGuides, generationKey, isGenerationComplete, representativeLines, skippedForCohort, skippedHelpText, type Segment } from '../lib/lines';
+ import { candidateList } from '../state/reducer';
+@@ -113,7 +113,7 @@
+ function CandidateTable({ rows, onOpen, run }: { rows: Candidate[]; onOpen: (c: Candidate) => void; run?: Run | null }): JSX.Element {
+   const cols: Column<Candidate>[] = [
+     { key: 'name', header: 'Candidate', cell: (c) => <button className="btn btn-sm" type="button" onClick={() => onOpen(c)} aria-label={`Open details of ${c.name}, evaluation ${c.id}`}>{c.name}</button>, sort: (c) => c.name },
+-    { key: 'status', header: 'Evaluation status', cell: (c) => (isTrainedNotEvaluated(c, run) ? <Badge tone="info" title="DD-5: explicit training with validation OFF finishes as SEARCH_COMPLETE + performance_status NOT_EVALUATED; no metric was measured">{TRAINED_NOT_EVALUATED}</Badge> : <Badge tone={c.status === 'EVALUATED' ? 'ok' : 'warn'}>{c.status}</Badge>), sort: (c) => c.status },
++    { key: 'status', header: 'Evaluation status', cell: (c) => (isTrainedNotEvaluated(c, run) ? <Badge tone="info" title={trainedNotEvaluatedTitle(c, run)}>{TRAINED_NOT_EVALUATED}</Badge> : <Badge tone={c.status === 'EVALUATED' ? 'ok' : 'warn'}>{c.status}</Badge>), sort: (c) => c.status },
+     { key: 'cs', header: 'Candidate status', cell: (c) => c.candidate_status ?? DASH, sort: (c) => c.candidate_status },
+     { key: 'reason', header: 'Reason code', cell: (c) => (c.reason_code ? <Badge tone="err">{c.reason_code}</Badge> : DASH) },
+     { key: 'ep', header: 'Epochs / target', cell: (c) => `${c.epochs} / ${fmtAny(c.epoch_target_total)}`, sort: (c) => c.epochs, num: true },

@@ -1,0 +1,26 @@
+## t5-gw: python -c 'import mbnas_core'
+exit=1
+ModuleNotFoundError: No module named 'mbnas_core'
+## t5-gw: find_spec + installed distributions
+find_spec(mbnas_core)= None
+['mbnas-contracts', 'mbnas-model-runtime', 'mbnas-runner', 'mbnas-server']
+exit=0
+## t5-gw: files named *mbnas_core* anywhere in the container filesystem
+0
+## t5-gw: whoami/uid, CUDA_VISIBLE_DEVICES
+uid=1001 gid=1001 groups=1001
+CUDA_VISIBLE_DEVICES=[]
+0
+## t5-runner: python -c 'import mbnas_core'
+exit=1
+ModuleNotFoundError: No module named 'mbnas_core'
+## t5-runner: find_spec + installed distributions
+find_spec(mbnas_core)= None
+['mbnas-contracts', 'mbnas-model-runtime', 'mbnas-runner', 'mbnas-server']
+exit=0
+## t5-runner: files named *mbnas_core* anywhere in the container filesystem
+0
+## t5-runner: whoami/uid, CUDA_VISIBLE_DEVICES
+uid=1001 gid=1001 groups=1001
+CUDA_VISIBLE_DEVICES=[]
+0

@@ -1,0 +1,43 @@
+{
+ "suite": "unit",
+ "status": "FAIL",
+ "counts": {
+  "tests": 32,
+  "passed": 30,
+  "failed": 2,
+  "errors": 0,
+  "skipped": 0,
+  "summary": "2 failed, 30 passed in 12.82s"
+ },
+ "evidence": [
+  "runtime/logs/verify/20261027T045618Z-public/unit.log",
+  "runtime/logs/verify/20261027T045618Z-public/unit.junit.xml"
+ ],
+ "reason": "pytest exit 1",
+ "command": [
+  "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application/runtime/venv/bin/python",
+  "-B",
+  "-m",
+  "pytest",
+  "-m",
+  "not gpu and not live and not legacy_records and not host_data",
+  "-p",
+  "no:cacheprovider",
+  "--junitxml=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application/runtime/logs/verify/20261027T045618Z-public/unit.junit.xml",
+  "tests/public/infra"
+ ],
+ "exit_code": 1,
+ "duration_s": 13.4,
+ "scope": {
+  "test_dirs": [],
+  "markers": "not gpu and not live and not legacy_records and not host_data",
+  "not_applicable": [
+   "tests/owner: owner-only tests (public profile)"
+  ]
+ },
+ "profile": "public",
+ "schema": "mbnas.verify/1",
+ "root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application",
+ "started_at": "2026-10-27T04:56:18Z",
+ "finished_at": "2026-10-27T04:56:32Z"
+}

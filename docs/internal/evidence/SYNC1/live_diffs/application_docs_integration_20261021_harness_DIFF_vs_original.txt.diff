@@ -1,0 +1,11 @@
+--- a/application/docs/integration_20261021/harness/DIFF_vs_original.txt
++++ b/application/docs/integration_20261021/harness/DIFF_vs_original.txt
+@@ -109,3 +109,8 @@
+ identical
+ ##### cmp verify_cpu_training_browser.mjs
+ identical
++
++##### NOTE (S06_fix2): this file records only the WP-T state. Later changes to the .mjs files vs the originals in docs/implementation_20261021/ (maintained version = this harness/ directory):
++##### verify_live_browser.mjs: line 49 selector (WP-S8, internal-layers table).
++##### verify_cpu_training_browser.mjs: line 18 selector (WP-S8, trained-not-evaluated) and lines 29-47 + 55 (S06_fix1, DD-44 lightbox assertions; original_zoom_link computed instead of the literal true).
++##### Full current diff: diff -u docs/implementation_20261021/verify_cpu_training_browser.mjs docs/integration_20261021/harness/verify_cpu_training_browser.mjs

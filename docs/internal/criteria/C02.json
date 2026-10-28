@@ -1,0 +1,62 @@
+{
+ "id": "C02",
+ "name": "위협·비밀",
+ "version": "1.0 (2026-10-23 22:4x, 설계자 claude-fable-5-1 고정; 변경 시 사유·버전 기록)",
+ "pass_condition": {
+  "total_score": "> 90 of 100",
+  "blocker": 0,
+  "critical": 0,
+  "mandatory_evidence": "all criteria must cite artifacts produced in TARGET_ROOT by executed commands (no source-doc reported values)"
+ },
+ "criteria": [
+  {
+   "id": "customer_root",
+   "points": 25,
+   "observable_evidence": "고객 root 가정: public ZIP의 runner/gateway가 root여도 core 정책·키·DB에 접근 불가(코드·설정·프로세스 env 검사)",
+   "mandatory_checks": "T8 canary: runner/gateway /proc environ·cmdline에 OWNER_SECRET/DB_CRED 0건; RunnerSettings에 db_path 없음",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "core_boundary",
+   "points": 25,
+   "observable_evidence": "core·키·DB 경계: principals hash 저장, ticket 키·서명키 분리, runner 토큰 runner_id 바인딩, 공개 패키지에서 mbnas_core import 불가",
+   "mandatory_checks": "tests/public/infra/test_import_closure.py; tests/owner/runner_protocol auth 테스트(T3-30/31)",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "result_limits",
+   "points": 25,
+   "observable_evidence": "결과 공개 한계: 승인 모델 gene/YAML/가중치는 공개, 정책 trace는 비공개임을 DTO allowlist와 투영 테스트로 증명; 고객 측 측정의 진실성 한계 문서화",
+   "mandatory_checks": "DTO_ALLOWLIST 적용 테스트(WP-4), docs/public THREAT 절의 trust limits 문장",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "admin_subject",
+   "points": 25,
+   "observable_evidence": "실제 관리 주체: 별도 관리자 신뢰영역 요건, 동일 host 분리는 기능 검증임을 보고서에 명시; ADMIN_BOUNDARY 미충족 상태 정직 표기",
+   "mandatory_checks": "VALIDATION_REPORT·ACCEPTANCE_MATRIX의 ADMIN_BOUNDARY 행",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  }
+ ],
+ "notes": "점수는 자체 품질 평가이며 보안 확률·실측 성능이 아니다. 미실행 시험은 0점이고 BLOCKED_BY_ENV는 별도 표기(점수 아님)."
+}

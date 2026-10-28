@@ -1,0 +1,40 @@
+--- a/application/MBNAS_server/tests/unit/test_contract_history.py
++++ b/application/MBNAS_server/tests/unit/test_contract_history.py
+@@ -88,3 +88,37 @@
+     assert added == {"/schemas/StructureReport/properties/scale_source/enum",
+                      "/schemas/StructureReport/properties/blocks/items/properties/native_kind/enum",
+                      "/schemas/RegistryList/properties/registry_roots_skipped/items/required"}, added
++
++
++SELECTION_422_CODES = ("DEVICE_UNSUPPORTED", "EVAL_ONLY_UNSUPPORTED", "VALIDATION_DISABLED_UNSUPPORTED", "INITIAL_WEIGHTS_REQUIRED",
++                       "RESUME_SOURCE_REQUIRED")
++
++
++def test_1_4_3_names_the_five_training_selection_422_codes_and_changes_nothing_else() -> None:
++    """S05 fix round 1: wording/vocabulary only over 1.4.2; each named code is really raised by the server with status 422."""
++    old = json.loads((HISTORY / "openapi-1.4.2.json").read_text())
++    new = json.loads((HISTORY / "openapi-1.4.3.json").read_text())
++    assert new["info"]["version"] == "1.4.3" and new["x-contract-changelog"][0]["version"] == "1.4.3"
++    assert all(c.startswith("S05 fix round 1") for c in new["x-contract-changelog"][0]["changes"])
++    assert new["x-contract-changelog"][1:] == old["x-contract-changelog"]
++    vocab = new["x-status-vocabulary"]
++    assert {k: v for k, v in vocab["error_codes_added"].items() if k in SELECTION_422_CODES} == {c: 422 for c in SELECTION_422_CODES}
++    assert {k: v for k, v in vocab["error_codes_added"].items() if k not in SELECTION_422_CODES} == old["x-status-vocabulary"]["error_codes_added"]
++    resp = new["paths"]["/api/v1/training-runs"]["post"]["responses"]["422"]["description"]
++    for code in SELECTION_422_CODES:
++        assert code in resp and code in vocab["error_codes_note"], code
++    # nothing but descriptions, the changelog, the version and the vocabulary differ from 1.4.2
++    def strip(doc: dict) -> dict:
++        doc = json.loads(json.dumps(doc))
++        for key in ("x-contract-changelog", "x-status-vocabulary"):
++            doc.pop(key)
++        doc["info"].pop("version")
++        doc["paths"]["/api/v1/training-runs"]["post"]["responses"]["422"].pop("description")
++        return doc
++    assert strip(old) == strip(new)
++    # drift guard: the server raises exactly these codes with the default status 422 (no explicit status argument)
++    import re
++    src = "".join((CONTRACTS.parent / "src" / "mbnas_server" / rel).read_text() for rel in ("training/selection.py", "api/routes_training.py"))
++    for code in SELECTION_422_CODES:
++        calls = re.findall(r'TrainingSelectionError\(\s*"%s"\s*,\s*"[^"]*"\s*\)' % code, src)
++        assert calls, f"{code} is no longer raised with the default 422 status"

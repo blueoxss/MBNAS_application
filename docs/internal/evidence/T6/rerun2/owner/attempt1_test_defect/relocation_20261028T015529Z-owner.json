@@ -1,0 +1,1174 @@
+{
+ "root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application",
+ "root_real": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application",
+ "checks": [
+  {
+   "check": "module __file__ under ROOT (cwd outside ROOT)",
+   "ok": true,
+   "detail": "215 modules (mbnas_contracts 24, mbnas_model_runtime 49, mbnas_runner 23, mbnas_server 30, mbnas_core 89), all under /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application"
+  },
+  {
+   "check": "sys.prefix under ROOT",
+   "ok": true,
+   "detail": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application/runtime/venv"
+  },
+  {
+   "check": "console scripts bound to runtime/venv inside ROOT",
+   "ok": true,
+   "detail": "ok"
+  },
+  {
+   "check": "no original-host path strings",
+   "ok": true,
+   "detail": "275 files scanned"
+  },
+  {
+   "check": "doctor.sh from an external working directory",
+   "ok": true,
+   "detail": "exit 0; origin checks PASS"
+  },
+  {
+   "check": "doctor.sh through a path with spaces",
+   "ok": true,
+   "detail": "exit 0; origin checks PASS"
+  },
+  {
+   "check": "start/stop/install.sh --help through a path with spaces",
+   "ok": true,
+   "detail": "exit codes [0, 0, 0]"
+  },
+  {
+   "check": "ROOT itself contains spaces",
+   "ok": true,
+   "detail": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2/mbnas_application"
+  }
+ ],
+ "module_counts": {
+  "mbnas_contracts": 24,
+  "mbnas_model_runtime": 49,
+  "mbnas_runner": 23,
+  "mbnas_server": 30,
+  "mbnas_core": 89
+ },
+ "module_origins": [
+  {
+   "module": "mbnas_contracts",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/__init__.py"
+  },
+  {
+   "module": "mbnas_contracts.asgi",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/asgi.py"
+  },
+  {
+   "module": "mbnas_contracts.constants",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/constants.py"
+  },
+  {
+   "module": "mbnas_contracts.errors",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/errors.py"
+  },
+  {
+   "module": "mbnas_contracts.jobs_protocol",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/jobs_protocol.py"
+  },
+  {
+   "module": "mbnas_contracts.openapi",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/openapi/__init__.py"
+  },
+  {
+   "module": "mbnas_contracts.protocol_hash",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/protocol_hash.py"
+  },
+  {
+   "module": "mbnas_contracts.runner_protocol",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/runner_protocol.py"
+  },
+  {
+   "module": "mbnas_contracts.schemas",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/schemas/__init__.py"
+  },
+  {
+   "module": "mbnas_contracts.schemas.api",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/schemas/api.py"
+  },
+  {
+   "module": "mbnas_contracts.schemas.archive",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/schemas/archive.py"
+  },
+  {
+   "module": "mbnas_contracts.schemas.enums",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/schemas/enums.py"
+  },
+  {
+   "module": "mbnas_contracts.schemas.jobs",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/schemas/jobs.py"
+  },
+  {
+   "module": "mbnas_contracts.schemas.protocol",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/schemas/protocol.py"
+  },
+  {
+   "module": "mbnas_contracts.schemas.records",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/schemas/records.py"
+  },
+  {
+   "module": "mbnas_contracts.structure_doc",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/structure_doc.py"
+  },
+  {
+   "module": "mbnas_contracts.util",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/util/__init__.py"
+  },
+  {
+   "module": "mbnas_contracts.util.atomic",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/util/atomic.py"
+  },
+  {
+   "module": "mbnas_contracts.util.canon",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/util/canon.py"
+  },
+  {
+   "module": "mbnas_contracts.util.home",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/util/home.py"
+  },
+  {
+   "module": "mbnas_contracts.util.log_redact",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/util/log_redact.py"
+  },
+  {
+   "module": "mbnas_contracts.util.paths",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/util/paths.py"
+  },
+  {
+   "module": "mbnas_contracts.util.source_hash",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/util/source_hash.py"
+  },
+  {
+   "module": "mbnas_contracts.util.time",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_contracts/util/time.py"
+  },
+  {
+   "module": "mbnas_core",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/__init__.py"
+  },
+  {
+   "module": "mbnas_core.api",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/api/__init__.py"
+  },
+  {
+   "module": "mbnas_core.api.app",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/api/app.py"
+  },
+  {
+   "module": "mbnas_core.api.auth",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/api/auth.py"
+  },
+  {
+   "module": "mbnas_core.api.errors",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/api/errors.py"
+  },
+  {
+   "module": "mbnas_core.artifacts",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/artifacts/__init__.py"
+  },
+  {
+   "module": "mbnas_core.artifacts.locations",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/artifacts/locations.py"
+  },
+  {
+   "module": "mbnas_core.artifacts.registry",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/artifacts/registry.py"
+  },
+  {
+   "module": "mbnas_core.config",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/config.py"
+  },
+  {
+   "module": "mbnas_core.console",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/console/__init__.py"
+  },
+  {
+   "module": "mbnas_core.console.candidate_views",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/console/candidate_views.py"
+  },
+  {
+   "module": "mbnas_core.console.deps",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/console/deps.py"
+  },
+  {
+   "module": "mbnas_core.console.model_services",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/console/model_services.py"
+  },
+  {
+   "module": "mbnas_core.console.owner_routes",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/console/owner_routes.py"
+  },
+  {
+   "module": "mbnas_core.console.projection",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/console/projection.py"
+  },
+  {
+   "module": "mbnas_core.console.routes_files",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/console/routes_files.py"
+  },
+  {
+   "module": "mbnas_core.console.routes_meta",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/console/routes_meta.py"
+  },
+  {
+   "module": "mbnas_core.console.routes_registry_structure",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/console/routes_registry_structure.py"
+  },
+  {
+   "module": "mbnas_core.console.routes_revisions",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/console/routes_revisions.py"
+  },
+  {
+   "module": "mbnas_core.console.routes_runs",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/console/routes_runs.py"
+  },
+  {
+   "module": "mbnas_core.console.routes_stream",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/console/routes_stream.py"
+  },
+  {
+   "module": "mbnas_core.console.routes_training",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/console/routes_training.py"
+  },
+  {
+   "module": "mbnas_core.console.services",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/console/services.py"
+  },
+  {
+   "module": "mbnas_core.console.views",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/console/views.py"
+  },
+  {
+   "module": "mbnas_core.db",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/db/__init__.py"
+  },
+  {
+   "module": "mbnas_core.db.core",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/db/core.py"
+  },
+  {
+   "module": "mbnas_core.db.repo",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/db/repo.py"
+  },
+  {
+   "module": "mbnas_core.db.rows",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/db/rows.py"
+  },
+  {
+   "module": "mbnas_core.events",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/events/__init__.py"
+  },
+  {
+   "module": "mbnas_core.events.bus",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/events/bus.py"
+  },
+  {
+   "module": "mbnas_core.export",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/export/__init__.py"
+  },
+  {
+   "module": "mbnas_core.export.bundle",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/export/bundle.py"
+  },
+  {
+   "module": "mbnas_core.ops",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/ops/__init__.py"
+  },
+  {
+   "module": "mbnas_core.ops.doctor",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/ops/doctor.py"
+  },
+  {
+   "module": "mbnas_core.ops.principals",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/ops/principals.py"
+  },
+  {
+   "module": "mbnas_core.orchestration",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/orchestration/__init__.py"
+  },
+  {
+   "module": "mbnas_core.orchestration.config_revisions",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/orchestration/config_revisions.py"
+  },
+  {
+   "module": "mbnas_core.orchestration.engine",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/orchestration/engine.py"
+  },
+  {
+   "module": "mbnas_core.orchestration.final_retrain",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/orchestration/final_retrain.py"
+  },
+  {
+   "module": "mbnas_core.orchestration.model_artifacts",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/orchestration/model_artifacts.py"
+  },
+  {
+   "module": "mbnas_core.orchestration.retention",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/orchestration/retention.py"
+  },
+  {
+   "module": "mbnas_core.orchestration.state",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/orchestration/state.py"
+  },
+  {
+   "module": "mbnas_core.orchestration.views",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/orchestration/views.py"
+  },
+  {
+   "module": "mbnas_core.owner_worker",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/owner_worker/__init__.py"
+  },
+  {
+   "module": "mbnas_core.owner_worker.__main__",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/owner_worker/__main__.py"
+  },
+  {
+   "module": "mbnas_core.owner_worker.child",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/owner_worker/child.py"
+  },
+  {
+   "module": "mbnas_core.owner_worker.contract",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/owner_worker/contract.py"
+  },
+  {
+   "module": "mbnas_core.owner_worker.main",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/owner_worker/main.py"
+  },
+  {
+   "module": "mbnas_core.owner_worker.paths",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/owner_worker/paths.py"
+  },
+  {
+   "module": "mbnas_core.protocol",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/protocol/__init__.py"
+  },
+  {
+   "module": "mbnas_core.protocol.fitness",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/protocol/fitness.py"
+  },
+  {
+   "module": "mbnas_core.protocol.fitness_gate",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/protocol/fitness_gate.py"
+  },
+  {
+   "module": "mbnas_core.protocol.gateway_inputs",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/protocol/gateway_inputs.py"
+  },
+  {
+   "module": "mbnas_core.protocol.presets",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/protocol/presets.py"
+  },
+  {
+   "module": "mbnas_core.protocol.promotion",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/protocol/promotion.py"
+  },
+  {
+   "module": "mbnas_core.protocol.training_validation",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/protocol/training_validation.py"
+  },
+  {
+   "module": "mbnas_core.protocol.validator",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/protocol/validator.py"
+  },
+  {
+   "module": "mbnas_core.registry",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/registry/__init__.py"
+  },
+  {
+   "module": "mbnas_core.runner_api",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/runner_api/__init__.py"
+  },
+  {
+   "module": "mbnas_core.runner_api.auth",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/runner_api/auth.py"
+  },
+  {
+   "module": "mbnas_core.runner_api.envelope",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/runner_api/envelope.py"
+  },
+  {
+   "module": "mbnas_core.runner_api.fence",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/runner_api/fence.py"
+  },
+  {
+   "module": "mbnas_core.runner_api.routes",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/runner_api/routes.py"
+  },
+  {
+   "module": "mbnas_core.runner_api.settle",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/runner_api/settle.py"
+  },
+  {
+   "module": "mbnas_core.runner_api.sweeper",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/runner_api/sweeper.py"
+  },
+  {
+   "module": "mbnas_core.runner_api.tickets",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/runner_api/tickets.py"
+  },
+  {
+   "module": "mbnas_core.scheduling",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/scheduling/__init__.py"
+  },
+  {
+   "module": "mbnas_core.scheduling.admission",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/scheduling/admission.py"
+  },
+  {
+   "module": "mbnas_core.scheduling.costs",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/scheduling/costs.py"
+  },
+  {
+   "module": "mbnas_core.scheduling.jobs",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/scheduling/jobs.py"
+  },
+  {
+   "module": "mbnas_core.scheduling.planner",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/scheduling/planner.py"
+  },
+  {
+   "module": "mbnas_core.search",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/search/__init__.py"
+  },
+  {
+   "module": "mbnas_core.search.ga",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/search/ga.py"
+  },
+  {
+   "module": "mbnas_core.search.generation",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/search/generation.py"
+  },
+  {
+   "module": "mbnas_core.search.handlers",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/search/handlers.py"
+  },
+  {
+   "module": "mbnas_core.search.lineage",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/search/lineage.py"
+  },
+  {
+   "module": "mbnas_core.search.mixed_pool",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/search/mixed_pool/__init__.py"
+  },
+  {
+   "module": "mbnas_core.search.mixed_pool.bridge",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/search/mixed_pool/bridge.py"
+  },
+  {
+   "module": "mbnas_core.search.mixed_pool.runtime_constants",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/search/mixed_pool/runtime_constants.py"
+  },
+  {
+   "module": "mbnas_core.search.mixed_pool.seed_variants",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/search/mixed_pool/seed_variants.py"
+  },
+  {
+   "module": "mbnas_core.search.random",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/search/random.py"
+  },
+  {
+   "module": "mbnas_core.search.space",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/search/space.py"
+  },
+  {
+   "module": "mbnas_core.search.streams",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/search/streams.py"
+  },
+  {
+   "module": "mbnas_core.search.structure",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/search/structure.py"
+  },
+  {
+   "module": "mbnas_core.structure",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/structure/__init__.py"
+  },
+  {
+   "module": "mbnas_core.structure.check_worker",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/structure/check_worker.py"
+  },
+  {
+   "module": "mbnas_core.structure.sandbox",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/structure/sandbox.py"
+  },
+  {
+   "module": "mbnas_core.training_runs",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/training_runs/__init__.py"
+  },
+  {
+   "module": "mbnas_core.training_runs.selection",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_core/training_runs/selection.py"
+  },
+  {
+   "module": "mbnas_model_runtime",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/__init__.py"
+  },
+  {
+   "module": "mbnas_model_runtime.adapters",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/adapters/__init__.py"
+  },
+  {
+   "module": "mbnas_model_runtime.adapters.base",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/adapters/base.py"
+  },
+  {
+   "module": "mbnas_model_runtime.adapters.common",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/adapters/common.py"
+  },
+  {
+   "module": "mbnas_model_runtime.adapters.etri_hybrid",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/adapters/etri_hybrid/__init__.py"
+  },
+  {
+   "module": "mbnas_model_runtime.adapters.etri_hybrid.adapter",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/adapters/etri_hybrid/adapter.py"
+  },
+  {
+   "module": "mbnas_model_runtime.adapters.etri_hybrid.boxes",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/adapters/etri_hybrid/boxes.py"
+  },
+  {
+   "module": "mbnas_model_runtime.adapters.etri_hybrid.criterion",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/adapters/etri_hybrid/criterion.py"
+  },
+  {
+   "module": "mbnas_model_runtime.adapters.etri_hybrid.data",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/adapters/etri_hybrid/data.py"
+  },
+  {
+   "module": "mbnas_model_runtime.adapters.etri_hybrid.loss",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/adapters/etri_hybrid/loss.py"
+  },
+  {
+   "module": "mbnas_model_runtime.adapters.etri_hybrid.model",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/adapters/etri_hybrid/model.py"
+  },
+  {
+   "module": "mbnas_model_runtime.adapters.etri_hybrid.postprocess",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/adapters/etri_hybrid/postprocess.py"
+  },
+  {
+   "module": "mbnas_model_runtime.adapters.rfdetr_adapter",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/adapters/rfdetr_adapter.py"
+  },
+  {
+   "module": "mbnas_model_runtime.adapters.structure_native",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/adapters/structure_native.py"
+  },
+  {
+   "module": "mbnas_model_runtime.adapters.ultralytics_adapter",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/adapters/ultralytics_adapter.py"
+  },
+  {
+   "module": "mbnas_model_runtime.benchmark",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/benchmark/__init__.py"
+  },
+  {
+   "module": "mbnas_model_runtime.benchmark.accuracy",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/benchmark/accuracy.py"
+  },
+  {
+   "module": "mbnas_model_runtime.benchmark.capability",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/benchmark/capability.py"
+  },
+  {
+   "module": "mbnas_model_runtime.benchmark.onnx_export",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/benchmark/onnx_export.py"
+  },
+  {
+   "module": "mbnas_model_runtime.benchmark.onnx_runtime",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/benchmark/onnx_runtime.py"
+  },
+  {
+   "module": "mbnas_model_runtime.benchmark.pipeline",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/benchmark/pipeline.py"
+  },
+  {
+   "module": "mbnas_model_runtime.benchmark.profile",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/benchmark/profile.py"
+  },
+  {
+   "module": "mbnas_model_runtime.benchmark.subjects",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/benchmark/subjects.py"
+  },
+  {
+   "module": "mbnas_model_runtime.benchmark.trt_build",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/benchmark/trt_build.py"
+  },
+  {
+   "module": "mbnas_model_runtime.benchmark.trt_runtime",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/benchmark/trt_runtime.py"
+  },
+  {
+   "module": "mbnas_model_runtime.block_catalog",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/block_catalog.py"
+  },
+  {
+   "module": "mbnas_model_runtime.checkpoint",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/checkpoint.py"
+  },
+  {
+   "module": "mbnas_model_runtime.datasets",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/datasets/__init__.py"
+  },
+  {
+   "module": "mbnas_model_runtime.datasets.coco_convert",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/datasets/coco_convert.py"
+  },
+  {
+   "module": "mbnas_model_runtime.datasets.manifest",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/datasets/manifest.py"
+  },
+  {
+   "module": "mbnas_model_runtime.datasets.subset",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/datasets/subset.py"
+  },
+  {
+   "module": "mbnas_model_runtime.datasets.yaml_safe",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/datasets/yaml_safe.py"
+  },
+  {
+   "module": "mbnas_model_runtime.datasets.yolo_view",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/datasets/yolo_view.py"
+  },
+  {
+   "module": "mbnas_model_runtime.evaluation",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/evaluation/__init__.py"
+  },
+  {
+   "module": "mbnas_model_runtime.evaluation.evaluator",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/evaluation/evaluator.py"
+  },
+  {
+   "module": "mbnas_model_runtime.evaluation.images",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/evaluation/images.py"
+  },
+  {
+   "module": "mbnas_model_runtime.evaluation.latency",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/evaluation/latency.py"
+  },
+  {
+   "module": "mbnas_model_runtime.evaluation.matching",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/evaluation/matching.py"
+  },
+  {
+   "module": "mbnas_model_runtime.evaluation.size",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/evaluation/size.py"
+  },
+  {
+   "module": "mbnas_model_runtime.genotype",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/genotype.py"
+  },
+  {
+   "module": "mbnas_model_runtime.genotype_audit",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/genotype_audit.py"
+  },
+  {
+   "module": "mbnas_model_runtime.operators",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/operators/__init__.py"
+  },
+  {
+   "module": "mbnas_model_runtime.operators.etri_mixed_blocks",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/operators/etri_mixed_blocks.py"
+  },
+  {
+   "module": "mbnas_model_runtime.operators.parse_model_8_4_173",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/operators/parse_model_8_4_173.py"
+  },
+  {
+   "module": "mbnas_model_runtime.provenance",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/provenance/__init__.py"
+  },
+  {
+   "module": "mbnas_model_runtime.provenance.env_lock",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/provenance/env_lock.py"
+  },
+  {
+   "module": "mbnas_model_runtime.registry",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/registry/__init__.py"
+  },
+  {
+   "module": "mbnas_model_runtime.registry.probe",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/registry/probe.py"
+  },
+  {
+   "module": "mbnas_model_runtime.registry.specs",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/registry/specs.py"
+  },
+  {
+   "module": "mbnas_runner",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/__init__.py"
+  },
+  {
+   "module": "mbnas_runner.__main__",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/__main__.py"
+  },
+  {
+   "module": "mbnas_runner.benchmark",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/benchmark/__init__.py"
+  },
+  {
+   "module": "mbnas_runner.benchmark.handlers",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/benchmark/handlers.py"
+  },
+  {
+   "module": "mbnas_runner.child",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/child.py"
+  },
+  {
+   "module": "mbnas_runner.client",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/client.py"
+  },
+  {
+   "module": "mbnas_runner.config",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/config.py"
+  },
+  {
+   "module": "mbnas_runner.contract",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/contract.py"
+  },
+  {
+   "module": "mbnas_runner.daemon",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/daemon.py"
+  },
+  {
+   "module": "mbnas_runner.envelope",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/envelope.py"
+  },
+  {
+   "module": "mbnas_runner.evaluation",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/evaluation/__init__.py"
+  },
+  {
+   "module": "mbnas_runner.evaluation.handlers",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/evaluation/handlers.py"
+  },
+  {
+   "module": "mbnas_runner.evaluation.official_evaluation",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/evaluation/official_evaluation.py"
+  },
+  {
+   "module": "mbnas_runner.gpu",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/gpu.py"
+  },
+  {
+   "module": "mbnas_runner.gpu_guard",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/gpu_guard.py"
+  },
+  {
+   "module": "mbnas_runner.journal",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/journal.py"
+  },
+  {
+   "module": "mbnas_runner.reports",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/reports.py"
+  },
+  {
+   "module": "mbnas_runner.training",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/training/__init__.py"
+  },
+  {
+   "module": "mbnas_runner.training.context",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/training/context.py"
+  },
+  {
+   "module": "mbnas_runner.training.handlers",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/training/handlers.py"
+  },
+  {
+   "module": "mbnas_runner.training.recipe",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/training/recipe.py"
+  },
+  {
+   "module": "mbnas_runner.training.stage_trainer",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/training/stage_trainer.py"
+  },
+  {
+   "module": "mbnas_runner.transfer",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_runner/transfer.py"
+  },
+  {
+   "module": "mbnas_server",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/__init__.py"
+  },
+  {
+   "module": "mbnas_server.api",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/api/__init__.py"
+  },
+  {
+   "module": "mbnas_server.api.app",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/api/app.py"
+  },
+  {
+   "module": "mbnas_server.api.artifact_routes",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/api/artifact_routes.py"
+  },
+  {
+   "module": "mbnas_server.api.auth",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/api/auth.py"
+  },
+  {
+   "module": "mbnas_server.api.contract_check",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/api/contract_check.py"
+  },
+  {
+   "module": "mbnas_server.api.core_client",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/api/core_client.py"
+  },
+  {
+   "module": "mbnas_server.api.deps",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/api/deps.py"
+  },
+  {
+   "module": "mbnas_server.api.errors",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/api/errors.py"
+  },
+  {
+   "module": "mbnas_server.api.gateway_inputs",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/api/gateway_inputs.py"
+  },
+  {
+   "module": "mbnas_server.api.limits",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/api/limits.py"
+  },
+  {
+   "module": "mbnas_server.api.path_guard",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/api/path_guard.py"
+  },
+  {
+   "module": "mbnas_server.api.relay",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/api/relay.py"
+  },
+  {
+   "module": "mbnas_server.api.static_web",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/api/static_web.py"
+  },
+  {
+   "module": "mbnas_server.api.uploads",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/api/uploads.py"
+  },
+  {
+   "module": "mbnas_server.api.validate_prep",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/api/validate_prep.py"
+  },
+  {
+   "module": "mbnas_server.archive",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/archive/__init__.py"
+  },
+  {
+   "module": "mbnas_server.archive.analysis",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/archive/analysis.py"
+  },
+  {
+   "module": "mbnas_server.archive.campaign",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/archive/campaign.py"
+  },
+  {
+   "module": "mbnas_server.archive.live",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/archive/live.py"
+  },
+  {
+   "module": "mbnas_server.archive.parsers",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/archive/parsers.py"
+  },
+  {
+   "module": "mbnas_server.archive.routes",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/archive/routes.py"
+  },
+  {
+   "module": "mbnas_server.archive.scanner",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/archive/scanner.py"
+  },
+  {
+   "module": "mbnas_server.archive.views",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/archive/views.py"
+  },
+  {
+   "module": "mbnas_server.artifacts",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/artifacts/__init__.py"
+  },
+  {
+   "module": "mbnas_server.artifacts.download",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/artifacts/download.py"
+  },
+  {
+   "module": "mbnas_server.artifacts.signing",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/artifacts/signing.py"
+  },
+  {
+   "module": "mbnas_server.artifacts.store",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/artifacts/store.py"
+  },
+  {
+   "module": "mbnas_server.config",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/config.py"
+  },
+  {
+   "module": "mbnas_server.doctor",
+   "location": "ROOT",
+   "origin": "runtime/venv/lib/python3.10/site-packages/mbnas_server/doctor.py"
+  }
+ ],
+ "sys_path": [
+  {
+   "path": "/home/mgjeong/miniconda3/envs/mbnas310/lib/python310.zip",
+   "location": "BASE"
+  },
+  {
+   "path": "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10",
+   "location": "BASE"
+  },
+  {
+   "path": "/home/mgjeong/miniconda3/envs/mbnas310/lib/python3.10/lib-dynload",
+   "location": "BASE"
+  },
+  {
+   "path": "runtime/venv/lib/python3.10/site-packages",
+   "location": "ROOT"
+  }
+ ],
+ "site_dirs": [
+  "runtime/venv/lib/python3.10/site-packages"
+ ],
+ "pth_files": [
+  {
+   "file": "runtime/venv/lib/python3.10/site-packages/coloredlogs.pth",
+   "location": "ROOT",
+   "lines": [
+    {
+     "kind": "import",
+     "text": "import os; exec('try: __import__(\"coloredlogs\").auto_install() if os.environ.get(\"COLOREDLOGS_AUTO_INSTALL\") else None\\nexcept ImportError: pass')"
+    }
+   ]
+  },
+  {
+   "file": "runtime/venv/lib/python3.10/site-packages/distutils-precedence.pth",
+   "location": "ROOT",
+   "lines": [
+    {
+     "kind": "import",
+     "text": "import os; var = 'SETUPTOOLS_USE_DISTUTILS'; enabled = os.environ.get(var, 'local') == 'local'; enabled and __import__('_distutils_hack').add_shim();"
+    }
+   ]
+  }
+ ],
+ "caller_env_python_vars": []
+}

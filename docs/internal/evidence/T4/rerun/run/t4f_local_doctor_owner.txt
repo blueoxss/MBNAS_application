@@ -1,0 +1,29 @@
+[PASS] interpreter: Python 3.10.22 venv <T>/final/t4/mbnas_application/runtime/venv
+[PASS] package:mbnas-contracts: 0.1.0 from <T>/final/t4/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_contracts
+[PASS] package:mbnas-model-runtime: 0.1.0 from <T>/final/t4/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime
+[PASS] package:mbnas-runner: 0.1.0 from <T>/final/t4/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_runner
+[PASS] package:mbnas-server: 0.1.0 from <T>/final/t4/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_server
+[PASS] package:mbnas-core: 0.1.0 from <T>/final/t4/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core
+[PASS] entry_points: 7 console scripts in runtime/venv/bin
+[PASS] path_strings: 275 files scanned, no original-host path string
+[PASS] config:core: listen 127.0.0.1:8700, db <T>/final/t4/mbnas_application/runtime/core/db/mbnas.sqlite3; secrets set: MBNAS_CORE_API_TOKEN, MBNAS_CORE_ARTIFACT_SIGNING_KEY, MBNAS_CORE_TICKET_KEY
+[PASS] config:gateway: core_url http://127.0.0.1:8700, listen 127.0.0.1:8710; secrets set: MBNAS_GW_API_TOKEN, MBNAS_GW_ARTIFACT_SIGNING_KEY, MBNAS_GW_CORE_TOKEN
+[PASS] config:runner: core_url http://127.0.0.1:8700, runner_id runner-d3c27c94; secrets set: MBNAS_RUNNER_TOKEN|_TOKEN_FILE
+[PASS] process:core: not running
+[PASS] process:owner-worker: not running
+[PASS] process:gateway: not running
+[PASS] process:runner: not running
+[PASS] port:core: 127.0.0.1:8700 free
+[PASS] port:gateway: 127.0.0.1:8710 free
+[PASS] port:web: 127.0.0.1:8720 free
+[WARN] gpu: nvidia-smi exit 9: no GPU listed
+[PASS] gateway:core_url: loopback http
+[PASS] gateway:core_tls: plain http core_url: no TLS on this connection (see core_url)
+[WARN] core:gateway: http://127.0.0.1:8700/core/v1/console/health unreachable: ConnectError (core not running: bash scripts/start.sh --profile owner --role core)
+[PASS] gateway:store: <T>/final/t4/mbnas_application/runtime/gateway/artifacts
+[PASS] gateway:log_dir: <T>/final/t4/mbnas_application/runtime/gateway/logs
+[WARN] core:runner: http://127.0.0.1:8700 unreachable (ConnectionRefusedError) (core not running: bash scripts/start.sh --profile owner --role core)
+[PASS] core_doctor: db present (schema 5); registry 17 entries (mbnas_core.registry.load_registry); free 207.0 GB
+[PASS] disk: 207.0 GB free under runtime/
+[PASS] web_dist: mbnas_web/dist present (served by the gateway at /)
+doctor: profile=owner root=<T>/final/t4/mbnas_application PASS=25 WARN=3 FAIL=0

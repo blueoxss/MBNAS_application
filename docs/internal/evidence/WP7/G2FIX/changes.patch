@@ -1,0 +1,1942 @@
+--- a/mbnas_runner/src/mbnas_runner/daemon.py
++++ b/mbnas_runner/src/mbnas_runner/daemon.py
+@@ -8,7 +8,9 @@
+        <run_dir>/protocol/resolved.json, <run_dir>/control/
+     -> wait for the device again (unbilled) -> POST /start (started.json; the billed attempt starts here)
+     -> spawn [worker_python, -B, -m, mbnas_runner.child, --spec-file, <journal>/spec.json] (argv list, no shell;
+-       no secrets, no dotenv path in its env; PDEATHSIG=SIGKILL; stop file in $MBNAS_STOP_REQUEST_FILE)
++       no secrets, no dotenv path in its env; PDEATHSIG=SIGKILL; stop file in $MBNAS_STOP_REQUEST_FILE;
++       CUDA_VISIBLE_DEVICES=<gpu_index> with CUDA_DEVICE_ORDER=PCI_BUS_ID, so the child's cuda:0 is the NVML device
++       gpu_index this runner registered - CUDA and NVML enumerate in the same PCI bus order)
+     -> heartbeat thread: POST /heartbeat every heartbeat_s renews the lease; control.action "pause"/"cancel" is
+        materialised as <run_dir>/control/<job>.stop = {"action": ..., "requested_at": ...}; action null after a pause
+        deletes the file (withdrawal); 409 LEASE_LOST stops the child
+@@ -18,7 +20,9 @@
+        stderr log (D10)
+     -> lease-expiry watchdog: with kill_on_lease_expiry (default on) a lease that ran out on the core's clock without a
+        renewal stops the child (F15)
+-    -> result: evaluation artifacts (and the executed architecture.yaml / trainer plots of training kinds) are
++    -> result: training and EVALUATE results carry ``outputs.device_used`` (``cpu`` on a CPU-only runner, DD-A32;
++       else the CUDA device the child ran on) and ``outputs.device_uuid`` (DD-A49 a; :meth:`RunnerDaemon._with_device`);
++       evaluation artifacts (and the executed architecture.yaml / trainer plots of training kinds) are
+        pre-registered with POST /artifacts and carry their artifact_id; result.json is frozen with payload_digest;
+        POST /result -> response.json -> POST /ack -> acked.
+ 
+@@ -53,7 +57,7 @@
+ from typing import Any, Callable
+ 
+ from mbnas_contracts.jobs_protocol import STOP_ENV, JobFailure
+-from mbnas_contracts.schemas.jobs import TRAINING_KINDS, JobResult, JobStatus, ProgressMessage
++from mbnas_contracts.schemas.jobs import TRAINING_KINDS, JobKind, JobResult, JobStatus, ProgressMessage
+ from mbnas_contracts.util.atomic import atomic_write_json
+ from mbnas_contracts.util.time import parse_iso, utcnow, utcnow_iso
+ from mbnas_runner import gpu, reports
+@@ -69,11 +73,21 @@
+               "MBNAS_API_TOKEN", "MBNAS_ARTIFACT_SIGNING_KEY", "MBNAS_RUNNER_GATEWAY_UPLOAD_TOKEN",
+               "MBNAS_RUNNER_GATEWAY_UPLOAD_TOKEN_FILE")
+ LOCK_FD_ENV = "MBNAS_GPU_LOCK_FD"
++#: the child's CUDA enumeration order: NVML's (PCI bus) order, so the NVML index ``gpu_index`` and the child's
++#: ``CUDA_VISIBLE_DEVICES=<gpu_index>`` name the same GPU (overrides any inherited value; see RunnerDaemon._spawn)
++CUDA_DEVICE_ORDER = "PCI_BUS_ID"
+ _PR_SET_PDEATHSIG = 1
+ _TRAINING = {k.value for k in TRAINING_KINDS}
++#: kinds whose results carry ``outputs.device_used`` / ``device_uuid`` (DD-A32, DD-A49 a; RunnerDaemon._with_device)
++DEVICE_RESULT_KINDS = frozenset({*_TRAINING, JobKind.EVALUATE.value})
+ PROGRESS_KEYS = ("epoch", "epoch_target_total", "global_step", "samples_seen", "learning_rate")
+ 
+ 
++def _torch_device(value: Any) -> bool:
++    """``cpu`` / ``cuda`` / ``cuda:<n>``: a torch device string (a target id such as ``host-gpu-0`` is not one)."""
++    return isinstance(value, str) and (value in ("cpu", "cuda") or (value.startswith("cuda:") and value[5:].isdigit()))
++
++
+ def _inherited(key: str) -> bool:
+     return key not in SECRET_ENV and not (key.startswith("MBNAS_") and key.endswith("_ENV_FILE"))
+ 
+@@ -316,6 +330,9 @@
+                 result = JobResult(job_id=fence.job_id, status=JobStatus.FAILED, attempt=max(1, fence.attempt),
+                                    reason_code="CHILD_EXIT_NO_RESULT", message="runner restarted; the child exited "
+                                    "without a result", outputs={"retryable": True}, started_at=started.get("started_at"))
++                spec = j.spec or {}  # the child of the previous daemon ran with this spec on this runner's device
++                if str(spec.get("kind")) in DEVICE_RESULT_KINDS:
++                    result = self._with_device(result, spec.get("params"))
+                 result = self._with_transfer_summary(j, result)
+                 j.record_result(self._commit(result, started, utcnow_iso(), cancel_observed=False,
+                                              shutting_down=False, artifact_ids=[]))
+@@ -383,6 +400,8 @@
+                                outputs={"retryable": True}, started_at=started.get("started_at"))
+         else:
+             result = result.model_copy(update={"exit_code": proc.returncode})
++        if spec.kind.value in DEVICE_RESULT_KINDS:
++            result = self._with_device(result, spec.params)
+         result, artifact_ids = self._preregister(j, fence, env, result, base)  # E7 (+ transfer right after it)
+         result = self._with_transfer_summary(j, result)
+         commit = self._commit(result, started, finished, cancel_observed=cancel_observed,
+@@ -408,6 +427,33 @@
+         self._log(f"job {spec.job_id}: assigned device cuda:0 mapped to cpu (runner registered as a CPU device)")
+         return spec.model_copy(update={"params": params})
+ 
++    def _with_device(self, result: JobResult, params: Any) -> JobResult:
++        """DD-A32 / DD-A49 (a): ``outputs.device_used`` + ``outputs.device_uuid`` on the result of an attempt whose child
++        ran on this runner (the core copies ``device_used`` into ``raw_metrics.device_used``).
++
++        A CPU-only runner (registered as ``device=cpu``) reports ``cpu`` and no uuid, whatever was assigned. A GPU
++        runner reports the CUDA device the child observed (``mbnas_runner.child.observed_cuda_device``), else the
++        assigned ``params.device``, else ``cuda:0`` (the core's name of the runner's assigned GPU); its uuid is the one
++        the child read through torch, else the NVML uuid this runner registered (None when neither exists). The child
++        runs with ``CUDA_DEVICE_ORDER=PCI_BUS_ID`` and ``CUDA_VISIBLE_DEVICES=<gpu_index>`` (:meth:`_spawn`), so CUDA
++        and NVML order agree and both uuids name the same GPU; a child uuid that differs from the registered one is
++        still logged (something outside the runner changed the device mapping) and the child's uuid is recorded."""
++        outputs = dict(result.outputs or {})
++        if self.cpu_only:
++            used, uuid = "cpu", None
++        else:
++            assigned = params.get("device") if isinstance(params, dict) else None
++            used = next((d for d in (outputs.get("device_used"), assigned) if _torch_device(d)), "cuda:0")
++            registered = self.device.get("uuid")
++            observed = outputs.get("device_uuid") if isinstance(outputs.get("device_uuid"), str) else None
++            uuid = (observed or registered) if used.startswith("cuda") else None
++            if observed and registered and observed != registered and used.startswith("cuda"):
++                self._log(f"job {result.job_id}: the child ran on {observed} but this runner registered {registered} "
++                          f"(gpu_index {self.settings.gpu_index}, child CUDA_DEVICE_ORDER={CUDA_DEVICE_ORDER}); check "
++                          "CUDA_DEVICE_ORDER / CUDA_VISIBLE_DEVICES")
++        outputs.update(device_used=used, device_uuid=uuid)
++        return result.model_copy(update={"outputs": outputs})
++
+     def _start(self, j: AttemptJournal, fence: JobFence) -> dict[str, Any] | None:
+         if j.started is not None:
+             return j.started
+@@ -441,7 +487,11 @@
+     def _spawn(self, spec_path: Path, stop: Path, log: Path) -> subprocess.Popen[str]:
+         env = {k: v for k, v in os.environ.items() if _inherited(k)}
+         env.update(child_settings_env(self.settings))
++        # gpu_index is an NVML index (PCI bus order; device_info/sample/wait_clear use it). CUDA_DEVICE_ORDER=PCI_BUS_ID
++        # makes CUDA enumerate in the same order, so CUDA_VISIBLE_DEVICES=<gpu_index> exposes exactly the GPU this
++        # runner registered as the child's cuda:0 (CUDA's default FASTEST_FIRST order may differ on mixed-GPU hosts).
+         env.update({"CUDA_VISIBLE_DEVICES": "" if self.cpu_only else str(self.settings.gpu_index),
++                    "CUDA_DEVICE_ORDER": CUDA_DEVICE_ORDER,
+                     "PYTHONUNBUFFERED": "1", "PYTHONDONTWRITEBYTECODE": "1", STOP_ENV: str(stop),
+                     "MBNAS_WORKER_ID": str(self.settings.runner_id)})
+         argv = [self.settings.worker_python, "-B", "-m", "mbnas_runner.child", "--spec-file", str(spec_path)]
+--- a/mbnas_runner/src/mbnas_runner/child.py
++++ b/mbnas_runner/src/mbnas_runner/child.py
+@@ -20,7 +20,7 @@
+ import sys
+ import traceback
+ from pathlib import Path
+-from typing import IO
++from typing import IO, Any
+ 
+ from pydantic import ValidationError
+ 
+@@ -67,8 +67,42 @@
+     return job_id if isinstance(job_id, str) and job_id else "unknown"
+ 
+ 
++def observed_cuda_device() -> dict[str, Any]:
++    """``{device_used: "cuda:<i>", device_uuid: "GPU-<uuid>"}`` of the CUDA device this process used, read through
++    torch, or ``{}`` when this process never initialised CUDA (a CPU job, or a handler that failed before touching the
++    device). Read-only: CUDA is never initialised here. The uuid is NVML's ``GPU-`` form of torch's device uuid."""
++    torch = sys.modules.get("torch")
++    if torch is None:
++        return {}
++    try:
++        if not torch.cuda.is_initialized():
++            return {}
++        index = int(torch.cuda.current_device())
++        uuid = str(torch.cuda.get_device_properties(index).uuid)
++    except Exception:  # noqa: BLE001 - an observation, never a reason to fail the job
++        return {}
++    return {"device_used": f"cuda:{index}", "device_uuid": uuid if uuid.startswith("GPU-") else f"GPU-{uuid}"}
++
++
++def with_observed_device(spec: JobSpec, result: JobResult) -> JobResult:
++    """DD-A49 (a), child side: results of the device kinds (:data:`NMS_KINDS`) carry the CUDA device the job ran on
++    (:func:`observed_cuda_device`); values the handler set itself are kept. The runner daemon completes and, for a
++    CPU-only runner (DD-A32), overrides them before the commit (``RunnerDaemon._with_device``)."""
++    if spec.kind.value not in NMS_KINDS:
++        return result
++    seen = observed_cuda_device()
++    if not seen:
++        return result
++    return result.model_copy(update={"outputs": {**seen, **(result.outputs or {})}})
++
++
+ def run_job(spec: JobSpec, emit: Emitter) -> JobResult:
+-    """Run the handler and convert its outcome (or exception) into a JobResult."""
++    """Run the handler and convert its outcome (or exception) into a JobResult (with the device it ran on, see
++    :func:`with_observed_device`)."""
++    return with_observed_device(spec, _run_handler(spec, emit))
++
++
++def _run_handler(spec: JobSpec, emit: Emitter) -> JobResult:
+     started = utcnow_iso()
+     base = {"job_id": spec.job_id, "attempt": spec.attempt, "started_at": started}
+     try:
+--- a/mbnas_runner/src/mbnas_runner/journal.py
++++ b/mbnas_runner/src/mbnas_runner/journal.py
+@@ -105,6 +105,11 @@
+     def spec_path(self) -> Path:
+         return self.root / "spec.json"
+ 
++    @property
++    def spec(self) -> dict[str, Any] | None:
++        """The child's JobSpec as recorded (``spec.json``), or None before it was derived."""
++        return self._read("spec.json")
++
+     def record_spec(self, spec: dict[str, Any]) -> Path:
+         self._write_once("spec.json", spec)
+         return self.spec_path
+--- a/mbnas_runner/src/mbnas_runner/gpu.py
++++ b/mbnas_runner/src/mbnas_runner/gpu.py
+@@ -1,4 +1,10 @@
+-"""NVML (nvidia-ml-py) device identity and live samples for the worker row; every probe degrades to None."""
++"""NVML (nvidia-ml-py) device identity and live samples for the worker row; every probe degrades to None.
++
++``index`` is an NVML index: NVML enumerates in PCI bus order and ignores ``CUDA_VISIBLE_DEVICES``. The runner daemon
++starts its job child with ``CUDA_DEVICE_ORDER=PCI_BUS_ID`` and ``CUDA_VISIBLE_DEVICES=<gpu_index>``, so CUDA enumerates
++in the same order and the child's ``cuda:0`` is the device :func:`device_info` describes (the uuid the runner
++registers).
++"""
+ from __future__ import annotations
+ 
+ import threading
+--- a/mbnas_runner/src/mbnas_runner/evaluation/handlers.py
++++ b/mbnas_runner/src/mbnas_runner/evaluation/handlers.py
+@@ -65,6 +65,19 @@
+             "manifest": man}
+ 
+ 
++def latency_manifest(ident: Mapping[str, Any], lat: Mapping[str, Any], *, precision: str,
++                     input_shape: tuple[int, int] | list[int], device_entry: str | None) -> dict[str, Any]:
++    """``latency.manifest`` of a :func:`measure_latency` record: the device facts of :func:`device_identity` plus the
++    precision, input shape, post-processing operating point/runtime, latency scope and device entry it was measured at
++    (shared by the training evaluation and the official evaluation payloads)."""
++    return {**ident["manifest"], "precision": precision, "batch": 1, "input_shape": list(input_shape),
++            "precision_mode": "torch.autocast(float16) over FP32 weights" if precision == "FP16" else "fp32",
++            "postprocess": lat["postprocess"], "postprocess_operating_point": lat["operating_point"],
++            "postprocess_runtime": lat["postprocess_runtime"], "torchvision": lat["torchvision"],
++            "latency_scope": lat["latency_scope"], "device_entry": device_entry,
++            "device_sampling": lat.get("device_sampling")}
++
++
+ def measure_latency(adapter: Any, model: Any, input_shape: tuple[int, int], precision: str, device: str,
+                     sample_image: str, benchmark: Mapping[str, Any], scopes: list[str]) -> dict[str, Any]:
+     """Measured latency of ``model`` at the resolved post-processing operating point (see module docstring).
+@@ -116,12 +129,8 @@
+     t1 = time.perf_counter()
+     sample = sorted(manifest.samples, key=lambda s: s.sample_id)[0].image
+     lat = measure_latency(adapter, model, cfg.input_shape, precision, device, sample, benchmark, scopes)
+-    lat["manifest"] = {**ident["manifest"], "precision": precision, "batch": 1, "input_shape": list(cfg.input_shape),
+-                       "precision_mode": "torch.autocast(float16) over FP32 weights" if precision == "FP16" else "fp32",
+-                       "postprocess": lat["postprocess"], "postprocess_operating_point": lat["operating_point"],
+-                       "postprocess_runtime": lat["postprocess_runtime"], "torchvision": lat["torchvision"],
+-                       "latency_scope": label, "device_entry": device_entry,
+-                       "device_sampling": lat.get("device_sampling")}
++    lat["manifest"] = latency_manifest(ident, lat, precision=precision, input_shape=cfg.input_shape,
++                                       device_entry=device_entry)
+     t2 = time.perf_counter()
+     weights_path = Path(eval_ckpt).with_name(Path(eval_ckpt).name.replace("eval_ema_", "weights_fp16_"))
+     if not weights_path.is_file():
+--- a/mbnas_runner/src/mbnas_runner/evaluation/official_evaluation.py
++++ b/mbnas_runner/src/mbnas_runner/evaluation/official_evaluation.py
+@@ -23,7 +23,7 @@
+     from mbnas_model_runtime.adapters.common import structural_hash
+     from mbnas_model_runtime.benchmark.subjects import ultralytics_from_weights
+     from mbnas_model_runtime.evaluation import evaluator
+-    from mbnas_runner.evaluation.handlers import measure_latency, device_identity
++    from mbnas_runner.evaluation.handlers import device_identity, latency_manifest, measure_latency
+     from mbnas_model_runtime.evaluation.images import render_fixed_samples
+     from mbnas_runner.training.context import split_manifests, SplitAccess, check_run_dir, jsonable
+     settings = settings or RunnerSettings.load()
+@@ -53,7 +53,16 @@
+             conf_thr=eval_cfg.recall_conf, n=2)
+         lat = measure_latency(subject.adapter, subject.model, (size,size), bench["precision"], "cuda:0",
+                               manifest.samples[0].image, bench, ["forward_and_postprocess"])
+-        metric = {**evaluator.public(result), "latency_ms":lat["scopes"]["forward_and_postprocess"]["p50_ms"],
++        # DD-A49 (a): the same device evidence as a training evaluation payload (latency record with its device
++        # manifest, device uuid/name, statistics and post-processing provenance), in the slots the contract declares
++        lat["manifest"] = latency_manifest(ident, lat, precision=bench["precision"], input_shape=(size, size),
++                                           device_entry=bench.get("device"))
++        fpp = lat["scopes"]["forward_and_postprocess"]
++        metric = {**evaluator.public(result), "latency_ms":fpp["p50_ms"],
++                  "latency_statistics": {k: fpp[k] for k in ("p50_ms", "p95_ms", "mean_ms")}, "latency": lat,
++                  "postprocess_operating_point": lat["operating_point"],
++                  "postprocess_runtime": lat["postprocess_runtime"],
++                  "device_uuid": ident["uuid"], "device_name": ident["name"],
+                   "size_mb":Path(arch["weights_path"]).stat().st_size/1e6, "latency_source":"measured",
+                   "latency_scope":lat["latency_scope"], "checkpoint_path":arch["weights_path"],
+                   "checkpoint_sha256":sha256_file(arch["weights_path"]), "architecture_hash":cfg.get("architecture_hash") or structural_hash(subject.model),
+@@ -63,9 +72,9 @@
+                   "size_definition":"actual official checkpoint bytes / 1e6 (not FP16 weights-only)", "eval_split":"search_val"}
+         atomic_write_json(out_dir / "evaluation.json", jsonable(metric))
+         emit_progress(ProgressMessage(type="metric", job_id=spec.job_id, ts=utcnow_iso(), payload={"ap":metric.get("ap"),"recall":metric.get("recall")}))
+-        return JobResult(job_id=spec.job_id,status="SUCCEEDED",outputs={"epochs_done":0,"evaluation":jsonable(metric)},started_at=started,finished_at=utcnow_iso())
++        return JobResult(job_id=spec.job_id,attempt=spec.attempt,status="SUCCEEDED",outputs={"epochs_done":0,"evaluation":jsonable(metric)},started_at=started,finished_at=utcnow_iso())
+     except JobFailure as fail:
+-        return JobResult(job_id=spec.job_id,status="FAILED",reason_code=fail.reason_code,message=str(fail)[:1000],started_at=started,finished_at=utcnow_iso())
++        return JobResult(job_id=spec.job_id,attempt=spec.attempt,status="FAILED",reason_code=fail.reason_code,message=str(fail)[:1000],started_at=started,finished_at=utcnow_iso())
+     except Exception as exc:
+         code = getattr(exc,"code","EVAL_FAILED")
+-        return JobResult(job_id=spec.job_id,status="FAILED",reason_code=code,message=str(exc)[:1000],started_at=started,finished_at=utcnow_iso())
++        return JobResult(job_id=spec.job_id,attempt=spec.attempt,status="FAILED",reason_code=code,message=str(exc)[:1000],started_at=started,finished_at=utcnow_iso())
+--- a/mbnas_model_runtime/src/mbnas_model_runtime/benchmark/capability.py
++++ b/mbnas_model_runtime/src/mbnas_model_runtime/benchmark/capability.py
+@@ -1,25 +1,109 @@
+ """What each backend's export path supports, what this host can run, and which device targets are measurable.
+ 
+ Every entry is a declaration backed by the installed code (see STAGE_TRAINER_AUDIT A.16/B.6 and PLAN §8.9); the
+-``host_runtime()`` probe reports the actual importable versions. Device targets: only ``host-gpu-0`` (the A100 in this
+-host) is measurable here; any other target (Jetson, other GPUs) is BLOCKED with a reason and never receives a proxy
+-latency.
++``host_runtime()`` probe reports the actual importable versions. Device targets: only ``host-gpu-0`` (the GPU at NVML
++index 0 of the host that runs this code) is measurable here; any other target (Jetson, other GPUs) is BLOCKED with a
++reason and never receives a proxy latency. The host GPU's display name is the product name read on this host
++(:func:`host_gpu_name`: NVML, else an already initialised torch CUDA context, else ``"unknown"``), never a fixed product
++name (DD-A49 c: the inherited table named the original host's GPU). :data:`DECLARED_TARGETS` resolves it on first
++access (PEP 562 module attribute), so importing this module probes nothing.
+ """
+ from __future__ import annotations
+ 
++import os
++import sys
++import threading
+ from typing import Any
+ 
+ from mbnas_contracts.constants import DEFAULT_POSTPROCESS  # re-exported: single definition in contracts (contract §4)
+ 
+ SUPPORTED_TARGETS: tuple[str, ...] = ("host-gpu-0",)
+-#: Every deployment target MBNAS knows about (S3-F1): id -> display name / kind / aliases. Only SUPPORTED_TARGETS can
+-#: be measured on this host; the others are listed by the registry and ``/health`` as UNAVAILABLE with a reason.
+-DECLARED_TARGETS: dict[str, dict[str, Any]] = {
+-    "host-gpu-0": {"name": "NVIDIA A100 80GB PCIe", "kind": "host_gpu", "aliases": ["cuda:0", "A100"]},
++#: Display name of a host GPU whose product name cannot be read here (no NVML, no CUDA context in this process).
++UNKNOWN_DEVICE_NAME = "unknown"
++#: Every deployment target MBNAS knows about (S3-F1): id -> display name / kind / aliases. ``name: None`` = a host GPU
++#: named by :func:`host_gpu_name` (see :func:`declared_targets`).
++_TARGET_DECLARATIONS: dict[str, dict[str, Any]] = {
++    "host-gpu-0": {"name": None, "kind": "host_gpu", "aliases": ["cuda:0"]},
+     "jetson-orin-nx": {"name": "NVIDIA Jetson Orin NX", "kind": "jetson", "aliases": ["Orin NX", "orin-nx"]},
+     "jetson-orin-nano": {"name": "NVIDIA Jetson Orin Nano", "kind": "jetson", "aliases": ["Orin Nano", "orin-nano"]},
+     "jetson-agx-orin": {"name": "NVIDIA Jetson AGX Orin", "kind": "jetson", "aliases": ["AGX Orin", "agx-orin"]},
+ }
++_RESOLVED: dict[str, dict[str, Any]] = {}  # declared_targets() fills it in place (held references stay current)
++_RESOLVED_LOCK = threading.Lock()
++_resolved_once = False
++
++
++def _nvml_device_name(index: int, nvml: Any = None) -> str | None:
++    """``nvmlDeviceGetName`` of NVML device ``index`` (paired nvmlInit/nvmlShutdown; NVML counts them), or None."""
++    try:
++        if nvml is None:
++            import pynvml as nvml  # nvidia-ml-py
++        nvml.nvmlInit()
++    except Exception:  # noqa: BLE001 - no NVML library / driver: the next source is tried
++        return None
++    try:
++        raw = nvml.nvmlDeviceGetName(nvml.nvmlDeviceGetHandleByIndex(index))
++        name = raw.decode("utf-8", "replace") if isinstance(raw, bytes) else str(raw)
++        return name.strip() or None
++    except Exception:  # noqa: BLE001 - no such index / unreadable
++        return None
++    finally:
++        try:
++            nvml.nvmlShutdown()
++        except Exception:  # noqa: BLE001
++            pass
++
++
++def _torch_device_name(index: int) -> str | None:
++    """torch's name of CUDA device ``index``, only when this process already initialised CUDA (never initialises it)
++    and no ``CUDA_VISIBLE_DEVICES`` remap can make the torch index differ from the NVML index."""
++    torch = sys.modules.get("torch")
++    if torch is None or os.environ.get("CUDA_VISIBLE_DEVICES") is not None:
++        return None
++    try:
++        if not torch.cuda.is_initialized():
++            return None
++        return str(torch.cuda.get_device_name(index)).strip() or None
++    except Exception:  # noqa: BLE001
++        return None
++
++
++def host_gpu_name(index: int = 0, *, nvml: Any = None) -> str:
++    """Product name of this host's GPU ``index`` (the NVML index of the ``host-gpu-<index>`` ids of
++    :func:`mbnas_model_runtime.provenance.env_lock.host_gpu_inventory`): NVML first, then torch (see
++    :func:`_torch_device_name`), else :data:`UNKNOWN_DEVICE_NAME`. Never raises and never initialises CUDA (the core
++    and the gateway reach this through ``/health`` and the registry). ``nvml`` replaces ``pynvml`` (tests)."""
++    return _nvml_device_name(index, nvml) or _torch_device_name(index) or UNKNOWN_DEVICE_NAME
++
++
++def declared_targets(*, refresh: bool = False, nvml: Any = None) -> dict[str, dict[str, Any]]:
++    """Every declared deployment target, id -> ``{name, kind, aliases}``, with each host GPU named by
++    :func:`host_gpu_name` (probed once per process; ``refresh=True`` probes again, ``nvml`` is passed through). Only
++    SUPPORTED_TARGETS can be measured on this host; the others are listed by the registry and ``/health`` as
++    UNAVAILABLE with a reason. The same dict object is returned every time (updated in place on refresh)."""
++    global _resolved_once
++    with _RESOLVED_LOCK:
++        if refresh or not _resolved_once:
++            fresh: dict[str, dict[str, Any]] = {}
++            for tid, decl in _TARGET_DECLARATIONS.items():
++                entry = {**decl, "aliases": list(decl["aliases"])}
++                if decl["kind"] == "host_gpu":
++                    entry["name"] = host_gpu_name(int(tid.rsplit("-", 1)[1]), nvml=nvml)
++                fresh[tid] = entry
++            _RESOLVED.clear()
++            _RESOLVED.update(fresh)
++            _resolved_once = True
++    return _RESOLVED
++
++
++def __getattr__(name: str) -> Any:
++    """``DECLARED_TARGETS`` = :func:`declared_targets` (resolved on first access; readers such as the core registry keep
++    importing the name)."""
++    if name == "DECLARED_TARGETS":
++        return declared_targets()
++    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
++
++
+ ONNX_OPSET = 17
+ #: Export/benchmark resolution of the official RF-DETR checkpoints (rfdetr 1.11.2 ``RFDETR*Config.resolution``).
+ RFDETR_RESOLUTION: dict[str, int] = {"RFDETRNano": 384, "RFDETRSmall": 512, "RFDETRMedium": 576, "RFDETRLarge": 704}
+@@ -124,20 +208,24 @@
+     if not isinstance(name, str):
+         return None
+     low = name.strip().lower()
+-    for tid, t in DECLARED_TARGETS.items():
+-        if low in {tid, t["name"].lower(), *(a.lower() for a in t["aliases"])}:
++    for tid, t in declared_targets().items():
++        names = {tid, *(a.lower() for a in t["aliases"])}
++        if t["name"] and t["name"] != UNKNOWN_DEVICE_NAME:  # "unknown" is a placeholder, never a device name
++            names.add(t["name"].lower())
++        if low in names:
+             return tid
+     return None
+ 
+ 
+ def device_targets(inventory: list[dict[str, Any]]) -> list[dict[str, Any]]:
+-    """Every declared target with ``available`` against the live ``inventory`` (validation devices) + a reason."""
+-    present = {d.get("id") for d in inventory}
++    """Every declared target with ``available`` against the live ``inventory`` (validation devices) + a reason; a
++    host GPU present in the inventory is named by its inventory entry (the live NVML name)."""
++    present = {d.get("id"): d for d in inventory}
+     out = []
+-    for tid, t in DECLARED_TARGETS.items():
++    for tid, t in declared_targets().items():
+         if tid in SUPPORTED_TARGETS and tid in present:
+-            out.append({"id": tid, "name": t["name"], "kind": t["kind"], "available": True, "reason": None,
+-                        "status": "AVAILABLE"})
++            out.append({"id": tid, "name": present[tid].get("name") or t["name"], "kind": t["kind"],
++                        "available": True, "reason": None, "status": "AVAILABLE"})
+         elif tid in SUPPORTED_TARGETS:
+             out.append({"id": tid, "name": t["name"], "kind": t["kind"], "available": False, "status": "UNAVAILABLE",
+                         "reason": f"{tid} is a measurable target but is not in the live device inventory "
+--- a/mbnas_model_runtime/src/mbnas_model_runtime/benchmark/pipeline.py
++++ b/mbnas_model_runtime/src/mbnas_model_runtime/benchmark/pipeline.py
+@@ -71,6 +71,16 @@
+     return out
+ 
+ 
++def split_record(manifest: Any) -> dict[str, Any]:
++    """The record's ``split`` block: ``roots`` (every image root of the manifest, :class:`~mbnas_model_runtime.datasets.
++    manifest.Manifest` ``roots``), ``root`` (the single root, or None for a multi-root manifest: the
++    ``mbnas-benchmark/1`` key that record readers such as ``scripts/runner/bench_host_gpu.py`` render), ``split_hash``
++    and the image count. (The inherited ``manifest.root`` attribute does not exist on the manifest model, DD-A49 c.)"""
++    roots = [str(r) for r in manifest.roots]
++    return {"roots": roots, "root": roots[0] if len(roots) == 1 else None, "split_hash": manifest.split_hash,
++            "images": len(manifest.samples)}
++
++
+ def _module_for(key: str, subject: BenchSubject, onnx_path: str | None, engines: dict[str, Any],
+                 device_index: int) -> tuple[Any, dict[str, Any]]:
+     runtime, _ = key.split(":")
+@@ -121,8 +131,7 @@
+     record: dict[str, Any] = {"schema": SCHEMA, "started_at": utcnow_iso(), "subject": subject.describe(),
+                               "device": device_manifest(device), "batch": 1, "input_shape": [1, 3, subject.imgsz,
+                                                                                                subject.imgsz],
+-                              "split": {"root": manifest.root, "split_hash": manifest.split_hash,
+-                                        "images": len(manifest.samples)},
++                              "split": split_record(manifest),
+                               "sample_image": sample_image, "warmup": warmup, "repeats": repeats,
+                               "latency_source": "measured", "reference": REFERENCE,
+                               "limitations": [*LIMITATIONS, *subject.notes],
+--- a/scripts/runner/bench_host_gpu.py
++++ b/scripts/runner/bench_host_gpu.py
+@@ -1,24 +1,40 @@
+ #!/usr/bin/env python
+ """Real host-GPU benchmark evidence: official weights -> ONNX -> ONNX Runtime (CUDA EP) -> TensorRT FP16/FP32,
+-latency per scope and accuracy delta on the PILOT_SMOKE search_val split, through the BENCHMARK job handler.
++latency per scope and accuracy delta on a PILOT-layout search_val split, through the BENCHMARK job handler.
+ 
+-Run under the GPU lock, e.g.::
+-
+-    flock -w 3600 /root/detection/MBNAS_runs/locks/gpu.lock \\
+-      /root/detection/ETRI_NAS/application/MBNAS_server/.venv/bin/python /root/detection/ETRI_NAS/application/MBNAS_server/scripts/bench_host_gpu.py \\
+-      --weights yolo11n.pt rtdetr-l.pt
+-
+-    # RF-DETR (official checkpoints under weights/rfdetr, verified against rfdetr's published MD5):
+-    ... scripts/bench_host_gpu.py --weights --rfdetr rf-detr-nano.pth
+-
+-Writes ``/root/detection/MBNAS_runs/evidence/bench_host_gpu_<ts>.json`` (``bench_host_gpu_rfdetr_<ts>.json`` when
+-only RF-DETR subjects run; all records), per-subject ``benchmark.json`` + ONNX + engines under
+-``/root/detection/MBNAS_runs/benchmark/host_gpu_<ts>/``, and with ``--write-doc`` the summary
+-``docs/BENCHMARK_HOST_GPU.md`` re-rendered from the newest record of every subject in the evidence directory (the new
+-run replaces only its own subjects; the other subjects keep their records). ``--render-latest`` re-renders the document
+-the same way without GPU work; ``--render-from A.json B.json ...`` renders exactly the given files. Records that are not
+-rendered (an older full-matrix record of the same subject, a reduced run without TensorRT, a failed job) are listed in
+-the document as superseded. Temporary files go to ``<run dir>/tmp`` (``TMPDIR``), not /tmp.
++This owner script is how BENCHMARK evidence is produced in 0.1.0: the console queue does not create BENCHMARK jobs (the
++core has no BENCHMARK job API; DD-A49 c). The handler runs in this process (``run_benchmark_job``). TensorRT is not in
++the offline wheelhouse: without an importable ``tensorrt`` the engines are BLOCKED, the evidence says
++``tensorrt.status = BLOCKED_BY_ENV`` and no TensorRT number is produced or substituted.
++
++Paths are parameters (never fixed host paths; the same rule as ``scripts/runner/resume_equivalence.py``):
++
++* ``--data-root`` (env ``MBNAS_BENCH_DATA_ROOT``, required for a benchmark run): a PILOT-layout dataset directory with
++  ``data.yaml`` (``names``) and the benchmark split image directory ``--val-dir`` (relative to the data root; default
++  ``images/search_val``, the PILOT_SMOKE layout); it is the only dataset allow root of the run;
++* ``--weights-dir`` (env ``MBNAS_RUNNER_WEIGHTS_DIR``, default ``$MBNAS_HOME/weights``): the ultralytics checkpoints
++  named by ``--weights`` and the RF-DETR checkpoints under ``rfdetr/`` (``--rfdetr``; ``RF_HOME`` below it);
++* ``--runs-root`` (env ``MBNAS_BENCH_RUNS_ROOT``, default ``$MBNAS_HOME/runner/bench_host_gpu``): the output allow root:
++  per-run outputs ``benchmark/host_gpu_<ts>/<subject>/`` (``benchmark.json`` + ONNX + engines; temporaries in
++  ``benchmark/host_gpu_<ts>/tmp`` via ``TMPDIR``, never /tmp), the TensorRT timing cache, the ultralytics settings
++  directory and the evidence directory;
++* ``--evidence-dir`` (default ``<runs-root>/evidence``) and ``--doc`` (default
++  ``<evidence-dir>/BENCHMARK_HOST_GPU.md``).
++
++Usage (one GPU, chosen with ``CUDA_VISIBLE_DEVICES``; wrap in the host's GPU lock, e.g. ``$MBNAS_HOME/locks/gpu.lock``,
++when other jobs share the device)::
++
++  CUDA_VISIBLE_DEVICES=0 flock -w 3600 "$MBNAS_HOME/locks/gpu.lock" runtime/venv/bin/python \\
++      scripts/runner/bench_host_gpu.py --data-root /abs/pilot_subset --weights yolo11n.pt rtdetr-l.pt
++  # RF-DETR (official checkpoints under <weights-dir>/rfdetr, verified against rfdetr's published MD5):
++  ... scripts/runner/bench_host_gpu.py --data-root /abs/pilot_subset --weights --rfdetr rf-detr-nano.pth
++
++Writes ``<evidence-dir>/bench_host_gpu_<ts>.json`` (``bench_host_gpu_rfdetr_<ts>.json`` when only RF-DETR subjects run;
++all records) and, with ``--write-doc``, the summary re-rendered from the newest record of every subject in the evidence
++directory (the new run replaces only its own subjects; the other subjects keep their records). ``--render-latest``
++re-renders the document the same way without GPU work; ``--render-from A.json B.json ...`` renders exactly the given
++files. Records that are not rendered (an older full-matrix record of the same subject, a reduced run without TensorRT, a
++failed job) are listed in the document as superseded.
+ """
+ from __future__ import annotations
+ 
+@@ -32,18 +48,46 @@
+ from pathlib import Path
+ from typing import Any
+ 
+-SERVER_ROOT = Path(__file__).resolve().parents[1]
+-RUNS = Path("/root/detection/MBNAS_runs")
+-PILOT = Path("/root/detection/MBNAS_data/pilot_visdrone_v1")
+-EVIDENCE_DIR = RUNS / "evidence"
+-DOC = SERVER_ROOT / "docs" / "BENCHMARK_HOST_GPU.md"
++DATA_ROOT_ENV = "MBNAS_BENCH_DATA_ROOT"
++RUNS_ROOT_ENV = "MBNAS_BENCH_RUNS_ROOT"
++WEIGHTS_DIR_ENV = "MBNAS_RUNNER_WEIGHTS_DIR"
++DOC_NAME = "BENCHMARK_HOST_GPU.md"
+ FAMILY_BY_PREFIX = {"yolo11": "YOLO11", "yolo26": "YOLO26", "rtdetr": "RTDETR"}
+ 
+ 
++def _home(*parts: str) -> Path:
++    from mbnas_contracts.util.home import mbnas_home
++
++    return mbnas_home().joinpath(*parts)
++
++
++def _abs(value: str | os.PathLike[str], what: str) -> Path:
++    path = Path(value).expanduser()
++    if not path.is_absolute():
++        raise SystemExit(f"{what} must be an absolute path, got {str(value)!r}")
++    return path
++
++
+ def _family(weights: str) -> str:
+     return next(f for p, f in FAMILY_BY_PREFIX.items() if weights.startswith(p))
+ 
+ 
++def tensorrt_status(cap: dict[str, Any]) -> dict[str, Any]:
++    """``AVAILABLE`` (with its version) when ``tensorrt`` imports here, else ``BLOCKED_BY_ENV`` with the error."""
++    trt = ((cap.get("host") or {}).get("tensorrt")) or {}
++    if trt.get("available"):
++        return {"status": "AVAILABLE", "version": trt.get("version")}
++    return {"status": "BLOCKED_BY_ENV", "error": trt.get("error"),
++            "reason": "tensorrt is not importable in this environment (not in the offline wheelhouse): the TensorRT "
++                      "engines are BLOCKED and no TensorRT number is produced or substituted"}
++
++
++def device_label(cap: dict[str, Any]) -> str:
++    """The CUDA device names torch sees in this process (``CUDA_VISIBLE_DEVICES`` applied), for ``evidence_type``."""
++    devices = (((cap.get("host") or {}).get("torch")) or {}).get("devices") or []
++    return ", ".join(str(d) for d in devices) or "no CUDA device visible"
++
++
+ def _spec(job_id: str, params: dict[str, Any]) -> Any:
+     from mbnas_contracts.schemas.jobs import JobKind, JobSpec
+ 
+@@ -53,8 +97,18 @@
+ 
+ def main(argv: list[str] | None = None) -> int:
+     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
+-    ap.add_argument("--weights", nargs="*", default=["yolo11n.pt"], help="ultralytics file names in the weights cache")
+-    ap.add_argument("--rfdetr", nargs="*", default=[], help="RF-DETR checkpoint file names under weights/rfdetr")
++    ap.add_argument("--weights", nargs="*", default=["yolo11n.pt"],
++                    help="ultralytics checkpoint file names in --weights-dir (default %(default)s)")
++    ap.add_argument("--rfdetr", nargs="*", default=[], help="RF-DETR checkpoint file names in <weights-dir>/rfdetr")
++    ap.add_argument("--data-root", default=os.environ.get(DATA_ROOT_ENV),
++                    help=f"PILOT-layout dataset directory (data.yaml + --val-dir); env {DATA_ROOT_ENV}; required for a "
++                         "benchmark run (not for --render-latest / --render-from)")
++    ap.add_argument("--val-dir", default="images/search_val",
++                    help="benchmark split image directory relative to --data-root (default %(default)s)")
++    ap.add_argument("--weights-dir", default=os.environ.get(WEIGHTS_DIR_ENV),
++                    help=f"weights directory (env {WEIGHTS_DIR_ENV}; default $MBNAS_HOME/weights)")
++    ap.add_argument("--runs-root", default=os.environ.get(RUNS_ROOT_ENV),
++                    help=f"benchmark output root (env {RUNS_ROOT_ENV}; default $MBNAS_HOME/runner/bench_host_gpu)")
+     ap.add_argument("--postprocess", nargs=3, metavar=("CONF", "IOU", "MAX_DET"), default=None,
+                     help="latency operating point (default 0.25 0.7 300)")
+     ap.add_argument("--imgsz", type=int, default=640)
+@@ -67,61 +121,79 @@
+                     help="only re-render the document from the newest record of every subject (no GPU work)")
+     ap.add_argument("--render-from", nargs="+", default=None,
+                     help="only render the document from exactly these evidence files (in order)")
+-    ap.add_argument("--evidence-dir", default=str(EVIDENCE_DIR), help="evidence directory (default %(default)s)")
+-    ap.add_argument("--doc", default=str(DOC), help="document to write (default %(default)s)")
++    ap.add_argument("--evidence-dir", default=None, help="evidence directory (default <runs-root>/evidence)")
++    ap.add_argument("--doc", default=None, help=f"document to write (default <evidence-dir>/{DOC_NAME})")
+     args = ap.parse_args(argv)
+-    doc, evidence_dir = Path(args.doc), Path(args.evidence_dir)
++    runs = _abs(args.runs_root, "--runs-root") if args.runs_root else _home("runner", "bench_host_gpu")
++    evidence_dir = Path(args.evidence_dir).expanduser().resolve() if args.evidence_dir else runs / "evidence"
++    doc = Path(args.doc).expanduser().resolve() if args.doc else evidence_dir / DOC_NAME
+     if args.render_from:
+         srcs = [Path(a) for a in args.render_from]
++        doc.parent.mkdir(parents=True, exist_ok=True)
+         doc.write_text(render_docs([(json.loads(src.read_text()), src) for src in srcs]))
+         print(f"doc: {doc}")
+         return 0
+     if args.render_latest:
++        doc.parent.mkdir(parents=True, exist_ok=True)
+         write_latest_doc(evidence_dir, doc)
+         print(f"doc: {doc}")
+         return 0
++    if not args.data_root:
++        ap.error(f"--data-root (or {DATA_ROOT_ENV}) is required for a benchmark run: the PILOT-layout dataset "
++                 "directory (data.yaml + the --val-dir images)")
++    data_root = _abs(args.data_root, "--data-root")
++    weights_dir = _abs(args.weights_dir, "--weights-dir") if args.weights_dir else _home("weights")
+     ts = time.strftime("%Y%m%d_%H%M%S")
+-    out_root = RUNS / "benchmark" / f"host_gpu_{ts}"
++    out_root = runs / "benchmark" / f"host_gpu_{ts}"
+     tmp = out_root / "tmp"
+     tmp.mkdir(parents=True, exist_ok=True)
+     os.environ["TMPDIR"] = str(tmp)  # rfdetr/TensorRT/onnx temporaries stay on the run dir, never /tmp
+     tempfile.tempdir = str(tmp)
+     from mbnas_model_runtime.adapters.rfdetr_adapter import default_rf_home
+ 
+-    os.environ.setdefault("RF_HOME", default_rf_home("/root/detection/MBNAS_data/weights"))
++    os.environ.setdefault("RF_HOME", default_rf_home(str(weights_dir)))
+     os.environ.setdefault("HF_HUB_OFFLINE", "1")
+     from mbnas_model_runtime.adapters.ultralytics_adapter import prepare_ultralytics_env
+ 
+-    prepare_ultralytics_env(RUNS / "ultralytics_cfg" / "bench_host_gpu", "/root/detection/MBNAS_data/weights")
++    prepare_ultralytics_env(runs / "ultralytics_cfg" / "bench_host_gpu", str(weights_dir))
+     os.environ.setdefault("YOLO_OFFLINE", "1")
+-    import yaml
+-
+     from mbnas_model_runtime.benchmark.capability import capability
++    from mbnas_model_runtime.datasets.yaml_safe import load_dataset_yaml
+     from mbnas_runner.benchmark.handlers import run_benchmark_job
+     from mbnas_runner.config import RunnerSettings as Settings
+     from mbnas_contracts.util.source_hash import compute_source_tree_hash, package_roots
+ 
+-    settings = Settings(output_root=str(RUNS), output_roots=[str(RUNS)],
+-                        dataset_roots=["/root/detection/MBNAS_data", "/root/detection/datasets"])
+-    names = yaml.safe_load((PILOT / "data.yaml").read_text())["names"]
+-    split = {"root": str(PILOT / "images" / "search_val"), "names": {str(i): n for i, n in enumerate(names)}}
++    # allow roots of this run only: outputs below --runs-root, the split below --data-root, weights in --weights-dir
++    settings = Settings(work_root=str(runs), output_roots=[str(runs)], dataset_roots=[str(data_root)],
++                        weights_dir=str(weights_dir))
++    names = load_dataset_yaml(str(data_root / "data.yaml"), required_splits=()).names
++    split = {"root": str(data_root / args.val_dir), "names": {str(k): v for k, v in sorted(names.items())}}
+     postprocess = None
+     if args.postprocess:
+         postprocess = {"conf": float(args.postprocess[0]), "iou": float(args.postprocess[1]),
+                        "max_det": int(args.postprocess[2])}
++    cap = capability()
++    if not (((cap.get("host") or {}).get("torch")) or {}).get("cuda_available"):
++        shutil.rmtree(out_root, ignore_errors=True)  # only this run's empty tmp dir exists so far
++        print(f"no CUDA device is visible to this process (CUDA_VISIBLE_DEVICES="
++              f"{os.environ.get('CUDA_VISIBLE_DEVICES')!r}): the benchmark measures on a CUDA device only and writes "
++              "no evidence without one", file=sys.stderr)
++        return 2
+     evidence: dict[str, Any] = {
+         "kind": "bench_host_gpu", "created_at": ts, "command": [sys.executable, *sys.argv], "cwd": os.getcwd(),
+-        "evidence_type": "real_gpu (host A100), measured", "source_tree": {
++        "evidence_type": f"real_gpu ({device_label(cap)}), measured", "source_tree": {
+             k: v for k, v in compute_source_tree_hash(package_roots(("mbnas_contracts", "mbnas_model_runtime",
+                                                                      "mbnas_runner"))).items()
+             if k in ("algorithm", "sha256", "files")},
+-        "capability": capability(), "split": split, "subjects": [], "blocked_targets": []}
++        "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"), "tensorrt": tensorrt_status(cap),
++        "paths": {"data_root": str(data_root), "weights_dir": str(weights_dir), "runs_root": str(runs),
++                  "out_root": str(out_root)},
++        "capability": cap, "split": split, "subjects": [], "blocked_targets": []}
+     jobs = [(w, {"imgsz": args.imgsz, "subject": {"backend": "ultralytics", "source": "official_weights",
+-                                                  "family": _family(w),
+-                                                  "path": f"/root/detection/MBNAS_data/weights/{w}"}})
++                                                  "family": _family(w), "path": str(weights_dir / w)}})
+             for w in args.weights]
+     jobs += [(w, {"subject": {"backend": "rfdetr", "source": "official_weights",
+-                              "path": f"/root/detection/MBNAS_data/weights/rfdetr/{w}"}}) for w in args.rfdetr]
++                              "path": str(weights_dir / "rfdetr" / w)}}) for w in args.rfdetr]
+     for w, extra in jobs:
+         params = {"device": "host-gpu-0", "split": split, "warmup": args.warmup, "repeats": args.repeats,
+                   "output_dir": str(out_root / Path(w).stem), **extra}
+@@ -144,6 +216,8 @@
+     path.parent.mkdir(parents=True, exist_ok=True)
+     path.write_text(json.dumps(evidence, indent=1, default=str))
+     print(f"evidence: {path}")
++    if evidence["tensorrt"]["status"] != "AVAILABLE":
++        print(f"tensorrt: {evidence['tensorrt']['status']} ({evidence['tensorrt']['reason']})", file=sys.stderr)
+     ok = all(s["job_result"]["status"] == "SUCCEEDED" for s in evidence["subjects"])
+     if args.write_doc:
+         try:
+@@ -160,10 +234,12 @@
+ 
+ 
+ def _rank(s: dict[str, Any]) -> tuple[bool, bool]:
+-    """(successful with a record, full matrix with TensorRT runtimes); newer wins among equal ranks."""
++    """(successful with a record, full matrix with a MEASURED TensorRT runtime); newer wins among equal ranks. A run
++    whose TensorRT runtimes were not measured (BLOCKED_BY_ENV: no ``tensorrt`` here) counts as a reduced run."""
+     rec = s.get("record")
+     ok = s["job_result"]["status"] == "SUCCEEDED" and bool(rec)
+-    return ok, ok and any(k.startswith("tensorrt:") for k in rec.get("runtimes", {}))
++    return ok, ok and any(k.startswith("tensorrt:") and (v or {}).get("status") == "MEASURED"
++                          for k, v in rec.get("runtimes", {}).items())
+ 
+ 
+ def _applied(rec: dict[str, Any] | None) -> str:
+@@ -221,6 +297,12 @@
+     return str(v)
+ 
+ 
++def _split_roots(split: dict[str, Any]) -> str:
++    """The split's image root(s): ``roots`` (records since DD-A49 c) or the single ``root`` of older records."""
++    roots = split.get("roots") or ([split["root"]] if split.get("root") else [])
++    return ", ".join(str(r) for r in roots) or "not recorded"
++
++
+ def _subject_lines(s: dict[str, Any]) -> list[str]:
+     rec, res = s["record"], s["job_result"]
+     lines = [f"## {s['weights']} — job status {res['status']}" + (f" ({res.get('reason_code')})"
+@@ -244,7 +326,8 @@
+                                                    "ultralytics", "rfdetr") if k in hr) + ".",
+               f"- Scope: batch {rec['batch']}, input {rec['input_shape']}, warmup {rec['warmup']}, repeats "
+               f"{rec['repeats']}, timer = perf_counter with torch.cuda.synchronize around every repeat; sample image "
+-              f"`{Path(rec['sample_image']).name}`; split `{rec['split']['root']}` ({rec['split']['images']} images, "
++              f"`{Path(rec['sample_image']).name}`; split `{_split_roots(rec['split'])}` "
++              f"({rec['split']['images']} images, "
+               f"split_hash `{rec['split']['split_hash']}`); postprocess runtime "
+               f"{rec.get('postprocess_runtime', 'not recorded')}.",
+               f"- Postprocess operating point: {rec.get('postprocess_operating_point', 'not recorded (record predates it)')}.",
+@@ -307,9 +390,11 @@
+     :func:`select_latest`) is listed so a reader can see which records were left out and why."""
+     how = "--render-latest" if superseded is not None else "--render-from"
+     lines = ["# Host GPU benchmark (ONNX / ONNX Runtime / TensorRT)", "",
+-             "Evidence type: **real GPU, measured on this host's A100**; not a Jetson/target-device result. Every "
+-             f"number below is rendered by `scripts/bench_host_gpu.py {how}` from these evidence files:", ""]
+-    lines += [f"- `{path}` (generated {ev['created_at']}; subjects "
++             "Evidence type: **real GPU, measured on the host GPU named in each record** (device line per subject); "
++             "not a Jetson/target-device result. Every number below is rendered by "
++             f"`scripts/runner/bench_host_gpu.py {how}` from these evidence files:", ""]
++    lines += [f"- `{path}` (generated {ev['created_at']}; {ev.get('evidence_type', 'evidence type not recorded')}; "
++              f"TensorRT {(ev.get('tensorrt') or {}).get('status', 'status not recorded')}; subjects "
+               f"{', '.join(s['weights'] for s in ev['subjects'])})" for ev, path in evidence]
+     lines.append("")
+     if superseded:
+@@ -351,8 +436,7 @@
+               "- ETRI controlled CNN-Transformer hybrid: its post-processing is the notebook's NMS kept verbatim, a "
+               "Python loop on the CPU (`postprocess_runtime = python_loop`), so its forward_and_postprocess / end_to_end "
+               "latency is dominated by that NMS and is not comparable to rows with `torchvision_cuda_nms` (YOLO) or "
+-              "`no_nms` (RT-DETR, RF-DETR, YOLO26 end2end). Example: run-461f1fef8bf8 L1 ETRI row (pytorch FP16) "
+-              "forward_only p50 4.20 ms vs forward_and_postprocess 56.19 ms. Every evaluation row carries "
++              "`no_nms` (RT-DETR, RF-DETR, YOLO26 end2end). Every evaluation row carries "
+               "`postprocess_runtime`; compare latency only within one implementation.",
+               "- Latency records `mbnas-latency/4` and newer also carry `preprocess_ms` (`preprocess_ms_method = "
+               "derived`: p50(end_to_end) - p50(forward_and_postprocess) from the same round-robin repeats, not timed on "
+--- a/mbnas_model_runtime/src/mbnas_model_runtime/evaluation/latency.py
++++ b/mbnas_model_runtime/src/mbnas_model_runtime/evaluation/latency.py
+@@ -13,6 +13,12 @@
+ uuid/name/driver/CUDA/torch/cuDNN, power limit and SM clocks via nvidia-ml-py, precision, batch, shape, warmup and
+ repeats. This is a PyTorch measurement; TensorRT engines are measured by the benchmark module.
+ 
++NVML numbers devices in PCI bus order and ignores ``CUDA_VISIBLE_DEVICES``, so torch's CUDA index is not an NVML index
++(a runner child sees its GPU as ``cuda:0`` whatever its NVML index). :func:`gpu_manifest` and :class:`NvmlSampler`
++therefore ask NVML for the device with torch's uuid (:func:`torch_device_uuid`, :func:`nvml_device_handle`); torch's
++index is used as the NVML index only when that lookup is unavailable, with a logged warning and
++``nvml_lookup = "index"`` in the record (``"uuid"`` otherwise).
++
+ Each record also carries ``preprocess_ms`` (``preprocess_ms_method = derived``: p50(end_to_end) - p50(
+ forward_and_postprocess) from the same round-robin repeats), ``throughput_fps = None`` with the note
+ ``not measured (batch 1 only)`` (``fps_batch1 = 1000/p50`` is a batch-1 rate, not throughput), and
+@@ -29,6 +35,7 @@
+ """
+ from __future__ import annotations
+ 
++import logging
+ import statistics
+ import sys
+ import time
+@@ -37,6 +44,8 @@
+ from mbnas_model_runtime.adapters.base import DEFAULT_LATENCY_SCOPE, LATENCY_SCOPES
+ from mbnas_contracts.constants import DEFAULT_POSTPROCESS
+ 
++_log = logging.getLogger(__name__)
++
+ LATENCY_VERSION = "mbnas-latency/4"  # /3: scopes interleaved round-robin per repeat (2026-10-07); /4: derived
+ #                                      preprocess_ms, explicit throughput_fps=null, NVML power/clock sampling (S8-F4/F6)
+ THROUGHPUT_NOTE = "not measured (batch 1 only)"
+@@ -95,40 +104,82 @@
+             "n": len(samples_ms)}
+ 
+ 
+-def gpu_manifest(device: str) -> dict[str, Any]:
+-    """Device facts at measurement time (nvidia-ml-py); fields that cannot be read are recorded as ``None``."""
+-    import torch
++def torch_device_uuid(index: int, *, torch_module: Any = None) -> str | None:
++    """NVML-form uuid (``GPU-<8-4-4-4-12>``) of the CUDA device torch numbers ``index`` (``CUDA_VISIBLE_DEVICES`` and
++    ``CUDA_DEVICE_ORDER`` applied), or None when torch cannot tell (no such device, a torch without ``uuid``).
++    ``torch_module`` replaces the torch module (tests)."""
++    try:
++        if torch_module is None:
++            import torch as torch_module
++        raw = str(torch_module.cuda.get_device_properties(index).uuid)
++    except Exception:  # noqa: BLE001 - unknown is reported as None, never guessed
++        return None
++    return raw if raw.startswith("GPU-") else f"GPU-{raw}"
++
++
++def nvml_device_handle(nvml: Any, index: int, uuid: str | None) -> tuple[Any, dict[str, Any]]:
++    """``(NVML handle, {"nvml_lookup": ...})`` of the CUDA device torch numbers ``index`` with uuid ``uuid`` (see the
++    module docstring): ``nvmlDeviceGetHandleByUUID(uuid)`` -> ``"uuid"``. Only when that lookup is unavailable (torch
++    gave no uuid, this nvidia-ml-py lacks the call, or NVML does not know the uuid) is ``index`` used as the NVML index:
++    a warning is logged and the record says ``"index"`` with ``nvml_lookup_warning`` (the facts then describe the right
++    device only when no ``CUDA_VISIBLE_DEVICES`` remap applies and CUDA enumerates in PCI bus order). An NVML error of
++    the index lookup itself propagates (callers record it)."""
++    by_uuid = getattr(nvml, "nvmlDeviceGetHandleByUUID", None)
++    if not uuid:
++        why = f"torch reported no uuid for CUDA device {index}"
++    elif by_uuid is None:
++        why = "this nvidia-ml-py has no nvmlDeviceGetHandleByUUID"
++    else:
++        try:
++            return by_uuid(uuid), {"nvml_lookup": "uuid"}
++        except Exception as exc:  # noqa: BLE001 - e.g. NVMLError_NotFound: fall back below, never silently
++            why = f"nvmlDeviceGetHandleByUUID({uuid}) failed: {type(exc).__name__}: {exc}"
++    _log.warning("NVML lookup of CUDA device %d by uuid unavailable (%s); using %d as the NVML index",
++                 index, why, index)
++    return nvml.nvmlDeviceGetHandleByIndex(index), {"nvml_lookup": "index", "nvml_lookup_warning": why}
++
++
++def gpu_manifest(device: str, *, nvml: Any = None, torch_module: Any = None) -> dict[str, Any]:
++    """Device facts at measurement time (nvidia-ml-py); fields that cannot be read are recorded as ``None``. The NVML
++    facts are those of the device with torch's uuid (:func:`nvml_device_handle`). ``nvml`` / ``torch_module`` replace
++    the pynvml / torch modules (tests)."""
++    torch = torch_module
++    if torch is None:
++        import torch
+ 
+     idx = torch.device(device).index or 0
+     out: dict[str, Any] = {"torch": torch.__version__, "cuda_runtime": torch.version.cuda,
+                            "cudnn": torch.backends.cudnn.version(), "torch_device_name": torch.cuda.get_device_name(idx),
+                            "cuda_index": idx}
++    uuid = torch_device_uuid(idx, torch_module=torch)
+     try:
+-        import pynvml
++        if nvml is None:
++            import pynvml as nvml
+ 
+-        pynvml.nvmlInit()
++        nvml.nvmlInit()
+         try:
+-            h = pynvml.nvmlDeviceGetHandleByIndex(idx)
++            h, lookup = nvml_device_handle(nvml, idx, uuid)
++            out.update(lookup)
+ 
+             def safe(fn: Callable[[], Any]) -> Any:
+                 try:
+                     return fn()
+-                except pynvml.NVMLError:
++                except nvml.NVMLError:
+                     return None
+ 
+             out.update({
+-                "uuid": safe(lambda: pynvml.nvmlDeviceGetUUID(h)), "name": safe(lambda: pynvml.nvmlDeviceGetName(h)),
+-                "driver": safe(pynvml.nvmlSystemGetDriverVersion),
+-                "power_limit_w": safe(lambda: pynvml.nvmlDeviceGetPowerManagementLimit(h) / 1000.0),
+-                "sm_clock_mhz": safe(lambda: pynvml.nvmlDeviceGetClockInfo(h, pynvml.NVML_CLOCK_SM)),
+-                "sm_clock_max_mhz": safe(lambda: pynvml.nvmlDeviceGetMaxClockInfo(h, pynvml.NVML_CLOCK_SM)),
+-                "mem_clock_mhz": safe(lambda: pynvml.nvmlDeviceGetClockInfo(h, pynvml.NVML_CLOCK_MEM)),
+-                "temperature_c": safe(lambda: pynvml.nvmlDeviceGetTemperature(h, pynvml.NVML_TEMPERATURE_GPU)),
+-                "utilization_percent": safe(lambda: pynvml.nvmlDeviceGetUtilizationRates(h).gpu),
+-                "persistence_mode": safe(lambda: pynvml.nvmlDeviceGetPersistenceMode(h)),
++                "uuid": safe(lambda: nvml.nvmlDeviceGetUUID(h)), "name": safe(lambda: nvml.nvmlDeviceGetName(h)),
++                "driver": safe(nvml.nvmlSystemGetDriverVersion),
++                "power_limit_w": safe(lambda: nvml.nvmlDeviceGetPowerManagementLimit(h) / 1000.0),
++                "sm_clock_mhz": safe(lambda: nvml.nvmlDeviceGetClockInfo(h, nvml.NVML_CLOCK_SM)),
++                "sm_clock_max_mhz": safe(lambda: nvml.nvmlDeviceGetMaxClockInfo(h, nvml.NVML_CLOCK_SM)),
++                "mem_clock_mhz": safe(lambda: nvml.nvmlDeviceGetClockInfo(h, nvml.NVML_CLOCK_MEM)),
++                "temperature_c": safe(lambda: nvml.nvmlDeviceGetTemperature(h, nvml.NVML_TEMPERATURE_GPU)),
++                "utilization_percent": safe(lambda: nvml.nvmlDeviceGetUtilizationRates(h).gpu),
++                "persistence_mode": safe(lambda: nvml.nvmlDeviceGetPersistenceMode(h)),
+             })
+         finally:
+-            pynvml.nvmlShutdown()
++            nvml.nvmlShutdown()
+     except Exception as exc:  # noqa: BLE001 - NVML missing is recorded, not fatal
+         out["nvml_error"] = f"{type(exc).__name__}: {exc}"
+     return out
+@@ -154,14 +205,19 @@
+ class NvmlSampler:
+     """Power draw / SM clock samples of one GPU via nvidia-ml-py; failures are recorded, never raised.
+ 
+-    ``nvml`` is the pynvml module (injectable for tests). Call :meth:`sample` outside the timed window only.
++    ``index`` is torch's CUDA index of the measured device and ``uuid`` its torch uuid (:func:`torch_device_uuid`);
++    the NVML device is looked up by ``uuid`` (:func:`nvml_device_handle`: by ``index``, with a logged warning, only
++    when that is unavailable). ``nvml`` is the pynvml module (injectable for tests). Call :meth:`sample` outside the
++    timed window only.
+     """
+ 
+     METHOD = ("nvmlDeviceGetPowerUsage / nvmlDeviceGetClockInfo(SM) sampled after the warm-up, after every repeat "
+               "round (outside the timed window) and after the repeats")
+ 
+-    def __init__(self, index: int, nvml: Any = None) -> None:
+-        self.index, self.nvml, self.handle, self.error = index, nvml, None, None
++    def __init__(self, index: int, nvml: Any = None, *, uuid: str | None = None) -> None:
++        self.index, self.uuid, self.nvml, self.handle, self.error = index, uuid, nvml, None, None
++        self.lookup: dict[str, Any] = {}
++        self.nvml_index: int | None = index
+         self.points: list[tuple[str, float | None, int | None]] = []
+         try:
+             if self.nvml is None:
+@@ -169,9 +225,15 @@
+ 
+                 self.nvml = pynvml
+             self.nvml.nvmlInit()
+-            self.handle = self.nvml.nvmlDeviceGetHandleByIndex(index)
++            self.handle, self.lookup = nvml_device_handle(self.nvml, index, uuid)
+         except Exception as exc:  # noqa: BLE001 - NVML missing is recorded, not fatal
+             self.error, self.handle = f"{type(exc).__name__}: {exc}", None
++            return
++        if self.lookup.get("nvml_lookup") == "uuid":  # the NVML index of the device found by uuid (None: unreadable)
++            try:
++                self.nvml_index = int(self.nvml.nvmlDeviceGetIndex(self.handle))
++            except Exception:  # noqa: BLE001
++                self.nvml_index = None
+ 
+     def sample(self, label: str) -> None:
+         if self.handle is None:
+@@ -193,8 +255,8 @@
+             return {"power_draw_w": hit[-1][0], "sm_clock_mhz": hit[-1][1]} if hit else None
+ 
+         return {"power_draw_w": _summary(power), "sm_clock_mhz": _summary(clock), "after_warmup": at("after_warmup"),
+-                "after_repeats": at("after_repeats"), "method": self.METHOD, "nvml_index": self.index,
+-                "error": self.error}
++                "after_repeats": at("after_repeats"), "method": self.METHOD, "nvml_index": self.nvml_index,
++                "cuda_index": self.index, **self.lookup, "error": self.error}
+ 
+     def close(self) -> None:
+         if self.nvml is not None and self.handle is not None:
+@@ -224,7 +286,8 @@
+         for _ in range(warmup):
+             fns[scope]()
+     torch.cuda.synchronize(dev)
+-    sampler = NvmlSampler(dev.index or 0)
++    index = dev.index or 0
++    sampler = NvmlSampler(index, uuid=torch_device_uuid(index, torch_module=torch))  # CUDA is initialised by now
+     try:
+         sampler.sample("after_warmup")
+         samples: dict[str, list[float]] = {scope: [] for scope in scopes}
+--- a/tests/owner/registry/test_set3_registry_devices.py
++++ b/tests/owner/registry/test_set3_registry_devices.py
+@@ -13,6 +13,7 @@
+ 
+ import pytest
+ 
++from mbnas_model_runtime.benchmark import capability
+ from mbnas_model_runtime.registry import adapter_for
+ from mbnas_core.registry import build_entry, load_registry, scan_trt_evidence
+ from mbnas_model_runtime.registry.specs import ETRI_ID, SPEC_BY_ID, SPECS
+@@ -70,7 +71,8 @@
+         caps = e["capabilities"]
+         assert caps["export_trt"]["status"] != "NOT_RUN_BY_REGISTRY"
+         devices = caps["devices"]
+-        assert devices["host-gpu-0"]["name"] == "NVIDIA A100 80GB PCIe"
++        # DD-A49 (c): the host GPU target is named after this host's GPU (NVML/torch), never a fixed product name
++        assert devices["host-gpu-0"]["name"] == capability.declared_targets()["host-gpu-0"]["name"]
+         for t in DECLARED_ABSENT:
+             assert devices[t]["status"] == "UNAVAILABLE" and devices[t]["reason"], (mid, t)
+         RegistryEntry.model_validate(e)
+--- a/mbnas_core/src/mbnas_core/registry/__init__.py
++++ b/mbnas_core/src/mbnas_core/registry/__init__.py
+@@ -13,7 +13,7 @@
+   missing (``NOT_RUN``).
+ 
+ Device / TensorRT capability (S3-F1): ``capabilities.devices`` has one row per declared target
+-(:data:`~mbnas_server.benchmark.capability.DECLARED_TARGETS`). ``host-gpu-0`` (the A100) is ``VERIFIED_TRT`` /
++(:data:`~mbnas_model_runtime.benchmark.capability.DECLARED_TARGETS`). ``host-gpu-0`` (host GPU) is ``VERIFIED_TRT`` /
+ ``FAILED_TRT`` from the entry's OWN benchmark evidence (``bench_host_gpu_*.json`` subjects, matched by official
+ weights file name; ``qa_etri_hybrid_tensorrt_record.json`` for the ETRI hybrid adapter path, reported as
+ ``VERIFIED_TRT_ADAPTER_PATH`` / export ``VERIFIED_ADAPTER_PATH`` because it is a tiny synthetic model), merged
+--- /dev/null
++++ b/tests/public/runner/test_runner_device_used.py
+@@ -0,0 +1,242 @@
++"""DD-A32 / DD-A49 (a): every training and EVALUATE result the runner commits carries ``outputs.device_used``
++(``cpu`` on a CPU-only runner, else the CUDA device the job ran on) and ``outputs.device_uuid`` (the uuid the child
++read through torch, else the NVML uuid the runner registered).
++
++UNIT level against the stdlib fake core (``tests/_shared/fake_core.py``) with the SYNTHETIC stub handlers; the core
++side (``raw_metrics.device_used``) is covered by ``tests/owner/runner_protocol/test_device_used.py``. No GPU is used:
++the "GPU runner" cases fake the runner's NVML identity, never query NVML, and every child runs with
++``CUDA_VISIBLE_DEVICES=""``; torch observations in the child are faked through ``sys.modules``.
++"""
++from __future__ import annotations
++
++import subprocess
++import sys
++from pathlib import Path
++from types import SimpleNamespace
++
++import pytest
++
++from fake_core import FakeCore, envelope
++
++from mbnas_contracts.schemas.jobs import JobKind, JobResult, JobSpec
++from mbnas_runner import child, gpu
++from mbnas_runner.config import RunnerSettings
++from mbnas_runner.daemon import CUDA_DEVICE_ORDER as DAEMON_CUDA_ORDER
++from mbnas_runner.daemon import DEVICE_RESULT_KINDS, RunnerDaemon
++from mbnas_runner.journal import AttemptJournal
++
++SHARED = Path(__file__).resolve().parents[2] / "_shared"
++GPU_UUID = "GPU-00000000-1111-2222-3333-444444444444"  # SYNTHETIC
++FAKE_DEVICE = {"id": "host-gpu-0", "index": 0, "uuid": GPU_UUID, "name": "SYNTHETIC GPU", "memory_total_mb": 1}
++
++
++@pytest.fixture(autouse=True)
++def no_nvml(monkeypatch):
++    """No real NVML query from these tests: the runner's device identity, occupancy and samples are faked."""
++    monkeypatch.setattr(gpu, "device_info", lambda index: {"id": f"host-gpu-{index}", "index": index, "uuid": None,
++                                                         "name": None, "memory_total_mb": None})
++    monkeypatch.setattr(gpu, "compute_pids", lambda index: [])
++    monkeypatch.setattr(gpu, "sample", lambda index: {})
++
++
++@pytest.fixture
++def env(monkeypatch, tmp_path):
++    monkeypatch.setenv("MBNAS_JOB_HANDLERS_MODULE", "stub_handlers")
++    monkeypatch.setenv("PYTHONPATH", str(SHARED))
++    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "")
++    monkeypatch.setenv("MBNAS_HOME", str(tmp_path / "home"))
++    monkeypatch.setenv("MBNAS_STUB_EPOCH_S", "0.02")
++    return tmp_path
++
++
++def rsettings(tmp_path: Path, url: str, **kw) -> RunnerSettings:
++    tok = tmp_path / "token"
++    tok.write_text("tok-test\n")
++    return RunnerSettings(core_url=url, token_file=str(tok), runner_id="runner-A", work_root=str(tmp_path / "work"),
++                          request_backoff_s=0.05, poll_s=0.1, kill_grace_s=2, **kw)
++
++
++def _popen_cpu(argv, env, log):
++    """The daemon's child, but always with ``CUDA_VISIBLE_DEVICES=""`` (this test host's GPUs are never touched)."""
++    return subprocess.Popen(argv, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
++                            stderr=open(log, "a", encoding="utf-8"), env={**env, "CUDA_VISIBLE_DEVICES": ""},
++                            text=True, bufsize=1)
++
++
++def _gpu_runner(monkeypatch, settings, logs: list[str] | None = None, *, uuid: str | None = GPU_UUID) -> RunnerDaemon:
++    """A runner that registered a (fake) GPU: no NVML query (identity, occupancy and samples are faked) and a child
++    that still runs with ``CUDA_VISIBLE_DEVICES=""``."""
++    monkeypatch.setattr(gpu, "device_info", lambda index: {**FAKE_DEVICE, "uuid": uuid})
++    d = RunnerDaemon(settings, log=(logs.append if logs is not None else None))
++    d.cpu_only = False
++    d.device = {**FAKE_DEVICE, "uuid": uuid}
++    d._spawn_fn = _popen_cpu
++    return d
++
++
++def _committed(core: FakeCore) -> dict:
++    (_, res), = core.results.items()
++    return res["body"]
++
++
++def _result(outputs: dict | None = None) -> JobResult:
++    return JobResult(job_id="job-1", status="SUCCEEDED", outputs=outputs or {})
++
++
++# -- the daemon over the fake core -------------------------------------------------------------------------------
++def test_cpu_only_runner_commits_device_used_cpu_without_uuid(env):
++    core = FakeCore([envelope(target=2)])
++    try:
++        d = RunnerDaemon(rsettings(env, core.url))
++        assert d.cpu_only and d.device["id"] == "cpu"
++        assert d.run(once=True) == 0
++    finally:
++        core.stop()
++    body = _committed(core)
++    out = body["result"]["outputs"]
++    assert body["result"]["status"] == "SUCCEEDED"
++    assert out["device_used"] == "cpu" and out["device_uuid"] is None and body["device_uuid"] is None
++    assert out["evaluation"]["raw_metrics"]["child_env"]["CUDA_VISIBLE_DEVICES"] == ""  # the child really ran CPU-only
++
++
++def test_gpu_runner_commits_the_assigned_cuda_device_with_its_registered_uuid(env, monkeypatch):
++    core = FakeCore([envelope(target=1)])
++    try:
++        d = _gpu_runner(monkeypatch, rsettings(env, core.url))
++        assert d.run(once=True) == 0
++    finally:
++        core.stop()
++    body = _committed(core)
++    out = body["result"]["outputs"]
++    assert body["result"]["status"] == "SUCCEEDED"
++    # the stub child never initialises CUDA: the assigned device (core name cuda:0) and the registered NVML uuid
++    assert out["device_used"] == "cuda:0" and out["device_uuid"] == GPU_UUID == body["device_uuid"]
++    register = next(b for p, b in core.calls if p.endswith("/register"))
++    assert register["device_uuid"] == GPU_UUID and register["device"] == "host-gpu-0"
++
++
++def test_child_env_pins_cuda_device_order_to_nvml_pci_bus_order(env, monkeypatch):
++    """gpu_index is an NVML index (PCI bus order): the child gets CUDA_DEVICE_ORDER=PCI_BUS_ID next to
++    CUDA_VISIBLE_DEVICES=<gpu_index>, so CUDA enumerates like NVML and the child's cuda:0 is the registered GPU; an
++    inherited CUDA_DEVICE_ORDER never reaches the child. Captured at the spawn boundary (the exact child env)."""
++    monkeypatch.setenv("CUDA_DEVICE_ORDER", "FASTEST_FIRST")
++    seen: list[dict] = []
++
++    def capture(argv, env, log):
++        seen.append(dict(env))
++        return _popen_cpu(argv, env, log)
++
++    for make in (lambda s: RunnerDaemon(s), lambda s: _gpu_runner(monkeypatch, s)):
++        core = FakeCore([envelope(target=1)])
++        try:
++            d = make(rsettings(env, core.url, gpu_index=1))
++            d._spawn_fn = capture
++            assert d.run(once=True) == 0
++        finally:
++            core.stop()
++        assert _committed(core)["result"]["status"] == "SUCCEEDED"
++    cpu_env, gpu_env = seen
++    assert DAEMON_CUDA_ORDER == "PCI_BUS_ID"
++    assert cpu_env["CUDA_DEVICE_ORDER"] == gpu_env["CUDA_DEVICE_ORDER"] == "PCI_BUS_ID"
++    assert cpu_env["CUDA_VISIBLE_DEVICES"] == "" and gpu_env["CUDA_VISIBLE_DEVICES"] == "1"
++
++
++def test_with_device_rules(env, monkeypatch):
++    logs: list[str] = []
++    d = _gpu_runner(monkeypatch, rsettings(env, "http://127.0.0.1:9"), logs)
++    out = d._with_device(_result({"device_used": "cuda:0", "device_uuid": "GPU-child"}), {"device": "cuda:0"}).outputs
++    assert (out["device_used"], out["device_uuid"]) == ("cuda:0", "GPU-child")  # what the child ran on wins
++    assert any("GPU-child" in m and GPU_UUID in m and "CUDA_DEVICE_ORDER" in m for m in logs)
++    out = d._with_device(_result({"evaluation": {"ap": 0.1}}), {"device": "host-gpu-0"}).outputs
++    assert (out["device_used"], out["device_uuid"]) == ("cuda:0", GPU_UUID)  # a target id is not a torch device
++    assert out["evaluation"] == {"ap": 0.1}
++    out = d._with_device(_result(), {"device": "cpu"}).outputs
++    assert (out["device_used"], out["device_uuid"]) == ("cpu", None)  # an explicit CPU job has no GPU uuid
++    out = d._with_device(_result(), None).outputs
++    assert (out["device_used"], out["device_uuid"]) == ("cuda:0", GPU_UUID)
++
++    no_nvml = _gpu_runner(monkeypatch, rsettings(env, "http://127.0.0.1:9"), uuid=None)
++    out = no_nvml._with_device(_result({"device_used": "cuda:0", "device_uuid": "GPU-torch"}), {}).outputs
++    assert out["device_uuid"] == "GPU-torch"  # no NVML in the daemon: the uuid torch reported in the child
++    assert no_nvml._with_device(_result(), {}).outputs["device_uuid"] is None  # nothing known: never invented
++
++    cpu = RunnerDaemon(rsettings(env, "http://127.0.0.1:9"))
++    assert cpu.cpu_only
++    out = cpu._with_device(_result({"device_used": "cuda:0", "device_uuid": "GPU-x"}), {"device": "cuda:0"}).outputs
++    assert (out["device_used"], out["device_uuid"]) == ("cpu", None)  # DD-A32: a CPU-only runner always says cpu
++    assert DEVICE_RESULT_KINDS == {"BASELINE_TRAIN", "CANDIDATE_TRAIN", "FINAL_RETRAIN", "EVALUATE"}
++
++
++def test_replayed_child_exit_without_result_reports_the_device_from_the_journal_spec(env):
++    core = FakeCore([])
++    s = rsettings(env, core.url)
++    e = envelope()
++    core.leased["job-1"] = {**e, "_state": "RUNNING"}
++    j = AttemptJournal.create(s.work_root, "job-1", 1)
++    j.record_claim({"envelope": e, "ticket": "tkt-job-1", "server_time": "2026-10-26T00:00:00Z"})
++    j.record_spec({**e["job"]["spec"], "attempt": 1, "params": {**e["job"]["spec"]["params"], "device": "cuda:0"}})
++    j.record_started({"started_at": "2026-10-26T00:00:00.000000Z", "lease_expires_at": None})
++    try:
++        d = RunnerDaemon(s)
++        d.register()
++        d.replay()
++    finally:
++        core.stop()
++    out = _committed(core)["result"]["outputs"]
++    assert _committed(core)["result"]["reason_code"] == "CHILD_EXIT_NO_RESULT"
++    assert out["device_used"] == "cpu" and out["device_uuid"] is None and out["retryable"] is True
++    assert j.spec["params"]["device"] == "cuda:0"
++
++
++def test_envelope_refused_before_spawn_reports_no_device(env):
++    e = envelope(target=3)
++    e["job"]["spec"]["fixed_horizon"] = 2  # invalid spec: nothing runs on any device
++    core = FakeCore([e])
++    try:
++        RunnerDaemon(rsettings(env, core.url)).run(once=True)
++    finally:
++        core.stop()
++    out = _committed(core)["result"]["outputs"]
++    assert _committed(core)["result"]["reason_code"] == "ENVELOPE_INVALID"
++    assert "device_used" not in out and "device_uuid" not in out
++
++
++# -- the child's observation ---------------------------------------------------------------------------------------
++class _Uuid:
++    def __str__(self) -> str:  # torch's _CUuuid prints the bare 8-4-4-4-12 form
++        return "e8fe2321-0000-1111-2222-333344445555"
++
++
++def _fake_torch(initialised: bool):
++    cuda = SimpleNamespace(is_initialized=lambda: initialised, current_device=lambda: 0,
++                           get_device_properties=lambda index: SimpleNamespace(uuid=_Uuid(), name="SYNTHETIC"))
++    return SimpleNamespace(cuda=cuda)
++
++
++def _spec(kind: JobKind) -> JobSpec:
++    training = {"candidate_id": "c1", "rung": "L0", "cumulative_target": 1, "fixed_horizon": 1}
++    return JobSpec(job_id="j1", run_id="r1", kind=kind, protocol_hash="sha256:p", params={},
++                   **(training if kind.value in DEVICE_RESULT_KINDS - {"EVALUATE"} else {}))
++
++
++def test_child_reports_the_cuda_device_torch_initialised_and_keeps_handler_values(monkeypatch):
++    monkeypatch.setitem(sys.modules, "torch", _fake_torch(True))
++    seen = child.observed_cuda_device()
++    assert seen == {"device_used": "cuda:0", "device_uuid": "GPU-e8fe2321-0000-1111-2222-333344445555"}
++    res = child.with_observed_device(_spec(JobKind.EVALUATE), JobResult(job_id="j1", status="SUCCEEDED",
++                                                                        outputs={"evaluation": {"ap": 0.2}}))
++    assert res.outputs == {**seen, "evaluation": {"ap": 0.2}}
++    kept = child.with_observed_device(_spec(JobKind.BASELINE_TRAIN),
++                                      JobResult(job_id="j1", status="SUCCEEDED", outputs={"device_used": "cuda:3"}))
++    assert kept.outputs["device_used"] == "cuda:3" and kept.outputs["device_uuid"] == seen["device_uuid"]
++    owner = JobResult(job_id="j1", status="SUCCEEDED", outputs={"candidates": []})
++    assert child.with_observed_device(_spec(JobKind.PROPOSE_GENERATION), owner) is owner  # not a device kind
++
++
++def test_child_reports_nothing_without_an_initialised_cuda_context(monkeypatch):
++    monkeypatch.setitem(sys.modules, "torch", _fake_torch(False))
++    assert child.observed_cuda_device() == {}
++    res = JobResult(job_id="j1", status="FAILED", reason_code="X", outputs={"retryable": True})
++    assert child.with_observed_device(_spec(JobKind.CANDIDATE_TRAIN), res) is res
++    monkeypatch.setitem(sys.modules, "torch", None)  # torch never imported by the job (an import would fail here)
++    assert child.observed_cuda_device() == {}
+--- /dev/null
++++ b/tests/public/runner/test_benchmark_pipeline_cpu.py
+@@ -0,0 +1,79 @@
++"""``run_benchmark`` record assembly on the CPU (DD-A49 c, T7 item g2): the inherited ``manifest.root`` access
++(``'Manifest' object has no attribute 'root'``, benchmark/pipeline.py:124) is gone and the record's ``split`` block is
++built from ``Manifest.roots``.
++
++Real parts: a randomly initialised yolo11n (no weights) on the CPU, the real ultralytics adapter, the real common
++evaluator (``pytorch:FP32`` accuracy on a SYNTHETIC 3-image split) and the record writer. Mocked parts: the ONNX export
++(a failed ``ExportReport``, so ONNX Runtime CUDA and TensorRT are never attempted and are recorded as FAILED) and the
++device manifest (NVML/CUDA facts of a host GPU; this CPU test has none). Latency is CUDA-only by design, so the
++``pytorch:FP32`` latency is refused here and recorded as FAILED; no proxy number is produced.
++"""
++from __future__ import annotations
++
++import json
++from types import SimpleNamespace
++
++import pytest
++
++torch = pytest.importorskip("torch")  # the ml extras (torch, ultralytics) are needed for the real model
++
++
++def _subject(model, adapter):
++    from mbnas_model_runtime.benchmark.onnx_export import ExportReport
++    from mbnas_model_runtime.benchmark.subjects import BenchSubject
++
++    return BenchSubject(name="y11-cpu-random", backend="ultralytics", adapter=adapter, model=model, imgsz=64,
++                        device="cpu", unpack=lambda outs: outs[0],
++                        export=lambda out: ExportReport(ok=False, backend="ultralytics", method="mocked (CPU test)",
++                                                        error="ONNX export not run in the CPU unit test"))
++
++
++def test_record_split_block_uses_manifest_roots_on_the_pytorch_fp32_cpu_path(tmp_path, make_dataset, monkeypatch):
++    from ultralytics.nn.tasks import DetectionModel
++
++    from mbnas_model_runtime.adapters.ultralytics_adapter import UltralyticsAdapter
++    from mbnas_model_runtime.benchmark import pipeline
++    from mbnas_model_runtime.datasets.manifest import build_manifest
++
++    paths = make_dataset("bench_cpu", counts={"val": 3})
++    manifest = build_manifest(paths["search_val_root"], names={0: "drone"})
++    assert not hasattr(manifest, "root") and len(manifest.roots) == 1  # the field the old line 124 missed
++    calls: list[str] = []
++
++    def fake_manifest(device):
++        calls.append(device)
++        return {"name": "SYNTHETIC cpu test device", "uuid": None, "torch_device": device}
++
++    monkeypatch.setattr(pipeline, "device_manifest", fake_manifest)
++    torch.manual_seed(0)
++    model = DetectionModel("yolo11n.yaml", nc=1, verbose=False).eval()
++    rec = pipeline.run_benchmark(_subject(model, UltralyticsAdapter("YOLO11")), out_dir=tmp_path / "bench",
++                                 manifest=manifest, sample_image=manifest.samples[0].image, device="cpu",
++                                 runtimes=("pytorch:FP32", "onnxruntime:FP32", "tensorrt:FP16"), warmup=1, repeats=2)
++
++    root = str(manifest.roots[0])
++    expected = {"roots": [root], "root": root, "split_hash": manifest.split_hash, "images": 3}
++    assert rec["split"] == expected
++    on_disk = json.loads((tmp_path / "bench" / "benchmark.json").read_text())
++    assert on_disk["split"] == expected and on_disk["schema"] == "mbnas-benchmark/1"
++    assert calls == ["cpu", "cpu"] and rec["device"]["name"].startswith("SYNTHETIC")  # before and after the matrix
++
++    ref = rec["runtimes"]["pytorch:FP32"]
++    assert ref["accuracy"]["counts"]["images"] == 3 and ref["accuracy"]["evaluation_hash"].startswith("sha256:")
++    assert ref["status"] == "FAILED" and "CUDA device only" in ref["error"]  # no CPU proxy latency
++    assert set(ref["accuracy_delta_vs_reference"]) == {"ap_delta", "ap_50_delta", "recall_delta"}
++    for key in ("onnxruntime:FP32", "tensorrt:FP16"):
++        assert rec["runtimes"][key]["status"] == "FAILED"
++        assert "ONNX export failed; runtime not available" in rec["runtimes"][key]["error"]
++    assert rec["engines"] == {} and rec["export"]["ok"] is False  # no TensorRT build without an ONNX file
++    assert rec["latency_table"] == [] and rec["latency_source"] == "measured"
++    assert not torch.cuda.is_initialized()
++
++
++def test_split_record_of_a_multi_root_manifest_keeps_every_root():
++    from mbnas_model_runtime.benchmark.pipeline import split_record
++
++    multi = SimpleNamespace(roots=["/abs/a/images/val", "/abs/b/images/val"], split_hash="sha256:" + "1" * 64,
++                            samples=[object()] * 5)
++    assert split_record(multi) == {"roots": ["/abs/a/images/val", "/abs/b/images/val"], "root": None,
++                                   "split_hash": "sha256:" + "1" * 64, "images": 5}
+--- /dev/null
++++ b/tests/public/runner/test_official_evaluation_payload.py
+@@ -0,0 +1,121 @@
++"""DD-A49 (a), official evaluation (``EVALUATE`` of an ``evaluate_only`` training run): the payload carries the same
++device evidence as a training evaluation (``latency`` with its device ``manifest``, ``device_uuid``/``device_name``,
++``latency_statistics``, post-processing provenance) in slots the 1.5.0 contract already declares, and every result
++names the job's attempt (the core refuses a result whose attempt differs from the fenced one).
++
++The GPU-bound steps are SYNTHETIC fakes (official weights loading, the evaluator, the panels, the device identity and
++the latency record); the run directory check, the latency manifest and the evaluation.json writer are the real code.
++CPU only: nothing here touches CUDA or NVML.
++"""
++from __future__ import annotations
++
++import json
++from pathlib import Path
++from types import SimpleNamespace
++
++import pytest
++
++from mbnas_contracts.schemas.jobs import JobKind, JobSpec
++
++IDENT = {"torch_device": "cuda:0", "uuid": "GPU-00000000-1111-2222-3333-444444444444", "name": "SYNTHETIC GPU",
++         "manifest": {"torch": "2.6.0", "cuda_runtime": "12.4", "cudnn": 90100, "torch_device_name": "SYNTHETIC GPU",
++                      "cuda_index": 0, "uuid": "GPU-00000000-1111-2222-3333-444444444444", "name": "SYNTHETIC GPU"}}
++LABEL = "forward_and_postprocess(conf=0.25,iou=0.7,max_det=300)"
++
++
++def _latency() -> dict:
++    return {"scopes": {"forward_and_postprocess": {"p50_ms": 9.9, "p95_ms": 10.5, "mean_ms": 10.0,
++                                                   "samples_ms": [9.8, 10.0]}},
++            "operating_point": {"conf": 0.25, "iou": 0.7, "max_det": 300}, "latency_scope": LABEL,
++            "postprocess_runtime": {"nms": "torchvision_cuda_nms"}, "torchvision": "0.21.0",
++            "postprocess": {"nms": True}, "device_sampling": {"power_w": None}, "latency_source": "measured"}
++
++
++@pytest.fixture
++def official(tmp_path, tmp_roots, make_dataset, settings, monkeypatch):
++    """``run(attempt, model_names)`` -> (JobResult, run_dir, emitted messages) with the GPU-bound steps faked."""
++    from mbnas_model_runtime.benchmark import subjects
++    from mbnas_model_runtime.datasets.manifest import build_manifest
++    from mbnas_model_runtime.evaluation import evaluator, images
++    from mbnas_runner.evaluation import handlers
++    from mbnas_runner.evaluation.official_evaluation import run_official_evaluation
++    from mbnas_runner.training import context
++
++    paths = make_dataset("official", counts={"val": 2})
++    manifest = build_manifest(paths["search_val_root"], names={0: "drone"})
++    weights = tmp_path / "weights" / "yolo11n.pt"
++    weights.parent.mkdir(parents=True)
++    weights.write_bytes(b"SYNTHETIC official weights")
++    proto = {"console": {"extra": {"training": {"enabled": True, "mode": "evaluate_only",
++                                                "arch": {"weights_path": str(weights), "family": "YOLO11"},
++                                                "architecture_hash": "sha256:" + "a" * 64}},
++                         "benchmark": {"precision": "FP16", "device": "host-gpu-0", "batch": 1}},
++             "training": {"requested_input_size": [64, 64], "batch_per_gpu": 2}}
++    run_dir = tmp_roots["runs"] / "runs" / "run-official"
++    monkeypatch.setattr(context, "split_manifests", lambda p, s, splits, access=None: ({0: "drone"},
++                                                                                       {"search_val": manifest}))
++    monkeypatch.setattr(evaluator, "evaluate", lambda adapter, model, man, cfg: {
++        "ap": 0.5, "ap_50": 0.7, "recall": 0.6, "evaluation_hash": "sha256:" + "e" * 64,
++        "split_hash": man.split_hash, "signature": {"device_class": cfg.device_class}, "matches": ["dropped"]})
++    monkeypatch.setattr(images, "render_fixed_samples", lambda *a, **k: [])
++    monkeypatch.setattr(handlers, "device_identity", lambda device: json.loads(json.dumps(IDENT)))
++    monkeypatch.setattr(handlers, "measure_latency", lambda *a, **k: _latency())
++
++    def run(attempt: int = 1, names: dict | None = None):
++        monkeypatch.setattr(subjects, "ultralytics_from_weights", lambda *a, **k: SimpleNamespace(
++            model=SimpleNamespace(names=names or {0: "drone"}), adapter="SYNTHETIC adapter"))
++        spec = JobSpec(job_id="ev-1", run_id="run-official", kind=JobKind.EVALUATE, protocol_hash="sha256:p",
++                       candidate_id="cand-1", rung="TRAIN", attempt=attempt,
++                       params={"resolved_protocol": proto, "run_dir": str(run_dir)})
++        sent: list = []
++        return run_official_evaluation(spec, sent.append, settings), run_dir, sent
++
++    return run
++
++
++def test_official_payload_carries_the_latency_device_manifest_and_device_identity(official):
++    res, run_dir, sent = official(attempt=2)
++    assert res.status == "SUCCEEDED" and res.attempt == 2, res.message
++    ev = res.outputs["evaluation"]
++    lat = _latency()
++    assert ev["latency"]["manifest"] == {
++        **IDENT["manifest"], "precision": "FP16", "batch": 1, "input_shape": [64, 64],
++        "precision_mode": "torch.autocast(float16) over FP32 weights", "postprocess": lat["postprocess"],
++        "postprocess_operating_point": lat["operating_point"], "postprocess_runtime": lat["postprocess_runtime"],
++        "torchvision": "0.21.0", "latency_scope": LABEL, "device_entry": "host-gpu-0",
++        "device_sampling": lat["device_sampling"]}
++    assert ev["device_uuid"] == IDENT["uuid"] and ev["device_name"] == "SYNTHETIC GPU" and ev["device"] == "host-gpu-0"
++    assert ev["latency_ms"] == 9.9 and ev["latency_statistics"] == {"p50_ms": 9.9, "p95_ms": 10.5, "mean_ms": 10.0}
++    assert ev["postprocess_runtime"] == lat["postprocess_runtime"]
++    assert ev["postprocess_operating_point"] == lat["operating_point"] and ev["latency_scope"] == LABEL
++    assert ev["latency"]["scopes"]["forward_and_postprocess"]["p50_ms"] == 9.9 and "matches" not in ev
++    assert ev["epochs"] == 0 and ev["source"] == "official_weights" and ev["latency_source"] == "measured"
++    on_disk = json.loads((Path(run_dir) / "evaluations" / "cand-1" / "evaluation.json").read_text())
++    assert on_disk["latency"]["manifest"]["uuid"] == IDENT["uuid"] and on_disk["device_uuid"] == IDENT["uuid"]
++    assert [m.type for m in sent] == ["metric"]
++
++
++def test_the_added_keys_have_declared_contract_slots():
++    from mbnas_contracts.openapi import component
++
++    ce = component("CandidateEvaluation")
++    raw = ce["properties"]["raw_metrics"]
++    assert ce["additionalProperties"] is False and raw["additionalProperties"] is False  # closed objects
++    assert {"latency_statistics", "postprocess_runtime", "latency_scope"} <= set(ce["properties"])  # row fields
++    declared = set(raw["properties"])
++    assert {"latency", "device_uuid", "device_name", "postprocess_operating_point", "device_used"} <= declared
++
++
++def test_official_failures_name_the_fenced_attempt(official):
++    res, _, _ = official(attempt=3, names={0: "cat"})
++    assert res.status == "FAILED" and res.reason_code == "CLASS_MAPPING_MISMATCH" and res.attempt == 3
++
++
++def test_latency_manifest_keeps_the_training_payload_layout():
++    from mbnas_runner.evaluation.handlers import latency_manifest
++
++    man = latency_manifest(IDENT, _latency(), precision="FP32", input_shape=(32, 48), device_entry=None)
++    assert list(man)[len(IDENT["manifest"]):] == ["precision", "batch", "input_shape", "precision_mode", "postprocess",
++                                                  "postprocess_operating_point", "postprocess_runtime", "torchvision",
++                                                  "latency_scope", "device_entry", "device_sampling"]
++    assert man["precision_mode"] == "fp32" and man["input_shape"] == [32, 48] and man["device_entry"] is None
+--- /dev/null
++++ b/tests/public/runner/test_bench_host_gpu_script.py
+@@ -0,0 +1,127 @@
++"""scripts/runner/bench_host_gpu.py (owner script path of BENCHMARK, DD-A49 c) without a GPU: argparse/``--help``, every
++path a parameter (no host facts), the CPU guard that writes no evidence, the BLOCKED_BY_ENV TensorRT label and the
++renderer on SYNTHETIC records (``split.roots`` of new records, ``split.root`` of older ones).
++
++Runs only where the owner tool exists (DD-A43 b, ``owner_tool``); every subprocess gets ``CUDA_VISIBLE_DEVICES=""``.
++"""
++from __future__ import annotations
++
++import importlib.util
++import json
++import os
++import subprocess
++import sys
++from pathlib import Path
++
++from conftest_common import owner_tool  # DD-A43(b)
++
++SCRIPT = owner_tool("scripts/runner/bench_host_gpu.py")
++# host facts of the original host, composed so this file holds no literal the host-fact scanners would match
++HOST_FACTS = ("/root" + "/", "/data" + "/mg", "mg" + "jeong", "147.46" + ".114.253", "pc" + "2300", "MBNAS" + "_server",
++              "A" + "100", "ETRI" + "_NAS", "MBNAS" + "_runs", "MBNAS" + "_data", "/home" + "/")
++
++
++def _env(**extra: str) -> dict[str, str]:
++    env = {k: v for k, v in os.environ.items() if not k.startswith("MBNAS_BENCH_") and k != "MBNAS_RUNNER_WEIGHTS_DIR"}
++    return {**env, "CUDA_VISIBLE_DEVICES": "", "PYTHONDONTWRITEBYTECODE": "1", **extra}
++
++
++def _run(*args: str, env: dict[str, str] | None = None, timeout: float = 300) -> subprocess.CompletedProcess[str]:
++    return subprocess.run([sys.executable, "-B", str(SCRIPT), *args], capture_output=True, text=True,
++                          timeout=timeout, env=env or _env())
++
++
++def _module():
++    spec = importlib.util.spec_from_file_location("bench_host_gpu_under_test", SCRIPT)
++    mod = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(mod)  # type: ignore[union-attr]
++    return mod
++
++
++def test_help_names_every_path_parameter_and_its_environment_variable():
++    out = _run("--help")
++    assert out.returncode == 0, out.stderr
++    for token in ("--data-root", "MBNAS_BENCH_DATA_ROOT", "--weights-dir", "MBNAS_RUNNER_WEIGHTS_DIR", "--runs-root",
++                  "MBNAS_BENCH_RUNS_ROOT", "--val-dir", "--evidence-dir", "--doc", "--render-latest"):
++        assert token in out.stdout, token
++
++
++def test_script_holds_no_host_path_or_host_device_fact():
++    text = SCRIPT.read_text(encoding="utf-8")
++    assert [f for f in HOST_FACTS if f in text] == []
++
++
++def test_a_benchmark_run_requires_an_absolute_data_root():
++    missing = _run("--weights", "yolo11n.pt")
++    assert missing.returncode == 2 and "MBNAS_BENCH_DATA_ROOT" in missing.stderr
++    relative = _run("--data-root", "relative/pilot")
++    assert relative.returncode != 0 and "--data-root must be an absolute path" in relative.stderr
++
++
++def test_cpu_host_writes_no_evidence(tmp_path, make_dataset):
++    """No CUDA device visible: exit 2 before any subject runs; no evidence file, no run directory left behind."""
++    ds = make_dataset("bench_script", counts={"val": 1})
++    runs = tmp_path / "runs"
++    out = _run("--data-root", ds["root"], "--val-dir", "images/val", "--runs-root", str(runs),
++               "--weights-dir", str(tmp_path / "weights"), timeout=600)
++    assert out.returncode == 2, out.stdout + out.stderr
++    assert "no CUDA device is visible" in out.stderr
++    assert not list(runs.rglob("bench_host_gpu_*.json")) and list((runs / "benchmark").iterdir()) == []
++
++
++def _record(*, roots: list[str] | None, trt_status: str) -> dict:
++    acc = {"ap_for_delta": 0.5, "ap_50": 0.7, "recall": 0.6}
++    split = {"roots": roots, "root": roots[0], "images": 1} if roots else {"root": "/abs/old/split", "images": 1}
++    return {"device": {"name": "SYNTHETIC GPU", "uuid": "GPU-0", "host_runtime": {"torch": {"version": "2.6.0"}}},
++            "subject": {"backend": "ultralytics", "postprocess": {"nms": True},
++                        "source": {"path": "/abs/w/yolo11n.pt", "sha256": "0" * 64, "kind": "official_weights",
++                                   "family": "YOLO11"}},
++            "batch": 1, "input_shape": [1, 3, 64, 64], "warmup": 1, "repeats": 2, "sample_image": "/abs/s/a.jpg",
++            "split": {**split, "split_hash": "sha256:" + "1" * 64},
++            "export": {"path": "/abs/o/y.onnx", "sha256": "2" * 64, "opset": 17}, "engines": {},
++            "latency_table": [{"runtime": "pytorch", "precision": "FP32", "scope": "forward_only", "p50_ms": 1.0,
++                               "p95_ms": 1.0, "mean_ms": 1.0, "fps_batch1": 1000.0}],
++            "runtimes": {"pytorch:FP32": {"status": "MEASURED", "accuracy": acc},
++                         "tensorrt:FP16": {"status": trt_status, "accuracy": acc if trt_status == "MEASURED" else None,
++                                           **({} if trt_status == "MEASURED"
++                                              else {"error": "TensorRT engine BLOCKED"})}},
++            "limitations": ["synthetic"]}
++
++
++def test_render_from_lists_split_roots_and_the_tensorrt_status(tmp_path):
++    new = {"kind": "bench_host_gpu", "created_at": "20261027_120000",
++           "evidence_type": "real_gpu (SYNTHETIC GPU), measured",
++           "tensorrt": {"status": "BLOCKED_BY_ENV"}, "blocked_targets": [],
++           "subjects": [{"weights": "yolo11n.pt", "job_result": {"status": "SUCCEEDED"},
++                         "record": _record(roots=["/abs/new/images/val"], trt_status="FAILED")}]}
++    old = {"kind": "bench_host_gpu", "created_at": "20261001_120000", "blocked_targets": [],
++           "subjects": [{"weights": "yolo11s.pt", "job_result": {"status": "SUCCEEDED"},
++                         "record": _record(roots=None, trt_status="MEASURED")}]}
++    files = []
++    for name, ev in (("bench_host_gpu_20261027_120000.json", new), ("bench_host_gpu_20261001_120000.json", old)):
++        (tmp_path / name).write_text(json.dumps(ev))
++        files.append(str(tmp_path / name))
++    doc = tmp_path / "out" / "BENCHMARK_HOST_GPU.md"
++    out = _run("--render-from", *files, "--doc", str(doc))
++    assert out.returncode == 0, out.stderr
++    text = doc.read_text()
++    assert "split `/abs/new/images/val`" in text and "split `/abs/old/split`" in text
++    assert "TensorRT BLOCKED_BY_ENV" in text and "TensorRT status not recorded" in text
++    assert "scripts/runner/bench_host_gpu.py --render-from" in text
++
++
++def test_rank_and_tensorrt_status_helpers():
++    mod = _module()
++
++    def subject(trt: str) -> dict:
++        return {"job_result": {"status": "SUCCEEDED"}, "record": _record(roots=["/abs/s"], trt_status=trt)}
++
++    assert mod._rank(subject("MEASURED")) == (True, True)
++    assert mod._rank(subject("FAILED")) == (True, False)  # TensorRT not measured: a reduced run, never "full"
++    blocked = mod.tensorrt_status({"host": {"tensorrt": {"available": False,
++                                                         "error": "ModuleNotFoundError: tensorrt"}}})
++    assert blocked["status"] == "BLOCKED_BY_ENV" and "wheelhouse" in blocked["reason"]
++    assert mod.tensorrt_status({"host": {"tensorrt": {"available": True, "version": "10.13.3.9"}}}) == {
++        "status": "AVAILABLE", "version": "10.13.3.9"}
++    assert mod.device_label({"host": {"torch": {"devices": []}}}) == "no CUDA device visible"
++    assert Path(mod.__file__) == SCRIPT
+--- /dev/null
++++ b/tests/public/model_runtime/test_benchmark_capability_names.py
+@@ -0,0 +1,108 @@
++"""DD-A49 (c): the host GPU target ``host-gpu-0`` is named after the GPU of the host that runs the code (NVML, else an
++already initialised torch CUDA context, else ``"unknown"``), never after a fixed product (the inherited table named
++the original host's GPU). SYNTHETIC: NVML and torch are fakes; no real NVML query and no CUDA initialisation happen
++here, and the module's resolved table is restored after every test."""
++from __future__ import annotations
++
++import sys
++from types import SimpleNamespace
++
++import pytest
++
++from mbnas_model_runtime.benchmark import capability
++
++OLD_PRODUCT = "A" + "100"  # the inherited fixed product name (composed: no literal for the host-fact scanners)
++
++
++class FakeNvml:
++    """The pynvml calls ``host_gpu_name`` makes; ``names[i]`` is device i (bytes or str)."""
++
++    def __init__(self, names=(), *, fail_init: bool = False) -> None:
++        self.names, self.fail_init, self.calls = list(names), fail_init, []
++
++    def nvmlInit(self) -> None:
++        self.calls.append("init")
++        if self.fail_init:
++            raise RuntimeError("NVML Shared Library Not Found")
++
++    def nvmlShutdown(self) -> None:
++        self.calls.append("shutdown")
++
++    def nvmlDeviceGetHandleByIndex(self, index: int) -> int:
++        if index >= len(self.names):
++            raise RuntimeError("Invalid Argument")
++        return index
++
++    def nvmlDeviceGetName(self, handle: int):
++        return self.names[handle]
++
++
++def _fake_torch(*, initialised: bool, name: str = "SYNTHETIC torch GPU"):
++    cuda = SimpleNamespace(is_initialized=lambda: initialised, get_device_name=lambda index: f"{name} {index}")
++    return SimpleNamespace(cuda=cuda)
++
++
++@pytest.fixture(autouse=True)
++def restore_targets():
++    saved, was = {k: dict(v) for k, v in capability._RESOLVED.items()}, capability._resolved_once
++    yield
++    capability._RESOLVED.clear()
++    capability._RESOLVED.update(saved)
++    capability._resolved_once = was
++
++
++def test_host_gpu_name_reads_nvml_and_pairs_init_with_shutdown() -> None:
++    nv = FakeNvml(["NVIDIA RTX A6000", b"NVIDIA L4"])
++    assert capability.host_gpu_name(0, nvml=nv) == "NVIDIA RTX A6000"
++    assert capability.host_gpu_name(1, nvml=nv) == "NVIDIA L4"  # bytes (older nvidia-ml-py) decoded
++    assert nv.calls == ["init", "shutdown", "init", "shutdown"]
++
++
++def test_host_gpu_name_falls_back_to_an_initialised_torch_context_then_unknown(monkeypatch) -> None:
++    monkeypatch.delenv("CUDA_VISIBLE_DEVICES", raising=False)
++    monkeypatch.setitem(sys.modules, "torch", _fake_torch(initialised=True))
++    no_nvml = FakeNvml(fail_init=True)
++    assert capability.host_gpu_name(0, nvml=no_nvml) == "SYNTHETIC torch GPU 0"
++    assert no_nvml.calls == ["init"]  # no shutdown after a failed init
++    assert capability.host_gpu_name(3, nvml=FakeNvml(["only one"])) == "SYNTHETIC torch GPU 3"  # NVML index missing
++    monkeypatch.setitem(sys.modules, "torch", _fake_torch(initialised=False))  # never initialises CUDA itself
++    assert capability.host_gpu_name(0, nvml=no_nvml) == capability.UNKNOWN_DEVICE_NAME == "unknown"
++    monkeypatch.setitem(sys.modules, "torch", _fake_torch(initialised=True))
++    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "1")  # torch index 0 would be another device than NVML index 0
++    assert capability.host_gpu_name(0, nvml=no_nvml) == "unknown"
++
++
++def test_declared_targets_name_the_host_gpu_from_nvml_and_drop_the_fixed_product(monkeypatch) -> None:
++    targets = capability.declared_targets(refresh=True, nvml=FakeNvml(["NVIDIA RTX A6000"]))
++    host = targets["host-gpu-0"]
++    assert host == {"name": "NVIDIA RTX A6000", "kind": "host_gpu", "aliases": ["cuda:0"]}
++    assert capability.DECLARED_TARGETS is targets  # the module attribute the core registry imports
++    from mbnas_model_runtime.benchmark.capability import DECLARED_TARGETS
++
++    assert DECLARED_TARGETS["host-gpu-0"]["name"] == "NVIDIA RTX A6000"
++    text = repr(targets)
++    assert OLD_PRODUCT not in text and set(targets) == {"host-gpu-0", "jetson-orin-nx", "jetson-orin-nano",
++                                                        "jetson-agx-orin"}
++    assert targets["jetson-orin-nx"]["name"] == "NVIDIA Jetson Orin NX"  # declared non-host targets unchanged
++    again = capability.declared_targets(nvml=FakeNvml(["NOT PROBED AGAIN"]))  # cached until refresh=True
++    assert again is targets and again["host-gpu-0"]["name"] == "NVIDIA RTX A6000"
++    monkeypatch.setitem(sys.modules, "torch", _fake_torch(initialised=False))
++    gone = capability.declared_targets(refresh=True, nvml=FakeNvml(fail_init=True))
++    assert gone is targets and gone["host-gpu-0"]["name"] == "unknown"  # refreshed in place
++
++
++def test_device_targets_and_declared_target_for_use_the_live_names(monkeypatch) -> None:
++    capability.declared_targets(refresh=True, nvml=FakeNvml(["NVIDIA RTX A6000"]))
++    present = capability.device_targets([{"id": "host-gpu-0", "name": "Inventory GPU name"}])
++    by_id = {t["id"]: t for t in present}
++    assert by_id["host-gpu-0"]["available"] is True and by_id["host-gpu-0"]["name"] == "Inventory GPU name"
++    absent = {t["id"]: t for t in capability.device_targets([])}
++    assert absent["host-gpu-0"]["available"] is False and absent["host-gpu-0"]["name"] == "NVIDIA RTX A6000"
++    assert "inventory" in absent["host-gpu-0"]["reason"]
++    assert capability.declared_target_for("nvidia rtx a6000") == "host-gpu-0"
++    assert capability.declared_target_for("cuda:0") == "host-gpu-0"
++    assert capability.declared_target_for(OLD_PRODUCT) is None
++    monkeypatch.setitem(sys.modules, "torch", _fake_torch(initialised=False))
++    capability.declared_targets(refresh=True, nvml=FakeNvml(fail_init=True))
++    assert capability.declared_target_for("unknown") is None  # the placeholder never matches a requested device
++    assert capability.target_status("host-gpu-0")["status"] == "AVAILABLE"
+--- /dev/null
++++ b/tests/public/model_runtime/test_latency_nvml_uuid.py
+@@ -0,0 +1,191 @@
++"""NVML facts of a latency record belong to the CUDA device that ran (DD-A49 follow-up): ``gpu_manifest`` and
++``NvmlSampler`` find the NVML device by torch's uuid, because NVML numbers devices in PCI bus order and ignores
++``CUDA_VISIBLE_DEVICES`` (a runner child's ``cuda:0`` can be NVML index 1). The torch index is used as the NVML index
++only when the uuid lookup is unavailable, with a logged warning and ``nvml_lookup = "index"``.
++
++SYNTHETIC: NVML and torch are stubs in which torch's ``cuda:0`` is NVML index 1. No real NVML query, no CUDA call.
++"""
++from __future__ import annotations
++
++import logging
++from types import SimpleNamespace
++
++import pytest
++
++from mbnas_model_runtime.evaluation import latency as L
++
++UUID_A = "GPU-aaaaaaaa-0000-0000-0000-000000000000"  # NVML index 0
++UUID_B = "GPU-bbbbbbbb-1111-1111-1111-111111111111"  # NVML index 1 = torch cuda:0 below
++LOGGER = "mbnas_model_runtime.evaluation.latency"
++
++
++class FakeNvmlError(Exception):
++    pass
++
++
++class FakeNvml:
++    """pynvml subset over two devices whose NVML order is (A, B); every reading identifies its device."""
++
++    NVMLError = FakeNvmlError
++    NVML_CLOCK_SM, NVML_CLOCK_MEM, NVML_TEMPERATURE_GPU = 0, 2, 0
++    DEVICES = ({"uuid": UUID_A, "name": "SYNTHETIC card A", "power_mw": 50000, "sm": 1000, "limit_mw": 300000},
++               {"uuid": UUID_B, "name": "SYNTHETIC card B", "power_mw": 90000, "sm": 1800, "limit_mw": 450000})
++
++    def __init__(self) -> None:
++        self.calls: list[str] = []
++
++    def nvmlInit(self) -> None:
++        self.calls.append("init")
++
++    def nvmlShutdown(self) -> None:
++        self.calls.append("shutdown")
++
++    def nvmlDeviceGetHandleByIndex(self, index: int) -> int:
++        self.calls.append(f"by_index:{index}")
++        return index
++
++    def nvmlDeviceGetHandleByUUID(self, uuid: str) -> int:
++        self.calls.append(f"by_uuid:{uuid}")
++        for i, dev in enumerate(self.DEVICES):
++            if dev["uuid"] == uuid:
++                return i
++        raise FakeNvmlError("Not Found")
++
++    def nvmlDeviceGetIndex(self, handle: int) -> int:
++        return handle
++
++    def nvmlDeviceGetUUID(self, handle: int) -> str:
++        return self.DEVICES[handle]["uuid"]
++
++    def nvmlDeviceGetName(self, handle: int) -> str:
++        return self.DEVICES[handle]["name"]
++
++    def nvmlSystemGetDriverVersion(self) -> str:
++        return "SYNTHETIC driver"
++
++    def nvmlDeviceGetPowerManagementLimit(self, handle: int) -> int:
++        return self.DEVICES[handle]["limit_mw"]
++
++    def nvmlDeviceGetPowerUsage(self, handle: int) -> int:
++        return self.DEVICES[handle]["power_mw"]
++
++    def nvmlDeviceGetClockInfo(self, handle: int, kind: int) -> int:
++        return self.DEVICES[handle]["sm"]
++
++    def nvmlDeviceGetMaxClockInfo(self, handle: int, kind: int) -> int:
++        return self.DEVICES[handle]["sm"] + 100
++
++    def nvmlDeviceGetTemperature(self, handle: int, kind: int) -> int:
++        return 40 + handle
++
++    def nvmlDeviceGetUtilizationRates(self, handle: int):
++        return SimpleNamespace(gpu=10 * handle)
++
++    def nvmlDeviceGetPersistenceMode(self, handle: int) -> int:
++        return 1
++
++
++class NvmlWithoutUuidLookup(FakeNvml):
++    nvmlDeviceGetHandleByUUID = None  # an nvidia-ml-py without the call
++
++
++class _TorchUuid:
++    def __init__(self, text: str) -> None:
++        self.text = text
++
++    def __str__(self) -> str:  # torch's _CUuuid prints the bare 8-4-4-4-12 form
++        return self.text
++
++
++def fake_torch(uuid_text: str | None = UUID_B[len("GPU-"):]):
++    """torch whose cuda:0 is card B (NVML index 1); ``uuid_text=None``: a torch without device uuids."""
++    def props(index: int):
++        return SimpleNamespace(name="SYNTHETIC torch name") if uuid_text is None else SimpleNamespace(
++            name="SYNTHETIC torch name", uuid=_TorchUuid(uuid_text))
++
++    def device(spec: str):
++        kind, _, idx = spec.partition(":")
++        return SimpleNamespace(type=kind, index=int(idx) if idx else None)
++
++    cuda = SimpleNamespace(get_device_name=lambda index: "SYNTHETIC torch name", get_device_properties=props)
++    return SimpleNamespace(__version__="2.6.0+synthetic", version=SimpleNamespace(cuda="12.4"),
++                           backends=SimpleNamespace(cudnn=SimpleNamespace(version=lambda: 90100)), cuda=cuda,
++                           device=device)
++
++
++def test_torch_device_uuid_is_nvml_shaped():
++    assert L.torch_device_uuid(0, torch_module=fake_torch()) == UUID_B
++    assert L.torch_device_uuid(0, torch_module=fake_torch(UUID_B)) == UUID_B  # already prefixed: unchanged
++    assert L.torch_device_uuid(0, torch_module=fake_torch(None)) is None
++
++
++def test_gpu_manifest_reads_the_device_with_torchs_uuid_not_the_same_index(caplog):
++    nv = FakeNvml()
++    with caplog.at_level(logging.WARNING, logger=LOGGER):
++        man = L.gpu_manifest("cuda:0", nvml=nv, torch_module=fake_torch())
++    assert man["cuda_index"] == 0 and man["nvml_lookup"] == "uuid" and "nvml_lookup_warning" not in man
++    assert man["uuid"] == UUID_B and man["name"] == "SYNTHETIC card B"  # NVML index 1, not index 0 (card A)
++    assert man["power_limit_w"] == 450.0 and man["sm_clock_mhz"] == 1800 and man["temperature_c"] == 41
++    assert f"by_uuid:{UUID_B}" in nv.calls and not any(c.startswith("by_index") for c in nv.calls)
++    assert nv.calls[0] == "init" and nv.calls[-1] == "shutdown" and not caplog.records
++
++
++@pytest.mark.parametrize("nvml, torch_uuid, why", [
++    (NvmlWithoutUuidLookup(), UUID_B[len("GPU-"):], "has no nvmlDeviceGetHandleByUUID"),
++    (FakeNvml(), None, "torch reported no uuid"),
++    (FakeNvml(), "cccccccc-2222-2222-2222-222222222222", "nvmlDeviceGetHandleByUUID(GPU-cccccccc"),
++])
++def test_gpu_manifest_falls_back_to_the_index_only_with_a_logged_warning(caplog, nvml, torch_uuid, why):
++    with caplog.at_level(logging.WARNING, logger=LOGGER):
++        man = L.gpu_manifest("cuda:0", nvml=nvml, torch_module=fake_torch(torch_uuid))
++    assert man["nvml_lookup"] == "index" and why in man["nvml_lookup_warning"]
++    assert man["uuid"] == UUID_A and "by_index:0" in nvml.calls  # the index fallback, visibly labelled
++    warnings = [r for r in caplog.records if r.levelno == logging.WARNING]
++    assert len(warnings) == 1 and why in warnings[0].getMessage() and "NVML index" in warnings[0].getMessage()
++
++
++def test_sampler_samples_the_device_with_the_given_uuid(caplog):
++    nv = FakeNvml()
++    with caplog.at_level(logging.WARNING, logger=LOGGER):
++        s = L.NvmlSampler(0, nvml=nv, uuid=UUID_B)
++        s.sample("after_warmup")
++        s.sample("after_repeats")
++        out = s.summary()
++        s.close()
++    assert out["power_draw_w"] == {"min": 90.0, "max": 90.0, "mean": 90.0, "n": 2}  # card B, not card A
++    assert out["sm_clock_mhz"]["max"] == 1800 and out["nvml_lookup"] == "uuid"
++    assert out["nvml_index"] == 1 and out["cuda_index"] == 0 and out["error"] is None
++    assert nv.calls[-1] == "shutdown" and not caplog.records
++
++
++def test_sampler_without_a_uuid_uses_the_index_and_says_so(caplog):
++    nv = FakeNvml()
++    with caplog.at_level(logging.WARNING, logger=LOGGER):
++        s = L.NvmlSampler(0, nvml=nv)
++        s.sample("after_warmup")
++        out = s.summary()
++        s.close()
++    assert out["power_draw_w"]["max"] == 50.0 and out["nvml_lookup"] == "index" and out["nvml_index"] == 0
++    assert "torch reported no uuid" in out["nvml_lookup_warning"]
++    assert [r.levelno for r in caplog.records] == [logging.WARNING]
++
++
++def test_measure_hands_torchs_uuid_to_the_sampler(monkeypatch):
++    """measure() wiring on the CPU: CUDA synchronisation and the torch uuid read are stubbed (no CUDA call)."""
++    torch = pytest.importorskip("torch")
++    nv = FakeNvml()
++    seen: list[tuple[int, str | None]] = []
++    real_sampler = L.NvmlSampler
++
++    def sampler(index, nvml=None, *, uuid=None):
++        seen.append((index, uuid))
++        return real_sampler(index, nvml=nv, uuid=uuid)
++
++    monkeypatch.setattr(torch.cuda, "synchronize", lambda *a, **k: None)
++    monkeypatch.setattr(L, "torch_device_uuid", lambda index, torch_module=None: UUID_B)
++    monkeypatch.setattr(L, "NvmlSampler", sampler)
++    rec = L.measure({"forward_only": lambda: None}, warmup=1, repeats=2, device="cuda:0", scopes=("forward_only",))
++    assert seen == [(0, UUID_B)]
++    ds = rec["device_sampling"]
++    assert ds["nvml_lookup"] == "uuid" and ds["nvml_index"] == 1 and ds["power_draw_w"]["max"] == 90.0
++    assert not torch.cuda.is_initialized()
+--- /dev/null
++++ b/tests/owner/runner_protocol/test_device_used.py
+@@ -0,0 +1,64 @@
++"""DD-A32 / DD-A49 (a) end to end at the core: the runner daemon's ``outputs.device_used`` reaches the evaluation row's
++``raw_metrics.device_used`` (``mbnas_core.orchestration.engine.with_device_used``), for a search run (engine
++``job_finished``) and for an explicit training run (``training_runs.selection.on_training_result``, the path of T7 item
++a2). Real core app + real ``RunnerDaemon`` over the TestClient transport + real child subprocess with the SYNTHETIC stub
++handlers, on this CPU host: the runner registers as a CPU device (``CUDA_VISIBLE_DEVICES=""``), so DD-A32 says ``cpu``.
++"""
++from __future__ import annotations
++
++import copy
++
++import harness
++import pytest
++
++from mbnas_core.db import repo
++
++pytestmark = pytest.mark.runner_protocol
++
++
++def _cpu_daemon(daemon_factory, monkeypatch):
++    monkeypatch.setenv("CUDA_VISIBLE_DEVICES", "")  # a CPU-only runner (DD-A32), whatever the pytest environment
++    d = daemon_factory()
++    assert d.cpu_only and d.device["id"] == "cpu"
++    return d
++
++
++def _single_evaluated_row(db, run_id: str) -> dict:
++    rows = [e for e in repo.list_evaluations(db, run_id) if e["status"] == "EVALUATED"]
++    assert len(rows) == 1, [(e["id"], e["status"]) for e in repo.list_evaluations(db, run_id)]
++    return rows[0]["row"]
++
++
++def _assert_cpu_recorded(db, run_id: str) -> None:
++    jobs = repo.list_jobs(db, run_id)
++    assert [j["status"] for j in jobs] == ["SUCCEEDED"], [(j["kind"], j["status"], j.get("error")) for j in jobs]
++    out = jobs[0]["result"]["outputs"]
++    assert out["device_used"] == "cpu" and out["device_uuid"] is None
++    raw = _single_evaluated_row(db, run_id)["raw_metrics"]
++    assert raw["device_used"] == "cpu"
++    assert raw["child_env"]["CUDA_VISIBLE_DEVICES"] == ""  # the stub child really ran without a CUDA device
++    runner = db.execute("SELECT device, device_uuid FROM runners WHERE id = ?", ("R1",)).fetchone()
++    assert tuple(runner) == ("cpu", None)
++
++
++def test_search_run_records_raw_metrics_device_used_cpu(core, daemon_factory, base_proto, db, monkeypatch):
++    run_id, _ = harness.validate_and_run(core, base_proto())
++    d = _cpu_daemon(daemon_factory, monkeypatch)
++    assert d.run(once=True) == 0
++    _assert_cpu_recorded(db, run_id)
++
++
++def test_explicit_training_run_records_raw_metrics_device_used_cpu(core, daemon_factory, base_proto, db, monkeypatch):
++    proto = copy.deepcopy(base_proto())
++    proto["console"]["training"] = {"epoch_target_total": 2, "seed": 13}
++    proto["console"]["search"]["evaluation_enabled"] = False
++    req = {"source": {"kind": "baseline", "baseline_id": "yolo11n"}, "protocol": proto, "mode": "scratch",
++           "validation_enabled": True, "idempotency_key": "device-used-explicit"}
++    r = core.post("/api/v1/training-runs", json=req, headers=harness.auth())
++    assert r.status_code == 200, r.text
++    run_id = r.json()["run_id"]
++    assert [j["kind"] for j in repo.list_jobs(db, run_id)] == ["BASELINE_TRAIN"]
++    d = _cpu_daemon(daemon_factory, monkeypatch)
++    assert d.run(once=True) == 0
++    _assert_cpu_recorded(db, run_id)
++    assert repo.get_run(db, run_id)["status"] == "COMPLETED"

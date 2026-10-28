@@ -1,0 +1,27 @@
+# WP-5B classification of the owner-gate failures (owner_gate.txt = final run 07:12:03Z..07:27:59Z, 42 failed / 1458 passed /
+# 8 skipped / 1 xfailed; first run 06:45:29Z..07:04:23Z, before the last WP-5B edits: 36 failed / 1269 passed).
+
+## A. job-running tests that failed only inside the 07:14-07:17Z window (21 tests)
+tests/owner/runner_protocol/* (10) and tests/owner/artifacts/* (11): another agent edited mbnas_runner/src/mbnas_runner/
+child.py (07:14:41Z), journal.py (07:16:19Z) and daemon.py (07:16:59Z) while this run was in progress (the in-process
+daemon and the freshly started job children then ran different code). After the edits settled:
+  07:19:38Z  tests/public/server/test_artifact_routes.py tests/owner/artifacts           41 passed
+  07:28:36Z  tests/owner/runner_protocol tests/owner/artifacts                           54 passed
+(targeted_final.txt sections 3b and 4). In the first gate run (no concurrent runner edit) all of them passed.
+
+## B. caused by the WP-5B gateway change, test needs an update (1 test, owner: WP-4C / V4)
+tests/owner/api/test_generation_freshness.py::test_stale_generation_validation_is_conflict_not_missing_dataset_error
+  The gateway now attaches its host inputs to POST /runs (DD-A46), so the core calls svc.revalidate(resolved, gateway);
+  the test's stub `lambda _: (True, 'changed-validation-hash', [])` accepts one argument -> TypeError -> 500.
+  Probe with `lambda *a, **k: ...`: 409 STALE_VALIDATION as the test expects (stub called with 2 arguments), and
+  without the stub the run is created (200) - behaviour unchanged, only the stub signature is outdated.
+
+## C. WP-4B / WP-4C work in progress (projection, contract 1.5.0, schema v5) - not WP-5B (20 tests)
+test_candidate_detail_lineage (lineage prior_hash/space_hash projected away), test_checkpoint_state_row (run-relative
+checkpoint_path in public rows, the test opens it as a file), test_registry_roots_skipped x5 + registry/test_registry
+(registry evidence.source shape), test_structure_history (StructureReport.schema required), test_open_generation_progress
+(Event payload group_key not allowed), qa/test_engine_negatives (raw_metrics allowlist drops `reported`),
+search/test_mixed_pool_bridge (health search_space.root projected), search/test_proposers + test_repair_evidence_seed
+(public lineage / repair folding), training/test_explicit_cpu (validation_context(gateway, local_fallback=True) vs the
+test's ctx_factory), unit/test_db + test_db_migration x2 (schema v5 config_revisions), worker/test_lease x2
+(worker ids replaced by runner/device ids). None of these touches mbnas_server or the WP-5B core routes.

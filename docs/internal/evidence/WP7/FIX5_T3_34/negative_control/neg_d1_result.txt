@@ -1,0 +1,10 @@
+# Negative control of tests/owner/api/test_structure_report_hashes.py::test_model_path_crlf_source_sha256_is_the_file_bytes_sha (final test file)
+# the ORIGINAL check_user_model body (before the D1 fix; read_text + sha256 of the newline-translated text) re-installed in-process by neg_d1_plugin.py
+# command: PYTHONPATH=<negctl dir> runtime/venv/bin/python -B -m pytest -p neg_d1_plugin <test id> -p no:cacheprovider -q -rfEs --timeout=300 (CUDA_VISIBLE_DEVICES='', 2026-10-28 ~09:50 KST)
+# expected and observed: FAIL (old code reports the digest of the translated text); with the fix the same test passes (pytest_new_tests_verbose.txt)
+NEGATIVE CONTROL: original check_user_model installed
+E       AssertionError: assert 'cf001914e19f...6ec6249fd326a' == '4d6f849d7b8a...27390a8328b37'
+E         
+E         - 4d6f849d7b8ae7dd99ba0e255088778974ca3510fba6582ffda27390a8328b37
+E         + cf001914e19fc5e41dfe1749f1d20f7115c7febb7e2de8d9db56ec6249fd326a
+1 failed, 1 warning in 4.90s

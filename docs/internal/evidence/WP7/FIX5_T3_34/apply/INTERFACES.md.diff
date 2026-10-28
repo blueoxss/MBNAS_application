@@ -1,0 +1,11 @@
+--- before
++++ after
+@@ -104,7 +104,7 @@
+ | 10 | POST | `/core/v1/runner/deregister` | 정상 종료 등록 해제 | `DeregisterRequest` | 204 | 401, 403 |
+ | 11 | POST | `/core/v1/runner/checkpoints/{checkpoint_id}/pruned` | Report the outcome of a prune order (the core marks the checkpoint PRUNED) (계약 원문 요약) | `PruneReport` | 200 `PruneAck` | 401, 403, 404, 409 |
+ 
+-출처: `mbnas_contracts/src/mbnas_contracts/openapi/openapi_runner.json` (sha256 `72ddb8bfc9d232d419ece043ca3a3ba83ec04fddbead05484c05a35207126473`)
++출처: `mbnas_contracts/src/mbnas_contracts/openapi/openapi_runner.json` (sha256 `0f3dac4db29e36485f04941028f296f9fdaf6d00fca44fb304d410474084ecd7`)
+ <!-- END GENERATED:runner-v1 -->
+ 
+ 정상 흐름: `register` → `claim`(JobEnvelope 수령) → GPU 대기 후 `start`(과금 시작) → 주기적 `heartbeat`(lease 연장, pause·cancel 제어 플래그) → `progress` → `checkpoints`/`artifacts` 등록 → `result`(멱등 commit) → `ack`. 종료 시 `deregister`.

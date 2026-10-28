@@ -1,0 +1,103 @@
+{
+ "exit_codes": {
+  "core": -15,
+  "gateway": -15,
+  "owner": 0,
+  "runner": 0
+ },
+ "finished_utc": "2026-10-27T06:39:50.402668Z",
+ "gpu": 0,
+ "gpu_uuid": "GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9",
+ "gpu_windows": [
+  {
+   "label": "runner-start",
+   "pid": 2441206,
+   "start_utc": "2026-10-27T06:38:58.855076Z"
+  },
+  {
+   "end_utc": "2026-10-27T06:39:47.232904Z",
+   "label": "teardown"
+  }
+ ],
+ "items": {
+  "g": {
+   "benchmark": {
+    "exit_code": 3,
+    "message": "AttributeError: 'Manifest' object has no attribute 'root'",
+    "ok": false,
+    "reason_code": "INTERNAL_ERROR",
+    "runtime_status": {}
+   },
+   "benchmark_diagnostic": {
+    "runtime_status": {
+     "onnxruntime:FP32": "MEASURED",
+     "pytorch:FP16": "MEASURED",
+     "pytorch:FP32": "MEASURED",
+     "tensorrt:FP16": "FAILED",
+     "tensorrt:FP32": "FAILED"
+    },
+    "status": "SUCCEEDED"
+   },
+   "evaluate": {
+    "ap": 0.5034483556233402,
+    "ap_50": 0.6711294071965658,
+    "latency_ms": 9.91438189521432,
+    "ok": true,
+    "run_id": "train-a880bd4f9902"
+   },
+   "nvidia_smi_after": {
+    "compute_apps": [],
+    "compute_apps_exit": 0,
+    "gpus": [
+     "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 49140 MiB, 5 %",
+     "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 49140 MiB, 0 %"
+    ],
+    "gpus_exit": 0,
+    "utc": "2026-10-27T06:39:45.984429Z"
+   },
+   "nvidia_smi_before": {
+    "compute_apps": [],
+    "compute_apps_exit": 0,
+    "gpus": [
+     "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 49140 MiB, 0 %",
+     "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 49140 MiB, 0 %"
+    ],
+    "gpus_exit": 0,
+    "utc": "2026-10-27T06:39:00.223947Z"
+   },
+   "seconds": 45.8,
+   "verdict": "FAIL"
+  }
+ },
+ "nvidia_smi_after": {
+  "compute_apps": [],
+  "compute_apps_exit": 0,
+  "gpus": [
+   "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 49140 MiB, 0 %",
+   "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 49140 MiB, 0 %"
+  ],
+  "gpus_exit": 0,
+  "utc": "2026-10-27T06:39:50.236030Z"
+ },
+ "nvidia_smi_before": {
+  "compute_apps": [],
+  "compute_apps_exit": 0,
+  "gpus": [
+   "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 49140 MiB, 0 %",
+   "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 49140 MiB, 0 %"
+  ],
+  "gpus_exit": 0,
+  "utc": "2026-10-27T06:38:49.112701Z"
+ },
+ "pids": {
+  "core": 2441159,
+  "gateway": 2441218,
+  "owner": 2441205,
+  "runner": 2441206
+ },
+ "runner_id": "t7-gpu0",
+ "started_utc": "2026-10-27T06:38:49.112589Z",
+ "stopped_all": true,
+ "tree_hash": "sha256:164292c6e775a52a3da02f98282257b67a282f9e84b236ded3940e592a568f2f",
+ "work_root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T063849Z"
+}

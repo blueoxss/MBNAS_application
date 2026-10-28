@@ -1,0 +1,2 @@
+start 2026-10-27T23:14:56Z cwd=/home/mgjeong/Desktop/etri_hd/mbnas_application label=suite_worker args=tests/owner/worker -m not gpu and not live and not legacy_records and not host_data -q -rfE --timeout=180 --durations=10
+exit=0 dur=92s end=2026-10-27T23:16:28Z

@@ -1,0 +1,3 @@
+scanned files=9458 bytes=454673273 containers=9 skipped=0 hits=0 failing=0 unmet=0
+canary_scan: PASS
+responses (final, incl. core-down) exit=0

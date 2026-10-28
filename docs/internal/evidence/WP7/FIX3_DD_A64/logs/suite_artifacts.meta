@@ -1,0 +1,2 @@
+start 2026-10-27T23:23:02Z cwd=/home/mgjeong/Desktop/etri_hd/mbnas_application label=suite_artifacts args=tests/owner/artifacts -m not gpu and not live and not legacy_records and not host_data -q -rfE --timeout=180 --durations=5
+exit=0 dur=75s end=2026-10-27T23:24:17Z

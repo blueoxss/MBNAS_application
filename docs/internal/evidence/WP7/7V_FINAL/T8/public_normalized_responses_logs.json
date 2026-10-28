@@ -1,0 +1,40 @@
+{
+ "schema": "mbnas.canary_scan/1",
+ "targets": [
+  "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6final/capture_normalized/public/responses",
+  "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6final/capture_normalized/public/tree/logs"
+ ],
+ "profile": "public",
+ "expect_present": false,
+ "manifest": {
+  "path": "/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/canary/CANARY_MANIFEST.json",
+  "sha256": "58ba94687964d34f2585b9fa2867faec9b4d9bf739025e348cb781b198067a4a",
+  "areas": [
+   "CORE_STATE",
+   "FITNESS",
+   "MANIFEST_SELF",
+   "OWNER_DEPLOY",
+   "OWNER_DOC",
+   "OWNER_SECRET",
+   "OWNER_TEST",
+   "POLICY_PRIOR",
+   "POLICY_REPAIR"
+  ]
+ },
+ "host_facts": true,
+ "needle_count": 120,
+ "scanned": {
+  "files": 57,
+  "bytes": 539846,
+  "containers": 1,
+  "min_files": 1,
+  "skipped": []
+ },
+ "hits": [],
+ "hits_by_label": {},
+ "expectations": [],
+ "failing_hits": 0,
+ "unmet_expectations": 0,
+ "too_few_files": false,
+ "status": "PASS"
+}

@@ -1,0 +1,53 @@
+# C01 fix round 1b: functional self-test of scripts/dev/snapshot_{copy,delta,compare}.py on a synthetic git repo in the session scratchpad (2026-10-28T04:12:24+09:00)
+$ bash docs/internal/evidence/PROVENANCE/selftest_snapshot_tools.sh <scratch>/selftest
+== 1 copy (write)
+ "files": 6,
+  "tracked_clean": 4,
+  "tracked_modified": 1,
+  "untracked": 1
+ "mode": "write",
+ "skipped_count": 1
+exit=0
+== 2 copy again (must refuse, exit 2)
+exit=2
+== 3 copy into the source (must refuse, exit 2)
+exit=2 (src/snap exists: no)
+== 4 compare (in sync)
+live: HEAD be1cfe0da4be (== snapshot HEAD: True), commits since snapshot {'be1cfe0da4bee2b3928b9d107c993a643a93544a': 0}, branch main, status entries 2
+live sha256: match 6, differ 0, missing 0 (of 6); git fields all match 6; mismatch {'head_blob_sha1': 0, 'index_blob_sha1': 0, 'git_status': 0, 'git_blob_sha1': 0}
+live status of rows {'tracked_clean': 4, 'tracked_modified': 1, 'untracked': 1}; rows in HEAD tree 5
+selected live files 7: new code 0, new docs 0; newest selected mtime 2026-10-27T19:11:55.571354+00:00; modified after None: 0
+.git/index+HEAD unchanged during the run: True
+ok True (0.04 s)
+exit=0
+== 5 compare (source advanced: expect differ 1, new code 1, new docs 1, exit 1)
+live sha256: match 5, differ 1, missing 0 (of 6); git fields all match 5; mismatch {'head_blob_sha1': 0, 'index_blob_sha1': 0, 'git_status': 1, 'git_blob_sha1': 1}
+selected live files 9: new code 1, new docs 1; newest selected mtime 2026-10-27T19:11:55.979355+00:00; modified after None: 0
+ok False (0.04 s)
+exit=1
+== 6 delta plan
+1 0 1 1
+CH application/MBNAS_server/src/pkg/b.py
+NEW application/MBNAS_web/src/n.ts
+NEW_DOC application/docs/new.md
+exit=0
+== 7 apply without --write (must refuse, exit 2)
+exit=2
+== 8 apply
+{ "delta_tag": "20261028T041156", "delta": 2, "head": "be1cfe0da4bee2b3928b9d107c993a643a93544a", "files": [  "application/MBNAS_server/src/pkg/b.py",  "application/MBNAS_web/src/n.ts" ], "manifest_rows": 7}
+
+exit=0
+== 9 compare after apply (expect ok True apart from the new doc, exit 0)
+snapshot copy: match 7, differ 0, missing 0, extra 0, pyc 0, __pycache__ 0
+delta chain: files 1, rows 2, last row == manifest 2/2, supersedes links ok 0 bad 0, summary listing mismatch 0
+summary counts == manifest: True
+live: HEAD be1cfe0da4be (== snapshot HEAD: True), commits since snapshot {'be1cfe0da4bee2b3928b9d107c993a643a93544a': 0}, branch main, status entries 5
+live sha256: match 7, differ 0, missing 0 (of 7); git fields all match 7; mismatch {'head_blob_sha1': 0, 'index_blob_sha1': 0, 'git_status': 0, 'git_blob_sha1': 0}
+live status of rows {'tracked_clean': 3, 'tracked_modified': 2, 'untracked': 2}; rows in HEAD tree 5
+selected live files 9: new code 0, new docs 1; newest selected mtime 2026-10-27T19:11:55.979355+00:00; modified after 2026-10-27T19:11:56.372566+00:00: 0
+.git/index+HEAD unchanged during the run: True
+ok True (0.04 s)
+exit=0
+== 10 stale plan apply (must refuse)
+exit=2 (refused: application/MBNAS_server/src/pkg/b.py changed since the plan (live 031a02668726, planned 17dd98c94951); plan again)
+== source .git/index unchanged by the tools: yes

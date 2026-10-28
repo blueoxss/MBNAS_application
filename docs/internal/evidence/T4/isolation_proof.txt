@@ -1,0 +1,36 @@
+## SBX_NVML=0
+uid: uid=1001(<user>) gid=1001(<user>) groups=1001(<user>),65534(nogroup)
+hostname: t4-sandbox
+network: lo               UNKNOWN        127.0.0.1/8 ::1/128 ;
+<HOME>/Desktop/etri_hd -> mbnas_application
+<ROOT> -> runtime
+<ROOT>/runtime/test_root -> t4t5
+not visible: <ROOT>/pyproject.toml
+not visible: <ROOT>/build
+not visible: <HOME>/Desktop/etri_hd/etri_nas
+not visible: /data
+not visible: <HOME>/.ssh
+/opt -> harness
+wheelhouse
+/dev nvidia nodes: 
+env: CUDA_VISIBLE_DEVICES HF_HUB_OFFLINE HOME LANG PATH PIP_CONFIG_FILE PWD PYTHONDONTWRITEBYTECODE SHLVL T4_LABEL_SUFFIX T4_SUB T4_VARIANT TMPDIR YOLO_OFFLINE _ 
+outbound https://pypi.org: 000
+outbound https: failed (exit 6)
+## SBX_NVML=1
+uid: uid=1001(<user>) gid=1001(<user>) groups=1001(<user>),65534(nogroup)
+hostname: t4-sandbox
+network: lo               UNKNOWN        127.0.0.1/8 ::1/128 ;
+<HOME>/Desktop/etri_hd -> mbnas_application
+<ROOT> -> runtime
+<ROOT>/runtime/test_root -> t4t5
+not visible: <ROOT>/pyproject.toml
+not visible: <ROOT>/build
+not visible: <HOME>/Desktop/etri_hd/etri_nas
+not visible: /data
+not visible: <HOME>/.ssh
+/opt -> harness
+wheelhouse
+/dev nvidia nodes: nvidia0 nvidia1 nvidiactl 
+env: CUDA_VISIBLE_DEVICES HF_HUB_OFFLINE HOME LANG PATH PIP_CONFIG_FILE PWD PYTHONDONTWRITEBYTECODE SHLVL T4_LABEL_SUFFIX T4_SUB T4_VARIANT TMPDIR YOLO_OFFLINE _ 
+outbound https://pypi.org: 000
+outbound https: failed (exit 6)

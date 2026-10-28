@@ -1,0 +1,9 @@
+command: runtime/venv/bin/python -B -m pytest tests/owner/projection/test_runner_route_canary.py -m not gpu and not live and not legacy_records and not host_data --timeout=180 -v -s -p no:cacheprovider --basetemp <SCRATCH>/pt_file_route_canary_summary
+cwd: <ROOT>
+env: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null MBNAS_TEST_ROOT=<SCRATCH>/test_root
+start_utc: 2026-10-27T23:47:31Z
+tree_hash_start: sha256:e220e72137165c57b08cd24388c11d64762b689b376a17911a774b8a3bb45236
+end_utc: 2026-10-27T23:47:40Z
+duration_s: 9
+exit: 0
+tree_hash_end: sha256:e220e72137165c57b08cd24388c11d64762b689b376a17911a774b8a3bb45236

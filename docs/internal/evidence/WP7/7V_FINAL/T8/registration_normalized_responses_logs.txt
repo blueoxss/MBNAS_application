@@ -1,0 +1,4 @@
+$ python -I scripts/dev/canary_scan.py --manifest docs/internal/canary/CANARY_MANIFEST.json --profile public --secrets-env <combined env files, scratch 0600> --needles-file <owner-side strings, scratch 0600> capture_normalized/registration/responses capture_normalized/registration/tree/logs
+exit=0
+scanned files=6 bytes=118866 containers=0 skipped=0 hits=0 failing=0 unmet=0
+canary_scan: PASS

@@ -1,0 +1,55 @@
+G2FIX — fix round of the GPU validation track (DD-A49 a/c; evidence/T7 items a2, g, g2), 2026-10-27.
+CPU only: every command ran with CUDA_VISIBLE_DEVICES="" PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null and
+runtime/venv/bin/python; no GPU, no nvidia-smi process, nothing under /data. Tests that fake a "GPU runner" fake its
+NVML identity and still run every child with CUDA_VISIBLE_DEVICES="".
+Package hash after the change (live tree, scripts/dev/source_tree_hash.py --package mbnas_runner --package
+mbnas_model_runtime --package mbnas_contracts --digest-only):
+sha256:81a764fe7a1f9e082af95d447131cb76118e54484281da6b1bcd8b799b57c485 (core/server are edited concurrently by other
+agents and are not part of this hash).
+
+changes.patch                       CUMULATIVE unified diff of both rounds: 12 modified + 7 new files (vs the copies taken
+                                    before each round; sha256 41bd5e3f7cc3484c0ed9b8e48f432839799be1b27f398ea0503af320032146c4)
+logs/baseline_*.txt                 suites before the change
+logs/after_*.txt                    the same suites (+ consumers of the changed modules) after the change
+logs/negctl_owner_device_used.txt   the new owner tests against the PRE-FIX runner package: 2 failed (KeyError
+                                    'device_used'), i.e. the tests detect the T7 a2 defect
+logs/bench_help.txt                 scripts/runner/bench_host_gpu.py --help (exit 0)
+logs/gen_runner_openapi_check.txt   scripts/dev/gen_runner_openapi.py --check (exit 0: no runner contract change needed;
+                                    JobResult.outputs is additionalProperties:true, ResultCommit.device_uuid existed)
+
+suite                                                      baseline                    after
+tests/owner/runner_protocol                                42 passed                   44 passed (+2 test_device_used.py)
+tests/public/runner (no marker filter)                     87 passed 1 failed 7 skip   106 passed 1 failed 7 skip
+tests/public/runner -m "not gpu and not live"              (not run)                   105 passed 3 skip 6 deselected
+tests/public/model_runtime -m "not gpu and not live"       102 passed 2 skip           106 passed 2 skip
+tests/public/infra -m "not gpu and not live"               (not run)                   32 passed
+owner consumers of capability (health/registry/validator/qa) (not run)                 101 passed 7 skip
+tests/owner/legacy/test_bench_doc.py -m legacy_records     (not run)                   4 passed 2 skip
+scripts/dev/check_import_closure.py                        ok, exit 0                  ok, errors [], exit 0
+The 1 failure in the unfiltered public runner run (both before and after) is
+test_benchmark_rfdetr.py::test_host_runtime_reports_rfdetr_and_the_cuda_devices: marked gpu without a CUDA skipif, so it
+fails whenever the gpu marker is not deselected on a host without a visible CUDA device (pre-existing).
+
+Follow-up round (DD-A52, 2026-10-27 16:4x-17:0x), same CPU-only rules:
+(1) mbnas_model_runtime/evaluation/latency.py: gpu_manifest() and NvmlSampler find the NVML device by torch's uuid
+    (nvmlDeviceGetHandleByUUID("GPU-" + str(torch.cuda.get_device_properties(i).uuid))); torch's index is used as the
+    NVML index only when that lookup is unavailable, with a logged warning and nvml_lookup="index" (+nvml_lookup_warning)
+    in the record; measure() hands the sampler torch's uuid. Tests: tests/public/model_runtime/test_latency_nvml_uuid.py
+    (stub NVML whose index order differs from torch's: torch cuda:0 = NVML index 1).
+(2) runner child env: CUDA_DEVICE_ORDER=PCI_BUS_ID (overrides an inherited value) next to CUDA_VISIBLE_DEVICES=<gpu_index>;
+    documented in daemon.py / gpu.py. Test: test_runner_device_used.py::test_child_env_pins_cuda_device_order_to_nvml_pci_bus_order.
+(3) tests/owner/registry/test_set3_registry_devices.py: host-gpu-0 name compared with capability.declared_targets()
+    (that test is host_data-gated and SKIPPED here; the relation build_entry(...)["capabilities"]["devices"]["host-gpu-0"]
+    ["name"] == declared_targets()["host-gpu-0"]["name"] was checked in-process with a fake NVML: OK).
+(4) mbnas_core/registry/__init__.py line 16 docstring only ("(the A100)" -> "(host GPU)", stale mbnas_server module path).
+Package hash after this round (same command as above): sha256:4bfb6e511de48fbf1179fed505c47c794d030976fdbdee218fccc8a315a14efc
+
+suite (standard markers -m "not gpu and not live")          round-1 after               follow-up round
+tests/owner/runner_protocol                                 44 passed (no marker)       44 passed
+tests/public/runner                                         105 passed 3 skip 6 desel   106 passed 3 skip 6 desel
+tests/public/model_runtime                                  106 passed 2 skip 6 desel   114 passed 2 skip 6 desel
+tests/owner/registry/test_set3_registry_devices.py          (not run)                   8 passed 1 skip (host_data)
+tests/public/infra                                          32 passed                   32 passed
+scripts/dev/check_import_closure.py                         ok, exit 0                  ok, errors [], exit 0
+logs/round2_*.txt hold these runs; logs/round2_owner_device_used_final_bytes.txt re-runs the owner device tests after
+the last docstring-only edits (2 passed).

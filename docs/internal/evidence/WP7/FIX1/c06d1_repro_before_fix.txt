@@ -1,0 +1,72 @@
+2026-10-28T03:56:59+09:00
+....FF......                                                             [100%]
+=================================== FAILURES ===================================
+____________ test_worker_and_device_identifiers_are_opaque[gateway] ____________
+
+world = World(run='run-60d761d8c078', seeds=64, captures=74), side = 'gateway'
+
+    @pytest.mark.parametrize("side", SIDES)
+    def test_worker_and_device_identifiers_are_opaque(world: pw.World, side: str) -> None:
+        workers = []
+        for label, doc in _bodies(world, side).items():
+            for where, obj in _walk(doc):
+                if {"heartbeat_at", "device", "status"} <= set(obj) and "id" in obj:
+                    workers.append((f"{label} {where}", obj))
+        assert len(workers) >= 4, "snapshot workers + worker.updated events, both sides"
+        for where, w in workers:
+            assert ":" not in w["id"] and not HOST_RE.search(w["id"]), (where, w["id"])
+            assert "device_uuid" not in w, (where, w)
+            if w.get("device_id") is not None:
+                assert re.fullmatch(r"dev-[0-9a-f]{8,64}", w["device_id"]), (where, w["device_id"])
+        ids = {w["id"] for _, w in workers}
+        # C06-D1 (fix round 1): the core's opaque owner-worker id (wrk-<hex>) or a runner id of the generated form
+        # (^runner-[0-9a-f]{8,}$); before the fix the default runner id was runner-<hostname> and passed the old
+        # [A-Za-z0-9._-]+ alternative (HOST_RE's lookbehind does not match a host name after "runner-")
+        assert world.runner_id in ids, (world.runner_id, ids)
+>       assert all(re.fullmatch(r"wrk-[0-9a-f]{8,64}|runner-[0-9a-f]{8,}", i) for i in ids), ids
+E       AssertionError: {'runner-dev1', 'wrk-6b77109420dce511', 'wrk-c30c7d2f5fb43023'}
+E       assert False
+E        +  where False = all(<generator object test_worker_and_device_identifiers_are_opaque.<locals>.<genexpr> at 0x7f7d35d1bd80>)
+
+tests/owner/projection/test_value_rules.py:100: AssertionError
+__________ test_worker_and_device_identifiers_are_opaque[core-server] __________
+
+world = World(run='run-60d761d8c078', seeds=64, captures=74)
+side = 'core-server'
+
+    @pytest.mark.parametrize("side", SIDES)
+    def test_worker_and_device_identifiers_are_opaque(world: pw.World, side: str) -> None:
+        workers = []
+        for label, doc in _bodies(world, side).items():
+            for where, obj in _walk(doc):
+                if {"heartbeat_at", "device", "status"} <= set(obj) and "id" in obj:
+                    workers.append((f"{label} {where}", obj))
+        assert len(workers) >= 4, "snapshot workers + worker.updated events, both sides"
+        for where, w in workers:
+            assert ":" not in w["id"] and not HOST_RE.search(w["id"]), (where, w["id"])
+            assert "device_uuid" not in w, (where, w)
+            if w.get("device_id") is not None:
+                assert re.fullmatch(r"dev-[0-9a-f]{8,64}", w["device_id"]), (where, w["device_id"])
+        ids = {w["id"] for _, w in workers}
+        # C06-D1 (fix round 1): the core's opaque owner-worker id (wrk-<hex>) or a runner id of the generated form
+        # (^runner-[0-9a-f]{8,}$); before the fix the default runner id was runner-<hostname> and passed the old
+        # [A-Za-z0-9._-]+ alternative (HOST_RE's lookbehind does not match a host name after "runner-")
+        assert world.runner_id in ids, (world.runner_id, ids)
+>       assert all(re.fullmatch(r"wrk-[0-9a-f]{8,64}|runner-[0-9a-f]{8,}", i) for i in ids), ids
+E       AssertionError: {'runner-dev1', 'wrk-6b77109420dce511', 'wrk-c30c7d2f5fb43023'}
+E       assert False
+E        +  where False = all(<generator object test_worker_and_device_identifiers_are_opaque.<locals>.<genexpr> at 0x7f7d3577bf40>)
+
+tests/owner/projection/test_value_rules.py:100: AssertionError
+=============================== warnings summary ===============================
+tests/owner/projection/test_value_rules.py::test_free_text_is_scrubbed_but_kept[gateway]
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/owner/projection/test_value_rules.py::test_worker_and_device_identifiers_are_opaque[gateway]
+FAILED tests/owner/projection/test_value_rules.py::test_worker_and_device_identifiers_are_opaque[core-server]
+2 failed, 10 passed, 1 warning in 13.23s
+exit=1
+2026-10-28T03:57:14+09:00

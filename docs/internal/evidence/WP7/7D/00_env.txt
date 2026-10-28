@@ -1,0 +1,25 @@
+date: 2026-10-27T14:05:07+09:00
+host python: Python 3.10.22
+node: v24.20.0
+VERSION: 0.1.0
+$ /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python -B scripts/dev/source_tree_hash.py --package mbnas_contracts --package mbnas_model_runtime --package mbnas_runner --package mbnas_server --digest-only
+sha256:ad0ee1e6c772be2e8c91f4a00fc2f6d3ee4fd9f54351fd0932f643a40521b6f2
+exit=0
+$ /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python -B scripts/dev/source_tree_hash.py --digest-only
+sha256:6337788d4dc0e64155234b0b1f93f918113ffd2989cff65ab9e1324ee5a5eef7
+exit=0
+$ ls -la mbnas_web/dist mbnas_web/dist/assets
+mbnas_web/dist:
+합계 16
+drwxrwxr-x 3 mgjeong mgjeong 4096 Oct 27 13:22 .
+drwxrwxr-x 8 mgjeong mgjeong 4096 Oct 27 13:18 ..
+drwxrwxr-x 2 mgjeong mgjeong 4096 Oct 27 13:22 assets
+-rw-rw-r-- 1 mgjeong mgjeong  733 Oct 27 13:22 index.html
+
+mbnas_web/dist/assets:
+합계 512
+drwxrwxr-x 2 mgjeong mgjeong   4096 Oct 27 13:22 .
+drwxrwxr-x 3 mgjeong mgjeong   4096 Oct 27 13:22 ..
+-rw-rw-r-- 1 mgjeong mgjeong 498798 Oct 27 13:22 index-BuCPwHwg.js
+-rw-rw-r-- 1 mgjeong mgjeong  13992 Oct 27 13:22 index-Czi58eUS.css
+exit=0

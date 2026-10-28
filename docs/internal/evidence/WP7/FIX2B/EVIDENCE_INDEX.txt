@@ -1,0 +1,122 @@
+FIX2B - fix round 2b of DD-A62 (a)-(d) (residual core items of DD-A60) - evidence index, 2026-10-28 KST
+(<ROOT> = TARGET_ROOT, <HOME> = the user's home, <SCRATCH> = the session scratch dir; host paths and the ephemeral test
+principal tokens of pytest reprs replaced in every file)
+
+What was changed (package sources; PLACEMENT_MANIFEST rows owner_wp "FIX2B/DD-A62"):
+ (a) mbnas_core/orchestration/engine.py   commit_evaluation: a payload that DECLARES itself NOT_EVALUATED
+     mbnas_core/training_runs/selection.py (evaluation_status / performance_status, the runner's DD-A60 (4) payload) goes
+                                           to commit_not_evaluated: row SEARCH_COMPLETE + performance_status
+                                           NOT_EVALUATED + reason_code from the payload (EVALUATION_REQUIRES_CUDA; free
+                                           text never becomes a code, fallback NOT_EVALUATED), ap/recall/latency_ms/
+                                           size_mb/fitness null (a reported value only as raw_metrics.reported), gate
+                                           null, latency_source + evaluation_hash pending, split_hash null,
+                                           checkpoint_path/sha kept, raw_metrics with the runner's reason text and
+                                           device_used; no candidate.evaluated, no promotion, no next stage; an immutable
+                                           EVALUATED row is never replaced.
+                                           explicit training (on_training_result): candidate SEARCH_COMPLETE, rung state
+                                           evaluated + NOT_EVALUATED (DD-5 shape) -> run COMPLETED (was EVAL_FAILED
+                                           METRIC_MISSING:ap -> FAILED MODEL_RUN_FAILED); row keeps source_kind /
+                                           training_mode / raw_metrics.validation_enabled=true.
+                                           search arms / Baseline / Final: candidate SEARCH_COMPLETE ("stays unevaluated":
+                                           public evaluation_status NOT_EVALUATED), rung state failed + reason (generation
+                                           counts: evaluated = measured rows only; GA parent pool reads EVALUATED rows
+                                           only, so never a parent). A trained-architecture-hash mismatch (DD-10) still
+                                           wins: explicit row reason ARCHITECTURE_HASH_MISMATCH, other arms EVAL_FAILED.
+                                           A payload that merely lacks a metric (no declaration) is EVAL_FAILED
+                                           METRIC_MISSING as before.
+ (b) mbnas_core/console/services.py        MBNAS_CORE_DEVICE_SOURCE=local (default): when the NVML list is empty
+                                           (GPU-less core host) the registered CPU runners' 'cpu' entry
+                                           (devices_from_runners, DD-A60 (1)) is used; a non-empty local list is used
+                                           unchanged; GPU runner entries are never merged into 'local'.
+ (c) mbnas_core/orchestration/engine.py    _recover_generation(ctx, job, conn): journal generation-<seed>.json is looked
+                                           up in run_dir(run)/architectures, then core_run_dir(CoreSettings of the
+                                           environment)/architectures, then the core-local dir of a stored candidate of
+                                           this run whose YAML core_local_run_dir verified (covers an owner worker
+                                           started with --env-file, scripts/start.sh); identity check unchanged.
+                                           generation_progress -> register_generated_architecture: a file outside the
+                                           run dir is registered relative to the core-local run dir ONLY when it is
+                                           <root>/<run>/architectures/<candidate id>.yaml, a regular file (no symlink)
+                                           <= 1 MiB whose bytes are exactly the candidate's recorded architecture_yaml;
+                                           artifacts.meta.location = core_local (not a public meta key), relpath
+                                           architectures/<file>. ARCHITECTURE_ARTIFACT_UNAVAILABLE no longer logged for
+                                           those files.
+     ROUND 2 (coordinator follow-up, DD-A63): the serving side is in the tree -
+     mbnas_core/artifacts/registry.py      resolve_file(..., core_output_root=): a meta.location=core_local row resolves
+                                           against <core_output_root>/<run> ONLY (never run_dir(run); without the root it
+                                           is MISSING), with the registration guards again: relpath
+                                           architectures/<name>.yaml (else 403 ACCESS_DENIED), the file itself no symlink
+                                           (403), at most CORE_LOCAL_MAX_BYTES (409 LOAD_FAILED), bytes still hashing to
+                                           the registered sha256 (409 LOAD_FAILED); every other row: run_dir(run) only,
+                                           unchanged. CORE_LOCAL / CORE_LOCAL_MAX_BYTES are defined here once and the
+                                           engine's registration imports them.
+     mbnas_core/console/routes_files.py    get_artifact passes core_output_root=settings.output_root.
+     mbnas_core/owner_worker/main.py       --env-file is exported as MBNAS_CORE_ENV_FILE (like mbnas-core-api), so every
+                                           CoreSettings.load() of the worker process (the engine's core-local journal
+                                           lookup) reads it; job children still never inherit it (_inherited).
+ (d) mbnas_core/runner_api/routes.py       claim of a runner registered with device 'cpu': requires_cuda(job) (any job of
+                                           an evaluation-ON search / final-retrain run, BENCHMARK, explicit training that
+                                           evaluates) AND an ONLINE non-CPU runner offers the job's kind (mixed fleet)
+                                           -> the job is skipped (never leased, no attempt consumed, stays QUEUED for the
+                                           GPU runner); an eligible job behind it is leased; nothing leasable -> 204 (the
+                                           existing "no job" answer; no new error code, so no contract change). CPU-only
+                                           fleet: repo.acquire_lease exactly as before. GPU runners: unchanged.
+
+Interpretations taken in this round (for the coordinator / DECISIONS):
+ - (d) is fleet-aware (DD-A62 (d) "혼합 fleet에서"). An unconditional rule was tried first and broke the CPU test
+   infrastructure (every test RunnerDaemon registers as a CPU device under CUDA_VISIBLE_DEVICES='') and would make
+   DD-A62 (a)'s "search arms record EVALUATION_REQUIRES_CUDA" unreachable; see pytest/summary.txt "history".
+ - (a) "candidate stays UNEVALUATED" = no CandidateStatus UNEVALUATED exists: SEARCH_COMPLETE + performance_status
+   NOT_EVALUATED + reason (public evaluation_status NOT_EVALUATED); rung state 'failed' (closed vocabulary: evaluated
+   means a measured EVALUATED row).
+
+Files here:
+ split_smoke.txt                       ROUND 2, tree as it is, MBNAS_CORE_DEVICE_SOURCE=runners: result=PASS (13/13)
+                                         A PASS  OFF generation, customer output root, core-local files
+                                         F PASS  both OFF candidates: READY architecture artifact (meta.location
+                                                 core_local, no ARCHITECTURE_ARTIFACT_UNAVAILABLE log), GET
+                                                 /api/v1/runs/{run}/artifacts/{id} with the user bearer -> 200, body == the
+                                                 core-local YAML, sha256(body) == X-Artifact-Sha256 == registry sha256,
+                                                 X-Artifact-Verification core
+                                         B PASS  explicit CPU training, validation off (unchanged)
+                                         C PASS  evaluation ON refused EVALUATION_REQUIRES_CUDA (unchanged)
+                                         D PASS  explicit CPU training WITH validation: job SUCCEEDED (NOT_EVALUATED payload,
+                                                 device_used cpu), core row SEARCH_COMPLETE / NOT_EVALUATED /
+                                                 EVALUATION_REQUIRES_CUDA, metrics + fitness + gate null, latency pending,
+                                                 split_hash null, checkpoint kept, checkpoints PRESENT, run COMPLETED
+                                                 (reason null); public row the same (training_status TRAINED)
+                                         E PASS  request ids in both access logs; stop PASS
+ split_smoke_local.txt                 ROUND 2, --device-source local (core sandbox: no GPU device nodes -> empty NVML
+                                       list): B and D validate on the CPU runner entry (DD-A62 (b)), C lists "available:
+                                       ['cpu']", F 200 as above. result=PASS (13/13)
+ split_smoke_round1.txt, split_smoke_local_round1.txt
+                                       round 1 (before the serving side): 12/13 each - F FAIL, GET -> 403 ACCESS_DENIED
+                                       "run directory is outside the server output roots" (location core)
+ split_smoke_with_proposed_serving_patch.txt
+                                       round 1, the proposed patch in an overlay copy on PYTHONPATH: PASS (13/13)
+ split_smoke_local_pre_change.txt      --device-source local with the PRE-FIX2B sources of the four round-1 files (overlay):
+                                       B and D 422 TRAINING_PROTOCOL_INVALID / DEVICE_UNAVAILABLE (the T4/T5 owner-host
+                                       defect), C DEVICE_UNAVAILABLE only, F no architecture artifact (2x
+                                       ARCHITECTURE_ARTIFACT_UNAVAILABLE), E fails (no B run). result=FAIL (8/13)
+ fix2_harness_rerun.txt                the unmodified FIX2 harness (../FIX2/harness/fix2_split_smoke.py) re-run after
+                                       round 1: result=PASS (11/11); its informational D: run COMPLETED, row SEARCH_COMPLETE
+                                       / NOT_EVALUATED / EVALUATION_REQUIRES_CUDA (FIX2: FAILED MODEL_RUN_FAILED /
+                                       EVAL_FAILED METRIC_MISSING:ap); process logs in logs/
+ *_console.txt                         console of each run; logs_<evidence stem>/ the four process logs of each run
+ proposed_serving.patch                round 1 proposal (applied in round 2 with the registration guards added)
+ negative_control.txt                  round-1 tests against the pre-FIX2B sources: 11 failed / 8 passed / 1 xfailed
+ negative_control_round2.txt           round-2 tests against the round-1 state of registry.py, routes_files.py,
+                                       owner_worker/main.py, engine.py (overlay): 3 failed (download 403 x2, env file not
+                                       exported) / 2 passed (the unchanged-behaviour guards)
+ pytest/summary.txt                    gate subsets before/after (+ extra subsets, history, round 2)
+ pytest/new_tests.txt                  the new tests
+ pytest/proposed_serving_patch_overlay_check.txt, pytest/intermediate_after1_unconditional_claim_rule.txt
+ harness/fix2b_split_smoke.py
+
+Not done / limits:
+ - mixed fleet with a REAL GPU runner: 확인 못 함 here (no GPU allowed); covered with SYNTHETIC runner identities
+   (tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py).
+ - a CPU-only fleet that holds an evaluation-ON search run (validated against a core NVML GPU with device_source=local):
+   the CPU runner runs it and every candidate ends SEARCH_COMPLETE / NOT_EVALUATED (no ranking, GA proposes from an
+   empty parent pool) - honest but wasteful; documented, not blocked.
+ - core-local architecture artifacts are served by the core (origin core, relayed by the gateway); they are not copied
+   into the gateway store, so a download needs the core reachable (as for every core-written architecture YAML).

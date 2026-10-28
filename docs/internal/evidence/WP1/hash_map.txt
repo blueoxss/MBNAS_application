@@ -1,0 +1,22 @@
+# 2026-10-26T18:49:26+09:00 MIXED_SPACE_HASH_MAP (contract §13.5)
+cwd=<scratchpad>/hm  interpreter=runtime/venv/bin/python -I -B make_map.py (CUDA_VISIBLE_DEVICES='', MBNAS_HOME=runtime, YOLO_CONFIG_DIR in scratch); exit 0 twice, identical hashes
+output: docs/internal/provenance/MIXED_SPACE_HASH_MAP.json
+version mbnas-mixed-space/3 variant etri_mixed
+space_hash sha256:f50d490471503f0022fc81f3951e4b7dc6dc926d850f8d1c6257040c7889a8b3
+prior_hash sha256:0fbc54132c2dc97af6c64f4295caada6a3cac2d7bcdceb09495dd1935e3b621f
+templates ['yolo11n:cnn_backbone', 'yolo11n:native', 'yolo11n:transformer_backbone', 'yolo26n:cnn_backbone', 'yolo26n:native', 'yolo26n:transformer_backbone']
+rejected []
+  /3 input mbnas_core/search/mixed_pool/runtime_constants.py a4d264a4ca4c9b2ebf64be26466f5d15237775631f0b98e7ead9caadf181354a
+  /3 input mbnas_core/search/mixed_pool/seed_variants.py f3db8bd2b564275298b7536c21c6d8f3deebb903fd80d5b8a5294fec87dd7f4d
+  /3 input mbnas_model_runtime/operators/etri_mixed_blocks.py 12ec1d1c847f2b724e4efb52ef7bf83b57e02ad803d9cbbfe7c33d7f673e973e
+on_disk_matches True
+  snapshot yolo_ga_runtime/__init__.py ef0224c2bab7101623cd7a5c0919aa7ea00615e613ef67ca7cf529224314b63a
+  snapshot yolo_ga_runtime/crossover_v22.py 3222dfbdd816c67888ff9a49fe38cb8e054cf5bc3810620e6914c0db88e4056e
+  snapshot yolo_ga_runtime/ga_hooks.py 3ce290d9772c9855ae741629ce9d1f2d42f90f9e2a7be2f7d0fc1819a7b01f57
+  snapshot yolo_ga_runtime/mixed_blocks.py 4233dd324e755440d1bc223241fe2e0c95ca37f71e4c3aac8513778491496e70
+  snapshot yolo_ga_runtime/mixed_cli.py 80e55c6c71f9d2870eb8c01f0c1b24e9a5f76eb1fb0b6ab07472397c16e944ef
+  snapshot yolo_ga_runtime/mixed_hooks.py 297511c927e1c6e192d9ebebcebce2b7977d33c00cc39aaf7dacce580cb9deb7
+  snapshot yolo_ga_runtime/mixed_search_space.py adb6f41302a8ee8b526533edff9b52c916479c93ed08e63173b43241012e5da7
+  snapshot yolo_ga_runtime/pipeline.py 0551ae0b25b76980c1a834c36f371384ff67801da34eb8d65b07a232a1115593
+  snapshot yolo_ga_runtime/runtime.py f538c50f415cf0626d70a8be5b3d25550077983451202e2244a8d7423fd045e1
+/2 recorded prefixes {'space_hash_prefix': 'sha256:03e316a81b2f', 'prior_hash_prefix': 'sha256:fa984229a8aa', 'source': 'snapshot application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:852 (prefixes only; full values 확인 못 함)'}

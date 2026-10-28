@@ -1,0 +1,91 @@
+{
+ "exit_codes": {
+  "core": -15,
+  "gateway": -15,
+  "owner": 0,
+  "runner": 0
+ },
+ "finished_utc": "2026-10-27T06:35:56.641467Z",
+ "gpu": 0,
+ "gpu_uuid": "GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9",
+ "gpu_windows": [
+  {
+   "label": "runner-start",
+   "pid": 2438114,
+   "start_utc": "2026-10-27T06:35:32.281457Z"
+  },
+  {
+   "end_utc": "2026-10-27T06:35:53.468122Z",
+   "label": "teardown"
+  }
+ ],
+ "items": {
+  "g": {
+   "benchmark": {
+    "exit_code": 3,
+    "ok": false,
+    "runtime_status": {}
+   },
+   "evaluate": {
+    "ap": 0.5034483556233402,
+    "ap_50": 0.6711294071965658,
+    "latency_ms": 8.383062668144703,
+    "ok": false,
+    "run_id": "train-201eba917c78"
+   },
+   "nvidia_smi_after": {
+    "compute_apps": [],
+    "compute_apps_exit": 0,
+    "gpus": [
+     "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 49140 MiB, 0 %",
+     "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 49140 MiB, 0 %"
+    ],
+    "gpus_exit": 0,
+    "utc": "2026-10-27T06:35:52.305368Z"
+   },
+   "nvidia_smi_before": {
+    "compute_apps": [],
+    "compute_apps_exit": 0,
+    "gpus": [
+     "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 49140 MiB, 0 %",
+     "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 49140 MiB, 0 %"
+    ],
+    "gpus_exit": 0,
+    "utc": "2026-10-27T06:35:33.627347Z"
+   },
+   "seconds": 18.7,
+   "verdict": "FAIL"
+  }
+ },
+ "nvidia_smi_after": {
+  "compute_apps": [],
+  "compute_apps_exit": 0,
+  "gpus": [
+   "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 49140 MiB, 0 %",
+   "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 49140 MiB, 0 %"
+  ],
+  "gpus_exit": 0,
+  "utc": "2026-10-27T06:35:56.471235Z"
+ },
+ "nvidia_smi_before": {
+  "compute_apps": [],
+  "compute_apps_exit": 0,
+  "gpus": [
+   "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 49140 MiB, 0 %",
+   "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 49140 MiB, 0 %"
+  ],
+  "gpus_exit": 0,
+  "utc": "2026-10-27T06:35:22.651297Z"
+ },
+ "pids": {
+  "core": 2438095,
+  "gateway": 2438127,
+  "owner": 2438113,
+  "runner": 2438114
+ },
+ "runner_id": "t7-gpu0",
+ "started_utc": "2026-10-27T06:35:22.651174Z",
+ "stopped_all": true,
+ "tree_hash": "sha256:164292c6e775a52a3da02f98282257b67a282f9e84b236ded3940e592a568f2f",
+ "work_root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T063522Z"
+}

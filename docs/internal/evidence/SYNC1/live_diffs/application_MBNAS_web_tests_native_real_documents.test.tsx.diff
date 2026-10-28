@@ -1,0 +1,11 @@
+--- a/application/MBNAS_web/tests/native_real_documents.test.tsx
++++ b/application/MBNAS_web/tests/native_real_documents.test.tsx
+@@ -188,7 +188,7 @@
+     expect(within(screen.getByTestId('edges-added')).getByRole('heading')).toHaveTextContent(`(${expected.edges_added.length})`);
+     expect(within(screen.getByTestId('edges-removed')).getByRole('heading')).toHaveTextContent(`(${expected.edges_removed.length})`);
+     expect(screen.getByTestId('comparison-kind')).toHaveTextContent('두 모델 구조 비교');
+-    const table = screen.getByRole('table');
++    const table = within(screen.getByRole('region', { name: '추가·제거·변경 및 연결 차이' })).getByRole('table');
+     expect(table).toHaveTextContent('블록 순서');
+     expect(table).toHaveTextContent('native_path, module_class');
+     expect(table).toHaveTextContent('embedding.layers.0');

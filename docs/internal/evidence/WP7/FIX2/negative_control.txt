@@ -1,0 +1,724 @@
+# Negative control (2026-10-28 KST): the new DD-A60 tests run against the PRE-change versions (git HEAD) of the
+# 7 changed package files (shadow tree first on PYTHONPATH, owner_worker/paths.py absent; every other file = the
+# current working tree). Expected: the defect tests fail (T5 PermissionError escaping tick(), no cpu device entry,
+# no access log, CUDA AssertionError path) and only the two 'unchanged behaviour' guards pass
+# (test_empty_inventory_is_not_a_cpu_fleet, test_a_corrupt_snapshot_on_cpu_still_fails_like_before).
+# command: PYTHONPATH=<SCRATCH>/shadow <ROOT>/runtime/venv/bin/python -B -m pytest -q -m '<gate markers>' <the 6 new test files>
+FFF.FFFFFFFEEFEEFF.FFFF                                                  [100%]
+==================================== ERRORS ====================================
+_ ERROR at setup of test_one_line_per_request_on_both_sides_with_the_same_request_id _
+
+    @pytest.fixture
+    def access():
+        from mbnas_core.api import app as core_mod
+        from mbnas_server.api import app as gw_mod
+    
+        hooks = {}
+        for side, mod in (("core", core_mod), ("gateway", gw_mod)):
+>           lg = logging.getLogger(mod.ACCESS_LOGGER)
+E           AttributeError: module 'mbnas_core.api.app' has no attribute 'ACCESS_LOGGER'
+
+tests/owner/api/test_dd_a60_access_log.py:45: AttributeError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:78 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+_ ERROR at setup of test_secrets_in_the_query_string_are_redacted_and_control_characters_escaped _
+
+    @pytest.fixture
+    def access():
+        from mbnas_core.api import app as core_mod
+        from mbnas_server.api import app as gw_mod
+    
+        hooks = {}
+        for side, mod in (("core", core_mod), ("gateway", gw_mod)):
+>           lg = logging.getLogger(mod.ACCESS_LOGGER)
+E           AttributeError: module 'mbnas_core.api.app' has no attribute 'ACCESS_LOGGER'
+
+tests/owner/api/test_dd_a60_access_log.py:45: AttributeError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:78 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+_ ERROR at setup of test_exactly_one_line_per_request_with_the_echoed_request_id _
+
+    @pytest.fixture
+    def lines():
+        out: list[str] = []
+    
+        class Cap(logging.Handler):
+            def emit(self, record: logging.LogRecord) -> None:
+                out.append(record.getMessage())
+    
+>       lg = logging.getLogger(appmod.ACCESS_LOGGER)
+E       AttributeError: module 'mbnas_server.api.app' has no attribute 'ACCESS_LOGGER'
+
+tests/public/server/test_dd_a60_access_log_gateway.py:38: AttributeError
+__ ERROR at setup of test_early_answers_are_logged_and_query_secrets_redacted __
+
+    @pytest.fixture
+    def lines():
+        out: list[str] = []
+    
+        class Cap(logging.Handler):
+            def emit(self, record: logging.LogRecord) -> None:
+                out.append(record.getMessage())
+    
+>       lg = logging.getLogger(appmod.ACCESS_LOGGER)
+E       AttributeError: module 'mbnas_server.api.app' has no attribute 'ACCESS_LOGGER'
+
+tests/public/server/test_dd_a60_access_log_gateway.py:38: AttributeError
+=================================== FAILURES ===================================
+_____ test_cpu_runners_form_one_cpu_device_entry_instead_of_being_left_out _____
+
+fleet = namespace(core=<starlette.testclient.TestClient object at 0x7f69bc7f6770>, settings=CoreSettings(api_token=SecretStr('...EJlxsriLVQw4x9BID6sYlOB3McY'}, tmp_path=PosixPath('<PYTEST_TMP>/pytest-964/test_cpu_runners_form_one_cpu_0'))
+
+    def test_cpu_runners_form_one_cpu_device_entry_instead_of_being_left_out(fleet):
+        fleet.register("cpu-a", **CPU)
+        fleet.register("cpu-b", **CPU)
+        fleet.register("gpu-a")  # runner_sim default: device sim-dev0 with uuid GPU-sim-gpu-a
+        fleet.register("nouuid", device="sim-dev9", device_uuid=None, device_name="no uuid, not a CPU registration")
+        inv = fleet.devices()
+        by_id = {d["id"]: d for d in inv}
+>       assert set(by_id) == {"sim-dev0", "cpu"}, inv  # the uuid-less non-CPU runner stays out (cannot be pinned)
+E       AssertionError: [{'id': 'sim-dev0', 'uuid': 'GPU-sim-gpu-a', 'name': 'SYNTHETIC simulated device', 'aliases': ['GPU-sim-gpu-a', 'SYNTHETIC simulated device', 'gpu-a'], ...}]
+E       assert {'sim-dev0'} == {'cpu', 'sim-dev0'}
+E         
+E         Extra items in the right set:
+E         'cpu'
+E         Use -v to get more diff
+
+tests/owner/runner_protocol/test_dd_a60_cpu_fleet.py:110: AssertionError
+_ test_cpu_only_fleet_refuses_evaluation_on_and_validates_training_and_generation _
+
+fleet = namespace(core=<starlette.testclient.TestClient object at 0x7f69bc4dce50>, settings=CoreSettings(api_token=SecretStr('...xtsPr8ARTKmeradq2DHuKP3qP00'}, tmp_path=PosixPath('<PYTEST_TMP>/pytest-964/test_cpu_only_fleet_refuses_ev0'))
+search_proto = {'schema_version': 'nas-console/1.0', 'protocol_id': 'mbnas-pilot-smoke', 'status': 'PRESET_PILOT_SMOKE', 'value_provenance': 'pilot_smoke_values_for_pipeline_verification_not_research_values', ...}
+base_proto = <function base_proto.<locals>.build at 0x7f69a8ec70a0>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f6af8c80520>
+
+    def test_cpu_only_fleet_refuses_evaluation_on_and_validates_training_and_generation(fleet, search_proto, base_proto,
+                                                                                        monkeypatch):
+        fleet.register("cpu-a", **CPU)
+        on_cpu = _validate(fleet.core, _with_device(search_proto, "cpu"))
+        assert on_cpu["valid"] is False and on_cpu["resolved"] is None
+>       assert _codes(on_cpu) == {"EVALUATION_REQUIRES_CUDA": "console.search.evaluation_enabled"}, on_cpu["errors"]
+E       AssertionError: [{'field': 'console.benchmark.device', 'message': "device 'cpu' is not available; available: []", 'code': 'DEVICE_UNAVAILABLE'}]
+E       assert {'DEVICE_UNAV...hmark.device'} == {'EVALUATION_...tion_enabled'}
+E         
+E         Left contains 1 more item:
+E         {'DEVICE_UNAVAILABLE': 'console.benchmark.device'}
+E         Right contains 1 more item:
+E         {'EVALUATION_REQUIRES_CUDA': 'console.search.evaluation_enabled'}
+E         Use -v to get more diff
+
+tests/owner/runner_protocol/test_dd_a60_cpu_fleet.py:124: AssertionError
+___ test_mixed_fleet_keeps_the_gpu_and_refuses_only_the_cpu_benchmark_device ___
+
+fleet = namespace(core=<starlette.testclient.TestClient object at 0x7f69a9882ad0>, settings=CoreSettings(api_token=SecretStr('...RES9az902Z4zbzrsjZmlobCxZRE'}, tmp_path=PosixPath('<PYTEST_TMP>/pytest-964/test_mixed_fleet_keeps_the_gpu0'))
+search_proto = {'schema_version': 'nas-console/1.0', 'protocol_id': 'mbnas-pilot-smoke', 'status': 'PRESET_PILOT_SMOKE', 'value_provenance': 'pilot_smoke_values_for_pipeline_verification_not_research_values', ...}
+
+    def test_mixed_fleet_keeps_the_gpu_and_refuses_only_the_cpu_benchmark_device(fleet, search_proto):
+        fleet.register("cpu-a", **CPU)
+        fleet.register("gpu-a")
+        on_gpu = _validate(fleet.core, _with_device(search_proto, "GPU-sim-gpu-a"))
+        assert "EVALUATION_REQUIRES_CUDA" not in _codes(on_gpu), on_gpu["errors"]
+        assert "DEVICE_UNAVAILABLE" not in _codes(on_gpu), on_gpu["errors"]
+        on_cpu = _validate(fleet.core, _with_device(search_proto, "cpu-a"))  # the CPU runner's id is an alias of "cpu"
+        assert on_cpu["valid"] is False
+>       assert _codes(on_cpu).get("EVALUATION_REQUIRES_CUDA") == "console.benchmark.device", on_cpu["errors"]
+E       AssertionError: [{'field': 'console.benchmark.device', 'message': "device 'cpu-a' is not available; available: ['sim-dev0']", 'code': 'DEVICE_UNAVAILABLE'}]
+E       assert None == 'console.benchmark.device'
+E        +  where None = <built-in method get of dict object at 0x7f69a8c17bc0>('EVALUATION_REQUIRES_CUDA')
+E        +    where <built-in method get of dict object at 0x7f69a8c17bc0> = {'DEVICE_UNAVAILABLE': 'console.benchmark.device'}.get
+E        +      where {'DEVICE_UNAVAILABLE': 'console.benchmark.device'} = _codes({'valid': False, 'errors': [{'field': 'console.benchmark.device', 'message': "device 'cpu-a' is not available; available: ['sim-dev0']", 'code': 'DEVICE_UNAVAILABLE'}], 'warnings': [], 'resolved': None, ...})
+
+tests/owner/runner_protocol/test_dd_a60_cpu_fleet.py:185: AssertionError
+_ test_customer_only_output_root_off_generation_completes_with_core_local_files _
+
+self = PosixPath('<PYTEST_TMP>/pytest-964/test_customer_only_output_root0/customer/out/run-c337bc9c6be4/control')
+mode = 511, parents = True, exist_ok = True
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           self._accessor.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '<PYTEST_TMP>/pytest-964/test_customer_only_output_root0/customer/out/run-c337bc9c6be4/control'
+
+../../../miniconda3/envs/mbnas310/lib/python3.10/pathlib.py:1175: FileNotFoundError
+
+During handling of the above exception, another exception occurred:
+
+self = PosixPath('<PYTEST_TMP>/pytest-964/test_customer_only_output_root0/customer/out/run-c337bc9c6be4')
+mode = 511, parents = True, exist_ok = True
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           self._accessor.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '<PYTEST_TMP>/pytest-964/test_customer_only_output_root0/customer/out/run-c337bc9c6be4'
+
+../../../miniconda3/envs/mbnas310/lib/python3.10/pathlib.py:1175: FileNotFoundError
+
+During handling of the above exception, another exception occurred:
+
+split = namespace(core=<starlette.testclient.TestClient object at 0x7f69a89bd6c0>, settings=CoreSettings(api_token=SecretStr('...only_output_root0/data'), 'runs': PosixPath('<PYTEST_TMP>/pytest-964/test_customer_only_output_root0/runs')})
+
+    @pytest.mark.slow
+    @pytest.mark.owner_worker
+    def test_customer_only_output_root_off_generation_completes_with_core_local_files(split):
+        pytest.importorskip("torch")
+        pytest.importorskip("ultralytics")
+        out = split.customer / "out"
+        policy = _off_policy(str(out))
+        inputs = split.measure(policy)  # the gateway host can create the customer output root ...
+        assert inputs["path_checks"]["output_root"]["ok"] is True
+        v = _validate(split, policy, inputs)
+        assert v["capabilities"]["validation_host"] == "gateway"
+        split.customer.chmod(0o555)  # ... the core host cannot (T5: PermissionError on mkdir under the customer root)
+        run_id = _create(split, v, "dd-a60-off-customer", inputs)
+    
+        worker = Worker(split.settings, owner_config(poll_s=0.05, kill_grace_s=2), worker_id="dd-a60-owner:1")
+        try:
+>           assert worker.tick() is True  # before DD-A60: PermissionError escaped tick() and the worker process died
+
+tests/owner/worker/test_dd_a60_owner_worker.py:124: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<SCRATCH>/shadow/mbnas_core/owner_worker/main.py:246: in tick
+    self.execute(job)
+<SCRATCH>/shadow/mbnas_core/owner_worker/main.py:298: in execute
+    base, stop, log = self._paths(job)
+<SCRATCH>/shadow/mbnas_core/owner_worker/main.py:280: in _paths
+    p.parent.mkdir(parents=True, exist_ok=True)
+../../../miniconda3/envs/mbnas310/lib/python3.10/pathlib.py:1179: in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+../../../miniconda3/envs/mbnas310/lib/python3.10/pathlib.py:1179: in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('<PYTEST_TMP>/pytest-964/test_customer_only_output_root0/customer/out')
+mode = 511, parents = True, exist_ok = True
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           self._accessor.mkdir(self, mode)
+E           PermissionError: [Errno 13] Permission denied: '<PYTEST_TMP>/pytest-964/test_customer_only_output_root0/customer/out'
+
+../../../miniconda3/envs/mbnas310/lib/python3.10/pathlib.py:1175: PermissionError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:78 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+------------------------------ Captured log call -------------------------------
+WARNING  mbnas_core.console:routes_runs.py:186 run run-c337bc9c6be4: protocol copies not written under the customer output_root on this host (PermissionError); the database keeps both protocols
+___ test_a_failing_job_is_failed_with_a_reason_and_the_worker_keeps_running ____
+
+split = namespace(core=<starlette.testclient.TestClient object at 0x7f6af8c80700>, settings=CoreSettings(api_token=SecretStr('..._job_is_failed_w0/data'), 'runs': PosixPath('<PYTEST_TMP>/pytest-964/test_a_failing_job_is_failed_w0/runs')})
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f6af8c82080>
+
+    @pytest.mark.owner_worker
+    def test_a_failing_job_is_failed_with_a_reason_and_the_worker_keeps_running(split, monkeypatch):
+        harness.stub_env(monkeypatch)  # stub handlers: this row is about the worker loop, not the generator
+        root = str(split.settings.output_root)
+        first = _create(split, _validate(split, _off_policy(root), None), "dd-a60-broken", None)
+        second = _create(split, _validate(split, _off_policy(root), None), "dd-a60-healthy", None)
+        control = Path(root) / first / "control"
+        control.parent.mkdir(parents=True, exist_ok=True)
+        control.write_text("a file where the control directory should be\n")  # mkdir of <run>/control fails: EEXIST
+    
+        worker = Worker(split.settings, owner_config(poll_s=0.05, kill_grace_s=2), worker_id="dd-a60-owner:2")
+        try:
+            ran = 0
+>           while worker.tick():
+
+tests/owner/worker/test_dd_a60_owner_worker.py:161: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<SCRATCH>/shadow/mbnas_core/owner_worker/main.py:246: in tick
+    self.execute(job)
+<SCRATCH>/shadow/mbnas_core/owner_worker/main.py:298: in execute
+    base, stop, log = self._paths(job)
+<SCRATCH>/shadow/mbnas_core/owner_worker/main.py:280: in _paths
+    p.parent.mkdir(parents=True, exist_ok=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('<PYTEST_TMP>/pytest-964/test_a_failing_job_is_failed_w0/core-host/runs/run-d1a3a6147a1d/control')
+mode = 511, parents = True, exist_ok = True
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           self._accessor.mkdir(self, mode)
+E           FileExistsError: [Errno 17] File exists: '<PYTEST_TMP>/pytest-964/test_a_failing_job_is_failed_w0/core-host/runs/run-d1a3a6147a1d/control'
+
+../../../miniconda3/envs/mbnas310/lib/python3.10/pathlib.py:1175: FileExistsError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:78 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+_________ test_evaluation_on_proposal_uses_the_gateway_dataset_summary _________
+
+split = namespace(core=<starlette.testclient.TestClient object at 0x7f69a8d720e0>, settings=CoreSettings(api_token=SecretStr('...n_on_proposal_us0/data'), 'runs': PosixPath('<PYTEST_TMP>/pytest-964/test_evaluation_on_proposal_us0/runs')})
+
+    @pytest.mark.slow
+    @pytest.mark.owner_worker
+    def test_evaluation_on_proposal_uses_the_gateway_dataset_summary(split):
+        pytest.importorskip("torch")
+        pytest.importorskip("ultralytics")
+        from mbnas_core.search.handlers import propose_generation
+    
+        ds = split.make_dataset("customer", counts={"train": 4, "val": 2, "test": 2}, names=["car", "bus"])
+        proto = _eval_on_protocol(ds, str(split.customer / "out"))
+        inputs = split.measure(proto)
+        v = _validate(split, proto, inputs)
+        assert v["capabilities"]["validation_host"] == "gateway"
+        run_id = _create(split, v, "dd-a60-eval-on", inputs)
+>       spec, notes = _proposal_spec(split, run_id)
+
+tests/owner/worker/test_dd_a60_owner_worker.py:212: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+s = namespace(core=<starlette.testclient.TestClient object at 0x7f69a8d720e0>, settings=CoreSettings(api_token=SecretStr('...n_on_proposal_us0/data'), 'runs': PosixPath('<PYTEST_TMP>/pytest-964/test_evaluation_on_proposal_us0/runs')})
+run_id = 'run-9770efad4ffa'
+
+    def _proposal_spec(s, run_id: str):
+        from mbnas_core.owner_worker import child
+    
+        (job,) = [j for j in _q(s.settings, lambda c: repo.list_jobs(c, run_id)) if j["kind"] == "PROPOSE_GENERATION"]
+        stop = Path(s.settings.output_root) / run_id / "control" / f"{job['id']}.stop"
+        spec = child.load_context(s.settings.db_path, job["id"], str(stop), native=True)
+        notes: list[str] = []
+>       return child.owner_params(spec, s.settings.db_path, s.settings, note=notes.append), notes
+E       AttributeError: module 'mbnas_core.owner_worker.child' has no attribute 'owner_params'
+
+tests/owner/worker/test_dd_a60_owner_worker.py:196: AttributeError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:78 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+______ test_without_a_gateway_summary_the_core_local_read_is_the_fallback ______
+
+split = namespace(core=<starlette.testclient.TestClient object at 0x7f69a8dc8190>, settings=CoreSettings(api_token=SecretStr('..._gateway_summary0/data'), 'runs': PosixPath('<PYTEST_TMP>/pytest-964/test_without_a_gateway_summary0/runs')})
+
+    @pytest.mark.slow
+    @pytest.mark.owner_worker
+    def test_without_a_gateway_summary_the_core_local_read_is_the_fallback(split):
+        pytest.importorskip("torch")
+        from mbnas_core.search.handlers import propose_generation
+    
+        data = Path(split.settings.dataset_roots[0])
+        sys.path.append(str(Path(harness.__file__).resolve().parent))
+        import datasets as _datasets  # tests/_shared/datasets.py
+    
+        ds = _datasets.build_dataset(data, "corelocal", {"train": 4, "val": 2, "test": 2}, "0 0.5 0.5 0.25 0.25\n",
+                                     None, 1)
+        proto = _eval_on_protocol(ds, str(split.settings.output_root))
+        v = _validate(split, proto, None)  # core-local validation (owner all-in-one): no gateway summary is recorded
+        assert v["capabilities"].get("validation_host") is None
+        run_id = _create(split, v, "dd-a60-eval-on-local", None)
+>       spec, notes = _proposal_spec(split, run_id)
+
+tests/owner/worker/test_dd_a60_owner_worker.py:240: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+s = namespace(core=<starlette.testclient.TestClient object at 0x7f69a8dc8190>, settings=CoreSettings(api_token=SecretStr('..._gateway_summary0/data'), 'runs': PosixPath('<PYTEST_TMP>/pytest-964/test_without_a_gateway_summary0/runs')})
+run_id = 'run-02103f59bcad'
+
+    def _proposal_spec(s, run_id: str):
+        from mbnas_core.owner_worker import child
+    
+        (job,) = [j for j in _q(s.settings, lambda c: repo.list_jobs(c, run_id)) if j["kind"] == "PROPOSE_GENERATION"]
+        stop = Path(s.settings.output_root) / run_id / "control" / f"{job['id']}.stop"
+        spec = child.load_context(s.settings.db_path, job["id"], str(stop), native=True)
+        notes: list[str] = []
+>       return child.owner_params(spec, s.settings.db_path, s.settings, note=notes.append), notes
+E       AttributeError: module 'mbnas_core.owner_worker.child' has no attribute 'owner_params'
+
+tests/owner/worker/test_dd_a60_owner_worker.py:196: AttributeError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:78 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+__________ test_owner_params_leaves_other_kinds_and_explicit_nc_alone __________
+
+split = namespace(core=<starlette.testclient.TestClient object at 0x7f69a8b9db10>, settings=CoreSettings(api_token=SecretStr('...ams_leaves_other0/data'), 'runs': PosixPath('<PYTEST_TMP>/pytest-964/test_owner_params_leaves_other0/runs')})
+tmp_path = PosixPath('<PYTEST_TMP>/pytest-964/test_owner_params_leaves_other0')
+
+    def test_owner_params_leaves_other_kinds_and_explicit_nc_alone(split, tmp_path):
+        from mbnas_contracts.schemas.jobs import JobKind, JobSpec
+        from mbnas_core.owner_worker import child
+    
+        train = JobSpec(job_id="j1", run_id="run-x", kind=JobKind.CANDIDATE_TRAIN, protocol_hash="sha256:p",
+                        candidate_id="c1", rung="L0", cumulative_target=1, fixed_horizon=1,
+                        params={"architecture_dir": "/nowhere"})
+>       assert child.owner_params(train, split.settings.db_path, split.settings) is train
+E       AttributeError: module 'mbnas_core.owner_worker.child' has no attribute 'owner_params'
+
+tests/owner/worker/test_dd_a60_owner_worker.py:255: AttributeError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:78 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+________________ test_worker_entry_point_log_lines_are_redacted ________________
+
+split = namespace(core=<starlette.testclient.TestClient object at 0x7f69a9906860>, settings=CoreSettings(api_token=SecretStr('...try_point_log_li0/data'), 'runs': PosixPath('<PYTEST_TMP>/pytest-964/test_worker_entry_point_log_li0/runs')})
+
+    def test_worker_entry_point_log_lines_are_redacted(split):
+        """C05 D10: the worker's own stderr lines pass the log_redact filter (a token-shaped value in the worker id)."""
+        secret = "SECRET-dd-a60-0123456789"
+        p = subprocess.run([sys.executable, "-B", "-m", "mbnas_core.owner_worker", "--once", "--poll-s", "0.05",
+                            "--worker-id", f"redaction-probe token={secret}"], env=_worker_env(split.settings),
+                           capture_output=True, text=True, timeout=120)
+        assert p.returncode == 0, p.stderr[-2000:]
+>       assert "owner worker redaction-probe token=*** started" in p.stderr, p.stderr[-2000:]
+E       AssertionError: 
+E       assert 'owner worker redaction-probe token=*** started' in ''
+E        +  where '' = CompletedProcess(args=['<ROOT>/runtime/venv/bin/python', '-B', '-m', 'mbnas_c...-poll-s', '0.05', '--worker-id', 'redaction-probe token=SECRET-dd-a60-0123456789'], returncode=0, stdout='', stderr='').stderr
+
+tests/owner/worker/test_dd_a60_owner_worker.py:279: AssertionError
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:78 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+_____ test_configure_logging_installs_the_redaction_filter_on_its_handler ______
+
+    def test_configure_logging_installs_the_redaction_filter_on_its_handler():
+        import logging
+    
+        from mbnas_contracts.util.log_redact import RedactSecretsFilter
+        from mbnas_core.owner_worker import main as worker_main
+    
+        root = logging.getLogger()
+        before, level = list(root.handlers), root.level
+        try:
+>           worker_main.configure_logging()
+E           AttributeError: module 'mbnas_core.owner_worker.main' has no attribute 'configure_logging'
+
+tests/owner/worker/test_dd_a60_owner_worker.py:293: AttributeError
+____ test_the_console_entry_point_runs_uvicorn_without_its_own_access_line _____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f69a97b72e0>
+
+    def test_the_console_entry_point_runs_uvicorn_without_its_own_access_line(monkeypatch):
+        import uvicorn
+    
+        from mbnas_core.api import app as core_mod
+    
+        seen: dict = {}
+        monkeypatch.setattr(uvicorn, "run", lambda *a, **kw: seen.update(kw))
+        assert core_mod.main([]) == 0
+>       assert seen["access_log"] is False and seen["factory"] is True
+E       KeyError: 'access_log'
+
+tests/owner/api/test_dd_a60_access_log.py:97: KeyError
+_________ test_mbnas_gateway_runs_uvicorn_without_its_own_access_line __________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f69bc6cf1c0>
+
+    def test_mbnas_gateway_runs_uvicorn_without_its_own_access_line(monkeypatch):
+        import uvicorn
+    
+        seen: dict = {}
+        monkeypatch.setattr(uvicorn, "run", lambda *a, **kw: seen.update(kw))
+        assert appmod.main([]) == 0
+>       assert seen["access_log"] is False and seen["factory"] is True
+E       KeyError: 'access_log'
+
+tests/public/server/test_dd_a60_access_log_gateway.py:96: KeyError
+_____ test_evaluate_checkpoint_on_cpu_is_not_evaluated_and_touches_no_cuda _____
+
+no_cuda = <module 'mbnas_runner.evaluation.handlers' from '<SCRATCH>/shadow/mbnas_runner/evaluation/handlers.py'>
+tmp_path = PosixPath('<PYTEST_TMP>/pytest-964/test_evaluate_checkpoint_on_cp0')
+
+    def test_evaluate_checkpoint_on_cpu_is_not_evaluated_and_touches_no_cuda(no_cuda, tmp_path):
+        ev, full, side = _snapshot(tmp_path / "cand" / "ckpt")
+>       payload = no_cuda.evaluate_checkpoint("SYNTHETIC adapter", ev, "SYNTHETIC manifest", run_dir=tmp_path,
+                                              out_dir=tmp_path / "cand" / "eval" / "x", device="cpu", precision="FP16",
+                                              eval_batch=4, input_shape=[64, 64], benchmark=BENCH,
+                                              scopes=["forward_only"], image_samples=2, device_entry="cpu",
+                                              split="search_val")
+
+tests/public/runner/test_dd_a60_cpu_evaluation.py:76: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<SCRATCH>/shadow/mbnas_runner/evaluation/handlers.py:118: in evaluate_checkpoint
+    ident = device_identity(device)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_a = ('cpu',), _k = {}
+
+    def trap(*_a, **_k):  # one function object per attribute (torch._dynamo rejects shared torch objects)
+>       raise AssertionError(f"{NOT_COMPILED} ({name})")
+E       AssertionError: Torch not compiled with CUDA enabled (device_identity)
+
+tests/public/runner/test_dd_a60_cpu_evaluation.py:37: AssertionError
+_ test_training_job_evaluation_step_on_cpu_returns_the_not_evaluated_payload_with_the_checkpoint _
+
+_a = ('cpu',), _k = {}
+
+    def trap(*_a, **_k):  # one function object per attribute (torch._dynamo rejects shared torch objects)
+>       raise AssertionError(f"{NOT_COMPILED} ({name})")
+E       AssertionError: Torch not compiled with CUDA enabled (device_identity)
+
+tests/public/runner/test_dd_a60_cpu_evaluation.py:37: AssertionError
+
+The above exception was the direct cause of the following exception:
+
+no_cuda = <module 'mbnas_runner.evaluation.handlers' from '<SCRATCH>/shadow/mbnas_runner/evaluation/handlers.py'>
+tmp_path = PosixPath('<PYTEST_TMP>/pytest-964/test_training_job_evaluation_s0')
+
+    def test_training_job_evaluation_step_on_cpu_returns_the_not_evaluated_payload_with_the_checkpoint(no_cuda, tmp_path):
+        from mbnas_runner.training import handlers as training
+    
+        ckpt_dir = tmp_path / "run" / "candidates" / "c1" / "ckpt"
+        ev, full, side = _snapshot(ckpt_dir)
+        rung = RungResult("c1", 2, 2, 2, "TARGET_REACHED", str(full), str(ev), None, None, None, [], 2, 8,
+                          {"training_full": side["sha256"]}, None, {"recipe": "r"}, {"architecture": "sha256:" + "a" * 64})
+        spec = JobSpec(job_id="t1", run_id="r1", kind=JobKind.CANDIDATE_TRAIN, protocol_hash="sha256:p", candidate_id="c1",
+                       rung="L0", cumulative_target=2, fixed_horizon=2, arm="GA", search_seed=1, params={})
+        params = training.TrainJobParams.model_validate(
+            {"run_dir": str(tmp_path / "run"), "adapter_id": "c1", "device": "cpu", "stage_epochs_added": 2},
+            context={"kind": "CANDIDATE_TRAIN", "cumulative_target": 2})
+        protocol = {"console": {"benchmark": BENCH}, "training": {"requested_input_size": [64, 64], "batch_per_gpu": 2}}
+        sent: list = []
+>       payload, timings = training._evaluate(spec, params, protocol, "SYNTHETIC adapter", rung,
+                                              {"search_val": "SYNTHETIC manifest"}, tmp_path / "run", [64, 64], sent.append)
+
+tests/public/runner/test_dd_a60_cpu_evaluation.py:113: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+spec = JobSpec(job_id='t1', run_id='r1', kind=<JobKind.CANDIDATE_TRAIN: 'CANDIDATE_TRAIN'>, protocol_hash='sha256:p', candida...1', rung='L0', cumulative_target=2, fixed_horizon=2, arm='GA', search_seed=1, training_seed=None, attempt=1, params={})
+params = TrainJobParams(run_dir='<PYTEST_TMP>/pytest-964/test_training_job_evaluation_s0/run', adapter_id='c1', proto...es=2, latency_scopes=['forward_only', 'forward_and_postprocess', 'end_to_end'], resume_from=None, stage_epochs_added=2)
+protocol = {'console': {'benchmark': {'device': 'cpu', 'precision': 'FP16', 'batch': 1, 'warmup': 1, ...}}, 'training': {'requested_input_size': [64, 64], 'batch_per_gpu': 2}}
+adapter = 'SYNTHETIC adapter'
+rung_result = RungResult(candidate_id='c1', epochs_done=2, cumulative_target=2, fixed_horizon=2, stopped_reason='TARGET_REACHED', ru...ure': 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'}, checkpoints=[], timings={}, notes=[])
+manifests = {'search_val': 'SYNTHETIC manifest'}
+run_dir = PosixPath('<PYTEST_TMP>/pytest-964/test_training_job_evaluation_s0/run')
+shape = [64, 64]
+emit = <built-in method append of list object at 0x7f69a89dbb40>
+
+    def _evaluate(spec: JobSpec, params: TrainJobParams, protocol: dict[str, Any], adapter: Any, rung_result: Any,
+                  manifests: dict[str, Any], run_dir: Path, shape: list[int],
+                  emit: Callable[[ProgressMessage], None]) -> tuple[dict[str, Any], dict[str, float]]:
+        from mbnas_runner.evaluation.handlers import evaluate_checkpoint
+    
+        bench = protocol["console"]["benchmark"]
+        final = spec.kind == JobKind.FINAL_RETRAIN
+        split = "final_eval" if final else "search_val"  # search never sees final_eval
+        out_dir = Path(rung_result.rung_end_ema_eval_ckpt).parent.parent / "eval" / (
+            f"{spec.rung or 'stage'}_{split}_e{rung_result.epochs_done:04d}_{spec.job_id}")
+        try:
+            payload = evaluate_checkpoint(adapter, rung_result.rung_end_ema_eval_ckpt, manifests[split],
+                                          run_dir=run_dir, out_dir=out_dir, device=params.device,
+                                          precision=bench.get("precision", "FP16"), eval_batch=params.eval_batch,
+                                          input_shape=shape, benchmark=bench, scopes=params.latency_scopes,
+                                          image_samples=params.image_samples,
+                                          device_entry=params.device_entry or bench.get("device"), split=split)
+        except Exception as exc:  # noqa: BLE001 - reported as EVAL_FAILED with the trained checkpoint kept
+>           raise _EvalFailed(f"{type(exc).__name__}: {exc}") from exc
+E           mbnas_runner.training.handlers._EvalFailed: AssertionError: Torch not compiled with CUDA enabled (device_identity)
+
+<SCRATCH>/shadow/mbnas_runner/training/handlers.py:206: _EvalFailed
+_______ test_evaluate_job_on_cpu_succeeds_with_the_not_evaluated_payload _______
+
+no_cuda = <module 'mbnas_runner.evaluation.handlers' from '<SCRATCH>/shadow/mbnas_runner/evaluation/handlers.py'>
+tmp_path = PosixPath('<PYTEST_TMP>/pytest-964/test_evaluate_job_on_cpu_succe0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f69a8a25cf0>
+
+    def test_evaluate_job_on_cpu_succeeds_with_the_not_evaluated_payload(no_cuda, tmp_path, monkeypatch):
+        from mbnas_runner.config import RunnerSettings
+        from mbnas_runner.training import context
+    
+        ev, full, side = _snapshot(tmp_path / "run" / "candidates" / "c1" / "ckpt")
+        protocol = {"console": {"benchmark": BENCH}, "training": {"requested_input_size": [64, 64], "batch_per_gpu": 2}}
+        monkeypatch.setattr(context, "load_protocol", lambda params, spec: protocol)
+        monkeypatch.setattr(context, "prepare_backend_env", lambda settings: None)
+        monkeypatch.setattr(context, "resolve_model", lambda params, settings: (
+            None, SimpleNamespace(capability=lambda: {}), None))
+        monkeypatch.setattr(context, "split_manifests", lambda p, s, splits, access=None: ({0: "x"},
+                                                                                            {"search_val": "SYNTHETIC"}))
+        spec = JobSpec(job_id="e1", run_id="r1", kind=JobKind.EVALUATE, protocol_hash="sha256:p", candidate_id="c1",
+                       rung="L0", arm="GA", params={"run_dir": str(tmp_path / "run"), "adapter_id": "c1",
+                                                    "eval_ckpt": str(ev), "device": "cpu", "resolved_protocol": protocol})
+        sent: list = []
+>       res = no_cuda.run_evaluation_job(spec, sent.append, RunnerSettings(output_roots=[str(tmp_path)]))
+
+tests/public/runner/test_dd_a60_cpu_evaluation.py:137: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<SCRATCH>/shadow/mbnas_runner/evaluation/handlers.py:201: in run_evaluation_job
+    payload = evaluate_checkpoint(adapter, params.eval_ckpt, manifests[params.eval_split], run_dir=run_dir,
+<SCRATCH>/shadow/mbnas_runner/evaluation/handlers.py:118: in evaluate_checkpoint
+    ident = device_identity(device)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+_a = ('cpu',), _k = {}
+
+    def trap(*_a, **_k):  # one function object per attribute (torch._dynamo rejects shared torch objects)
+>       raise AssertionError(f"{NOT_COMPILED} ({name})")
+E       AssertionError: Torch not compiled with CUDA enabled (device_identity)
+
+tests/public/runner/test_dd_a60_cpu_evaluation.py:37: AssertionError
+_______ test_official_evaluation_on_cpu_succeeds_without_loading_weights _______
+
+no_cuda = <module 'mbnas_runner.evaluation.handlers' from '<SCRATCH>/shadow/mbnas_runner/evaluation/handlers.py'>
+tmp_path = PosixPath('<PYTEST_TMP>/pytest-964/test_official_evaluation_on_cp0')
+tmp_roots = {'data': PosixPath('<PYTEST_TMP>/pytest-964/test_official_evaluation_on_cp0/data'), 'runs': PosixPath('<PYTEST_TMP>/pytest-964/test_official_evaluation_on_cp0/runs')}
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f69a8f152a0>
+settings = RunnerSettings(core_url='http://127.0.0.1:8700', token=None, runner_id='runner-cdd5ceea', work_root='/tmp/pytest-of-mg...oken_file=None, poll_s=2.0, request_retries=5, request_backoff_s=0.5, request_timeout_s=30.0, gpu_clear_timeout_s=15.0)
+
+    def test_official_evaluation_on_cpu_succeeds_without_loading_weights(no_cuda, tmp_path, tmp_roots, monkeypatch,
+                                                                        settings):
+        from mbnas_model_runtime.benchmark import subjects
+        from mbnas_runner.evaluation.official_evaluation import run_official_evaluation
+    
+        def no_weights(*_a, **_k):
+            raise AssertionError("official weights must not be loaded on a CPU device")
+    
+        monkeypatch.setattr(subjects, "ultralytics_from_weights", no_weights)
+        weights = tmp_path / "weights" / "yolo11n.pt"
+        weights.parent.mkdir(parents=True)
+        weights.write_bytes(b"SYNTHETIC official weights")
+        proto = {"console": {"extra": {"training": {"enabled": True, "mode": "evaluate_only",
+                                                    "arch": {"weights_path": str(weights), "family": "YOLO11"},
+                                                    "architecture_hash": "sha256:" + "b" * 64}},
+                             "benchmark": BENCH},
+                 "training": {"requested_input_size": [64, 64], "batch_per_gpu": 2}}
+        run_dir = tmp_roots["runs"] / "runs" / "run-official-cpu"
+        spec = JobSpec(job_id="ev-cpu", run_id="run-official-cpu", kind=JobKind.EVALUATE, protocol_hash="sha256:p",
+                       candidate_id="cand-1", rung="TRAIN", attempt=3,
+                       params={"resolved_protocol": proto, "run_dir": str(run_dir), "device": "cpu"})
+        res = run_official_evaluation(spec, lambda _m: None, settings)
+>       assert res.status == "SUCCEEDED" and res.attempt == 3, (res.reason_code, res.message)
+E       AssertionError: ('EVAL_FAILED', "'paths'")
+E       assert (<JobStatus.FAILED: 'FAILED'> == 'SUCCEEDED'
+E         
+E         - SUCCEEDED
+E         + FAILED)
+
+tests/public/runner/test_dd_a60_cpu_evaluation.py:166: AssertionError
+_ test_cpu_training_with_validation_succeeds_not_evaluated_and_keeps_the_checkpoint _
+
+settings = CoreSettings(api_token=None, artifact_signing_key=None, cors_origins=[], db_path='<PYTEST_TMP>/pytest-964/te...ile=1024, structure_check_fsize_bytes=67108864, structure_check_max_output_bytes=1048576, structure_check_unshare=True)
+runner_settings = RunnerSettings(core_url='http://127.0.0.1:8700', token=None, runner_id='runner-7c9b7c83', work_root='/tmp/pytest-of-mg...oken_file=None, poll_s=2.0, request_retries=5, request_backoff_s=0.5, request_timeout_s=30.0, gpu_clear_timeout_s=15.0)
+make_dataset = <function make_dataset.<locals>.build at 0x7f69bc563be0>
+ctx_factory = <function ctx_factory.<locals>.build at 0x7f69a8b32e60>
+tmp_path = PosixPath('<PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f69a8898ca0>
+
+    def test_cpu_training_with_validation_succeeds_not_evaluated_and_keeps_the_checkpoint(settings, runner_settings,
+                                                                                         make_dataset, ctx_factory,
+                                                                                         tmp_path, monkeypatch):
+        torch = pytest.importorskip("torch")
+        pytest.importorskip("ultralytics")
+        from mbnas_contracts.protocol_hash import protocol_hash
+        from mbnas_contracts.schemas.jobs import JobSpec, JobStatus
+        from mbnas_core.protocol.presets import pilot_smoke_protocol
+        from mbnas_core.training_runs.selection import TrainingRunRequest, prepare_protocol
+        from mbnas_model_runtime import checkpoint as ck
+        from mbnas_runner.training.handlers import run_training_job
+    
+        def not_compiled(name: str):
+            def trap(*_a, **_k):  # one function object per attribute (torch._dynamo rejects shared torch objects)
+                raise AssertionError(f"{NOT_COMPILED} ({name})")
+            return trap
+    
+        monkeypatch.setattr(torch.cuda, "is_available", lambda: False)
+        monkeypatch.setattr(torch.cuda, "device_count", lambda: 0)
+        for name in ("get_device_name", "synchronize", "get_device_properties", "current_device", "set_device"):
+            monkeypatch.setattr(torch.cuda, name, not_compiled(name))
+        torch.set_num_threads(2)
+    
+        ds = make_dataset("cpu_train_val", counts={"train": 4, "val": 2})
+        policy = pilot_smoke_protocol({"dataset_yaml": ds["dataset_yaml"], "output_root": settings.output_root})
+        policy["training"].update(requested_input_size=[64, 64], batch_per_gpu=2, workers=0, precision="fp32",
+                                  warmup_epochs=0, optimizer="SGD", lr_initial=0.001, close_mosaic_epochs=0)
+        policy["console"]["training"] = {"epoch_target_total": 1, "seed": 41, "native_image_artifacts": False}
+        arch = {"model_id": "tiny-cpu-val", "family": "YOLO11", "backend": "ultralytics", "variant": "detect", "config": {
+            "nc": 1, "backbone": [[-1, 1, "Conv", [8, 3, 2]], [-1, 1, "Conv", [16, 3, 2]], [-1, 1, "Conv", [32, 3, 2]]],
+            "head": [[[0, 1, 2], 1, "Detect", ["nc"]]]}}
+        req = TrainingRunRequest(source={"kind": "user", "model_path": "/unused/fixture.yaml"}, protocol=policy,
+                                 validation_enabled=True, idempotency_key="dd-a60-cpu-val")
+        _, resolved = prepare_protocol(req, {"arch": arch, "kind": "user", "name": "tiny-cpu-val"},
+                                       SimpleNamespace(settings=settings, validation_context=ctx_factory))
+        params = {"run_dir": str(Path(settings.output_root) / "dd-a60-cpu-val"), "adapter_id": "tiny-cpu-val",
+                  "arch": arch, "resolved_protocol": resolved, "init": "scratch", "device": "cpu", "evaluate": True,
+                  "stage_epochs_added": 1, "stop_request_path": str(tmp_path / "no.stop")}
+        spec = JobSpec(job_id="cpu-val-1", run_id="dd-a60-cpu-val", kind="BASELINE_TRAIN", candidate_id="tiny-model",
+                       rung="TRAIN", protocol_hash=protocol_hash(resolved), cumulative_target=1, fixed_horizon=1,
+                       training_seed=41, arm="Baseline", params=params)
+        messages: list = []
+        result = run_training_job(spec, messages.append, runner_settings)
+    
+>       assert result.status == JobStatus.SUCCEEDED, (result.reason_code, result.message)
+E       AssertionError: ('EVAL_FAILED', 'AssertionError: Torch not compiled with CUDA enabled (get_device_name)')
+E       assert <JobStatus.FAILED: 'FAILED'> == <JobStatus.SU...: 'SUCCEEDED'>
+E         
+E         - SUCCEEDED
+E         + FAILED
+
+tests/owner/runner_protocol/test_dd_a60_cpu_training_validation.py:66: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Ultralytics 8.4.173 🚀 Python-3.10.22 torch-2.6.0+cu124 CPU (Intel Xeon Gold 6256 CPU @ 3.60GHz)
+[34m[1mengine/trainer: [0magnostic_nms=False, amp=False, angle=1.0, augment=False, auto_augment=randaugment, batch=2, bgr=0.0, box=7.5, cache=False, cfg=None, channels_last=None, classes=None, close_mosaic=0, cls=0.5, cls_pw=0.0, cls_remap=True, compile=False, conf=None, copy_paste=0.0, copy_paste_mode=flip, cos_lr=True, cutmix=0.0, data=<PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0/runs/dd-a60-cpu-val/data_view/874b6b9cbca715d1/data.yaml, degrees=0.0, deterministic=True, device=cpu, dfl=1.5, dgrad=0.5, dis=6.0, distill_model=None, dlam=1.0, dlog=1.0, dnn=False, dropout=0.0, dynamic=False, embed=None, epochs=1, erasing=0.4, exist_ok=True, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=64, iou=0.7, kobj=1.0, line_width=None, lr0=0.001, lrf=0.01, mask_ratio=4, max_det=300, mixup=0.0, mode=train, model=<PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0/runs/dd-a60-cpu-val/candidates/tiny-model/architecture.yaml, momentum=0.9, mosaic=1.0, multi_scale=0.0, name=stage_e0000_e0001, nbs=2, nms=None, opset=None, optimize=False, optimizer=SGD, overlap_mask=True, patience=0, perspective=0.0, plots=False, pose=12.0, pretrained=False, profile=False, project=<PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0/runs/dd-a60-cpu-val/candidates/tiny-model/native, quantize=None, rect=False, resume=False, retina_masks=False, rle=1.0, save=True, save_conf=False, save_crop=False, save_dir=<PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0/runs/dd-a60-cpu-val/candidates/tiny-model/native/stage_e0000_e0001, save_frames=False, save_json=False, save_period=-1, save_txt=False, scale=0.5, seed=41, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=detect, time=None, tracker=tracktrack.yaml, translate=0.1, val=True, verbose=False, vid_stride=1, visualize=False, warmup_bias_lr=0.1, warmup_epochs=0.0, warmup_momentum=0.8, weight_decay=0.0005, workers=0, workspace=None
+Freezing layer 'model.3.dfl.conv.weight'
+[34m[1mtrain: [0mFast image access ✅ (ping: 0.0±0.0 ms, read: 9.4±3.7 MB/s, size: 0.1 KB)
+
+[K[34m[1mtrain: [0mScanning <PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0/runs/dd-a60-cpu-val/data_view/874b6b9cbca715d1/labels/train... 4 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 4/4 1.5Kit/s 0.0s
+[34m[1mtrain: [0mNew cache created: <PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0/runs/dd-a60-cpu-val/data_view/874b6b9cbca715d1/labels/train.cache
+[34m[1mval: [0mFast image access ✅ (ping: 0.0±0.0 ms, read: 4.0±1.4 MB/s, size: 0.1 KB)
+
+[K[34m[1mval: [0mScanning <PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0/runs/dd-a60-cpu-val/data_view/874b6b9cbca715d1/labels/val... 2 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 2/2 1.4Kit/s 0.0s
+[34m[1mval: [0mNew cache created: <PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0/runs/dd-a60-cpu-val/data_view/874b6b9cbca715d1/labels/val.cache
+[34m[1moptimizer:[0m SGD(lr=0.001, momentum=0.9) with parameter groups 15 weight(decay=0.0), 22 weight(decay=0.0005), 21 bias(decay=0.0)
+Using 4 train, 2 val images for fraction=1.0 at imgsz=64
+Using 0 dataloader workers
+Logging results to [1m<PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0/runs/dd-a60-cpu-val/candidates/tiny-model/native/stage_e0000_e0001[0m
+Starting training for 1 epochs...
+
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+
+[K        1/1         0G      6.548      5.072      4.147          3         64: 0% ──────────── 0/2  0.1s
+[K        1/1         0G      5.439      5.034      4.134          5         64: 100% ━━━━━━━━━━━━ 2/2 13.0it/s 0.2s
+
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 1/1 52.9it/s 0.0s
+                   all          2          2          0          0          0          0
+
+1 epochs completed in 0.000 hours.
+------------------------------ Captured log call -------------------------------
+INFO     ultralytics:torch_utils.py:369 Ultralytics 8.4.173 🚀 Python-3.10.22 torch-2.6.0+cu124 CPU (Intel Xeon Gold 6256 CPU @ 3.60GHz)
+INFO     ultralytics:checks.py:1131 [34m[1mengine/trainer: [0magnostic_nms=False, amp=False, angle=1.0, augment=False, auto_augment=randaugment, batch=2, bgr=0.0, box=7.5, cache=False, cfg=None, channels_last=None, classes=None, close_mosaic=0, cls=0.5, cls_pw=0.0, cls_remap=True, compile=False, conf=None, copy_paste=0.0, copy_paste_mode=flip, cos_lr=True, cutmix=0.0, data=<PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0/runs/dd-a60-cpu-val/data_view/874b6b9cbca715d1/data.yaml, degrees=0.0, deterministic=True, device=cpu, dfl=1.5, dgrad=0.5, dis=6.0, distill_model=None, dlam=1.0, dlog=1.0, dnn=False, dropout=0.0, dynamic=False, embed=None, epochs=1, erasing=0.4, exist_ok=True, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=64, iou=0.7, kobj=1.0, line_width=None, lr0=0.001, lrf=0.01, mask_ratio=4, max_det=300, mixup=0.0, mode=train, model=<PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0/runs/dd-a60-cpu-val/candidates/tiny-model/architecture.yaml, momentum=0.9, mosaic=1.0, multi_scale=0.0, name=stage_e0000_e0001, nbs=2, nms=None, opset=None, optimize=False, optimizer=SGD, overlap_mask=True, patience=0, perspective=0.0, plots=False, pose=12.0, pretrained=False, profile=False, project=<PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0/runs/dd-a60-cpu-val/candidates/tiny-model/native, quantize=None, rect=False, resume=False, retina_masks=False, rle=1.0, save=True, save_conf=False, save_crop=False, save_dir=<PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0/runs/dd-a60-cpu-val/candidates/tiny-model/native/stage_e0000_e0001, save_frames=False, save_json=False, save_period=-1, save_txt=False, scale=0.5, seed=41, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=detect, time=None, tracker=tracktrack.yaml, translate=0.1, val=True, verbose=False, vid_stride=1, visualize=False, warmup_bias_lr=0.1, warmup_epochs=0.0, warmup_momentum=0.8, weight_decay=0.0005, workers=0, workspace=None
+INFO     ultralytics:trainer.py:395 Freezing layer 'model.3.dfl.conv.weight'
+INFO     ultralytics:utils.py:216 [34m[1mtrain: [0mFast image access ✅ (ping: 0.0±0.0 ms, read: 9.4±3.7 MB/s, size: 0.1 KB)
+INFO     ultralytics:utils.py:993 [34m[1mtrain: [0mNew cache created: <PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0/runs/dd-a60-cpu-val/data_view/874b6b9cbca715d1/labels/train.cache
+INFO     ultralytics:utils.py:216 [34m[1mval: [0mFast image access ✅ (ping: 0.0±0.0 ms, read: 4.0±1.4 MB/s, size: 0.1 KB)
+INFO     ultralytics:utils.py:993 [34m[1mval: [0mNew cache created: <PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0/runs/dd-a60-cpu-val/data_view/874b6b9cbca715d1/labels/val.cache
+INFO     ultralytics:trainer.py:1238 [34m[1moptimizer:[0m SGD(lr=0.001, momentum=0.9) with parameter groups 15 weight(decay=0.0), 22 weight(decay=0.0005), 21 bias(decay=0.0)
+INFO     ultralytics:trainer.py:479 Using 4 train, 2 val images for fraction=1.0 at imgsz=64
+Using 0 dataloader workers
+Logging results to [1m<PYTEST_TMP>/pytest-964/test_cpu_training_with_validat0/runs/dd-a60-cpu-val/candidates/tiny-model/native/stage_e0000_e0001[0m
+Starting training for 1 epochs...
+INFO     ultralytics:trainer.py:553 
+      Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+INFO     ultralytics:val.py:363                    all          2          2          0          0          0          0
+INFO     ultralytics:trainer.py:695 
+1 epochs completed in 0.000 hours.
+=============================== warnings summary ===============================
+runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1
+  <ROOT>/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+ERROR tests/owner/api/test_dd_a60_access_log.py::test_one_line_per_request_on_both_sides_with_the_same_request_id
+ERROR tests/owner/api/test_dd_a60_access_log.py::test_secrets_in_the_query_string_are_redacted_and_control_characters_escaped
+ERROR tests/public/server/test_dd_a60_access_log_gateway.py::test_exactly_one_line_per_request_with_the_echoed_request_id
+ERROR tests/public/server/test_dd_a60_access_log_gateway.py::test_early_answers_are_logged_and_query_secrets_redacted
+FAILED tests/owner/runner_protocol/test_dd_a60_cpu_fleet.py::test_cpu_runners_form_one_cpu_device_entry_instead_of_being_left_out
+FAILED tests/owner/runner_protocol/test_dd_a60_cpu_fleet.py::test_cpu_only_fleet_refuses_evaluation_on_and_validates_training_and_generation
+FAILED tests/owner/runner_protocol/test_dd_a60_cpu_fleet.py::test_mixed_fleet_keeps_the_gpu_and_refuses_only_the_cpu_benchmark_device
+FAILED tests/owner/worker/test_dd_a60_owner_worker.py::test_customer_only_output_root_off_generation_completes_with_core_local_files
+FAILED tests/owner/worker/test_dd_a60_owner_worker.py::test_a_failing_job_is_failed_with_a_reason_and_the_worker_keeps_running
+FAILED tests/owner/worker/test_dd_a60_owner_worker.py::test_evaluation_on_proposal_uses_the_gateway_dataset_summary
+FAILED tests/owner/worker/test_dd_a60_owner_worker.py::test_without_a_gateway_summary_the_core_local_read_is_the_fallback
+FAILED tests/owner/worker/test_dd_a60_owner_worker.py::test_owner_params_leaves_other_kinds_and_explicit_nc_alone
+FAILED tests/owner/worker/test_dd_a60_owner_worker.py::test_worker_entry_point_log_lines_are_redacted
+FAILED tests/owner/worker/test_dd_a60_owner_worker.py::test_configure_logging_installs_the_redaction_filter_on_its_handler
+FAILED tests/owner/api/test_dd_a60_access_log.py::test_the_console_entry_point_runs_uvicorn_without_its_own_access_line
+FAILED tests/public/server/test_dd_a60_access_log_gateway.py::test_mbnas_gateway_runs_uvicorn_without_its_own_access_line
+FAILED tests/public/runner/test_dd_a60_cpu_evaluation.py::test_evaluate_checkpoint_on_cpu_is_not_evaluated_and_touches_no_cuda
+FAILED tests/public/runner/test_dd_a60_cpu_evaluation.py::test_training_job_evaluation_step_on_cpu_returns_the_not_evaluated_payload_with_the_checkpoint
+FAILED tests/public/runner/test_dd_a60_cpu_evaluation.py::test_evaluate_job_on_cpu_succeeds_with_the_not_evaluated_payload
+FAILED tests/public/runner/test_dd_a60_cpu_evaluation.py::test_official_evaluation_on_cpu_succeeds_without_loading_weights
+FAILED tests/owner/runner_protocol/test_dd_a60_cpu_training_validation.py::test_cpu_training_with_validation_succeeds_not_evaluated_and_keeps_the_checkpoint
+17 failed, 2 passed, 1 warning, 4 errors in 12.04s
+exit=1

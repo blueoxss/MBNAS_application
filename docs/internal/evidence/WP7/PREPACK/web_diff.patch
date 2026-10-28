@@ -1,0 +1,68 @@
+--- a/mbnas_web/src/lib/evaluation.ts
++++ b/mbnas_web/src/lib/evaluation.ts
+@@ -4,17 +4,25 @@
+ 
+ export const TRAINED_NOT_EVALUATED = '학습 완료 · 미평가';
+ 
++/** Row `reason_code` of a trial that a runner trained but could not evaluate (latency is measured on CUDA only). */
++export const EVALUATION_REQUIRES_CUDA = 'EVALUATION_REQUIRES_CUDA';
++
+ /**
+  * DD-5: the server keeps `SEARCH_COMPLETE` for a validation-OFF explicit training run (no enum migration) and marks the
+- * row `performance_status=NOT_EVALUATED`. Show that as "학습 완료 · 미평가" only for an explicit training run
+- * (run `console.extra.training.enabled` or a row `training_mode`); otherwise keep the raw status.
++ * row `performance_status=NOT_EVALUATED`. Show that as "학습 완료 · 미평가" for an explicit training run
++ * (run `console.extra.training.enabled` or a row `training_mode`).
++ * DD-A62 (a) / DD-A63 (a): a search-arm row (GA, IndependentRandom, Baseline, Final) that a CPU runner trained but could
++ * not evaluate is stored the same way with `reason_code=EVALUATION_REQUIRES_CUDA` (metrics, fitness and gate null, no
++ * promotion); it gets the same label unless the server reports `training_status=UNTRAINED`. Every other
++ * `SEARCH_COMPLETE` + `NOT_EVALUATED` row keeps the raw status.
+  * (Moved from screens/Monitor.tsx so the candidate detail can reuse it; Monitor re-exports both names.)
+  */
+ export function isTrainedNotEvaluated(row: unknown, run?: Run | null): boolean {
+   const r = rec(row);
+   if (r.status !== 'SEARCH_COMPLETE' || r.performance_status !== 'NOT_EVALUATED') return false;
+   const explicit = rec(rec(rec(rec(run?.resolved_protocol).console).extra).training).enabled === true;
+-  return explicit || typeof r.training_mode === 'string';
++  if (explicit || typeof r.training_mode === 'string') return true;
++  return r.reason_code === EVALUATION_REQUIRES_CUDA && r.training_status !== 'UNTRAINED';
+ }
+ 
+ /** Badge of a candidate that was neither trained nor evaluated (DD-A23: an evaluation-OFF generated candidate). */
+--- a/mbnas_web/tests/training_panel.test.tsx
++++ b/mbnas_web/tests/training_panel.test.tsx
+@@ -237,4 +237,16 @@
+     expect(isTrainedNotEvaluated({ status: 'SEARCH_COMPLETE' }, explicitRun)).toBe(false);
+     expect(isTrainedNotEvaluated({ ...row, performance_status: 'EVALUATED' }, explicitRun)).toBe(false);
+   });
++  it('DD-A63 (a): a search-arm row a CPU runner trained but could not evaluate (EVALUATION_REQUIRES_CUDA) gets the same label', () => {
++    const cpuRow = { status: 'SEARCH_COMPLETE', performance_status: 'NOT_EVALUATED', reason_code: 'EVALUATION_REQUIRES_CUDA', arm: 'GA', training_status: 'TRAINED' };
++    expect(isTrainedNotEvaluated(cpuRow, searchRun)).toBe(true);
++    expect(isTrainedNotEvaluated(cpuRow, null)).toBe(true);
++    const { training_status: _reported, ...noTrainingStatus } = cpuRow; // a row without training_status is not guessed UNTRAINED
++    expect(isTrainedNotEvaluated({ ...noTrainingStatus, arm: 'IndependentRandom' }, searchRun)).toBe(true);
++    expect(isTrainedNotEvaluated({ ...cpuRow, training_status: 'UNTRAINED' }, searchRun)).toBe(false); // server says untrained
++    expect(isTrainedNotEvaluated({ ...cpuRow, reason_code: 'NOT_EVALUATED' }, searchRun)).toBe(false); // fallback reason: raw status
++    expect(isTrainedNotEvaluated({ ...cpuRow, reason_code: null }, searchRun)).toBe(false); // the DD-5 search-run case above
++    expect(isTrainedNotEvaluated({ ...cpuRow, status: 'EVAL_FAILED' }, searchRun)).toBe(false); // e.g. ARCHITECTURE_HASH_MISMATCH
++    expect(isTrainedNotEvaluated({ ...cpuRow, performance_status: 'EVALUATED' }, searchRun)).toBe(false);
++  });
+ });
+--- a/mbnas_web/tests/wp6a_badges_workers.test.tsx
++++ b/mbnas_web/tests/wp6a_badges_workers.test.tsx
+@@ -95,6 +95,15 @@
+     render(<CandidateView c={queued} run={null} runId="r" all={[queued]} client={{ candidateDetail: async () => detail } as unknown as ApiClient} />);
+     expect(await screen.findByTestId('untrained-unevaluated')).toHaveTextContent(UNTRAINED_UNEVALUATED);
+   });
++
++  it('CandidateView: a GA row a CPU runner trained but could not evaluate (EVALUATION_REQUIRES_CUDA) -> 학습 완료 · 미평가 (DD-A63 a)', async () => {
++    const searchRun = { resolved_protocol: { console: { search: { arms: ['GA'], evaluation_enabled: true } } } } as never;
++    const cpuTrained = cand({ candidate_id: 'g-1', name: 'g-1-model', arm: 'GA', status: 'SEARCH_COMPLETE', performance_status: 'NOT_EVALUATED', reason_code: 'EVALUATION_REQUIRES_CUDA', training_status: 'TRAINED', ap: null, recall: null, latency_ms: null, size_mb: null, fitness: null, latency_source: 'pending' } as never);
++    render(<CandidateView c={cpuTrained} run={searchRun} runId="r" all={[cpuTrained]} client={{ candidateDetail: async () => ({ candidate_id: 'g-1', blocks: [], evaluations: [] }) } as unknown as ApiClient} />);
++    expect(await screen.findByTestId('trained-not-evaluated')).toHaveTextContent(TRAINED_NOT_EVALUATED);
++    expect(TRAINED_NOT_EVALUATED).toBe('학습 완료 · 미평가'); // DD-5 wording kept
++    expect(screen.queryByTestId('untrained-unevaluated')).toBeNull();
++  });
+ });
+ 
+ describe('Workers table: runner_id / device_id (contract 1.5.0)', () => {

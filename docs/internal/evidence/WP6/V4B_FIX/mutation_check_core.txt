@@ -1,0 +1,14 @@
+# Core mutation check 2026-10-27T18:40:54Z: tests/owner/artifacts/test_checkpoint_artifact_id.py with the candidate-detail route patched back to the pre-fix behaviour (plugin: store_verified_checkpoints -> None, i.e. checkpoint_views(rows, located) without artifact_id). Expected: the two route tests FAIL, the pure checkpoint_views test passes.
+## $ PYTHONPATH=<scratch>/plug pytest -p prefix_core tests/owner/artifacts/test_checkpoint_artifact_id.py
+E       AssertionError: {'ck-2c62b5c01701ec44': {'id': 'ck-2c62b5c01701ec44', 'run_id': 'run-f7973521a0e9', 'candidate_id': 'run-f7973521a0e9....k-9991a39596306379', 'run_id': 'run-f7973521a0e9', 'candidate_id': 'run-f7973521a0e9.base.yolo11n', 'rung': 'L0', ...}}
+E       assert False
+E        +  where False = all(<generator object _detail.<locals>.<genexpr> at 0x7fba5d2cc6d0>)
+tests/owner/artifacts/test_checkpoint_artifact_id.py:41: AssertionError
+E       AssertionError: {'ck-6967ad54299a01af': {'id': 'ck-6967ad54299a01af', 'run_id': 'run-51babec4ff99', 'candidate_id': 'run-51babec4ff99....k-55bf0d4e8d756813', 'run_id': 'run-51babec4ff99', 'candidate_id': 'run-51babec4ff99.base.yolo11n', 'rung': 'L0', ...}}
+E       assert False
+E        +  where False = all(<generator object _detail.<locals>.<genexpr> at 0x7fb912d9edc0>)
+tests/owner/artifacts/test_checkpoint_artifact_id.py:41: AssertionError
+FAILED tests/owner/artifacts/test_checkpoint_artifact_id.py::test_artifact_id_is_the_checkpoint_id_while_the_store_holds_verified_bytes
+FAILED tests/owner/artifacts/test_checkpoint_artifact_id.py::test_untransferred_checkpoints_keep_a_null_artifact_id
+2 failed, 1 passed, 1 warning in 14.55s
+exit 1

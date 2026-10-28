@@ -1,0 +1,16 @@
+# 2026-10-28T08:01:29+09:00 cwd=<SCRATCH>/wp3/c07/v4/cwd base_url=http://127.0.0.1:40905 args: -g V4-(0|1[01])
+
+Running 9 tests using 1 worker
+
+  ✓  1 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:228:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-01 connect with the bearer; presets auto-apply (DEFAULT_BASELINE14) (7.6s)
+  ✓  2 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:241:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-02 upload examples/models/yolo11n_user.yaml -> structure check PASS (9.6s)
+  ✓  3 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:258:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-03 upload yolo11n_user_broken.yaml -> structure check FAIL with diagnostics (3.9s)
+  ✓  4 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:273:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-04 start a CPU explicit training run from the upload (1 epoch, 64 px, validation off) (5.6s)
+  ✓  5 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:311:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-05 monitor the training run until finished (11.0s)
+  ✓  6 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:332:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-06 candidate detail: gene/structure diagram, block table, configuration YAML (5.7s)
+  ✓  7 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:356:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-07..09 revisions tab -> diff -> download exact bytes (sha256 = source_sha256) (4.5s)
+  ✓  8 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:399:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-10 download a runner-produced checkpoint by id through the gateway (sha header match) (5.0s)
+  ✓  9 [real-desktop] › ../../../../../../../../..<ROOT>/mbnas_web/e2e/real-server.spec.ts:434:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-11 generation-only (evaluation OFF) run: UNTRAINED · UNEVALUATED in GeneratedTable and Lineage (23.3s)
+
+  9 passed (1.3m)
+exit 0

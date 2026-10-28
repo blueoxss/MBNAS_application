@@ -1,0 +1,305 @@
+Traceback (most recent call last):
+  File "<T>/t4f/mbnas_application/runtime/venv/bin/mbnas-core-api", line 8, in <module>
+    sys.exit(main())
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core/api/app.py", line 163, in main
+    settings = CoreSettings.load()
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core/config.py", line 229, in load
+    return cls(_env_file=path) if path else cls()
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/pydantic_settings/main.py", line 262, in __init__
+    super().__init__(**__pydantic_self__.__class__._settings_build_values(sources, init_kwargs))
+  File "<T>/t4f/mbnas_application/runtime/venv/lib/python3.10/site-packages/pydantic/main.py", line 263, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for CoreSettings
+dataset_roots
+  Value error, Expecting value: line 1 column 2 (char 1) [type=value_error, input_value='[/srv/mbnas/data]', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/value_error
+INFO:     Started server process [2875435]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18750 (Press CTRL+C to quit)
+INFO:     127.0.0.1:37290 - "GET /core/v1/console/health HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/register HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "POST /core/v1/console/structure-check HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "POST /core/v1/console/structure-check HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36082 - "POST /core/v1/console/protocols/validate HTTP/1.1" 200 OK
+run run-8c5d97da5cc8: protocol copies not written under the customer output_root on this host (PermissionError); the database keeps both protocols
+INFO:     127.0.0.1:36082 - "POST /core/v1/console/runs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:36082 - "GET /core/v1/console/runs/run-8c5d97da5cc8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/protocols/presets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:43896 - "POST /core/v1/console/training-runs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/runs/train-7b84db94fc05 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/jobs/job-52ea2e4a542d40f6/start HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/runs/train-7b84db94fc05 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/jobs/job-52ea2e4a542d40f6/heartbeat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/runs/train-7b84db94fc05 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/jobs/job-52ea2e4a542d40f6/heartbeat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/runs/train-7b84db94fc05 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/jobs/job-52ea2e4a542d40f6/heartbeat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/runs/train-7b84db94fc05 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/jobs/job-52ea2e4a542d40f6/checkpoints HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/jobs/job-52ea2e4a542d40f6/progress HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/jobs/job-52ea2e4a542d40f6/heartbeat HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/jobs/job-52ea2e4a542d40f6/checkpoints HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/runs/train-7b84db94fc05 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/jobs/job-52ea2e4a542d40f6/checkpoints HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/jobs/job-52ea2e4a542d40f6/checkpoints HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/jobs/job-52ea2e4a542d40f6/progress HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/runs/train-7b84db94fc05 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/jobs/job-52ea2e4a542d40f6/artifacts HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/jobs/job-52ea2e4a542d40f6/result HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/jobs/job-52ea2e4a542d40f6/ack HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/runs/train-7b84db94fc05 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/runs/train-7b84db94fc05 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/runs/train-7b84db94fc05/snapshot HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/runs/train-7b84db94fc05/candidates/model-8d9504482747 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/runs/train-7b84db94fc05/candidates/model-8d9504482747 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/runs/train-7b84db94fc05/artifacts/art-1cc46895fc37802fe901/record HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53700 - "GET /core/v1/console/runs/train-7b84db94fc05/artifacts/art-c5ffb6218d3664614909/record HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "POST /core/v1/console/artifacts/art-1cc46895fc37802fe901/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53712 - "GET /core/v1/console/runs/train-7b84db94fc05/artifacts/ck-b4093cb9b3d9bbff/record HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53700 - "POST /core/v1/console/artifacts/art-c5ffb6218d3664614909/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:43896 - "POST /core/v1/console/artifacts/ck-b4093cb9b3d9bbff/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/runs/train-7b84db94fc05/artifacts/ck-58ac1ddb2fdf7def/record HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "POST /core/v1/console/artifacts/ck-58ac1ddb2fdf7def/locations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/runs/train-7b84db94fc05/candidates/model-8d9504482747 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43896 - "GET /core/v1/console/runs/train-7b84db94fc05/export-manifest HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:33652 - "POST /core/v1/console/runs/run-8c5d97da5cc8/cancel HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:60662 - "POST /core/v1/runner/deregister HTTP/1.1" 204 No Content
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [2875435]

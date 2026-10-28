@@ -1,0 +1,52 @@
+usage: bench_host_gpu.py [-h] [--weights [WEIGHTS ...]]
+                         [--rfdetr [RFDETR ...]] [--data-root DATA_ROOT]
+                         [--val-dir VAL_DIR] [--weights-dir WEIGHTS_DIR]
+                         [--runs-root RUNS_ROOT]
+                         [--postprocess CONF IOU MAX_DET] [--imgsz IMGSZ]
+                         [--warmup WARMUP] [--repeats REPEATS]
+                         [--runtimes RUNTIMES [RUNTIMES ...]] [--write-doc]
+                         [--render-latest]
+                         [--render-from RENDER_FROM [RENDER_FROM ...]]
+                         [--evidence-dir EVIDENCE_DIR] [--doc DOC]
+
+Real host-GPU benchmark evidence: official weights -> ONNX -> ONNX Runtime
+(CUDA EP) -> TensorRT FP16/FP32, latency per scope and accuracy delta on a
+PILOT-layout search_val split, through the BENCHMARK job handler.
+
+options:
+  -h, --help            show this help message and exit
+  --weights [WEIGHTS ...]
+                        ultralytics checkpoint file names in --weights-dir
+                        (default ['yolo11n.pt'])
+  --rfdetr [RFDETR ...]
+                        RF-DETR checkpoint file names in <weights-dir>/rfdetr
+  --data-root DATA_ROOT
+                        PILOT-layout dataset directory (data.yaml + --val-
+                        dir); env MBNAS_BENCH_DATA_ROOT; required for a
+                        benchmark run (not for --render-latest / --render-
+                        from)
+  --val-dir VAL_DIR     benchmark split image directory relative to --data-
+                        root (default images/search_val)
+  --weights-dir WEIGHTS_DIR
+                        weights directory (env MBNAS_RUNNER_WEIGHTS_DIR;
+                        default $MBNAS_HOME/weights)
+  --runs-root RUNS_ROOT
+                        benchmark output root (env MBNAS_BENCH_RUNS_ROOT;
+                        default $MBNAS_HOME/runner/bench_host_gpu)
+  --postprocess CONF IOU MAX_DET
+                        latency operating point (default 0.25 0.7 300)
+  --imgsz IMGSZ
+  --warmup WARMUP
+  --repeats REPEATS
+  --runtimes RUNTIMES [RUNTIMES ...]
+  --write-doc           after the run, re-render the document from the newest
+                        record of every subject
+  --render-latest       only re-render the document from the newest record of
+                        every subject (no GPU work)
+  --render-from RENDER_FROM [RENDER_FROM ...]
+                        only render the document from exactly these evidence
+                        files (in order)
+  --evidence-dir EVIDENCE_DIR
+                        evidence directory (default <runs-root>/evidence)
+  --doc DOC             document to write (default <evidence-
+                        dir>/BENCHMARK_HOST_GPU.md)

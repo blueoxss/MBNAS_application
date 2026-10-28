@@ -1,0 +1,189 @@
+ROUND 4 web track (C07-D1 block-table link, C07-D2 badge tooltip) - web gates
+Date: 2026-10-28 KST. CPU only (CUDA_VISIBLE_DEVICES=""), node v24.20.0, npm_config_cache=<ROOT>/build/npm-cache,
+TMPDIR=<SCRATCH>/tmp. Script: <SCRATCH>/run_web_gates.sh (cwd <ROOT>/mbnas_web); full raw output below.
+
+Summary
+  npm run check:types   exit 0  (types.gen.ts matches the contract)
+  npm run typecheck     exit 0
+  npx vitest run        exit 0  Test Files 46 passed (46), Tests 600 passed (600)
+                                 before this round: 45 files / 593 tests (C07 EVAL_1 re-run 07:4x and WP7/PREPACK/web_gates.txt)
+                                 +1 file tests/block_table_link.test.tsx (7 tests)
+  npm run build         exit 0  (tsc --noEmit && vite build; chunk-size warning >500 kB as before)
+  npm run check:bundle  exit 0  (bundle hygiene: OK (0 hits))
+
+dist sha256
+  BEFORE (WP7/PREPACK build, the dist in the final ZIPs ce34b821/95b541e9/79cce02a):
+    08772e7411b55f676927ad295933f8229ddab078422ad8e681b206a5eb9b9f60  dist/index.html
+    6c3f29a2bfad42878f6879a4ce28ac2b8890666d8060347089ad6befef9c3130  dist/assets/index-CY9ctObG.js
+    1e0f94d5b6e2984c057f8522dde0a11beae25c1d5bdff42376f0211413c18da2  dist/assets/index-CG8HuodM.css
+  AFTER (this round; vite removed the old index-CY9ctObG.js):
+    9e8c8f761e7b56c7e66ecf90d563a2ff3a4118df75f49d9004423b1ea9897552  dist/index.html
+    df0d6b2d9ab5dce599cbb352062be2a2065634c5fe43a152b534f537664171a9  dist/assets/index-7f__3l0I.js   (531 403 B)
+    1e0f94d5b6e2984c057f8522dde0a11beae25c1d5bdff42376f0211413c18da2  dist/assets/index-CG8HuodM.css  (unchanged)
+  => the release ZIPs in dist/<profile>/ still carry the OLD web dist; a rebuild of all three ZIPs is needed to ship this one.
+
+Files changed by this round (web track)
+  mbnas_web/src/components/CandidateView.tsx   BlockTable Pos cell -> <button data-testid=block-row-<pos>>; structureBlockIdsByPosition();
+                                               openBlock(): model_tab=structure + select request; badge title -> trainedNotEvaluatedTitle()
+  mbnas_web/src/components/ModelStructure.tsx  optional prop selectRequest {id, seq}: same select() as a node/gene click (?block=),
+                                               then focus to the selected-block <h4 tabIndex=-1>
+  mbnas_web/src/lib/evaluation.ts              trainedNotEvaluatedTitle(row, run) (shared tooltip helper)
+  mbnas_web/src/screens/Monitor.tsx            candidate-table badge title -> trainedNotEvaluatedTitle(c, run)
+  mbnas_web/tests/detail_fixtures.ts           syntheticContractBlocks() (contract 1.5.0 rows of the 9-row synthetic model)
+  mbnas_web/tests/block_table_link.test.tsx    new, 7 tests
+  mbnas_web/e2e/checkpoint_structure.spec.ts   new test 'block table: a row opens the same block detail ...' (desktop + mobile)
+  mbnas_web/dist/**                            rebuilt by npm run build
+
+git status --short mbnas_web BEFORE this round:
+ M mbnas_web/dist/index.html
+ M mbnas_web/e2e/mock.ts
+ M mbnas_web/e2e/real-server.spec.ts
+ M mbnas_web/node_modules/.vite/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/results.json
+ M mbnas_web/playwright.real.config.ts
+ M mbnas_web/src/components/CandidateView.tsx
+ M mbnas_web/src/components/ModelStructure.tsx
+ M mbnas_web/src/lib/evaluation.ts
+ M mbnas_web/src/lib/validate.ts
+ M mbnas_web/tests/training_panel.test.tsx
+ M mbnas_web/tests/wp6a_badges_workers.test.tsx
+?? mbnas_web/e2e/checkpoint_structure.spec.ts
+?? mbnas_web/tests/checkpoint_download.test.tsx
+?? mbnas_web/tests/checkpoint_fixtures.ts
+
+git status --short mbnas_web AFTER this round:
+ M mbnas_web/dist/index.html
+ M mbnas_web/e2e/mock.ts
+ M mbnas_web/e2e/real-server.spec.ts
+ M mbnas_web/node_modules/.vite/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/results.json
+ M mbnas_web/playwright.real.config.ts
+ M mbnas_web/src/components/CandidateView.tsx
+ M mbnas_web/src/components/ModelStructure.tsx
+ M mbnas_web/src/lib/evaluation.ts
+ M mbnas_web/src/lib/validate.ts
+ M mbnas_web/src/screens/Monitor.tsx
+ M mbnas_web/tests/detail_fixtures.ts
+ M mbnas_web/tests/training_panel.test.tsx
+ M mbnas_web/tests/wp6a_badges_workers.test.tsx
+?? mbnas_web/e2e/checkpoint_structure.spec.ts
+?? mbnas_web/tests/block_table_link.test.tsx
+?? mbnas_web/tests/checkpoint_download.test.tsx
+?? mbnas_web/tests/checkpoint_fixtures.ts
+
+(The pre-existing M/?? lines belong to earlier accepted rounds. node_modules/.vite/vitest/.../results.json is rewritten by
+`npx vitest run` (vitest cache, a user-tracked file; mtime 08:40:44) - noted, not hidden. dist/assets/ is git-ignored.)
+
+==================== raw output ====================
+# round4 web gates 2026-10-28T08:40:23+09:00 node v24.20.0 cwd=<ROOT>/mbnas_web
+# dist sha256 BEFORE
+08772e7411b55f676927ad295933f8229ddab078422ad8e681b206a5eb9b9f60  dist/index.html
+1e0f94d5b6e2984c057f8522dde0a11beae25c1d5bdff42376f0211413c18da2  dist/assets/index-CG8HuodM.css
+6c3f29a2bfad42878f6879a4ce28ac2b8890666d8060347089ad6befef9c3130  dist/assets/index-CY9ctObG.js
+=== $ npm run check:types   [2026-10-28T08:40:23+09:00]
+
+> mbnas-web@0.1.0 check:types
+> node scripts/gen-types.mjs --check
+
+✨ openapi-typescript 7.13.0
+🚀 <ROOT>/mbnas_contracts/src/mbnas_contracts/openapi/openapi.json → <SCRATCH>/tmp/mbnas-types-o25tdM/types.gen.ts [327.1ms]
+types.gen.ts matches the contract
+exit=0   [2026-10-28T08:40:24+09:00]
+=== $ npm run typecheck   [2026-10-28T08:40:24+09:00]
+
+> mbnas-web@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+exit=0   [2026-10-28T08:40:32+09:00]
+=== $ npx vitest run   [2026-10-28T08:40:32+09:00]
+
+ RUN  v5.0.3 <ROOT>/mbnas_web
+
+
+ Test Files  46 passed (46)
+      Tests  600 passed (600)
+   Start at  08:40:33
+   Duration  11.60s (environment 31%, tests 31%, transform 28%, import 6%, setup 4%)
+
+  Transform  transforming modules took 51.02s · 28% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns
+
+exit=0   [2026-10-28T08:40:45+09:00]
+=== $ npm run build   [2026-10-28T08:40:45+09:00]
+
+> mbnas-web@0.1.0 build
+> tsc --noEmit -p tsconfig.json && vite build
+
+vite v8.3.3 building client environment for production...
+transforming...
+✓ 79 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.73 kB │ gzip:   0.44 kB
+dist/assets/index-CG8HuodM.css   14.68 kB │ gzip:   3.87 kB
+dist/assets/index-7f__3l0I.js   531.40 kB │ gzip: 160.76 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 366ms
+exit=0   [2026-10-28T08:40:53+09:00]
+=== $ npm run check:bundle   [2026-10-28T08:40:53+09:00]
+
+> mbnas-web@0.1.0 check:bundle
+> node scripts/check-bundle.mjs
+
+scanned 3 file(s), 546817 bytes under dist/
+  dist/assets/index-7f__3l0I.js
+  dist/assets/index-CG8HuodM.css
+  dist/index.html
+  required "<needle 1 redacted>": 0
+  required "<needle 2 redacted>": 0
+  required "<needle 3 redacted>": 0
+  required "<needle 4 redacted>": 0
+  required "<needle 5 redacted>": 0
+  required "<needle 6 redacted>": 0
+  required "<needle 7 redacted>": 0
+  extra    "<needle 8 redacted>": 0
+  extra    "<needle 9 redacted>": 0
+  extra    "<needle 10 redacted>": 0
+  extra    "<needle 11 redacted>": 0
+  extra    "<needle 12 redacted>": 0
+  extra    "<needle 13 redacted>": 0
+  extra    "<needle 14 redacted>": 0
+  extra    "<needle 15 redacted>": 0
+  extra    "<needle 16 redacted>": 0
+  extra    "<needle 17 redacted>": 0
+  extra    "<needle 18 redacted>": 0
+  extra    "<needle 19 redacted>": 0
+  extra    "<needle 20 redacted>": 0
+  extra    "<needle 21 redacted>": 0
+  extra    "<needle 22 redacted>": 0
+  extra    "<needle 23 redacted>": 0
+  extra    "<needle 24 redacted>": 0
+  extra    "<needle 25 redacted>": 0
+  extra    "<needle 26 redacted>": 0
+  extra    "<needle 27 redacted>": 0
+  extra    "<needle 28 redacted>": 0
+bundle hygiene: OK (0 hits)
+exit=0   [2026-10-28T08:40:53+09:00]
+# dist sha256 AFTER
+9e8c8f761e7b56c7e66ecf90d563a2ff3a4118df75f49d9004423b1ea9897552  dist/index.html
+df0d6b2d9ab5dce599cbb352062be2a2065634c5fe43a152b534f537664171a9  dist/assets/index-7f__3l0I.js
+1e0f94d5b6e2984c057f8522dde0a11beae25c1d5bdff42376f0211413c18da2  dist/assets/index-CG8HuodM.css
+dist:
+합계 16
+drwxrwxr-x 3 <USER> <USER> 4096 Oct 28 08:40 .
+drwxrwxr-x 8 <USER> <USER> 4096 Oct 28 06:37 ..
+drwxrwxr-x 2 <USER> <USER> 4096 Oct 28 08:40 assets
+-rw-rw-r-- 1 <USER> <USER>  733 Oct 28 08:40 index.html
+
+dist/assets:
+합계 544
+drwxrwxr-x 2 <USER> <USER>   4096 Oct 28 08:40 .
+drwxrwxr-x 3 <USER> <USER>   4096 Oct 28 08:40 ..
+-rw-rw-r-- 1 <USER> <USER> 531403 Oct 28 08:40 index-7f__3l0I.js
+-rw-rw-r-- 1 <USER> <USER>  14681 Oct 28 08:40 index-CG8HuodM.css
+
+(round-4 parent: the needle names printed by check-bundle above were replaced by <needle N redacted>; 28 lines, all with count 0)

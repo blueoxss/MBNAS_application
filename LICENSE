@@ -1,0 +1,33 @@
+MBNAS Research Console (MBNAS 모듈형 신경망 구조 탐색·실험 통합관리 프로그램) 0.1.0
+
+Copyright (c) 2026 — 권리자 미정 (rights holder to be determined)
+
+권리 유보 (All rights reserved) — 자리표시 고지 (placeholder notice)
+
+[한국어]
+이 파일은 라이선스가 결정되기 전의 자리표시다. 이 배포본에서 자체 작성한 부분(mbnas_* 패키지,
+웹 콘솔 소스와 빌드 결과, 스크립트, 문서, 예제)에 대해 어떤 라이선스도 부여하지 않는다. 권리자와
+라이선스 조건은 등록·공개 전에 권리자가 확정하며, 확정되면 이 파일을 그 결정으로 교체한다.
+확인할 항목은 registration 배포본의 docs/registration/REVIEW_CHECKLIST.md 와
+docs/registration/RIGHTS_REVIEW.md, 그리고 docs/public/INSTALL.md 의 "8. 라이선스" 절에 있다.
+
+제3자 구성요소는 각자의 라이선스를 따른다. 이 고지는 그 조건을 바꾸거나 제한하지 않는다.
+  - Python 패키지·기반 이미지 등: THIRD_PARTY_NOTICES.md
+  - 웹 번들의 npm 패키지:          THIRD_PARTY_NOTICES_WEB.md
+특히 ultralytics(AGPL-3.0)와 그 parse_model 수정 사본의 조건은 권리 검토 항목이며, 이 고지는
+그에 대한 결론이 아니다.
+
+[English]
+This file is a placeholder written before a licence decision. No licence is granted for the parts
+of this distribution written for this project (the mbnas_* packages, the web console sources and
+build output, scripts, documents and examples). The rights holder and the licence terms will be
+decided by the rights holder before registration or public release, and this file will then be
+replaced by that decision. The open items are listed in docs/registration/REVIEW_CHECKLIST.md and
+docs/registration/RIGHTS_REVIEW.md (registration package) and in section "8. 라이선스" of
+docs/public/INSTALL.md.
+
+Third-party components remain under their own licences, and nothing in this notice changes or
+restricts them: see THIRD_PARTY_NOTICES.md (Python packages, base images and other components)
+and THIRD_PARTY_NOTICES_WEB.md (npm packages in the web bundle). The terms of ultralytics
+(AGPL-3.0) and of its modified parse_model copy are an open rights-review item; this notice is
+not a conclusion about them.

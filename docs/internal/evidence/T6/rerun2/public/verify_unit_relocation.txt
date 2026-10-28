@@ -1,0 +1,16 @@
+[verify] profile=public root=/srv/mbnas public r2/mbnas_application suites=unit,relocation evidence=runtime/logs/verify/20261028T020127Z-public
+[verify] unit: running
+[verify] unit: PASS (tests=984 passed=761 failed=0 errors=0 skipped=223 deselected=44)
+[verify] relocation: running
+[verify]   relocation: module __file__ under ROOT (cwd outside ROOT): ok - 126 modules (mbnas_contracts 24, mbnas_model_runtime 49, mbnas_runner 23, mbnas_server 30), all under /srv/mbnas public r2/mbnas_application
+[verify]   relocation: sys.prefix under ROOT: ok - /srv/mbnas public r2/mbnas_application/runtime/venv
+[verify]   relocation: console scripts bound to runtime/venv inside ROOT: ok - ok
+[verify]   relocation: no original-host path strings: ok - 169 files scanned
+[verify]   relocation: doctor.sh from an external working directory: ok - exit 0; origin checks PASS
+[verify]   relocation: doctor.sh through a path with spaces: ok - exit 0; origin checks PASS
+[verify]   relocation: start/stop/install.sh --help through a path with spaces: ok - exit codes [0, 0, 0]
+[verify]   relocation: ROOT itself contains spaces: ok - /srv/mbnas public r2/mbnas_application
+[verify]   relocation: per-module origins in runtime/logs/verify/20261028T020127Z-public/relocation.json and runtime/logs/verify/20261028T020127Z-public/relocation_origins.tsv; .pth files: coloredlogs.pth (1 line(s)), distutils-precedence.pth (1 line(s))
+[verify] relocation: PASS (checks=8 passed=8 failed=0)
+[verify] result: PASS PASS=2 (report runtime/logs/verify/20261028T020127Z-public/verify.json)
+exit=0

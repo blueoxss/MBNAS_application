@@ -1,0 +1,23 @@
+--- a/scripts/dev/gen_runner_openapi.py
++++ b/scripts/dev/gen_runner_openapi.py
+@@ -8,6 +8,7 @@
+ 
+ import argparse
+ import json
++import re
+ import sys
+ from pathlib import Path
+ from typing import Any
+@@ -46,8 +47,10 @@
+         }
+         op["responses"]["401"] = body(rp.ErrorBody, "AUTH_REQUIRED")
+         op["responses"]["403"] = body(rp.ErrorBody, "ACCESS_DENIED, RUNNER_MISMATCH or TICKET_INVALID")
+-        if "{job_id}" in ep["path"]:
+-            op["parameters"] = [{"name": "job_id", "in": "path", "required": True, "schema": {"type": "string", "minLength": 1}}]
++        names = re.findall(r"\{(\w+)\}", ep["path"])  # every path template variable is a declared parameter
++        if names:
++            op["parameters"] = [{"name": n, "in": "path", "required": True, "schema": {"type": "string", "minLength": 1}}
++                                for n in names]
+         paths[rp.RUNNER_BASE_PATH + ep["path"]] = {ep["method"]: op}
+ 
+     return {

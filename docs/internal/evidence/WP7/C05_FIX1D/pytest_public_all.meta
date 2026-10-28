@@ -1,0 +1,2 @@
+pytest_public_all start 2026-10-27T19:30:48Z cwd=/home/mgjeong/Desktop/etri_hd/mbnas_application interpreter=runtime/venv/bin/python cmd=pytest -p no:cacheprovider -m 'not gpu and not live and not legacy_records and not host_data' --timeout=300 tests/public --junitxml=/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/WP7/C05_FIX1D/junit_public_all.xml
+exit=0 dur=308s end=2026-10-27T19:35:56Z

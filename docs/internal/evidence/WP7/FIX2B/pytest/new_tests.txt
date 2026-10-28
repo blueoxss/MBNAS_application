@@ -1,0 +1,67 @@
+# FIX2B (DD-A62 (a)-(d)) new / changed tests: round 1 19 test functions (18 pass + 1 xfail(strict) for the serving
+# gap); ROUND 2: the xfail marker removed (passes), +1 serving-guard test, +3 owner-worker env-file tests = 23 test
+# functions, all passing. All SYNTHETIC data; CPU only; no GPU / NVML.
+
+tests/owner/orchestration/test_dd_a62_not_evaluated_search.py                      (a) search arms
+  test_ga_not_evaluated_candidates_record_the_reason_and_are_never_promoted         GA training results rewritten into the
+      runner's real not_evaluated_payload: rows SEARCH_COMPLETE + NOT_EVALUATED + EVALUATION_REQUIRES_CUDA, metrics/
+      fitness/gate null, latency pending, checkpoint kept, no L1 job (never promoted), GA g1 parent_pool == [], L0
+      generation rows evaluated 0 / failed == planned / no representative, no candidate.evaluated for GA, one warning
+      log per GA candidate; IndependentRandom + baseline still EVALUATED; public Snapshot contract-valid; a NOT_EVALUATED
+      payload never replaces an immutable EVALUATED row (replay guard)
+  test_a_payload_without_metrics_that_does_not_say_not_evaluated_still_fails       guard: ap None without the
+      NOT_EVALUATED declaration stays EVAL_FAILED METRIC_MISSING (unchanged path)
+
+tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py                    (a) explicit + (d) claim
+  test_explicit_training_with_validation_on_a_cpu_fleet_completes_not_evaluated     CPU runner commits the real
+      NOT_EVALUATED payload over E8: run COMPLETED (reason None), row SEARCH_COMPLETE/NOT_EVALUATED/
+      EVALUATION_REQUIRES_CUDA, checkpoint_path/sha kept, raw_metrics device_used cpu + validation_enabled true,
+      candidate SEARCH_COMPLETE, rung state evaluated (DD-5 shape), no candidate.evaluated, public row contract-valid
+  test_requires_cuda_and_needs_cuda_rules                                           rule table
+  test_cpu_runner_leaves_evaluation_on_jobs_to_the_gpu_runner_and_leases_what_it_can_run   mixed fleet: CPU claim 204,
+      job untouched (attempt 0); a later validation-off training job is leased by the CPU runner instead; the GPU
+      runner leases the evaluation-ON job
+  test_explicit_training_that_evaluates_goes_to_the_gpu_runner_while_one_is_online  mixed fleet 204; after the GPU
+      runner deregisters the CPU runner leases it
+  test_cpu_only_fleet_still_runs_explicit_training_with_validation                  CPU-only fleet: leased
+  test_gpu_runner_claims_are_unchanged                                              GPU path = acquire_lease (oldest first)
+  test_cpu_only_fleet_cpu_runner_still_takes_an_evaluation_on_job                   OFFLINE / never-ONLINE GPU runners do
+      not make the fleet mixed: unchanged lease
+
+tests/owner/api/test_dd_a62_device_source_local.py                                 (b) device_source=local
+  test_gpu_less_host_uses_the_registered_cpu_runner_entry                          empty NVML + CPU runner -> [cpu entry];
+      explicit training 200 (was DEVICE_UNAVAILABLE); evaluation ON -> EVALUATION_REQUIRES_CUDA
+  test_a_local_gpu_list_is_used_unchanged                                           GPU host: no CPU entry merged
+  test_gpu_runner_entries_are_not_merged_into_the_local_source                      GPU runner only -> [] (DEVICE_UNAVAILABLE)
+  test_gpu_less_host_without_runners_stays_device_unavailable                       no runner -> [] (as before)
+
+tests/owner/worker/test_dd_a62_core_local_generation.py                            (c) split deployment generation
+  test_recover_generation_reads_the_core_local_journal_and_registers_its_yamls      settings source (env core output root):
+      _recover_generation finds the core-local journal; job_finished(CANCELLED) inserts both candidates, registers
+      core_local architecture artifacts (relpath architectures/<file>, sha == file), generation_results recorded
+  test_without_exported_settings_a_stored_candidate_locates_the_journal            env points elsewhere (--env-file case):
+      not found before any candidate is stored; found through the stored candidate's verified YAML; job_requeued
+      (pause) recovers all 3 and registers them
+  test_a_core_local_file_is_registered_only_when_it_is_the_candidate_yaml          tampered bytes / symlink / wrong
+      directory -> not registered, ARCHITECTURE_ARTIFACT_UNAVAILABLE logged; candidates stay durable
+  test_core_download_route_serves_a_core_local_architecture                        round 1: xfail(strict=True) (the core
+      download route answered 403 ACCESS_DENIED); ROUND 2: marker removed, passes - 200, the candidate's YAML bytes,
+      X-Artifact-Sha256 == registry sha256
+  test_core_download_route_applies_the_registration_guards                          ROUND 2: bytes changed after
+      registration -> 409 LOAD_FAILED (row LOAD_FAILED); > 1 MiB -> 409 LOAD_FAILED; a symlink to identical bytes inside
+      the core-local run dir -> 403 ACCESS_DENIED; a core_local row whose relpath is not architectures/<name>.yaml ->
+      403; a vanished file -> 404 MISSING (never looked up in run_dir(run)); the valid one stays READY (200)
+  test_real_split_generation_registers_one_core_local_architecture_per_candidate   REAL CPU generation through the owner
+      worker (slow): one READY core_local architecture artifact per candidate, config revisions carry the artifact id,
+      generated_candidates[*].artifacts == [architecture READY], nothing created under the customer root
+
+tests/owner/runner_protocol/test_device_used.py                                    NOT changed in the end (an adaptation
+      for an unconditional claim rule was reverted when the rule became fleet-aware; file == git HEAD)
+
+tests/owner/worker/test_dd_a62_owner_worker_env_file.py                            ROUND 2: owner worker --env-file
+  test_env_file_is_exported_to_this_process_and_never_to_job_children               main(["--owner", "--env-file", f])
+      sets MBNAS_CORE_ENV_FILE; the worker's settings and the engine's CoreSettings.load() (core-local journal lookup)
+      both read f; _inherited drops it from the job children's environment
+  test_without_env_file_nothing_is_exported                                         unchanged behaviour
+  test_a_missing_env_file_is_an_error_as_before                                     FileNotFoundError, no worker created
+  (Worker loop, logging setup and signal handlers replaced by test doubles; nothing global changed)

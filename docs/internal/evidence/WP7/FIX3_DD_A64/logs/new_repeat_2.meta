@@ -1,0 +1,2 @@
+start 2026-10-27T23:25:03Z cwd=/home/mgjeong/Desktop/etri_hd/mbnas_application label=new_repeat_2 args=tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py -q -rfE --timeout=180 -m not gpu and not live and not legacy_records and not host_data
+exit=0 dur=12s end=2026-10-27T23:25:15Z

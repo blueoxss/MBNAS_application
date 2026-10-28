@@ -1,0 +1,329 @@
+{
+ "schema": "mbnas.placement_coverage/1",
+ "manifest": "docs/internal/provenance/PLACEMENT_MANIFEST.jsonl",
+ "manifest_sha256": "08fb06f5631838db508eb91ecec274d8c6b2d54968b95fb9273f1f7e69de40a9",
+ "manifest_rows": 638,
+ "packages": [
+  "mbnas_contracts",
+  "mbnas_model_runtime",
+  "mbnas_core",
+  "mbnas_runner",
+  "mbnas_server"
+ ],
+ "missing_package_src": [],
+ "scanned": {
+  "files": 221,
+  "py": 215,
+  "data": 6,
+  "by_package": {
+   "mbnas_contracts": 27,
+   "mbnas_model_runtime": 49,
+   "mbnas_core": 92,
+   "mbnas_runner": 23,
+   "mbnas_server": 30
+  }
+ },
+ "covered": {
+  "files": 221,
+  "py": 215
+ },
+ "missing": [],
+ "deleted_but_present": [],
+ "unrecorded_deletions": [],
+ "recorded_deletions_of_package_files": [
+  "mbnas_contracts/src/mbnas_contracts/openapi/drafts/openapi-1.5.0.draft.json"
+ ],
+ "sha_drift_count": 48,
+ "sha_drift": [
+  {
+   "path": "mbnas_contracts/src/mbnas_contracts/asgi.py",
+   "last_line": 246,
+   "recorded": "f1793628761a5f5a132ad0dec9ef72a23a96df5fca5e8a25d70d84628d0bf09f",
+   "current": "fac905aa2e83bd21d50113839916f5b12ad7d43337705ae35d20e56d8defc120"
+  },
+  {
+   "path": "mbnas_contracts/src/mbnas_contracts/errors.py",
+   "last_line": 244,
+   "recorded": "597b6d88e5dd87d224053d3d58ef9ee150ca30cc2b24eff333d3dd5172e504a4",
+   "current": "e798a1f850b5208d9d6291d23b04073980aaaebbda4a73598c6117de52189f0f"
+  },
+  {
+   "path": "mbnas_contracts/src/mbnas_contracts/openapi/HISTORY.json",
+   "last_line": 450,
+   "recorded": "6b230446635a9ac71f0d00795b99f9460ace21691f5e8e716c8732f9a2e115cf",
+   "current": "0904011c6aaf637d2d451794ff4a1b8fa1efa522e99c1a288aeb8b68d7259130"
+  },
+  {
+   "path": "mbnas_contracts/src/mbnas_contracts/openapi/openapi.json",
+   "last_line": 449,
+   "recorded": "f3fe8ea672ee106d41c5c92723f7002136c7181892933aff7653a31c83f8c738",
+   "current": "70e0cffaab8fafd9c7f230af9169dbbe8812b3eccf7ad7838ca3f46fa9eebc2a"
+  },
+  {
+   "path": "mbnas_contracts/src/mbnas_contracts/schemas/__init__.py",
+   "last_line": 49,
+   "recorded": "f0ee8927d86725b6afc8eeaf2f7eb10d87ce333216fa7ae7a25bf19064cea5c2",
+   "current": "b8fa765324dcea917fcc3b89cc7f0d1244eb0233a56adc08e29f420e072fda56"
+  },
+  {
+   "path": "mbnas_contracts/src/mbnas_contracts/schemas/api.py",
+   "last_line": 50,
+   "recorded": "0239601150c272ede917078082fda50efe373bb3e91e2ee3d9d7332d670d2df6",
+   "current": "bdfd6c261a0d3a6090bc6bd111ca2dc041db4c1e589c262da6cd85c169369702"
+  },
+  {
+   "path": "mbnas_contracts/src/mbnas_contracts/schemas/enums.py",
+   "last_line": 52,
+   "recorded": "3eda8bd894b100bc5e0a2950bfe61838e5fc7a6262e4dbb866450f3a797bbe4c",
+   "current": "f8bff44b54e0f45d53c9e239a14dda04ef60d1713608a4bf2182f15616e8640a"
+  },
+  {
+   "path": "mbnas_contracts/src/mbnas_contracts/schemas/protocol.py",
+   "last_line": 54,
+   "recorded": "c5f95c59785b8424a7dc3dfdeaa277d61c3eb52b0e94d23f8cbd55f61e4e5fd6",
+   "current": "98423eb8e1e153fffa68fa98a4b2ab0328ddf01bd132ef7a194aee828c34b914"
+  },
+  {
+   "path": "mbnas_contracts/src/mbnas_contracts/schemas/records.py",
+   "last_line": 55,
+   "recorded": "e3abdd29a7c13e0687e55d2471cada8e0adb2cbf25e454da97cb384d1d795057",
+   "current": "0624b1362df70f63f3179c2f59c76a7aaddbefd7bdcac11a67e37672c254dae4"
+  },
+  {
+   "path": "mbnas_model_runtime/src/mbnas_model_runtime/benchmark/capability.py",
+   "last_line": 263,
+   "recorded": "6ba58660ce08fa00675d3eaa4c93a9debc89c38d4fbebfa3fe58099df840970b",
+   "current": "438756528dab15f639d5277c37c6abeac8ea3b02c4e9c8a891a5e23d4139eeac"
+  },
+  {
+   "path": "mbnas_model_runtime/src/mbnas_model_runtime/benchmark/pipeline.py",
+   "last_line": 152,
+   "recorded": "aac3bdd0be43c8b44b446718574e5efb58bd54f0edc3f80495c99311830a1032",
+   "current": "b513e73bed18e8f38554498d27517c24fad0b60fd99285d4f3083f502212c0e2"
+  },
+  {
+   "path": "mbnas_model_runtime/src/mbnas_model_runtime/evaluation/latency.py",
+   "last_line": 168,
+   "recorded": "fcda85c42461c3a68c11a8cb61fa6ffab16c93089d5688a6f4cf1fed16c86572",
+   "current": "e645a347da0855a38674d817b438de984dedc57d40f514bd9ad0ad8d2559377e"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/api/errors.py",
+   "last_line": 269,
+   "recorded": "6c2768f69246ccaae7e55d21f472495f4507d3dd0022d6469cf7666fae2a0cef",
+   "current": "f0f4471cfe4da53dfcb751574976f0c0836ba412a30a46a84030a98e3076fe3f"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/config.py",
+   "last_line": 277,
+   "recorded": "49c3a7b51667af6bd56c828e95f5e55414fa8184da3f4ad66974787a5c18dfb2",
+   "current": "a338c79365a55b1aa43423bfbb3f69f2cdf2074f94da5be300ef5a009bf1a910"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/console/candidate_views.py",
+   "last_line": 71,
+   "recorded": "5c930588fce0eb888cb3671149254eabf7845d2d9d9957b87e0ee18ae514eb95",
+   "current": "f9b5cfe67517faf51bb961e57d057c92195139f27b681cd4b2fc7720826dbd4f"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/console/deps.py",
+   "last_line": 72,
+   "recorded": "619df33ce6909498252183766ab55d679829ca2e665ac76b7cfaa90273551b36",
+   "current": "80bc55cf520628a97cd981fb7b3b8035a0ffe647c9bafcb3646a19c964a02682"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/console/model_services.py",
+   "last_line": 278,
+   "recorded": "8ad9ca3d50d96bcf957cae440eac9b4814203ac499938c38335de2f281e9e891",
+   "current": "24ba796557b0af8e87b7f177f443543795f5c754e167ca66a075f556acec7880"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/console/projection.py",
+   "last_line": 500,
+   "recorded": "2256ef50b1839b6cca43860a0ef9fabe051f542f464463104a9baf1ff99b385e",
+   "current": "320398a0aaf4ebacd37c0146a75328e8ab3711d41f7f84cea6b951a3f46da430"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/console/routes_meta.py",
+   "last_line": 279,
+   "recorded": "01ca56d8d06d6c063a7aa2a906c940cb14f2403462c3d5b5b4c6fd39cff5adda",
+   "current": "d8b43bc78a6853064ab85618fade18cbfae722754e0217092093f4da3682725d"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/console/routes_registry_structure.py",
+   "last_line": 76,
+   "recorded": "fbb7caffcbca8892f5890fc0701884c16b721ff9d9a06193a4a093e8d52584a4",
+   "current": "eea3ce08cd3d1cf5992f4c7527281d39c509fd8be36933e406208d14564e9f11"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/console/routes_runs.py",
+   "last_line": 77,
+   "recorded": "58c70e8f50ba5b085812e8a01ab58d60ef2f72251f73aac37467f68732009f84",
+   "current": "5183f677a43733d900c8d414883632305a6a12db9a23fc8f1c76c2c2606f3bbd"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/console/routes_stream.py",
+   "last_line": 78,
+   "recorded": "c76bd337f393d8b28cb2ac3aa562d54a915ae0f94cab2a27307dc07ed2d2d76f",
+   "current": "b9e49430bfff8999c4432144a1ea2d6ed8617c5b6785e94fb49effa194f244dc"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/console/routes_training.py",
+   "last_line": 79,
+   "recorded": "d0aa59dfdec0bb1e8acaae08bc70976d0aece552dbd70b7ec9dd1b57fa40b8fb",
+   "current": "3a2e186e180bc5d3d6755148f5e367b1cd15a1d157a84c26770aa5dccd1ce3d3"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/console/views.py",
+   "last_line": 81,
+   "recorded": "50b801b89277adfe3aeaed77fedf317b689e51bca74e870a4c64de8bacd58125",
+   "current": "369c9725b99379417e064ae318e070924cbb45db0854e2e102f04ae9557f66c4"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/db/core.py",
+   "last_line": 83,
+   "recorded": "1bf01c292cb8225a9c915f6a240244e8d65340f788e700513b1ba36f58b15092",
+   "current": "177778ba9f8ba06b6447ed4f10c47746725e2e4dacd29475b43ed7e66f0f588e"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/db/repo.py",
+   "last_line": 84,
+   "recorded": "a2bad05d22bcf8c53becb87de032480a3dc296e7faa00b0104bb0c9d7452e7ae",
+   "current": "6c2ab17dc92412cb531e27cbbcaf4bd0579226a82f8f6a6b2d6cd7ed63bc514e"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/db/schema.sql",
+   "last_line": 85,
+   "recorded": "17fc1b655e12b091d5c52a10fa9fffc990f58e8cc319a0b161ba54c887b0f7ba",
+   "current": "f585e876dfb0ca7b10c8522876ebec96804d6c8736f9780188e0ca02fd43a8fa"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/export/bundle.py",
+   "last_line": 89,
+   "recorded": "ed2438e45f0b140173057c102bbe5bbaedc7c0e07f5a2d45a82aa9f570a217b0",
+   "current": "2311b2651477f8ccc426c01648c61d5f6fc75b07c97671e8d5c2e3d44da671bc"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/ops/principals.py",
+   "last_line": 473,
+   "recorded": "465bb765d909605c81840b8f7a5caa57217bfcf8c612205293690d3d9bbd6bab",
+   "current": "b38dc7649c4ec29c922a58e555d727f5d164ffb06c5d0d416c4a85957868dc97"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/orchestration/final_retrain.py",
+   "last_line": 94,
+   "recorded": "72af0367dd526025410febfb464ae9990401aba18648bd99d0961f77ebba93db",
+   "current": "5ebef419f19e5c8ef1c0fd7ad60bef1685d7c020f08e8bb786abf85edfab1426"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/orchestration/model_artifacts.py",
+   "last_line": 95,
+   "recorded": "5098c6d45def356a9878565e7c82d5046a7da4332df3eb5a9da22f8dd271e317",
+   "current": "b5bcb13df32935ac5256e44f64c14cf4c38a0ada8ab6791163ae00cee447fad7"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/orchestration/state.py",
+   "last_line": 97,
+   "recorded": "3fd2a183b9a425ac01f15764fd20d7c6e62e8c0a63258c78df76d1310e5bcfcb",
+   "current": "4089aaf20006450baab8df8570f47af1aee10dcfa0c7fe4921bbb4e6f98916db"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/owner_worker/contract.py",
+   "last_line": 285,
+   "recorded": "139d3c15cbba3760b24cc9c55d5aa71d86f10052bb5d8abdb8cac46bc1e34761",
+   "current": "192e8c3539595d2cbb235f7da9026cebeb22726b3389e2aacc2f72167aa1ffe3"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/protocol/training_validation.py",
+   "last_line": 109,
+   "recorded": "f28037755a5ee8723f2dd2c511806ce17f6afb3b0cdadcd13c6810e30b3ad1c3",
+   "current": "748051912889c3d24b1dbd447755959648762f761124389b45c259c186c61402"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/registry/__init__.py",
+   "last_line": 289,
+   "recorded": "0fea5de2e32b0f5a1aefef8a70dddd5f314cb7f5dd51a4d3363f65fb71d9ec79",
+   "current": "0bb0194e23539d6013cc91d183961b95ae7119a0c2003d25c07d679f6d8e03b3"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/scheduling/jobs.py",
+   "last_line": 116,
+   "recorded": "d2c621efd5c2544c977549cb8a7726172ac829acd36625a93cdcb3e118211fa6",
+   "current": "f25c1751bfc2b3d2ef5bae0a868b4dc809f4fc7bff3fa9a10ad2b91e76f7e8e9"
+  },
+  {
+   "path": "mbnas_core/src/mbnas_core/search/structure.py",
+   "last_line": 293,
+   "recorded": "451d7de2b08123f649a11a114632cba5c40dcddf95a0292c1fc700c68b15e202",
+   "current": "be0935aac844b49cb8f4cdd5fa8fa2bbf7c612ff156eaab9089c5b283acdb831"
+  },
+  {
+   "path": "mbnas_runner/src/mbnas_runner/__main__.py",
+   "last_line": 180,
+   "recorded": "df73181975727e2cce2f009841dfe1041adc2fc767d0d465a96bb6c8c492876b",
+   "current": "65b824d1b375da5db28c846611dd6fd032b218fc74279fc4e62a331f4f6b51a7"
+  },
+  {
+   "path": "mbnas_runner/src/mbnas_runner/child.py",
+   "last_line": 241,
+   "recorded": "7c8ff2cd35fba96cbf6b48e2b7910a24928ed1c25c4cbf41b8ffa8f239bc3212",
+   "current": "9dadb2c237f84f4a5a3a2a0eb2f0e522a98788f05dec8d8cfdcbd6c9e1d3261b"
+  },
+  {
+   "path": "mbnas_runner/src/mbnas_runner/daemon.py",
+   "last_line": 462,
+   "recorded": "0d4d1eb42961166ece7448153a0a42aa518640d89e3b3889671e4d8e7e22734a",
+   "current": "fe8a2bf1e634b2df6f25ba75c28844f051651b5efbccf82b3a9bab2bae851c7c"
+  },
+  {
+   "path": "mbnas_runner/src/mbnas_runner/gpu.py",
+   "last_line": 186,
+   "recorded": "3663fe88ef36a9156aa3977db8288c08080fc3c21644f57486615e029e96851c",
+   "current": "120afb25ee397e47c5e37c3daa89124b0139723d7a82ccf34b998f50f346f7e0"
+  },
+  {
+   "path": "mbnas_runner/src/mbnas_runner/journal.py",
+   "last_line": 461,
+   "recorded": "8c0467d3113ec8e6901d71d89441dc7cea8a5fc82571018948a27f79d4f1f5e1",
+   "current": "9da08384da8ff26eeb79feec7b094ac0ec137f00c16e78f247ea17ce39315a0f"
+  },
+  {
+   "path": "mbnas_server/src/mbnas_server/api/errors.py",
+   "last_line": 237,
+   "recorded": "0305bd1489a3c2a3b15595652837bb99db12d4c53d62e09f0112a76cd769022e",
+   "current": "cd9d2481e9c2defaab90a510fa7e9cac732177b87e2a890f85d9aac9b42d3c64"
+  },
+  {
+   "path": "mbnas_server/src/mbnas_server/api/relay.py",
+   "last_line": 577,
+   "recorded": "4b59cfabe7a4b4d368f8ef41a60ba685f23bac83bfb92a823780a494985ea905",
+   "current": "d2dd30f45c974c75892a66692baf5540157cc1c08a2e1e8ccb85761cda10801f"
+  },
+  {
+   "path": "mbnas_server/src/mbnas_server/api/uploads.py",
+   "last_line": 578,
+   "recorded": "02c52638332a134f9fb3d4819e2af2672b76f0288bc909b96454d35217f2adea",
+   "current": "d73366bf321ae26f1b803a68ddc503fc6d9631cf591a4f970c0e0ba3aa6478ec"
+  },
+  {
+   "path": "mbnas_server/src/mbnas_server/api/validate_prep.py",
+   "last_line": 495,
+   "recorded": "d0a64ee013fbbbd397b58805c9acdde1ab67994eed35500ec2105e46a5289973",
+   "current": "f37dfec73acfd6731efe7847267fd2b0729456e59900283707406abf024889bf"
+  },
+  {
+   "path": "mbnas_server/src/mbnas_server/config.py",
+   "last_line": 581,
+   "recorded": "f7825d4cc9f5c2178450d61906c526e5323208e62843719ee1130a55c30c566e",
+   "current": "36a678c7f61d503e098f7503eb6404488b8fdeab8075eb64905f29dcf68e7fbf"
+  },
+  {
+   "path": "mbnas_server/src/mbnas_server/doctor.py",
+   "last_line": 586,
+   "recorded": "95b43b5ecb2718dc1243bdbd29f2e6bf709b34ec4a62235eeaba29e11c5df677",
+   "current": "34cd37fbe327ff7fdd7ca571329bdcbccf77e46a8ba98fbbc794bfd70e4373bd"
+  }
+ ],
+ "errors": [],
+ "ok": true
+}

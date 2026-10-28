@@ -1,0 +1,36 @@
+[t4 2026-10-27T18:11:47Z] env overrides: MBNAS_RUNNER_ARTIFACT_TRANSFER=local MBNAS_RUNNER_ARTIFACT_STORE_DIR=<ROOT>/runtime/gateway/artifacts MBNAS_CORE_HEARTBEAT_S=2 
+ls: cannot access '/sys/class/net': No such file or directory
+[t4 2026-10-27T18:11:47Z] isolation: original tree visible? no; etri_nas visible? no; /data visible? no; network interfaces: 
+[t4 2026-10-27T18:11:47Z] doctor
+[t4 2026-10-27T18:11:49Z] doctor exit=0
+[t4 2026-10-27T18:11:49Z] start
+[t4 2026-10-27T18:12:02Z] start exit=0
+[start] core: ready pid=53 HTTP 401 from http://127.0.0.1:8700/core/v1/console/health log=runtime/logs/core.log
+[start] owner-worker: ready pid=75 alive after 5 s log=runtime/logs/owner-worker.log
+[start] gateway: ready pid=91 HTTP 200 from http://127.0.0.1:8710/api/v1/health status=ok core=reachable log=runtime/logs/gateway.log
+[start] runner: ready pid=118 alive after 5 s log=runtime/logs/runner.log
+[t4 2026-10-27T18:12:02Z] harness items=health,web,structure,gen
+{"utc": "2026-10-27T18:12:02.921744Z", "label": "t4", "step": "health", "verdict": "PASS", "seconds": 0.05, "no_token_http": 401, "http": 200, "request_ids": ["t4-fdc14b5bc3934373bdae", "t4-369c40d5c61d4244b0af"], "status": "ok", "core": {"status": "ok", "reachable": true}, "contract_version": null, "gateway": {"status": "ok", "version": "1.5.0", "core_url_configured": true, "web_dist": true, "store_writable": true}}
+{"utc": "2026-10-27T18:12:02.978898Z", "label": "t4", "step": "web-console", "verdict": "PASS", "seconds": 0.06, "http": 200, "content_type": "text/html; charset=utf-8", "bytes": 733, "index_sha256": "9bdba1519bb98a8495c812de8c867ed5262ee66280118b0f55f2e7bbb8e6d7d4", "assets_in_index": ["/assets/index-DlYSES30.js", "/assets/index-CG8HuodM.css"], "request_id": "t4-5522a6d8429149be9936", "index_same_as_dist": true, "assets": [{"path": "/assets/index-DlYSES30.js", "http": 200, "bytes": 528433, "sha256": "074a3d8b5b556af210eeaf3bcad2d8e1b736ab5335e99567c924eeb77b9fb7ab", "content_type": "application/javascript", "cache_control": "public, max-age=31536000, immutable", "request_id": "t4-942d9fd7de774a19bcb1", "same_as_dist": true}, {"path": "/assets/index-CG8HuodM.css", "http": 200, "bytes": 14681, "sha256": "1e0f94d5b6e2984c057f8522dde0a11beae25c1d5bdff42376f0211413c18da2", "content_type": "text/css; charset=utf-8", "cache_control": "public, max-age=31536000, immutable", "request_id": "t4-d4e7db30b3474ff3ab7f", "same_as_dist": true}], "spa_fallback": {"http": 200, "same_as_index": true, "request_id": "t4-50064f9d2d4844ee9683"}}
+{"utc": "2026-10-27T18:12:06.895562Z", "label": "t4", "step": "structure-pass", "verdict": "PASS", "seconds": 3.92, "file": "examples/models/yolo11n_user.yaml", "file_sha256": "ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720", "upload_http": 200, "upload_id": "upl-ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720", "upload_sha_match": true, "check_http": 200, "status": "PASS", "codes": [], "params": null, "diagnostics": null, "request_ids": ["t4-01921b520f1e4c189f40", "t4-9b970df1267442eca428"]}
+{"utc": "2026-10-27T18:12:09.069124Z", "label": "t4", "step": "structure-fail", "verdict": "PASS", "seconds": 2.17, "file": "examples/models/yolo11n_user_broken.yaml", "file_sha256": "5e29b7d9d7330d2f1cf4657222e286b5a6827a5c03ec9783dee81da234e955b6", "upload_http": 200, "upload_id": "upl-5e29b7d9d7330d2f1cf4657222e286b5a6827a5c03ec9783dee81da234e955b6", "upload_sha_match": true, "check_http": 200, "status": "FAIL", "codes": ["MERGE_INPUT_MISMATCH", "SHAPE_MISMATCH"], "params": null, "diagnostics": [{"code": "SHAPE_MISMATCH", "position": 12, "path": "head[1]", "cause": "build at row 12 (Concat): RuntimeError: Sizes of tensors must match except in dimension 1. Expected size 16 but got size 32 for tensor number 1 in the list.", "suggestion": "Correct this block's module, routing, channels, or merge inputs and rerun.", "evidence_level": "forward"}, {"code": "MERGE_INPUT_MISMATCH", "position": 12, "path": "head[1]", "cause": "Concat(dim=1) sources differ in height and width: row 11=256x16x16, row 4=128x32x32 (shapes of the failing forward pass, which ran at the model constructor stride probe)", "suggestion": "Give every merged source the same spatial size (and channels for Add/Sum).", "evidence_level": "forward"}], "request_ids": ["t4-6fd6128f04c545f291f0", "t4-f1dff2d155184595a9e7"]}
+{"utc": "2026-10-27T18:12:09.118735Z", "label": "t4", "step": "gen-validate", "verdict": "PASS", "seconds": 0.05, "http": 200, "request_id": "t4-4155eb1941fa4aecac4d", "errors": [], "capabilities": {"generation": {"execution": "CPU", "structure_status": "UNVERIFIED", "evaluation_enabled": false}}}
+{"utc": "2026-10-27T18:12:13.229724Z", "label": "t4", "step": "gen-run", "verdict": "FAIL", "seconds": 4.11, "run_id": "run-fce7cda39c2d", "run_status": "COMPLETED", "request_ids": ["t4-231bc8af4a474c31a9b8", "t4-6f77e768a56f46699fac", null], "candidates": 0, "training_status": [], "evaluation_status": [], "jobs": [["PROPOSE_GENERATION", "SUCCEEDED", "t4-sandbox:75"]], "candidate_detail_ok": null}
+{"utc": "2026-10-27T18:12:13.230393Z", "label": "t4", "step": "summary", "verdict": "FAIL", "seconds": 0.0, "items": {"health": "PASS", "web": "PASS", "structure": "PASS", "gen": "FAIL"}}
+[t4 2026-10-27T18:12:13Z] harness exit=1
+[t4 2026-10-27T18:12:13Z] processes before stop:
+      1       0 bwrap --die-with-parent --unshare-net --unshare-pid --unshare-ipc --unshare-uts --hostname t4-sandbox --ro-bind /usr /usr --symlink usr/bin /bin --symlink usr/lib /lib --symlink usr/li
+     53       1 <T>/t4/mbnas_application/runtime/venv/bin/python <ROOT>/runtime/test_root/t4
+     75       1 <T>/t4/mbnas_application/runtime/venv/bin/python <ROOT>/runtime/test_root/t4
+     91       1 <T>/t4/mbnas_application/runtime/venv/bin/python <ROOT>/runtime/test_root/t4
+    118       1 <T>/t4/mbnas_application/runtime/venv/bin/python <ROOT>/runtime/test_root/t4
+[t4 2026-10-27T18:12:13Z] stop
+[t4 2026-10-27T18:12:15Z] stop exit=0
+[stop] web: not running (no pid file)
+[stop] runner: stopped (pid 118, SIGTERM)
+[stop] gateway: stopped (pid 91, SIGTERM)
+[stop] owner-worker: stopped (pid 75, SIGTERM)
+[stop] core: stopped (pid 53, SIGTERM)
+[t4 2026-10-27T18:12:17Z] processes after stop:
+      1 bwrap --die-with-parent --unshare-net --unshare-pid --unshare-ipc --unshare-uts --hostname t4-sandbox --ro-bind /usr /usr --symlink usr/bin /bin --symlink usr/lib /lib --symlink usr/lib64 /lib
+[t4 2026-10-27T18:12:17Z] end

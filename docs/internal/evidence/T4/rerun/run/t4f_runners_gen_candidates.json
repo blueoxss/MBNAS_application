@@ -1,0 +1,1448 @@
+{
+ "generated_candidates": [
+  {
+   "name": "Random candidate 1",
+   "family": "NAS:hybrid_backbone",
+   "arm": "IndependentRandom",
+   "generation": 0,
+   "blocks": [
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       64,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 3,
+       "c_out": 16,
+       "h_in": 64,
+       "params": 464,
+       "stride": 2.0,
+       "w_in": 64
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#0",
+     "position": 0,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       128,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 16,
+       "c_out": 32,
+       "h_in": 32,
+       "params": 4672,
+       "stride": 4.0,
+       "w_in": 32
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#1",
+     "position": 1,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       256,
+       false,
+       0.25
+      ],
+      "effective": {
+       "c_in": 32,
+       "c_out": 64,
+       "h_in": 16,
+       "params": 6640,
+       "stride": 4.0,
+       "w_in": 16
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#2",
+     "position": 2,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       256,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 64,
+       "c_out": 64,
+       "h_in": 16,
+       "params": 36992,
+       "stride": 8.0,
+       "w_in": 16
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#3",
+     "position": 3,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       false,
+       0.25
+      ],
+      "effective": {
+       "c_in": 64,
+       "c_out": 128,
+       "h_in": 8,
+       "params": 26080,
+       "stride": 8.0,
+       "w_in": 8
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#4",
+     "position": 4,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 128,
+       "h_in": 8,
+       "params": 147712,
+       "stride": 16.0,
+       "w_in": 8
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#5",
+     "position": 5,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "NASGlobalTransformer",
+     "operation": "sample",
+     "params": {
+      "args": [
+       384
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 96,
+       "h_in": 4,
+       "params": 87168,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "NASGlobalTransformer",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#6",
+     "position": 6,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 96,
+       "c_out": 256,
+       "h_in": 4,
+       "params": 221696,
+       "stride": 32.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#7",
+     "position": 7,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024,
+       true
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 346112,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#8",
+     "position": 8,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "SPPF",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024,
+       5
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 164608,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "SPPF",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#9",
+     "position": 9,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C2PSA",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 249728,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "C2PSA",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:native#10",
+     "position": 10,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "nn.Upsample",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       "None",
+       2,
+       "nearest"
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 0,
+       "stride": 16.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "nn.Upsample",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#11",
+     "position": 11,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Concat",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1
+      ],
+      "effective": {
+       "c_in": 352,
+       "c_out": 352,
+       "h_in": 4,
+       "params": 0,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": [
+       -1,
+       6
+      ],
+      "module": "Concat",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#12",
+     "position": 12,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       false
+      ],
+      "effective": {
+       "c_in": 352,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 107200,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#13",
+     "position": 13,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "nn.Upsample",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       "None",
+       2,
+       "nearest"
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 0,
+       "stride": 8.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "nn.Upsample",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#14",
+     "position": 14,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Concat",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 8,
+       "params": 0,
+       "stride": 8.0,
+       "w_in": 8
+      },
+      "from": [
+       -1,
+       4
+      ],
+      "module": "Concat",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#15",
+     "position": 15,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       256,
+       false
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 64,
+       "h_in": 8,
+       "params": 32096,
+       "stride": 8.0,
+       "w_in": 8
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#16",
+     "position": 16,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       256,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 64,
+       "c_out": 64,
+       "h_in": 8,
+       "params": 36992,
+       "stride": 16.0,
+       "w_in": 8
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#17",
+     "position": 17,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Concat",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1
+      ],
+      "effective": {
+       "c_in": 192,
+       "c_out": 192,
+       "h_in": 4,
+       "params": 0,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": [
+       -1,
+       13
+      ],
+      "module": "Concat",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#18",
+     "position": 18,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       false
+      ],
+      "effective": {
+       "c_in": 192,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 86720,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#19",
+     "position": 19,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 147712,
+       "stride": 32.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#20",
+     "position": 20,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Concat",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1
+      ],
+      "effective": {
+       "c_in": 384,
+       "c_out": 384,
+       "h_in": 2,
+       "params": 0,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": [
+       -1,
+       10
+      ],
+      "module": "Concat",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#21",
+     "position": 21,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024,
+       true
+      ],
+      "effective": {
+       "c_in": 384,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 378880,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#22",
+     "position": 22,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Detect",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       "nc"
+      ],
+      "effective": {
+       "c_in": 448,
+       "c_out": null,
+       "h_in": 8,
+       "params": 430867,
+       "stride": null,
+       "w_in": 8
+      },
+      "from": [
+       16,
+       19,
+       22
+      ],
+      "module": "Detect",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:native#23",
+     "position": 23,
+     "source": "yolo11n:native",
+     "source_kind": "random"
+    }
+   ],
+   "parents": [],
+   "architecture_hash": "sha256:ed0f4eee38c2a994c68e52d79a1fe8e11894234cda5d7fa839288996e39bbcb1",
+   "architecture_path": "architectures/run-04cc64e706fd_RAND_s7_g00_c000.yaml",
+   "candidate_status": "BUILD_VALID",
+   "search_seed": 7,
+   "training_seed": null,
+   "id": "run-04cc64e706fd:RAND:s7:g00:c000",
+   "candidate_id": "run-04cc64e706fd:RAND:s7:g00:c000",
+   "run_id": "run-04cc64e706fd",
+   "origin": "random_generation",
+   "structure_status": "PASS",
+   "evaluation_status": "NOT_EVALUATED",
+   "generation_order": 0,
+   "attempt": 1,
+   "seed": 7,
+   "requested_method": [
+    "GA"
+   ],
+   "effective_method": "RandomGeneration",
+   "duplicate_scope": "per_seed",
+   "execution": "CPU",
+   "parameters": 2512339,
+   "ap": null,
+   "recall": null,
+   "latency_ms": null,
+   "fitness": null,
+   "artifacts": [
+    {
+     "id": "art-965049a36729481555ad",
+     "kind": "architecture",
+     "url": "/api/v1/runs/run-04cc64e706fd/artifacts/art-965049a36729481555ad?exp=1793142361&sig=609d0600cb006981b91811c361b70cbe2997e646e7af2c653d0002827098d359",
+     "auth_mode": "signed_url",
+     "expires_at": "2026-10-27T23:06:01.000000Z",
+     "sha256": "6999dc2b24664927e03d6ccaaac84c132834261597c5f9f306fa6caa3cefecfd",
+     "mime_type": "application/octet-stream",
+     "state": "READY",
+     "refresh_url": "/api/v1/runs/run-04cc64e706fd/artifacts/art-965049a36729481555ad/refresh",
+     "evaluation_id": null,
+     "metadata": {
+      "yaml_hash": "sha256:5273b2d417a950825ff741e0202a71be1e2c339ace4b8476016d2a911beaf297",
+      "architecture_hash": "sha256:ed0f4eee38c2a994c68e52d79a1fe8e11894234cda5d7fa839288996e39bbcb1"
+     }
+    }
+   ],
+   "training_status": "UNTRAINED"
+  },
+  {
+   "name": "Random candidate 2",
+   "family": "NAS:cnn_backbone",
+   "arm": "IndependentRandom",
+   "generation": 0,
+   "blocks": [
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       64,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 3,
+       "c_out": 16,
+       "h_in": 64,
+       "params": 464,
+       "stride": 2.0,
+       "w_in": 64
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#0",
+     "position": 0,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       128,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 16,
+       "c_out": 32,
+       "h_in": 32,
+       "params": 4672,
+       "stride": 4.0,
+       "w_in": 32
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#1",
+     "position": 1,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       256,
+       false,
+       0.25
+      ],
+      "effective": {
+       "c_in": 32,
+       "c_out": 64,
+       "h_in": 16,
+       "params": 6640,
+       "stride": 4.0,
+       "w_in": 16
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#2",
+     "position": 2,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       256,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 64,
+       "c_out": 64,
+       "h_in": 16,
+       "params": 36992,
+       "stride": 8.0,
+       "w_in": 16
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#3",
+     "position": 3,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       false,
+       0.25
+      ],
+      "effective": {
+       "c_in": 64,
+       "c_out": 128,
+       "h_in": 8,
+       "params": 26080,
+       "stride": 8.0,
+       "w_in": 8
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#4",
+     "position": 4,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 128,
+       "h_in": 8,
+       "params": 147712,
+       "stride": 16.0,
+       "w_in": 8
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#5",
+     "position": 5,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       true
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 87040,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#6",
+     "position": 6,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 256,
+       "h_in": 4,
+       "params": 295424,
+       "stride": 32.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#7",
+     "position": 7,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024,
+       true
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 346112,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#8",
+     "position": 8,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "SPPF",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024,
+       5
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 164608,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "SPPF",
+      "repeats": 1,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#9",
+     "position": 9,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C2f",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 460288,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "C2f",
+      "repeats": 2,
+      "scope": "backbone"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#10",
+     "position": 10,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "nn.Upsample",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       "None",
+       2,
+       "nearest"
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 0,
+       "stride": 16.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "nn.Upsample",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#11",
+     "position": 11,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Concat",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1
+      ],
+      "effective": {
+       "c_in": 384,
+       "c_out": 384,
+       "h_in": 4,
+       "params": 0,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": [
+       -1,
+       6
+      ],
+      "module": "Concat",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#12",
+     "position": 12,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       false
+      ],
+      "effective": {
+       "c_in": 384,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 111296,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#13",
+     "position": 13,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "nn.Upsample",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       "None",
+       2,
+       "nearest"
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 0,
+       "stride": 8.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "nn.Upsample",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#14",
+     "position": 14,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Concat",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 256,
+       "h_in": 8,
+       "params": 0,
+       "stride": 8.0,
+       "w_in": 8
+      },
+      "from": [
+       -1,
+       4
+      ],
+      "module": "Concat",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#15",
+     "position": 15,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       256,
+       false
+      ],
+      "effective": {
+       "c_in": 256,
+       "c_out": 64,
+       "h_in": 8,
+       "params": 32096,
+       "stride": 8.0,
+       "w_in": 8
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#16",
+     "position": 16,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       256,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 64,
+       "c_out": 64,
+       "h_in": 8,
+       "params": 36992,
+       "stride": 16.0,
+       "w_in": 8
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#17",
+     "position": 17,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Concat",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1
+      ],
+      "effective": {
+       "c_in": 192,
+       "c_out": 192,
+       "h_in": 4,
+       "params": 0,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": [
+       -1,
+       13
+      ],
+      "module": "Concat",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#18",
+     "position": 18,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       false
+      ],
+      "effective": {
+       "c_in": 192,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 86720,
+       "stride": 16.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#19",
+     "position": 19,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Conv",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       512,
+       3,
+       2
+      ],
+      "effective": {
+       "c_in": 128,
+       "c_out": 128,
+       "h_in": 4,
+       "params": 147712,
+       "stride": 32.0,
+       "w_in": 4
+      },
+      "from": -1,
+      "module": "Conv",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#20",
+     "position": 20,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Concat",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1
+      ],
+      "effective": {
+       "c_in": 384,
+       "c_out": 384,
+       "h_in": 2,
+       "params": 0,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": [
+       -1,
+       10
+      ],
+      "module": "Concat",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#21",
+     "position": 21,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "C3k2",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       1024,
+       true
+      ],
+      "effective": {
+       "c_in": 384,
+       "c_out": 256,
+       "h_in": 2,
+       "params": 378880,
+       "stride": 32.0,
+       "w_in": 2
+      },
+      "from": -1,
+      "module": "C3k2",
+      "repeats": 2,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#22",
+     "position": 22,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    },
+    {
+     "mutated": false,
+     "name": "Detect",
+     "operation": "inherit",
+     "params": {
+      "args": [
+       "nc"
+      ],
+      "effective": {
+       "c_in": 448,
+       "c_out": null,
+       "h_in": 8,
+       "params": 430867,
+       "stride": null,
+       "w_in": 8
+      },
+      "from": [
+       16,
+       19,
+       22
+      ],
+      "module": "Detect",
+      "repeats": 1,
+      "scope": "head"
+     },
+     "parent_block_id": "yolo11n:cnn_backbone#23",
+     "position": 23,
+     "source": "yolo11n:cnn_backbone",
+     "source_kind": "random"
+    }
+   ],
+   "parents": [],
+   "architecture_hash": "sha256:039444474a44b7682218cf620b6ff14532aba67d0487bdca64eb8fc6c851a35b",
+   "architecture_path": "architectures/run-04cc64e706fd_RAND_s7_g00_c001.yaml",
+   "candidate_status": "BUILD_VALID",
+   "search_seed": 7,
+   "training_seed": null,
+   "id": "run-04cc64e706fd:RAND:s7:g00:c001",
+   "candidate_id": "run-04cc64e706fd:RAND:s7:g00:c001",
+   "run_id": "run-04cc64e706fd",
+   "origin": "random_generation",
+   "structure_status": "PASS",
+   "evaluation_status": "NOT_EVALUATED",
+   "generation_order": 1,
+   "attempt": 2,
+   "seed": 7,
+   "requested_method": [
+    "GA"
+   ],
+   "effective_method": "RandomGeneration",
+   "duplicate_scope": "per_seed",
+   "execution": "CPU",
+   "parameters": 2800595,
+   "ap": null,
+   "recall": null,
+   "latency_ms": null,
+   "fitness": null,
+   "artifacts": [
+    {
+     "id": "art-186b882c28bc2a64e275",
+     "kind": "architecture",
+     "url": "/api/v1/runs/run-04cc64e706fd/artifacts/art-186b882c28bc2a64e275?exp=1793142361&sig=c6a4d47a5391a107aa5389be3fe24cadccbaa06695c11e80be09c1b48b433f94",
+     "auth_mode": "signed_url",
+     "expires_at": "2026-10-27T23:06:01.000000Z",
+     "sha256": "be167ecf1c6c2b9da5715292442a7b9cbfded8763456d42f61c382081f84ac1e",
+     "mime_type": "application/octet-stream",
+     "state": "READY",
+     "refresh_url": "/api/v1/runs/run-04cc64e706fd/artifacts/art-186b882c28bc2a64e275/refresh",
+     "evaluation_id": null,
+     "metadata": {
+      "yaml_hash": "sha256:73b6e1aa4abc16fbbb8153a2740ad2fcdd5cf760b4841d7a605964841eba88d4",
+      "architecture_hash": "sha256:039444474a44b7682218cf620b6ff14532aba67d0487bdca64eb8fc6c851a35b"
+     }
+    }
+   ],
+   "training_status": "UNTRAINED"
+  }
+ ],
+ "candidates(evaluation rows)": []
+}

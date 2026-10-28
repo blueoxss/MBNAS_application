@@ -1,0 +1,11 @@
+--- a/application/MBNAS_web/src/components/CandidateView.tsx
++++ b/application/MBNAS_web/src/components/CandidateView.tsx
+@@ -413,7 +413,7 @@
+         <button className="btn btn-sm" type="button" disabled={!client || checking} onClick={() => void checkStructure()} data-testid="structure-check">{checking ? 'CPU 구조 검사 중…' : 'CPU 구조 검사 실행'}</button>
+         {detailErr && <p className="field-err" role="alert">{detailErr}</p>}
+         <ModelStructure blocks={structureBlocks} modelKey={c.candidate_id} status={typeof structureStatus === 'string' ? structureStatus : undefined} diagnostics={Array.isArray(structure.diagnostics) ? structure.diagnostics : undefined} report={detail ? structure : null} />
+-        <ModelComparison c={c} blocks={structureBlocks} all={all} client={client} runId={runId} structure={detail ? structure : null} />
++        <ModelComparison c={c} blocks={structureBlocks} all={all} client={client} runId={runId} structure={detail ? structure : null} datasetYaml={str(getIn(run?.resolved_protocol, 'console.paths.dataset_yaml'))} />
+       </section>
+       <div hidden={tab !== 'all' && tab !== 'training'}><TrainingPanel client={client} protocol={(run?.resolved_protocol ?? {}) as Record<string, unknown>} source={{ kind: trainingSourceKind, run_id: runId, candidate_id: c.candidate_id, ...(trainingSourceKind === 'baseline' ? { baseline_id: baselineId } : {}) }} onCreated={onTrainingCreated} /></div>
+       <section hidden={tab !== 'all'} aria-labelledby="cv-lin">

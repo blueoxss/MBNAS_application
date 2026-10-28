@@ -1,0 +1,39 @@
+WP-7A evidence (scripts/install.sh, doctor.sh, start.sh, stop.sh, verify.sh; tests/public/ops/) - 2026-10-27 KST
+All runs: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null, ephemeral 127.0.0.1 ports only,
+pip only --no-index --find-links build/wheelhouse -c constraints.txt. No GPU work; nvidia-smi only as a read-only
+query (doctor gpu check, verify gpu suite) - the pytest suite uses a fake nvidia-smi.
+
+Scratch trees (copies of the 13:14 source tree; paths contain a space; each has its own runtime/venv, ~7 GB each):
+  runtime/test_root/wp7a/pub root/mbnas_application    (public: no mbnas_core, no tests/owner; + mbnas_web for --web)
+  runtime/test_root/wp7a/owner root/mbnas_application  (owner)
+  The verify logs referenced by the JSON files below (runtime/logs/verify/...) live inside these trees.
+
+install_public_offline_first.txt  install.sh --profile public --offline (fresh venv, the 4 project wheels built from
+                                  source, 139 packages, 1m51s); env files 0600 / dir 0700, secrets generated, not printed
+install_public_offline_rerun.txt  same command again: venv reused, env files byte-identical (3.5 s)
+install_owner_offline_first.txt   install.sh --profile owner --offline: + core wheel, core.env secrets, server and runner
+                                  principals issued into the local core DB (tokens stored, never printed)
+install_public_web.txt            install.sh ... --web: npm ci --offline (build/npm-cache) + npm run build -> dist
+final_run_transcript.txt          (final scripts) owner start (core, owner worker, gateway, runner) -> doctor --strict ->
+                                  verify all -> public start (gateway, runner against the owner core) + web preview (real
+                                  vite) -> refusals (public core, already running) -> GET / via the gateway (DD-A30) and
+                                  the preview -> doctor --strict -> verify all (MBNAS_CORE_URL) -> verify unit
+                                  tests/public/infra (2 failures, see report) -> secrets absent from argv/environ/logs ->
+                                  stop both -> no leftover process
+doctor_owner_live.json            25 PASS / 1 WARN (no web dist in the owner tree) / 0 FAIL
+doctor_public_live.json           22 PASS / 0 WARN / 0 FAIL
+verify_owner_all.json             unit PASS (tests/public/contracts + tests/public/ops), integration PASS 15/15 steps
+                                  (scripts/dev/wp3_three_process_smoke.py), relocation PASS 8/8, package NOT_APPLICABLE
+                                  (source tree), gpu BLOCKED_BY_ENV (both GPUs busy with the campaign)
+verify_public_all.json            unit PASS, integration PASS 3/3 (live owner core), relocation PASS 8/8, package
+                                  NOT_APPLICABLE, gpu BLOCKED_BY_ENV
+verify_public_unit_infra.json     tests/public/infra in the public scratch tree: 30/32. test_no_host_facts needs
+                                  mbnas_core/src (DD-A41 keeps that file out of the public ZIP); test_import_closure's
+                                  unresolved reference is scratch staleness (tests synced 13:5x, runner sources 13:14)
+verify_public_unit_final.json     verify.sh JSON shape incl. scope.not_applicable (tests/owner for public)
+verify_public_zip_like_ops.*      public tree made ZIP-like (no root pyproject.toml, no core/owner env examples, no
+                                  scripts/dev): tests/public/ops PASS; verify added --import-mode=importlib -o timeout=600
+pytest_ops.txt                    tests/public/ops in the source tree: 59 passed, 2 deselected (live); also 3 repeated runs
+pytest_ops_live.txt               tests/public/ops/test_ops_live.py -m live on both installed scratch trees: 2+2 passed
+import_closure.txt                scripts/dev/check_import_closure.py with tests/public/ops present: 0 violations
+bash_syntax.txt                   bash -n of the five scripts

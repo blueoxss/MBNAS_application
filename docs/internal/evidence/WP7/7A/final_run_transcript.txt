@@ -1,0 +1,182 @@
+== 2026-10-27T04:53:52Z ports core=45567 owner-gateway=40197 public-gateway=44077 web=35653
+
+== 2026-10-27T04:53:52Z $ owner: start.sh --profile owner (env MBNAS_CORE_PORT=45567 MBNAS_GW_PORT=40197 MBNAS_GW_CORE_URL=http://127.0.0.1:45567 MBNAS_RUNNER_CORE_URL=http://127.0.0.1:45567)
+[start] core: ready pid=2253001 HTTP 401 from http://127.0.0.1:45567/core/v1/console/health log=runtime/logs/core.log
+[start] owner-worker: ready pid=2253040 alive after 5 s log=runtime/logs/owner-worker.log
+[start] gateway: ready pid=2253125 HTTP 200 from http://127.0.0.1:40197/api/v1/health status=ok core=reachable log=runtime/logs/gateway.log
+[start] runner: ready pid=2253174 alive after 5 s log=runtime/logs/runner.log
+exit=0
+
+== 2026-10-27T04:54:06Z $ owner: doctor.sh --profile owner --strict --json /home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/WP7/7A/doctor_owner_live.json
+[PASS] interpreter: Python 3.10.22 venv /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/venv
+[PASS] package:mbnas-contracts: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_contracts
+[PASS] package:mbnas-model-runtime: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime
+[PASS] package:mbnas-runner: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_runner
+[PASS] package:mbnas-server: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_server
+[PASS] package:mbnas-core: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core
+[PASS] entry_points: 7 console scripts in runtime/venv/bin
+[PASS] path_strings: 266 files scanned, no original-host path string
+[PASS] config:core: listen 127.0.0.1:45567, db /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/core/db/mbnas.sqlite3; secrets set: MBNAS_CORE_API_TOKEN, MBNAS_CORE_ARTIFACT_SIGNING_KEY, MBNAS_CORE_TICKET_KEY
+[PASS] config:gateway: core_url http://127.0.0.1:45567, listen 127.0.0.1:40197; secrets set: MBNAS_GW_API_TOKEN, MBNAS_GW_ARTIFACT_SIGNING_KEY, MBNAS_GW_CORE_TOKEN
+[PASS] config:runner: core_url http://127.0.0.1:45567, runner_id runner-dev1; secrets set: MBNAS_RUNNER_TOKEN|_TOKEN_FILE
+[PASS] process:core: running (pid 2253001)
+[PASS] process:owner-worker: running (pid 2253040)
+[PASS] process:gateway: running (pid 2253125)
+[PASS] process:runner: running (pid 2253174)
+[PASS] port:core: 127.0.0.1:45567 held by this tree's core (pid 2253001)
+[PASS] port:gateway: 127.0.0.1:40197 held by this tree's gateway (pid 2253125)
+[PASS] port:web: 127.0.0.1:8720 free
+[PASS] gpu: GPU0 NVIDIA RTX A6000 23767/49140 MiB util 89%; GPU1 NVIDIA RTX A6000 6497/49140 MiB util 44%
+[PASS] core:gateway: http://127.0.0.1:45567/core/v1/console/health -> HTTP 200 status=ok
+[PASS] gateway:store: /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/gateway/artifacts
+[PASS] gateway:log_dir: /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/gateway/logs
+[PASS] core:runner: http://127.0.0.1:45567 answers (HTTP 401 without a token)
+[PASS] core_doctor: db present (schema 4); registry 17 entries (mbnas_core.registry.load_registry); free 340.3 GB
+[PASS] disk: 340.3 GB free under runtime/
+[WARN] web_dist: mbnas_web/dist missing: the gateway serves the API only (bash scripts/install.sh --web builds it)
+doctor: profile=owner root=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application PASS=25 WARN=1 FAIL=0
+exit=0
+
+== 2026-10-27T04:54:07Z $ owner: verify.sh --profile owner --suite all --pytest-args 'tests/public/contracts tests/public/ops'
+[verify] profile=owner root=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application suites=unit,integration,relocation,package,gpu evidence=runtime/logs/verify/20261027T045407Z-owner
+[verify] unit: running
+[verify] unit: PASS (tests=246 passed=246 failed=0 errors=0 skipped=0 deselected=2)
+[verify] integration: running
+[verify] integration: PASS (steps=15 passed=15 failed=0)
+[verify] relocation: running
+[verify]   relocation: module __file__ under ROOT (cwd outside ROOT): ok - all under /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application
+[verify]   relocation: sys.prefix under ROOT: ok - /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application/runtime/venv
+[verify]   relocation: console scripts bound to runtime/venv inside ROOT: ok - ok
+[verify]   relocation: no original-host path strings: ok - 266 files scanned
+[verify]   relocation: doctor.sh from an external working directory: ok - exit 0; origin checks PASS
+[verify]   relocation: doctor.sh through a path with spaces: ok - exit 0; origin checks PASS
+[verify]   relocation: start/stop/install.sh --help through a path with spaces: ok - exit codes [0, 0, 0]
+[verify]   relocation: ROOT itself contains spaces: ok - /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/owner root/mbnas_application
+[verify] relocation: PASS (checks=8 passed=8 failed=0)
+[verify] package: running
+[verify] package: NOT_APPLICABLE - no FILE_MANIFEST.jsonl: a source tree, not an extracted package (run this suite in the unpacked ZIP)
+[verify] gpu: running
+[verify] gpu: BLOCKED_BY_ENV (gpus=2 idle=0) - no idle GPU: GPU0 NVIDIA RTX A6000 util 84% mem 23673/49140 MiB compute processes; GPU1 NVIDIA RTX A6000 util 49% mem 4103/49140 MiB compute processes
+[verify] result: BLOCKED_BY_ENV PASS=3 NOT_APPLICABLE=1 BLOCKED_BY_ENV=1 (report runtime/logs/verify/20261027T045407Z-owner/verify.json)
+exit=3
+
+== 2026-10-27T04:55:27Z $ public: start.sh --profile public --role core (must be refused)
+start.sh: the public profile does not run the core: the gateway and runner connect to the remote core of the
+start.sh: owner (MBNAS_GW_CORE_URL in gateway.env, MBNAS_RUNNER_CORE_URL in runner.env).
+exit=1
+
+== 2026-10-27T04:55:27Z $ public: start.sh --profile public (env MBNAS_GW_PORT=44077 MBNAS_GW_CORE_URL=http://127.0.0.1:45567 MBNAS_RUNNER_CORE_URL=http://127.0.0.1:45567 MBNAS_WEB_PORT=35653)
+[start] gateway: ready pid=2258967 HTTP 200 from http://127.0.0.1:44077/api/v1/health status=ok core=reachable log=runtime/logs/gateway.log
+[start] runner: ready pid=2259004 alive after 5 s log=runtime/logs/runner.log
+[start] public profile: no core here - the gateway and runner use the remote core of the owner
+exit=0
+
+== 2026-10-27T04:55:34Z $ public: start.sh --profile public --role web (vite preview, real node)
+[start] web: ready pid=2259181 HTTP 200 from http://127.0.0.1:35653/ log=runtime/logs/web.log
+exit=0
+
+== 2026-10-27T04:55:35Z $ public: start.sh --profile public --role gateway again (must be refused: already running)
+start.sh: already running: gateway (pid 2258967) - stop first: bash scripts/stop.sh --profile public --role gateway
+exit=1
+
+== 2026-10-27T04:55:35Z $ public: GET / on the gateway (DD-A30 static web) and on the web preview
+gateway: GET / -> HTTP 200 text/html; charset=utf-8 733 bytes, has <div id="root">: True
+web preview: GET / -> HTTP 200 text/html 733 bytes, has <div id="root">: True
+
+== 2026-10-27T04:55:35Z $ public: doctor.sh --profile public --strict --json /home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/WP7/7A/doctor_public_live.json
+[PASS] interpreter: Python 3.10.22 venv /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application/runtime/venv
+[PASS] package:mbnas-contracts: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_contracts
+[PASS] package:mbnas-model-runtime: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime
+[PASS] package:mbnas-runner: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_runner
+[PASS] package:mbnas-server: 0.1.0 from /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_server
+[PASS] package:mbnas-core: absent (public profile)
+[PASS] entry_points: 3 console scripts in runtime/venv/bin
+[PASS] path_strings: 163 files scanned, no original-host path string
+[PASS] config:gateway: core_url http://127.0.0.1:45567, listen 127.0.0.1:44077; secrets set: MBNAS_GW_API_TOKEN, MBNAS_GW_ARTIFACT_SIGNING_KEY, MBNAS_GW_CORE_TOKEN
+[PASS] config:runner: core_url http://127.0.0.1:45567, runner_id wp7a-public-runner; secrets set: MBNAS_RUNNER_TOKEN|_TOKEN_FILE
+[PASS] process:gateway: running (pid 2258967)
+[PASS] process:runner: running (pid 2259004)
+[PASS] process:web: running (pid 2259181)
+[PASS] port:gateway: 127.0.0.1:44077 held by this tree's gateway (pid 2258967)
+[PASS] port:web: 127.0.0.1:35653 held by this tree's web (pid 2259181)
+[PASS] gpu: GPU0 NVIDIA RTX A6000 23673/49140 MiB util 97%; GPU1 NVIDIA RTX A6000 4103/49140 MiB util 52%
+[PASS] core:gateway: http://127.0.0.1:45567/core/v1/console/health -> HTTP 200 status=ok
+[PASS] gateway:store: /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application/runtime/gateway/artifacts
+[PASS] gateway:log_dir: /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application/runtime/gateway/logs
+[PASS] core:runner: http://127.0.0.1:45567 answers (HTTP 401 without a token)
+[PASS] disk: 338.1 GB free under runtime/
+[PASS] web_dist: mbnas_web/dist present (served by the gateway at /)
+doctor: profile=public root=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application PASS=22 WARN=0 FAIL=0
+exit=0
+
+== 2026-10-27T04:55:36Z $ public: verify.sh --profile public --suite all (MBNAS_CORE_URL=http://127.0.0.1:45567)
+[verify] profile=public root=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application suites=unit,integration,relocation,package,gpu evidence=runtime/logs/verify/20261027T045536Z-public
+[verify] unit: running
+[verify] unit: PASS (tests=246 passed=246 failed=0 errors=0 skipped=0 deselected=2)
+[verify] integration: running
+[verify]   integration: core via gateway service token: ok - http://127.0.0.1:45567/core/v1/console/health -> HTTP 200 status=ok
+[verify]   integration: runner registration: ok - this tree's runner daemon is running (registered at start); register step skipped
+[verify]   integration: gateway /api/v1/health: ok - status=ok core=reachable
+[verify] integration: PASS (checks=3 passed=3 failed=0 skipped=0)
+[verify] relocation: running
+[verify]   relocation: module __file__ under ROOT (cwd outside ROOT): ok - all under /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application
+[verify]   relocation: sys.prefix under ROOT: ok - /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application/runtime/venv
+[verify]   relocation: console scripts bound to runtime/venv inside ROOT: ok - ok
+[verify]   relocation: no original-host path strings: ok - 163 files scanned
+[verify]   relocation: doctor.sh from an external working directory: ok - exit 0; origin checks PASS
+[verify]   relocation: doctor.sh through a path with spaces: ok - exit 0; origin checks PASS
+[verify]   relocation: start/stop/install.sh --help through a path with spaces: ok - exit codes [0, 0, 0]
+[verify]   relocation: ROOT itself contains spaces: ok - /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application
+[verify] relocation: PASS (checks=8 passed=8 failed=0)
+[verify] package: running
+[verify] package: NOT_APPLICABLE - no FILE_MANIFEST.jsonl: a source tree, not an extracted package (run this suite in the unpacked ZIP)
+[verify] gpu: running
+[verify] gpu: BLOCKED_BY_ENV (gpus=2 idle=0) - no idle GPU: GPU0 NVIDIA RTX A6000 util 89% mem 23673/49140 MiB compute processes; GPU1 NVIDIA RTX A6000 util 52% mem 6209/49140 MiB compute processes
+[verify] result: BLOCKED_BY_ENV PASS=3 NOT_APPLICABLE=1 BLOCKED_BY_ENV=1 (report runtime/logs/verify/20261027T045536Z-public/verify.json)
+exit=3
+
+== 2026-10-27T04:56:18Z $ public: verify.sh --profile public --suite unit --pytest-args tests/public/infra (known finding: needs mbnas_core/src)
+[verify] profile=public root=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application suites=unit evidence=runtime/logs/verify/20261027T045618Z-public
+[verify] unit: running
+[verify]   | E       AssertionError: assert {'mbnas_contr...mbnas_server'} == {'mbnas_contr...mbnas_server'}
+[verify]   | E         
+[verify]   | E         Extra items in the right set:
+[verify]   | E         'mbnas_core'
+[verify]   | E         Use -v to get more diff
+[verify]   | 
+[verify]   | tests/public/infra/test_no_host_facts.py:40: AssertionError
+[verify]   | - generated xml file: /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application/runtime/logs/verify/20261027T045618Z-public/unit.junit.xml -
+[verify]   | =========================== short test summary info ============================
+[verify]   | FAILED tests/public/infra/test_import_closure.py::test_no_unresolved_reference
+[verify]   | FAILED tests/public/infra/test_no_host_facts.py::test_the_scan_covers_all_five_packages
+[verify]   | ======================== 2 failed, 30 passed in 12.82s =========================
+[verify] unit: FAIL (tests=32 passed=30 failed=2 errors=0 skipped=0) - pytest exit 1
+[verify] result: FAIL FAIL=1 (report runtime/logs/verify/20261027T045618Z-public/verify.json)
+exit=1
+
+== 2026-10-27T04:56:32Z $ public: secrets absent from process argv/environ (gateway, runner, web) and from runtime/logs
+pub root/gateway pid 2258967: secret values in argv/environ: []
+pub root/runner pid 2259004: secret values in argv/environ: []
+pub root/web pid 2259181: secret values in argv/environ: []
+owner root/core pid 2253001: secret values in argv/environ: []
+owner root/owner-worker pid 2253040: secret values in argv/environ: []
+owner root/gateway pid 2253125: secret values in argv/environ: []
+owner root/runner pid 2253174: secret values in argv/environ: []
+runtime/logs (586832 bytes): secret values present: []
+
+== 2026-10-27T04:56:32Z $ public: stop.sh --profile public
+[stop] web: stopped (pid 2259181, SIGTERM)
+[stop] runner: stopped (pid 2259004, SIGTERM)
+[stop] gateway: stopped (pid 2258967, SIGTERM)
+exit=0
+
+== 2026-10-27T04:56:33Z $ owner: stop.sh --profile owner
+[stop] web: not running (no pid file)
+[stop] runner: stopped (pid 2253174, SIGTERM)
+[stop] gateway: stopped (pid 2253125, SIGTERM)
+[stop] owner-worker: stopped (pid 2253040, SIGTERM)
+[stop] core: stopped (pid 2253001, SIGTERM)
+exit=0
+
+== 2026-10-27T04:56:35Z $ leftover processes of the two trees
+none

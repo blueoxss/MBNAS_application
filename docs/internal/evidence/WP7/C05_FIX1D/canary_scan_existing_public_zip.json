@@ -1,0 +1,44 @@
+{
+ "schema": "mbnas.canary_scan/1",
+ "targets": [
+  "dist/public/mbnas_application-0.1.0-public-runtime-linux_x86_64.zip"
+ ],
+ "profile": null,
+ "expect_present": false,
+ "manifest": null,
+ "host_facts": true,
+ "needle_count": 13,
+ "scanned": {
+  "files": 609,
+  "bytes": 13679166,
+  "containers": 5,
+  "min_files": 100,
+  "skipped": []
+ },
+ "hits": [
+  {
+   "label": "HOST_FACT#6 original host GPU UUID",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "dist/public/mbnas_application-0.1.0-public-runtime-linux_x86_64.zip!mbnas_application/tests/_shared/conftest_common.py:58",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#6 original host GPU UUID",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "dist/public/mbnas_application-0.1.0-public-runtime-linux_x86_64.zip!mbnas_application/tests/_shared/conftest_common.py:59",
+   "area": null,
+   "failing": true
+  }
+ ],
+ "hits_by_label": {
+  "HOST_FACT#6 original host GPU UUID": 2
+ },
+ "expectations": [],
+ "failing_hits": 2,
+ "unmet_expectations": 0,
+ "too_few_files": false,
+ "status": "FAIL"
+}

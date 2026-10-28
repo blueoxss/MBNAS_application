@@ -1,0 +1,6 @@
+...ss.                                                                   [100%]
+=========================== short test summary info ============================
+SKIPPED [1] tests/owner/legacy/test_bench_doc.py:157: no bench_host_gpu evidence or document on this host
+SKIPPED [1] tests/owner/legacy/test_bench_doc.py:183: no bench_host_gpu evidence or document on this host
+4 passed, 2 skipped in 0.08s
+exit 0

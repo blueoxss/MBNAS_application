@@ -1,0 +1,26 @@
+== install-time sandbox (SBX_NET=none)
+label: public; uid 1001; hostname t6r2-public
+network interfaces (/proc/net/dev): lo: 
+visible? /home: no
+visible? /data: no
+visible? /home/mgjeong/Desktop/etri_hd/mbnas_application: no
+visible? /home/mgjeong/Desktop/etri_hd/etri_nas: no
+visible? /root: no
+/srv: mbnas public r2 outputs 
+/opt: harness py310 scanner wheelhouse 
+nvidia device nodes: []
+outbound 1.1.1.1:443: failed -> OSError [Errno 101] Network is unreachable
+DNS pypi.org: failed -> gaierror [Errno -3] Temporary failure in name resolution
+== run-time sandbox (host network shared to reach the owner core on 127.0.0.1)
+label: public; uid 1001; hostname t6r2-public
+network interfaces (/proc/net/dev): lo: enp2s0: enp0s31f6: br-14accfc64692: docker0: br-229eaf04b605: veth2d0f766: 
+visible? /home: no
+visible? /data: no
+visible? /home/mgjeong/Desktop/etri_hd/mbnas_application: no
+visible? /home/mgjeong/Desktop/etri_hd/etri_nas: no
+visible? /root: no
+/srv: mbnas public r2 outputs 
+/opt: harness py310 scanner wheelhouse 
+nvidia device nodes: []
+outbound 1.1.1.1:443: failed -> TimeoutError timed out
+DNS pypi.org: failed -> gaierror [Errno -3] Temporary failure in name resolution

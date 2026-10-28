@@ -1,0 +1,80 @@
+{
+ "harness_request_ids": 95,
+ "echoed_by_gateway": 94,
+ "sources": {
+  "audit": {
+   "side": "gateway",
+   "ids_found": 7,
+   "sample": [
+    "t5-17bbd6f91aff437f99d2",
+    "t5-2e07cff9b2a5469fbb56",
+    "t5-7d9b621154634befb6ec",
+    "t5-d8ba22d3022b4b79b2a3"
+   ]
+  },
+  "gw_container_a": {
+   "side": "gateway",
+   "ids_found": 0,
+   "sample": []
+  },
+  "gw_container_b": {
+   "side": "gateway",
+   "ids_found": 0,
+   "sample": []
+  },
+  "gw_container_c": {
+   "side": "gateway",
+   "ids_found": 3,
+   "sample": [
+    "t5-048319358b204105af2b",
+    "t5-56babe841ac74a89a46d",
+    "t5-ec89c52205854b45b262"
+   ]
+  },
+  "core_log": {
+   "side": "core",
+   "ids_found": 0,
+   "sample": []
+  },
+  "owner_worker_log": {
+   "side": "core",
+   "ids_found": 0,
+   "sample": []
+  },
+  "core_db": {
+   "side": "core",
+   "ids_found": 5,
+   "by_table": {
+    "events": 5
+   },
+   "sample": [
+    "t5-433827d8aa724ff9b5f1",
+    "t5-63c280d412e04019a3d6",
+    "t5-bd57fa248baa4284baf4",
+    "t5a-f79a7c08a16c4441a5af"
+   ]
+  }
+ },
+ "error_bodies_carrying_the_same_request_id": [
+  {
+   "step": "decision-final-retrain",
+   "request_id": "t5-2176a1e203d84776aa10",
+   "code": "INVALID_STATE"
+  },
+  {
+   "step": "core-down-degraded-503",
+   "request_id": "t5-048319358b204105af2b",
+   "code": "CORE_UNAVAILABLE",
+   "location": "core"
+  },
+  {
+   "step": "decision-final-retrain",
+   "request_id": "t5dec-ab636e6c23b24372aaaf",
+   "code": "INVALID_STATE"
+  }
+ ],
+ "linked_gateway_and_core_records": {
+  "count": 0,
+  "sample": []
+ }
+}

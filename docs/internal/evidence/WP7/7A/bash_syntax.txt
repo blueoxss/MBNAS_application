@@ -1,0 +1,5 @@
+install: bash -n ok
+doctor: bash -n ok
+start: bash -n ok
+stop: bash -n ok
+verify: bash -n ok

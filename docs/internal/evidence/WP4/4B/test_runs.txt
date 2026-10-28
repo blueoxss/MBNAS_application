@@ -1,0 +1,26 @@
+WP-4B test runs (2026-10-27; interpreter runtime/venv/bin/python, CUDA_VISIBLE_DEVICES="" PYTHONDONTWRITEBYTECODE=1
+PIP_CONFIG_FILE=/dev/null; markers -m "not gpu and not live and not legacy_records and not host_data"; -p no:randomly).
+WP-4C (tests) and WP-5B (gateway) edited their files concurrently; the counts are those of the run, not a frozen tree.
+
+Baseline before any WP-4B change (contract 1.4.3)
+  pytest tests/owner/unit/test_schemas_contract.py tests/public/contracts      371 passed
+  pytest tests/owner/api                                                        196 passed
+
+Final state (contract sha256 70e0cffaab8fafd9c7f230af9169dbbe8812b3eccf7ad7838ca3f46fa9eebc2a)
+  pytest tests/owner/unit/test_schemas_contract.py                              193 passed
+  pytest tests/public/contracts                                                 190 passed  (history replay incl. 1.5.0)
+  pytest tests/owner/projection          (WP-4C)                                259 passed
+  pytest tests/owner/api                                                        201 passed  (incl. the 5 new DD-A46 tests)
+  pytest tests/owner/api/test_dd_a46_core_gateway_inputs.py  (new, WP-4B)         5 passed
+  pytest tests/public                                                          1061 passed, 1 skipped, 1 xfailed
+  pytest tests/owner        (owner gate incl. tests/owner/api)                  1502 passed, 1 failed, 8 skipped
+  MBNAS_TEST_T2=1 pytest tests/owner/t2/test_t2_equivalence.py                     7 passed, 3 failed (T2-7/8/10 MISMATCH,
+                                                                                 protocol_hash-derived only:
+                                                                                 t2_heavy_mismatch_classification.json)
+  scripts/dev/check_import_closure.py                                            ok, 0 violations, 0 forbidden strings
+
+Remaining failure of the owner gate
+  tests/owner/artifacts/test_artifact_wiring.py::test_urls_signed_in_core_views_work_through_the_gateway
+      expects signed URLs in the snapshot for runner artifacts the gateway has not verified yet; the WP-5B follow-up (1)
+      (locations.effective_states in the core views) makes them NOT_READY / bearer_fetch until the gateway store copy is
+      verified (a bearer download reports it), so the test must verify first (WP-5B / WP-4C test update)

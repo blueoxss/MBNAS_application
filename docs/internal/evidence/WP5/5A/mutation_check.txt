@@ -1,0 +1,24 @@
+# WP-5A mutation check 2026-10-27T04:25:27Z: each mutant is a scratch copy of mbnas_server (PYTHONPATH shadows the editable install) with one behaviour broken; both new test files must fail.
+# cmd: runtime/venv/bin/python -B docs/internal/evidence/WP5/5A/mutation_check.py <scratch dir>
+M1 link->replace (no first-writer-wins): KILLED rc=1 module=6c/scratchpad/wp5a/mut/M1/mbnas_server/artifacts/__init__.py
+    FAILED tests/public/server/test_artifact_store.py::test_concurrent_puts_of_one_digest_in_threads
+M2 no digest check on put: KILLED rc=1 module=6c/scratchpad/wp5a/mut/M2/mbnas_server/artifacts/__init__.py
+    FAILED tests/public/server/test_artifact_store.py::test_sha_mismatch_is_load_failed_and_stores_nothing
+M3 re.match with $ (accepts trailing newline): KILLED rc=1 module=6c/scratchpad/wp5a/mut/M3/mbnas_server/artifacts/__init__.py
+    FAILED tests/public/server/test_artifact_store.py::test_only_lowercase_hex_sha256_keys_are_accepted[7]
+M4 no held-back final chunk: KILLED rc=1 module=6c/scratchpad/wp5a/mut/M4/mbnas_server/artifacts/__init__.py
+    FAILED tests/public/server/test_artifact_download.py::test_streamed_tampered_object_withholds_the_final_chunk
+M5 no verify-first hashing: KILLED rc=1 module=6c/scratchpad/wp5a/mut/M5/mbnas_server/artifacts/__init__.py
+    FAILED tests/public/server/test_artifact_download.py::test_tampered_object_verify_first_is_a_clean_409
+M6 abort keeps temp file: KILLED rc=1 module=6c/scratchpad/wp5a/mut/M6/mbnas_server/artifacts/__init__.py
+    FAILED tests/public/server/test_artifact_store.py::test_unsupported_streams_and_chunks_store_nothing
+M8 HMAC message format changed: KILLED rc=1 module=6c/scratchpad/wp5a/mut/M8/mbnas_server/artifacts/__init__.py
+    FAILED tests/public/server/test_artifact_download.py::test_hmac_scheme_is_unchanged
+M9 no directory fsync after publish: KILLED rc=1 module=6c/scratchpad/wp5a/mut/M9/mbnas_server/artifacts/__init__.py
+    FAILED tests/public/server/test_artifact_store.py::test_put_fsyncs_file_then_directory
+M10 symlinks followed on open: KILLED rc=1 module=c/scratchpad/wp5a/mut/M10/mbnas_server/artifacts/__init__.py
+    FAILED tests/public/server/test_artifact_store.py::test_symlinks_and_fifos_are_never_served
+M11 size cap not enforced while streaming: KILLED rc=1 module=c/scratchpad/wp5a/mut/M11/mbnas_server/artifacts/__init__.py
+    FAILED tests/public/server/test_artifact_store.py::test_size_cap - Failed: DI...
+survivors: 0
+exit=0

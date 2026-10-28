@@ -1,0 +1,4 @@
+# 2026-10-27T18:46:27Z runtime/venv/bin/python -B scripts/dev/canary_scan.py --manifest docs/internal/canary/CANARY_MANIFEST.json --secrets-env <14 secret needles: T5 core/gateway/runner env + owner-install core/gateway/runner env (temporary 0600 file, deleted)> docs/internal/evidence/T4   (host facts on, no profile = any hit fails)
+scanned files=48 bytes=1320070 containers=0 skipped=0 hits=0 failing=0 unmet=0
+canary_scan: PASS
+# exit=0

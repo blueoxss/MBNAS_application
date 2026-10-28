@@ -1,0 +1,391 @@
+F.FFFFF..                                                                [100%]
+=================================== FAILURES ===================================
+_ test_claim_before_or_after_the_sweep_bills_the_dead_attempt_the_same[claim] __
+
+first = 'claim'
+core = <starlette.testclient.TestClient object at 0x7f70bbcfca00>
+runner_sim = <runner_sim.RunnerSim object at 0x7f70bbcfe740>
+runner_sim2 = <runner_sim.RunnerSim object at 0x7f6f6e535b40>
+base_proto = <function base_proto.<locals>.build at 0x7f6f6e019240>
+sweeper = <function sweeper.<locals>.sweep at 0x7f6f6e04ad40>
+db = <sqlite3.Connection object at 0x7f6f6e5af740>
+
+    @pytest.mark.parametrize("first", ["claim", "sweeper"])
+    def test_claim_before_or_after_the_sweep_bills_the_dead_attempt_the_same(first, core, runner_sim, runner_sim2,
+                                                                             base_proto, sweeper, db):
+        """GPU path (``repo.acquire_lease``), EVAL_2 probe P1. ``claim``: an idle runner polls after the lease expired and
+        before the sweeper's next pass (C04 N1). ``sweeper``: the sweeper's pass comes first (T3-13 order). Both orders
+        must leave the identical accounting, and a later sweep finds nothing left (never billed twice)."""
+        run_id, _ = harness.validate_and_run(core, base_proto())
+        runner_sim.register()
+        dead = runner_sim.claim()
+        assert dead is not None and dead.attempt == 1
+        runner_sim.start(dead)
+        started, beat = _expire(db, dead.job_id)
+        runner_sim2.register()
+        if first == "sweeper":
+            assert sweeper()["reclaimed"] == [dead.job_id]
+        second = runner_sim2.claim()
+        assert second is not None and (second.job_id, second.attempt) == (dead.job_id, 2)
+        job = repo.get_job(db, dead.job_id)
+        assert (job["status"], job["lease_owner"], job["attempt"]) == ("LEASED", "R2", 2)
+>       _assert_billed_once_like_the_sweeper(db, run_id, dead.job_id, started, beat, "R1")
+
+tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py:103: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+db = <sqlite3.Connection object at 0x7f6f6e5af740>, run_id = 'run-307759d09cd0'
+job_id = 'job-a85fda9a17654843', started = '2026-10-27T23:11:35.228645Z'
+beat = '2026-10-27T23:11:38.228645Z', dead_runner = 'R1'
+
+    def _assert_billed_once_like_the_sweeper(db, run_id: str, job_id: str, started: str, beat: str, dead_runner: str):
+        """What the sweeper's reclaim (T3-13) leaves for a dead RUNNING attempt 1: one failed/lost row over
+        [started_at, heartbeat_at], the job error and one run log event saying LEASE_EXPIRED, Run.costs failed seconds."""
+        rows = [c for c in repo.list_costs(db, run_id) if c["job_id"] == job_id and c["attempt"] == 1]
+>       assert len(rows) == 1, rows
+E       AssertionError: []
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py:63: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T23:11:54.912Z INFO mbnas_core.access method=POST path=/api/v1/protocols/validate status=200 request_id=024a1f5012e9460fb636f6634259c12b duration_ms=299.0 client=testclient:50000
+2026-10-27T23:11:54.983Z INFO mbnas_core.access method=POST path=/api/v1/runs status=200 request_id=a0934182c1c240728913c43f1fdf96b5 duration_ms=66.9 client=testclient:50000
+2026-10-27T23:11:55.058Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=1d44c4ab35004f6f873437a5537d1f6d duration_ms=56.1 client=testclient:50000
+2026-10-27T23:11:55.212Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=0722214ab52f43a28c196060dbedc027 duration_ms=152.9 client=testclient:50000
+2026-10-27T23:11:55.227Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-a85fda9a17654843/start status=200 request_id=028a8c936126427f804e913784edc856 duration_ms=12.7 client=testclient:50000
+2026-10-27T23:11:55.242Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=f2b9862d9a5848dd8ae1e2c981936337 duration_ms=6.6 client=testclient:50000
+2026-10-27T23:11:55.255Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=fd1e16be778c4404bdc0a14e2b9a6719 duration_ms=11.2 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/protocols/validate status=200 request_id=024a1f5012e9460fb636f6634259c12b duration_ms=299.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/runs status=200 request_id=a0934182c1c240728913c43f1fdf96b5 duration_ms=66.9 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=1d44c4ab35004f6f873437a5537d1f6d duration_ms=56.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=0722214ab52f43a28c196060dbedc027 duration_ms=152.9 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-a85fda9a17654843/start status=200 request_id=028a8c936126427f804e913784edc856 duration_ms=12.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=f2b9862d9a5848dd8ae1e2c981936337 duration_ms=6.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=fd1e16be778c4404bdc0a14e2b9a6719 duration_ms=11.2 client=testclient:50000
+______________ test_cpu_claim_path_reclaims_before_leasing[mixed] ______________
+
+fleet = 'mixed'
+core = <starlette.testclient.TestClient object at 0x7f6f6c220550>
+rp_settings = CoreSettings(api_token=SecretStr('**********'), artifact_signing_key=SecretStr('**********'), cors_origins=['http://lo...ile=1024, structure_check_fsize_bytes=67108864, structure_check_max_output_bytes=1048576, structure_check_unshare=True)
+base_proto = <function base_proto.<locals>.build at 0x7f6f6c224d30>
+sweeper = <function sweeper.<locals>.sweep at 0x7f6f6c224e50>
+db = <sqlite3.Connection object at 0x7f6f6df94c40>
+tmp_path = PosixPath('/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp3/dd_a64/pt_new_nofix/test_cpu_claim_path_reclaims_b0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f6f6decf820>
+
+    @pytest.mark.parametrize("fleet", ["mixed", "cpu_only"])
+    def test_cpu_claim_path_reclaims_before_leasing(fleet, core, rp_settings, base_proto, sweeper, db, tmp_path,
+                                                    monkeypatch):
+        """DD-A63 (d) CPU path, EVAL_2 probe P4. ``mixed``: an ONLINE GPU runner offers EVALUATE only, so the CPU claims
+        lease the BASELINE_TRAIN job through ``_lease_for_cpu_runner``'s own conditional UPDATE (``acquire_lease`` never
+        called); ``cpu_only``: no GPU runner, ``_lease_for_cpu_runner`` delegates to ``acquire_lease``. Either way the
+        second CPU runner's claim before any sweep bills the dead attempt like the sweeper and attempt 2 is a retry."""
+        from mbnas_core.runner_api import auth, routes
+    
+        calls = {"cpu_path": 0, "acquire_lease": 0}
+        real_cpu_path, real_acquire = routes._lease_for_cpu_runner, repo.acquire_lease
+    
+        def cpu_path(*a: Any, **k: Any) -> Any:
+            calls["cpu_path"] += 1
+            return real_cpu_path(*a, **k)
+    
+        def acquire(*a: Any, **k: Any) -> Any:
+            calls["acquire_lease"] += 1
+            return real_acquire(*a, **k)
+    
+        monkeypatch.setattr(routes, "_lease_for_cpu_runner", cpu_path)
+        monkeypatch.setattr(repo, "acquire_lease", acquire)
+        run_id, _ = harness.validate_and_run(core, base_proto())
+        conn = connect(rp_settings, init=False)
+        try:
+            toks = {rid: auth.create_principal(conn, "runner", runner_id=rid)[1] for rid in ("GPU0", "CPU1", "CPU2")}
+        finally:
+            conn.close()
+        if fleet == "mixed":
+            rs.RunnerSim(core, toks["GPU0"], "GPU0", tmp_path / "g0").register(kinds=["EVALUATE"])
+        c1 = rs.RunnerSim(core, toks["CPU1"], "CPU1", tmp_path / "c1")
+        c2 = rs.RunnerSim(core, toks["CPU2"], "CPU2", tmp_path / "c2")
+        c1.register(**CPU)
+        c2.register(**CPU)
+        dead = c1.claim()
+        assert dead is not None and dead.run_id == run_id and dead.attempt == 1
+        c1.start(dead)
+        started, beat = _expire(db, dead.job_id)
+        second = c2.claim()  # the CPU path, before any sweeper pass
+        assert second is not None and (second.job_id, second.attempt) == (dead.job_id, 2)
+        assert calls == {"cpu_path": 2, "acquire_lease": 0 if fleet == "mixed" else 2}, calls
+>       _assert_billed_once_like_the_sweeper(db, run_id, dead.job_id, started, beat, "CPU1")
+
+tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py:151: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+db = <sqlite3.Connection object at 0x7f6f6df94c40>, run_id = 'run-14b1ee7da1e7'
+job_id = 'job-3eed159916fd4bf2', started = '2026-10-27T23:11:37.013789Z'
+beat = '2026-10-27T23:11:40.013789Z', dead_runner = 'CPU1'
+
+    def _assert_billed_once_like_the_sweeper(db, run_id: str, job_id: str, started: str, beat: str, dead_runner: str):
+        """What the sweeper's reclaim (T3-13) leaves for a dead RUNNING attempt 1: one failed/lost row over
+        [started_at, heartbeat_at], the job error and one run log event saying LEASE_EXPIRED, Run.costs failed seconds."""
+        rows = [c for c in repo.list_costs(db, run_id) if c["job_id"] == job_id and c["attempt"] == 1]
+>       assert len(rows) == 1, rows
+E       AssertionError: []
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py:63: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T23:11:56.787Z INFO mbnas_core.access method=POST path=/api/v1/protocols/validate status=200 request_id=424dc692d8e641089a02e3586a862938 duration_ms=213.2 client=testclient:50000
+2026-10-27T23:11:56.851Z INFO mbnas_core.access method=POST path=/api/v1/runs status=200 request_id=3a869a0441144e679dd5bbeee4b85441 duration_ms=61.1 client=testclient:50000
+2026-10-27T23:11:56.930Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=75321ee82de54ce999d688943f1d68c4 duration_ms=57.7 client=testclient:50000
+2026-10-27T23:11:56.956Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=e182e2abdf994b769bca36e5005d36fe duration_ms=7.8 client=testclient:50000
+2026-10-27T23:11:56.980Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=3f872e53760e419bad5ef506dacc5412 duration_ms=6.9 client=testclient:50000
+2026-10-27T23:11:56.997Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=b77d655af91a40a4a011a3155b0a7c04 duration_ms=14.4 client=testclient:50000
+2026-10-27T23:11:57.012Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-3eed159916fd4bf2/start status=200 request_id=8e0f12e24e0f47e68d4b0521dd315faa duration_ms=11.9 client=testclient:50000
+2026-10-27T23:11:57.029Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=66a054563f6946dda6f8d4f2ceafb1e9 duration_ms=14.0 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/protocols/validate status=200 request_id=424dc692d8e641089a02e3586a862938 duration_ms=213.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/runs status=200 request_id=3a869a0441144e679dd5bbeee4b85441 duration_ms=61.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=75321ee82de54ce999d688943f1d68c4 duration_ms=57.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=e182e2abdf994b769bca36e5005d36fe duration_ms=7.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=3f872e53760e419bad5ef506dacc5412 duration_ms=6.9 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=b77d655af91a40a4a011a3155b0a7c04 duration_ms=14.4 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-3eed159916fd4bf2/start status=200 request_id=8e0f12e24e0f47e68d4b0521dd315faa duration_ms=11.9 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=66a054563f6946dda6f8d4f2ceafb1e9 duration_ms=14.0 client=testclient:50000
+____________ test_cpu_claim_path_reclaims_before_leasing[cpu_only] _____________
+
+fleet = 'cpu_only'
+core = <starlette.testclient.TestClient object at 0x7f6f67f32020>
+rp_settings = CoreSettings(api_token=SecretStr('**********'), artifact_signing_key=SecretStr('**********'), cors_origins=['http://lo...ile=1024, structure_check_fsize_bytes=67108864, structure_check_max_output_bytes=1048576, structure_check_unshare=True)
+base_proto = <function base_proto.<locals>.build at 0x7f6f67f1bc70>
+sweeper = <function sweeper.<locals>.sweep at 0x7f6f67f1bd90>
+db = <sqlite3.Connection object at 0x7f6f6df96240>
+tmp_path = PosixPath('/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp3/dd_a64/pt_new_nofix/test_cpu_claim_path_reclaims_b1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f70bc1006d0>
+
+    @pytest.mark.parametrize("fleet", ["mixed", "cpu_only"])
+    def test_cpu_claim_path_reclaims_before_leasing(fleet, core, rp_settings, base_proto, sweeper, db, tmp_path,
+                                                    monkeypatch):
+        """DD-A63 (d) CPU path, EVAL_2 probe P4. ``mixed``: an ONLINE GPU runner offers EVALUATE only, so the CPU claims
+        lease the BASELINE_TRAIN job through ``_lease_for_cpu_runner``'s own conditional UPDATE (``acquire_lease`` never
+        called); ``cpu_only``: no GPU runner, ``_lease_for_cpu_runner`` delegates to ``acquire_lease``. Either way the
+        second CPU runner's claim before any sweep bills the dead attempt like the sweeper and attempt 2 is a retry."""
+        from mbnas_core.runner_api import auth, routes
+    
+        calls = {"cpu_path": 0, "acquire_lease": 0}
+        real_cpu_path, real_acquire = routes._lease_for_cpu_runner, repo.acquire_lease
+    
+        def cpu_path(*a: Any, **k: Any) -> Any:
+            calls["cpu_path"] += 1
+            return real_cpu_path(*a, **k)
+    
+        def acquire(*a: Any, **k: Any) -> Any:
+            calls["acquire_lease"] += 1
+            return real_acquire(*a, **k)
+    
+        monkeypatch.setattr(routes, "_lease_for_cpu_runner", cpu_path)
+        monkeypatch.setattr(repo, "acquire_lease", acquire)
+        run_id, _ = harness.validate_and_run(core, base_proto())
+        conn = connect(rp_settings, init=False)
+        try:
+            toks = {rid: auth.create_principal(conn, "runner", runner_id=rid)[1] for rid in ("GPU0", "CPU1", "CPU2")}
+        finally:
+            conn.close()
+        if fleet == "mixed":
+            rs.RunnerSim(core, toks["GPU0"], "GPU0", tmp_path / "g0").register(kinds=["EVALUATE"])
+        c1 = rs.RunnerSim(core, toks["CPU1"], "CPU1", tmp_path / "c1")
+        c2 = rs.RunnerSim(core, toks["CPU2"], "CPU2", tmp_path / "c2")
+        c1.register(**CPU)
+        c2.register(**CPU)
+        dead = c1.claim()
+        assert dead is not None and dead.run_id == run_id and dead.attempt == 1
+        c1.start(dead)
+        started, beat = _expire(db, dead.job_id)
+        second = c2.claim()  # the CPU path, before any sweeper pass
+        assert second is not None and (second.job_id, second.attempt) == (dead.job_id, 2)
+        assert calls == {"cpu_path": 2, "acquire_lease": 0 if fleet == "mixed" else 2}, calls
+>       _assert_billed_once_like_the_sweeper(db, run_id, dead.job_id, started, beat, "CPU1")
+
+tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py:151: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+db = <sqlite3.Connection object at 0x7f6f6df96240>, run_id = 'run-539cf6a22348'
+job_id = 'job-9ebf554af11240d1', started = '2026-10-27T23:11:37.709781Z'
+beat = '2026-10-27T23:11:40.709781Z', dead_runner = 'CPU1'
+
+    def _assert_billed_once_like_the_sweeper(db, run_id: str, job_id: str, started: str, beat: str, dead_runner: str):
+        """What the sweeper's reclaim (T3-13) leaves for a dead RUNNING attempt 1: one failed/lost row over
+        [started_at, heartbeat_at], the job error and one run log event saying LEASE_EXPIRED, Run.costs failed seconds."""
+        rows = [c for c in repo.list_costs(db, run_id) if c["job_id"] == job_id and c["attempt"] == 1]
+>       assert len(rows) == 1, rows
+E       AssertionError: []
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py:63: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T23:11:57.505Z INFO mbnas_core.access method=POST path=/api/v1/protocols/validate status=200 request_id=f1b510c74125485f89d2c4e21c2c76f2 duration_ms=248.1 client=testclient:50000
+2026-10-27T23:11:57.574Z INFO mbnas_core.access method=POST path=/api/v1/runs status=200 request_id=226b6c7d84724fc7a1885fd47e489519 duration_ms=65.4 client=testclient:50000
+2026-10-27T23:11:57.649Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=cf694257a6f147338b8a2ccd319c55aa duration_ms=55.3 client=testclient:50000
+2026-10-27T23:11:57.674Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=21d86f06f6de4b9cb39b86c0f7a0f977 duration_ms=7.6 client=testclient:50000
+2026-10-27T23:11:57.692Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=f226a5193326436a8b2eb242958d45b9 duration_ms=16.0 client=testclient:50000
+2026-10-27T23:11:57.708Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-9ebf554af11240d1/start status=200 request_id=c2fc17f707034b839fa266dd2e3f298f duration_ms=12.3 client=testclient:50000
+2026-10-27T23:11:57.725Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=210376ce889e46cfb50b03f07cc45737 duration_ms=13.9 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/protocols/validate status=200 request_id=f1b510c74125485f89d2c4e21c2c76f2 duration_ms=248.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/runs status=200 request_id=226b6c7d84724fc7a1885fd47e489519 duration_ms=65.4 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=cf694257a6f147338b8a2ccd319c55aa duration_ms=55.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=21d86f06f6de4b9cb39b86c0f7a0f977 duration_ms=7.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=f226a5193326436a8b2eb242958d45b9 duration_ms=16.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-9ebf554af11240d1/start status=200 request_id=c2fc17f707034b839fa266dd2e3f298f duration_ms=12.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=210376ce889e46cfb50b03f07cc45737 duration_ms=13.9 client=testclient:50000
+___ test_late_result_of_the_claim_reclaimed_attempt_extends_its_one_lost_row ___
+
+core = <starlette.testclient.TestClient object at 0x7f6f67eff8b0>
+runner_sim = <runner_sim.RunnerSim object at 0x7f6f67d15780>
+runner_sim2 = <runner_sim.RunnerSim object at 0x7f6f67d15600>
+base_proto = <function base_proto.<locals>.build at 0x7f6f67e96f80>
+db = <sqlite3.Connection object at 0x7f6f6df96a40>
+
+    def test_late_result_of_the_claim_reclaimed_attempt_extends_its_one_lost_row(core, runner_sim, runner_sim2, base_proto,
+                                                                                 db):
+        """EVAL_2 probe P4 (late result) after the claim-side reclaim: the dead runner's late attempt-1 result is 409
+        LEASE_LOST and extends the reclaim's row to the whole attempt (T3-16 semantics) - one row per (job, attempt)."""
+        run_id, _ = harness.validate_and_run(core, base_proto())
+        runner_sim.register()
+        dead = runner_sim.claim()
+        runner_sim.start(dead)
+        started, _beat = _expire(db, dead.job_id)
+        runner_sim2.register()
+        second = runner_sim2.claim()
+        assert second is not None and second.attempt == 2
+>       (reclaimed,) = repo.list_costs(db, run_id)
+E       ValueError: not enough values to unpack (expected 1, got 0)
+
+tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py:168: ValueError
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T23:11:58.233Z INFO mbnas_core.access method=POST path=/api/v1/protocols/validate status=200 request_id=cb776c49a3a64d9b9c9efaad0ec3167c duration_ms=220.3 client=testclient:50000
+2026-10-27T23:11:58.318Z INFO mbnas_core.access method=POST path=/api/v1/runs status=200 request_id=599dba7fda374974a2e5e7748647cfe0 duration_ms=81.1 client=testclient:50000
+2026-10-27T23:11:58.394Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=02147cba1bfc4d809ada242e625b825c duration_ms=57.8 client=testclient:50000
+2026-10-27T23:11:58.415Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=5cd2a9e43d074ad4955fb3d7f57f88f8 duration_ms=17.8 client=testclient:50000
+2026-10-27T23:11:58.433Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-68cbabb616e3493e/start status=200 request_id=166e67cd52e84e9db8598db0bdb763be duration_ms=14.6 client=testclient:50000
+2026-10-27T23:11:58.457Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=4aa45c3864b94c7489e88f04ea273f66 duration_ms=6.6 client=testclient:50000
+2026-10-27T23:11:58.474Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=13c2f37d914043acb0ee77f521384145 duration_ms=13.9 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/protocols/validate status=200 request_id=cb776c49a3a64d9b9c9efaad0ec3167c duration_ms=220.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/runs status=200 request_id=599dba7fda374974a2e5e7748647cfe0 duration_ms=81.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=02147cba1bfc4d809ada242e625b825c duration_ms=57.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=5cd2a9e43d074ad4955fb3d7f57f88f8 duration_ms=17.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-68cbabb616e3493e/start status=200 request_id=166e67cd52e84e9db8598db0bdb763be duration_ms=14.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=4aa45c3864b94c7489e88f04ea273f66 duration_ms=6.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=13c2f37d914043acb0ee77f521384145 duration_ms=13.9 client=testclient:50000
+___________ test_claim_reclaim_fails_the_job_when_no_attempt_is_left ___________
+
+core = <starlette.testclient.TestClient object at 0x7f6f6c1437c0>
+runner_sim = <runner_sim.RunnerSim object at 0x7f6f67ff9a80>
+runner_sim2 = <runner_sim.RunnerSim object at 0x7f6f67ff9b70>
+base_proto = <function base_proto.<locals>.build at 0x7f6f6c158d30>
+sweeper = <function sweeper.<locals>.sweep at 0x7f6f6c158c10>
+db = <sqlite3.Connection object at 0x7f6f6df97e40>
+
+    def test_claim_reclaim_fails_the_job_when_no_attempt_is_left(core, runner_sim, runner_sim2, base_proto, sweeper, db):
+        """T3-14 through the claim path: three started attempts that all die, each found expired by the next claim (the
+        two runners alternate, so neither is RUNNER_BUSY) -> three failed/lost rows, and the claim after the third reclaims
+        it as FAILED LEASE_EXPIRED_MAX_ATTEMPTS (candidate TRAIN_FAILED; retention runs in the claim) and answers 204."""
+        run_id, _ = harness.validate_and_run(core, base_proto())
+        sims = (runner_sim, runner_sim2)
+        for s in sims:
+            s.register()
+        job_id = None
+        for attempt in (1, 2, 3):
+            sim = sims[(attempt - 1) % 2]
+            lease = sim.claim()
+            assert lease is not None and lease.attempt == attempt
+            job_id = lease.job_id
+            sim.start(lease)
+            _expire(db, job_id)
+        assert sims[1].claim() is None
+        final = repo.get_job(db, job_id)
+>       assert final["status"] == "FAILED" and final["error"]["reason_code"] == "LEASE_EXPIRED_MAX_ATTEMPTS"
+E       AssertionError: assert ('RUNNING' == 'FAILED'
+E         
+E         - FAILED
+E         + RUNNING)
+
+tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py:203: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T23:11:59.085Z INFO mbnas_core.access method=POST path=/api/v1/protocols/validate status=200 request_id=82fc728a61cb4a80b93999fb0e8f7d24 duration_ms=211.6 client=testclient:50000
+2026-10-27T23:11:59.172Z INFO mbnas_core.access method=POST path=/api/v1/runs status=200 request_id=9917039206fb441a80655fec1cbd9081 duration_ms=82.5 client=testclient:50000
+2026-10-27T23:11:59.246Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=df2c81c29488489791fc989d553e5a68 duration_ms=55.7 client=testclient:50000
+2026-10-27T23:11:59.273Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=3831bd3510a543fdba7d19f92b5ce751 duration_ms=9.4 client=testclient:50000
+2026-10-27T23:11:59.290Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=ce5daba50b5847c6a2f0d0ea2bd69b37 duration_ms=13.8 client=testclient:50000
+2026-10-27T23:11:59.306Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-cb926040fa274237/start status=200 request_id=74d65a7f3c744540bb4b4f04d57d2e44 duration_ms=12.6 client=testclient:50000
+2026-10-27T23:11:59.325Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=fb981230deb143858ac09dcd801887b7 duration_ms=14.7 client=testclient:50000
+2026-10-27T23:11:59.340Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-cb926040fa274237/start status=200 request_id=9bc5fb2386de4b96bce4e70c74c24c03 duration_ms=11.2 client=testclient:50000
+2026-10-27T23:11:59.358Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=93a6431f07d94c31a03f6b53d4e29534 duration_ms=14.7 client=testclient:50000
+2026-10-27T23:11:59.372Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-cb926040fa274237/start status=200 request_id=4412c9775a5f45369384d0ea9585ee68 duration_ms=10.9 client=testclient:50000
+2026-10-27T23:11:59.382Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=204 request_id=cb547104592a43d6b1d5b23c6d6e2d8c duration_ms=6.6 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/protocols/validate status=200 request_id=82fc728a61cb4a80b93999fb0e8f7d24 duration_ms=211.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/runs status=200 request_id=9917039206fb441a80655fec1cbd9081 duration_ms=82.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=df2c81c29488489791fc989d553e5a68 duration_ms=55.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=3831bd3510a543fdba7d19f92b5ce751 duration_ms=9.4 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=ce5daba50b5847c6a2f0d0ea2bd69b37 duration_ms=13.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-cb926040fa274237/start status=200 request_id=74d65a7f3c744540bb4b4f04d57d2e44 duration_ms=12.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=fb981230deb143858ac09dcd801887b7 duration_ms=14.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-cb926040fa274237/start status=200 request_id=9bc5fb2386de4b96bce4e70c74c24c03 duration_ms=11.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=93a6431f07d94c31a03f6b53d4e29534 duration_ms=14.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-cb926040fa274237/start status=200 request_id=4412c9775a5f45369384d0ea9585ee68 duration_ms=10.9 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=204 request_id=cb547104592a43d6b1d5b23c6d6e2d8c duration_ms=6.6 client=testclient:50000
+_____________ test_claim_does_not_redeliver_its_own_expired_lease ______________
+
+core = <starlette.testclient.TestClient object at 0x7f6f6c29ba00>
+runner_sim = <runner_sim.RunnerSim object at 0x7f6f6d3e7bb0>
+base_proto = <function base_proto.<locals>.build at 0x7f6f6d55be20>
+db = <sqlite3.Connection object at 0x7f6f6df94c40>
+
+    def test_claim_does_not_redeliver_its_own_expired_lease(core, runner_sim, base_proto, db):
+        """E2(a) re-delivers a LEASED job whose claim response was lost (T3-03) only while that lease is live: once it
+        expired, the claim's reclaim requeues it first (a LEASED-only attempt never started work: nothing billed, as T3-05)
+        and the runner gets a fresh lease at attempt 2; the stale attempt-1 ticket can no longer start it."""
+        run_id, _ = harness.validate_and_run(core, base_proto())
+        runner_sim.register()
+        first = runner_sim.claim()
+        assert first is not None and first.attempt == 1
+        with tx(db):  # the claim response was lost and the lease ran out before the runner asked again
+            db.execute("UPDATE jobs SET lease_expires_at = ? WHERE id = ?", (iso_after(utcnow_iso(), -1), first.job_id))
+        again = runner_sim.claim()
+>       assert again is not None and (again.job_id, again.attempt) == (first.job_id, 2)
+E       AssertionError: assert (Lease(claim={'envelope': {'envelope_version': 1, 'job': {'job_id': 'job-3cb753721f8e4584', 'attempt': 1, 'kind': 'BASE...c7a0d1187d95af', 'server_time': '2026-10-27T23:12:00.074294Z'}, runner_id='R1', started=None, seq=0, checkpoint_ids=[]) is not None and ('job-3cb753721f8e4584', 1) == ('job-3cb753721f8e4584', 2)
+E         
+E         At index 1 diff: 1 != 2
+E         Use -v to get more diff)
+
+tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py:222: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-10-27T23:11:59.906Z INFO mbnas_core.access method=POST path=/api/v1/protocols/validate status=200 request_id=14e67dd3354a432d871f40c7480d5f06 duration_ms=225.3 client=testclient:50000
+2026-10-27T23:11:59.970Z INFO mbnas_core.access method=POST path=/api/v1/runs status=200 request_id=bcdadc256f674c508bb3d248d235f80b duration_ms=60.2 client=testclient:50000
+2026-10-27T23:12:00.043Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=e7fc7db388fb4b118bd79d02c9d9a566 duration_ms=55.0 client=testclient:50000
+2026-10-27T23:12:00.059Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=7bcd2d4520f8450db67ae0660530c9e0 duration_ms=13.1 client=testclient:50000
+2026-10-27T23:12:00.076Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=2565cfb9d0f447588911a27476bf88bc duration_ms=13.7 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/protocols/validate status=200 request_id=14e67dd3354a432d871f40c7480d5f06 duration_ms=225.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/runs status=200 request_id=bcdadc256f674c508bb3d248d235f80b duration_ms=60.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=e7fc7db388fb4b118bd79d02c9d9a566 duration_ms=55.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=7bcd2d4520f8450db67ae0660530c9e0 duration_ms=13.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=2565cfb9d0f447588911a27476bf88bc duration_ms=13.7 client=testclient:50000
+=============================== warnings summary ===============================
+tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py::test_claim_before_or_after_the_sweep_bills_the_dead_attempt_the_same[claim]
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py::test_claim_before_or_after_the_sweep_bills_the_dead_attempt_the_same[claim]
+FAILED tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py::test_cpu_claim_path_reclaims_before_leasing[mixed]
+FAILED tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py::test_cpu_claim_path_reclaims_before_leasing[cpu_only]
+FAILED tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py::test_late_result_of_the_claim_reclaimed_attempt_extends_its_one_lost_row
+FAILED tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py::test_claim_reclaim_fails_the_job_when_no_attempt_is_left
+FAILED tests/owner/runner_protocol/test_dd_a64_claim_reclaims_first.py::test_claim_does_not_redeliver_its_own_expired_lease
+6 failed, 3 passed, 1 warning in 10.03s

@@ -1,0 +1,1251 @@
+{
+ "areas": [
+  {
+   "area": "OWNER_DTO_01",
+   "description": "Block :: params.slot_kind",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.blocks_json (every candidate)",
+     "status": "planted"
+    },
+    {
+     "path": "evaluations.row_json.blocks (canary)",
+     "status": "planted"
+    },
+    {
+     "path": "events candidate.evaluated (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_01>"
+  },
+  {
+   "area": "OWNER_DTO_02",
+   "description": "Block :: old_name",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.blocks_json (every candidate)",
+     "status": "planted"
+    },
+    {
+     "path": "evaluations.row_json.blocks (canary)",
+     "status": "planted"
+    },
+    {
+     "path": "events candidate.evaluated (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_02>"
+  },
+  {
+   "area": "OWNER_DTO_03",
+   "description": "Block :: before",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.blocks_json (every candidate)",
+     "status": "planted"
+    },
+    {
+     "path": "evaluations.row_json.blocks (canary)",
+     "status": "planted"
+    },
+    {
+     "path": "events candidate.evaluated (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_03>"
+  },
+  {
+   "area": "OWNER_DTO_04",
+   "description": "Block :: after",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.blocks_json (every candidate)",
+     "status": "planted"
+    },
+    {
+     "path": "evaluations.row_json.blocks (canary)",
+     "status": "planted"
+    },
+    {
+     "path": "events candidate.evaluated (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_04>"
+  },
+  {
+   "area": "OWNER_DTO_05",
+   "description": "Block :: repair_reason",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.blocks_json (every candidate)",
+     "status": "planted"
+    },
+    {
+     "path": "evaluations.row_json.blocks (canary)",
+     "status": "planted"
+    },
+    {
+     "path": "events candidate.evaluated (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_05>"
+  },
+  {
+   "area": "OWNER_DTO_06",
+   "description": "CandidateEvaluation :: raw_metrics.weights_only_path",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "evaluations.row_json.raw_metrics (canary candidate, committed rows)",
+     "status": "planted"
+    },
+    {
+     "path": "events candidate.evaluated (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_06>"
+  },
+  {
+   "area": "OWNER_DTO_07",
+   "description": "CandidateEvaluation :: raw_metrics.eval_checkpoint_path",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "evaluations.row_json.raw_metrics (canary candidate, committed rows)",
+     "status": "planted"
+    },
+    {
+     "path": "events candidate.evaluated (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_07>"
+  },
+  {
+   "area": "OWNER_DTO_08",
+   "description": "CandidateEvaluation :: raw_metrics.rung_result",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "evaluations.row_json.raw_metrics (canary candidate, committed rows)",
+     "status": "planted"
+    },
+    {
+     "path": "events candidate.evaluated (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_08>"
+  },
+  {
+   "area": "OWNER_DTO_09",
+   "description": "CandidateEvaluation :: raw_metrics.artifact_problems",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "evaluations.row_json.raw_metrics (canary candidate, committed rows)",
+     "status": "planted"
+    },
+    {
+     "path": "events candidate.evaluated (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_09>"
+  },
+  {
+   "area": "OWNER_DTO_10",
+   "description": "CandidateEvaluation :: raw_metrics.contract_error",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "evaluations.row_json.raw_metrics (canary candidate, committed rows)",
+     "status": "planted"
+    },
+    {
+     "path": "events candidate.evaluated (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_10>"
+  },
+  {
+   "area": "OWNER_DTO_11",
+   "description": "CandidateEvaluation :: raw_metrics.row_error",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "evaluations.row_json.raw_metrics (canary candidate, committed rows)",
+     "status": "planted"
+    },
+    {
+     "path": "events candidate.evaluated (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_11>"
+  },
+  {
+   "area": "OWNER_DTO_12",
+   "description": "CandidateEvaluation :: raw_metrics.reported",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "evaluations.row_json.raw_metrics (canary candidate, committed rows)",
+     "status": "planted"
+    },
+    {
+     "path": "events candidate.evaluated (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_12>"
+  },
+  {
+   "area": "OWNER_DTO_13",
+   "description": "Generation :: group_key",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "generations.row_json.group_key (every generation)",
+     "status": "planted"
+    },
+    {
+     "path": "events generation.updated",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_13>"
+  },
+  {
+   "area": "OWNER_DTO_14",
+   "description": "Run :: budget.policy",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "runs.budget_json.policy",
+     "status": "planted"
+    },
+    {
+     "path": "events run.updated",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_14>"
+  },
+  {
+   "area": "OWNER_DTO_15",
+   "description": "Run :: resolved_protocol.console.search.search_space_resolved.etri_root",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "runs.resolved_protocol_json console.search.search_space_resolved.etri_root",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_15>"
+  },
+  {
+   "area": "OWNER_DTO_18",
+   "description": "Worker :: lease_expires_at",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "workers.row_json (worker attached to the run)",
+     "status": "planted"
+    },
+    {
+     "path": "events worker.updated",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_18>"
+  },
+  {
+   "area": "OWNER_DTO_19",
+   "description": "Event :: payload[type=log].path",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "events log payload.path",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_19>"
+  },
+  {
+   "area": "OWNER_DTO_20",
+   "description": "Health :: capabilities.search_space.root",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "mbnas_core.console.routes_meta._capabilities (wrapped)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_20>"
+  },
+  {
+   "area": "OWNER_DTO_21",
+   "description": "Health :: versions.environment_lock.path",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "services.versions_fn (versions.environment_lock.path)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_21>"
+  },
+  {
+   "area": "OWNER_DTO_22",
+   "description": "CandidateDetail :: lineage.elite",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.lineage_json (every candidate)",
+     "status": "planted"
+    },
+    {
+     "path": "StructureReport.lineage (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_22>"
+  },
+  {
+   "area": "OWNER_DTO_23",
+   "description": "CandidateDetail :: lineage.parent_rows[]",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.lineage_json (every candidate)",
+     "status": "planted"
+    },
+    {
+     "path": "StructureReport.lineage (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_23>"
+  },
+  {
+   "area": "OWNER_DTO_24",
+   "description": "CandidateDetail :: lineage.selection",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.lineage_json (every candidate)",
+     "status": "planted"
+    },
+    {
+     "path": "StructureReport.lineage (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_24>"
+  },
+  {
+   "area": "OWNER_DTO_25",
+   "description": "CandidateDetail :: lineage.crossover",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.lineage_json (every candidate)",
+     "status": "planted"
+    },
+    {
+     "path": "StructureReport.lineage (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_25>"
+  },
+  {
+   "area": "OWNER_DTO_26",
+   "description": "CandidateDetail :: lineage.mutation_events[]",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.lineage_json (every candidate)",
+     "status": "planted"
+    },
+    {
+     "path": "StructureReport.lineage (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_26>"
+  },
+  {
+   "area": "OWNER_DTO_27",
+   "description": "CandidateDetail :: lineage.repair_events[]",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.lineage_json (every candidate)",
+     "status": "planted"
+    },
+    {
+     "path": "StructureReport.lineage (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_27>"
+  },
+  {
+   "area": "OWNER_DTO_28",
+   "description": "CandidateDetail :: lineage.prior_draw",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.lineage_json (every candidate)",
+     "status": "planted"
+    },
+    {
+     "path": "StructureReport.lineage (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_28>"
+  },
+  {
+   "area": "OWNER_DTO_29",
+   "description": "CandidateDetail :: lineage.search_space.space_hash",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.lineage_json (every candidate)",
+     "status": "planted"
+    },
+    {
+     "path": "StructureReport.lineage (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_29>"
+  },
+  {
+   "area": "OWNER_DTO_30",
+   "description": "CandidateDetail :: lineage.search_space.prior_hash",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.lineage_json (every candidate)",
+     "status": "planted"
+    },
+    {
+     "path": "StructureReport.lineage (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_30>"
+  },
+  {
+   "area": "OWNER_DTO_31",
+   "description": "CandidateDetail :: lineage.notes[]",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.lineage_json (every candidate)",
+     "status": "planted"
+    },
+    {
+     "path": "StructureReport.lineage (canary)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_31>"
+  },
+  {
+   "area": "OWNER_DTO_32",
+   "description": "CandidateDetail :: audit.config_estimate.rules",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.audit_json (every candidate)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_32>"
+  },
+  {
+   "area": "OWNER_DTO_33",
+   "description": "CandidateDetail :: audit.config_estimate.selection_policy",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.audit_json (every candidate)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_33>"
+  },
+  {
+   "area": "OWNER_DTO_34",
+   "description": "CandidateDetail :: audit.etri_audit_model",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.audit_json (every candidate)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_34>"
+  },
+  {
+   "area": "OWNER_DTO_35",
+   "description": "CandidateDetail :: audit.orchestration.proposal_job_id",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.audit_json (every candidate)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_35>"
+  },
+  {
+   "area": "OWNER_DTO_36",
+   "description": "CandidateDetail :: audit.orchestration.rungs.{}.admission.estimate_s",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.audit_json (every candidate)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_36>"
+  },
+  {
+   "area": "OWNER_DTO_37",
+   "description": "CandidateDetail :: audit.orchestration.rungs.{}.admission.estimate_source",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.audit_json (every candidate)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_37>"
+  },
+  {
+   "area": "OWNER_DTO_38",
+   "description": "CandidateDetail :: audit.orchestration.rungs.{}.admission.reserved_s",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.audit_json (every candidate)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_38>"
+  },
+  {
+   "area": "OWNER_DTO_39",
+   "description": "RegistryEntry :: evidence.config_ref.path",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "services.registry_fn (every RegistryEntry.evidence)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_39>"
+  },
+  {
+   "area": "OWNER_DTO_40",
+   "description": "RegistryEntry :: evidence.weights.path",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "services.registry_fn (every RegistryEntry.evidence)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_40>"
+  },
+  {
+   "area": "OWNER_DTO_41",
+   "description": "RegistryEntry :: evidence.build.trace",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "services.registry_fn (every RegistryEntry.evidence)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_41>"
+  },
+  {
+   "area": "OWNER_DTO_42",
+   "description": "RegistryEntry :: evidence.pretrained_load.loaded_from",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "services.registry_fn (every RegistryEntry.evidence)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_42>"
+  },
+  {
+   "area": "OWNER_DTO_43",
+   "description": "RegistryEntry :: evidence.probe_file",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "services.registry_fn (every RegistryEntry.evidence)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_43>"
+  },
+  {
+   "area": "OWNER_DTO_44",
+   "description": "RegistryEntry :: evidence.source.record",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "services.registry_fn (every RegistryEntry.evidence)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_44>"
+  },
+  {
+   "area": "OWNER_DTO_45",
+   "description": "RegistryEntry :: evidence.source.notebook",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "services.registry_fn (every RegistryEntry.evidence)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_45>"
+  },
+  {
+   "area": "OWNER_DTO_46",
+   "description": "RegistryEntry :: evidence.registry_roots_skipped[]",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "services.registry_fn (every RegistryEntry.evidence)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_46>"
+  },
+  {
+   "area": "OWNER_DTO_47",
+   "description": "RegistryList :: registry_roots_skipped",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "mbnas_core.registry.roots_skipped (wrapped)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_47>"
+  },
+  {
+   "area": "OWNER_DTO_48",
+   "description": "StructureReport :: blocks[].before",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.audit_json.structure.blocks[] (canary candidate, saved StructureReport)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_48>"
+  },
+  {
+   "area": "OWNER_DTO_49",
+   "description": "StructureReport :: blocks[].after",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.audit_json.structure.blocks[] (canary candidate, saved StructureReport)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_49>"
+  },
+  {
+   "area": "OWNER_DTO_50",
+   "description": "StructureReport :: blocks[].repair_reason",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.audit_json.structure.blocks[] (canary candidate, saved StructureReport)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_50>"
+  },
+  {
+   "area": "OWNER_DTO_51",
+   "description": "StructureReport :: blocks[].old_name",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.audit_json.structure.blocks[] (canary candidate, saved StructureReport)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_51>"
+  },
+  {
+   "area": "OWNER_DTO_52",
+   "description": "ExportBundle :: jobs.spec.params.parent_pool",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "jobs.spec_json.params (job-8aa7da877be64e60)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_52>"
+  },
+  {
+   "area": "OWNER_DTO_53",
+   "description": "ExportBundle :: jobs.spec.params.previous_search_state",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "jobs.spec_json.params (job-8aa7da877be64e60)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_53>"
+  },
+  {
+   "area": "OWNER_DTO_54",
+   "description": "ExportBundle :: jobs.spec.params.proposal_policy",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "jobs.spec_json.params (job-8aa7da877be64e60)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_54>"
+  },
+  {
+   "area": "OWNER_DTO_55",
+   "description": "ExportBundle :: jobs.result.outputs.space",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "jobs.result_json.outputs (job-8aa7da877be64e60)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_55>"
+  },
+  {
+   "area": "OWNER_DTO_56",
+   "description": "ExportBundle :: jobs.result.outputs.rng_stream",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "jobs.result_json.outputs (job-8aa7da877be64e60)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_56>"
+  },
+  {
+   "area": "OWNER_DTO_57",
+   "description": "ExportBundle :: jobs.result.outputs.ga",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "jobs.result_json.outputs (job-8aa7da877be64e60)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_57>"
+  },
+  {
+   "area": "OWNER_DTO_58",
+   "description": "ExportBundle :: jobs.result.outputs.search_state",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "jobs.result_json.outputs (job-8aa7da877be64e60)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_58>"
+  },
+  {
+   "area": "OWNER_DTO_60",
+   "description": "PublicIdentifiers :: meta.host_row_id",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "cost_ledger.meta_json.host_row_id",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_60>"
+  },
+  {
+   "area": "OWNER_DTO_61",
+   "description": "PublicIdentifiers :: lease_owner",
+   "expected_in": [],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "jobs.lease_owner (job-8aa7da877be64e60)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_61>"
+  },
+  {
+   "area": "OWNER_DTO_62",
+   "description": "Run :: resolved_protocol.resolution.paths.{}.realpath",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "runs.resolved_protocol_json resolution.paths.*.realpath",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_62>"
+  },
+  {
+   "area": "OWNER_DTO_63",
+   "description": "CandidateDetail :: checkpoints[].path",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "checkpoints.path (canary candidate)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_63>"
+  },
+  {
+   "area": "OWNER_DTO_64",
+   "description": "CandidateDetail :: audit.execution_configuration.path",
+   "expected_in": [
+    "owner"
+   ],
+   "must_not_in": [
+    "public",
+    "registration",
+    "public_api_responses"
+   ],
+   "planted_in": [
+    {
+     "path": "candidates.audit_json (every candidate)",
+     "status": "planted"
+    }
+   ],
+   "value": "<redacted test token of area OWNER_DTO_64>"
+  }
+ ],
+ "generator": "tests/owner/projection/projection_world.py",
+ "note": "WP-4C test world (SYNTHETIC, temporary)",
+ "schema": "mbnas.canary_manifest/1",
+ "token_format": "MBNAS-CANARY-<AREA>-<16 hex>"
+}

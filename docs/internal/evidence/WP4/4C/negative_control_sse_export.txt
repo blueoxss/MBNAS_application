@@ -1,0 +1,27 @@
+# WP-4C negative control (2026-10-27, 2026-10-27T06:57:55Z when written): projection replaced by the identity for the SSE stream
+# and the export members while the canary world captured its responses (tests/owner/projection/projection_world.py _mutation).
+# command: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 MBNAS_TEST_WP4C_MUTATION=sse,export runtime/venv/bin/python -B -m pytest -p no:cacheprovider -q -rf tests/owner/projection
+# expected: the SSE / export / T8 / value-rule checks FAIL, everything else passes (the suite detects a broken projection)
+# result (test ids of the failures; assertion texts omitted):
+FAILED tests/owner/projection/test_canary_projection.py::test_no_owner_only_marker_in_public_responses[events_replay-gateway]
+FAILED tests/owner/projection/test_canary_projection.py::test_no_owner_only_marker_in_public_responses[events_replay-core-server]
+FAILED tests/owner/projection/test_canary_projection.py::test_no_owner_only_marker_in_public_responses[export_public-gateway]
+FAILED tests/owner/projection/test_canary_projection.py::test_no_owner_only_marker_in_public_responses[export_public-core-server]
+FAILED tests/owner/projection/test_canary_projection.py::test_no_owner_only_marker_in_generations[gateway]
+FAILED tests/owner/projection/test_canary_projection.py::test_no_owner_only_marker_in_generations[core-server]
+FAILED tests/owner/projection/test_canary_projection.py::test_admin_principal_on_the_console_mount_is_projected_too
+FAILED tests/owner/projection/test_canary_projection.py::test_public_bodies_validate_against_the_1_5_0_contract[events_replay-gateway]
+FAILED tests/owner/projection/test_canary_projection.py::test_public_bodies_validate_against_the_1_5_0_contract[events_replay-core-server]
+FAILED tests/owner/projection/test_canary_projection.py::test_no_owner_only_member_name_in_public_bodies
+FAILED tests/owner/projection/test_canary_projection.py::test_generic_owner_only_members_are_absent_where_they_lived
+FAILED tests/owner/projection/test_t8_canary_scan.py::test_t8_public_responses_have_zero_canary_hits
+FAILED tests/owner/projection/test_t8_canary_scan.py::test_t8_no_token_shaped_string_in_public_responses
+FAILED tests/owner/projection/test_value_rules.py::test_free_text_is_scrubbed_but_kept[gateway]
+FAILED tests/owner/projection/test_value_rules.py::test_free_text_is_scrubbed_but_kept[core-server]
+FAILED tests/owner/projection/test_value_rules.py::test_host_name_never_reaches_a_public_body[gateway]
+FAILED tests/owner/projection/test_value_rules.py::test_host_name_never_reaches_a_public_body[core-server]
+FAILED tests/owner/projection/test_value_rules.py::test_worker_and_device_identifiers_are_opaque[gateway]
+FAILED tests/owner/projection/test_value_rules.py::test_worker_and_device_identifiers_are_opaque[core-server]
+FAILED tests/owner/projection/test_value_rules.py::test_evaluation_paths_are_never_absolute[gateway]
+FAILED tests/owner/projection/test_value_rules.py::test_evaluation_paths_are_never_absolute[core-server]
+21 failed, 233 passed, 1 warning in 16.62s

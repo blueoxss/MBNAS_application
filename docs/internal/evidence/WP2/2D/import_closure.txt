@@ -1,0 +1,18 @@
+import closure: OK (/home/mgjeong/Desktop/etri_hd/mbnas_application)
+counts: {"violations": 0, "unresolved": 0, "forbidden_strings": 0, "allowlisted": 0, "excepted": 2, "errors": 0, "by_rule": {}}
+transitional allowlist:
+  mbnas_core.owner_worker.child -> mbnas_runner.* (import, string; expires WP-2)
+  mbnas_core.owner_worker.contract -> mbnas_runner.* (import, string; expires WP-2)
+  mbnas_core.owner_worker.main -> mbnas_runner.* (import; expires WP-2)
+documented data exceptions (DD-A26):
+  mbnas_contracts/src/mbnas_contracts/openapi/openapi.json: 'MBNAS_server' (expires WP-4)
+  mbnas_model_runtime/src/mbnas_model_runtime/adapters/base.py: 'mbnas_server.search.etri_bridge:ensure_mixed_registered' (expires WP-4)
+violations: 0
+allowlisted: 0
+excepted: 2
+  [data-exception] mbnas_model_runtime/src/mbnas_model_runtime/adapters/base.py:32  mbnas_model_runtime.adapters.base -> mbnas_server.search.etri_bridge (ensure_mixed_registered) [string]
+  [MBNAS_server] mbnas_contracts/src/mbnas_contracts/openapi/openapi.json:6  "description": "Canonical web/server contract for MBNAS_server (package mbnas_server). Derived from NAS_Console_API_Contract_20261006.json v1.0.0 with backward-
+unresolved: 0
+forbidden_strings: 0
+errors: 0
+closure exit=0

@@ -1,0 +1,62 @@
+{
+ "id": "C01",
+ "name": "사실·기준선",
+ "version": "1.0 (2026-10-23 22:4x, 설계자 claude-fable-5-1 고정; 변경 시 사유·버전 기록)",
+ "pass_condition": {
+  "total_score": "> 90 of 100",
+  "blocker": 0,
+  "critical": 0,
+  "mandatory_evidence": "all criteria must cite artifacts produced in TARGET_ROOT by executed commands (no source-doc reported values)"
+ },
+ "criteria": [
+  {
+   "id": "call_graph",
+   "points": 25,
+   "observable_evidence": "실제 호출관계: MODULE_MAP.json의 import 그래프가 설치본 AST 재계산과 일치하고 PLACEMENT_MANIFEST로 각 모듈의 출처 추적 가능",
+   "mandatory_checks": "scripts/dev/check_import_closure.py exit 0; docs/internal/provenance/PLACEMENT_MANIFEST.jsonl 전 패키지 모듈 커버",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "latest_changes",
+   "points": 25,
+   "observable_evidence": "최신 변경 보존: 스냅샷+delta(1.4.2)의 untracked/modified 기능(DD-38 카탈로그, DD-39 캠페인, WPS8 수정)이 대상에 존재하고 테스트로 확인",
+   "mandatory_checks": "tests/owner에서 test_block_catalog*·test_campaign_adapter 통과; delta manifest 기록",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "env_compat",
+   "points": 25,
+   "observable_evidence": "환경 호환: Python 3.10.22 격리 venv(system-site false), torch 2.6.0+cu124·ultralytics 8.4.173 핀, 연구 환경(sg26 등) 무변경",
+   "mandatory_checks": "runtime/venv/pyvenv.cfg; constraints.txt; evidence/WP1/install.log; sg26 freeze 변화 없음",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "provenance",
+   "points": 25,
+   "observable_evidence": "복사 provenance: 파일별 원본 경로·HEAD·dirty·SHA-256·복사 시각·라이선스 상태 기록, 원본 무변경(라이브 sha 비교는 병행 세션 변경만)",
+   "mandatory_checks": "docs/internal/provenance/SOURCE_SNAPSHOT_{MANIFEST,SUMMARY,DELTA_*}; 설계자 sha 비교 로그",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  }
+ ],
+ "notes": "점수는 자체 품질 평가이며 보안 확률·실측 성능이 아니다. 미실행 시험은 0점이고 BLOCKED_BY_ENV는 별도 표기(점수 아님)."
+}

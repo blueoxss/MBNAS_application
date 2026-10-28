@@ -1,0 +1,27 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.22, pytest-9.1.1, pluggy-1.6.0
+rootdir: <ROOT>
+configfile: pyproject.toml
+plugins: anyio-4.15.1, timeout-2.4.0
+timeout: 180.0s
+timeout method: signal
+timeout func_only: False
+collected 38 items
+
+tests/owner/orchestration/test_dd_a62_not_evaluated_search.py ..         [  5%]
+tests/owner/orchestration/test_engine_flow.py .                          [  7%]
+tests/owner/orchestration/test_final_retrain_excludes_not_evaluated.py . [ 10%]
+.                                                                        [ 13%]
+tests/owner/orchestration/test_final_selection.py ....                   [ 23%]
+tests/owner/orchestration/test_open_generation_progress.py .             [ 26%]
+tests/owner/orchestration/test_retention.py ...........                  [ 55%]
+tests/owner/orchestration/test_semantics.py ................             [ 97%]
+tests/owner/orchestration/test_semantics_baseline_ungated.py .           [100%]
+
+=============================== warnings summary ===============================
+tests/owner/orchestration/test_dd_a62_not_evaluated_search.py::test_ga_not_evaluated_candidates_record_the_reason_and_are_never_promoted
+  <ROOT>/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 38 passed, 1 warning in 46.15s ========================

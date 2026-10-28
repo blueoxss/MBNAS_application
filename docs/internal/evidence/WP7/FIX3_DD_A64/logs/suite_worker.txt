@@ -1,0 +1,19 @@
+..................................................                       [100%]
+=============================== warnings summary ===============================
+tests/owner/worker/test_blocked_result.py::test_blocked_benchmark_job_is_final_and_not_retried
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================= slowest 10 durations =============================
+11.04s call     tests/owner/worker/test_generation_crash.py::test_sigkill_mid_generation_recovers_saved_candidates_once_without_resampling
+10.74s call     tests/owner/worker/test_subprocess.py::test_pause_at_epoch_boundary_then_resume
+9.78s call     tests/owner/worker/test_subprocess.py::test_worker_kill9_lease_reclaimed_once_by_new_worker
+7.26s call     tests/owner/worker/test_subprocess.py::test_crashed_child_is_retried_and_resumes_from_checkpoint
+5.10s call     tests/owner/worker/test_subprocess.py::test_child_protocol_env_hygiene_and_logs
+4.49s call     tests/owner/worker/test_native_handlers.py::test_real_proposals_translate_to_native_training_params
+4.39s call     tests/owner/worker/test_subprocess.py::test_cancel_terminates_running_child
+4.37s call     tests/owner/worker/test_dd_a60_owner_worker.py::test_customer_only_output_root_off_generation_completes_with_core_local_files
+4.11s call     tests/owner/worker/test_dd_a62_core_local_generation.py::test_real_split_generation_registers_one_core_local_architecture_per_candidate
+3.19s call     tests/owner/worker/test_dd_a60_owner_worker.py::test_evaluation_on_proposal_uses_the_gateway_dataset_summary
+50 passed, 1 warning in 89.91s (0:01:29)

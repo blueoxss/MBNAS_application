@@ -1,0 +1,25 @@
+WP-4B evidence (core projection + contract 1.5.0 promotion, core side; 2026-10-27, claude-opus-5-5 under claude-fable-5-1 design)
+
+Promoted contract
+  mbnas_contracts/src/mbnas_contracts/openapi/openapi.json = docs/public/contracts/history/openapi-1.5.0.json
+  sha256 70e0cffaab8fafd9c7f230af9169dbbe8812b3eccf7ad7838ca3f46fa9eebc2a (supersedes the WP-4A draft 70edb8ef...)
+  generator scripts/dev/migrate_openapi_1.4.3_to_1.5.0.py = docs/public/contracts/history/migrate_1.4.3_to_1.5.0.py
+  HISTORY: package HISTORY.json and docs/public/contracts/history/HISTORY.json are one identical index (drafts[0] moved
+  into versions; the DD-A41 note correction of the package copy kept in both).
+
+Files
+  promote_helper.py                  the promotion procedure used (migrate 1.4.3 -> 1.5.0, pin EXPECTED sha, --promote,
+                                     copy snapshot + script into the history directory, move drafts[0] to versions)
+  check_1_5_0_promoted.result.txt    docs/internal/evidence/WP4/4A/check_draft_1_5_0.py run on the PROMOTED document
+                                     (copy with LIVE = history openapi-1.4.3.json, DRAFT = package openapi.json):
+                                     violations 0, structural problems 1.5.0: 0, behaviour ok, replay True
+  preset_hash_record.py / .json      protocol_hash before/after for both presets (requested: unchanged; validated:
+                                     changed by the 1.5.0 definition; 1.5.0 fixed point holds; hash independent of
+                                     resolution.paths; a stored 1.4.3 resolved document rehashes to a third value)
+  drop_audit_plugin.py               pytest plugin wrapping project_public (input vs output key diff)
+  drop_audit_summary.json            members the projection removed while tests/owner/api ran (counts per path)
+  t2_heavy_mismatch_classification.json
+                                     T2-7 / T2-8 / T2-10 (MBNAS_TEST_T2=1) after WP-4B: MISMATCH only on protocol_hash
+                                     values, digests of files embedding the hash and the removed realpath / extended
+                                     hash_excluded list (an ALLOWED_DIFF rule is needed in scripts/owner/t2_compare.py)
+  test_runs.txt                      commands and counts of the final test runs

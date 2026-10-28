@@ -1,0 +1,110 @@
+........................................................................ [  6%]
+........................................................................ [ 12%]
+........................................................................ [ 18%]
+...................................................s.................... [ 24%]
+........................................................................ [ 30%]
+........................................................................ [ 36%]
+........................................................................ [ 42%]
+..............x......................F.................................. [ 48%]
+........................................................................ [ 54%]
+........................................................................ [ 60%]
+........................................................................ [ 66%]
+........................................................................ [ 72%]
+........................................................................ [ 78%]
+........................................................................ [ 84%]
+........................................................................ [ 90%]
+........................................................................ [ 96%]
+...............................................                          [100%]
+=================================== FAILURES ===================================
+_____________________ test_expired_or_revoked_token_is_401 _____________________
+
+core = <starlette.testclient.TestClient object at 0x7f7a74c89b70>
+rp_settings = CoreSettings(api_token=SecretStr('**********'), artifact_signing_key=SecretStr('**********'), cors_origins=['http://lo...ile=1024, structure_check_fsize_bytes=67108864, structure_check_max_output_bytes=1048576, structure_check_unshare=True)
+runner_sim = <runner_sim.RunnerSim object at 0x7f7a74c8b100>
+tokens = {'R1': 'mbnas_runner_1b5b718c_nx6NK-8FPCgsyYMI94FHxtjuFvX2iox-_3S6DF_FXJ4', 'R1_id': 'pr-da1cf23ee55a7377', 'R2': 'mbnas_runner_b0eccb74_yf1Jk0KSsD1_HzdXnfaqYtj1U1JlF15A3SjDRikTaZk', 'R2_id': 'pr-a0092cac68746aab', ...}
+base_proto = <function base_proto.<locals>.build at 0x7f7a74c77b50>
+db = <sqlite3.Connection object at 0x7f7a270f1d40>
+
+    def test_expired_or_revoked_token_is_401(core, rp_settings, runner_sim, tokens, base_proto, db):
+        """T3-30b: an expired or a revoked runner token is 401 AUTH_REQUIRED (same answer as an unknown token); no write."""
+        from mbnas_core.runner_api import auth
+    
+        run_id, _ = harness.validate_and_run(core, base_proto())
+        conn = connect(rp_settings, init=False)
+        try:
+            _, short = auth.create_principal(conn, "runner", runner_id="R1", ttl_s=0.5)
+        finally:
+            conn.close()
+        sim = rs.RunnerSim(core, short, "R1", runner_sim.work_root)
+>       sim.register()
+
+tests/owner/runner_protocol/test_t3_auth.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <runner_sim.RunnerSim object at 0x7f7a74c8be80>, extra = {}
+
+    def register(self, **extra: Any) -> dict[str, Any]:
+        body = {"runner_id": self.runner_id, "runtime": runtime_manifest(), "kinds": list(RUNNER_KINDS),
+                "host": "sim-host", "device": "sim-dev0", "device_uuid": f"GPU-sim-{self.runner_id}",
+                "device_name": "SYNTHETIC simulated device", "data_mounts": {}, **extra}
+        r = self.post("/register", body)
+>       assert r.status_code == 200, r.text
+E       AssertionError: {"code":"AUTH_REQUIRED","message":"valid bearer token required","request_id":"fcf33c3d11eb4491ad8b8260f3525aef"}
+
+tests/_shared/runner_sim.py:99: AssertionError
+=============================== warnings summary ===============================
+runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/owner/adapters/test_structure_native_cpu.py::test_rfdetr_nano_matches_adapter_build_and_probe
+tests/owner/adapters/test_structure_native_cpu.py::test_rfdetr_wrong_input_size_is_a_fail_document
+tests/owner/api/test_training_selection.py::test_non_ultralytics_baseline_binding_records_native_structure[rf-detr-nano-rfdetr-30147076]
+tests/owner/search/test_block_catalog.py::test_rfdetr_document_blocks_are_catalogued
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/pydantic/main.py:263: PretrainWeightsCompatibilityWarning: RFDETRNanoConfig was instantiated with pretrain_weights=None. The model will be initialised from scratch, which typically produces lower accuracy than fine-tuning from the published checkpoint ('rf-detr-nano.pth').
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/health]
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/registry]
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/runs]
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/runs/run-x/snapshot]
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/runs/run-x/events]
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/runs/run-x/export]
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:463: DeprecationWarning: Setting per-request cookies=<...> is being deprecated, because the expected behaviour on cookie persistence is ambiguous. Set cookies directly on the client instance instead.
+    return super().request(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================= slowest 30 durations =============================
+15.79s call     tests/owner/qa/test_search_fairness_engine.py::test_ga_reacts_to_l0_metrics_but_never_to_l1
+15.05s call     tests/owner/qa/test_search_fairness_engine.py::test_random_sequence_is_independent_of_a_companion_ga_arm
+13.97s call     tests/owner/search/test_space_hash_content.py::test_same_content_elsewhere_same_hash_and_content_change_changes_it
+10.94s call     tests/owner/qa/test_search_fairness_engine.py::test_random_sequence_is_identical_when_metrics_change
+10.26s call     tests/owner/runner_protocol/test_t3_owner_generation.py::test_sigkill_mid_generation_recovers_saved_candidates_once
+10.23s call     tests/owner/qa/test_engine_negatives.py::test_run_costs_on_the_api_match_the_ledger_and_export_csv
+10.23s call     tests/owner/runner_protocol/test_t3_control.py::test_pause_at_epoch_boundary_then_resume_over_http
+10.06s call     tests/owner/qa/test_search_fairness_engine.py::test_both_arms_share_protocol_objective_and_comparison_group
+10.01s call     tests/owner/worker/test_subprocess.py::test_pause_at_epoch_boundary_then_resume
+9.72s call     tests/owner/qa/test_search_fairness_engine.py::test_final_eval_split_is_never_used_by_search_jobs
+9.10s call     tests/owner/worker/test_generation_crash.py::test_sigkill_mid_generation_recovers_saved_candidates_once_without_resampling
+9.04s call     tests/owner/runner_protocol/test_t3_restart.py::test_runner_restart_without_result_reports_child_exit_no_result_and_resumes
+8.59s call     tests/owner/worker/test_subprocess.py::test_worker_kill9_lease_reclaimed_once_by_new_worker
+6.92s setup    tests/owner/search/test_operators_parity.py::test_both_children_built_every_variant
+6.66s call     tests/owner/worker/test_subprocess.py::test_crashed_child_is_retried_and_resumes_from_checkpoint
+6.24s call     tests/owner/qa/test_sse_server.py::test_streams_never_mix_runs
+5.20s call     tests/owner/orchestration/test_open_generation_progress.py::test_open_generations_are_pushed_as_generation_updated
+4.98s call     tests/owner/runner_protocol/test_t3_body_limit.py::test_result_body_over_limit_is_413_and_runner_externalises_per_sample
+4.58s call     tests/owner/unit/test_protocol_validator.py::test_corrupted_inputs_never_crash
+4.53s call     tests/owner/runner_protocol/test_artifact_transfer.py::test_local_transfer_stores_every_registered_file_with_meta
+4.49s call     tests/owner/api/test_registry_structure.py::test_rfdetr_preset_table_matches_installed_library
+4.38s call     tests/owner/runner_protocol/test_artifact_transfer.py::test_transfer_failure_never_fails_the_job_and_a_later_retry_completes
+4.33s call     tests/owner/api/test_generation_real_cpu.py::test_api_worker_generation_real_cpu
+4.27s call     tests/owner/worker/test_subprocess.py::test_cancel_terminates_running_child
+4.12s call     tests/owner/runner_protocol/test_t3_files.py::test_execution_configuration_report_updates_candidate_without_core_file_access
+4.03s call     tests/owner/api/test_registry_structure.py::test_post_native_wrong_resolution_is_422_input_size_invalid_and_does_not_overwrite_evidence
+3.88s call     tests/owner/runner_protocol/test_t3_restart.py::test_runner_journal_replays_result_then_ack[before]
+3.87s call     tests/owner/runner_protocol/test_t3_restart.py::test_runner_journal_replays_result_then_ack[after]
+3.87s call     tests/owner/runner_protocol/test_t3_control.py::test_runner_shutdown_requeues_without_consuming_retry
+3.87s call     tests/owner/runner_protocol/test_t3_control.py::test_cancel_control_terminates_child_and_commits_cancelled
+=========================== short test summary info ============================
+FAILED tests/owner/runner_protocol/test_t3_auth.py::test_expired_or_revoked_token_is_401
+1 failed, 1196 passed, 1 skipped, 47 deselected, 1 xfailed, 11 warnings in 695.51s (0:11:35)

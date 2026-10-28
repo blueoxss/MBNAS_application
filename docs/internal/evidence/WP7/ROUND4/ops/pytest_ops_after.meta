@@ -1,0 +1,6 @@
+command: CUDA_VISIBLE_DEVICES="" PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null MBNAS_TEST_ROOT=<SCRATCH>/round4_ops/test_root MBNAS_HOME=<SCRATCH>/round4_ops/home runtime/venv/bin/python -B -m pytest -p no:cacheprovider tests/public/ops -m "not gpu and not live and not legacy_records and not host_data" --timeout=180 --basetemp=<SCRATCH>/round4_ops/bt_<run> -v -rfEs
+cwd: <ROOT>
+start_utc: 2026-10-28T00:08:14Z
+end_utc: 2026-10-28T00:09:08Z
+exit: 0
+result: 65 passed, 2 deselected (59 existing + 6 new: test_ops_role_env 2, test_ops_stop_identity 3, test_ops_relocation_origins 1)

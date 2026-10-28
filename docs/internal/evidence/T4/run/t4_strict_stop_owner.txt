@@ -1,0 +1,5 @@
+[stop] web: not running (no pid file)
+[stop] runner: stopped (pid 119, SIGTERM)
+[stop] gateway: stopped (pid 95, SIGTERM)
+[stop] owner-worker: stopped (pid 79, SIGTERM)
+[stop] core: stopped (pid 57, SIGTERM)

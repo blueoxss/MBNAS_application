@@ -1,0 +1,51 @@
+# 2026-10-27T16:03:43+09:00 DD-A43 (a) oracle importer closure, computed with the packager's own RE_JS_IMPORT + _resolve_js (scripts/dev/package_build.py, imported read-only; interpreter runtime/venv/bin/python -B)
+# walk: mbnas_web excluding node_modules/dist/test-results/evidence
+# BEFORE (same method, 2026-10-27 15:1x, before the split): closure 47 files; test files 49, excluded 42 (85.7%) — tests/fixtures.ts imported the oracle directly, so mockapi.ts, e2e/mock.ts and every spec/test using them followed
+## AFTER:
+closure (4 files):
+   mbnas_web/e2e/weights.spec.ts (direct)
+   mbnas_web/tests/fitness_oracle.ts 
+   mbnas_web/tests/fixtures_oracle.test.ts 
+   mbnas_web/tests/fixtures_oracle.ts (direct)
+test files: 55; excluded: 2 (3.6%)
+
+## direct importers (import statements naming the oracle modules)
+mbnas_web/tests/fixtures_oracle.ts:10:import { fitnessOracle, type OracleMetrics } from './fitness_oracle';
+mbnas_web/tests/fixtures_oracle.test.ts:9:import { candWithOracle, oracleFitness } from './fixtures_oracle';
+mbnas_web/e2e/weights.spec.ts:11:import { fitnessOracle, type OracleAnchors } from '../tests/fitness_oracle';
+
+## $ node mbnas_web/scripts/check-bundle.mjs   (cwd <ROOT>)
+scanned 3 file(s), 543847 bytes under dist/
+  dist/assets/index-CG8HuodM.css
+  dist/assets/index-DlYSES30.js
+  dist/index.html
+  required "value_provenance": 0
+  required "illustrative_new_revision": 0
+  required "/root/detection": 0
+  required "/data/drone": 0
+  required "147.46.": 0
+  required "pc2300": 0
+  required "/etri_nas/": 0
+  extra    "/data/mgjeong": 0
+  extra    "etri_nas_runs": 0
+  extra    "mgjeong": 0
+  extra    "NPS_YOLO": 0
+  extra    "pilot_visdrone_v1": 0
+  extra    "unresolved_before_real_execution": 0
+  extra    "DESIGN_EXAMPLE_NOT_EXECUTABLE": 0
+  extra    "new_protocol_not_claimed_historical_GA": 0
+  extra    "Client recompute": 0
+  extra    "not computable": 0
+  extra    "differs from client rule": 0
+  extra    "client template": 0
+  extra    "METRIC_NOT_FINITE": 0
+  extra    "LATENCY_NONPOSITIVE": 0
+  extra    "SIZE_NONPOSITIVE": 0
+  extra    "repair_reason": 0
+  extra    "Repair reason": 0
+  extra    "R (repair)": 0
+  extra    "old_name": 0
+  extra    "fitnessOracle": 0
+  extra    "fitness_oracle": 0
+bundle hygiene: OK (0 hits)
+exit=0

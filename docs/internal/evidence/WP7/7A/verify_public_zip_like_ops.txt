@@ -1,0 +1,6 @@
+# 2026-10-27T04:53:04Z public scratch tree made ZIP-like (no root pyproject.toml, no core/owner env examples, no scripts/dev) - verify unit on tests/public/ops
+[verify] profile=public root=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/wp7a/pub root/mbnas_application suites=unit evidence=runtime/logs/verify/20261027T045304Z-public
+[verify] unit: running
+[verify] unit: PASS (tests=59 passed=59 failed=0 errors=0 skipped=0 deselected=2)
+[verify] result: PASS PASS=1 (report runtime/logs/verify/20261027T045304Z-public/verify.json)
+exit=0

@@ -1,0 +1,7 @@
+scripts/dev/package_build.py offline_install_doc() with records in a scratch root:
+no key                       -> offline_install=False
+passing public record        -> offline_install=True
+record of another profile    -> UsageError (exit 2): [profile] offline_install_evidence good.json: not a passing record for profile registration (fields ['profile'])
+record with exit 1           -> UsageError (exit 2): [profile] offline_install_evidence fail.json: not a passing record for profile public (fields ['exit'])
+network not removed          -> UsageError (exit 2): [profile] offline_install_evidence net.json: not a passing record for profile public (fields ['network'])
+record file absent           -> offline_install=False

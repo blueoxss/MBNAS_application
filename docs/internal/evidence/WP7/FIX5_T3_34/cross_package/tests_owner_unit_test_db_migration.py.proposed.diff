@@ -1,0 +1,25 @@
+--- a/tests/owner/unit/test_db_migration.py
++++ b/tests/owner/unit/test_db_migration.py
+@@ -66,10 +66,12 @@
+         assert run["kind"] == "SEARCH" and run["parent_run_id"] is None and run["finalists"] == []
+         ck = repo.list_checkpoints(conn, "run-old")[0]
+         assert ck["state"] == "PRESENT" and ck["pruned_at"] is None and ck["prune"] is None
+-        assert conn.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == SCHEMA_VERSION == "5"
++        assert conn.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == SCHEMA_VERSION == "6"
+         # WP-4 v5 (additive): the revisions table and the public-id salt exist after the forward migration
+         assert conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='config_revisions'").fetchone()
+         assert conn.execute("SELECT value FROM meta WHERE key='public_id_salt'").fetchone()[0]
++        # DD-A66 v6 (additive): the prune round-trip requests table
++        assert conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='prune_requests'").fetchone()
+         assert [e["seq"] for e in repo.get_events_after(conn, "run-old", 0)] == [1, 2]
+         with tx(conn):
+             repo.create_run(conn, id="run-child", namespace="n", protocol_hash="h", resolved_protocol={},
+@@ -105,7 +107,7 @@
+         after = [tuple(r) for r in conn.execute(
+             "SELECT run_id, seq, type, payload_json, created_at FROM events ORDER BY seq")]
+         assert after == before and len(after) == 2
+-        assert conn.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == SCHEMA_VERSION == "5"
++        assert conn.execute("SELECT value FROM meta WHERE key='schema_version'").fetchone()[0] == SCHEMA_VERSION == "6"
+         # WP-4 v5 (additive): the revisions table and the public-id salt exist after the forward migration
+         assert conn.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='config_revisions'").fetchone()
+         assert conn.execute("SELECT value FROM meta WHERE key='public_id_salt'").fetchone()[0]

@@ -1,0 +1,37 @@
+# C01 fix round 1b, EVAL_1 D7: real-campaign smoke of tests/public/server/test_campaign_adapter.py (rate limit off; load-aware cold-list budget)
+# /data was NOT read (hard rule of this round): the smoke ran against a SYNTHETIC 12-arm campaign root with the real layout, built in the
+# session scratchpad by docs/internal/evidence/PROVENANCE/gen_synth_campaign.py (copy of <scratch>/tools/gen_synth_campaign.py) from the test module's own make_campaign/make_arm helpers (12 arms x ~11 requests
+# > burst 50). <scratch> = /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/c01fix1b. Env: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 MBNAS_TEST_ROOT=<scratch>/test_root
+# TMPDIR=<scratch>/tmp MBNAS_TEST_HOST_DATA=1 MBNAS_TEST_ARCHIVE_RUNS_ROOT=<scratch>/synth_campaign/archive_runs; -k real_campaign -p no:cacheprovider
+
+# D7 verification on a SYNTHETIC 12-arm campaign root (no /data access): <scratch>/synth_campaign/archive_runs (built by docs/internal/evidence/PROVENANCE/gen_synth_campaign.py (copy of <scratch>/tools/gen_synth_campaign.py))
+# loadavg: 9.65 10.80 14.07 29/3268 3020230
+## AFTER (edited tests/public/server/test_campaign_adapter.py, in tree)
+REAL_CAMPAIGN {"arms": 12, "list_cold_ms": 141.0, "budget_ms": 2405, "load1": 9.65, "cpus": 48, "opened_files": 179, "run_builds": 12}
+1 passed, 19 deselected, 1 warning in 2.95s
+exit=0
+
+## BEFORE (pre-edit test file sha256 49ae6e6c..., run from a scratch copy of tests/ + pyproject.toml; same env)
+exit=1
+                assert r["status"] in ("running", "done", "failed", "unknown")
+E               KeyError: 'candidates'
+tests/public/server/test_campaign_adapter.py:574: KeyError
+1 failed, 19 deselected, 1 warning in 1.70s
+E                   AssertionError: ('/api/v1/archive/runs/vd12_20261021_2240__S2__random__seed_2024', '{"code": "RATE_LIMITED", "location": "gateway", "message": "too many requests (limit 10/s, burst 50)", "request_id": "afed2f22406440bbaaaa1aff35a98200"}')
+E                   assert 429 == 200
+E                    +  where 429 = <Response [429 Too Many Requests]>.status_code
+first      = {'total': 9, 'candidates': [{'candidate_id': 'g000_c0001', 'generation': 0, 'fingerprint': 'F1', 'tier': 'T@5e', ...}]...2024', 'files': ['search/candidates/candidate_evaluations.jsonl', 'search/pareto/pareto_archive.csv']}, 'warnings': []}
+resp       = <Response [429 Too Many Requests]>
+
+## default gate (no host data): $ pytest tests/public/server/test_campaign_adapter.py tests/public/server/test_perf.py -p no:cacheprovider -q -rs
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/public/server/test_campaign_adapter.py:568: real campaign root not present on this host
+SKIPPED [1] tests/public/server/test_perf.py:53: real NPS day run not present on this host
+SKIPPED [8] tests/public/server/test_perf.py:64: real NPS day run not present on this host
+SKIPPED [1] tests/public/server/test_perf.py:76: real NPS day run not present on this host
+21 passed, 11 skipped, 1 warning in 11.53s
+
+# NOT verified here (확인 못 함): the smoke against the real campaign under /data (EVAL_1 #8); run it at an idle moment:
+#   MBNAS_TEST_HOST_DATA=1 MBNAS_TEST_ARCHIVE_RUNS_ROOT=<real archive runs root> pytest tests/public/server/test_campaign_adapter.py -k real_campaign -s

@@ -1,0 +1,33 @@
+# mbnas-model-runtime (public): backend adapters, custom operators, genotype observation, checkpoint format,
+# dataset manifests, evaluation and benchmark procedures. WP-1 contract §2 / DD-A11 / DD-A24.
+# torch/torchvision are the cu124 builds in build/wheelhouse; `==2.6.0` matches the local `+cu124` tag (PEP 440).
+[build-system]
+requires = ["setuptools>=69,<81", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mbnas-model-runtime"
+version = "0.1.0"
+description = "MBNAS model runtime: backend adapters, custom operators, genotype observation, checkpoints, datasets, evaluation and benchmark procedures"
+requires-python = ">=3.10,<3.11"
+dependencies = [
+  "mbnas-contracts==0.1.0",
+  "torch==2.6.0",
+  "torchvision==0.21.0",
+  "ultralytics==8.4.173",
+  "numpy==2.2.6",
+  "pillow==12.3.0",
+  "psutil==7.2.2",
+  "nvidia-ml-py==13.615.71",
+  "PyYAML",
+]
+
+[project.optional-dependencies]
+rfdetr = ["rfdetr[train,onnx]==1.11.2"]
+bench = ["onnx", "onnxruntime-gpu", "onnxsim", "pycocotools", "scipy", "opencv-python-headless"]
+# not in build/wheelhouse; pin carried from the snapshot application/MBNAS_server/pyproject.toml `trt` extra
+trt = ["tensorrt-cu12==10.13.3.9"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["mbnas_model_runtime", "mbnas_model_runtime.*"]

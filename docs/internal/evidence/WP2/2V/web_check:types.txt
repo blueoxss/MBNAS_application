@@ -1,0 +1,7 @@
+
+> mbnas-web@0.1.0 check:types
+> node scripts/gen-types.mjs --check
+
+✨ openapi-typescript 7.13.0
+🚀 /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/openapi/openapi.json → /tmp/mbnas-types-Kz2jCN/types.gen.ts [283.9ms]
+types.gen.ts matches the contract

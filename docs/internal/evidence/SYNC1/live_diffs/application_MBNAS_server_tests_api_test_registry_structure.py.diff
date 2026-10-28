@@ -1,0 +1,18 @@
+--- a/application/MBNAS_server/tests/api/test_registry_structure.py
++++ b/application/MBNAS_server/tests/api/test_registry_structure.py
+@@ -304,7 +304,14 @@
+     script = tmp_path_factory.mktemp("s8_get_driver") / "driver.py"
+     script.write_text(_GET_DRIVER)
+     env = dict(os.environ)
+-    env.setdefault("MBNAS_TEST_ETRI_ROOT", "")
++    # tests/worker/harness.py (imported by the driver) reads MBNAS_TEST_ETRI_ROOT as-is: an empty string would reach Settings.etri_nas_root and be
++    # rejected ("must be an absolute path").  Resolve it exactly like tests/conftest.py (MBNAS_TEST_ETRI_ROOT, else the MBNAS_ETRI_NAS_ROOT alias,
++    # else unset so the harness falls back to <MBNAS_TEST_ROOT>/ETRI_NAS) instead of relying on scripts/run_tests_host.sh exporting it.
++    etri_root = env.get("MBNAS_TEST_ETRI_ROOT") or env.get("MBNAS_ETRI_NAS_ROOT")
++    if etri_root:
++        env["MBNAS_TEST_ETRI_ROOT"] = etri_root
++    else:
++        env.pop("MBNAS_TEST_ETRI_ROOT", None)
+     proc = subprocess.run([sys.executable, str(script), str(tests_dir), str(tests_dir.parent)], capture_output=True, text=True,
+                           env=env, timeout=300)
+     assert proc.returncode == 0, proc.stderr[-3000:]

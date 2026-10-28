@@ -1,0 +1,9 @@
+# gen_registration_docs.py --check after the final regeneration (structure: owner-API label; file-list placeholder text; interfaces: runner contract 1.1.0 of DD-A66, openapi_runner.json sha256 72ddb8bf..., changed by another agent at 08:49:53 KST)
+unchanged docs/registration/SYSTEM_STRUCTURE.md
+unchanged docs/registration/diagrams/system_structure.mmd
+unchanged docs/registration/diagrams/system_structure.svg
+unchanged docs/registration/INTERFACES.md
+unchanged docs/registration/FILE_LIST.md
+note      매니페스트: 없음 → 생성 대기 문구
+check: OK
+exit=0

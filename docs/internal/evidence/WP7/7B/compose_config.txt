@@ -1,0 +1,8 @@
+# docker compose v5.3.1 'config' renders of the final compose files (scratch tree: deploy/<p>/docker-compose.yml + config/<p>/*.env copied from config/examples)
+public : exit=0 services=runner gateway 
+public --profile cpu: exit=0 services=gateway runner runner-cpu 
+public host-network+cpu variant: exit=0 network_mode_host=4 gw_port=MBNAS_GW_PORT: 18710 store_mode=MBNAS_RUNNER_ARTIFACT_STORE_MODE: same-uid
+owner : exit=0 services=core owner-worker 
+owner --profile all-in-one --profile gpu: exit=0 services=core gateway owner-worker runner 
+owner --profile all-in-one --profile cpu: exit=0 services=core gateway owner-worker runner-cpu 
+owner all-in-one: gateway/runner network_mode=2x service:core; core ports=2 (8700 + 8710)

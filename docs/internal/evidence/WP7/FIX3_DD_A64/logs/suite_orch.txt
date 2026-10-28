@@ -1,0 +1,19 @@
+....................................                                     [100%]
+=============================== warnings summary ===============================
+tests/owner/orchestration/test_dd_a62_not_evaluated_search.py::test_ga_not_evaluated_candidates_record_the_reason_and_are_never_promoted
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================= slowest 10 durations =============================
+5.98s call     tests/owner/orchestration/test_open_generation_progress.py::test_open_generations_are_pushed_as_generation_updated
+3.14s call     tests/owner/orchestration/test_semantics.py::test_runs_are_deterministic_in_structure
+1.93s call     tests/owner/orchestration/test_retention.py::test_final_complete_candidates_follow_the_policy
+1.72s call     tests/owner/orchestration/test_engine_flow.py::test_full_run_completes_with_rungs_generations_and_costs
+1.71s call     tests/owner/orchestration/test_semantics.py::test_no_overshoot_key_is_positive_when_billed_stays_below_the_cap
+1.71s call     tests/owner/orchestration/test_dd_a62_not_evaluated_search.py::test_ga_not_evaluated_candidates_record_the_reason_and_are_never_promoted
+1.69s call     tests/owner/orchestration/test_semantics.py::test_progress_and_failures_never_touch_committed_rows
+1.58s call     tests/owner/orchestration/test_semantics.py::test_per_kind_checkpoint_hash_is_normalised
+1.45s call     tests/owner/orchestration/test_semantics.py::test_random_proposals_never_receive_fitness_and_ga_uses_l0_pool
+1.41s call     tests/owner/orchestration/test_semantics.py::test_evaluated_rows_are_immutable_and_replay_is_idempotent
+36 passed, 1 warning in 42.62s

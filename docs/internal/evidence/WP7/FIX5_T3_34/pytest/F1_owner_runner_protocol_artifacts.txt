@@ -1,0 +1,570 @@
+F....................................................................... [ 74%]
+..........F...FF....FF...                                                [100%]
+=================================== FAILURES ===================================
+__________ test_local_transfer_stores_every_registered_file_with_meta __________
+
+core = <starlette.testclient.TestClient object at 0x7fec083be200>
+daemon_factory = <function daemon_factory.<locals>.build at 0x7fec08601fc0>
+base_proto = <function base_proto.<locals>.build at 0x7fec086023b0>
+db = <sqlite3.Connection object at 0x7fec086b0d40>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fec08475660>
+tmp_path = PosixPath('/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/fix5/runs/bt_F1_owner_runner_protocol_artifacts/test_local_transfer_stores_eve0')
+
+    def test_local_transfer_stores_every_registered_file_with_meta(core, daemon_factory, base_proto, db, monkeypatch,
+                                                                    tmp_path):
+        """Checkpoints, evaluation panels and the executed architecture.yaml registered with the core are in the store under
+        their digest, byte-identical (sha256 re-computed here), with the DD-A39 meta; atomically written checkpoints are
+        hard-linked, the in-place-written architecture.yaml is copied; identical panel bytes are stored once (no-op for the
+        later registrations); the committed result reports ``{mode: local, ok: true, failed: []}``."""
+        store = tmp_path / "gateway" / "artifacts"
+        d, run_id, job = _run_job(core, daemon_factory, base_proto, db, monkeypatch, store)
+        assert job["status"] == "SUCCEEDED", job.get("error")
+        regs = _registered(db, run_id)
+        kinds = {a["kind"] for a in repo.list_artifacts(db, run_id)}
+        assert {"gt", "tp", "fn", "fp", "architecture"} <= kinds
+        assert sum(1 for obj, _ in regs if obj == "checkpoint") == 2  # epoch_target_total 2 -> two full-state checkpoints
+        by_sha: dict[str, set[str]] = {}
+        for (_, oid), sha in regs.items():
+            by_sha.setdefault(sha, set()).add(oid)
+        run_dir = Path(d.settings.work_root) / "runs" / run_id
+        for (obj, oid), sha in regs.items():
+            path = store / sha[:2] / sha
+            assert hashlib.sha256(path.read_bytes()).hexdigest() == sha, (obj, oid)
+            meta = json.loads((store / sha[:2] / f"{sha}.json").read_text(encoding="utf-8"))
+            assert sorted(meta) == sorted(META_KEYS)
+            assert meta["artifact_id"] in by_sha[sha]  # the first registration of these bytes
+            assert (meta["run_id"], meta["job_id"], meta["attempt"]) == (run_id, job["id"], 1)
+            assert meta["registered_by"] == "R1" and meta["source"] == "local" and meta["bytes"] == path.stat().st_size
+>           assert (run_dir / meta["relpath"]).is_file()
+E           AssertionError: assert False
+E            +  where False = is_file()
+E            +    where is_file = (PosixPath('/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/fix5/runs/bt_F1_owner_runner_protocol_artifacts/test_local_transfer_stores_eve0/daemon-R1/runs/run-e77d7e36c78f') / 'candidates/run-e77d7e36c78f.base.yolo11n/full_e001.json').is_file
+
+tests/owner/runner_protocol/test_artifact_transfer.py:84: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-10-28T00:26:06.834Z INFO mbnas_core.access method=POST path=/api/v1/protocols/validate status=200 request_id=2442817f34f142fba430d18dd40ef9a7 duration_ms=274.6 client=testclient:50000
+2026-10-28T00:26:06.906Z INFO mbnas_core.access method=POST path=/api/v1/runs status=200 request_id=6ce5f37ff9054ab681f43cf0c95e2857 duration_ms=67.9 client=testclient:50000
+2026-10-28T00:26:06.993254Z runner R1: artifact transfer: local into /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/fix5/runs/bt_F1_owner_runner_protocol_artifacts/test_local_transfer_stores_eve0/gateway/artifacts (store mode same-uid, max 50 tries per file)
+2026-10-28T00:26:08.710Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=63e4cbad65f945219f4e155d4f1cd2e6 duration_ms=35.6 client=testclient:50000
+2026-10-28T00:26:08.793Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=f1a605be9b9341e3907b2c8a11410298 duration_ms=80.8 client=testclient:50000
+2026-10-28T00:26:08.870Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/start status=200 request_id=9fcb3a8020aa499d824c544e9e016f4d duration_ms=16.0 client=testclient:50000
+2026-10-28T00:26:09.959Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/heartbeat status=200 request_id=c7cde850b18a434a9e4b2d829b9a2deb duration_ms=12.1 client=testclient:50000
+2026-10-28T00:26:10.972Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/heartbeat status=200 request_id=a0a8d8bed2a049b39a38035f09bf5c5c duration_ms=9.5 client=testclient:50000
+2026-10-28T00:26:11.983Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/heartbeat status=200 request_id=dad826038e3a480396eb421980a10d60 duration_ms=7.8 client=testclient:50000
+2026-10-28T00:26:12.117Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/progress status=200 request_id=c92b6cc1bd564c63b3abdc1b3adfbf8e duration_ms=40.2 client=testclient:50000
+2026-10-28T00:26:12.185Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/checkpoints status=200 request_id=5cf4ea776a2846fab875b00b0608a818 duration_ms=15.7 client=testclient:50000
+2026-10-28T00:26:12.330Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/checkpoints status=200 request_id=970f61442ee64ef1b878abe446cbb367 duration_ms=8.8 client=testclient:50000
+2026-10-28T00:26:12.452Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/progress status=200 request_id=ede158cdf2aa465c89ae054b331be409 duration_ms=10.3 client=testclient:50000
+2026-10-28T00:26:13.053Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/heartbeat status=200 request_id=a9aa28576bc3452ea670040b3818f9a2 duration_ms=7.2 client=testclient:50000
+2026-10-28T00:26:13.105Z INFO mbnas_core.access method=POST path=/core/v1/runner/checkpoints/ck-e1dd16f13bac86b3/pruned status=200 request_id=3a5e8aac559b4650b0cb924489e92027 duration_ms=7.1 client=testclient:50000
+2026-10-28T00:26:13.132302Z runner R1: checkpoint ck-e1dd16f13bac86b3 pruned (deleted, 174 bytes freed; request prq-e49f186c8c70d4da6c60d4d2)
+2026-10-28T00:26:13.137Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/artifacts status=200 request_id=18e0fe4abbfe4c44a91a0792fa6c43cd duration_ms=12.3 client=testclient:50000
+2026-10-28T00:26:13.382Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/result status=200 request_id=185f07ce7ab84585b5752a36a8892483 duration_ms=54.5 client=testclient:50000
+2026-10-28T00:26:13.414Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/ack status=204 request_id=f9794e676e95479a84041f6d7990e8f3 duration_ms=8.5 client=testclient:50000
+2026-10-28T00:26:13.447Z INFO mbnas_core.access method=POST path=/core/v1/runner/deregister status=204 request_id=823ac36a18b14f95aa6b8b64e2222482 duration_ms=8.1 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/protocols/validate status=200 request_id=2442817f34f142fba430d18dd40ef9a7 duration_ms=274.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/api/v1/runs status=200 request_id=6ce5f37ff9054ab681f43cf0c95e2857 duration_ms=67.9 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=63e4cbad65f945219f4e155d4f1cd2e6 duration_ms=35.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=f1a605be9b9341e3907b2c8a11410298 duration_ms=80.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/start status=200 request_id=9fcb3a8020aa499d824c544e9e016f4d duration_ms=16.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/heartbeat status=200 request_id=c7cde850b18a434a9e4b2d829b9a2deb duration_ms=12.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/heartbeat status=200 request_id=a0a8d8bed2a049b39a38035f09bf5c5c duration_ms=9.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/heartbeat status=200 request_id=dad826038e3a480396eb421980a10d60 duration_ms=7.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/progress status=200 request_id=c92b6cc1bd564c63b3abdc1b3adfbf8e duration_ms=40.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/checkpoints status=200 request_id=5cf4ea776a2846fab875b00b0608a818 duration_ms=15.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/checkpoints status=200 request_id=970f61442ee64ef1b878abe446cbb367 duration_ms=8.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/progress status=200 request_id=ede158cdf2aa465c89ae054b331be409 duration_ms=10.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/heartbeat status=200 request_id=a9aa28576bc3452ea670040b3818f9a2 duration_ms=7.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/checkpoints/ck-e1dd16f13bac86b3/pruned status=200 request_id=3a5e8aac559b4650b0cb924489e92027 duration_ms=7.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/artifacts status=200 request_id=18e0fe4abbfe4c44a91a0792fa6c43cd duration_ms=12.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/result status=200 request_id=185f07ce7ab84585b5752a36a8892483 duration_ms=54.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-be66cf4784334b9d/ack status=204 request_id=f9794e676e95479a84041f6d7990e8f3 duration_ms=8.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/deregister status=204 request_id=823ac36a18b14f95aa6b8b64e2222482 duration_ms=8.1 client=testclient:50000
+_____ test_register_transfer_download_digest_match_and_location_transition _____
+
+gateway = <starlette.testclient.TestClient object at 0x7fe9a43e0520>
+core = <starlette.testclient.TestClient object at 0x7fe9a43e0550>
+server_headers = {'Authorization': 'Bearer <redacted-test-token>'}
+db = <sqlite3.Connection object at 0x7fea536fb340>
+finished_run = <function finished_run.<locals>.run at 0x7fe9a1a7cf70>
+store_dir = PosixPath('/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/fix5/runs/bt_F1_owner_runner_protocol_artifacts/test_register_transfer_downloa0/gateway-store')
+
+    def test_register_transfer_download_digest_match_and_location_transition(gateway, core, server_headers, db,
+                                                                            finished_run, store_dir):
+        run_id, job = finished_run()
+        assert job["result"]["outputs"]["artifact_transfer"]["ok"] is True
+        objects = _objects(db, run_id)
+        kinds = {a["kind"] for a in repo.list_artifacts(db, run_id)}
+        assert {"gt", "tp", "fn", "fp", "architecture"} <= kinds and sum(o == "checkpoint" for o, _, _ in objects) == 2
+        for obj, oid, sha in objects:
+            before = _record(core, server_headers, run_id, oid)
+            assert (before["object"], before["origin"], before["sha256"]) == (obj, "runner", sha)
+>           assert before["state"] == "NOT_READY" and before["server_store"] is None  # registered, never verified (R8)
+E           AssertionError: assert ('MISSING' == 'NOT_READY'
+E             
+E             - NOT_READY
+E             + MISSING)
+
+tests/owner/artifacts/test_artifact_wiring.py:58: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-10-28T00:29:02.787Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=ea65ec47056d46f6bf92a14cc3a40a33 duration_ms=93.0 client=127.0.0.1:50000
+2026-10-28T00:29:02.805Z INFO mbnas_server.access method=POST path=/api/v1/protocols/validate status=200 request_id=ea65ec47056d46f6bf92a14cc3a40a33 duration_ms=298.2 client=testclient:50000
+2026-10-28T00:29:02.934Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=d2a8c25ced2e4fa6a71cc61171f4e818 duration_ms=101.1 client=127.0.0.1:50000
+2026-10-28T00:29:02.935Z INFO mbnas_server.access method=POST path=/api/v1/runs status=200 request_id=d2a8c25ced2e4fa6a71cc61171f4e818 duration_ms=126.5 client=testclient:50000
+2026-10-28T00:29:02.943280Z runner R1: artifact transfer: local into /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/fix5/runs/bt_F1_owner_runner_protocol_artifacts/test_register_transfer_downloa0/gateway-store (store mode same-uid, max 50 tries per file)
+2026-10-28T00:29:03.020Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=4f2565cbc796452a89c4a624ecd67278 duration_ms=61.3 client=testclient:50000
+2026-10-28T00:29:03.046Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=be9a851b8de14887872fa5b38e1aa8e8 duration_ms=23.0 client=testclient:50000
+2026-10-28T00:29:03.148Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/start status=200 request_id=8ceaece2c6f34ba3b703988e70fe56c1 duration_ms=8.8 client=testclient:50000
+2026-10-28T00:29:04.263Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/heartbeat status=200 request_id=f8032c22da6a496796267d7bcd37c9e7 duration_ms=9.0 client=testclient:50000
+2026-10-28T00:29:05.682Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/heartbeat status=200 request_id=9bde30e139604642888c7e78ccc88067 duration_ms=415.5 client=testclient:50000
+2026-10-28T00:29:06.693Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/heartbeat status=200 request_id=e011d87626304344a84a23fe2426fa7f duration_ms=5.6 client=testclient:50000
+2026-10-28T00:29:06.770Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/progress status=200 request_id=2a57d75174414880a2927de7243ad7d1 duration_ms=10.2 client=testclient:50000
+2026-10-28T00:29:06.853Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/checkpoints status=200 request_id=6af20c67ce4241fa993aff9837e8eff3 duration_ms=11.0 client=testclient:50000
+2026-10-28T00:29:07.022Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/checkpoints status=200 request_id=dc9dec5ec1f0428bb9d5eec3e8782f8a duration_ms=8.4 client=testclient:50000
+2026-10-28T00:29:07.159Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/progress status=200 request_id=d59ff55255e94dedb6d5c5cbf70b80e0 duration_ms=7.8 client=testclient:50000
+2026-10-28T00:29:07.762Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/heartbeat status=200 request_id=fe2b524bffd94a5896cfe6759e8814f2 duration_ms=7.9 client=testclient:50000
+2026-10-28T00:29:07.818Z INFO mbnas_core.access method=POST path=/core/v1/runner/checkpoints/ck-90694c7732525830/pruned status=200 request_id=40e0ca9ea6524874b07b9d7d19acf5ff duration_ms=6.1 client=testclient:50000
+2026-10-28T00:29:07.829Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/artifacts status=200 request_id=0a168f5852e84507adee86388dda1de8 duration_ms=6.4 client=testclient:50000
+2026-10-28T00:29:07.850634Z runner R1: checkpoint ck-90694c7732525830 pruned (deleted, 174 bytes freed; request prq-537107bac136a6777249d72c)
+2026-10-28T00:29:08.155Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/result status=200 request_id=99d626eb48cd4e03976094f6640c6101 duration_ms=43.2 client=testclient:50000
+2026-10-28T00:29:08.193Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/ack status=204 request_id=42b2e2cbdfcc48dab0e83a6b4900fe1f duration_ms=4.8 client=testclient:50000
+2026-10-28T00:29:08.232Z INFO mbnas_core.access method=POST path=/core/v1/runner/deregister status=204 request_id=66ea620f920e4a67a693edaafdc7c84a duration_ms=4.7 client=testclient:50000
+2026-10-28T00:29:08.246Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-7fd381ae2e6c0d5ec4d0/record status=200 request_id=6bd8b4f103294f98b0a562492aa20240 duration_ms=9.5 client=testclient:50000
+2026-10-28T00:29:08.297Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-7fd381ae2e6c0d5ec4d0/record status=200 request_id=b91650896d044bf2bf96a8ffdfb58bb7 duration_ms=9.4 client=127.0.0.1:50000
+2026-10-28T00:29:08.314Z INFO mbnas_core.access method=POST path=/core/v1/console/artifacts/art-7fd381ae2e6c0d5ec4d0/locations status=200 request_id=b91650896d044bf2bf96a8ffdfb58bb7 duration_ms=12.6 client=127.0.0.1:50000
+2026-10-28T00:29:08.315Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-9a601e2b2442/artifacts/art-7fd381ae2e6c0d5ec4d0 status=200 request_id=b91650896d044bf2bf96a8ffdfb58bb7 duration_ms=65.0 client=testclient:50000
+2026-10-28T00:29:08.325Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-7fd381ae2e6c0d5ec4d0/record status=200 request_id=e6cfad8489b346c68e4c122d07295db5 duration_ms=7.3 client=testclient:50000
+2026-10-28T00:29:08.335Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-9c01171600a2bbbf7406/record status=200 request_id=1209e75999094dcd9e74ac6b2307efe9 duration_ms=7.0 client=testclient:50000
+2026-10-28T00:29:08.348Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-9c01171600a2bbbf7406/record status=200 request_id=394c20d144504dfa89c6a2c6125e85b2 duration_ms=9.3 client=127.0.0.1:50000
+2026-10-28T00:29:08.359Z INFO mbnas_core.access method=POST path=/core/v1/console/artifacts/art-9c01171600a2bbbf7406/locations status=200 request_id=394c20d144504dfa89c6a2c6125e85b2 duration_ms=8.1 client=127.0.0.1:50000
+2026-10-28T00:29:08.360Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-9a601e2b2442/artifacts/art-9c01171600a2bbbf7406 status=200 request_id=394c20d144504dfa89c6a2c6125e85b2 duration_ms=23.3 client=testclient:50000
+2026-10-28T00:29:08.371Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-9c01171600a2bbbf7406/record status=200 request_id=6c8b37888cc441b4a9628c0909c93ca0 duration_ms=8.5 client=testclient:50000
+2026-10-28T00:29:08.380Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-a30c446eb81bcbcf6d4d/record status=200 request_id=70b8c95324564fa6823cdbb8214a8836 duration_ms=6.8 client=testclient:50000
+2026-10-28T00:29:08.393Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-a30c446eb81bcbcf6d4d/record status=200 request_id=11bb712d1d794e27b6d0dcb5cf5473ec duration_ms=8.2 client=127.0.0.1:50000
+2026-10-28T00:29:08.403Z INFO mbnas_core.access method=POST path=/core/v1/console/artifacts/art-a30c446eb81bcbcf6d4d/locations status=200 request_id=11bb712d1d794e27b6d0dcb5cf5473ec duration_ms=6.5 client=127.0.0.1:50000
+2026-10-28T00:29:08.404Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-9a601e2b2442/artifacts/art-a30c446eb81bcbcf6d4d status=200 request_id=11bb712d1d794e27b6d0dcb5cf5473ec duration_ms=20.7 client=testclient:50000
+2026-10-28T00:29:08.413Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-a30c446eb81bcbcf6d4d/record status=200 request_id=0b2d82d35cc5498186c7d635cd825580 duration_ms=7.0 client=testclient:50000
+2026-10-28T00:29:08.422Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-763b7cc1d1fc9cb3eac7/record status=200 request_id=5a6a842eb2784cff9ef28f0d8d259f27 duration_ms=6.2 client=testclient:50000
+2026-10-28T00:29:08.438Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-763b7cc1d1fc9cb3eac7/record status=200 request_id=3ccd5cd08c4047e49860377d68757853 duration_ms=11.1 client=127.0.0.1:50000
+2026-10-28T00:29:08.448Z INFO mbnas_core.access method=POST path=/core/v1/console/artifacts/art-763b7cc1d1fc9cb3eac7/locations status=200 request_id=3ccd5cd08c4047e49860377d68757853 duration_ms=6.3 client=127.0.0.1:50000
+2026-10-28T00:29:08.449Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-9a601e2b2442/artifacts/art-763b7cc1d1fc9cb3eac7 status=200 request_id=3ccd5cd08c4047e49860377d68757853 duration_ms=24.2 client=testclient:50000
+2026-10-28T00:29:08.460Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-763b7cc1d1fc9cb3eac7/record status=200 request_id=78fb65c72ad743aaa61b23349e77a164 duration_ms=8.9 client=testclient:50000
+2026-10-28T00:29:08.472Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-1c0c9acb3686a4ce1ebc/record status=200 request_id=7dfadf535fc5468a90ccf2e8934bafe7 duration_ms=9.6 client=testclient:50000
+2026-10-28T00:29:08.486Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-1c0c9acb3686a4ce1ebc/record status=200 request_id=f55ea28ca3494db98940f94d8a012160 duration_ms=8.0 client=127.0.0.1:50000
+2026-10-28T00:29:08.499Z INFO mbnas_core.access method=POST path=/core/v1/console/artifacts/art-1c0c9acb3686a4ce1ebc/locations status=200 request_id=f55ea28ca3494db98940f94d8a012160 duration_ms=9.7 client=127.0.0.1:50000
+2026-10-28T00:29:08.500Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-9a601e2b2442/artifacts/art-1c0c9acb3686a4ce1ebc status=200 request_id=f55ea28ca3494db98940f94d8a012160 duration_ms=23.8 client=testclient:50000
+2026-10-28T00:29:08.509Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-1c0c9acb3686a4ce1ebc/record status=200 request_id=a3ea9f9c89514ae99b937015a8abb119 duration_ms=6.9 client=testclient:50000
+2026-10-28T00:29:08.519Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/ck-90694c7732525830/record status=200 request_id=ff376770c25f40d0b4805db686606b44 duration_ms=8.0 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=ea65ec47056d46f6bf92a14cc3a40a33 duration_ms=93.0 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/protocols/validate status=200 request_id=ea65ec47056d46f6bf92a14cc3a40a33 duration_ms=298.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=d2a8c25ced2e4fa6a71cc61171f4e818 duration_ms=101.1 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs status=200 request_id=d2a8c25ced2e4fa6a71cc61171f4e818 duration_ms=126.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=4f2565cbc796452a89c4a624ecd67278 duration_ms=61.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=be9a851b8de14887872fa5b38e1aa8e8 duration_ms=23.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/start status=200 request_id=8ceaece2c6f34ba3b703988e70fe56c1 duration_ms=8.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/heartbeat status=200 request_id=f8032c22da6a496796267d7bcd37c9e7 duration_ms=9.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/heartbeat status=200 request_id=9bde30e139604642888c7e78ccc88067 duration_ms=415.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/heartbeat status=200 request_id=e011d87626304344a84a23fe2426fa7f duration_ms=5.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/progress status=200 request_id=2a57d75174414880a2927de7243ad7d1 duration_ms=10.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/checkpoints status=200 request_id=6af20c67ce4241fa993aff9837e8eff3 duration_ms=11.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/checkpoints status=200 request_id=dc9dec5ec1f0428bb9d5eec3e8782f8a duration_ms=8.4 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/progress status=200 request_id=d59ff55255e94dedb6d5c5cbf70b80e0 duration_ms=7.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/heartbeat status=200 request_id=fe2b524bffd94a5896cfe6759e8814f2 duration_ms=7.9 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/checkpoints/ck-90694c7732525830/pruned status=200 request_id=40e0ca9ea6524874b07b9d7d19acf5ff duration_ms=6.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/artifacts status=200 request_id=0a168f5852e84507adee86388dda1de8 duration_ms=6.4 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/result status=200 request_id=99d626eb48cd4e03976094f6640c6101 duration_ms=43.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-ea7bc4b513c249b3/ack status=204 request_id=42b2e2cbdfcc48dab0e83a6b4900fe1f duration_ms=4.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/deregister status=204 request_id=66ea620f920e4a67a693edaafdc7c84a duration_ms=4.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-7fd381ae2e6c0d5ec4d0/record status=200 request_id=6bd8b4f103294f98b0a562492aa20240 duration_ms=9.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-7fd381ae2e6c0d5ec4d0/record status=200 request_id=b91650896d044bf2bf96a8ffdfb58bb7 duration_ms=9.4 client=127.0.0.1:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/artifacts/art-7fd381ae2e6c0d5ec4d0/locations status=200 request_id=b91650896d044bf2bf96a8ffdfb58bb7 duration_ms=12.6 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-9a601e2b2442/artifacts/art-7fd381ae2e6c0d5ec4d0 status=200 request_id=b91650896d044bf2bf96a8ffdfb58bb7 duration_ms=65.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-7fd381ae2e6c0d5ec4d0/record status=200 request_id=e6cfad8489b346c68e4c122d07295db5 duration_ms=7.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-9c01171600a2bbbf7406/record status=200 request_id=1209e75999094dcd9e74ac6b2307efe9 duration_ms=7.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-9c01171600a2bbbf7406/record status=200 request_id=394c20d144504dfa89c6a2c6125e85b2 duration_ms=9.3 client=127.0.0.1:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/artifacts/art-9c01171600a2bbbf7406/locations status=200 request_id=394c20d144504dfa89c6a2c6125e85b2 duration_ms=8.1 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-9a601e2b2442/artifacts/art-9c01171600a2bbbf7406 status=200 request_id=394c20d144504dfa89c6a2c6125e85b2 duration_ms=23.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-9c01171600a2bbbf7406/record status=200 request_id=6c8b37888cc441b4a9628c0909c93ca0 duration_ms=8.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-a30c446eb81bcbcf6d4d/record status=200 request_id=70b8c95324564fa6823cdbb8214a8836 duration_ms=6.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-a30c446eb81bcbcf6d4d/record status=200 request_id=11bb712d1d794e27b6d0dcb5cf5473ec duration_ms=8.2 client=127.0.0.1:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/artifacts/art-a30c446eb81bcbcf6d4d/locations status=200 request_id=11bb712d1d794e27b6d0dcb5cf5473ec duration_ms=6.5 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-9a601e2b2442/artifacts/art-a30c446eb81bcbcf6d4d status=200 request_id=11bb712d1d794e27b6d0dcb5cf5473ec duration_ms=20.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-a30c446eb81bcbcf6d4d/record status=200 request_id=0b2d82d35cc5498186c7d635cd825580 duration_ms=7.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-763b7cc1d1fc9cb3eac7/record status=200 request_id=5a6a842eb2784cff9ef28f0d8d259f27 duration_ms=6.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-763b7cc1d1fc9cb3eac7/record status=200 request_id=3ccd5cd08c4047e49860377d68757853 duration_ms=11.1 client=127.0.0.1:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/artifacts/art-763b7cc1d1fc9cb3eac7/locations status=200 request_id=3ccd5cd08c4047e49860377d68757853 duration_ms=6.3 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-9a601e2b2442/artifacts/art-763b7cc1d1fc9cb3eac7 status=200 request_id=3ccd5cd08c4047e49860377d68757853 duration_ms=24.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-763b7cc1d1fc9cb3eac7/record status=200 request_id=78fb65c72ad743aaa61b23349e77a164 duration_ms=8.9 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-1c0c9acb3686a4ce1ebc/record status=200 request_id=7dfadf535fc5468a90ccf2e8934bafe7 duration_ms=9.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-1c0c9acb3686a4ce1ebc/record status=200 request_id=f55ea28ca3494db98940f94d8a012160 duration_ms=8.0 client=127.0.0.1:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/artifacts/art-1c0c9acb3686a4ce1ebc/locations status=200 request_id=f55ea28ca3494db98940f94d8a012160 duration_ms=9.7 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-9a601e2b2442/artifacts/art-1c0c9acb3686a4ce1ebc status=200 request_id=f55ea28ca3494db98940f94d8a012160 duration_ms=23.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/art-1c0c9acb3686a4ce1ebc/record status=200 request_id=a3ea9f9c89514ae99b937015a8abb119 duration_ms=6.9 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-9a601e2b2442/artifacts/ck-90694c7732525830/record status=200 request_id=ff376770c25f40d0b4805db686606b44 duration_ms=8.0 client=testclient:50000
+____________ test_untransferred_objects_are_404_artifact_not_ready _____________
+
+gateway = <starlette.testclient.TestClient object at 0x7fea699b9d80>
+core = <starlette.testclient.TestClient object at 0x7fea699b9b10>
+server_headers = {'Authorization': 'Bearer <redacted-test-token>'}
+db = <sqlite3.Connection object at 0x7fe9a3d1d840>
+finished_run = <function finished_run.<locals>.run at 0x7fe9a3c09ab0>
+store_dir = PosixPath('/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/fix5/runs/bt_F1_owner_runner_protocol_artifacts/test_untransferred_objects_are0/gateway-store')
+
+    def test_untransferred_objects_are_404_artifact_not_ready(gateway, core, server_headers, db, finished_run, store_dir):
+        run_id, job = finished_run(artifact_transfer="none")
+        assert "artifact_transfer" not in (job["result"].get("outputs") or {})
+        assert not store_dir.exists() or not any(store_dir.rglob("*"))
+        for obj, oid, _ in _objects(db, run_id):
+            r = gateway.get(f"/api/v1/runs/{run_id}/artifacts/{oid}", headers=auth())
+            assert r.status_code == 404 and r.json()["code"] == "ARTIFACT_NOT_READY", (obj, oid, r.text)
+            rec = _record(core, server_headers, run_id, oid)
+>           assert rec["state"] == "NOT_READY" and rec["origin"] == "runner"
+E           AssertionError: assert ('MISSING' == 'NOT_READY'
+E             
+E             - NOT_READY
+E             + MISSING)
+
+tests/owner/artifacts/test_artifact_wiring.py:155: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-10-28T00:29:27.368Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=bcf3e0c7587e4d92ad7cf983379dc575 duration_ms=107.4 client=127.0.0.1:50000
+2026-10-28T00:29:27.381Z INFO mbnas_server.access method=POST path=/api/v1/protocols/validate status=200 request_id=bcf3e0c7587e4d92ad7cf983379dc575 duration_ms=285.1 client=testclient:50000
+2026-10-28T00:29:27.491Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=bcb17454594d45b4ba110303ee96c5d5 duration_ms=83.4 client=127.0.0.1:50000
+2026-10-28T00:29:27.492Z INFO mbnas_server.access method=POST path=/api/v1/runs status=200 request_id=bcb17454594d45b4ba110303ee96c5d5 duration_ms=106.9 client=testclient:50000
+2026-10-28T00:29:27.563Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=1c0ef037753c4ef78ee97b98b687dce4 duration_ms=37.9 client=testclient:50000
+2026-10-28T00:29:27.579Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=57625d20a32e47ec957733d18e37804b duration_ms=13.4 client=testclient:50000
+2026-10-28T00:29:27.680Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/start status=200 request_id=4356d4b4f5d247c5a9a4cc0a5d653766 duration_ms=12.4 client=testclient:50000
+2026-10-28T00:29:28.802Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/heartbeat status=200 request_id=38471bd16cc741f6aefc173485133833 duration_ms=9.3 client=testclient:50000
+2026-10-28T00:29:29.815Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/heartbeat status=200 request_id=1f7549ecf2974acb8052ad3b0a6badcd duration_ms=9.6 client=testclient:50000
+2026-10-28T00:29:30.826Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/heartbeat status=200 request_id=fa3130190fea4c30a61c8947685e8564 duration_ms=7.3 client=testclient:50000
+2026-10-28T00:29:31.078Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/progress status=200 request_id=86c736383c0f49b78aa4d26fa779f6a5 duration_ms=10.9 client=testclient:50000
+2026-10-28T00:29:31.162Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/checkpoints status=200 request_id=bbe3b60381094bb789ce335730a2eff0 duration_ms=13.7 client=testclient:50000
+2026-10-28T00:29:31.213Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/checkpoints status=200 request_id=08574d5bc7824cc1a31c684b08695745 duration_ms=11.5 client=testclient:50000
+2026-10-28T00:29:31.245Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/progress status=200 request_id=5d0988d426dd4e3d8e873e1b64096a5a duration_ms=8.7 client=testclient:50000
+2026-10-28T00:29:32.067Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/heartbeat status=200 request_id=89dddfb72c48461694aa03036a7a1864 duration_ms=7.9 client=testclient:50000
+2026-10-28T00:29:32.127Z INFO mbnas_core.access method=POST path=/core/v1/runner/checkpoints/ck-f85c909beaaa7839/pruned status=200 request_id=0788ddcc19394f00bc7d27d357d4a5aa duration_ms=8.5 client=testclient:50000
+2026-10-28T00:29:32.145Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/artifacts status=200 request_id=078b5e7958a946fab5d685234bd7feff duration_ms=9.1 client=testclient:50000
+2026-10-28T00:29:32.151464Z runner R1: checkpoint ck-f85c909beaaa7839 pruned (deleted, 174 bytes freed; request prq-c5458e5e531445e05910ce79)
+2026-10-28T00:29:32.287Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/result status=200 request_id=16c1046cddbc4145842aee5aa5c54bc9 duration_ms=80.1 client=testclient:50000
+2026-10-28T00:29:32.314Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/ack status=204 request_id=27112ace86de477d8ab57e732b1b68d8 duration_ms=5.5 client=testclient:50000
+2026-10-28T00:29:32.342Z INFO mbnas_core.access method=POST path=/core/v1/runner/deregister status=204 request_id=071a9cc0392b4fb79d4647f4cb8765df duration_ms=6.1 client=testclient:50000
+2026-10-28T00:29:32.394Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-8caf920ee1ba89c17185/record status=200 request_id=607c76d6c0a14a4a8727c195c3e17776 duration_ms=11.5 client=127.0.0.1:50000
+2026-10-28T00:29:32.396Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-a968d7a892a2/artifacts/art-8caf920ee1ba89c17185 status=404 request_id=607c76d6c0a14a4a8727c195c3e17776 duration_ms=49.7 client=testclient:50000
+2026-10-28T00:29:32.406Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-8caf920ee1ba89c17185/record status=200 request_id=0f3043e5b9034b76aa292bf138da913e duration_ms=8.1 client=testclient:50000
+2026-10-28T00:29:32.418Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-8caf920ee1ba89c17185/record status=200 request_id=57c50460177f404d8c2d39c0a4040862 duration_ms=8.0 client=127.0.0.1:50000
+2026-10-28T00:29:32.420Z INFO mbnas_server.access method=POST path=/api/v1/runs/run-a968d7a892a2/artifacts/art-8caf920ee1ba89c17185/refresh status=200 request_id=57c50460177f404d8c2d39c0a4040862 duration_ms=12.1 client=testclient:50000
+2026-10-28T00:29:32.432Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-66543599b912f05a03c8/record status=200 request_id=67ea62f01a4c439eaaf5c4c961e2ba85 duration_ms=8.6 client=127.0.0.1:50000
+2026-10-28T00:29:32.433Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-a968d7a892a2/artifacts/art-66543599b912f05a03c8 status=404 request_id=67ea62f01a4c439eaaf5c4c961e2ba85 duration_ms=11.8 client=testclient:50000
+2026-10-28T00:29:32.443Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-66543599b912f05a03c8/record status=200 request_id=704c38454638403abc5e9f97d82d5ff8 duration_ms=8.3 client=testclient:50000
+2026-10-28T00:29:32.459Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-66543599b912f05a03c8/record status=200 request_id=9757d9af59c34538aa1ad0f2e973e696 duration_ms=9.7 client=127.0.0.1:50000
+2026-10-28T00:29:32.461Z INFO mbnas_server.access method=POST path=/api/v1/runs/run-a968d7a892a2/artifacts/art-66543599b912f05a03c8/refresh status=200 request_id=9757d9af59c34538aa1ad0f2e973e696 duration_ms=15.0 client=testclient:50000
+2026-10-28T00:29:32.476Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-1d50104bb85c35869df6/record status=200 request_id=9aaba8fe213446fda3e9858693be4e7b duration_ms=10.2 client=127.0.0.1:50000
+2026-10-28T00:29:32.478Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-a968d7a892a2/artifacts/art-1d50104bb85c35869df6 status=404 request_id=9aaba8fe213446fda3e9858693be4e7b duration_ms=14.2 client=testclient:50000
+2026-10-28T00:29:32.489Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-1d50104bb85c35869df6/record status=200 request_id=af04df04c29a47b6badf6511b05283b1 duration_ms=8.7 client=testclient:50000
+2026-10-28T00:29:32.501Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-1d50104bb85c35869df6/record status=200 request_id=cf8afa79ba3748c6baa421c762f65ea9 duration_ms=7.9 client=127.0.0.1:50000
+2026-10-28T00:29:32.503Z INFO mbnas_server.access method=POST path=/api/v1/runs/run-a968d7a892a2/artifacts/art-1d50104bb85c35869df6/refresh status=200 request_id=cf8afa79ba3748c6baa421c762f65ea9 duration_ms=11.6 client=testclient:50000
+2026-10-28T00:29:32.515Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-e804c83ed38654082e84/record status=200 request_id=6eb3121cb8f548d1a27c371929155164 duration_ms=8.2 client=127.0.0.1:50000
+2026-10-28T00:29:32.516Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-a968d7a892a2/artifacts/art-e804c83ed38654082e84 status=404 request_id=6eb3121cb8f548d1a27c371929155164 duration_ms=10.8 client=testclient:50000
+2026-10-28T00:29:32.527Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-e804c83ed38654082e84/record status=200 request_id=79feeee0f8bc460d97118bc63b7eeae9 duration_ms=8.9 client=testclient:50000
+2026-10-28T00:29:32.541Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-e804c83ed38654082e84/record status=200 request_id=cc903a79cd4f43df9d862143506e6b31 duration_ms=8.3 client=127.0.0.1:50000
+2026-10-28T00:29:32.542Z INFO mbnas_server.access method=POST path=/api/v1/runs/run-a968d7a892a2/artifacts/art-e804c83ed38654082e84/refresh status=200 request_id=cc903a79cd4f43df9d862143506e6b31 duration_ms=12.2 client=testclient:50000
+2026-10-28T00:29:32.554Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-187dc57fd689bf589a1e/record status=200 request_id=94e730ec8f5540899cd9f35a352279cb duration_ms=8.6 client=127.0.0.1:50000
+2026-10-28T00:29:32.556Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-a968d7a892a2/artifacts/art-187dc57fd689bf589a1e status=404 request_id=94e730ec8f5540899cd9f35a352279cb duration_ms=11.6 client=testclient:50000
+2026-10-28T00:29:32.567Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-187dc57fd689bf589a1e/record status=200 request_id=66d94e02f1a54728bf2e03129ff0cccf duration_ms=8.8 client=testclient:50000
+2026-10-28T00:29:32.579Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-187dc57fd689bf589a1e/record status=200 request_id=ab9cc0a6658248d9bc01be7f61abeefd duration_ms=8.1 client=127.0.0.1:50000
+2026-10-28T00:29:32.581Z INFO mbnas_server.access method=POST path=/api/v1/runs/run-a968d7a892a2/artifacts/art-187dc57fd689bf589a1e/refresh status=200 request_id=ab9cc0a6658248d9bc01be7f61abeefd duration_ms=11.8 client=testclient:50000
+2026-10-28T00:29:32.594Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/ck-f85c909beaaa7839/record status=200 request_id=d8b6bab7f59641ceb10744115bcbb175 duration_ms=8.6 client=127.0.0.1:50000
+2026-10-28T00:29:32.595Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-a968d7a892a2/artifacts/ck-f85c909beaaa7839 status=404 request_id=d8b6bab7f59641ceb10744115bcbb175 duration_ms=11.7 client=testclient:50000
+2026-10-28T00:29:32.606Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/ck-f85c909beaaa7839/record status=200 request_id=4dfad1bace2a47608bef9e9d97a0e451 duration_ms=8.8 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=bcf3e0c7587e4d92ad7cf983379dc575 duration_ms=107.4 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/protocols/validate status=200 request_id=bcf3e0c7587e4d92ad7cf983379dc575 duration_ms=285.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=bcb17454594d45b4ba110303ee96c5d5 duration_ms=83.4 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs status=200 request_id=bcb17454594d45b4ba110303ee96c5d5 duration_ms=106.9 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=1c0ef037753c4ef78ee97b98b687dce4 duration_ms=37.9 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=57625d20a32e47ec957733d18e37804b duration_ms=13.4 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/start status=200 request_id=4356d4b4f5d247c5a9a4cc0a5d653766 duration_ms=12.4 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/heartbeat status=200 request_id=38471bd16cc741f6aefc173485133833 duration_ms=9.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/heartbeat status=200 request_id=1f7549ecf2974acb8052ad3b0a6badcd duration_ms=9.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/heartbeat status=200 request_id=fa3130190fea4c30a61c8947685e8564 duration_ms=7.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/progress status=200 request_id=86c736383c0f49b78aa4d26fa779f6a5 duration_ms=10.9 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/checkpoints status=200 request_id=bbe3b60381094bb789ce335730a2eff0 duration_ms=13.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/checkpoints status=200 request_id=08574d5bc7824cc1a31c684b08695745 duration_ms=11.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/progress status=200 request_id=5d0988d426dd4e3d8e873e1b64096a5a duration_ms=8.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/heartbeat status=200 request_id=89dddfb72c48461694aa03036a7a1864 duration_ms=7.9 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/checkpoints/ck-f85c909beaaa7839/pruned status=200 request_id=0788ddcc19394f00bc7d27d357d4a5aa duration_ms=8.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/artifacts status=200 request_id=078b5e7958a946fab5d685234bd7feff duration_ms=9.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/result status=200 request_id=16c1046cddbc4145842aee5aa5c54bc9 duration_ms=80.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-49dd6354b69f4a5e/ack status=204 request_id=27112ace86de477d8ab57e732b1b68d8 duration_ms=5.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/deregister status=204 request_id=071a9cc0392b4fb79d4647f4cb8765df duration_ms=6.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-8caf920ee1ba89c17185/record status=200 request_id=607c76d6c0a14a4a8727c195c3e17776 duration_ms=11.5 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-a968d7a892a2/artifacts/art-8caf920ee1ba89c17185 status=404 request_id=607c76d6c0a14a4a8727c195c3e17776 duration_ms=49.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-8caf920ee1ba89c17185/record status=200 request_id=0f3043e5b9034b76aa292bf138da913e duration_ms=8.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-8caf920ee1ba89c17185/record status=200 request_id=57c50460177f404d8c2d39c0a4040862 duration_ms=8.0 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs/run-a968d7a892a2/artifacts/art-8caf920ee1ba89c17185/refresh status=200 request_id=57c50460177f404d8c2d39c0a4040862 duration_ms=12.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-66543599b912f05a03c8/record status=200 request_id=67ea62f01a4c439eaaf5c4c961e2ba85 duration_ms=8.6 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-a968d7a892a2/artifacts/art-66543599b912f05a03c8 status=404 request_id=67ea62f01a4c439eaaf5c4c961e2ba85 duration_ms=11.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-66543599b912f05a03c8/record status=200 request_id=704c38454638403abc5e9f97d82d5ff8 duration_ms=8.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-66543599b912f05a03c8/record status=200 request_id=9757d9af59c34538aa1ad0f2e973e696 duration_ms=9.7 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs/run-a968d7a892a2/artifacts/art-66543599b912f05a03c8/refresh status=200 request_id=9757d9af59c34538aa1ad0f2e973e696 duration_ms=15.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-1d50104bb85c35869df6/record status=200 request_id=9aaba8fe213446fda3e9858693be4e7b duration_ms=10.2 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-a968d7a892a2/artifacts/art-1d50104bb85c35869df6 status=404 request_id=9aaba8fe213446fda3e9858693be4e7b duration_ms=14.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-1d50104bb85c35869df6/record status=200 request_id=af04df04c29a47b6badf6511b05283b1 duration_ms=8.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-1d50104bb85c35869df6/record status=200 request_id=cf8afa79ba3748c6baa421c762f65ea9 duration_ms=7.9 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs/run-a968d7a892a2/artifacts/art-1d50104bb85c35869df6/refresh status=200 request_id=cf8afa79ba3748c6baa421c762f65ea9 duration_ms=11.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-e804c83ed38654082e84/record status=200 request_id=6eb3121cb8f548d1a27c371929155164 duration_ms=8.2 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-a968d7a892a2/artifacts/art-e804c83ed38654082e84 status=404 request_id=6eb3121cb8f548d1a27c371929155164 duration_ms=10.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-e804c83ed38654082e84/record status=200 request_id=79feeee0f8bc460d97118bc63b7eeae9 duration_ms=8.9 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-e804c83ed38654082e84/record status=200 request_id=cc903a79cd4f43df9d862143506e6b31 duration_ms=8.3 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs/run-a968d7a892a2/artifacts/art-e804c83ed38654082e84/refresh status=200 request_id=cc903a79cd4f43df9d862143506e6b31 duration_ms=12.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-187dc57fd689bf589a1e/record status=200 request_id=94e730ec8f5540899cd9f35a352279cb duration_ms=8.6 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-a968d7a892a2/artifacts/art-187dc57fd689bf589a1e status=404 request_id=94e730ec8f5540899cd9f35a352279cb duration_ms=11.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-187dc57fd689bf589a1e/record status=200 request_id=66d94e02f1a54728bf2e03129ff0cccf duration_ms=8.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/art-187dc57fd689bf589a1e/record status=200 request_id=ab9cc0a6658248d9bc01be7f61abeefd duration_ms=8.1 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs/run-a968d7a892a2/artifacts/art-187dc57fd689bf589a1e/refresh status=200 request_id=ab9cc0a6658248d9bc01be7f61abeefd duration_ms=11.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/ck-f85c909beaaa7839/record status=200 request_id=d8b6bab7f59641ceb10744115bcbb175 duration_ms=8.6 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-a968d7a892a2/artifacts/ck-f85c909beaaa7839 status=404 request_id=d8b6bab7f59641ceb10744115bcbb175 duration_ms=11.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-a968d7a892a2/artifacts/ck-f85c909beaaa7839/record status=200 request_id=4dfad1bace2a47608bef9e9d97a0e451 duration_ms=8.8 client=testclient:50000
+___________________ test_view_overlays_follow_the_locations ____________________
+
+gateway = <starlette.testclient.TestClient object at 0x7fea53757ac0>
+db = <sqlite3.Connection object at 0x7fea53763640>
+finished_run = <function finished_run.<locals>.run at 0x7fe9a2bbb520>
+
+    def test_view_overlays_follow_the_locations(gateway, db, finished_run):
+        """Helpers for the core views (WP-4B): runner artifacts are NOT_READY until the gateway verified them; runner
+        checkpoints are PRESENT (runner_local) although the core host has no such file."""
+        from mbnas_core.artifacts.locations import checkpoint_states, effective_states
+    
+        run_id, _ = finished_run()
+        arts = repo.list_artifacts(db, run_id)
+        assert effective_states(db, run_id) == {a["id"]: "NOT_READY" for a in arts}
+        assert gateway.get(f"/api/v1/runs/{run_id}/artifacts/{arts[0]['id']}", headers=auth()).status_code == 200
+        assert effective_states(db, run_id) == {a["id"]: "NOT_READY" for a in arts[1:]}
+        cks = repo.list_checkpoints(db, run_id)
+>       assert checkpoint_states(db, run_id) == {c["id"]: "PRESENT" for c in cks}
+E       AssertionError: assert {'ck-f67bd75c...f': 'PRESENT'} == {'ck-f67bd75c...f': 'PRESENT'}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {'ck-f67bd75c53de6cfe': 'PRUNED'} != {'ck-f67bd75c53de6cfe': 'PRESENT'}
+E         Use -v to get more diff
+
+tests/owner/artifacts/test_artifact_wiring.py:173: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-10-28T00:29:33.284Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=db4c1a2b5ff14731b33bd4f40fabb607 duration_ms=101.1 client=127.0.0.1:50000
+2026-10-28T00:29:33.297Z INFO mbnas_server.access method=POST path=/api/v1/protocols/validate status=200 request_id=db4c1a2b5ff14731b33bd4f40fabb607 duration_ms=316.1 client=testclient:50000
+2026-10-28T00:29:33.392Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=0fc6a47549e34b469ab87246bbd1f82f duration_ms=66.0 client=127.0.0.1:50000
+2026-10-28T00:29:33.392Z INFO mbnas_server.access method=POST path=/api/v1/runs status=200 request_id=0fc6a47549e34b469ab87246bbd1f82f duration_ms=92.3 client=testclient:50000
+2026-10-28T00:29:33.400808Z runner R1: artifact transfer: local into /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/fix5/runs/bt_F1_owner_runner_protocol_artifacts/test_view_overlays_follow_the_0/gateway-store (store mode same-uid, max 50 tries per file)
+2026-10-28T00:29:33.485Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=98eda1f295ca46ff83f668c8c08b3d94 duration_ms=65.8 client=testclient:50000
+2026-10-28T00:29:33.502Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=1dfd51f62dde416d99b4acfe30f86f34 duration_ms=14.0 client=testclient:50000
+2026-10-28T00:29:33.588Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/start status=200 request_id=2d97fa5511244f17b8715c2b922e89a3 duration_ms=12.5 client=testclient:50000
+2026-10-28T00:29:34.704Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/heartbeat status=200 request_id=c8e53269221240de804ae704e2324612 duration_ms=10.1 client=testclient:50000
+2026-10-28T00:29:35.718Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/heartbeat status=200 request_id=9e4475756ad0410085c75766e0848917 duration_ms=9.6 client=testclient:50000
+2026-10-28T00:29:36.690Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/progress status=200 request_id=82a0cc5ee55e4aa49aa544dcc1bac450 duration_ms=10.8 client=testclient:50000
+2026-10-28T00:29:36.730Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/heartbeat status=200 request_id=ed125edb229e4dc689742dcb33c9e1cc duration_ms=9.1 client=testclient:50000
+2026-10-28T00:29:36.770Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/checkpoints status=200 request_id=91df61e34964475ea4014ebae1f3c2ed duration_ms=10.8 client=testclient:50000
+2026-10-28T00:29:36.997Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/checkpoints status=200 request_id=be62a21da5464cd3b28fe6e01a90e82a duration_ms=11.6 client=testclient:50000
+2026-10-28T00:29:37.154Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/progress status=200 request_id=3310f8c24a744fd59c99833adc442242 duration_ms=11.2 client=testclient:50000
+2026-10-28T00:29:37.611Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/heartbeat status=200 request_id=143b560a310049c18b7ae1c75837ab80 duration_ms=7.6 client=testclient:50000
+2026-10-28T00:29:37.667Z INFO mbnas_core.access method=POST path=/core/v1/runner/checkpoints/ck-f67bd75c53de6cfe/pruned status=200 request_id=4b0a940e8fdd4c9aab9a6933370509e7 duration_ms=10.6 client=testclient:50000
+2026-10-28T00:29:37.681Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/artifacts status=200 request_id=b463aa93d0094409a7d964245dd3e365 duration_ms=8.2 client=testclient:50000
+2026-10-28T00:29:37.698599Z runner R1: checkpoint ck-f67bd75c53de6cfe pruned (deleted, 174 bytes freed; request prq-f50210b06abd1e11c3dda6c6)
+2026-10-28T00:29:37.949Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/result status=200 request_id=e9a57444d7cb4958897b24bfa8c50241 duration_ms=55.2 client=testclient:50000
+2026-10-28T00:29:37.976Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/ack status=204 request_id=0cf25e9892a24cdeb2204432ea733257 duration_ms=6.6 client=testclient:50000
+2026-10-28T00:29:38.017Z INFO mbnas_core.access method=POST path=/core/v1/runner/deregister status=204 request_id=c5fad58b425c489bbf7fff35f436462e duration_ms=6.7 client=testclient:50000
+2026-10-28T00:29:38.068Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-98f4849a8961/artifacts/art-fb98b3e60ee9c8cb9c88/record status=200 request_id=2f47ccf770b3494c9f645d540336a78d duration_ms=11.3 client=127.0.0.1:50000
+2026-10-28T00:29:38.084Z INFO mbnas_core.access method=POST path=/core/v1/console/artifacts/art-fb98b3e60ee9c8cb9c88/locations status=200 request_id=2f47ccf770b3494c9f645d540336a78d duration_ms=11.1 client=127.0.0.1:50000
+2026-10-28T00:29:38.084Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-98f4849a8961/artifacts/art-fb98b3e60ee9c8cb9c88 status=200 request_id=2f47ccf770b3494c9f645d540336a78d duration_ms=62.2 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=db4c1a2b5ff14731b33bd4f40fabb607 duration_ms=101.1 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/protocols/validate status=200 request_id=db4c1a2b5ff14731b33bd4f40fabb607 duration_ms=316.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=0fc6a47549e34b469ab87246bbd1f82f duration_ms=66.0 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs status=200 request_id=0fc6a47549e34b469ab87246bbd1f82f duration_ms=92.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=98eda1f295ca46ff83f668c8c08b3d94 duration_ms=65.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=1dfd51f62dde416d99b4acfe30f86f34 duration_ms=14.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/start status=200 request_id=2d97fa5511244f17b8715c2b922e89a3 duration_ms=12.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/heartbeat status=200 request_id=c8e53269221240de804ae704e2324612 duration_ms=10.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/heartbeat status=200 request_id=9e4475756ad0410085c75766e0848917 duration_ms=9.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/progress status=200 request_id=82a0cc5ee55e4aa49aa544dcc1bac450 duration_ms=10.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/heartbeat status=200 request_id=ed125edb229e4dc689742dcb33c9e1cc duration_ms=9.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/checkpoints status=200 request_id=91df61e34964475ea4014ebae1f3c2ed duration_ms=10.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/checkpoints status=200 request_id=be62a21da5464cd3b28fe6e01a90e82a duration_ms=11.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/progress status=200 request_id=3310f8c24a744fd59c99833adc442242 duration_ms=11.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/heartbeat status=200 request_id=143b560a310049c18b7ae1c75837ab80 duration_ms=7.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/checkpoints/ck-f67bd75c53de6cfe/pruned status=200 request_id=4b0a940e8fdd4c9aab9a6933370509e7 duration_ms=10.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/artifacts status=200 request_id=b463aa93d0094409a7d964245dd3e365 duration_ms=8.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/result status=200 request_id=e9a57444d7cb4958897b24bfa8c50241 duration_ms=55.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-d864aceee8784864/ack status=204 request_id=0cf25e9892a24cdeb2204432ea733257 duration_ms=6.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/deregister status=204 request_id=c5fad58b425c489bbf7fff35f436462e duration_ms=6.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-98f4849a8961/artifacts/art-fb98b3e60ee9c8cb9c88/record status=200 request_id=2f47ccf770b3494c9f645d540336a78d duration_ms=11.3 client=127.0.0.1:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/artifacts/art-fb98b3e60ee9c8cb9c88/locations status=200 request_id=2f47ccf770b3494c9f645d540336a78d duration_ms=11.1 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-98f4849a8961/artifacts/art-fb98b3e60ee9c8cb9c88 status=200 request_id=2f47ccf770b3494c9f645d540336a78d duration_ms=62.2 client=testclient:50000
+__ test_artifact_id_is_the_checkpoint_id_while_the_store_holds_verified_bytes __
+
+gateway = <starlette.testclient.TestClient object at 0x7fea5374eb30>
+core = <starlette.testclient.TestClient object at 0x7fea5374f3d0>
+server_headers = {'Authorization': 'Bearer <redacted-test-token>'}
+db = <sqlite3.Connection object at 0x7fe9a3d1f240>
+finished_run = <function finished_run.<locals>.run at 0x7fea6a9e7760>
+
+    def test_artifact_id_is_the_checkpoint_id_while_the_store_holds_verified_bytes(gateway, core, server_headers, db,
+                                                                                  finished_run):
+        run_id, job = finished_run()
+        assert job["result"]["outputs"]["artifact_transfer"]["ok"] is True
+        first, second = cks = repo.list_checkpoints(db, run_id)  # two full-state checkpoints of the one candidate
+        cid = first["candidate_id"]
+        assert second["candidate_id"] == cid
+    
+        # 1) transferred by the runner, never verified by the gateway: PRESENT (runner_local) but no store id yet
+        views = _detail(gateway, core, server_headers, run_id, cid)
+        assert set(views) == {c["id"] for c in cks}
+>       assert {k: (v["state"], v["artifact_id"]) for k, v in views.items()} == {c["id"]: ("PRESENT", None) for c in cks}
+E       AssertionError: assert {'ck-2e0b4745...ESENT', None)} == {'ck-2e0b4745...ESENT', None)}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {'ck-2e0b47455e0a00db': ('PRUNED', None)} != {'ck-2e0b47455e0a00db': ('PRESENT', None)}
+E         Use -v to get more diff
+
+tests/owner/artifacts/test_checkpoint_artifact_id.py:64: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-10-28T00:30:01.981Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=b2120f3dd5f34234adedb978d2e9554f duration_ms=96.0 client=127.0.0.1:50000
+2026-10-28T00:30:01.993Z INFO mbnas_server.access method=POST path=/api/v1/protocols/validate status=200 request_id=b2120f3dd5f34234adedb978d2e9554f duration_ms=269.4 client=testclient:50000
+2026-10-28T00:30:02.107Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=f5266c96a511432ca401611b9afbbe7b duration_ms=91.9 client=127.0.0.1:50000
+2026-10-28T00:30:02.108Z INFO mbnas_server.access method=POST path=/api/v1/runs status=200 request_id=f5266c96a511432ca401611b9afbbe7b duration_ms=111.3 client=testclient:50000
+2026-10-28T00:30:02.115933Z runner R1: artifact transfer: local into /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/fix5/runs/bt_F1_owner_runner_protocol_artifacts/test_artifact_id_is_the_checkp0/gateway-store (store mode same-uid, max 50 tries per file)
+2026-10-28T00:30:02.199Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=5ca8f3a846d44fd698e4646c4b650657 duration_ms=58.3 client=testclient:50000
+2026-10-28T00:30:02.216Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=589d90665bf4405fbcdaa2c6c39e16b3 duration_ms=14.8 client=testclient:50000
+2026-10-28T00:30:02.318Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/start status=200 request_id=4ebcfe932647488aad969c5586355a39 duration_ms=12.7 client=testclient:50000
+2026-10-28T00:30:03.466Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/heartbeat status=200 request_id=de69aa5eff694458b0d3e5cbe252ce41 duration_ms=14.4 client=testclient:50000
+2026-10-28T00:30:04.478Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/heartbeat status=200 request_id=f95bbdcbf43f415fa61e68dd2135dbe5 duration_ms=8.0 client=testclient:50000
+2026-10-28T00:30:05.279Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/progress status=200 request_id=2fe8e9391721425e93fd8103ac792c67 duration_ms=11.2 client=testclient:50000
+2026-10-28T00:30:05.360Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/checkpoints status=200 request_id=6041d4fce90144038e8efd506945085f duration_ms=11.1 client=testclient:50000
+2026-10-28T00:30:05.490Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/heartbeat status=200 request_id=f9a1fb4d9439409893786d090643f92c duration_ms=8.6 client=testclient:50000
+2026-10-28T00:30:05.564Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/checkpoints status=200 request_id=1c443cd7007e403baa014a8976200be0 duration_ms=12.0 client=testclient:50000
+2026-10-28T00:30:05.711Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/progress status=200 request_id=f70591ac638e48d49b82515cb004801d duration_ms=10.8 client=testclient:50000
+2026-10-28T00:30:05.952Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/heartbeat status=200 request_id=d7b8cc9857e7443ca8d2b11f14412dfd duration_ms=12.6 client=testclient:50000
+2026-10-28T00:30:06.010Z INFO mbnas_core.access method=POST path=/core/v1/runner/checkpoints/ck-2e0b47455e0a00db/pruned status=200 request_id=0fd39b08faac4584aba527c885a1baa6 duration_ms=8.6 client=testclient:50000
+2026-10-28T00:30:06.029Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/artifacts status=200 request_id=9e9654dff3b0455581be7f256527e48a duration_ms=9.6 client=testclient:50000
+2026-10-28T00:30:06.035137Z runner R1: checkpoint ck-2e0b47455e0a00db pruned (deleted, 174 bytes freed; request prq-c8bc97da9b81540524651029)
+2026-10-28T00:30:06.347Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/result status=200 request_id=fbf299eed5ef459391836fd15198db6e duration_ms=45.2 client=testclient:50000
+2026-10-28T00:30:06.383Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/ack status=204 request_id=9cfa5f6f983242afa06225a273fab276 duration_ms=4.9 client=testclient:50000
+2026-10-28T00:30:06.419Z INFO mbnas_core.access method=POST path=/core/v1/runner/deregister status=204 request_id=bc3d3e69a6424657865c325ed7778ee3 duration_ms=4.7 client=testclient:50000
+2026-10-28T00:30:06.446Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-73c50316c370/candidates/run-73c50316c370.base.yolo11n status=200 request_id=561b3215bc4c4faabb225b8eaf6cf8b7 duration_ms=22.7 client=127.0.0.1:50000
+2026-10-28T00:30:06.448Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-73c50316c370/candidates/run-73c50316c370.base.yolo11n status=200 request_id=561b3215bc4c4faabb225b8eaf6cf8b7 duration_ms=25.7 client=testclient:50000
+2026-10-28T00:30:06.497Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-73c50316c370/candidates/run-73c50316c370.base.yolo11n status=200 request_id=c1da492581254d2582b183007c87a0ae duration_ms=44.6 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=b2120f3dd5f34234adedb978d2e9554f duration_ms=96.0 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/protocols/validate status=200 request_id=b2120f3dd5f34234adedb978d2e9554f duration_ms=269.4 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=f5266c96a511432ca401611b9afbbe7b duration_ms=91.9 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs status=200 request_id=f5266c96a511432ca401611b9afbbe7b duration_ms=111.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=5ca8f3a846d44fd698e4646c4b650657 duration_ms=58.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=589d90665bf4405fbcdaa2c6c39e16b3 duration_ms=14.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/start status=200 request_id=4ebcfe932647488aad969c5586355a39 duration_ms=12.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/heartbeat status=200 request_id=de69aa5eff694458b0d3e5cbe252ce41 duration_ms=14.4 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/heartbeat status=200 request_id=f95bbdcbf43f415fa61e68dd2135dbe5 duration_ms=8.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/progress status=200 request_id=2fe8e9391721425e93fd8103ac792c67 duration_ms=11.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/checkpoints status=200 request_id=6041d4fce90144038e8efd506945085f duration_ms=11.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/heartbeat status=200 request_id=f9a1fb4d9439409893786d090643f92c duration_ms=8.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/checkpoints status=200 request_id=1c443cd7007e403baa014a8976200be0 duration_ms=12.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/progress status=200 request_id=f70591ac638e48d49b82515cb004801d duration_ms=10.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/heartbeat status=200 request_id=d7b8cc9857e7443ca8d2b11f14412dfd duration_ms=12.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/checkpoints/ck-2e0b47455e0a00db/pruned status=200 request_id=0fd39b08faac4584aba527c885a1baa6 duration_ms=8.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/artifacts status=200 request_id=9e9654dff3b0455581be7f256527e48a duration_ms=9.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/result status=200 request_id=fbf299eed5ef459391836fd15198db6e duration_ms=45.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-37dd75df86254aa8/ack status=204 request_id=9cfa5f6f983242afa06225a273fab276 duration_ms=4.9 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/deregister status=204 request_id=bc3d3e69a6424657865c325ed7778ee3 duration_ms=4.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-73c50316c370/candidates/run-73c50316c370.base.yolo11n status=200 request_id=561b3215bc4c4faabb225b8eaf6cf8b7 duration_ms=22.7 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-73c50316c370/candidates/run-73c50316c370.base.yolo11n status=200 request_id=561b3215bc4c4faabb225b8eaf6cf8b7 duration_ms=25.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-73c50316c370/candidates/run-73c50316c370.base.yolo11n status=200 request_id=c1da492581254d2582b183007c87a0ae duration_ms=44.6 client=testclient:50000
+____________ test_untransferred_checkpoints_keep_a_null_artifact_id ____________
+
+gateway = <starlette.testclient.TestClient object at 0x7fea536debf0>
+core = <starlette.testclient.TestClient object at 0x7fea536dd000>
+server_headers = {'Authorization': 'Bearer <redacted-test-token>'}
+db = <sqlite3.Connection object at 0x7fe9a3d1ef40>
+finished_run = <function finished_run.<locals>.run at 0x7fe99ac08d30>
+
+    def test_untransferred_checkpoints_keep_a_null_artifact_id(gateway, core, server_headers, db, finished_run):
+        """Never in the store: the detail offers no store id, the gateway answers 404 ARTIFACT_NOT_READY by checkpoint id
+        (the web shows "아직 저장소에 없음"), and a store row about OTHER bytes never makes one appear."""
+        run_id, _ = finished_run(artifact_transfer="none")
+        cks = repo.list_checkpoints(db, run_id)
+        assert len(cks) == 2
+        cid = cks[0]["candidate_id"]
+        views = _detail(gateway, core, server_headers, run_id, cid)
+>       assert {k: (v["state"], v["artifact_id"]) for k, v in views.items()} == {c["id"]: ("PRESENT", None) for c in cks}
+E       AssertionError: assert {'ck-19fa65f5...ESENT', None)} == {'ck-19fa65f5...ESENT', None)}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {'ck-19fa65f5410cf6b3': ('PRUNED', None)} != {'ck-19fa65f5410cf6b3': ('PRESENT', None)}
+E         Use -v to get more diff
+
+tests/owner/artifacts/test_checkpoint_artifact_id.py:110: AssertionError
+----------------------------- Captured stderr call -----------------------------
+2026-10-28T00:30:07.188Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=2c527006bb874cdc88827d8a8d539599 duration_ms=125.9 client=127.0.0.1:50000
+2026-10-28T00:30:07.205Z INFO mbnas_server.access method=POST path=/api/v1/protocols/validate status=200 request_id=2c527006bb874cdc88827d8a8d539599 duration_ms=350.5 client=testclient:50000
+2026-10-28T00:30:07.332Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=3ab136bab977443883438a440728326a duration_ms=100.2 client=127.0.0.1:50000
+2026-10-28T00:30:07.333Z INFO mbnas_server.access method=POST path=/api/v1/runs status=200 request_id=3ab136bab977443883438a440728326a duration_ms=124.8 client=testclient:50000
+2026-10-28T00:30:07.426Z INFO mbnas_core.access method=POST path=/core/v1/runner/register status=200 request_id=24090049088448ec81a35220df90683a duration_ms=69.5 client=testclient:50000
+2026-10-28T00:30:07.444Z INFO mbnas_core.access method=POST path=/core/v1/runner/claim status=200 request_id=e9a1aa5df7064a51b4367fdc9a63780e duration_ms=14.8 client=testclient:50000
+2026-10-28T00:30:07.547Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/start status=200 request_id=6cfe6bedbe1b4857946d4d04b0c2ac1a duration_ms=12.4 client=testclient:50000
+2026-10-28T00:30:08.664Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/heartbeat status=200 request_id=6bdb7798cc8745898aa51e02861cec0c duration_ms=10.8 client=testclient:50000
+2026-10-28T00:30:09.678Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/heartbeat status=200 request_id=560bbb7a14b5421caf2a2e30d028dc9e duration_ms=9.6 client=testclient:50000
+2026-10-28T00:30:10.689Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/heartbeat status=200 request_id=013dd412ab3f46dfb9908b6beb466818 duration_ms=8.1 client=testclient:50000
+2026-10-28T00:30:10.930Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/progress status=200 request_id=97c1544e577142f7a0a7e395b573aa4d duration_ms=13.5 client=testclient:50000
+2026-10-28T00:30:11.023Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/checkpoints status=200 request_id=c3b9acc1a4064c2795ae4376de46de4e duration_ms=15.1 client=testclient:50000
+2026-10-28T00:30:11.188Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/checkpoints status=200 request_id=c60dfe3e4e484299967dee87043aa8e0 duration_ms=14.4 client=testclient:50000
+2026-10-28T00:30:11.221Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/progress status=200 request_id=d14936c6f68941c6a29bfa014ca405f3 duration_ms=10.2 client=testclient:50000
+2026-10-28T00:30:12.001Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/heartbeat status=200 request_id=d95afc43172d4ee1873555c7e956b445 duration_ms=19.2 client=testclient:50000
+2026-10-28T00:30:12.046Z INFO mbnas_core.access method=POST path=/core/v1/runner/checkpoints/ck-19fa65f5410cf6b3/pruned status=200 request_id=1703b9c71e6048489bc2bcc33eca423e duration_ms=5.8 client=testclient:50000
+2026-10-28T00:30:12.067Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/artifacts status=200 request_id=a033c98cf9174808ba9ee8d5e439784d duration_ms=7.0 client=testclient:50000
+2026-10-28T00:30:12.083873Z runner R1: checkpoint ck-19fa65f5410cf6b3 pruned (deleted, 174 bytes freed; request prq-dc86193a372a29e33d6927b0)
+2026-10-28T00:30:12.185Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/result status=200 request_id=e904c2d61cf94e2eb76dd48d71b87729 duration_ms=39.3 client=testclient:50000
+2026-10-28T00:30:12.213Z INFO mbnas_core.access method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/ack status=204 request_id=e445c9a22b0e4a65abbda604490fbb0c duration_ms=5.2 client=testclient:50000
+2026-10-28T00:30:12.242Z INFO mbnas_core.access method=POST path=/core/v1/runner/deregister status=204 request_id=3087bbb17c1548b0b17afb178cb27169 duration_ms=7.5 client=testclient:50000
+2026-10-28T00:30:12.294Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-7fb945873d1d/candidates/run-7fb945873d1d.base.yolo11n status=200 request_id=d2dfb54de7784919a3cfebf99aa1aa68 duration_ms=45.0 client=127.0.0.1:50000
+2026-10-28T00:30:12.296Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-7fb945873d1d/candidates/run-7fb945873d1d.base.yolo11n status=200 request_id=d2dfb54de7784919a3cfebf99aa1aa68 duration_ms=49.7 client=testclient:50000
+2026-10-28T00:30:12.338Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-7fb945873d1d/candidates/run-7fb945873d1d.base.yolo11n status=200 request_id=c2dcf976ed74477db68397482be56ebf duration_ms=37.8 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=2c527006bb874cdc88827d8a8d539599 duration_ms=125.9 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/protocols/validate status=200 request_id=2c527006bb874cdc88827d8a8d539599 duration_ms=350.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=3ab136bab977443883438a440728326a duration_ms=100.2 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs status=200 request_id=3ab136bab977443883438a440728326a duration_ms=124.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/register status=200 request_id=24090049088448ec81a35220df90683a duration_ms=69.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/claim status=200 request_id=e9a1aa5df7064a51b4367fdc9a63780e duration_ms=14.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/start status=200 request_id=6cfe6bedbe1b4857946d4d04b0c2ac1a duration_ms=12.4 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/heartbeat status=200 request_id=6bdb7798cc8745898aa51e02861cec0c duration_ms=10.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/heartbeat status=200 request_id=560bbb7a14b5421caf2a2e30d028dc9e duration_ms=9.6 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/heartbeat status=200 request_id=013dd412ab3f46dfb9908b6beb466818 duration_ms=8.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/progress status=200 request_id=97c1544e577142f7a0a7e395b573aa4d duration_ms=13.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/checkpoints status=200 request_id=c3b9acc1a4064c2795ae4376de46de4e duration_ms=15.1 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/checkpoints status=200 request_id=c60dfe3e4e484299967dee87043aa8e0 duration_ms=14.4 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/progress status=200 request_id=d14936c6f68941c6a29bfa014ca405f3 duration_ms=10.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/heartbeat status=200 request_id=d95afc43172d4ee1873555c7e956b445 duration_ms=19.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/checkpoints/ck-19fa65f5410cf6b3/pruned status=200 request_id=1703b9c71e6048489bc2bcc33eca423e duration_ms=5.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/artifacts status=200 request_id=a033c98cf9174808ba9ee8d5e439784d duration_ms=7.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/result status=200 request_id=e904c2d61cf94e2eb76dd48d71b87729 duration_ms=39.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/jobs/job-90cacad07da5486c/ack status=204 request_id=e445c9a22b0e4a65abbda604490fbb0c duration_ms=5.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/runner/deregister status=204 request_id=3087bbb17c1548b0b17afb178cb27169 duration_ms=7.5 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-7fb945873d1d/candidates/run-7fb945873d1d.base.yolo11n status=200 request_id=d2dfb54de7784919a3cfebf99aa1aa68 duration_ms=45.0 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-7fb945873d1d/candidates/run-7fb945873d1d.base.yolo11n status=200 request_id=d2dfb54de7784919a3cfebf99aa1aa68 duration_ms=49.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-7fb945873d1d/candidates/run-7fb945873d1d.base.yolo11n status=200 request_id=c2dcf976ed74477db68397482be56ebf duration_ms=37.8 client=testclient:50000
+=============================== warnings summary ===============================
+tests/owner/runner_protocol/test_artifact_transfer.py::test_local_transfer_stores_every_registered_file_with_meta
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/owner/runner_protocol/test_artifact_transfer.py::test_local_transfer_stores_every_registered_file_with_meta
+FAILED tests/owner/artifacts/test_artifact_wiring.py::test_register_transfer_download_digest_match_and_location_transition
+FAILED tests/owner/artifacts/test_artifact_wiring.py::test_untransferred_objects_are_404_artifact_not_ready
+FAILED tests/owner/artifacts/test_artifact_wiring.py::test_view_overlays_follow_the_locations
+FAILED tests/owner/artifacts/test_checkpoint_artifact_id.py::test_artifact_id_is_the_checkpoint_id_while_the_store_holds_verified_bytes
+FAILED tests/owner/artifacts/test_checkpoint_artifact_id.py::test_untransferred_checkpoints_keep_a_null_artifact_id
+6 failed, 91 passed, 1 warning in 253.53s (0:04:13)

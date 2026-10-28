@@ -1,0 +1,4 @@
+# 2026-10-28T06:39:19+09:00
+$ python3 -I -B <SCRATCH>/wp3/prepack/tools/md_tables.py <ROOT> README.md docs/public/*.md docs/registration/*.md docs/internal/evidence/WP7/7C/PENDING.md
+files: 17 tables: 72 row mismatches: 0
+exit=0

@@ -1,0 +1,39 @@
+# systemd unit EXAMPLE - MBNAS gateway (public profile): user API /api/v1 + the built web console on 127.0.0.1:8710.
+# Adapted from the MBNAS_server mbnas-api.service.example of the source snapshot (split architecture, gateway role).
+#
+# Assumes the pip install path (DD-A31) in /opt/mbnas = the unpacked ZIP root:
+#   cd /opt/mbnas && python3.10 -m venv .venv && .venv/bin/python -m pip install -r requirements-public.txt
+# and /opt/mbnas/config/public/gateway.env (from config/examples/gateway.env.example, owner mbnas, mode 0600).
+# Replace /opt/mbnas and the service user, then:
+#   sudo cp mbnas-gateway.service.example /etc/systemd/system/mbnas-gateway.service
+#   sudo systemctl daemon-reload && sudo systemctl enable --now mbnas-gateway
+# The env file is read with --env-file (dotenv): its secrets stay inside the gateway's settings object and never
+# enter the process environment. TLS: deploy/public/nginx.example.conf in front; the gateway stays on loopback.
+# Restarting the gateway never stops jobs (they run in the runner / on the core host); browsers reconnect their event
+# streams with Last-Event-ID.
+[Unit]
+Description=MBNAS gateway (user API + web console)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mbnas
+Group=mbnas
+WorkingDirectory=/opt/mbnas
+Environment=MBNAS_HOME=/opt/mbnas/runtime
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=MBNAS_GW_WEB_DIST=/opt/mbnas/mbnas_web/dist
+ExecStart=/opt/mbnas/.venv/bin/mbnas-gateway --env-file /opt/mbnas/config/public/gateway.env --host 127.0.0.1 --port 8710
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=30
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/opt/mbnas/runtime
+
+[Install]
+WantedBy=multi-user.target

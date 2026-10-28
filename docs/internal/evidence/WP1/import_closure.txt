@@ -1,0 +1,26 @@
+# 2026-10-26T18:45:15+09:00 cwd=/home/mgjeong/Desktop/etri_hd/mbnas_application interpreter=runtime/venv/bin/python -B scripts/dev/check_import_closure.py --format text
+import closure: OK (/home/mgjeong/Desktop/etri_hd/mbnas_application)
+counts: {"violations": 0, "unresolved": 0, "forbidden_strings": 0, "allowlisted": 7, "excepted": 2, "errors": 0, "by_rule": {}}
+transitional allowlist:
+  mbnas_core.owner_worker.child -> mbnas_runner.* (import, string; expires WP-2)
+  mbnas_core.owner_worker.contract -> mbnas_runner.* (import, string; expires WP-2)
+  mbnas_core.owner_worker.main -> mbnas_runner.* (import; expires WP-2)
+documented data exceptions (DD-A26):
+  mbnas_contracts/src/mbnas_contracts/openapi/openapi.json: 'MBNAS_server' (expires WP-4)
+  mbnas_model_runtime/src/mbnas_model_runtime/adapters/base.py: 'mbnas_server.search.etri_bridge:ensure_mixed_registered' (expires WP-4)
+violations: 0
+allowlisted: 7
+  [iii] mbnas_core/src/mbnas_core/owner_worker/child.py:191  mbnas_core.owner_worker.child -> mbnas_runner.evaluation.official_evaluation (run_official_evaluation) [import, lazy]
+  [iii] mbnas_core/src/mbnas_core/owner_worker/contract.py:62  mbnas_core.owner_worker.contract -> mbnas_runner.training.handlers (run_training_job) [string]
+  [iii] mbnas_core/src/mbnas_core/owner_worker/contract.py:63  mbnas_core.owner_worker.contract -> mbnas_runner.training.handlers (run_training_job) [string]
+  [iii] mbnas_core/src/mbnas_core/owner_worker/contract.py:64  mbnas_core.owner_worker.contract -> mbnas_runner.training.handlers (run_training_job) [string]
+  [iii] mbnas_core/src/mbnas_core/owner_worker/contract.py:65  mbnas_core.owner_worker.contract -> mbnas_runner.evaluation.handlers (run_evaluation_job) [string]
+  [iii] mbnas_core/src/mbnas_core/owner_worker/contract.py:66  mbnas_core.owner_worker.contract -> mbnas_runner.benchmark.handlers (run_benchmark_job) [string]
+  [iii] mbnas_core/src/mbnas_core/owner_worker/main.py:60  mbnas_core.owner_worker.main -> mbnas_runner (gpu) [import]
+excepted: 2
+  [data-exception] mbnas_model_runtime/src/mbnas_model_runtime/adapters/base.py:32  mbnas_model_runtime.adapters.base -> mbnas_server.search.etri_bridge (ensure_mixed_registered) [string]
+  [MBNAS_server] mbnas_contracts/src/mbnas_contracts/openapi/openapi.json:6  "description": "Canonical web/server contract for MBNAS_server (package mbnas_server). Derived from NAS_Console_API_Contract_20261006.json v1.0.0 with backward-
+unresolved: 0
+forbidden_strings: 0
+errors: 0
+exit=0

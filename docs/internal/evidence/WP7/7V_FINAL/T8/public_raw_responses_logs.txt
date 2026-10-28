@@ -1,0 +1,19 @@
+$ python -I scripts/dev/canary_scan.py --manifest docs/internal/canary/CANARY_MANIFEST.json --profile public --secrets-env <combined env files, scratch 0600> --needles-file <owner-side strings, scratch 0600> capture/responses capture/public/logs
+exit=1
+FAIL extra     NEEDLE#5 [raw] responses/export.zip!protocol/requested.json:4
+FAIL extra     NEEDLE#5 [raw] responses/export.zip!protocol/resolved.json:7
+FAIL extra     NEEDLE#5 [raw] responses/export.zip!protocol/resolved.json:46
+FAIL extra     NEEDLE#5 [raw] responses/run.json:1
+FAIL extra     NEEDLE#5 [raw] responses/run.json:1
+FAIL extra     NEEDLE#5 [raw] responses/snapshot.json:1
+FAIL extra     NEEDLE#5 [raw] responses/snapshot.json:1
+FAIL extra     NEEDLE#5 [raw] responses/validate.json:1
+FAIL extra     NEEDLE#5 [raw] responses/validate.json:1
+FAIL host_fact HOST_FACT#5 owner account name [raw] logs/gateway.log:1
+FAIL host_fact HOST_FACT#5 owner account name [raw] logs/gateway.log:1
+FAIL host_fact HOST_FACT#5 owner account name [raw] logs/gateway.log:1
+FAIL host_fact HOST_FACT#5 owner account name [raw] logs/runner.log:1
+FAIL host_fact HOST_FACT#5 owner account name [raw] logs/runner.log:1
+FAIL host_fact HOST_FACT#5 owner account name [raw] logs/runner.log:1
+scanned files=57 bytes=541513 containers=1 skipped=0 hits=15 failing=15 unmet=0
+canary_scan: FAIL

@@ -1,0 +1,32 @@
+# 2026-10-27T04:26:28Z public infra + server suites (gate markers), with the new WP-5A files present
+# cmd: runtime/venv/bin/python -B -m pytest tests/public/infra tests/public/server -q -p no:cacheprovider -m 'not gpu and not live and not legacy_records and not host_data'
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/public/server/test_routes.py:304: mini run absent
+XFAIL tests/public/server/test_routes.py::test_health_reports_archive_roots - WP-3 relay health
+FAILED tests/public/server/test_gateway_skeleton.py::test_docs_disabled_and_unknown_routes_are_contract_errors
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/runs/r1/artifacts/%2E%2E]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/runs/r1/artifacts/%2E]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/runs/%2E%2E/snapshot]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/runs/%2E%2E/candidates/%2E%2E]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[POST-/api/v1/runs/%2E%2E/candidates/%2E%2E/structure-check]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/registry/%2E%2E/structure]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[POST-/api/v1/runs/%2E%2E/artifacts/%2E%2E/refresh]
+8 failed, 463 passed, 1 skipped, 25 deselected, 1 xfailed, 1 warning in 60.33s (0:01:00)
+exit=1
+
+# control: the two failing WP-3 files with mbnas_server.artifacts REMOVED (scratch copy of mbnas_server on PYTHONPATH)
+=========================== short test summary info ============================
+FAILED tests/public/server/test_gateway_skeleton.py::test_docs_disabled_and_unknown_routes_are_contract_errors
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/runs/r1/artifacts/%2E%2E]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/runs/r1/artifacts/%2E]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/runs/%2E%2E/snapshot]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/runs/%2E%2E/candidates/%2E%2E]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[POST-/api/v1/runs/%2E%2E/candidates/%2E%2E/structure-check]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[GET-/api/v1/registry/%2E%2E/structure]
+FAILED tests/public/server/test_wp3_gateway_relay.py::test_dot_segment_path_params_never_reach_another_core_route[POST-/api/v1/runs/%2E%2E/artifacts/%2E%2E/refresh]
+8 failed, 57 passed, 1 warning in 7.77s
+exit=1

@@ -1,0 +1,37 @@
+"""Probe (evaluator, C04 EVAL_2): a lease that expired after its runner died is claimed by another runner BEFORE the
+sweeper's next pass (defaults: lease_ttl 60 s, sweeper every heartbeat_s=10 s, runner poll 2 s). Is the dead attempt's
+work (started_at -> last heartbeat) billed? Design F8/T3-13 expects one failed/lost row per lost attempt."""
+import harness
+from mbnas_contracts.util.time import iso_after, utcnow_iso
+from mbnas_core.db import repo
+from mbnas_core.db.core import tx
+
+
+def _ledger(db, run_id):
+    return [(c["attempt"], c["kind"], round(c["gpu_seconds"], 3), (c.get("meta") or {}).get("reason_code"))
+            for c in repo.list_costs(db, run_id)]
+
+
+def test_claim_of_expired_lease_before_sweep(core, runner_sim, runner_sim2, base_proto, sweeper, db):
+    run_id, _ = harness.validate_and_run(core, base_proto())
+    runner_sim.register()
+    first = runner_sim.claim()
+    st = runner_sim.start(first)
+    t0 = st["started_at"]
+    with tx(db):  # runner 1 died: last heartbeat at t0+3 s, lease ran out a moment ago, no sweep has run yet
+        db.execute("UPDATE jobs SET started_at = ?, heartbeat_at = ?, lease_expires_at = ? WHERE id = ?",
+                   (iso_after(utcnow_iso(), -20), iso_after(utcnow_iso(), -17), iso_after(utcnow_iso(), -1),
+                    first.job_id))
+    runner_sim2.register()
+    second = runner_sim2.claim()  # an idle runner polls before the sweeper
+    print("CLAIM_BEFORE_SWEEP", None if second is None else (second.job_id, second.attempt))
+    print("JOB_AFTER_CLAIM", {k: repo.get_job(db, first.job_id)[k] for k in ("status", "attempt", "lease_owner", "error")})
+    print("LEDGER_AFTER_CLAIM", _ledger(db, run_id))
+    swept = sweeper()
+    print("SWEEP", swept)
+    print("LEDGER_AFTER_SWEEP", _ledger(db, run_id))
+    if second is not None:
+        done = runner_sim2.run_attempt(second)
+        print("ATTEMPT2", done["response"].status_code, done["response"].json())
+    print("LEDGER_FINAL", _ledger(db, run_id))
+    print("RUN_COSTS", repo.get_run(db, run_id)["costs"])

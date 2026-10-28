@@ -1,0 +1,24 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.22, pytest-9.1.1, pluggy-1.6.0 -- <ROOT>/runtime/test_root/t6/final/mbnas public final/mbnas_application/runtime/venv/bin/python
+rootdir: <SCRATCH>/pubbundle
+configfile: pyproject.toml
+plugins: anyio-4.15.1, timeout-2.4.0
+timeout: 180.0s
+timeout method: signal
+timeout func_only: False
+collecting ... collected 12 items
+
+tests/public/runner/test_runner_settings_no_db.py::test_no_core_db_or_core_credential_field[RunnerSettings] PASSED [  8%]
+tests/public/runner/test_runner_settings_no_db.py::test_no_core_db_or_core_credential_field[GatewaySettings] PASSED [ 16%]
+tests/public/runner/test_runner_settings_no_db.py::test_secret_fields_are_exactly_the_services_own[RunnerSettings] PASSED [ 25%]
+tests/public/runner/test_runner_settings_no_db.py::test_secret_fields_are_exactly_the_services_own[GatewaySettings] PASSED [ 33%]
+tests/public/runner/test_runner_settings_no_db.py::test_env_names_stay_in_the_services_own_namespace[RunnerSettings] PASSED [ 41%]
+tests/public/runner/test_runner_settings_no_db.py::test_env_names_stay_in_the_services_own_namespace[GatewaySettings] PASSED [ 50%]
+tests/public/runner/test_runner_settings_no_db.py::test_core_variables_never_reach_runner_or_gateway_settings PASSED [ 58%]
+tests/public/runner/test_runner_entrypoint_redaction.py::test_runner_commands_install_redaction_before_settings[run] PASSED [ 66%]
+tests/public/runner/test_runner_entrypoint_redaction.py::test_runner_commands_install_redaction_before_settings[register] PASSED [ 75%]
+tests/public/runner/test_runner_entrypoint_redaction.py::test_spec_file_path_does_not_install PASSED [ 83%]
+tests/public/runner/test_runner_entrypoint_redaction.py::test_fresh_runner_interpreter_logs_no_synthetic_secret PASSED [ 91%]
+tests/public/runner/test_runner_entrypoint_redaction.py::test_control_without_redaction_shows_the_secrets PASSED [100%]
+
+============================== 12 passed in 0.53s ==============================

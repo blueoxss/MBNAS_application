@@ -1,0 +1,66 @@
+{
+ "generated_candidate": "run-e3cadf21247d:RAND:s7:g00:c001",
+ "training_run": "train-2cffd9d419da",
+ "training_candidate": "model-6f8a8212299c",
+ "generated_candidate_revisions": {
+  "http": 200,
+  "request_id": "t5r2c-1d351178d8df4ef0",
+  "revisions": [
+   {
+    "revision_id": "rev-cdeee2465de0ac92",
+    "source_sha256": "sha256:be167ecf1c6c2b9da5715292442a7b9cbfded8763456d42f61c382081f84ac1e",
+    "canonical_hash": "sha256:73b6e1aa4abc16fbbb8153a2740ad2fcdd5cf760b4841d7a605964841eba88d4",
+    "architecture_hash": "sha256:039444474a44b7682218cf620b6ff14532aba67d0487bdca64eb8fc6c851a35b",
+    "kind": "generated",
+    "created_at": "2026-10-28T02:29:30.031668Z",
+    "parent_revision_id": null,
+    "artifact_id": "art-53cac36767166d510c36",
+    "yaml_http": 200,
+    "yaml_sha256": "be167ecf1c6c2b9da5715292442a7b9cbfded8763456d42f61c382081f84ac1e",
+    "yaml_request_id": "t5r2c-46477ba6b1c34841",
+    "sha_match": true
+   }
+  ]
+ },
+ "off_architecture_artifact": {
+  "id": "art-53cac36767166d510c36",
+  "http": 200,
+  "sha256": "be167ecf1c6c2b9da5715292442a7b9cbfded8763456d42f61c382081f84ac1e",
+  "verification": "core",
+  "request_id": "t5r2c-56816a185c3f49af"
+ },
+ "training_candidate_revisions": {
+  "http": 200,
+  "request_id": "t5r2c-a782d2c30af64174",
+  "revisions": [
+   {
+    "revision_id": "rev-56b3153eee83a844",
+    "source_sha256": "sha256:be167ecf1c6c2b9da5715292442a7b9cbfded8763456d42f61c382081f84ac1e",
+    "canonical_hash": "sha256:73b6e1aa4abc16fbbb8153a2740ad2fcdd5cf760b4841d7a605964841eba88d4",
+    "architecture_hash": "sha256:039444474a44b7682218cf620b6ff14532aba67d0487bdca64eb8fc6c851a35b",
+    "kind": "selected",
+    "created_at": "2026-10-28T02:32:19.119542Z",
+    "parent_revision_id": "rev-cdeee2465de0ac92",
+    "artifact_id": null
+   },
+   {
+    "revision_id": "rev-09fb9f37707231ad",
+    "source_sha256": "sha256:ff68f48994f6e85e582bbca400e39a162fe8e4d8cce85116ece776a8a182b453",
+    "canonical_hash": "sha256:73b6e1aa4abc16fbbb8153a2740ad2fcdd5cf760b4841d7a605964841eba88d4",
+    "architecture_hash": "sha256:039444474a44b7682218cf620b6ff14532aba67d0487bdca64eb8fc6c851a35b",
+    "kind": "executed",
+    "created_at": "2026-10-28T02:32:28.405831Z",
+    "parent_revision_id": "rev-56b3153eee83a844",
+    "artifact_id": "art-f3db7d8a543302f19d4e"
+   }
+  ]
+ },
+ "chain": {
+  "executed": "rev-09fb9f37707231ad",
+  "executed_parent": "rev-56b3153eee83a844",
+  "selected": "rev-56b3153eee83a844",
+  "selected_parent": "rev-cdeee2465de0ac92",
+  "selected_parent_is_generated_revision_of_source": true,
+  "generated_yaml_equals_off_architecture_artifact": true
+ }
+}

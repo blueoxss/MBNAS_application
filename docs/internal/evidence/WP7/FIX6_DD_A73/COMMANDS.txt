@@ -1,0 +1,56 @@
+FIX6 / DD-A73 (core only) - commands actually run and results, 2026-10-28 (UTC times below).
+cwd TARGET_ROOT; runtime/venv/bin/python -B; CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null;
+pytest -m "not gpu and not live and not legacy_records and not host_data" -p no:cacheprovider -q -rfEs --timeout=900.
+Source tree hash (scripts/dev/source_tree_hash.py --digest-only, mbnas-source-tree/2, five packages):
+  sha256:1b4bd1a4a45196e3c558d62507f109301973eddc180df5968ed7014a72e6708c - identical at the start and end of every
+  suite run below (pytest/*.meta). Test tokens in copied logs are masked (<redacted-test-token>).
+Not touched: dist/, docs/public, docs/registration, P1/P2 evidence dirs (T5 evidence only READ for the candidate YAML).
+
+patch review (mbnas_core/src/mbnas_core/training_runs/selection.py, DD-A73 block by the coordinator): kept as is.
+  names of the genotype rows ∩ MIXED_NAMES -> load_etri_mixed() (same as model_services.check_candidate_structure);
+  failure -> structure UNVERIFIED / STRUCTURE_RUNTIME_UNAVAILABLE + yaml/hash/genotype recorded, return. The early
+  return skips the tail of bind_structure, harmless: prepare_protocol already put source["arch"] (by reference, with
+  register_hook for mixed YAML) into resolved.console.extra.training.arch. Registration is idempotent; a concurrent
+  first call re-installs an equivalent parser (no failure path).
+
+negative control + branch probe, fresh interpreters (-I -B)                  -> negative_control/
+  probe_bind_structure.py t5_rerun2_c000.yaml {fix|noop|raise}; the YAML is byte-identical to the architecture_yaml of
+  T5 rerun2 candidate run-e3cadf21247d:RAND:s7:g00:c000 (NASGlobalTransformer at backbone[6])
+  fix   -> PASS, 24 blocks, architecture_hash sha256:ed0f4eee..., blocks registered after (registered before: false)
+  noop  (load_etri_mixed as a no-op = pre-DD-A73) -> TrainingSelectionError STRUCTURE_INVALID, BLOCK_UNSUPPORTED
+         backbone[6] "build at row 6 (NASGlobalTransformer): KeyError: 'NASGlobalTransformer'" = the T5 422
+  raise (load_etri_mixed raises EtriUnavailable) -> UNVERIFIED, STRUCTURE_RUNTIME_UNAVAILABLE, no exception
+
+new test tests/owner/api/test_dd_a73_bind_structure_mixed.py (3 tests, in H1)
+  fresh-interpreter bind_structure of the T5 c000 YAML -> PASS (+ structure/hash/resolved arch + hook recorded);
+  backend-unavailable branch -> UNVERIFIED STRUCTURE_RUNTIME_UNAVAILABLE, no raise, no build;
+  non-mixed candidate never calls load_etri_mixed
+
+suites (02:46:59-02:51:05 UTC)                                               -> pytest/H*.txt + .meta (exit, tree hashes)
+  H1 tests/owner/api                                         215 passed                    exit 0
+  H2 tests/owner/orchestration                               48 passed                     exit 0
+  H3 tests/owner/runner_protocol                             82 passed                     exit 0
+  H4 tests/owner/unit                                        415 passed, 3 deselected      exit 0
+  H5 tests/owner/projection tests/owner/training tests/owner/worker/test_dd_a62_core_local_generation.py
+     (config revisions / explicit training / generation)     285 passed, 4 deselected      exit 0
+  H6 tests/owner/t2 with MBNAS_TEST_T2=1 (full T2)           32 passed                     exit 0
+  H7 tests/public/server/test_wp3b_gateway_fixes.py tests/public/server/test_artifact_routes.py tests/public/contracts
+     (gateway training-run relay / revisions)                279 passed                    exit 0
+checks
+  check_import_closure --format text                        exit 0 (violations 0, unresolved 0)   -> import_closure.txt
+  placement_coverage --format text                          exit 0, 221/221; 2 rows appended      -> placement_coverage.txt
+  gen_runner_openapi.py --check                             exit 0                                -> gen_runner_openapi_check.txt
+  openapi.json sha256 70e0cffaab8fafd9c7f230af9169dbbe8812b3eccf7ad7838ca3f46fa9eebc2a (unchanged);
+  openapi_runner.json 0f3dac4db29e36485f04941028f296f9fdaf6d00fca44fb304d410474084ecd7 (unchanged)  -> contract_shas.txt
+
+real process
+  fix6_genconfig_mixed_smoke.py --timeout 900   02:45:43-02:46:10 UTC, exit 0, PASS -> genconfig_mixed_smoke.txt (+ console)
+    gen-run: examples/protocol.cpu_generation_only.json (the T5 protocol) -> COMPLETED, 2 candidates; c000 again
+      NAS:hybrid_backbone with NASGlobalTransformer (c001 cnn)
+    genconfig-create from run-...:RAND:s7:g00:c000 with 0 structure-check calls before (core and gateway access logs)
+      -> 200 (T5: 422 before DD-A73); the run COMPLETED on the REAL runner (ultralytics CPU, 1 epoch, 64 px);
+      bound structure PASS (NASGlobalTransformer); config revisions selected + executed, both YAMLs 200 with sha256
+      == listed source_sha256 and containing the mixed block; still 0 structure-check calls after
+    (a first attempt at 02:45:08 failed before any API step: the script resolved its root one level too high and could not
+     read the example protocol; the stray docs/runtime directory it created was removed and the root fixed)
+  FIX5 smoke regression (unchanged script)       02:46:59-02:47:33 UTC, exit 0, PASS -> fix5_prune_roundtrip_smoke_regression.txt

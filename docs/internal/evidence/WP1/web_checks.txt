@@ -1,0 +1,27 @@
+# 2026-10-26T18:49:33+09:00 cwd=/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web node=v24.20.0 npm=11.19.0
+## $ npm run check:types
+
+> mbnas-web@0.1.0 check:types
+> node scripts/gen-types.mjs --check
+
+✨ openapi-typescript 7.13.0
+🚀 /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/openapi/openapi.json → /tmp/mbnas-types-wnRnRf/types.gen.ts [294.5ms]
+types.gen.ts matches the contract
+exit=0 duration=1s
+## $ npm run typecheck
+
+> mbnas-web@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+exit=0 duration=8s
+## $ npx vitest run
+
+ RUN  v5.0.3 /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web
+
+
+ Test Files  35 passed (35)
+      Tests  488 passed (488)
+   Start at  18:49:43
+   Duration  11.10s (tests 34%, environment 31%, transform 24%, import 7%, setup 4%)
+
+exit=0 duration=12s

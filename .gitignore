@@ -1,0 +1,46 @@
+# Same source/non-source split as scripts/dev/canary_plant.py:
+# runtime/, dist/, build/ (except build/allowlists), node_modules, VCS and cache dirs are not source.
+
+# Runtime state: venvs, test trees, browsers, gateway data
+runtime/
+
+# Packaging outputs
+dist/
+build/*
+!build/allowlists/
+
+# Web
+mbnas_web/node_modules/
+mbnas_web/dist/
+mbnas_web/test-results/
+mbnas_web/playwright-report/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Secrets / local env
+.env
+.env.*
+!.env.example
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+
+# added 2026-10-28 by the designer session (DD-A67): never commit runtime trees, build caches, private ZIPs, canary manifest, env files
+build/
+docs/internal/canary/
+node_modules/
+*.pyc
+*.env
+!config/examples/*.env.example
+mbnas_web/evidence/
+*.log

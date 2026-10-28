@@ -1,0 +1,62 @@
+{
+ "id": "C09",
+ "name": "설치 폐쇄성",
+ "version": "1.0 (2026-10-23 22:4x, 설계자 claude-fable-5-1 고정; 변경 시 사유·버전 기록)",
+ "pass_condition": {
+  "total_score": "> 90 of 100",
+  "blocker": 0,
+  "critical": 0,
+  "mandatory_evidence": "all criteria must cite artifacts produced in TARGET_ROOT by executed commands (no source-doc reported values)"
+ },
+ "criteria": [
+  {
+   "id": "import_origin",
+   "points": 25,
+   "observable_evidence": "자체 import 출처: 모든 mbnas_* 모듈 __file__이 설치 트리(또는 ZIP 압축 해제본) 아래, 원본/부모 PYTHONPATH/.pth 없음",
+   "mandatory_checks": "scripts/verify.sh --suite relocation 로그(모듈별 origin 표)",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "package_data",
+   "points": 25,
+   "observable_evidence": "package-data·operator: schema.sql, handoff json, openapi.json, operators, 웹 dist가 wheel/ZIP에 포함",
+   "mandatory_checks": "wheel 내용 목록; 설치본에서 리소스 로드 테스트",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "clean_env",
+   "points": 25,
+   "observable_evidence": "빈 환경·원본 차단: bwrap/docker 격리에서 etri_nas 미마운트, user-site 차단, PYTHONPATH 제거, 캐시 격리로 설치·실행",
+   "mandatory_checks": "T4/T5/T6 로그(격리 명령 포함)",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "relocation",
+   "points": 25,
+   "observable_evidence": "경로 재배치: 다른 절대경로·공백 경로·외부 cwd에서 제공 명령 동작",
+   "mandatory_checks": "T6 로그(공백 경로 포함)",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  }
+ ],
+ "notes": "점수는 자체 품질 평가이며 보안 확률·실측 성능이 아니다. 미실행 시험은 0점이고 BLOCKED_BY_ENV는 별도 표기(점수 아님)."
+}

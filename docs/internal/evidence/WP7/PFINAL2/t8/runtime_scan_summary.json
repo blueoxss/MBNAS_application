@@ -1,0 +1,38 @@
+[
+ {
+  "scan": "public_responses_logs",
+  "exit": 0,
+  "files": 58,
+  "needles": 124,
+  "hits_by_label": {},
+  "failing": 0,
+  "status": "PASS"
+ },
+ {
+  "scan": "public_proc",
+  "exit": 0,
+  "files": 4,
+  "needles": 124,
+  "hits_by_label": {},
+  "failing": 0,
+  "status": "PASS"
+ },
+ {
+  "scan": "registration_responses_logs",
+  "exit": 0,
+  "files": 15,
+  "needles": 124,
+  "hits_by_label": {},
+  "failing": 0,
+  "status": "PASS"
+ },
+ {
+  "scan": "registration_proc",
+  "exit": 0,
+  "files": 4,
+  "needles": 124,
+  "hits_by_label": {},
+  "failing": 0,
+  "status": "PASS"
+ }
+]

@@ -1,0 +1,2 @@
+PROPOSAL SIMULATION: small_protocol pins keep_all
+7 passed, 1 warning in 38.54s

@@ -1,0 +1,56 @@
+$ /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python -B -m pytest tests/public/packaging -v -p no:cacheprovider
+============================= test session starts ==============================
+platform linux -- Python 3.10.22, pytest-9.1.1, pluggy-1.6.0 -- /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python
+rootdir: /home/mgjeong/Desktop/etri_hd/mbnas_application
+configfile: pyproject.toml
+plugins: anyio-4.15.1, timeout-2.4.0
+timeout: 600.0s
+timeout method: signal
+timeout func_only: False
+collecting ... collected 42 items
+
+tests/public/packaging/test_canary_tools.py::test_base64_and_hex_forms_are_found_at_every_alignment[0] PASSED [  2%]
+tests/public/packaging/test_canary_tools.py::test_base64_and_hex_forms_are_found_at_every_alignment[1] PASSED [  4%]
+tests/public/packaging/test_canary_tools.py::test_base64_and_hex_forms_are_found_at_every_alignment[2] PASSED [  7%]
+tests/public/packaging/test_canary_tools.py::test_base64_and_hex_forms_are_found_at_every_alignment[3] PASSED [  9%]
+tests/public/packaging/test_canary_tools.py::test_base64_and_hex_forms_are_found_at_every_alignment[4] PASSED [ 11%]
+tests/public/packaging/test_canary_tools.py::test_base64_and_hex_forms_are_found_at_every_alignment[5] PASSED [ 14%]
+tests/public/packaging/test_canary_tools.py::test_nested_containers_are_opened PASSED [ 16%]
+tests/public/packaging/test_canary_tools.py::test_generic_pattern_needs_no_manifest_and_main_exit_codes PASSED [ 19%]
+tests/public/packaging/test_canary_tools.py::test_profile_judgement_and_positive_control PASSED [ 21%]
+tests/public/packaging/test_canary_tools.py::test_host_facts_fail_except_in_the_owner_bundle PASSED [ 23%]
+tests/public/packaging/test_canary_tools.py::test_secret_needles_are_reported_by_label_only PASSED [ 26%]
+tests/public/packaging/test_canary_tools.py::test_plant_refuses_unmarked_trees_and_the_project_root PASSED [ 28%]
+tests/public/packaging/test_canary_tools.py::test_fresh_tree_plant_is_idempotent_rotatable_and_strippable PASSED [ 30%]
+tests/public/packaging/test_canary_tools.py::test_canary_test_build_positive_control_and_leak_detection PASSED [ 33%]
+tests/public/packaging/test_package_build.py::test_platform_tag_is_derived_from_the_host PASSED [ 35%]
+tests/public/packaging/test_package_build.py::test_public_zip_name_layout_and_sha256_file PASSED [ 38%]
+tests/public/packaging/test_package_build.py::test_public_zip_holds_exactly_the_public_parts PASSED [ 40%]
+tests/public/packaging/test_package_build.py::test_shell_scripts_are_executable_and_modes_normalised PASSED [ 42%]
+tests/public/packaging/test_package_build.py::test_file_manifest_lists_every_other_entry_with_digest PASSED [ 45%]
+tests/public/packaging/test_package_build.py::test_build_info_and_package_profile PASSED [ 47%]
+tests/public/packaging/test_package_build.py::test_owner_zip_adds_the_private_parts_but_no_canary_or_snapshot PASSED [ 50%]
+tests/public/packaging/test_package_build.py::test_registration_zip_has_docs_and_generated_file_list PASSED [ 52%]
+tests/public/packaging/test_package_build.py::test_web_tests_importing_the_fitness_oracle_stay_in_the_owner_bundle PASSED [ 54%]
+tests/public/packaging/test_package_build.py::test_prose_mention_of_the_private_package_is_reported_not_failed PASSED [ 57%]
+tests/public/packaging/test_package_build.py::test_private_import_in_a_public_package_fails_the_build PASSED [ 59%]
+tests/public/packaging/test_package_build.py::test_private_requirement_in_a_public_text_file_fails_the_build PASSED [ 61%]
+tests/public/packaging/test_package_build.py::test_host_fact_canary_token_private_key_and_secret_value_fail PASSED [ 64%]
+tests/public/packaging/test_package_build.py::test_web_dist_missing_fails_public_unless_allowed PASSED [ 66%]
+tests/public/packaging/test_package_build.py::test_web_bundle_gate_rejects_a_forbidden_string_in_the_staged_dist PASSED [ 69%]
+tests/public/packaging/test_package_build.py::test_symlink_and_case_colliding_entries_fail PASSED [ 71%]
+tests/public/packaging/test_package_build.py::test_reproducible_build_is_identical_twice_and_across_invocations PASSED [ 73%]
+tests/public/packaging/test_package_build.py::test_unknown_allowlist_section_is_a_usage_error PASSED [ 76%]
+tests/public/packaging/test_package_build.py::test_glob_semantics[docs/public/**-docs/public/a/b.md-True] PASSED [ 78%]
+tests/public/packaging/test_package_build.py::test_glob_semantics[docs/public/-docs/public/x.md-True] PASSED [ 80%]
+tests/public/packaging/test_package_build.py::test_glob_semantics[**/__pycache__/**-a/b/__pycache__/c.pyc-True] PASSED [ 83%]
+tests/public/packaging/test_package_build.py::test_glob_semantics[**/*.env-config/public/gateway.env-True] PASSED [ 85%]
+tests/public/packaging/test_package_build.py::test_glob_semantics[**/*.env-config/examples/gateway.env.example-False] PASSED [ 88%]
+tests/public/packaging/test_package_build.py::test_glob_semantics[mbnas_web/dist/**/*.map-mbnas_web/dist/assets/app.js.map-True] PASSED [ 90%]
+tests/public/packaging/test_package_build.py::test_glob_semantics[LICENSE*-LICENSE_STATUS.md-True] PASSED [ 92%]
+tests/public/packaging/test_package_build.py::test_glob_semantics[dist/**-mbnas_web/dist/index.html-False] PASSED [ 95%]
+tests/public/packaging/test_package_build.py::test_glob_semantics[scripts/*.sh-scripts/dev/x.sh-False] PASSED [ 97%]
+tests/public/packaging/test_package_build.py::test_real_allowlists_keep_the_profile_boundaries PASSED [100%]
+
+======================== 42 passed in 60.53s (0:01:00) =========================
+exit=0

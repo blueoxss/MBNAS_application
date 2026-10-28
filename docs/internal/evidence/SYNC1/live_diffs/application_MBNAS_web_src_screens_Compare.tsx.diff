@@ -1,0 +1,11 @@
+--- a/application/MBNAS_web/src/screens/Compare.tsx
++++ b/application/MBNAS_web/src/screens/Compare.tsx
+@@ -108,7 +108,7 @@
+       <div className="page-head">
+         <h1>Run 비교</h1>
+       </div>
+-      <p className="muted" style={{ marginTop: -8 }}>같은 dataset의 run 2~6개를 골라 탐색 곡선과 기준선을 나란히 봅니다.</p>
++      <p className="muted" style={{ marginTop: -8 }}>같은 dataset의 NAS archive run 2~6개를 골라 탐색 곡선과 기준선을 나란히 봅니다 (읽기 전용 · 콘솔 run 후보 간 비교는 탐색 모니터링의 후보 상세 · 모델 비교).</p>
+       <ConnectGate />
+       {connected && (
+         <>

@@ -1,0 +1,56 @@
+# WP-7B owner compose smoke 20261027T051805Z result=PASS
+# scratch tree: deploy/owner/docker-compose.yml (copy) + config/owner/{core,gateway,runner}.env (examples + smoke values) + runtime/ + data/synthetic4
+# docker compose -p wp7b-owner-smoke --no-build; images mbnas-owner:0.1.0; MBNAS_UID/GID = invoking user; ports published on 127.0.0.1 (ephemeral)
+# tokens generated/issued at run time, never printed; scratch tree removed after the run
+  {"step": "compose up core owner-worker", "ok": true, "exit": 0, "stderr": ""}
+  {"step": "core container answers on the published port (401 without a token)", "ok": true, "seconds": 2.4}
+  {"step": "compose run --rm core principal create --kind server", "ok": true, "exit": 0, "stderr": ""}
+  {"step": "compose run --rm core principal create --kind runner", "ok": true, "exit": 0, "stderr": ""}
+  {"step": "compose run --rm core principal create --kind admin", "ok": true, "exit": 0, "stderr": ""}
+  {"step": "compose --profile all-in-one --profile cpu up (gateway + runner-cpu)", "ok": true, "exit": 0, "stderr": ""}
+  {"step": "gateway serves the web console", "ok": true, "http": 200}
+  {"step": "gateway (network_mode service:core) -> core on loopback http://127.0.0.1:8700 (DD-A41 d: no insecure opt-in)", "ok": true, "http": 200, "core": {"status": "ok", "reachable": true}}
+  {"step": "runner-cpu (network_mode service:core, http://127.0.0.1:8700) registers ONLINE", "ok": true, "runner": {"id": "owner-cpu-runner", "status": "ONLINE", "device": "cpu"}}
+  {"step": "structure-check yolo11n_user.yaml", "ok": true, "status": "PASS"}
+  {"step": "structure-check yolo11n_user_broken.yaml", "ok": true, "status": "FAIL"}
+  {"step": "validate examples/protocol.cpu_generation_only.json (output_root under the core output root)", "ok": true, "http": 200, "errors": []}
+  {"step": "OFF generation run through the gateway, executed by the owner-worker container", "ok": true, "create_http": 200, "run_status": "COMPLETED", "generated_candidates": 2}
+  {"step": "compose down (own project only)", "ok": true, "exit": 0, "left": []}
+# log:
+  05:18:07 STEP compose up core owner-worker: PASS {"exit": 0, "stderr": ""}
+  05:18:08 STEP core container answers on the published port (401 without a token): PASS {"seconds": 2.4}
+  05:18:09 STEP compose run --rm core principal create --kind server: PASS {"exit": 0, "stderr": ""}
+  05:18:11 STEP compose run --rm core principal create --kind runner: PASS {"exit": 0, "stderr": ""}
+  05:18:12 STEP compose run --rm core principal create --kind admin: PASS {"exit": 0, "stderr": ""}
+  05:18:13 STEP compose --profile all-in-one --profile cpu up (gateway + runner-cpu): PASS {"exit": 0, "stderr": ""}
+  05:18:14 STEP gateway serves the web console: PASS {"http": 200}
+  05:18:14 STEP gateway (network_mode service:core) -> core on loopback http://127.0.0.1:8700 (DD-A41 d: no insecure opt-in): PASS {"http": 200, "core": {"status": "ok", "reachable": true}}
+  05:18:15 STEP runner-cpu (network_mode service:core, http://127.0.0.1:8700) registers ONLINE: PASS {"runner": {"id": "owner-cpu-runner", "status": "ONLINE", "device": "cpu"}}
+  05:18:19 STEP structure-check yolo11n_user.yaml: PASS {"status": "PASS"}
+  05:18:22 STEP structure-check yolo11n_user_broken.yaml: PASS {"status": "FAIL"}
+  05:18:22 STEP validate examples/protocol.cpu_generation_only.json (output_root under the core output root): PASS {"http": 200, "errors": []}
+  05:18:27 STEP OFF generation run through the gateway, executed by the owner-worker container: PASS {"create_http": 200, "run_status": "COMPLETED", "generated_candidates": 2}
+  05:18:27 services before down: core running Up 21 seconds (health: starting) | gateway running Up 14 seconds (health: starting) | owner-worker running Up 20 seconds | runner-cpu running Up 14 seconds
+  05:18:29 STEP compose down (own project only): PASS {"exit": 0, "left": []}
+# compose logs (tail):
+  core-1  | INFO:     127.0.0.1:46526 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+  runner-cpu-1  | 2026-10-27T05:18:13.497080Z runner owner-cpu-runner: artifact transfer: local into /srv/mbnas/runtime/gateway/artifacts (store mode same-uid, max 6 tries per file)
+  gateway-1     | INFO:     172.21.0.1:53194 - "GET /api/v1/runs/run-97059a3baf53 HTTP/1.1" 200 OK
+  gateway-1     | INFO:     172.21.0.1:53206 - "GET /api/v1/runs/run-97059a3baf53 HTTP/1.1" 200 OK
+  gateway-1     | INFO:     172.21.0.1:53220 - "GET /api/v1/runs/run-97059a3baf53 HTTP/1.1" 200 OK
+  gateway-1     | INFO:     172.21.0.1:53228 - "GET /api/v1/runs/run-97059a3baf53 HTTP/1.1" 200 OK
+  gateway-1     | INFO:     172.21.0.1:40070 - "GET /api/v1/runs/run-97059a3baf53 HTTP/1.1" 200 OK
+  gateway-1     | INFO:     172.21.0.1:40084 - "GET /api/v1/runs/run-97059a3baf53/snapshot HTTP/1.1" 200 OK
+  core-1        | INFO:     127.0.0.1:46516 - "GET /core/v1/console/runs/run-97059a3baf53 HTTP/1.1" 200 OK
+  core-1        | INFO:     127.0.0.1:46526 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+  runner-cpu-1  | Creating new Ultralytics Settings v0.0.8 file ✅ 
+  runner-cpu-1  | View Ultralytics Settings with 'yolo settings' or at '/tmp/mbnas-home/.config/Ultralytics/settings.json'
+  core-1        | INFO:     127.0.0.1:46516 - "GET /core/v1/console/runs/run-97059a3baf53 HTTP/1.1" 200 OK
+  core-1        | INFO:     127.0.0.1:46516 - "GET /core/v1/console/runs/run-97059a3baf53/snapshot HTTP/1.1" 200 OK
+  core-1        | INFO:     127.0.0.1:46526 - "POST /core/v1/runner/claim HTTP/1.1" 204 No Content
+  runner-cpu-1  | Update Settings with 'yolo settings key=value', i.e. 'yolo settings runs_dir=path/to/dir'. For help see https://docs.ultralytics.com/usage/settings.
+
+## negative check (why the all-in-one gateway joins the core's network namespace): GatewaySettings in mbnas-owner:0.1.0
+http://core:8700 -> CORE_URL_INSECURE: core_url http://core:8700 is plain http to a non-loopback host; use https:// (with MBNAS_GW_CORE_CA_FILE for a private CA) or set MBNAS_GW_CORE_ALLOW_INSECURE_HTTP=true explicitly
+http://127.0.0.1:8700 -> accepted
+https://core.example.org -> accepted

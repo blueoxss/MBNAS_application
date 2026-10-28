@@ -1,0 +1,9 @@
+..........                                                               [100%]
+=============================== warnings summary ===============================
+test_wp2a_selftest.py::test_register_claim_envelope_and_filters
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+10 passed, 1 warning in 8.47s
+exit=0 dur=9s

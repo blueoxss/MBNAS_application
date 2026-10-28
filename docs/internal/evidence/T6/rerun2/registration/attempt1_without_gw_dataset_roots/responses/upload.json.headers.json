@@ -1,0 +1,12 @@
+{
+ "status": 200,
+ "headers": {
+  "date": "Wed, 28 Oct 2026 01:55:38 GMT",
+  "server": "uvicorn",
+  "content-length": "187",
+  "content-type": "application/json",
+  "vary": "Origin",
+  "x-request-id": "bb4b851b310642a195716525f25c66be",
+  "connection": "close"
+ }
+}

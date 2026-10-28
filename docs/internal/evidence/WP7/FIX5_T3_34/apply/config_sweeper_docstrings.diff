@@ -1,0 +1,35 @@
+--- a/mbnas_core/src/mbnas_core/config.py
++++ b/mbnas_core/src/mbnas_core/config.py
+@@ -115,7 +115,9 @@
+     """Validation device inventory: ``local`` = NVML of this host (WP-1 behaviour), ``runners`` = devices of the
+     registered runners (``protocol.validator.devices_from_runners``). Env ``MBNAS_CORE_DEVICE_SOURCE``."""
+     remote_retention_policy: RetentionPolicy = "keep_all"
+-    """Retention policy forced on runs executed by remote runners until the prune round trip exists (WP-5, design D7)."""
++    """DEPRECATED, ignored since runner protocol 1.1.0 (DD-A66): remote runs apply their own policy through the prune
++    round trip (``orchestration.retention``). Kept only so existing env files (``MBNAS_CORE_REMOTE_RETENTION_POLICY``)
++    still load; formerly the policy forced on runs executed by remote runners (WP-5, design D7)."""
+     sweeper_enabled: bool = True
+     """Run the core sweeper thread (lease reclaim, runner liveness, idempotency orphans) inside the API process."""
+     ticket_ttl_s: int = Field(default=7 * 24 * 3600, gt=0)
+--- a/mbnas_core/src/mbnas_core/runner_api/sweeper.py
++++ b/mbnas_core/src/mbnas_core/runner_api/sweeper.py
+@@ -6,7 +6,8 @@
+ 1. **reclaim** expired leases - the body of the former ``Worker.reclaim`` unchanged: ``jobs.reclaim`` -> a RUNNING
+    attempt is billed ``lost`` from ``started_at`` to ``heartbeat_at`` (``LEASE_EXPIRED``) -> FAILED jobs get
+    ``engine.job_finished(LEASE_EXPIRED_MAX_ATTEMPTS)``, the others ``engine.job_requeued`` + ``engine.settle_run`` ->
+-   ``costs.refresh_run_costs``; afterwards retention for the failed jobs' candidates (own tx, never fatal);
++   ``costs.refresh_run_costs``; afterwards retention for the failed jobs' candidates (own tx, never fatal; a remote
++   run's policy becomes prune requests for its runners, DD-A66);
+ 2. ``repo.prune_workers`` (rows older than a day);
+ 3. ``runners`` ONLINE/REGISTERED whose ``last_seen_at`` is older than the liveness window (3 x heartbeat_s + 5 s) ->
+    ``LOST``;
+@@ -60,7 +61,8 @@
+ 
+ 
+ def apply_retention(conn: sqlite3.Connection, settings: CoreSettings, job: dict[str, Any]) -> dict[str, Any] | None:
+-    """Retention for the job's candidate in its own transaction (remote runs: forced keep_all, see retention)."""
++    """Retention for the job's candidate in its own transaction (remote runs: the run's own policy through the prune
++    round trip, DD-A66 - ``remote_retention_policy`` is passed for compatibility and ignored; see retention)."""
+     if not job.get("candidate_id"):
+         return None
+     try:

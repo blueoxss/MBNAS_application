@@ -1,0 +1,4 @@
+public pre-build A (sha256 69de59e2…, installed offline) vs release public ZIP (sha256 bc0500bd…)
+only in A: []
+only in release: []
+changed: ['mbnas_application/BUILD_INFO.json', 'mbnas_application/FILE_MANIFEST.jsonl', 'mbnas_application/PACKAGE_CONTENTS.md', 'mbnas_application/PACKAGE_PROFILE.json']

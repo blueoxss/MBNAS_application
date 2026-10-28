@@ -1,0 +1,2 @@
+start 2026-10-27T23:20:45Z cwd=/home/mgjeong/Desktop/etri_hd/mbnas_application label=suite_pubrunner args=tests/public/runner -m not gpu and not live and not legacy_records and not host_data -q -rfE --timeout=180 --durations=10
+exit=0 dur=120s end=2026-10-27T23:22:45Z

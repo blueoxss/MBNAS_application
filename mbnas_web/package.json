@@ -1,0 +1,42 @@
+{
+  "name": "mbnas-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "MBNAS research console (React + TypeScript + Vite) for the MBNAS_server API",
+  "scripts": {
+    "dev": "vite",
+    "gen:types": "node scripts/gen-types.mjs",
+    "check:types": "node scripts/gen-types.mjs --check",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "build": "tsc --noEmit -p tsconfig.json && vite build",
+    "check:bundle": "node scripts/check-bundle.mjs",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "e2e": "playwright test",
+    "e2e:real": "playwright test -c playwright.real.config.ts",
+    "e2e:archive-real": "playwright test -c playwright.archive-real.config.ts"
+  },
+  "dependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/node": "^22.0.0",
+    "@types/react": "18.3.31",
+    "@types/react-dom": "18.3.7",
+    "@vitejs/plugin-react": "^6.1.2",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "jsdom": "^30.1.2",
+    "openapi-typescript": "^7.13.0",
+    "typescript": "~5.9.3",
+    "vite": "^8.3.3",
+    "vitest": "^5.0.3"
+  }
+}

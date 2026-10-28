@@ -1,0 +1,100 @@
+--- a/application/docs/implementation_20261021/TEST_EVIDENCE.md
++++ b/application/docs/implementation_20261021/TEST_EVIDENCE.md
+@@ -117,3 +117,97 @@
+ - Actual operating-system `SIGKILL` worker death → lease expiry/reclaim recovery remains **unverified in this runtime**. The delegated subprocess check `tests/worker/test_subprocess.py::test_worker_kill9_lease_reclaimed_once_by_new_worker` (with `::test_crashed_child_is_retried_and_resumes_from_checkpoint` for the resume half) encountered the container/runtime's nested PID mapping: a spawned PID was visible to signal probing but its `/proc/<pid>/stat` entry was unavailable. This is an execution-environment limitation, not a successful kill/reclaim test. Journal/progress interruption and replay tests pass independently and do not substitute for that OS-level check.
+ - Execution here used **Python 3.12.14**, PyTorch 2.6.0+cpu and Ultralytics 8.4.173. The repository declares Python **>=3.10,<3.11** and its exact server dependency constraints were retained. Test compatibility in this Python 3.12 environment does not certify the original pinned Python 3.10/GPU host.
+ - No CUDA GPU training/benchmark, official COCO GPU evaluation, full NAS campaign, or user research dataset run was executed. No such result is marked passed or substituted with a mock measurement.
++
++
++---
++
++# 최종(2026-10-23)
++
++위 본문(「Verification evidence」, 343 passed / vitest 366 등)은 **2026-10-21 구현 단계 시점의 기록**이며 이력으로 그대로 둔다. 이 절이 최종 트리(브랜치 `work/mbnas-integration-20261021`, HEAD `18c4815` 위의 미커밋 수용 변경, OpenAPI 계약 **1.4.2**)에 대한 최종 수치다. 두 수치 묶음은 범위가 달라 직접 비교하지 않는다(10-21의 343은 관련 서버 부분 스위트, 아래 1319는 표준 게이트 전체).
++
++모든 실행은 `CUDA_VISIBLE_DEVICES=""`(GPU 미사용), 임시 DB·root·격리 포트에서 수행했다. 증거 파일 경로는 `application/docs/integration_20261021/evidence_impl/` 기준이다.
++
++## 최종 수치
++
++| 항목 | 명령 | 종료 코드 | 결과 | 증거 파일 |
++|---|---|---|---|---|
++| 서버 표준 게이트 | `bash scripts/run_tests_host.sh -rsxX` (MBNAS_server) | 0 | **1319 passed, 21 skipped, 3 deselected, 0 failed, 0 errors**, 1748.88 s | `S01_fix1/gate_standard.txt`, `S01_fix1/gate_standard.exit` |
++| 웹 vitest | `npm test` (MBNAS_web) | 0 | **36 files, 490 tests passed** | `S01_fix1/web_npm_test.txt` |
++| 웹 계약 드리프트 | `npm run check:types` | 0 | types.gen.ts가 계약과 일치 | `S01_fix1/web_npm_run_check_types.txt` |
++| 웹 타입 검사 | `npm run typecheck` | 0 | tsc 오류 없음 | `S01_fix1/web_npm_run_typecheck.txt` |
++| e2e (mock API, desktop-1280 + mobile-375) | `PLAYWRIGHT_HOST_PLATFORM_OVERRIDE=ubuntu22.04-x64 npm run e2e` | 0 | **188 passed**, 27.2 s (이 표의 시점의 최종 트리; 이전 기록 186은 `G0R/e2e_full.txt`. 이후 S06_fix1에서 새 테스트 4건을 더해 192 — 아래 「S06_fix1 갱신」) | `S05_fix3/e2e_full.txt`, `S06_iter1_eval/e2e_full.txt` (`S05_fix3/evidence_backup.txt`·`evidence_restore.txt`로 evidence 복원 확인) |
++| 격리 live 하네스 A (실제 API+SQLite+CPU worker+브라우저) | `harness/verify_live_browser.py` (S01 평가자 재실행) | 0 | run COMPLETED, 후보 2개, evaluation_rows 0, 기본 ON → OFF 저장·재읽기, 그래프 edge 30, 페이지 오류 0, `gpu_used: false` | `S01_iter2_eval/live_browser.txt`, `S01_iter2_eval/live-verification.json` |
++| 격리 live 하네스 B (실제 CPU 2 epoch 학습 산출물 브라우저 표시) | `harness/verify_cpu_training_browser.py` (S01 평가자 재실행) | 0 | native 이미지 5개 HTTP 200 + `X-Artifact-Sha256` 헤더, 원본 링크, '미측정' 배지, GPU 미사용 | `S01_iter2_eval/cpu_training_browser.txt`, `S01_iter2_eval/cpu-training-browser.json` |
++| 신규 route live 점검 | `harness/verify_structure_routes.py` (S01 평가자 재실행) | 0 | `checks=33 failed=0` (구조 GET/검사 POST/`/structure-check`/`/training-runs` 포함, worker 미기동) | `S01_iter2_eval/structure_routes.txt` |
++
++### 최종 트리와의 관계(확인한 것)
++
++- 표준 게이트(22:47 종료) 이후 `MBNAS_server/src·tests·contracts·scripts`에 더 새로운 파일이 없음을 `find -newer`로 확인했다.
++- e2e(21:59) 이후 `MBNAS_web/src·e2e·tests`에서 더 새로운 파일은 `tests/settings_loss_profile.test.tsx`(vitest 1건 추가) 하나뿐이다. 따라서 e2e 186은 현재 웹 소스에 대한 결과이고, 변경된 것은 vitest 파일 하나(→ 490)다.
++- 게이트 이력: WP-G0R 시점 1315 passed / 1 failed(`tests/worker/test_import_safety.py::test_no_module_runs_code_at_import_time`) → S01 수정 1라운드 후 1319 passed / 0 failed. 증가분은 `tests/api/test_error_trace_id.py` 2건, 더 이상 skip되지 않는 캠페인 연결 테스트 1건, 통과로 바뀐 import 안전 테스트 1건이다.
++
++### 환경 한계 / 미검증(그대로 유지)
++
++- 실제 CUDA worker 검증(REQ-8.02, 8.03, 8.07)은 연구 캠페인이 GPU를 점유하는 동안 금지되어 최종 코드에서 **재실행하지 못했다**. 증거는 `18c4815` 시점의 `evidence_impl/G/`뿐이다(`미검증(최종 코드) / 통과(18c4815 G)`).
++- CUDA가 보이는 환경에서만 의미 있는 `test_get_does_not_initialise_cuda_when_cuda_visible` 등은 GPU 가시 환경에서 실행하지 않았다.
++- 운영 콘솔의 캠페인 아카이브 어댑터 활성화(`MBNAS_ARCHIVE_CAMPAIGN_ROOTS`, `.env`, 재시작)는 사용자 결정 사항이며 이번 검증에 포함하지 않았다.
++- 10-21 본문의 OS 수준 SIGKILL worker 사망 → lease 재획득 항목은 그 컨테이너 환경의 한계 기록이다. 호스트 표준 게이트에서는 `tests/worker/test_subprocess.py`가 skip 목록(21건)에도 실패 목록에도 없지만, 게이트를 `-v` 없이 실행해 개별 테스트 통과 줄은 증거 파일에 없으므로 해당 테스트의 개별 통과를 확인했다고는 주장하지 않는다.
++- REQ-9.03(라이트박스)·REQ-9.07(콘솔 run 후보 조건 비교)은 위 표의 시점에는 '부분'이었고, 설계자 결정 DD-44·DD-45에 따라 S01_fix3에서 구현되었다(아래 「S01_fix3 갱신」).
++
++## 문서 관리 범위 (DD-43)
++
++유지·관리되는 문서는 `application/docs/implementation_20261021/`과 `application/docs/integration_20261021/`이며, `application/docs/` 루트에 있는 같은 이름의 사본(md 4개·png 4장)은 2026-10-21 20:17 시점 복사본이다. 출처가 불분명해 사용자 파일일 수 있으므로 삭제·이동·커밋하지 않았고 `git add` 대상에도 넣지 않는다. 루트 사본의 `FUNCTION_GUIDE.md`·`TEST_EVIDENCE.md`는 위 최종 내용(1.4.0–1.4.2, 이 절)을 포함하지 않는다.
++
++## S01_fix3 갱신 (2026-10-23)
++
++위 「최종 수치」의 서버 표준 게이트(1319 passed)는 S01_fix3 이전 트리의 결과이며 이 라운드에서 전체 게이트를 다시 돌리지 않았다. S01_fix3가 바꾼 파일에 대해서만 다음을 실행했다. 증거 파일은 `application/docs/integration_20261021/evidence_impl/S01_fix3/`이다.
++
++| 항목 | 명령 | 종료 코드 | 결과 | 증거 파일 |
++|---|---|---|---|---|
++| 웹 vitest | `npm test` (MBNAS_web) | 0 | **37 files, 500 tests passed** (신규 `tests/dd44_dd45.test.tsx` 10건 포함, 이전 36 files / 490) | `S01_fix3/web_checks.txt` |
++| 웹 계약·타입 | `npm run check:types`, `npm run typecheck` | 0, 0 | 계약 일치, tsc 오류 없음 | `S01_fix3/web_checks.txt` |
++| 웹 번들 | `vite build --outDir <scratchpad>` (`MBNAS_web/dist` 미사용) | 0 | 빌드 성공 | `S01_fix3/vite_build_scratch.txt` |
++| 서버 plain pytest (환경 변수 없음) | `pytest tests/api/test_registry_structure.py -m "not gpu"` (CUDA 숨김) | 0 | 34 passed (S01 평가자 plain 실행에서는 이 파일의 2건이 errors) | `S01_fix3/pytest_registry_structure_plain.txt` |
++| 서버 focused pytest | 같은 파일, ETRI root 변수 지정 | 0 | 34 passed | `S01_fix3/pytest_registry_structure_focused.txt` |
++| 표준 게이트 `-k` | `bash scripts/run_tests_host.sh -k test_registry_structure` (CUDA 숨김) | 0 | 36 passed, 1307 deselected | `S01_fix3/gate_k_registry_structure.txt` |
++
++e2e는 이 라운드에서 실행하지 않았다(`ArtifactImage`·`ModelComparison` 변경 후의 e2e 186은 재검증되지 않음). DD-41의 'CUDA가 보이는 환경' 단언은 GPU 사용 금지로 CUDA를 숨긴 채 실행했다.
++
++## S04_fix1 갱신 (2026-10-26)
++
++구조 검사 표(`structure.py`)와 DD-13 계열 표 증거를 갱신했다. 증거 디렉터리는 `application/docs/integration_20261021/evidence_impl/S04_fix1/`이다. 전체 표준 게이트는 이 라운드에서 다시 돌리지 않았다.
++
++| 항목 | 명령 | 종료 코드 | 결과 | 증거 파일 |
++|---|---|---|---|---|
++| 구조 4개 스위트 | `pytest tests/search/test_structure_{adversarial,cpu,observation,runtime_cpu}.py -m "not gpu"` (CUDA 숨김) | 0 | 47 passed (신규 단언 포함) | `S04_fix1/pytest_structure_four.txt` |
++| 구조 의존 스위트 | adapters/api/search/unit 9개 파일 | 0 | 320 passed | `S04_fix1/pytest_dependents.txt` |
++| 계열 표 재실행(최종 트리, CPU) | `FAMILY_OUT=.../WPS2/family_final bash run_family.sh` | 0 (9/9) | 9개 모델 PASS, 파라미터 수 이전 실행과 동일, `fx_error` 없음(`fx_basis` 있음) | `evidence_impl/WPS2/family_final/`, `evidence_impl/WPS2/family_table.md` (이전 표는 `family_table_pre_fix1.md`) |
++
++## S06_fix1 갱신 (2026-10-26)
++
++S06 평가 1회차 결함(하네스 B 단언, 라이트박스 e2e, Nav 라벨, 문서)을 고친 라운드다. 증거 디렉터리는 `application/docs/integration_20261021/evidence_impl/S06_fix1/`이다. 서버 코드는 바뀌지 않아 서버 게이트는 다시 돌리지 않았다.
++
++| 항목 | 명령 | 종료 코드 | 결과 | 증거 파일 |
++|---|---|---|---|---|
++| 웹 계약·타입 | `npm run check:types`, `npm run typecheck` | 0, 0 | 계약 일치, tsc 오류 없음 | `S06_fix1/web_types.txt` |
++| 웹 vitest | `npm test` | 0 | **37 files, 505 tests passed** (신규: 중첩 모달 Esc, Nav 라벨, Compare 부제) | `S06_fix1/web_vitest.txt` |
++| e2e (mock API, desktop-1280 + mobile-375) | `bash S06_fix1/run_e2e.sh` (scratch outDir 빌드 + `vite preview`, `PLAYWRIGHT_HOST_PLATFORM_OVERRIDE=ubuntu22.04-x64 npx playwright test`) | 0 | **192 passed**, 25.7 s (188 + 신규 2개 테스트 x 2 프로젝트; 라운드 2에서 조건 표 캡처를 뷰포트 캡처로 바꿔 재실행, 이전 실행 22.8 s는 `e2e_full_round0.txt`) | `S06_fix1/e2e_full.txt`, `S06_fix1/run_e2e_stdout.txt` (evidence 126개 sha256 목록 복원 후 동일: `evidence_sha_before.txt` / `evidence_sha_after.txt`) |
++| 조건 표 mobile 캡처 | 같은 명령(라운드 2). 요소 캡처가 mobile-375에서 대화상자 뒤 모니터 표를 담았던 것을 `scrollIntoView` 후 `page.screenshot`(뷰포트)로 교체, 두 png를 열어 '두 모델의 기록된 실행 조건과 결과' 표임을 확인 | 0 | 4개 e2e png 복사본 sha256 일치 | `S06_fix1/screenshots_sha256.txt`, `S06_fix1/screenshots/`, 이전 잘못된 캡처 `S06_fix1/screenshots_round0/` |
++| e2e 첫 실행(실패 기록) | 같은 명령 | 1 | 190 중 188 passed, 신규 라이트박스 테스트 2건 실패: Esc가 라이트박스와 후보 대화상자를 함께 닫음(제품 결함, `Modal.tsx`에서 수정) | `S06_fix1/e2e_full_run1_lightbox_focus_fail.txt` |
++| 격리 live 하네스 B | `harness/verify_cpu_training_browser.py --api-port 8027 --web-port 5183` | 0 | native 이미지 5개, 원본 링크 href·라이트박스 열림·Esc·초점 복귀를 단언한 뒤에만 `original_zoom_link: true` 출력, 페이지 오류 0, GPU 미사용 | `S06_fix1/cpu_training_browser.txt`, `S06_fix1/cpu_training_browser/` |
++
++위 「최종 수치」 표의 vitest 490과 e2e 188은 각각 그 표 시점의 값이며, 현재 트리의 값은 이 절의 505와 192다. 표준 게이트(1319 passed)는 서버 파일이 바뀌지 않았으므로 그대로 유효하지만 이 라운드에서 재실행하지 않았다.
++
++## S06_fix2 갱신 (2026-10-26)
++
++| 항목 | 결과 | 증거 |
++|---|---|---|
++| 라이트박스 '닫기' 라벨 줄바꿈(375 px) 수정: `ArtifactImage.tsx` 닫기 버튼에 `white-space: nowrap`, `flex-shrink: 0` | e2e DD-44에 높이(닫기 ≤ 확대 버튼 +1 px)·CSS 단언 추가. 수정 전 코드로 빌드한 음성 실행: 두 프로젝트 실패(mobile 61.2 px > 45, desktop CSS `normal`), 수정 후 전체 e2e 192 passed, vitest 505 passed | `evidence_impl/S06_fix2/negative_e2e.txt`, `full_e2e.txt`, `web_vitest.txt` |
++| mobile-375 라이트박스 스크린샷 갱신(닫기 한 줄) | `evidence/e2e-{desktop-1280,mobile-375}-artifact-lightbox.png` 교체(mock API·합성 이미지) | `evidence_impl/S06_fix2/screenshots_sha256.txt` |
++
++## S06_fix3 갱신 (2026-10-26)
++
++| 항목 | 결과 | 증거 |
++|---|---|---|
++| 카드 캡션(375 px) '원본 새 탭' 줄바꿈과 sample 문구 붙음 수정: `ArtifactImage.tsx` 링크에 `white-space: nowrap`, 링크와 `sample …` 사이에 ` · ` 구분자 | e2e DD-44에 링크 CSS·높이·캡션 텍스트(`원본 새 탭 · sample …`) 단언, vitest `dd44_dd45.test.tsx`에 같은 취지의 단언 추가. 수정 전 코드로 빌드한 음성 실행: 두 프로젝트 실패(CSS `normal`), 수정 후 전체 e2e 192 passed(LOAD_FAILED 포함), vitest 505 passed | `evidence_impl/S06_fix3/negative_e2e.txt`, `full_e2e.txt`, `web_vitest.txt` |
++| 라이트박스 스크린샷 갱신(캡션 `원본 새 탭 · sample …`) | `evidence/e2e-{desktop-1280,mobile-375}-artifact-lightbox.png` 교체(mock API·합성 이미지) | `evidence_impl/S06_fix3/screenshots_sha256.txt` |

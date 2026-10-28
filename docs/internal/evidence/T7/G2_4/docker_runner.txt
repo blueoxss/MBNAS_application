@@ -1,0 +1,34 @@
+# TREE_HASH sha256:164292c6e775a52a3da02f98282257b67a282f9e84b236ded3940e592a568f2f
+# image mbnas-public:g2t7 (sha256:39c4c0da4b7db0077d6797ff559d310a61e8bcd0a9974c11ff9e698bc0eb0828) built from the frozen copy (see docker_build.txt)
+# start_utc 2026-10-27T06:48:11.998Z
+$ docker run --rm --gpus device=1 --entrypoint python mbnas-public:g2t7 -c 'import torch,...'
+python 3.10.12
+torch 2.6.0+cu124 cuda 12.4 cudnn 90100
+torch.cuda.is_available() True
+device_count 1 name NVIDIA RTX A6000
+matmul_ok 1.0
+mbnas_core importable False
+Creating new Ultralytics Settings v0.0.8 file ✅ 
+View Ultralytics Settings with 'yolo settings' or at '/tmp/mbnas-home/.config/Ultralytics/settings.json'
+Update Settings with 'yolo settings key=value', i.e. 'yolo settings runs_dir=path/to/dir'. For help see https://docs.ultralytics.com/usage/settings.
+ultralytics 8.4.173
+exit=0
+$ docker run --rm --gpus device=1 mbnas-public:g2t7 runner --help (entrypoint role check)
+usage: mbnas-runner [-h] [--spec-file JSON] {run,register} ...
+
+MBNAS runner: executes training, evaluation and benchmark jobs leased from the
+core (/core/v1/runner) or one job from a JobSpec file
+
+positional arguments:
+  {run,register}
+    run             run the runner daemon (claim -> start -> heartbeat ->
+                    result -> ack)
+    register        register with the core once and print the negotiated
+                    configuration
+
+options:
+  -h, --help        show this help message and exit
+  --spec-file JSON  run the job described by this JobSpec JSON file; JSONL
+                    progress lines go to stdout, the last line is the result
+                    (exit 0 = SUCCEEDED, 3 = otherwise)
+exit=0 end_utc 2026-10-27T06:48:16.615Z

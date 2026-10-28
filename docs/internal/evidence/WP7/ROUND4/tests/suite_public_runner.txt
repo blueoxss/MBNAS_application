@@ -1,0 +1,33 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.22, pytest-9.1.1, pluggy-1.6.0
+rootdir: <ROOT>
+configfile: pyproject.toml
+plugins: anyio-4.15.1, timeout-2.4.0
+timeout: 180.0s
+timeout method: signal
+timeout func_only: False
+collected 136 items / 9 deselected / 127 selected
+
+tests/public/runner/test_bench_host_gpu_script.py ......                 [  4%]
+tests/public/runner/test_benchmark_pipeline_cpu.py ..                    [  6%]
+tests/public/runner/test_benchmark_rfdetr.py ...........                 [ 14%]
+tests/public/runner/test_benchmark_unit.py ........                      [ 21%]
+tests/public/runner/test_child_spec_file.py ......                       [ 25%]
+tests/public/runner/test_dd_a60_cpu_evaluation.py .....                  [ 29%]
+tests/public/runner/test_official_evaluation_payload.py ....             [ 33%]
+tests/public/runner/test_resume_equivalence_script.py .                  [ 33%]
+tests/public/runner/test_runner_daemon_unit.py ......................    [ 51%]
+tests/public/runner/test_runner_device_used.py ........                  [ 57%]
+tests/public/runner/test_runner_entrypoint_redaction.py .....            [ 61%]
+tests/public/runner/test_runner_settings_no_db.py .......                [ 66%]
+tests/public/runner/test_stage_trainer.py ...................            [ 81%]
+tests/public/runner/test_tls_private_ca.py ....                          [ 85%]
+tests/public/runner/test_transfer_local.py ...................           [100%]
+
+=============================== warnings summary ===============================
+tests/public/runner/test_benchmark_unit.py::test_export_ultralytics_raw_head_and_restores_pt_path
+  <ROOT>/runtime/venv/lib/python3.10/site-packages/ultralytics/nn/modules/head.py:222: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+    if self.dynamic or self.shape != shape:
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========== 127 passed, 9 deselected, 1 warning in 109.39s (0:01:49) ===========

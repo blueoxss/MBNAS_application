@@ -1,0 +1,3 @@
+{"file": "t5r2b_0001_GET_api_v1_health_200.bin", "method": "GET", "path": "/api/v1/health", "status": 200, "request_id": "t5r2b-7a52a9b9e26142068708", "bytes": 459, "content_type": "application/json"}
+{"file": "t5r2b_0002_POST_api_v1_protocols_validate_503.bin", "method": "POST", "path": "/api/v1/protocols/validate", "status": 503, "request_id": "t5r2b-9616160aeb0c4cc3bcaf", "bytes": 165, "content_type": "application/json"}
+{"file": "t5r2b_0003_GET_api_v1_runs_503.bin", "method": "GET", "path": "/api/v1/runs", "status": 503, "request_id": "t5r2b-f3d3d5034c6248b0a612", "bytes": 165, "content_type": "application/json"}

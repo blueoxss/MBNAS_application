@@ -1,0 +1,48 @@
+--- a/application/MBNAS_web/tests/training_panel.test.tsx
++++ b/application/MBNAS_web/tests/training_panel.test.tsx
+@@ -33,7 +33,9 @@
+ describe('TrainingPanel evaluate_only (I4-#3)', () => {
+   it('hides the target-epoch field, explains why, and does not send epoch_target_total / epochs', async () => {
+     const calls: TrainingRequest[] = [];
+-    render(<TrainingPanel client={recordingClient(calls)} protocol={defaultPolicy()} source={{ kind: 'search', run_id: 'origin', candidate_id: 'cand-1' }} />);
++    // evaluate_only exists only for an official baseline (the server refuses it for candidates and user models)
++    render(<TrainingPanel client={recordingClient(calls)} protocol={defaultPolicy()} />);
++    fireEvent.change(screen.getByLabelText(/Baseline registry ID/), { target: { value: 'synthetic-baseline-id' } });
+     // scratch: the epoch field exists
+     expect(screen.getByText('목표 epoch')).toBeInTheDocument();
+     expect(screen.queryByTestId('evaluate-only-epoch-help')).not.toBeInTheDocument();
+@@ -46,6 +48,7 @@
+ 
+     const body = calls[0];
+     expect(body.mode).toBe('evaluate_only');
++    expect(body.source).toMatchObject({ kind: 'baseline', baseline_id: 'synthetic-baseline-id' });
+     expect(body.validation_enabled).toBe(true);
+     expect(getIn(body.protocol, 'console.training.epoch_target_total')).toBeUndefined();
+     expect(getIn(body.protocol, 'console.training.scheduler_horizon_epochs')).toBeUndefined();
+@@ -67,6 +70,26 @@
+     expect(getIn(calls[0].protocol, 'console.training.scheduler_horizon_epochs')).toBe(90);
+   });
+ 
++  const modeValues = (): string[] => Array.from((screen.getByTestId('training-mode') as HTMLSelectElement).options).map((o) => o.value);
++
++  it.each(['search', 'generated'] as const)('does not offer evaluate_only for a fixed %s candidate source (server: 422 EVAL_ONLY_UNSUPPORTED)', (kind) => {
++    render(<TrainingPanel client={recordingClient([])} protocol={defaultPolicy()} source={{ kind, run_id: 'origin', candidate_id: 'cand-1' }} />);
++    expect(modeValues()).toEqual(['scratch', 'pretrained', 'resume']);
++    expect(screen.queryByText('공식 가중치 평가 전용')).not.toBeInTheDocument();
++  });
++
++  it('offers evaluate_only for a baseline source and drops it (and a selected evaluate_only) for a user model', () => {
++    render(<TrainingPanel client={recordingClient([])} protocol={defaultPolicy()} />);
++    expect(modeValues()).toEqual(['scratch', 'pretrained', 'evaluate_only']);
++    fireEvent.change(screen.getByTestId('training-mode'), { target: { value: 'evaluate_only' } });
++    expect(screen.getByTestId('evaluate-only-epoch-help')).toBeInTheDocument();
++    fireEvent.change(screen.getByLabelText(/모델 출처/), { target: { value: 'user' } });
++    expect(modeValues()).toEqual(['scratch', 'pretrained']);
++    expect(screen.getByTestId('training-mode')).toHaveValue('scratch');
++    expect(screen.queryByTestId('evaluate-only-epoch-help')).not.toBeInTheDocument();
++    expect(screen.getByText('목표 epoch')).toBeInTheDocument();
++  });
++
+   it('trainingProtocol(omitEpochs) also removes inherited epoch keys without touching the source policy', () => {
+     const source = setIn(setIn(defaultPolicy(), 'console.training.epoch_target_total', 7), 'console.training.scheduler_horizon_epochs', 7);
+     const fields = { dataset: '/d.yaml', output: '/o', checkpoint: '', epochs: 5, batch: 2, size: 320, seed: 1, optimizer: 'SGD', lr: 0.01 };

@@ -1,0 +1,109 @@
+{
+ "schema": "mbnas.import_closure/1",
+ "root": "/home/mgjeong/Desktop/etri_hd/mbnas_application",
+ "ok": true,
+ "scanned": {
+  "package_modules": 215,
+  "host_files": 101,
+  "web_included": false,
+  "resolve_checked": true,
+  "excluded_tooling": [
+   "scripts/dev/rewrite_imports.py",
+   "scripts/dev/check_import_closure.py"
+  ]
+ },
+ "allowlist": [],
+ "data_exceptions": [
+  {
+   "file": "mbnas_model_runtime/src/mbnas_model_runtime/adapters/base.py",
+   "literal": "mbnas_server.search.etri_bridge:ensure_mixed_registered",
+   "expires": "1.6",
+   "basis": "DD-A26 (2), extended to 1.6 by DD-A58 (public ZIP compatibility shim, DD-A12): legacy REGISTER_HOOKS key mapped to operators.ensure_registered"
+  }
+ ],
+ "counts": {
+  "violations": 0,
+  "unresolved": 0,
+  "forbidden_strings": 0,
+  "allowlisted": 0,
+  "excepted": 1,
+  "errors": 0,
+  "by_rule": {}
+ },
+ "violations": [],
+ "allowlisted": [],
+ "excepted": [
+  {
+   "file": "mbnas_model_runtime/src/mbnas_model_runtime/adapters/base.py",
+   "line": 32,
+   "importer": "mbnas_model_runtime.adapters.base",
+   "target": "mbnas_server.search.etri_bridge",
+   "names": [
+    "ensure_mixed_registered"
+   ],
+   "kind": "string",
+   "lazy": false,
+   "rule": "data-exception",
+   "literal": "mbnas_server.search.etri_bridge:ensure_mixed_registered",
+   "expires": "1.6"
+  }
+ ],
+ "unresolved": [],
+ "forbidden_strings": [],
+ "errors": [],
+ "third_party_by_package": {
+  "mbnas_contracts": [
+   "pydantic"
+  ],
+  "mbnas_model_runtime": [
+   "PIL",
+   "cv2",
+   "numpy",
+   "onnx",
+   "onnxruntime",
+   "pycocotools",
+   "pydantic",
+   "pynvml",
+   "pytorch_lightning",
+   "rfdetr",
+   "scipy",
+   "tensorrt",
+   "torch",
+   "torchvision",
+   "ultralytics",
+   "yaml"
+  ],
+  "mbnas_core": [
+   "PIL",
+   "fastapi",
+   "pydantic",
+   "pydantic_settings",
+   "starlette",
+   "torch",
+   "ultralytics",
+   "uvicorn",
+   "yaml"
+  ],
+  "mbnas_runner": [
+   "PIL",
+   "httpx",
+   "pydantic",
+   "pydantic_settings",
+   "pynvml",
+   "torch",
+   "ultralytics",
+   "yaml"
+  ],
+  "mbnas_server": [
+   "fastapi",
+   "httpx",
+   "jsonschema",
+   "pydantic",
+   "pydantic_settings",
+   "pynvml",
+   "referencing",
+   "starlette",
+   "uvicorn"
+  ]
+ }
+}

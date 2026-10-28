@@ -1,0 +1,35 @@
+## t5f-gw: python -c 'import mbnas_core'
+exit=1
+ModuleNotFoundError: No module named 'mbnas_core'
+## t5f-gw: find_spec + installed distributions
+find_spec(mbnas_core)= None
+['mbnas-contracts', 'mbnas-model-runtime', 'mbnas-runner', 'mbnas-server']
+exit=0
+## t5f-gw: files named *mbnas_core* on the container root fs (-xdev)
+0
+## t5f-gw: uid, CUDA_VISIBLE_DEVICES, nvidia device nodes, MBNAS_RUNNER_RUNNER_ID set?
+1001
+CUDA_VISIBLE_DEVICES=[]
+0
+0
+## t5f-runner: python -c 'import mbnas_core'
+exit=1
+ModuleNotFoundError: No module named 'mbnas_core'
+## t5f-runner: find_spec + installed distributions
+find_spec(mbnas_core)= None
+['mbnas-contracts', 'mbnas-model-runtime', 'mbnas-runner', 'mbnas-server']
+exit=0
+## t5f-runner: files named *mbnas_core* on the container root fs (-xdev)
+0
+## t5f-runner: uid, CUDA_VISIBLE_DEVICES, nvidia device nodes, MBNAS_RUNNER_RUNNER_ID set?
+1001
+CUDA_VISIBLE_DEVICES=[]
+0
+0
+## runner id (DD-A61 b): generated file, core registration, format, no host name
+runner_id file: runner-0a6ab6db
+format runner-<8 hex>: 1
+host hostname appears in id: 0  container hostname appears in id: 0
+core runners rows: [('runner-0a6ab6db', 'ONLINE', 'cpu')]
+job lease owners (runner jobs): ['runner-0a6ab6db']
+## public responses saved by the harness containing the host name 'dev1': 1 files

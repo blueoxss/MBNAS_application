@@ -1,0 +1,5 @@
+# test_real_allowlists_ship_licence_notices_and_contents_in_every_profile + test_package_data_reader_agrees_with_tomli_on_the_real_pyprojects
+# run in <SCRATCH>/wp3/r4pkg/after_tree/proj (copy of the current scripts/dev, build/allowlists, tests/public/packaging, LICENSE, package pyprojects) + a one-line stand-in THIRD_PARTY_NOTICES_WEB.md
+..                                                                       [100%]
+2 passed
+exit=0

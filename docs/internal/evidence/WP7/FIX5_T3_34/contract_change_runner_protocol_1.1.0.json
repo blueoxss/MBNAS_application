@@ -1,0 +1,38 @@
+{
+  "record": "runner protocol contract change (fix round 5, DD-A66, T3-34)",
+  "recorded_at": "2026-10-28T09:47:00+09:00",
+  "author": "fix round 5 agent (claude-opus-5-5) under DD-A66",
+  "contract": "MBNAS Runner Protocol (/core/v1/runner/*)",
+  "source_of_truth": "mbnas_contracts/src/mbnas_contracts/runner_protocol.py (RUNNER_API_VERSION, models, ENDPOINTS)",
+  "generated_document": "mbnas_contracts/src/mbnas_contracts/openapi/openapi_runner.json",
+  "generator": "runtime/venv/bin/python -B scripts/dev/gen_runner_openapi.py (unchanged; --check exit 0 after regeneration)",
+  "version": {"from": "1.0.0", "to": "1.1.0"},
+  "envelope_version": "1 (unchanged)",
+  "openapi_runner_json_sha256": {
+    "before": "8316ed7de568cd4616c7b0905a89b9d41888502222d47202d30ea58328b2596c",
+    "after": "72ddb8bfc9d232d419ece043ca3a3ba83ec04fddbead05484c05a35207126473"
+  },
+  "runner_protocol_py_sha256_before": "0d100a4d7c92ad589e0e7cedaf6afc119c242d36720b367d56ecdcf9e97a9af2",
+  "changes": [
+    "HeartbeatControl.prune: list[str] | null -> list[PruneOrder] | null (1.0.0 cores always sent null; 1.0.0 runners ignore control.prune)",
+    "new model PruneOrder {request_id, checkpoint_id, run_id, relpath, sha256, bytes, policy, reason} (relpath run-relative, request_id/run_id one safe path component)",
+    "new route E11 POST /core/v1/runner/checkpoints/{checkpoint_id}/pruned: PruneReport -> 200 PruneAck | 404 PRUNE_REQUEST_NOT_FOUND | 409 PRUNE_REPORT_CONFLICT (+ 401/403 as every route); runner token, no job ticket",
+    "new models PrunedItem {relpath, bytes, sha256|null}, PruneReport {runner_id, request_id, run_id, relpath, sha256, bytes, already_absent, bytes_freed, removed[], detail, pruned_at} (validator: already_absent => removed empty and bytes_freed 0; otherwise removed lists the ordered payload and bytes_freed = sum), PruneAck {checkpoint_id, request_id, state: PRUNED, replayed}",
+    "RunnerAuxCode += PRUNE_REQUEST_NOT_FOUND, PRUNE_REPORT_CONFLICT",
+    "D3 labels: module docstring and CheckpointReport.uri description now say that runner-local absolute paths reach the core (uri, free-form result outputs), are stored in the core DB owner-only and are never projected into public responses"
+  ],
+  "public_contract": {"file": "mbnas_contracts/src/mbnas_contracts/openapi/openapi.json", "version": "1.5.0", "sha256": "70e0cffaab8fafd9c7f230af9169dbbe8812b3eccf7ad7838ca3f46fa9eebc2a", "changed": false, "note": "CheckpointView.state already admits PRUNED; CheckpointPrune projection keeps policy/reason/deleted[].bytes/bytes_freed/kept/candidate_status/note only"},
+  "known_gap": {
+    "issue": "the generator declares a path parameter only for {job_id}; E11's {checkpoint_id} is a path template variable without a parameters entry in the generated document",
+    "owner": "scripts/dev/gen_runner_openapi.py (WP-2B tool, not owned by this fix)",
+    "proposed_patch": "cross_package/gen_runner_openapi.proposed.diff (every {name} of the path becomes a required string path parameter)",
+    "validated": "on a scratch copy: only the E11 path changes (parameters: checkpoint_id), every /jobs/{job_id}/* path is byte-identical",
+    "openapi_runner_json_sha256_after_that_patch": "0f3dac4db29e36485f04941028f296f9fdaf6d00fca44fb304d410474084ecd7"
+  },
+  "tests_pinning_the_old_contract": {
+    "file": "tests/public/contracts/test_runner_protocol.py (not owned by this fix)",
+    "failing_now": 11,
+    "proposed_patch": "cross_package/test_runner_protocol.proposed.diff (samples for the 4 new models, PruneOrder in the HeartbeatControl sample, version 1.1.0, 11 paths / E1..E11, one new consistency test)",
+    "validated": "the patched copy run against the regenerated contract: 116 passed"
+  }
+}

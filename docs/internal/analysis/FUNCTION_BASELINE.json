@@ -1,0 +1,3077 @@
+{
+ "schema": "mbnas.function_baseline/1",
+ "generated_at": "2026-10-23 21:51 KST",
+ "analyst": "WP-0 A6 (claude-fable-5-1)",
+ "snapshot": {
+  "dir": "/home/mgjeong/Desktop/etri_hd/mbnas_application/build/source_snapshot/",
+  "head": "18c481517d4393f5d7818aba5b37d721e15628c5",
+  "branch": "work/mbnas-integration-20261021",
+  "taken_at": "2026-10-23T21:07 KST",
+  "openapi_version": "1.4.1",
+  "pending_contract": "1.4.2 (migrate_1.4.1_to_1.4.2.py EXPECTED sha '__FILL__')"
+ },
+ "path_prefixes": {
+  "S/": "application/MBNAS_server/src/mbnas_server/",
+  "T/": "application/MBNAS_server/tests/",
+  "C/": "application/MBNAS_server/contracts/",
+  "SD/": "application/MBNAS_server/docs/",
+  "W/": "application/MBNAS_web/src/",
+  "WT/": "application/MBNAS_web/tests/",
+  "E2E/": "application/MBNAS_web/e2e/",
+  "D/": "application/docs/",
+  "EV/": "/home/mgjeong/Desktop/etri_hd/etri_nas/application/docs/integration_20261021/evidence_impl/"
+ },
+ "snapshot_root_for_relative_paths": "/home/mgjeong/Desktop/etri_hd/mbnas_application/build/source_snapshot/",
+ "status_vocabulary": [
+  "구현·실시험 확인",
+  "구현·통합 미확인",
+  "부분 구현",
+  "계획",
+  "누락",
+  "증거 부족"
+ ],
+ "status_definitions": {
+  "구현·실시험 확인": "해당 기능 고유 코드 경로가 실제로 실행된 기록이 출처 문서에 있음(등급은 evidence_max 참조)",
+  "구현·통합 미확인": "코드 존재, 격리 unit/API-DB 증거만 있고 기능 본질의 실행 기록 없음",
+  "부분 구현": "요구 일부만 존재하거나 계약·배선·수용 미완",
+  "계획": "설계 결정으로 범위 밖/후속 과제",
+  "누락": "코드·계획 없음",
+  "증거 부족": "코드는 있으나 실행 기록을 찾지 못함 또는 출처 상충"
+ },
+ "evidence_class_vocabulary": [
+  "static",
+  "unit",
+  "API-DB",
+  "browser-mock",
+  "CPU runtime",
+  "live",
+  "CUDA(pc2300)",
+  "CUDA(18c4815)",
+  "증거 없음"
+ ],
+ "counts": {
+  "all": {
+   "구현·실시험 확인": 55,
+   "구현·통합 미확인": 2,
+   "누락": 4,
+   "부분 구현": 5,
+   "계획": 1
+  },
+  "section9": {
+   "구현·실시험 확인": 41,
+   "구현·통합 미확인": 2,
+   "누락": 3,
+   "부분 구현": 5,
+   "계획": 1
+  },
+  "total": 67,
+  "section9_total": 52
+ },
+ "features": [
+  {
+   "id": "A1",
+   "group": "A",
+   "group_name": "설정·경로(project/dataset/model/weights/result paths)",
+   "section9_minimum": true,
+   "name": "서버 경로·허용목록 설정(DB/output/dataset roots/weights/etri root/archive roots)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/config.py:45-82 Settings(db_path, output_root, dataset_roots, output_roots, weights_dir, worker_python, etri_nas_root, archive_roots, archive_driver_dirs, archive_campaign_roots, full_state_retention)",
+    "application/MBNAS_server/src/mbnas_server/config.py:84-131 절대경로·allow-root 검증, :139-157 load/require_api_token/require_signing_key",
+    "application/MBNAS_server/src/mbnas_server/api/routes_meta.py:55-70 GET /health allowlists(dataset_roots/output_roots/archive_roots), :78-82 GET /registry registry_roots_skipped",
+    "application/MBNAS_server/src/mbnas_server/api/doctor.py:1-7 mbnas-doctor 보고 항목",
+    "application/MBNAS_server/config/server.example.yaml:1-25",
+    "application/MBNAS_server/.env.example:1-27"
+   ],
+   "callers": [
+    "application/MBNAS_server/src/mbnas_server/api/app.py:37 Settings.load()",
+    "application/MBNAS_server/src/mbnas_server/worker/main.py:68-70 child_settings_env(자식에 비밀 제외 전달)",
+    "application/MBNAS_web/src/screens/Settings.tsx:140 allowlists 표시"
+   ],
+   "storage": [
+    "환경변수/.env(MBNAS_*) — DB 없음"
+   ],
+   "executor": [
+    "API 프로세스",
+    "worker 프로세스(child env)",
+    "web(표시)"
+   ],
+   "package_dd_a1": "분할 대상: core(DB·output·validator roots) / runner(worker_python·artifact store) / server(archive roots·CORS) — 배치 확정 필요",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/unit/test_config.py, application/MBNAS_server/tests/unit/test_util_paths.py (표준 게이트; application/docs/integration_20261021/WORKLOG.md:18 1215 passed)",
+     "class": "unit"
+    },
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:93 §2 paths VERIFIED (unit + real E2E, pc2300 2026-10-06)",
+     "class": "CUDA/real E2E(pc2300)"
+    },
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/F/console_restart_20261022.txt health 200 + archive roots (운영 콘솔 live 10-22; application/docs/integration_20261021/WORKLOG.md:21)",
+     "class": "live"
+    },
+    {
+     "pointer": "application/MBNAS_server/docs/TESTING_HOST_20261015.md:96-102 doctor exit 0, /health 200/401/403 (10-15)",
+     "class": "live"
+    }
+   ],
+   "notes": "기본값이 /root/detection·/data/mgjeong 절대경로(application/MBNAS_server/src/mbnas_server/config.py:20,26-27,54-57,66) → DD-A7 runtime/ 하위 재배치 대상.",
+   "gap": false
+  },
+  {
+   "id": "A2",
+   "group": "A",
+   "group_name": "설정·경로(project/dataset/model/weights/result paths)",
+   "section9_minimum": true,
+   "name": "프로토콜 경로(console.paths dataset_yaml/train_root/search_val_root/final_eval_root/output_root) 검증과 평가 OFF 시 보존(DD-17)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/protocol/validator.py:763-786 paths/one_path(allowlist·존재·쓰기), :787-842 dataset/manifests(split 누수), :914-920 evaluation_enabled, :937-1014 _validate_generation(OFF: output_root만 요구)",
+    "application/MBNAS_server/src/mbnas_server/api/routes_runs.py:62-78 POST /protocols/validate(validations 행 + validations/<id>.requested.json), :111-124 _check_fresh STALE_VALIDATION",
+    "application/MBNAS_web/src/screens/Settings.tsx:115-140 서버 Linux 경로 카드, :121-131 DD-17 disabled+값 보존, :584 OFF 배너",
+    "application/MBNAS_web/src/lib/validate.ts:291-293 OFF 분기 보존 안내"
+   ],
+   "callers": [
+    "application/MBNAS_web/src/screens/Server.tsx:155-206 Validate/Run",
+    "application/MBNAS_server/src/mbnas_server/api/routes_runs.py:135-176 create_run"
+   ],
+   "storage": [
+    "validations(resolved_json, dataset_manifest_hashes_json) schema.sql:13-23",
+    "runs.resolved_protocol_json",
+    "파일 <output_root>/validations/*.requested.json, <run>/protocol/{requested,resolved}.json (application/MBNAS_server/src/mbnas_server/api/routes_runs.py:157-158)"
+   ],
+   "executor": [
+    "API",
+    "web"
+   ],
+   "package_dd_a1": "core(private: validator) + contracts(Protocol DTO) + web(public)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/unit/test_protocol_validator.py(39; 경로 코드·symlink), application/MBNAS_server/tests/qa/test_security_negatives.py(60 unsafe paths; application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:157)",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/training_panel.test.tsx:100,125 (DD-17 비활성·보존·OFF 분기)",
+     "class": "unit"
+    },
+    {
+     "pointer": "application/MBNAS_web/e2e/generation.spec.ts:51,88 (OFF 지속·ON 복구; Phase F e2e 186/186 application/docs/integration_20261021/WORKLOG.md:24)",
+     "class": "browser-mock"
+    },
+    {
+     "pointer": "application/docs/TEST_EVIDENCE.md:69 live 하네스 A 'persisted/read OFF'; (스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS8/live_browser.txt exit 0 (10-23)",
+     "class": "live"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "A3",
+   "group": "A",
+   "group_name": "설정·경로(project/dataset/model/weights/result paths)",
+   "section9_minimum": true,
+   "name": "학습 패널 서버 경로 입력(데이터셋 YAML·결과 경로·초기 가중치/checkpoint·epoch·seed·validation)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA(18c4815)",
+   "implementation": [
+    "application/MBNAS_web/src/components/TrainingPanel.tsx:19-28 trainingProtocol(console.paths.dataset_yaml/output_root, epoch 키), :54-60 필드, :134-158 모델 출처·'브라우저 로컬 경로 아님' 안내·checkpoint·validation 토글",
+    "application/MBNAS_server/src/mbnas_server/training/selection.py:70-78 _path(output_roots/weights_dir/etri_nas_root, YAML 1 MiB), :141-145 pretrained checkpoint sha256, :163-183 dataset_yaml allowlist·split 추론, :201-203 seed"
+   ],
+   "callers": [
+    "application/MBNAS_web/src/components/CandidateView.tsx:418 후보 상세 학습 탭",
+    "application/MBNAS_web/src/screens/Settings.tsx (TrainingPanel 삽입; application/docs/integration_20261021/inv_I4_web_console.md §3)"
+   ],
+   "storage": [
+    "runs.resolved_protocol console.paths / console.extra.training (application/MBNAS_server/src/mbnas_server/training/selection.py:216-230)"
+   ],
+   "executor": [
+    "web → API"
+   ],
+   "package_dd_a1": "web(public) + core(private)",
+   "evidence": [
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/G/SUMMARY.md 체크리스트: POST /training-runs baseline yolo11n 64px/batch 2/cuda:0 → 200, 10 epoch 학습 (CUDA, 코드 18c4815+WP-0, 10-22)",
+     "class": "CUDA(18c4815)"
+    },
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS8/cpu_training_browser.txt + application/docs/TEST_EVIDENCE.md:88-105 (CPU direct handler + 실제 브라우저)",
+     "class": "live"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_training_selection.py:88 사용자 YAML allow root",
+     "class": "API-DB"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "B1",
+   "group": "B",
+   "group_name": "학습 실행(baseline·사용자 YAML·탐색/생성 후보; POST /training-runs; 방식 4종)",
+   "section9_minimum": true,
+   "name": "baseline(registry) 학습 run 생성·계획·실행(POST /training-runs, source.kind=baseline, mode=scratch)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA(18c4815)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/training/selection.py:95-104 registry AVAILABLE·SPEC_BY_ID·arch_spec, :208-214 baselines/init, :292-293 nc 바인딩, :312-365 create_training_run(run train-*/candidate model-*, arm Baseline, parent_run_id), :368-391 plan_training_run(BASELINE_TRAIN|EVALUATE, cumulative_target=fixed_horizon=epoch_target_total), :394-422 on_training_result(commit_evaluation / DD-5 SEARCH_COMPLETE+NOT_EVALUATED)",
+    "application/MBNAS_server/src/mbnas_server/api/routes_training.py:22-28,61-68",
+    "application/MBNAS_server/src/mbnas_server/worker/child.py:71-98 native params(device cuda:0), :113-148 load_context(resume_from)",
+    "application/MBNAS_server/src/mbnas_server/training/handlers.py:102-176 run_training_job→StageTrainer.run_until, PAUSED_AT_EPOCH"
+   ],
+   "callers": [
+    "application/MBNAS_web/src/components/TrainingPanel.tsx:71-82 submit",
+    "application/MBNAS_server/src/mbnas_server/orchestration/engine.py:264-266 plan_run dispatch",
+    "application/MBNAS_server/src/mbnas_server/worker/main.py:300 execute"
+   ],
+   "storage": [
+    "runs(purpose MODEL_TRAINING, parent_run_id)",
+    "candidates(arm Baseline, audit.training_source/structure)",
+    "jobs(kind BASELINE_TRAIN, cumulative_target, fixed_horizon)",
+    "evaluations, checkpoints",
+    "파일 <run>/protocol/*.json, architectures/<cid>.yaml, candidates/<cid>/ckpt/*"
+   ],
+   "executor": [
+    "API(생성·계획)",
+    "worker child(학습; CUDA 전용 application/MBNAS_server/src/mbnas_server/training/selection.py:226-227)",
+    "web"
+   ],
+   "package_dd_a1": "core(private: selection/orchestration) + runner(public: handlers/stage_trainer) + model_runtime(adapters)",
+   "evidence": [
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/G/SUMMARY.md: train-0c0059ba680d 10 epoch COMPLETED·EVALUATED, 실제 API worker (CUDA, 18c4815+WP-0; application/docs/integration_20261021/WORKLOG.md:13, PLAN DD-28)",
+     "class": "CUDA(18c4815)"
+    },
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/F/structure_routes.txt 'POST /training-runs rf-detr-nano 2xx with native structure bound' (격리 live API, Phase F; application/docs/integration_20261021/WORKLOG.md:24)",
+     "class": "live"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_training_selection.py:36 baseline 생성·멱등·native params",
+     "class": "API-DB"
+    }
+   ],
+   "notes": "운영 호스트는 registry probe 증거가 없어 전부 UNVERIFIED → baseline 요청 422 BASELINE_UNAVAILABLE(application/docs/integration_20261021/WORKLOG.md:21; (스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/G/SUMMARY.md 발견 2). DD-26 roots_skipped 진단은 구현됨(application/MBNAS_server/src/mbnas_server/api/routes_meta.py:26-32). probe_registry 실행은 사용자 결정(미실행).",
+   "gap": false
+  },
+  {
+   "id": "B2",
+   "group": "B",
+   "group_name": "학습 실행(baseline·사용자 YAML·탐색/생성 후보; POST /training-runs; 방식 4종)",
+   "section9_minimum": true,
+   "name": "사용자 YAML 학습 run(source.kind=user, 서버 허용 경로의 detector YAML)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CPU runtime(direct handler)+live browser",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/training/selection.py:107-115 yaml_only 1 MiB·Genotype.from_yaml_text·source_file_sha256 계산, :136-139 arch(backend ultralytics, register_hook 문자열), :271-309 bind_structure(check_structure PASS 필수, FAIL→422 STRUCTURE_INVALID), :339-343 architectures/<cid>.yaml, :359-361 artifact kind=architecture(configuration_role selected)"
+   ],
+   "callers": [
+    "application/MBNAS_web/src/components/TrainingPanel.tsx:136-137 kind=user",
+    "application/docs/implementation_20261021/verify_cpu_training_browser.py:57-69 (create_training_run + run_training_job 직접 호출)"
+   ],
+   "storage": [
+    "candidates.architecture_yaml/architecture_path",
+    "artifacts(kind architecture)",
+    "audit.training_source{yaml_hash}"
+   ],
+   "executor": [
+    "API",
+    "worker child(실학습)",
+    "web"
+   ],
+   "package_dd_a1": "core + runner + model_runtime",
+   "evidence": [
+    {
+     "pointer": "application/docs/TEST_EVIDENCE.md:88-105 + (스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS8/cpu_training_browser.txt: source kind user, run train-03ea662ed26b, 2 epoch CPU, 이미지 artifact 5개 HTTP 200 (10-23)",
+     "class": "CPU runtime(direct handler)+live browser"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_training_selection.py:88 (allow root·소스 미노출), :203 (unsafe activation 거부)",
+     "class": "API-DB"
+    }
+   ],
+   "notes": "API CUDA worker 경유 사용자 YAML 학습은 미실행(application/docs/TEST_EVIDENCE.md:98). source_file_sha256은 계산만 하고 영속화하지 않음(application/MBNAS_server/src/mbnas_server/training/selection.py:115 → :344-345 binding에 미포함) — F5c 참조.",
+   "gap": false
+  },
+  {
+   "id": "B3",
+   "group": "B",
+   "group_name": "학습 실행(baseline·사용자 YAML·탐색/생성 후보; POST /training-runs; 방식 4종)",
+   "section9_minimum": true,
+   "name": "탐색/생성 후보 학습 run(source.kind=search|generated; 원본 run·후보·구조 해시 연결)",
+   "status": "구현·통합 미확인",
+   "evidence_max": "API-DB",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/training/selection.py:116-133 SOURCE_KIND_MISMATCH·audit.proposal.genotype|architecture_yaml, :236-239 CLASS_COUNT_MISMATCH, :344-358 parents=[source cid]·lineage clone·parent_run_id·audit.training_source",
+    "application/MBNAS_web/src/components/CandidateView.tsx:418 고정 source TrainingPanel",
+    "application/MBNAS_web/src/components/TrainingPanel.tsx:141 resume 옵션은 fixedSource에서만"
+   ],
+   "callers": [
+    "후보 상세 '이 모델 학습' 탭"
+   ],
+   "storage": [
+    "B1과 동일 + candidates.parents, lineage.training_source"
+   ],
+   "executor": [
+    "API",
+    "worker child",
+    "web"
+   ],
+   "package_dd_a1": "core + runner + web",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_training_selection.py:156 generated source child preserves original / wrong binding 거부, :232 recipe 없음 422",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/generation_workflow.test.tsx:84,111 (명시 recipe 선택·원본 유지·validation 독립)",
+     "class": "unit"
+    },
+    {
+     "pointer": "application/docs/TEST_EVIDENCE.md:83-85 live-selected-model-training.png (학습 폼 표시만, 제출 없음)",
+     "class": "live(표시만)"
+    }
+   ],
+   "notes": "생성/탐색 후보를 실제 worker로 학습시킨 실행 기록 없음(CPU·CUDA 모두). 학습 경로 자체는 B1(baseline)과 동일 핸들러.",
+   "gap": true
+  },
+  {
+   "id": "B4",
+   "group": "B",
+   "group_name": "학습 실행(baseline·사용자 YAML·탐색/생성 후보; POST /training-runs; 방식 4종)",
+   "section9_minimum": true,
+   "name": "학습 방식 pretrained(사전학습 가중치로 추가 학습; 서버 가중치 경로·sha256)",
+   "status": "구현·통합 미확인",
+   "evidence_max": "API-DB",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/training/selection.py:141-145 (_path 검증·weights_sha256, INITIAL_WEIGHTS_REQUIRED), :208-209 init pretrained_native, :213",
+    "application/MBNAS_server/src/mbnas_server/adapters/ultralytics_adapter.py (verify_weights+load_checkpoint; application/docs/integration_20261021/REQUIREMENTS_TRACE_v1.md:110 인용 278-286 — 본 분석에서 행 미대조)",
+    "application/MBNAS_web/src/components/TrainingPanel.tsx:141,145,157"
+   ],
+   "callers": [
+    "TrainingPanel mode=pretrained"
+   ],
+   "storage": [
+    "resolved console.extra.training.custom_initial_weights, arch.weights_path/weights_sha256"
+   ],
+   "executor": [
+    "API",
+    "worker child"
+   ],
+   "package_dd_a1": "core + model_runtime(adapters)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_training_selection.py:137 (weights-only checkpoint·recipe 변경 거부)",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:60 §1 2b '모든 registry 항목 2 epoch 학습·재개·평가' (pc2300 real GPU; pretrained_native 포함 여부 확인 못 함)",
+     "class": "CUDA/real E2E(pc2300)"
+    }
+   ],
+   "notes": "pretrained 모드의 실제 실행 기록(현재 코드)을 찾지 못함.",
+   "gap": true
+  },
+  {
+   "id": "B5",
+   "group": "B",
+   "group_name": "학습 실행(baseline·사용자 YAML·탐색/생성 후보; POST /training-runs; 방식 4종)",
+   "section9_minimum": true,
+   "name": "학습 방식 evaluate_only(공식 가중치 평가 전용; 학습 epoch 0, DD-31)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA(18c4815)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/training/selection.py:103-104,134-135 (검증된 ultralytics baseline만), :166-167 VALIDATION_REQUIRED, :188-192,222-225 target 0 기록(DD-31), :379 EVALUATE job, :444-493 run_official_evaluation(cuda:0 고정, CLASS_MAPPING_MISMATCH, latency measured, epochs 0, split search_val)",
+    "application/MBNAS_server/src/mbnas_server/worker/child.py:157-159 evaluate_only 분기",
+    "application/MBNAS_server/src/mbnas_server/orchestration/engine.py:543-545 epochs=0 강제",
+    "application/MBNAS_web/src/components/TrainingPanel.tsx:19-24,146-147 epoch 미표시·미전송"
+   ],
+   "callers": [
+    "TrainingPanel mode=evaluate_only"
+   ],
+   "storage": [
+    "runs.purpose MODEL_EVALUATION",
+    "evaluations(row source official_weights, training_mode evaluate_only)"
+   ],
+   "executor": [
+    "API",
+    "worker child(CUDA)",
+    "web"
+   ],
+   "package_dd_a1": "core + runner(evaluator) + model_runtime",
+   "evidence": [
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/G/SUMMARY.md optional_eval_only: yolo26n 공식 가중치, COCO val2017 앞 500장 사본, AP50-95 0.4443 (CUDA, 18c4815; application/docs/integration_20261021/WORKLOG.md:13)",
+     "class": "CUDA(18c4815)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_training_selection.py:122,242,443,474 (EVALUATE job만·epoch 0 기록)",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/training_panel.test.tsx:34; application/MBNAS_web/e2e/generation.spec.ts:183 (epoch_target_total 미전송)",
+     "class": "browser-mock"
+    }
+   ],
+   "notes": "공식 5000장 mAP 재현은 미실행((스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/G/SUMMARY.md 미검증 목록). WEIGHTS_UNVERIFIED: 실 weights dir에 weights_manifest.json 없음.",
+   "gap": false
+  },
+  {
+   "id": "B6",
+   "group": "B",
+   "group_name": "학습 실행(baseline·사용자 YAML·탐색/생성 후보; POST /training-runs; 방식 4종)",
+   "section9_minimum": true,
+   "name": "학습 방식 resume(/training-runs mode=resume → 기존 run Resume 경로; DD-9/DD-36 외부 checkpoint import 미지원 명시)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "API-DB",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/api/routes_training.py:30-58 (RESUME_SOURCE_REQUIRED/SOURCE_NOT_FOUND/RESUME_RECIPE_MISMATCH; checkpoint 경로 있으면 최신 training_full과 일치 요구, 없으면 EXTERNAL_CHECKPOINT_IMPORT_UNSUPPORTED 409; 경로 없으면 state.resume_checks)",
+    "application/MBNAS_server/src/mbnas_server/training/selection.py:152-153,323-324 (새 run 경로의 resume 409 RESUME_REQUIRES_PAUSED_RUN)",
+    "application/MBNAS_web/src/components/TrainingPanel.tsx:145,156 (외부 import 미지원 배너)"
+   ],
+   "callers": [
+    "TrainingPanel(fixedSource) mode=resume"
+   ],
+   "storage": [
+    "runs.status 전이(D1과 동일)"
+   ],
+   "executor": [
+    "API",
+    "web"
+   ],
+   "package_dd_a1": "core + web",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_training_selection.py:382,402,420 (DD-36 3경로), :186 (pause/resume가 trial·protocol 보존)",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/training_panel.test.tsx:83 (외부 import 미지원 문구)",
+     "class": "unit"
+    }
+   ],
+   "notes": "실제 재개 실행은 D1~D3의 run Resume 경로와 동일(CUDA WP-G).",
+   "gap": false
+  },
+  {
+   "id": "B7",
+   "group": "B",
+   "group_name": "학습 실행(baseline·사용자 YAML·탐색/생성 후보; POST /training-runs; 방식 4종)",
+   "section9_minimum": true,
+   "name": "POST /training-runs 계약(TrainingRequest/TrainingRunCreated)·멱등키 training|<key>",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live(API)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/api/routes_training.py:22-28 Idempotency-Key 헤더=본문",
+    "application/MBNAS_server/src/mbnas_server/training/selection.py:316-322 key 'training|<key>'·payload sha·IDEMPOTENCY_CONFLICT 409",
+    "application/MBNAS_server/contracts/openapi.json components TrainingRequest/TrainingRunCreated (1.4.0; application/docs/integration_20261021/CONTRACTS_v2.md:68-69)",
+    "application/MBNAS_server/src/mbnas_server/schemas/records.py pydantic 미러(application/MBNAS_server/tests/unit/test_schemas_contract.py 1:1 규칙)"
+   ],
+   "callers": [
+    "application/MBNAS_web/src/api/client.ts:264 createTrainingRun(timeout 120 s)"
+   ],
+   "storage": [
+    "runs.idempotency_key/payload_sha256"
+   ],
+   "executor": [
+    "API",
+    "web"
+   ],
+   "package_dd_a1": "contracts(public DTO) + core(route 구현) + server gateway(DD-A3 중계 예정)",
+   "evidence": [
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/F/structure_routes.txt 'POST /training-runs rf-detr-nano 2xx' (격리 live API 10-23)",
+     "class": "live(API)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_training_selection.py:29,36; application/MBNAS_server/tests/unit/test_schemas_contract.py; application/MBNAS_web/tests/contract.test.ts",
+     "class": "API-DB"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "C1",
+   "group": "C",
+   "group_name": "단계별 가중치·epoch 의미(누적 목표·고정 horizon)·fitness/승급",
+   "section9_minimum": true,
+   "name": "rung 표: 누적 epoch 목표(epoch_target_total)·epochs_added 자동 산출·고정 horizon(fixed_horizon_epochs)·승급 규칙·가중치 합 1(정규화 금지)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/protocol/validator.py:313-354 rungs(EPOCHS_NOT_INCREASING, epochs_added=target−prev, 수동값 거부), :356-373 weights(WEIGHTS_SUM_NOT_ONE 1e-6), :375-395 promotion, :396-433 training(scheduler_horizon≥마지막 rung, HORIZON_ADJUSTED, fixed_horizon_epochs=마지막 rung 목표)",
+    "application/MBNAS_server/src/mbnas_server/orchestration/engine.py:64-70 Stage, :97-98 fixed_horizon, :108-131 search_stages/baseline_stages, :351-380 _schedule_stage(jobs.cumulative_target/fixed_horizon)",
+    "application/MBNAS_server/src/mbnas_server/training/stage_trainer.py:162-206 run_until(prior_epochs<target≤horizon; 재개·idempotent 반환), application/MBNAS_server/src/mbnas_server/adapters/base.py:1-12 train_until(LR schedule=fixed_horizon)",
+    "application/MBNAS_web/src/screens/Settings.tsx:272-350 Rung table·horizon-note, application/MBNAS_web/src/lib/policy.ts:533-541 addedEpochs/fixedHorizon"
+   ],
+   "callers": [
+    "validate/run; worker child"
+   ],
+   "storage": [
+    "runs.resolved_protocol rungs/training.fixed_horizon_epochs",
+    "jobs.cumulative_target/fixed_horizon (schema.sql:130-131)",
+    "evaluations.row.epoch_target_total",
+    "ckpt/full_e{E}.pt"
+   ],
+   "executor": [
+    "API(validator/engine)",
+    "worker child(StageTrainer)",
+    "web"
+   ],
+   "package_dd_a1": "core(private: validator/engine) + runner(public: stage_trainer/checkpoint) + web",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:60 §1 row 3 resume_equivalence 2→4→6 vs 6 bitwise(yolo11n/yolo26n/ETRI), tolerance(rt-detr/rf-detr) — real GPU pc2300 2026-10-06; :87 §2 policy VERIFIED",
+     "class": "CUDA(pc2300)"
+    },
+    {
+     "pointer": "application/docs/TEST_EVIDENCE.md:53-59 checkpoint+StageTrainer 37 passed, 실제 tiny ETRI CPU 3 epoch == 1→2→3 bitwise",
+     "class": "CPU runtime"
+    },
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/G/SUMMARY.md 10 epoch pause@2 → resume → epochs_done 10 (CUDA 18c4815)",
+     "class": "CUDA(18c4815)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/unit/test_protocol_validator.py:172,190,214,230",
+     "class": "unit"
+    }
+   ],
+   "notes": "가중치=평가 점수 가중치(사전학습·loss 가중치 아님: application/docs/FUNCTION_GUIDE.md:54). 학습 loss 가중치 UI 표시 여부는 TRACE도 확인 못 함(REQ-7.02).",
+   "gap": false
+  },
+  {
+   "id": "C2",
+   "group": "C",
+   "group_name": "단계별 가중치·epoch 의미(누적 목표·고정 horizon)·fitness/승급",
+   "section9_minimum": true,
+   "name": "fitness 계산식(named weighted reward)·후보 단위 승급 게이트(evaluate_gate)·엔진 커밋(source rung 가중치 강제)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA/real E2E(pc2300)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/protocol/fitness.py:66-75 check_weights, :96-107 fitness(무효→None)",
+    "application/MBNAS_server/src/mbnas_server/protocol/promotion.py:51-62 certifying_latency_sources/_source_check, :64-94 evaluate_gate(EVAL_INVALID/SEARCH_RUNG_FINAL/PROMOTION_ELIGIBLE/REJECTED_BY_GATE + rung guards)",
+    "application/MBNAS_server/src/mbnas_server/orchestration/engine.py:529-582 commit_evaluation(stage weights→gate→immutable row→_advance), :569-570 DD-10",
+    "application/MBNAS_server/src/mbnas_server/evaluation/handlers.py:169 child fitness_and_gate(표시용; 엔진이 재계산 — DD-A5 충돌 C2)"
+   ],
+   "callers": [
+    "worker 결과 커밋(job_finished)",
+    "selection.on_training_result:405"
+   ],
+   "storage": [
+    "evaluations.row(fitness, gate, rewards, objective_hash) + immutable 트리거 schema.sql:93-96",
+    "candidates.audit.orchestration.rungs"
+   ],
+   "executor": [
+    "API 프로세스(engine) — 권위",
+    "worker child(중복 계산)"
+   ],
+   "package_dd_a1": "core(private)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/unit/test_protocol_fitness.py, application/MBNAS_server/tests/unit/test_protocol_promotion.py(15), application/MBNAS_server/tests/evaluation/test_fitness_gate_integration.py(3)",
+     "class": "unit"
+    },
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:63 §1 4c candidate-local promotion VERIFIED; :88 §2 promotion(eligibility≠admission) real E2E pc2300 run 4 63 points/12 generations",
+     "class": "CUDA/real E2E(pc2300)"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "C3",
+   "group": "C",
+   "group_name": "단계별 가중치·epoch 의미(누적 목표·고정 horizon)·fitness/승급",
+   "section9_minimum": true,
+   "name": "가중치 UI 편집→validate 본문→run 본문→후보 화면 적용(DD-18 왕복)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "browser-mock",
+   "implementation": [
+    "application/MBNAS_web/src/screens/Settings.tsx:272-350 fitness_weights 4열·합계",
+    "application/MBNAS_web/src/lib/validate.ts 합 1 규칙(application/docs/integration_20261021/REQUIREMENTS_TRACE_v1.md:101 인용 104-105)",
+    "application/MBNAS_web/src/screens/Server.tsx:155-206 Validate/Run",
+    "application/MBNAS_web/src/components/CandidateView.tsx:338 computeFitness 재계산(DD-A8 제거 대상)",
+    "application/MBNAS_web/src/components/TrainingPanel.tsx:122 recipe 가중치 표시"
+   ],
+   "callers": [
+    "사용자 편집"
+   ],
+   "storage": [
+    "requested/resolved protocol"
+   ],
+   "executor": [
+    "web",
+    "API"
+   ],
+   "package_dd_a1": "web(public; DD-A8 적용 시 fitness.ts 제거)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_web/e2e/weights.spec.ts:57,103,136 (편집값이 validate·run 본문·후보 화면에 반영; 합≠1 거부) — application/docs/integration_20261021/WORKLOG.md:15,24 e2e 186/186",
+     "class": "browser-mock"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/fitness.test.ts(6), application/MBNAS_web/tests/generation_workflow.test.tsx:132",
+     "class": "unit"
+    }
+   ],
+   "notes": "live 왕복 증거는 pc2300 real e2e(가중치 편집 없음)뿐.",
+   "gap": false
+  },
+  {
+   "id": "C4",
+   "group": "C",
+   "group_name": "단계별 가중치·epoch 의미(누적 목표·고정 horizon)·fitness/승급",
+   "section9_minimum": true,
+   "name": "단계별 가중치·승급 결과·프로토콜 표시(gate_history, resolved_diff 'default applied', 후보 gate 체크 표)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live(pc2300)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/api/routes_runs.py:282-283 gate_history",
+    "application/MBNAS_web/src/components/CandidateView.tsx:106-111 gate-view",
+    "application/MBNAS_web/src/screens/Server.tsx:120-140,179 resolved_diff 표",
+    "application/MBNAS_web/src/screens/Settings.tsx:28-33 resolvedHint"
+   ],
+   "callers": [
+    "후보 상세/Server 화면"
+   ],
+   "storage": [
+    "evaluations.row.gate",
+    "validations.resolved_json"
+   ],
+   "executor": [
+    "web"
+   ],
+   "package_dd_a1": "web(public)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:69 §1 row 6 browser real(validated→resolved→run) pc2300",
+     "class": "live(pc2300)"
+    },
+    {
+     "pointer": "application/MBNAS_web/e2e/console.spec.ts:89,363; application/MBNAS_web/tests/final_retrain.test.tsx:206",
+     "class": "browser-mock"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "D1",
+   "group": "D",
+   "group_name": "일시정지·재개·취소(full-state 재개·lease 회수)",
+   "section9_minimum": true,
+   "name": "pause/resume/cancel API 상태 전이(PAUSE_REQUESTED→PAUSED, RESUMING→RUNNING|PAUSED, CANCEL_REQUESTED→CANCELLED; 멱등 no-op)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA(18c4815)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/orchestration/state.py:58-67 request_pause, :70-86 request_cancel(queued 취소·active 기록·파일 보존), :151-187 request_resume(RESUME_BLOCKED→PAUSED 복귀)",
+    "application/MBNAS_server/src/mbnas_server/api/routes_runs.py:352-377",
+    "application/MBNAS_server/src/mbnas_server/api/routes_training.py:54-58(mode=resume 동일 경로)",
+    "application/MBNAS_web/src/screens/Server.tsx:258-285 Pause/Resume/Cancel(확인·reason)"
+   ],
+   "callers": [
+    "web Server 화면",
+    "하네스 verify_cuda_worker.py"
+   ],
+   "storage": [
+    "runs.status/reason_code/cancel_json",
+    "events run.updated",
+    "jobs.status"
+   ],
+   "executor": [
+    "API",
+    "worker(stop 파일·SIGTERM)",
+    "web"
+   ],
+   "package_dd_a1": "core(private) + runner(stop 처리) + web",
+   "evidence": [
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/G/SUMMARY.md: QUEUED→RUNNING→PAUSE_REQUESTED→PAUSED(training_full 이후)→RESUMING→RUNNING→COMPLETED, attempt 2 resumed_from full_e0002.pt (CUDA 18c4815+WP-0)",
+     "class": "CUDA(18c4815)"
+    },
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:38-43 §0 run 4 PAUSED/resumed/API restart/worker SIGKILL; :69 browser real pause/resume (pc2300)",
+     "class": "CUDA/real E2E(pc2300)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_state_machine.py(9)",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_web/e2e/console.spec.ts:169",
+     "class": "browser-mock"
+    }
+   ],
+   "notes": "DD-28: CUDA 증거는 18c4815+WP-0 기준; 최종 코드는 API 전이 테스트·CPU direct handler로 회귀 확인.",
+   "gap": false
+  },
+  {
+   "id": "D2",
+   "group": "D",
+   "group_name": "일시정지·재개·취소(full-state 재개·lease 회수)",
+   "section9_minimum": true,
+   "name": "worker 안전 경계(epoch) 정지 → full-state checkpoint 기록 후 PAUSED(PAUSED_AT_EPOCH requeue, retry 미소모)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA(18c4815)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/worker/main.py:15-16(docstring), :287-298 _spawn(stop 요청 env), :389-416 _handle_line, :418-444 _checkpoint(DD-8 sha256 재계산·CHECKPOINT_REPORT_REJECTED)",
+    "application/MBNAS_server/src/mbnas_server/training/handlers.py:143-156 stop_requested→PAUSED_AT_EPOCH",
+    "application/MBNAS_server/src/mbnas_server/training/stage_trainer.py:196-203 TrainContext(stop_requested, progress checkpoint 이벤트)",
+    "application/MBNAS_server/src/mbnas_server/training/checkpoint.py:1-17 full_e{E}.pt+sidecar 원자적 기록",
+    "application/MBNAS_server/src/mbnas_server/adapters/ultralytics_adapter.py epoch 경계 stop·full state 캡처(application/docs/integration_20261021/inv_I3_server_contracts.md §4.1-4.2 인용 540-557; 행 미대조)"
+   ],
+   "callers": [
+    "worker 루프"
+   ],
+   "storage": [
+    "checkpoints(kind training_full, sha256 재계산값)",
+    "파일 ckpt/full_e*.pt(.sha256.json)"
+   ],
+   "executor": [
+    "worker child(캡처)",
+    "worker(등록)"
+   ],
+   "package_dd_a1": "runner(public) + model_runtime(adapter)",
+   "evidence": [
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/G/SUMMARY.md 'PAUSED는 training_full 행 존재 이후 — 증명됨'(epoch2 행 ≤ PAUSED 시각) (CUDA 18c4815)",
+     "class": "CUDA(18c4815)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/training/test_explicit_cpu.py:10 (CPU 2 epoch, epoch1 pause, full_e0001 재개), application/MBNAS_server/tests/worker/test_subprocess.py:141 (실제 프로세스 pause@epoch boundary→resume)",
+     "class": "CPU runtime"
+    },
+    {
+     "pointer": "application/docs/TEST_EVIDENCE.md:88-98 harness B(validation OFF, full-state 재개)",
+     "class": "CPU runtime"
+    }
+   ],
+   "notes": "DD-8 sha 재계산의 전용 테스트명은 확인 못 함(코드는 application/MBNAS_server/src/mbnas_server/worker/main.py:426-434).",
+   "gap": false
+  },
+  {
+   "id": "D3",
+   "group": "D",
+   "group_name": "일시정지·재개·취소(full-state 재개·lease 회수)",
+   "section9_minimum": true,
+   "name": "full-state 재개 검증·복원 범위(model/EMA/optimizer/scheduler/AMP/RNG/sampler; 해시·checksum·PRUNED·MISSING 차단; weights-only 대체 금지)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA(18c4815)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/training/checkpoint.py:11-17 weights_only 로드·ResumeBlocked·fallback 없음, :45-80 RNG(python/numpy/torch/cuda)",
+    "application/MBNAS_server/src/mbnas_server/training/stage_trainer.py:71-79 find_resume(protocol+dataset 해시), :108-133 _check_binding(HASH_MISMATCH/HASH_UNVERIFIED), :135-160 _check_recorded(CHECKSUM_MISMATCH), :177-192 MISSING_STATE",
+    "application/MBNAS_server/src/mbnas_server/orchestration/state.py:102-119 _verify_full_state(FULL_STATE_MISSING/PRUNED/FILE_MISSING/HASH_MISMATCH/PROTOCOL_MISMATCH), :122-148 resume_checks(protocol_hash_integrity·revalidation·budget)",
+    "application/MBNAS_server/src/mbnas_server/worker/child.py:102-111,137-143 최신 non-PRUNED training_full"
+   ],
+   "callers": [
+    "POST /runs/{id}/resume",
+    "worker child"
+   ],
+   "storage": [
+    "checkpoints(kind training_full, sha256, hashes_json, state)",
+    "ckpt/full_e*.pt(.sha256.json), ckpt/input_binding.json"
+   ],
+   "executor": [
+    "API(resume_checks)",
+    "worker child(StageTrainer)"
+   ],
+   "package_dd_a1": "core(private: state) + runner(public: stage_trainer/checkpoint)",
+   "evidence": [
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/G/SUMMARY.md full-state 키 목록 torch.load(weights_only=True) 성공(adapter, ema_fp32, optimizer, scheduler, scaler, rng, loader_generator_state …) (CUDA 18c4815)",
+     "class": "CUDA(18c4815)"
+    },
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:60,87 bitwise 3 backend; test_stripped_state_blocks/test_hash_mismatch_blocks (pc2300)",
+     "class": "CUDA(pc2300)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/training/test_checkpoint.py(16), application/MBNAS_server/tests/training/test_stage_trainer.py(18; :101 ETRI CPU bitwise) — application/docs/TEST_EVIDENCE.md:53-59 37 passed",
+     "class": "CPU runtime"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_state_machine.py:114,127; application/MBNAS_server/tests/orchestration/test_retention.py:182",
+     "class": "API-DB"
+    }
+   ],
+   "notes": "복원 불가 명시: workers>0 증강 RNG, close_mosaic 경계, RT-DETR 허용오차(application/docs/integration_20261021/REQUIREMENTS_TRACE_v1.md:114).",
+   "gap": false
+  },
+  {
+   "id": "D4",
+   "group": "D",
+   "group_name": "일시정지·재개·취소(full-state 재개·lease 회수)",
+   "section9_minimum": true,
+   "name": "worker 비정상 종료 → lease 만료·회수 → 동일 job 다음 attempt가 최신 full-state에서 재개(손실분 failed 청구)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA/real E2E(pc2300)·CPU runtime(이 호스트)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/worker/main.py:7-8,19-21 docstring, :241-252 tick(reclaim→acquire_lease), :254 reclaim",
+    "application/MBNAS_server/src/mbnas_server/scheduling/jobs.py:76 requeue, :88 reclaim",
+    "application/MBNAS_server/src/mbnas_server/scheduling/costs.py:1-10 failed/retry 청구"
+   ],
+   "callers": [
+    "worker 루프"
+   ],
+   "storage": [
+    "jobs(lease_owner, lease_expires_at, attempt)",
+    "cost_ledger(kind failed/retry)"
+   ],
+   "executor": [
+    "worker"
+   ],
+   "package_dd_a1": "core(lease 정책·ledger, DD-A4: repo.acquire_lease 재사용) + runner(클라이언트)",
+   "evidence": [
+    {
+     "pointer": "application/docs/integration_20261021/REQUIREMENTS_TRACE_v1.md:170 V24: 실제 OS 프로세스 kill -9 test_worker_kill9_lease_reclaimed_once_by_new_worker 등 5 + test_gpu_occupancy 10 = 15 passed(이 호스트)",
+     "class": "CPU runtime"
+    },
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:66 §1 5b SIGKILL→reclaim 54 s→attempt 2 resumed_from full_e0001.pt; :36 run 5 crash 24/24 (pc2300)",
+     "class": "CUDA/real E2E(pc2300)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/worker/test_subprocess.py:87,105; application/MBNAS_server/tests/worker/test_lease.py(10)",
+     "class": "API-DB"
+    }
+   ],
+   "notes": "application/docs/TEST_EVIDENCE.md:117의 'PID 매핑으로 미검증'은 PR 환경 한계였고 이 호스트에서 해소(TRACE §2 #4).",
+   "gap": false
+  },
+  {
+   "id": "D5",
+   "group": "D",
+   "group_name": "일시정지·재개·취소(full-state 재개·lease 회수)",
+   "section9_minimum": true,
+   "name": "생성(OFF) job 중단·재시도·crash 복구(journal replay, 재샘플링 없음, 부분 후보 보존)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CPU runtime(실제 worker)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/search/generation.py:103-131 journal generation-<seed>.json(flock·RNG 상태·replay), :132-133,150-152 JobPaused, :188 save-before-notify",
+    "application/MBNAS_server/src/mbnas_server/orchestration/engine.py:931-970 generation_progress 멱등 insert, :973 _recover_generation"
+   ],
+   "callers": [
+    "worker child(PROPOSE_GENERATION generation_only)"
+   ],
+   "storage": [
+    "파일 <architecture_dir>/generation-<seed>.json",
+    "candidates",
+    "runs.budget_json.generation_results"
+   ],
+   "executor": [
+    "worker child",
+    "API"
+   ],
+   "package_dd_a1": "core(private)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/worker/test_generation_crash.py:80 실제 worker SIGKILL mid-generation → 저장 후보 1회 복구 (application/docs/integration_20261021/WORKLOG.md:16 V24 crash test 4/4)",
+     "class": "CPU runtime(실제 worker)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/search/test_generation_recovery_independent.py(6) — application/docs/TEST_EVIDENCE.md:37-43 7 passed",
+     "class": "unit"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/search/test_generation_only.py:64,85",
+     "class": "API-DB"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "D6",
+   "group": "D",
+   "group_name": "일시정지·재개·취소(full-state 재개·lease 회수)",
+   "section9_minimum": true,
+   "name": "cancel: 실행 중 child 종료(SIGTERM→SIGKILL)·queued 취소·checkpoint/artifact 보존",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CPU runtime(실제 프로세스)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/orchestration/state.py:70-86",
+    "application/MBNAS_server/src/mbnas_server/worker/main.py:15-16 CANCEL_REQUESTED 처리",
+    "application/MBNAS_server/src/mbnas_server/training/selection.py:431-435 settle_training_run CANCELLED"
+   ],
+   "callers": [
+    "POST /runs/{id}/cancel"
+   ],
+   "storage": [
+    "runs.cancel_json",
+    "jobs status CANCELLED"
+   ],
+   "executor": [
+    "API",
+    "worker"
+   ],
+   "package_dd_a1": "core + runner",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/worker/test_subprocess.py:172 cancel_terminates_running_child",
+     "class": "CPU runtime(실제 프로세스)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_state_machine.py:77,99",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_web/e2e/console.spec.ts:169",
+     "class": "browser-mock"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "E1",
+   "group": "E",
+   "group_name": "모니터링·비교(학습 곡선·세대 개선·Pareto·조건별 비교·checkpoint·이미지)",
+   "section9_minimum": true,
+   "name": "학습 곡선·진행 패널(epoch별 lr/loss/throughput SVG, 상태/rung/epoch/step, checkpoint 상태·출처(DD-27), ETA 미표시)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA+live browser(18c4815)",
+   "implementation": [
+    "application/MBNAS_web/src/components/TrainingProgress.tsx:11-12 유한 scalar만, :22-26 DD-27 latest training_full 폴백, :75-98 패널(SVG polyline :91-96, ETA 미표시 :98)",
+    "application/MBNAS_web/src/screens/Monitor.tsx:272",
+    "application/MBNAS_server/src/mbnas_server/worker/main.py:446 _progress_event(candidate.updated ≤1/s), :597 _numeric_training_progress",
+    "application/MBNAS_server/src/mbnas_server/events/bus.py:1-9"
+   ],
+   "callers": [
+    "Monitor 화면"
+   ],
+   "storage": [
+    "events(candidate.updated payload)",
+    "evaluations.row.checkpoint_path",
+    "checkpoints"
+   ],
+   "executor": [
+    "worker(이벤트)",
+    "API(SSE)",
+    "web"
+   ],
+   "package_dd_a1": "runner(이벤트 생성) + core(bus) + web",
+   "evidence": [
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/G/SUMMARY.md 스크린샷 G_progress_panel_paused.png(PAUSED 2/10)/G_progress_panel_final.png(EVALUATED 10/10, checkpoint PRESENT) (CUDA+browser, 18c4815)",
+     "class": "CUDA+live browser(18c4815)"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/training_progress_checkpoint.test.tsx(8; DD-27 수정 후), application/MBNAS_web/tests/generation_workflow.test.tsx:106; application/MBNAS_server/tests/worker/test_progress_metrics.py",
+     "class": "unit"
+    }
+   ],
+   "notes": "DD-27 수정분(PAUSED 시 후보 checkpoint 기록 폴백)은 unit 증거만.",
+   "gap": false
+  },
+  {
+   "id": "E2",
+   "group": "E",
+   "group_name": "모니터링·비교(학습 곡선·세대 개선·Pareto·조건별 비교·checkpoint·이미지)",
+   "section9_minimum": true,
+   "name": "세대 진행·개선(console): generation 표, 닫힘 불변식, 점선 세대선·실선 대표선(Pareto 아님), 대표 불일치 배지",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA/real E2E+browser(pc2300)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/scheduling/planner.py:67 select_representative, :96 refresh_generation",
+    "schema.sql:98-121 generations CHECK(evaluated+failed+not_admitted+pending=planned)",
+    "application/MBNAS_web/src/screens/Monitor.tsx:78 GenerationTable, :106 'differs from client rule', :333",
+    "application/MBNAS_web/src/lib/lines.ts:1-8,64-119 generationGuides/representativeLines(never Pareto)",
+    "application/MBNAS_web/src/lib/cohort.ts"
+   ],
+   "callers": [
+    "Monitor"
+   ],
+   "storage": [
+    "generations 테이블",
+    "events generation.updated/completed"
+   ],
+   "executor": [
+    "API(engine)",
+    "web"
+   ],
+   "package_dd_a1": "core(private: planner) + web(public; 대표 규칙 중복 — DD-A8 결정 C5)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:68 §1 5e, :89 §2 generation VERIFIED real E2E + browser real_generation_lines.png (pc2300)",
+     "class": "CUDA/real E2E+browser(pc2300)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/qa/test_engine_negatives.py 불변식(application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:168), application/MBNAS_server/tests/orchestration/test_open_generation_progress.py",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/cohort_lines.test.ts; application/MBNAS_web/e2e/console.spec.ts:241",
+     "class": "browser-mock"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "E3",
+   "group": "E",
+   "group_name": "모니터링·비교(학습 곡선·세대 개선·Pareto·조건별 비교·checkpoint·이미지)",
+   "section9_minimum": true,
+   "name": "세대 개선·HV·delta·best-so-far 곡선(Archive 연구 run; 읽기 전용)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live API(목록)/API-DB(실데이터)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/archive/views.py:432-533 generation_items/generations_view/generation_detail(delta_vs_prev/baseline, improvements, characteristics), :483 hv_history, :760-801 compare_view curves",
+    "application/MBNAS_server/src/mbnas_server/archive/analysis.py (application/MBNAS_server/docs/ARCHIVE_API.md:71-124 공식)",
+    "application/MBNAS_web/src/components/archive/GenerationChart.tsx, GenerationDetail.tsx",
+    "application/MBNAS_web/src/screens/Compare.tsx:21-44,152-161"
+   ],
+   "callers": [
+    "Archive/Compare 화면"
+   ],
+   "storage": [
+    "읽기 전용 run dir(search/generations/gen_NNN_summary.json, candidate_evaluations.jsonl 등; application/MBNAS_server/docs/ARCHIVE_API.md:8-47)",
+    "ArchiveStore 캐시"
+   ],
+   "executor": [
+    "API(archive)",
+    "web"
+   ],
+   "package_dd_a1": "mbnas_server(public, DD-A1 e)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/archive/test_routes.py(25), application/MBNAS_server/tests/archive/test_analysis.py(실 NPS day run 33 후보 대조; application/MBNAS_server/docs/ARCHIVE_API.md:107-108), application/MBNAS_server/tests/archive/test_perf.py(실 run 126행; application/MBNAS_server/docs/ARCHIVE_API.md:132-137)",
+     "class": "API-DB(실데이터)"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/archive_screen.test.tsx(24), application/MBNAS_web/tests/archive_compare.test.tsx; application/MBNAS_web/e2e/archive.spec.ts(10)",
+     "class": "browser-mock"
+    },
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/F/console_restart_20261022.txt 'archive/runs: n_runs 5' (운영 콘솔 live 10-22)",
+     "class": "live API"
+    },
+    {
+     "pointer": "e2e:archive-real — 실행 기록 없음(application/docs_console_etri/README_NAS_ARCHIVE.md:134)",
+     "class": "증거 없음(live browser)"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "E4",
+   "group": "E",
+   "group_name": "모니터링·비교(학습 곡선·세대 개선·Pareto·조건별 비교·checkpoint·이미지)",
+   "section9_minimum": true,
+   "name": "Pareto front(Archive: 2D/4D 재계산 front + runtime archive 병치; console에는 설계상 없음)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "API-DB(실데이터)+browser-mock",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/archive/views.py:658 pareto_view",
+    "application/MBNAS_server/src/mbnas_server/archive/analysis.py front2d/front4d(application/MBNAS_server/docs/ARCHIVE_API.md:77-85)",
+    "application/MBNAS_server/src/mbnas_server/schemas/archive.py ArchivePareto",
+    "application/MBNAS_web/src/archive/pareto.ts, application/MBNAS_web/src/components/archive/ArchiveScatter.tsx(status=='ok'만; application/docs/integration_20261021/REQUIREMENTS_TRACE_v1.md:76)",
+    "console: application/MBNAS_web/src/lib/lines.ts:1-8 'never called a Pareto frontier', application/MBNAS_web/README.md:134"
+   ],
+   "callers": [
+    "Archive 화면"
+   ],
+   "storage": [
+    "search/archive.json, pareto_archive.csv(읽기)"
+   ],
+   "executor": [
+    "API(archive)",
+    "web"
+   ],
+   "package_dd_a1": "mbnas_server(public) + web",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/archive/test_routes.py:221 pareto_fidelity_confirm, application/MBNAS_server/tests/archive/test_analysis.py",
+     "class": "API-DB(실데이터)"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/archive_pareto.test.ts; application/MBNAS_web/e2e/archive.spec.ts:107 slider+front line",
+     "class": "browser-mock"
+    }
+   ],
+   "notes": "console 탐색 run의 Pareto front는 제공하지 않음(규칙: 선은 Pareto가 아님). §9 'Pareto'를 console에도 요구하면 신규 기능 → 결정 필요.",
+   "gap": false
+  },
+  {
+   "id": "E5",
+   "group": "E",
+   "group_name": "모니터링·비교(학습 곡선·세대 개선·Pareto·조건별 비교·checkpoint·이미지)",
+   "section9_minimum": true,
+   "name": "조건별 비교(Archive compare conditions: dataset/split/stage/epochs_total/protocol_hash/device/precision/checkpoint; 기록 없으면 null, '조건 상이' 경고; DD-33)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "API-DB(+unit)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/archive/views.py:731-757 conditions_of(precision은 latency.fp16 파생), :777 compare_view",
+    "application/MBNAS_server/contracts/openapi.json ArchiveCompareConditions(8 keys nullable; 1.4.0)",
+    "application/MBNAS_web/src/screens/Compare.tsx:45-60 conditionValue/conditionDifferences(null은 비교 안 함), :181-189 조건 표·'조건 상이'·주석"
+   ],
+   "callers": [
+    "Compare 화면"
+   ],
+   "storage": [
+    "run 아티팩트(읽기)"
+   ],
+   "executor": [
+    "API(archive)",
+    "web"
+   ],
+   "package_dd_a1": "mbnas_server(public) + web",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/archive/test_compare_conditions.py(2; synthetic)",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/compare_conditions.test.tsx(6)",
+     "class": "unit"
+    },
+    {
+     "pointer": "application/docs/integration_20261021/WORKLOG.md:18 WP-S5 수용; (스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS5/SUMMARY.md(10-22)",
+     "class": "API-DB"
+    }
+   ],
+   "notes": "실데이터·live 브라우저에서 조건 표 표시 기록 없음. 콘솔 run 후보 간 조건 포함 성능 비교 화면은 없음(E10).",
+   "gap": false
+  },
+  {
+   "id": "E6",
+   "group": "E",
+   "group_name": "모니터링·비교(학습 곡선·세대 개선·Pareto·조건별 비교·checkpoint·이미지)",
+   "section9_minimum": true,
+   "name": "checkpoint 목록·상태(PRESENT/PRUNED/MISSING + prune 기록)·provenance(source_commit/source tree hash, protocol_hash, export provenance.json)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA/real E2E(pc2300)·CUDA(18c4815)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/orchestration/retention.py checkpoint_views·prune 기록",
+    "application/MBNAS_server/src/mbnas_server/api/routes_runs.py:280 CandidateDetail.checkpoints",
+    "application/MBNAS_server/src/mbnas_server/export/bundle.py:14,110 checkpoints.json, :21,118-128 provenance.json",
+    "application/MBNAS_server/src/mbnas_server/provenance/source_hash.py:1-9 source tree hash",
+    "application/MBNAS_server/src/mbnas_server/api/routes_meta.py:63-66 health commit_sha/source_tree",
+    "application/MBNAS_web/src/components/CandidateView.tsx:89-93 상태 배지, :449 checkpoint_sha256",
+    "application/MBNAS_web/src/components/TrainingProgress.tsx:84-86 출처 명시",
+    "application/MBNAS_web/src/screens/History.tsx:81 'Versions · provenance'"
+   ],
+   "callers": [
+    "후보 상세/Monitor/History/export"
+   ],
+   "storage": [
+    "checkpoints(state, pruned_at, prune_json)",
+    "runs.source_commit",
+    "artifacts"
+   ],
+   "executor": [
+    "API",
+    "worker(등록·retention)",
+    "web"
+   ],
+   "package_dd_a1": "core(private) + contracts(provenance util) + web",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:288 §7.2 retention+PRUNED rendering VERIFIED real E2E(PRESENT 153/PRUNED 107/MISSING 0, pc2300)",
+     "class": "CUDA/real E2E(pc2300)"
+    },
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/G/SUMMARY.md G_candidate_checkpoint_paths.png, 발견 6(epoch1·2 PRUNED) (CUDA 18c4815)",
+     "class": "CUDA(18c4815)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_checkpoint_state_row.py(2), application/MBNAS_server/tests/orchestration/test_retention.py(12); application/MBNAS_web/tests/training_progress_checkpoint.test.tsx(8)",
+     "class": "API-DB"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "E7",
+   "group": "E",
+   "group_name": "모니터링·비교(학습 곡선·세대 개선·Pareto·조건별 비교·checkpoint·이미지)",
+   "section9_minimum": true,
+   "name": "worker/GPU 모니터(Workers 표: idle/busy/offline/lost 어휘, utilization; vram_mb/power_w/sm_clock_mhz 열)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live(pc2300) / 추가 열은 unit",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/worker/main.py:175-193 _row/publish, :230 idle_heartbeat",
+    "application/MBNAS_server/src/mbnas_server/orchestration/views.py worker_payload/worker_stale",
+    "application/MBNAS_server/src/mbnas_server/api/routes_runs.py:255-257 snapshot workers window",
+    "application/MBNAS_web/src/screens/Monitor.tsx:163-196 WorkerStatus/WorkerTable+legend",
+    "application/MBNAS_web/src/components/Capabilities.tsx"
+   ],
+   "callers": [
+    "Monitor"
+   ],
+   "storage": [
+    "workers 테이블(row_json)"
+   ],
+   "executor": [
+    "worker",
+    "API",
+    "web"
+   ],
+   "package_dd_a1": "runner(heartbeat) + core(views) + web",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:95-96 idle heartbeat·lost worker 수정 live 확인(pc2300); application/MBNAS_server/tests/worker/test_lease.py:96,139,222",
+     "class": "live(pc2300)"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/training_panel.test.tsx:181 vram/power/clock 열(WP-W2)",
+     "class": "unit"
+    }
+   ],
+   "notes": "vram/power/clock 실값의 live 표시 기록 없음.",
+   "gap": false
+  },
+  {
+   "id": "E8",
+   "group": "E",
+   "group_name": "모니터링·비교(학습 곡선·세대 개선·Pareto·조건별 비교·checkpoint·이미지)",
+   "section9_minimum": true,
+   "name": "이벤트 로그·SSE 재생(Last-Event-ID/after_seq, snapshot.required)·새로고침/재연결 복구·History 화면",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA/real E2E(pc2300)·live",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/api/routes_stream.py:1-10,38-62",
+    "application/MBNAS_server/src/mbnas_server/events/bus.py:1-9",
+    "application/MBNAS_server/src/mbnas_server/api/routes_runs.py:243-259 snapshot",
+    "application/MBNAS_web/src/api/sse.ts, application/MBNAS_web/src/api/sync.ts(RunSync; application/docs/integration_20261021/REQUIREMENTS_TRACE_v1.md:126)",
+    "application/MBNAS_web/src/state/context.tsx(hash 복원)",
+    "application/MBNAS_web/src/screens/Monitor.tsx:353 Events(latest 60)",
+    "application/MBNAS_web/src/screens/History.tsx:112-156"
+   ],
+   "callers": [
+    "web"
+   ],
+   "storage": [
+    "events(run_id, seq)"
+   ],
+   "executor": [
+    "API",
+    "web"
+   ],
+   "package_dd_a1": "core(private: bus/route) + server gateway(SSE relay, DD-A3) + web",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:67-68 §1 5c/5d real E2E 606/606 no gap(pc2300)",
+     "class": "CUDA/real E2E(pc2300)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_sse.py(7), application/MBNAS_server/tests/qa/test_sse_server.py(19)",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/sse.test.ts, application/MBNAS_web/tests/qa_hardening.test.ts; application/MBNAS_web/e2e/console.spec.ts:253,277, application/MBNAS_web/e2e/hardening.spec.ts:217,226",
+     "class": "browser-mock"
+    },
+    {
+     "pointer": "application/docs/TEST_EVIDENCE.md:69 live 하네스 A reload 복원",
+     "class": "live"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "E9",
+   "group": "E",
+   "group_name": "모니터링·비교(학습 곡선·세대 개선·Pareto·조건별 비교·checkpoint·이미지)",
+   "section9_minimum": true,
+   "name": "실제 이미지(GT/TP/FN/FP 고정 샘플 패널, native 학습 batch/plot 이미지, 원본 보기·sha256 헤더; 예시 이미지 금지)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA(18c4815)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/evaluation/images.py:1-9 fixed_sample_ids(first_n_sorted)",
+    "application/MBNAS_server/src/mbnas_server/training/model_artifacts.py:66-115 record_native_images(화이트리스트·PIL verify·symlink 거부·256 상한)",
+    "application/MBNAS_server/src/mbnas_server/orchestration/engine.py TRAIN_KINDS 종료 시 등록(application/docs/integration_20261021/REQUIREMENTS_TRACE_v1.md:124 인용 428-434)",
+    "application/MBNAS_server/src/mbnas_server/api/routes_files.py:57-78 bearer|signed·sha 재검증·X-Artifact-Sha256",
+    "application/MBNAS_web/src/components/ArtifactImage.tsx",
+    "application/MBNAS_web/src/components/CandidateView.tsx:137-165 artifact-panel, :518-529 native gallery(MIME 필터)"
+   ],
+   "callers": [
+    "후보 상세"
+   ],
+   "storage": [
+    "artifacts(kind gt/tp/fn/fp/confusion_matrix/pr_curve/other, meta_json)",
+    "파일 <run>/evaluations/<cid>/images/*, <run>/candidates/<cid>/native/**"
+   ],
+   "executor": [
+    "worker child(생성)",
+    "API(등록·제공)",
+    "web"
+   ],
+   "package_dd_a1": "runner(evaluator/images) + core(registry 등록) + server(다운로드 relay, DD-A6) + web",
+   "evidence": [
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/G/SUMMARY.md native 7 + eval GT/TP/FN/FP, 브라우저 11 figure HTTP 200·sha 헤더 (CUDA 18c4815)",
+     "class": "CUDA(18c4815)"
+    },
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS8/cpu_training_browser.txt + application/docs/TEST_EVIDENCE.md:88-105 (CPU direct + live browser 5 images)",
+     "class": "live"
+    },
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:91 §2 images real E2E+browser(pc2300); application/MBNAS_server/tests/training/test_model_artifacts.py(8), application/MBNAS_server/tests/evaluation/test_evaluator_images.py(7), application/MBNAS_server/tests/api/test_artifacts_export.py:38-89",
+     "class": "API-DB"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "E10",
+   "group": "E",
+   "group_name": "모니터링·비교(학습 곡선·세대 개선·Pareto·조건별 비교·checkpoint·이미지)",
+   "section9_minimum": true,
+   "name": "콘솔 run 후보 간 '조건 포함' 성능 비교 화면",
+   "status": "누락",
+   "evidence_max": "없음",
+   "implementation": [
+    "없음 — 콘솔은 Monitor 산점도(cohort 단위)와 구조 비교(ModelComparison)만; 조건 비교는 Archive compare 한정(application/MBNAS_server/src/mbnas_server/archive/views.py:731-757)"
+   ],
+   "callers": [],
+   "storage": [],
+   "executor": [],
+   "package_dd_a1": "web(+server 필요 시)",
+   "evidence": [
+    {
+     "pointer": "application/docs/integration_20261021/REQUIREMENTS_TRACE_v1.md:67 REQ-9.07 '콘솔 run 후보 간 조건 포함 성능 비교 화면 없음'; application/docs/integration_20261021/inv_I4_web_console.md:158 (#11)",
+     "class": "static"
+    }
+   ],
+   "notes": "DD-33은 archive compare에만 조건을 추가함.",
+   "gap": true
+  },
+  {
+   "id": "E11",
+   "group": "E",
+   "group_name": "모니터링·비교(학습 곡선·세대 개선·Pareto·조건별 비교·checkpoint·이미지)",
+   "section9_minimum": false,
+   "name": "서버 로그 tail 뷰(console run)",
+   "status": "누락",
+   "evidence_max": "없음",
+   "implementation": [
+    "없음(console) — 이벤트 payload 200자 절단만; Archive에는 run_log_tail 존재(application/MBNAS_server/src/mbnas_server/archive/views.py:867-869)"
+   ],
+   "callers": [],
+   "storage": [],
+   "executor": [],
+   "package_dd_a1": "web",
+   "evidence": [
+    {
+     "pointer": "application/docs/integration_20261021/inv_I4_web_console.md:157 (#10)",
+     "class": "static"
+    }
+   ],
+   "notes": "",
+   "gap": true
+  },
+  {
+   "id": "F1",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "gene 기반 블록 다이어그램(yaml_genes: backbone/neck/head 근거, 실제 from/분기/skip/Concat/Add, CNN·Transformer·병합·검출 종류 색상+텍스트, 선택·확대·접기)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CPU runtime + live browser",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/search/structure.py:104-105 _section_basis(DD-15), :113-192 describe_genotype(blocks·edges from_resolved·connection_source yaml_from·catalog), :213-310 _shape_rule/_merge_rule/_head_rule, :336 check_structure",
+    "application/MBNAS_server/src/mbnas_server/search/genotype.py:305-317 _resolve_sources/_inputs_record, :446-531 inspect_genotype(hook: inputs per source, outputs, repeats, head stride/nl/end2end)",
+    "application/MBNAS_web/src/lib/structure.ts:160 structureKind, :183-282 structureNodes/structureEdges(음수=상대·양수=절대·배열=다중입력·미해결 참조 edge 미생성)",
+    "application/MBNAS_web/src/components/ModelStructure.tsx:133-207 SVG·zoom·scope별 details·section_basis·connection legend, :121-123 UNVERIFIED/FAIL/declared-only 전용 안내"
+   ],
+   "callers": [
+    "후보 상세(모델 구조 탭)",
+    "RegistryStructureButton"
+   ],
+   "storage": [
+    "candidates.audit_json.structure(mbnas-structure/2)",
+    "candidates.blocks_json",
+    "registry_structure/*.json"
+   ],
+   "executor": [
+    "API(describe: 빌드 없음; check: CPU 빌드를 API 프로세스에서 동기 실행)",
+    "worker child(OFF 생성 시 check)",
+    "web"
+   ],
+   "package_dd_a1": "구조 규칙→core(private, DD-A1 a); genotype CPU 관측→model_runtime(public, DD-A1 b); web(public)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/search/test_structure_runtime_cpu.py:17,37 실제 DetectionModel 32×32 forward·multiscale head edges·Concat 불일치 FAIL row 2 (application/docs/TEST_EVIDENCE.md:45-51 3 passed); application/MBNAS_server/tests/search/test_structure_observation.py(25)",
+     "class": "CPU runtime"
+    },
+    {
+     "pointer": "application/docs/TEST_EVIDENCE.md:69,78 live 하네스 A '30 actual graph edges', live-model-connections.png; (스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS8/live_browser.txt exit 0 (10-23)",
+     "class": "live browser"
+    },
+    {
+     "pointer": "application/docs/integration_20261021/WORKLOG.md:15 WP-S1 45 tests, probe ALL MATCH 61행",
+     "class": "CPU runtime"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/search/test_structure_adversarial.py:72; application/MBNAS_web/tests/structure.test.tsx(12), application/MBNAS_web/tests/model_detail_v2.test.tsx(16)",
+     "class": "unit"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "F2",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "비-YAML backend(RF-DETR Nano/S/M/L, ETRI controlled hybrid) 공통 구조 표현(native_modules: hook 관측 edge, native_fixed, edges_unobserved, GENE_REPRESENTATION_NOT_APPLICABLE)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live API + CPU runtime",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/adapters/structure_native.py:1-12,25-32, :91 declared_native_document, :100 unavailable_document, :196-297 _rfdetr_plan/_etri_plan, :329 _run_hooks, :475 observe_native_structure",
+    "application/MBNAS_server/src/mbnas_server/adapters/rfdetr_adapter.py describe_structure/declared_config(정적 프리셋, WPS8)",
+    "application/MBNAS_server/src/mbnas_server/adapters/etri_hybrid/adapter.py describe_structure",
+    "application/MBNAS_server/src/mbnas_server/api/model_services.py:83-142 native_backend/_describe_native_candidate, :162-170 native_structure_for_arch, :249-261 run_structure_check(native)",
+    "application/MBNAS_server/src/mbnas_server/training/selection.py:247-270 bind_structure(native)",
+    "application/MBNAS_web/src/components/ModelStructure.tsx:146-148 connection_source 범례, :209-213 edges-unobserved"
+   ],
+   "callers": [
+    "후보 상세",
+    "registry route",
+    "POST /training-runs 바인딩"
+   ],
+   "storage": [
+    "audit.structure(representation native_modules)",
+    "registry_structure/*.json"
+   ],
+   "executor": [
+    "API 프로세스(CPU 빌드)",
+    "web"
+   ],
+   "package_dd_a1": "model_runtime(public: adapters/structure_native) + core(route/정책)",
+   "evidence": [
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS2/family_table.md(10-22): 9 계열 CPU 구조 관측 전부 PASS(yolo11n/yolo26n/rt-detr-l/x YAML; rf-detr nano 30,147,076/small/medium/large; etri 922,870), probe 대조 100/100; application/docs/integration_20261021/WORKLOG.md:19",
+     "class": "CPU runtime"
+    },
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/F/structure_routes.txt POST rf-detr-nano PASS native_modules edges_unobserved non-empty, etri PASS (격리 live API 33/33, 10-23)",
+     "class": "live API"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/adapters/test_structure_native_cpu.py(13), application/MBNAS_server/tests/api/test_training_selection.py:499,525,542",
+     "class": "CPU runtime/API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/native_real_documents.test.tsx(실서버 문서 fixture)",
+     "class": "unit"
+    }
+   ],
+   "notes": "브라우저 live 표시 기록 없음(vitest fixture만). RF-DETR 고정 해상도 규칙은 콘솔 설계((스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS2 note). DD-13 (b) rt-detr-l/x는 YAML 경로로 PASS.",
+   "gap": false
+  },
+  {
+   "id": "F3",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "블록 표(논리 블록 id/stable_id·YAML 위치·from·repeats 선언/scale/관측·module·args·입출력 shape/채널·stride·params·내부 layer 펼침(공유 표시); 1:1 가정 금지)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CPU runtime + live browser",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/search/structure.py:161-178 block 필드(id block-NNNN, stable_id ul:{yaml_path}@…, yaml_section/index, from/from_resolved, repeats_detail, args, declared, effective{c_in,c_out,h,w,stride,params,inputs,outputs,head_strides,nl,end2end}, internal_layers, internal_mapping_status, wrapper/wrapped_module)",
+    "application/MBNAS_server/src/mbnas_server/search/genotype.py:355 structure_signature, :372-437 internal_layer_records(shared)/_is_sequential_wrapper/_observe_layer",
+    "application/MBNAS_web/src/components/ModelStructure.tsx:253-317 selected-block(repeats-columns 3열, block-inputs, head fields, internal-layers 표 '공유' 배지, checks_local, before/after)"
+   ],
+   "callers": [
+    "후보 상세"
+   ],
+   "storage": [
+    "audit.structure.blocks[]"
+   ],
+   "executor": [
+    "API(CPU 관측)",
+    "web"
+   ],
+   "package_dd_a1": "model_runtime(관측) + core(문서 조립) + web",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/search/test_structure_runtime_cpu.py:48 two-repeat C2f→여러 내부 module 경로(1:1 가정 없음); application/MBNAS_server/tests/search/test_structure_observation.py:82,103,261,280,292",
+     "class": "CPU runtime"
+    },
+    {
+     "pointer": "application/docs/TEST_EVIDENCE.md:79-80 live-selected-block-detail.png/live-selected-internal-layers.png; (스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS8/live_browser.txt(.mjs 49행 internal-layers 표)",
+     "class": "live browser"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/model_detail_v2.test.tsx:184-232",
+     "class": "unit"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "F4",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "블록 설계 출처 카탈로그(DD-38: origin_family/introduced_in/role/reference/source_path, catalog_summary, GET /structure/block-catalog)",
+   "status": "부분 구현",
+   "evidence_max": "API-DB",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/search/block_catalog.py:1-22,35-50 정적 표(WPS6: 78+18 항목), :273-296 lookup/static_table, :330 resolve_source_path(명시 검사에서만), :369-410 catalog_for_*/catalog_summary/attach_*",
+    "application/MBNAS_server/src/mbnas_server/search/structure.py:119-121,179 describe_genotype 부착",
+    "application/MBNAS_server/src/mbnas_server/adapters/structure_native.py catalog_summary",
+    "application/MBNAS_server/src/mbnas_server/api/routes_registry_structure.py:76-81 GET /structure/block-catalog(openapi 1.4.1 미등재)",
+    "application/MBNAS_web/src/lib/structure.ts:110-153, application/MBNAS_web/src/components/ModelStructure.tsx:41-43 출처 분포, :233-246 BlockOrigin",
+    "application/MBNAS_web/src/components/archive/ArchiveCandidateModal.tsx module-origins",
+    "application/MBNAS_web/src/api/client.ts:279"
+   ],
+   "callers": [
+    "후보 상세·registry 모달·아카이브 후보 모달"
+   ],
+   "storage": [
+    "audit.structure.blocks[].catalog, catalog_summary(문서 +~10 KB/후보)"
+   ],
+   "executor": [
+    "API",
+    "web"
+   ],
+   "package_dd_a1": "model_runtime(public, DD-A1 b) + web",
+   "evidence": [
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS6/SUMMARY.md(10-23 20:58, 스냅샷 밖): focused 26 passed; tests/api+unit 710 passed; search/adapters/registry 181 passed; vitest 488 passed + 1 failed(contract.test.ts 경로 미등재)",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/search/test_block_catalog.py(24), application/MBNAS_server/tests/api/test_block_catalog_route.py(4); application/MBNAS_web/tests/block_catalog.test.tsx(13)",
+     "class": "unit/API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_server/contracts/history/migrate_1.4.1_to_1.4.2.py EXPECTED sha '__FILL__', application/MBNAS_server/contracts/openapi.json 1.4.1 유지 → 계약 미반영; application/docs/integration_20261021/WORKLOG.md:24 Phase G 기동만 기록(수용 기록 없음)",
+     "class": "static"
+    }
+   ],
+   "notes": "부분 판정 근거: 계약 1.4.2 미반영, 웹 계약 테스트 red, 설계자 수용 기록 없음. introduced_in 등 출처 사실의 역사적 정확성은 저자 지식 기반((스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS6 Unverified).",
+   "gap": true
+  },
+  {
+   "id": "F5a",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "구성 YAML 업로드(브라우저 파일 업로드)",
+   "status": "누락",
+   "evidence_max": "없음",
+   "implementation": [
+    "없음 — application/MBNAS_web/src/src에 type=\"file\"/FormData 사용 0건(grep); 서버는 서버 허용 경로만 받음(application/MBNAS_server/src/mbnas_server/training/selection.py:70-78,107-115; application/MBNAS_server/src/mbnas_server/api/model_services.py:479-489; application/docs/FUNCTION_GUIDE.md:60)"
+   ],
+   "callers": [],
+   "storage": [],
+   "executor": [],
+   "package_dd_a1": "web + server gateway",
+   "evidence": [
+    {
+     "pointer": "정적 확인(grep) — 업로드 코드 없음",
+     "class": "static"
+    }
+   ],
+   "notes": "현 설계는 '서버 허용 경로 입력' 방식.",
+   "gap": true
+  },
+  {
+   "id": "F5b",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "구성 YAML 안전 검증(safe_load·mapping·1 MiB·allowlist·모듈 식별자/activation 화이트리스트·python tag 거부·구조 검사)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live API",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/api/model_services.py:492-523 check_user_model",
+    "application/MBNAS_server/src/mbnas_server/search/structure.py 정적 규칙(application/docs/integration_20261021/REQUIREMENTS_TRACE_v1.md:87 인용 132-188)",
+    "application/MBNAS_server/src/mbnas_server/training/selection.py:76-77,107-113",
+    "application/MBNAS_server/src/mbnas_server/datasets/yaml_safe.py(데이터셋 YAML; application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:158 python tag 거부)"
+   ],
+   "callers": [
+    "POST /structure-check",
+    "POST /training-runs(user)"
+   ],
+   "storage": [
+    "없음(저장 안 함)"
+   ],
+   "executor": [
+    "API 프로세스(CPU 빌드)"
+   ],
+   "package_dd_a1": "core(검사 규칙) + model_runtime(빌드)",
+   "evidence": [
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/F/structure_routes.txt user YAML PASS / 경로 밖 4xx / /etc/hostname 4xx (live API 10-23)",
+     "class": "live API"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_registry_structure.py:171,195,212; application/MBNAS_server/tests/api/test_training_selection.py:203",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/search/test_structure_adversarial.py:30,37",
+     "class": "unit"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "F5c",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "원본 구성 보존(선택본 사본·원본 파일 sha256)",
+   "status": "부분 구현",
+   "evidence_max": "API-DB",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/training/selection.py:339-343 <run>/architectures/<cid>.yaml(선택본 — canonical yaml_text, 원본 바이트 아님: :114,131), :359-361 artifact kind architecture(configuration_role selected, yaml_hash)",
+    "candidates.architecture_yaml 컬럼",
+    "application/MBNAS_server/src/mbnas_server/training/selection.py:115 source_file_sha256 계산만(영속화 없음)"
+   ],
+   "callers": [
+    "create_training_run"
+   ],
+   "storage": [
+    "artifacts(kind architecture)",
+    "candidates.architecture_yaml/architecture_path"
+   ],
+   "executor": [
+    "API"
+   ],
+   "package_dd_a1": "core",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/training/test_model_artifacts.py:26; application/MBNAS_server/tests/api/test_off_run_guards.py:180,191(DD-12 재기록 보호)",
+     "class": "API-DB"
+    }
+   ],
+   "notes": "부분: canonical 직렬화본은 보존되나 원본 파일 바이트·sha256은 보존되지 않음.",
+   "gap": true
+  },
+  {
+   "id": "F5d",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "구성 버전+해시(yaml_hash canonical / architecture_hash structural / signature_hash / 파일 sha256; 버전 번호·개정 이력)",
+   "status": "부분 구현",
+   "evidence_max": "live browser(해시)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/search/genotype.py:143 yaml_hash, :521 signature_hash, :522 architecture_hash",
+    "artifacts.sha256(파일 바이트)",
+    "application/MBNAS_server/src/mbnas_server/api/routes_runs.py:294-312 structure_history(최대 5; 검사 증거 이력, YAML 버전 아님)",
+    "application/MBNAS_web/src/components/CandidateView.tsx:239-255 DownloadHashes, :407-409 해시 3종"
+   ],
+   "callers": [
+    "후보 상세"
+   ],
+   "storage": [
+    "candidates.architecture_hash, audit.structure.{yaml_hash,signature_hash}, artifacts.sha256"
+   ],
+   "executor": [
+    "API",
+    "web"
+   ],
+   "package_dd_a1": "model_runtime(해시 산출) + core + web",
+   "evidence": [
+    {
+     "pointer": "application/docs/TEST_EVIDENCE.md:69 'exact selected-candidate YAML download'; application/docs/integration_20261021/REQUIREMENTS_TRACE_v1.md:74 다운로드 hash==표시==structure.yaml_hash",
+     "class": "live browser"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_structure_history.py; application/MBNAS_web/tests/structure.test.tsx:125",
+     "class": "API-DB/unit"
+    }
+   ],
+   "notes": "부분: 해시는 있으나 구성 YAML의 버전 번호·개정 이력(수정본 계보)은 없음.",
+   "gap": true
+  },
+  {
+   "id": "F5e",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "실행 구성 사본 등록(execution configuration) + 선택본↔실행본 diff 표시",
+   "status": "부분 구현",
+   "evidence_max": "API-DB",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/training/model_artifacts.py:28-63 record_model_configuration(candidates/<cid>/architecture.yaml → artifact configuration_kind execution, audit.execution_configuration{sha256,yaml_hash,class_count}, 구조 증거 무효화 :57-59)",
+    "application/MBNAS_server/src/mbnas_server/api/model_services.py:234 configuration.kind execution/normalized/original/generated",
+    "application/MBNAS_web/src/components/CandidateView.tsx:304-306 등록 sha 표시, :411 '구성 종류/증거'",
+    "diff: 코드 없음(web grep execution_configuration → sha 표시만)"
+   ],
+   "callers": [
+    "engine job_finished(TRAIN_KINDS)"
+   ],
+   "storage": [
+    "artifacts(kind architecture, meta configuration_kind execution)",
+    "audit.execution_configuration"
+   ],
+   "executor": [
+    "API 프로세스(worker 출력 파일 읽기 — DD-A6 충돌 C4)"
+   ],
+   "package_dd_a1": "core",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/training/test_model_artifacts.py:26,46,53; application/MBNAS_server/tests/api/test_off_run_guards.py:123",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/G/SUMMARY.md CUDA run에서 execution yaml 등록 여부는 확인 못 함",
+     "class": "증거 없음"
+    }
+   ],
+   "notes": "부분: 실행본 등록·표시 O, 선택본↔실행본 diff X.",
+   "gap": true
+  },
+  {
+   "id": "F5f",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "구성 YAML 다운로드(화면 표시본 Blob + 파일 sha256(WebCrypto) vs 등록 sha256 vs canonical yaml_hash 대조)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live browser",
+   "implementation": [
+    "application/MBNAS_web/src/components/CandidateView.tsx:307-316 downloadYaml(<cid>.yaml), :239-255 DownloadHashes",
+    "application/MBNAS_web/src/lib/structure.ts:381-401 sha256OfBlob/hashVerdict",
+    "application/MBNAS_server/src/mbnas_server/api/routes_files.py:57-78 artifact kind architecture 바이트 제공(별도 경로)"
+   ],
+   "callers": [
+    "후보 상세"
+   ],
+   "storage": [
+    "—"
+   ],
+   "executor": [
+    "web",
+    "API"
+   ],
+   "package_dd_a1": "web + server",
+   "evidence": [
+    {
+     "pointer": "application/docs/TEST_EVIDENCE.md:69, application/docs/integration_20261021/TEST_BASELINE_20261021.md:72 'YAML 다운로드 일치'; (스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS8/live_browser.txt PASS(10-23)",
+     "class": "live browser"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/structure.test.tsx:125 hash verdict; application/docs/integration_20261021/WORKLOG.md:19 WP-W1 수용",
+     "class": "unit"
+    }
+   ],
+   "notes": "다운로드 바이트는 서버 artifact가 아니라 detail.architecture_yaml 문자열(canonical 텍스트).",
+   "gap": false
+  },
+  {
+   "id": "F5g",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "내보내기(export)에 실제 YAML 바이트 포함(console export zip / Archive files)",
+   "status": "누락",
+   "evidence_max": "없음",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/export/bundle.py:3-23,93-135 zip 구성 — lineage.json(architecture_path만)·artifacts.json(행); YAML 바이트 없음",
+    "application/MBNAS_server/src/mbnas_server/archive/views.py:859-873 + application/MBNAS_server/docs/ARCHIVE_API.md:62 files kind 닫힌 enum(plot/viz/final_report_md/run_log_tail) — yaml kind 없음",
+    "application/MBNAS_server/src/mbnas_server/schemas/archive.py:490-492 ArchiveArchitecture.yaml_text(후보 상세 JSON에 텍스트 포함)"
+   ],
+   "callers": [
+    "GET /runs/{id}/export",
+    "GET /archive/runs/{id}/files/{kind}"
+   ],
+   "storage": [],
+   "executor": [
+    "API"
+   ],
+   "package_dd_a1": "server(public)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_artifacts_export.py:124 export_bundle 내용(API-DB) — YAML 바이트 부재를 뒷받침",
+     "class": "API-DB"
+    }
+   ],
+   "notes": "archive 후보 상세는 yaml_text를 JSON 문자열로 제공(바이트 파일 아님).",
+   "gap": true
+  },
+  {
+   "id": "F6",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "평가 ON vs OFF 실행 분리(OFF=RandomGeneration: frozen-prior 랜덤 생성+CPU 구조 검사만, 평가행·fitness·승급 없음, NOT_EVALUATED) + IndependentRandom 평가 arm 보존",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live(CPU worker + browser)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/protocol/validator.py:914-920, :937-1014 _validate_generation(effective_method RandomGeneration, duplicate_scope per_seed, caps structure_status UNVERIFIED)",
+    "application/MBNAS_server/src/mbnas_server/orchestration/engine.py:261-269 plan_run OFF, :916-928 _plan_generation(seed당 PROPOSE_GENERATION 1 job), :931-970 generation_progress(PASS·origin random_generation만 insert, 평가 행 없음), :855-877 DD-3",
+    "application/MBNAS_server/src/mbnas_server/search/handlers.py:243-245 OFF dispatch, :132-133 ON gen0/IndependentRandom frozen prior",
+    "application/MBNAS_server/src/mbnas_server/search/random.py:13-20 IndependentRandom(fitness 입력 없음)",
+    "application/MBNAS_server/src/mbnas_server/search/generation.py:30-31 RandomGeneration, :149-190 draw→check→dup(per seed)→audit(performance NOT_EVALUATED, execution CPU)",
+    "application/MBNAS_server/src/mbnas_server/worker/main.py:246-247 --cpu lease generation_only, :287-290 OFF job CUDA_VISIBLE_DEVICES ''",
+    "application/MBNAS_server/src/mbnas_server/api/candidate_views.py, application/MBNAS_server/src/mbnas_server/api/routes_runs.py:253 Snapshot.generated_candidates, :288 evaluation_status",
+    "application/MBNAS_web/src/screens/Settings.tsx:389-391 '성능 평가 수행'·RandomGeneration 배너",
+    "application/MBNAS_web/src/screens/Monitor.tsx:141 GeneratedTable(생성 순서), :252-256",
+    "application/MBNAS_web/src/lib/generation.ts, application/MBNAS_web/src/state/reducer.ts(generatedCandidates 분리), application/MBNAS_web/src/lib/cohort.ts(NOT_EVALUATED 점 제외)"
+   ],
+   "callers": [
+    "Validate/Run(OFF)",
+    "worker"
+   ],
+   "storage": [
+    "runs.resolved_protocol(console.search.evaluation_enabled/effective_method/duplicate_scope)",
+    "runs.budget_json.generation_results, runs.reason_code",
+    "candidates(arm IndependentRandom, audit.origin random_generation, audit.generation{seed,index,execution,worker_id})",
+    "jobs(kind PROPOSE_GENERATION, key RandomGeneration|seed)",
+    "파일 generation-<seed>.json"
+   ],
+   "executor": [
+    "API(계획·커밋)",
+    "worker child(CPU 생성·구조 검사; GPU worker도 lease 가능 DD-6)",
+    "web"
+   ],
+   "package_dd_a1": "core(private: validator/engine/generation/random/handlers; DD-A4 owner worker) + model_runtime(CPU 관측) + web",
+   "evidence": [
+    {
+     "pointer": "application/docs/TEST_EVIDENCE.md:61-85 live: run-09166b6e6a79 PROPOSE_GENERATION 1·evaluation 0·params 2,668,051/3,331,459·OFF 지속(PR 환경 Py3.12); application/docs/integration_20261021/TEST_BASELINE_20261021.md:72 이 호스트 PASS run-6e271bf19f4d; (스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS8/live_browser.txt 최종 코드 PASS(COMPLETED, 2 candidates, evaluation_rows 0, gpu_used false, 10-23)",
+     "class": "live(CPU worker + browser)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/search/test_generation_only.py:42(금지 호출 spy),224,250; application/MBNAS_server/tests/api/test_generation_multi_seed.py(4); application/MBNAS_server/tests/api/test_generation_real_cpu.py:16; application/MBNAS_server/tests/qa/test_search_fairness_engine.py:22-56(IndependentRandom 독립성, 실제 proposer); application/MBNAS_server/tests/search/test_proposers.py:50,62",
+     "class": "API-DB/unit"
+    },
+    {
+     "pointer": "application/MBNAS_web/e2e/generation.spec.ts(7); application/docs/EVALUATION.md:47,74-83 S02 98.9 PASS",
+     "class": "browser-mock"
+    }
+   ],
+   "notes": "어휘: 코드·계약은 evaluation_status EVALUATED|NOT_EVALUATED, structure_status PASS|FAIL|UNVERIFIED, candidate_status BUILD_VALID|INVALID. 'UNTRAINED'/'UNEVALUATED' 문자열은 서버·웹·openapi에 없음(grep 0건) → 결정 필요(용어).",
+   "gap": false
+  },
+  {
+   "id": "F7",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "3단 분리: 구조 게이트(PASS/FAIL/UNVERIFIED→BUILD_VALID/INVALID) vs 실행 준비 검증(protocol validate·STALE_VALIDATION·resume_checks·recipe/paths) vs 평가 후 승급 게이트(evaluate_gate + 예산 admission)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA/real E2E(pc2300)·live",
+   "implementation": [
+    "(1) application/MBNAS_server/src/mbnas_server/search/handlers.py:168-174,184(DD-1/35), application/MBNAS_server/src/mbnas_server/search/generation.py:160-165, application/MBNAS_server/src/mbnas_server/training/selection.py:300-301(422 STRUCTURE_INVALID), application/MBNAS_server/src/mbnas_server/api/model_services.py:462-465(registry 저장)",
+    "(2) application/MBNAS_server/src/mbnas_server/protocol/validator.py:903-935 validate, application/MBNAS_server/src/mbnas_server/api/routes_runs.py:86-124(_find_validation/_check_hashes/_check_fresh), application/MBNAS_server/src/mbnas_server/orchestration/state.py:122-148, application/MBNAS_server/src/mbnas_server/training/selection.py:149-242, :97-99(registry AVAILABLE)",
+    "(3) application/MBNAS_server/src/mbnas_server/protocol/promotion.py:64-94 + application/MBNAS_server/src/mbnas_server/scheduling/admission.py:1-10 (application/MBNAS_server/src/mbnas_server/orchestration/engine.py:353-360 ELIGIBLE_BUDGET_EXHAUSTED); application/MBNAS_server/contracts/openapi.json x-status-vocabulary candidate(20)"
+   ],
+   "callers": [
+    "생성/학습/승급 경로 전반"
+   ],
+   "storage": [
+    "candidates.candidate_status/audit.structure",
+    "validations",
+    "evaluations.row.gate",
+    "audit.orchestration.rungs"
+   ],
+   "executor": [
+    "API",
+    "worker child(1)"
+   ],
+   "package_dd_a1": "core(private)",
+   "evidence": [
+    {
+     "pointer": "(1) application/MBNAS_server/tests/search/test_generation_only.py:214; application/MBNAS_server/tests/search/test_generation_recovery_independent.py:114; application/MBNAS_server/tests/api/test_training_selection.py:595",
+     "class": "unit/API-DB"
+    },
+    {
+     "pointer": "(2) application/MBNAS_server/tests/api/test_runs_idempotency.py:84,104; application/MBNAS_server/tests/api/test_state_machine.py:114; application/MBNAS_server/tests/qa/test_api_matrix.py(22; application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:166)",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "(3) application/MBNAS_server/tests/unit/test_protocol_promotion.py; application/MBNAS_server/tests/orchestration/test_semantics.py::test_budget_exhaustion_is_eligible_not_admitted(application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:88); real E2E pc2300 §0 run 4",
+     "class": "CUDA/real E2E(pc2300)"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "F8",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "latency_source measured vs calibrated_proxy(hard constraint 인증: measured 기본, calibrated_proxy는 proxy_may_certify_final_deployment=true일 때만; 교정 proxy 파이프라인은 없음)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA/real E2E(pc2300)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/protocol/promotion.py:51-62",
+    "application/MBNAS_server/src/mbnas_server/protocol/validator.py:456-465(boolean 강제, PROXY_PIPELINE_UNAVAILABLE 경고; application/MBNAS_server/docs/README.md:219-222)",
+    "application/MBNAS_server/src/mbnas_server/evaluation/latency.py:1,219,249(CUDA 측정만 measured)",
+    "application/MBNAS_server/src/mbnas_server/evaluation/handlers.py:144",
+    "application/MBNAS_server/src/mbnas_server/orchestration/final_retrain.py:1-9(last rung measured 필수)",
+    "application/MBNAS_server/src/mbnas_server/benchmark/capability.py:115(TARGET_BLOCKED, proxy 대체 없음)"
+   ],
+   "callers": [
+    "commit_evaluation gate",
+    "final retrain 선택"
+   ],
+   "storage": [
+    "evaluations.row.latency_source/latency_scope"
+   ],
+   "executor": [
+    "API(gate)",
+    "worker child(측정)"
+   ],
+   "package_dd_a1": "core(규칙) + runner(측정)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/unit/test_protocol_promotion.py:93-118",
+     "class": "unit"
+    },
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:91 'Proxy certification is refused', :285-287 latency operating point VERIFIED real E2E(pc2300)",
+     "class": "CUDA/real E2E(pc2300)"
+    },
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/G/SUMMARY.md latency 7.69 ms measured(CUDA 18c4815)",
+     "class": "CUDA(18c4815)"
+    }
+   ],
+   "notes": "calibrated_proxy 파이프라인 자체는 누락(의도적; 가드만 구현).",
+   "gap": false
+  },
+  {
+   "id": "F9",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "탐색 RNG 스트림(seed·arm·generation별, gen0 공유 prior)과 학습 seed 정책(sha256 파생, 상호 독립)·journal RNG 재현",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live/real E2E",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/search/streams.py:1-9,25-32 search_rng, :35-49 training_seed_policy/training_seed, :57-59 candidate_id",
+    "application/MBNAS_server/src/mbnas_server/search/generation.py:110-125 random.Random(seed)+journal rng_state, :180 OFF training_seed None",
+    "application/MBNAS_server/src/mbnas_server/search/handlers.py:131-133",
+    "application/MBNAS_server/src/mbnas_server/orchestration/engine.py:57 derive_seed",
+    "schema.sql:59-60 candidates.search_seed/training_seed",
+    "application/MBNAS_web/src/components/CandidateView.tsx:376 생성 seed/순서"
+   ],
+   "callers": [
+    "proposer/generation"
+   ],
+   "storage": [
+    "candidates.search_seed/training_seed, audit.generation.seed",
+    "journal rng_state"
+   ],
+   "executor": [
+    "worker child",
+    "API"
+   ],
+   "package_dd_a1": "core(private: RNG 상태, DD-A1 a)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/search/test_proposers.py:62,78,217; application/MBNAS_server/tests/qa/test_search_fairness_engine.py:22-39; application/MBNAS_server/tests/api/test_generation_multi_seed.py:12; application/MBNAS_server/tests/search/test_generation_recovery_independent.py:64,90",
+     "class": "unit/API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:62 §1 4a VERIFIED unit + real E2E(pc2300)",
+     "class": "CUDA/real E2E(pc2300)"
+    },
+    {
+     "pointer": "application/docs/TEST_EVIDENCE.md:69 vs application/docs/integration_20261021/TEST_BASELINE_20261021.md:72 seed 77 동일 params 재현; application/docs/EVALUATION.md:155",
+     "class": "live"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "F10",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "Archive(읽기 전용 연구 run): 13 GET 경로, 읽기 전용 보장, 보안 테스트, Archive/Compare 화면, 후보 모달",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live API + browser-mock",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/archive/routes.py:48-136(13 routes)",
+    "application/MBNAS_server/src/mbnas_server/archive/scanner.py(ArchiveStore 캐시·symlink 거부; application/MBNAS_server/docs/ARCHIVE_API.md:126-143)",
+    "application/MBNAS_server/src/mbnas_server/archive/views.py, analysis.py, parsers.py, live.py",
+    "application/MBNAS_server/src/mbnas_server/config.py:69-79 archive_roots/driver_dirs/cache_ttl",
+    "application/MBNAS_web/src/screens/Archive.tsx, application/MBNAS_web/src/screens/Compare.tsx, application/MBNAS_web/src/components/archive/*, application/MBNAS_web/src/archive/*"
+   ],
+   "callers": [
+    "web Archive/Compare"
+   ],
+   "storage": [
+    "읽기 전용 run 디렉터리(절대 미기록)"
+   ],
+   "executor": [
+    "API",
+    "web"
+   ],
+   "package_dd_a1": "mbnas_server(public, DD-A1 e) + web",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/archive/test_routes.py(25), test_security.py(18; :214 requests never modify), test_scanner.py, test_analysis.py(실데이터), test_perf.py",
+     "class": "API-DB(실데이터)"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/archive_*.test(6 files); application/MBNAS_web/e2e/archive.spec.ts(10)",
+     "class": "browser-mock"
+    },
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/F/console_restart_20261022.txt archive/runs n_runs 5 (운영 live 10-22)",
+     "class": "live API"
+    },
+    {
+     "pointer": "e2e:archive-real 실행 기록 없음",
+     "class": "증거 없음(live browser)"
+    }
+   ],
+   "notes": "DD-A1(e)대로 public; 분석 공식(front 재계산 등)이 '연구 정책' 공개 범위에 드는지는 결정 사항 아님(설계 완료).",
+   "gap": false
+  },
+  {
+   "id": "F11",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "12-search 캠페인 아카이브 어댑터(DD-39: MBNAS_ARCHIVE_CAMPAIGN_ROOTS, arm=run, 읽기 전용, 캠페인 그룹 카드)",
+   "status": "부분 구현",
+   "evidence_max": "API-DB(실데이터 읽기)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/archive/campaign.py:1-32 CROOT 레이아웃·run id <campaign>__<space>__<method>__<seed>·읽기 전용 보장, :45-56",
+    "application/MBNAS_server/src/mbnas_server/config.py:74-77 archive_campaign_roots",
+    "application/MBNAS_server/src/mbnas_server/archive/scanner.py:88-92,144-146 campaign_roots 통합",
+    "application/MBNAS_server/src/mbnas_server/api/app.py:51 ArchiveStore(...) 생성 시 campaign_roots 미전달(미배선)",
+    "application/MBNAS_web/src/screens/Archive.tsx:31-62,116 groupCampaigns·'12-search 캠페인' 카드",
+    "application/docs/integration_20261021/CONTRACTS_v2.md:84-111 부록 A(openapi 미선언; application/MBNAS_server/contracts/history/migrate_1.4.1_to_1.4.2.py 대기)"
+   ],
+   "callers": [
+    "Archive 화면"
+   ],
+   "storage": [
+    "CROOT 파일(읽기 전용)"
+   ],
+   "executor": [
+    "API",
+    "web"
+   ],
+   "package_dd_a1": "mbnas_server(public) + web",
+   "evidence": [
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS7/SUMMARY.md(10-23 20:51, 스냅샷 밖): test_campaign_adapter 19 passed 1 skipped(R1 app.py 배선), 실 CROOT 4 arms smoke 200·계약 유효; archive 281 passed; vitest archive_screen 24 passed",
+     "class": "API-DB(실데이터 읽기)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/archive/test_campaign_adapter.py(18 def + :547 real smoke); application/MBNAS_web/tests/archive_screen.test.tsx",
+     "class": "API-DB/unit"
+    }
+   ],
+   "notes": "부분 판정 근거: app.py 배선 누락(기능 비활성), 계약 1.4.2 미반영, 운영 콘솔 미활성(사용자 재시작 결정 필요), WORKLOG 수용 기록 없음.",
+   "gap": true
+  },
+  {
+   "id": "F12",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "Registry/사용자 모델 구조 route(DD-19: GET 빌드 없음·저장 증거/선언 전용, POST 명시 CPU 검사·저장, POST /structure-check 비저장) + 학습 전 '구조 상세' 진입점",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live API(운영 콘솔 포함)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/api/routes_registry_structure.py:43-74",
+    "application/MBNAS_server/src/mbnas_server/api/model_services.py:357-359 저장 경로 registry_structure/<model_id>/<hash>.json, :385-411 describe_registry_model, :435-466 check_registry_model(native 고정 해상도 422 INPUT_SIZE_INVALID, PASS/FAIL+observation만 저장), :289-320 DD-30 scale",
+    "application/MBNAS_web/src/components/RegistryStructureButton.tsx:21-26,43-66,75-103",
+    "application/MBNAS_web/src/components/TrainingPanel.tsx:138",
+    "application/MBNAS_web/src/api/client.ts:269-284"
+   ],
+   "callers": [
+    "TrainingPanel",
+    "운영 콘솔 GET"
+   ],
+   "storage": [
+    "파일 <output_root>/registry_structure/*.json(DB 없음)"
+   ],
+   "executor": [
+    "API 프로세스(CPU 빌드 동기; DD-A4 충돌 C1)",
+    "web"
+   ],
+   "package_dd_a1": "core(control-plane route) + model_runtime(관측) + web",
+   "evidence": [
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/F/structure_routes.txt + application/docs/integration_20261021/WORKLOG.md:24 격리 live API 33 checks 0 failed(10-23)",
+     "class": "live API"
+    },
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/F/console_restart_20261022.txt·application/docs/integration_20261021/WORKLOG.md:21 운영 콘솔 GET /registry/yolo11n/structure 24 blocks, registry 17 UNVERIFIED+registry_roots_skipped(10-22)",
+     "class": "live API(운영)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_registry_structure.py(16+; :57 GET never builds, :85 POST saves, :321-332 DD-41 CUDA/import 가드); application/MBNAS_web/tests/registry_structure_button.test.tsx(10)",
+     "class": "API-DB/unit"
+    }
+   ],
+   "notes": "브라우저 live 실행 기록 없음(모달은 vitest). DD-41 수정(WPS8)의 CUDA-visible 변형 테스트는 미실행((스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS8/SUMMARY.md).",
+   "gap": false
+  },
+  {
+   "id": "F13",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "후보 structure-check 재실행(POST) + 증거 이력 structure_history(DD-7, 최대 5)·OFF run frozen input_size",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/api/routes_runs.py:294-333",
+    "application/MBNAS_server/src/mbnas_server/api/model_services.py:243-285(:268-275 OFF frozen input)",
+    "application/MBNAS_web/src/components/CandidateView.tsx:320-322,413"
+   ],
+   "callers": [
+    "후보 상세 버튼"
+   ],
+   "storage": [
+    "candidates.audit_json.structure/structure_history"
+   ],
+   "executor": [
+    "API 프로세스(CPU 빌드)",
+    "web"
+   ],
+   "package_dd_a1": "core + model_runtime",
+   "evidence": [
+    {
+     "pointer": "application/docs/integration_20261021/TEST_BASELINE_20261021.md:72 live 하네스 A '재검사' PASS",
+     "class": "live"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_structure_history.py:11; application/MBNAS_server/tests/search/test_structure_cpu.py:122",
+     "class": "API-DB/CPU runtime"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "F14",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "Lineage(모델 계보) 화면에 OFF 생성 후보 표시(DD-16)",
+   "status": "계획",
+   "evidence_max": "없음",
+   "implementation": [
+    "application/MBNAS_web/src/screens/Lineage.tsx:37 candidateList(app.rs)=평가 행만(generatedCandidates 미포함)",
+    "application/docs/integration_20261021/PLAN_20261021.md DD-16 '선택 과제, 이번 범위 제외'"
+   ],
+   "callers": [],
+   "storage": [],
+   "executor": [
+    "web"
+   ],
+   "package_dd_a1": "web",
+   "evidence": [
+    {
+     "pointer": "application/docs/integration_20261021/REQUIREMENTS_TRACE_v1.md:76 REQ-5.11(혼입 아님, 누락); inv_I4 #15",
+     "class": "static"
+    }
+   ],
+   "notes": "생성 후보 상세의 계보('No parents (random)')는 후보 상세에서 제공됨.",
+   "gap": true
+  },
+  {
+   "id": "F15",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "구조 비교(부모·자식 vs 두 모델, 행 added/removed/changed, edge diff, 서버 compare_structures와 웹 parity; OFF 비교 선택지에 생성 후보 포함)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live browser",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/search/structure.py:518 compare_structures(route 없음)",
+    "application/MBNAS_web/src/components/ModelComparison.tsx:31-33,59-79",
+    "application/MBNAS_web/src/lib/structure.ts:283-352 compareStructure/diffStructureDocuments"
+   ],
+   "callers": [
+    "후보 상세"
+   ],
+   "storage": [
+    "—"
+   ],
+   "executor": [
+    "web(계산)",
+    "API(문서 제공)"
+   ],
+   "package_dd_a1": "web + core(서버 diff 함수)",
+   "evidence": [
+    {
+     "pointer": "application/docs/TEST_EVIDENCE.md:81 live-model-structure-comparison.png(두 생성 모델); application/docs/EVALUATION.md:144 S08",
+     "class": "live browser"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/structure_parity.test.ts(서버 fixture parity); application/MBNAS_server/tests/search/test_structure_adversarial.py:96; application/MBNAS_server/tests/search/test_structure_observation.py:364",
+     "class": "unit"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "F16",
+   "group": "F",
+   "group_name": "후보 상세·구조(블록 다이어그램·블록 표·카탈로그·구성 YAML·평가 ON/OFF·게이트·seed·Archive·Registry)",
+   "section9_minimum": true,
+   "name": "후보 상단 요약(출처·family·생성 seed/순서·구조/평가 상태 배지·evidence_source·최저 evidence_level·해시 3종·구성 종류·DD-5 '학습 완료 · 미평가')",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live browser",
+   "implementation": [
+    "application/MBNAS_web/src/components/CandidateView.tsx:361-413",
+    "application/MBNAS_web/src/components/ModelStructure.tsx:41-70 StructureSummary",
+    "application/MBNAS_server/src/mbnas_server/api/routes_runs.py:262-291 CandidateDetail 조립(:287-289 structure_status/evaluation_status/origin)"
+   ],
+   "callers": [
+    "후보 상세"
+   ],
+   "storage": [
+    "CandidateDetail 응답"
+   ],
+   "executor": [
+    "API",
+    "web"
+   ],
+   "package_dd_a1": "core(투영 — DD-A3 public DTO allowlist 대상) + web",
+   "evidence": [
+    {
+     "pointer": "application/docs/TEST_EVIDENCE.md:77 live-model-gene-structure.png; (스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS8/live_browser.txt",
+     "class": "live browser"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/model_detail_v2.test.tsx:60-100",
+     "class": "unit"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "G1",
+   "group": "G",
+   "group_name": "기존 콘솔 유지 기능(프로토콜·final retrain·탐색·artifact·export·retention·health·운영)",
+   "section9_minimum": false,
+   "name": "프로토콜 presets/validate/run 생성(resolved·protocol_hash·validation_id·Idempotency-Key·STALE_VALIDATION)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live/real E2E",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/api/routes_meta.py:73-75 GET /protocols/presets",
+    "application/MBNAS_server/src/mbnas_server/api/routes_runs.py:62-78 validate, :135-176 create_run",
+    "application/MBNAS_server/src/mbnas_server/protocol/presets.py:1-10(DEFAULT_BASELINE14 설계 예시·PILOT_SMOKE)",
+    "application/MBNAS_web/src/screens/Server.tsx:108-230",
+    "application/MBNAS_web/src/lib/policy.ts:382-415(템플릿 — DD-A8 교체 대상)"
+   ],
+   "callers": [
+    "web Server"
+   ],
+   "storage": [
+    "validations, runs"
+   ],
+   "executor": [
+    "API",
+    "web"
+   ],
+   "package_dd_a1": "core(private) + contracts + web",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:64 §1 5a, :92 §2 API VERIFIED real E2E+unit+mock(pc2300)",
+     "class": "CUDA/real E2E(pc2300)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_runs_idempotency.py(8), application/MBNAS_server/tests/qa/test_api_matrix.py(22), application/MBNAS_server/tests/unit/test_protocol_presets.py; application/MBNAS_web/tests/preset_parity.test.ts",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "application/docs/TEST_EVIDENCE.md:61-69 live 하네스 A Validate→Run(OFF)",
+     "class": "live"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "G2",
+   "group": "G",
+   "group_name": "기존 콘솔 유지 기능(프로토콜·final retrain·탐색·artifact·export·retention·health·운영)",
+   "section9_minimum": false,
+   "name": "최종 재학습 child run(POST /runs/{id}/final-retrain; finalist 규칙 mbnas-final-select/1; OFF run 409 FINAL_RETRAIN_NOT_APPLICABLE DD-4)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA/real E2E+browser(pc2300)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/orchestration/final_retrain.py:1-9, :182-187 FINAL_RETRAIN_NOT_APPLICABLE",
+    "application/MBNAS_server/src/mbnas_server/api/routes_runs.py:202-240",
+    "application/MBNAS_server/src/mbnas_server/orchestration/engine.py:880 plan_final",
+    "application/MBNAS_server/src/mbnas_server/export/bundle.py:156-172",
+    "application/MBNAS_web/src/screens/Server.tsx:300-370, application/MBNAS_web/src/components/FinalRun.tsx"
+   ],
+   "callers": [
+    "web Final Retrain 패널"
+   ],
+   "storage": [
+    "runs(kind FINAL_RETRAIN, parent_run_id, finalists_json)",
+    "cost_ledger(arm Final)"
+   ],
+   "executor": [
+    "API",
+    "worker child(FINAL_RETRAIN job)",
+    "web"
+   ],
+   "package_dd_a1": "core(private) + runner + web",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:271,282-283 §7 real E2E 58/58 + browser real(pc2300)",
+     "class": "CUDA/real E2E+browser(pc2300)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_final_retrain.py(10); application/MBNAS_server/tests/api/test_off_run_guards.py:61-92(DD-4)",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_web/tests/final_retrain.test.tsx; application/MBNAS_web/e2e/final.spec.ts",
+     "class": "browser-mock"
+    }
+   ],
+   "notes": "DD-A4 JobKind FINAL_RETRAIN은 runner 허용목록에 포함.",
+   "gap": false
+  },
+  {
+   "id": "G3",
+   "group": "G",
+   "group_name": "기존 콘솔 유지 기능(프로토콜·final retrain·탐색·artifact·export·retention·health·운영)",
+   "section9_minimum": false,
+   "name": "GA/IndependentRandom 탐색(ON): frozen-prior 공유 공간·ETRI mixed 시드·repair, GA 교차/변이/부모 선택(L0만), 세대 계획·예산 admission·cost ledger·세대 닫힘",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA/real E2E(pc2300)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/search/space.py:1-10",
+    "application/MBNAS_server/src/mbnas_server/search/ga.py:1-9",
+    "application/MBNAS_server/src/mbnas_server/search/handlers.py:84-108 ga_rates, :125-145 _proposals, :190-234 _run",
+    "application/MBNAS_server/src/mbnas_server/search/etri_bridge.py:1-9(sys.path import — DD-A2 제거 대상)",
+    "application/MBNAS_server/src/mbnas_server/orchestration/engine.py:297-340 _propose/_parent_pool, :667-806 advance/generations/proposal",
+    "application/MBNAS_server/src/mbnas_server/scheduling/admission.py:1-10, costs.py:1-10, planner.py:1-10"
+   ],
+   "callers": [
+    "plan_run(ON)"
+   ],
+   "storage": [
+    "generations, cost_ledger, jobs(PROPOSE_GENERATION/CANDIDATE_TRAIN/EVALUATE/BENCHMARK)"
+   ],
+   "executor": [
+    "API(engine)",
+    "worker child(제안·학습·평가)"
+   ],
+   "package_dd_a1": "core(private; mixed pool 정책 → core.search.mixed_pool DD-A2)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:30-48 §0 real E2E runs 1-5, :62-63 §1 4a/4b (pc2300)",
+     "class": "CUDA/real E2E(pc2300)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/search/test_proposers.py(12), application/MBNAS_server/tests/qa/test_search_fairness_engine.py(8), application/MBNAS_server/tests/orchestration/test_engine_flow.py, test_semantics.py; 표준 게이트 1215 passed(application/docs/integration_20261021/WORKLOG.md:18)",
+     "class": "API-DB/unit"
+    }
+   ],
+   "notes": "DD-A4: PROPOSE_GENERATION(GA 제안 포함)은 owner worker(core 호스트 CPU)로 이동 — core 호스트에 ultralytics 설치 필요.",
+   "gap": false
+  },
+  {
+   "id": "G4",
+   "group": "G",
+   "group_name": "기존 콘솔 유지 기능(프로토콜·final retrain·탐색·artifact·export·retention·health·운영)",
+   "section9_minimum": false,
+   "name": "artifact 보안(id 전용 조회, signed URL|bearer, sha256 재검증, 401/403/404/409/410, 토큰 로그 redaction)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/api/routes_files.py:1-7,44-88",
+    "application/MBNAS_server/src/mbnas_server/artifacts/registry.py:1-12",
+    "application/MBNAS_server/src/mbnas_server/api/auth.py, application/MBNAS_server/src/mbnas_server/util/log_redact.py(application/MBNAS_server/src/mbnas_server/api/app.py:39-41)",
+    "application/MBNAS_web/src/lib/artifacts.ts, application/MBNAS_web/src/components/ArtifactImage.tsx"
+   ],
+   "callers": [
+    "web 이미지·다운로드"
+   ],
+   "storage": [
+    "artifacts(relpath, sha256, state)"
+   ],
+   "executor": [
+    "API",
+    "web"
+   ],
+   "package_dd_a1": "server gateway(public, DD-A6 다운로드 digest 대조) + core(registry)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:91,162 (pc2300 real E2E; QA id guessing)",
+     "class": "CUDA/real E2E(pc2300)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_artifacts_export.py:38-89, test_artifact_signature_non_ascii.py, application/MBNAS_server/tests/unit/test_artifacts_registry.py, application/MBNAS_server/tests/api/test_access_log_redaction.py",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_web/e2e/hardening.spec.ts:238-285; application/docs/TEST_EVIDENCE.md:96 X-Artifact-Sha256 live",
+     "class": "live"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "G5",
+   "group": "G",
+   "group_name": "기존 콘솔 유지 기능(프로토콜·final retrain·탐색·artifact·export·retention·health·운영)",
+   "section9_minimum": false,
+   "name": "run export zip(protocol/evaluations/lineage/generations/cost/checkpoints/artifacts/jobs/events/provenance/environment.lock/SHA256SUMS; X-Bundle-Sha256)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA/real E2E(pc2300)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/export/bundle.py:3-23,80-135,185-194",
+    "application/MBNAS_server/src/mbnas_server/api/routes_files.py:91-103",
+    "application/MBNAS_web/src/screens/Server.tsx:280"
+   ],
+   "callers": [
+    "web Export"
+   ],
+   "storage": [
+    "—(읽기)"
+   ],
+   "executor": [
+    "API",
+    "web"
+   ],
+   "package_dd_a1": "server(public) + core(데이터)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:35,271,306-308 exports(pc2300)",
+     "class": "CUDA/real E2E(pc2300)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_artifacts_export.py:124",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "application/MBNAS_web/e2e/console.spec.ts:169; application/MBNAS_web/e2e/real-server.spec.ts:161",
+     "class": "browser-mock"
+    }
+   ],
+   "notes": "YAML 바이트 미포함(F5g).",
+   "gap": false
+  },
+  {
+   "id": "G6",
+   "group": "G",
+   "group_name": "기존 콘솔 유지 기능(프로토콜·final retrain·탐색·artifact·export·retention·health·운영)",
+   "section9_minimum": false,
+   "name": "full-state retention 정책(keep_all|rung_end_only|last_rung_end_only; PRUNED 기록; CLI 적용)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA/real E2E(pc2300)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/orchestration/retention.py:1-10",
+    "application/MBNAS_server/src/mbnas_server/worker/main.py:474 apply_retention",
+    "application/MBNAS_server/src/mbnas_server/config.py:80-82",
+    "application/MBNAS_server/src/mbnas_server/protocol/validator.py:722 retention"
+   ],
+   "callers": [
+    "worker 종료 후",
+    "CLI python -m mbnas_server.orchestration.retention"
+   ],
+   "storage": [
+    "checkpoints.state/pruned_at/prune_json"
+   ],
+   "executor": [
+    "worker",
+    "CLI"
+   ],
+   "package_dd_a1": "core(정책) + runner(실행 — 파일 삭제 위치는 DD-A6 artifact store)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:288 §7.2 (pc2300)",
+     "class": "CUDA/real E2E(pc2300)"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/orchestration/test_retention.py(12)",
+     "class": "API-DB"
+    },
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/G/SUMMARY.md 발견 6(epoch1·2 PRUNED; 18c4815)",
+     "class": "CUDA(18c4815)"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "G7",
+   "group": "G",
+   "group_name": "기존 콘솔 유지 기능(프로토콜·final retrain·탐색·artifact·export·retention·health·운영)",
+   "section9_minimum": false,
+   "name": "health/doctor/registry(상태·capabilities·registry_roots_skipped DD-26·WEIGHTS_UNVERIFIED 안내)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live(운영 콘솔)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/api/routes_meta.py:26-32,55-82",
+    "application/MBNAS_server/src/mbnas_server/api/doctor.py:1-7",
+    "application/MBNAS_server/src/mbnas_server/registry/__init__.py:1-31, :114 roots_skipped, :423-435 load_registry",
+    "application/MBNAS_server/src/mbnas_server/registry/specs.py:54,65,81,91(14 baseline + representatives)"
+   ],
+   "callers": [
+    "web Server/Settings",
+    "scripts/probe_registry.py"
+   ],
+   "storage": [
+    "<output_root>/registry/probe_*.json, evidence/*"
+   ],
+   "executor": [
+    "API",
+    "CLI"
+   ],
+   "package_dd_a1": "model_runtime(registry 데이터·probe) + core(상태 판정) — 배치 확정 필요",
+   "evidence": [
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/F/console_restart_20261022.txt health 200 degraded, registry 17 UNVERIFIED + roots_skipped(10-22; application/docs/integration_20261021/WORKLOG.md:21)",
+     "class": "live(운영 콘솔)"
+    },
+    {
+     "pointer": "application/MBNAS_server/docs/TESTING_HOST_20261015.md:96-102 doctor exit 0",
+     "class": "live"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/registry/test_registry_unreadable_roots.py(7), application/MBNAS_server/tests/api/test_registry_roots_skipped.py, application/MBNAS_server/tests/api/test_set3_health.py",
+     "class": "unit/API-DB"
+    }
+   ],
+   "notes": "운영 registry는 probe 증거 없음(UNVERIFIED) — probe_registry 실행은 사용자 결정(application/docs/integration_20261021/WORKLOG.md:21).",
+   "gap": false
+  },
+  {
+   "id": "G8",
+   "group": "G",
+   "group_name": "기존 콘솔 유지 기능(프로토콜·final retrain·탐색·artifact·export·retention·health·운영)",
+   "section9_minimum": false,
+   "name": "CPU 전용 생성 worker(python -m mbnas_server.worker --cpu; generation_only lease; DD-6)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/worker/main.py:569-571 --cpu, :246-247 generation_only lease, :155 wait_gpu_clear skip, :290 CUDA_VISIBLE_DEVICES ''"
+   ],
+   "callers": [
+    "운영자"
+   ],
+   "storage": [
+    "jobs lease"
+   ],
+   "executor": [
+    "worker"
+   ],
+   "package_dd_a1": "DD-A4: owner worker(core 호스트)로 이동",
+   "evidence": [
+    {
+     "pointer": "application/docs/integration_20261021/TEST_BASELINE_20261021.md:72 live 하네스 A(--cpu --once); (스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS8/live_browser.txt worker_exit 0",
+     "class": "live"
+    },
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_generation_real_cpu.py:16; application/MBNAS_server/tests/search/test_generation_only.py:224('execution CPU')",
+     "class": "API-DB"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "G9",
+   "group": "G",
+   "group_name": "기존 콘솔 유지 기능(프로토콜·final retrain·탐색·artifact·export·retention·health·운영)",
+   "section9_minimum": false,
+   "name": "benchmark(ONNX/ORT/TensorRT 호스트 GPU 측정, 정확도 delta; Jetson TARGET_BLOCKED)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "CUDA/TRT(pc2300)",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/benchmark/pipeline.py:36,127, application/MBNAS_server/src/mbnas_server/benchmark/capability.py:14,115, application/MBNAS_server/src/mbnas_server/benchmark/handlers.py, onnx_export.py, trt_build.py",
+    "application/MBNAS_server/scripts/bench_host_gpu.py",
+    "application/MBNAS_server/docs/BENCHMARK_HOST_GPU.md"
+   ],
+   "callers": [
+    "BENCHMARK job",
+    "scripts"
+   ],
+   "storage": [
+    "evidence/bench_host_gpu_*.json"
+   ],
+   "executor": [
+    "worker child(GPU)"
+   ],
+   "package_dd_a1": "runner(public: benchmark handler) — DD-A4 BENCHMARK 허용",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:70,91,287 TRT A100(pc2300), :209-211 §6.5",
+     "class": "CUDA/TRT(pc2300)"
+    },
+    {
+     "pointer": "현재 호스트: application/MBNAS_server/tests/benchmark/* PILOT_VAL 부재로 skip/deselect((스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS6 pytest_outside 13 deselected)",
+     "class": "증거 없음(현재 코드)"
+    }
+   ],
+   "notes": "최종 코드·현재 호스트에서는 미실행(GPU 금지).",
+   "gap": false
+  },
+  {
+   "id": "G10",
+   "group": "G",
+   "group_name": "기존 콘솔 유지 기능(프로토콜·final retrain·탐색·artifact·export·retention·health·운영)",
+   "section9_minimum": false,
+   "name": "OFF run 종료 reason_code GENERATION_EMPTY/GENERATION_PARTIAL(DD-3) + Monitor 배너",
+   "status": "구현·실시험 확인",
+   "evidence_max": "API-DB",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/orchestration/engine.py:855-877 generation_shortfall, :842 settle_run",
+    "application/MBNAS_web/src/screens/Monitor.tsx:254 generation-reason-banner"
+   ],
+   "callers": [
+    "settle_run"
+   ],
+   "storage": [
+    "runs.reason_code"
+   ],
+   "executor": [
+    "API",
+    "web"
+   ],
+   "package_dd_a1": "core + web",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_generation_multi_seed.py:88",
+     "class": "API-DB"
+    }
+   ],
+   "notes": "웹 배너의 전용 vitest명은 확인 못 함.",
+   "gap": false
+  },
+  {
+   "id": "G11",
+   "group": "G",
+   "group_name": "기존 콘솔 유지 기능(프로토콜·final retrain·탐색·artifact·export·retention·health·운영)",
+   "section9_minimum": false,
+   "name": "architecture_hash 교차 검증(DD-10: 후보 hash vs trainer hash 불일치 → ARCHITECTURE_HASH_MISMATCH, fitness 무효, 오류 이벤트; architecture_hash_verified 기록)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "API-DB",
+   "implementation": [
+    "application/MBNAS_server/src/mbnas_server/orchestration/engine.py:569-570,585-617",
+    "application/MBNAS_server/src/mbnas_server/training/selection.py:412-413"
+   ],
+   "callers": [
+    "commit_evaluation / on_training_result"
+   ],
+   "storage": [
+    "evaluations.row.reason_code",
+    "audit.training_source.architecture_hash_verified"
+   ],
+   "executor": [
+    "API"
+   ],
+   "package_dd_a1": "core",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/api/test_training_selection.py:317,347,366,375",
+     "class": "API-DB"
+    }
+   ],
+   "notes": "실제 trainer와의 대조(CUDA)는 미실행((스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS2/SUMMARY.md).",
+   "gap": false
+  },
+  {
+   "id": "G12",
+   "group": "G",
+   "group_name": "기존 콘솔 유지 기능(프로토콜·final retrain·탐색·artifact·export·retention·health·운영)",
+   "section9_minimum": false,
+   "name": "웹 7화면(Archive·Compare·Monitor·Settings·Lineage·History·Server)·URL 상태 복원(run/cid 해시, block/model_tab 쿼리)·토큰 메모리 보관",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live",
+   "implementation": [
+    "application/MBNAS_web/src/App.tsx, application/MBNAS_web/src/state/context.tsx(parseHash; DD-32 복원), application/MBNAS_web/src/components/Nav.tsx",
+    "application/MBNAS_web/README.md:3-4,140-144"
+   ],
+   "callers": [
+    "사용자"
+   ],
+   "storage": [
+    "브라우저 메모리(토큰), URL 해시/쿼리"
+   ],
+   "executor": [
+    "web"
+   ],
+   "package_dd_a1": "web(public)",
+   "evidence": [
+    {
+     "pointer": "application/docs/TEST_EVIDENCE.md:69 'selected run/candidate/block/tab recovery after reload, no bearer persistence'",
+     "class": "live"
+    },
+    {
+     "pointer": "application/MBNAS_web/e2e/console.spec.ts:23, application/MBNAS_web/e2e/generation.spec.ts:160, application/MBNAS_web/e2e/hardening.spec.ts:325; application/MBNAS_web/tests/context_restore.test.tsx",
+     "class": "browser-mock"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "G13",
+   "group": "G",
+   "group_name": "기존 콘솔 유지 기능(프로토콜·final retrain·탐색·artifact·export·retention·health·운영)",
+   "section9_minimum": false,
+   "name": "운영 스크립트(dev_stack.py, mbnas-api/mbnas-worker/mbnas-doctor, systemd/nginx 예시, console_stack.sh)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "live",
+   "implementation": [
+    "application/MBNAS_server/scripts/dev_stack.py:1-26",
+    "application/MBNAS_server/src/mbnas_server/api/app.py:77-95 main",
+    "application/MBNAS_server/src/mbnas_server/worker/main.py:569",
+    "application/MBNAS_server/deploy/*",
+    "application/docs_console_etri/README_NAS_ARCHIVE.md:7(console_stack.sh)"
+   ],
+   "callers": [
+    "운영자"
+   ],
+   "storage": [
+    "<log_dir>/dev_stack/state.json"
+   ],
+   "executor": [
+    "호스트 프로세스"
+   ],
+   "package_dd_a1": "WP-7에서 scripts/install·doctor·start·stop·verify·package로 대체(IMPLEMENTATION_PLAN WP-7)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/docs/ACCEPTANCE_RESULTS.md:25-26(pc2300)",
+     "class": "CUDA/real E2E(pc2300)"
+    },
+    {
+     "pointer": "(스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/F/console_restart_20261022.txt console_stack build/restart(10-22)",
+     "class": "live"
+    }
+   ],
+   "notes": "",
+   "gap": false
+  },
+  {
+   "id": "G14",
+   "group": "G",
+   "group_name": "기존 콘솔 유지 기능(프로토콜·final retrain·탐색·artifact·export·retention·health·운영)",
+   "section9_minimum": false,
+   "name": "계약 이력(openapi 1.0.0→1.4.1 migrate 재생 byte-identical, HISTORY.json, 응답 contract 검증 500 RESPONSE_CONTRACT_VIOLATION, types.gen.ts drift check)",
+   "status": "구현·실시험 확인",
+   "evidence_max": "unit/API-DB",
+   "implementation": [
+    "application/MBNAS_server/contracts/history/*.py, application/MBNAS_server/contracts/history/HISTORY.json",
+    "application/MBNAS_server/src/mbnas_server/api/contract.py, application/MBNAS_server/src/mbnas_server/api/deps.py contract_json",
+    "application/MBNAS_web/src/api/types.gen.ts; npm gen:types/check:types"
+   ],
+   "callers": [
+    "모든 응답"
+   ],
+   "storage": [
+    "—"
+   ],
+   "executor": [
+    "API",
+    "빌드"
+   ],
+   "package_dd_a1": "contracts(public)",
+   "evidence": [
+    {
+     "pointer": "application/MBNAS_server/tests/unit/test_contract_history.py(5), application/MBNAS_server/tests/api/test_contract_responses.py(4); application/MBNAS_web/tests/contract.test.ts; application/docs/integration_20261021/WORKLOG.md:18,20(1.4.0/1.4.1 재생 동일, 게이트 0 failed/1215 passed)",
+     "class": "unit/API-DB"
+    }
+   ],
+   "notes": "1.4.2(DD-38/39)는 미완(application/MBNAS_server/contracts/history/migrate_1.4.1_to_1.4.2.py EXPECTED '__FILL__').",
+   "gap": false
+  }
+ ],
+ "section9_map": [
+  {
+   "requirement": "project/dataset/model/weights/result paths config",
+   "feature_ids": "A1, A2, A3"
+  },
+  {
+   "requirement": "baseline training, user-YAML training, search-candidate training (POST /training-runs)",
+   "feature_ids": "B1, B2, B3, B4~B6(방식), B7"
+  },
+  {
+   "requirement": "stage weights per rung and epoch semantics (cumulative targets, fixed horizon)",
+   "feature_ids": "C1, C2, C3, C4"
+  },
+  {
+   "requirement": "pause/resume/cancel (full-state resume)",
+   "feature_ids": "D1~D6, B6"
+  },
+  {
+   "requirement": "training curves, generation improvement, Pareto, condition-wise comparison, checkpoint list/provenance",
+   "feature_ids": "E1, E2, E3, E4, E5, E6 (+E7~E9 보조; E10 누락)"
+  },
+  {
+   "requirement": "candidate detail (1) gene-based block diagram",
+   "feature_ids": "F1, F2(native), F16"
+  },
+  {
+   "requirement": "candidate detail (2) block table, logical vs expanded internal layers",
+   "feature_ids": "F3, F4(카탈로그)"
+  },
+  {
+   "requirement": "candidate detail (3) configure YAML upload/validation/original/version+hash/executed copy+diff/download/export",
+   "feature_ids": "F5a~F5g"
+  },
+  {
+   "requirement": "evaluation ON vs OFF, IndependentRandom distinct",
+   "feature_ids": "F6, G8, G10"
+  },
+  {
+   "requirement": "structure gate vs run-readiness validation vs post-eval promotion gate",
+   "feature_ids": "F7 (+F13)"
+  },
+  {
+   "requirement": "measured vs calibrated_proxy",
+   "feature_ids": "F8"
+  },
+  {
+   "requirement": "search RNG / training seed linkage",
+   "feature_ids": "F9"
+  },
+  {
+   "requirement": "archive (read-only), 12-search campaign adapter DD-39",
+   "feature_ids": "F10, E3, E4, E5, F11"
+  },
+  {
+   "requirement": "block design-origin catalog DD-38",
+   "feature_ids": "F4"
+  },
+  {
+   "requirement": "registry structure routes DD-19",
+   "feature_ids": "F12 (+F15 구조 비교)"
+  }
+ ],
+ "missing_or_planned": [
+  {
+   "id": "E10",
+   "name": "콘솔 run 후보 간 '조건 포함' 성능 비교 화면",
+   "status": "누락",
+   "summary": "없음 — 콘솔은 Monitor 산점도(cohort 단위)와 구조 비교(ModelComparison)만; 조건 비교는 Archive compare 한정(application/MBNAS_server/src/mbnas_server/archive/views.py:731-757) · DD-33은 archive compare에만 조건을 추가함.",
+   "related_dd": "DD-33(archive 한정)"
+  },
+  {
+   "id": "E11",
+   "name": "서버 로그 tail 뷰(console run)",
+   "status": "누락",
+   "summary": "없음(console) — 이벤트 payload 200자 절단만; Archive에는 run_log_tail 존재(application/MBNAS_server/src/mbnas_server/archive/views.py:867-869)",
+   "related_dd": "—"
+  },
+  {
+   "id": "F4",
+   "name": "블록 설계 출처 카탈로그(DD-38: origin_family/introduced_in/role/reference/source_path, catalog_summary, GET /structure/block-catalog)",
+   "status": "부분 구현",
+   "summary": "부분 판정 근거: 계약 1.4.2 미반영, 웹 계약 테스트 red, 설계자 수용 기록 없음. introduced_in 등 출처 사실의 역사적 정확성은 저자 지식 기반((스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS6 Unverified).",
+   "related_dd": "DD-38"
+  },
+  {
+   "id": "F5a",
+   "name": "구성 YAML 업로드(브라우저 파일 업로드)",
+   "status": "누락",
+   "summary": "없음 — application/MBNAS_web/src/src에 type=\"file\"/FormData 사용 0건(grep); 서버는 서버 허용 경로만 받음(application/MBNAS_server/src/mbnas_server/training/selection.py:70-78,107-115; application/MBNAS_server/src/mbnas_server/api/model_services.py:479-489; application/docs/FUNCTION_GUIDE.md:60) · 현 설계는 '서버 허용 경로 입력' 방식.",
+   "related_dd": "—"
+  },
+  {
+   "id": "F5c",
+   "name": "원본 구성 보존(선택본 사본·원본 파일 sha256)",
+   "status": "부분 구현",
+   "summary": "부분: canonical 직렬화본은 보존되나 원본 파일 바이트·sha256은 보존되지 않음.",
+   "related_dd": "—"
+  },
+  {
+   "id": "F5d",
+   "name": "구성 버전+해시(yaml_hash canonical / architecture_hash structural / signature_hash / 파일 sha256; 버전 번호·개정 이력)",
+   "status": "부분 구현",
+   "summary": "부분: 해시는 있으나 구성 YAML의 버전 번호·개정 이력(수정본 계보)은 없음.",
+   "related_dd": "DD-7은 검사 증거 이력"
+  },
+  {
+   "id": "F5e",
+   "name": "실행 구성 사본 등록(execution configuration) + 선택본↔실행본 diff 표시",
+   "status": "부분 구현",
+   "summary": "부분: 실행본 등록·표시 O, 선택본↔실행본 diff X.",
+   "related_dd": "DD-12"
+  },
+  {
+   "id": "F5g",
+   "name": "내보내기(export)에 실제 YAML 바이트 포함(console export zip / Archive files)",
+   "status": "누락",
+   "summary": "application/MBNAS_server/src/mbnas_server/export/bundle.py:3-23,93-135 zip 구성 — lineage.json(architecture_path만)·artifacts.json(행); YAML 바이트 없음 · archive 후보 상세는 yaml_text를 JSON 문자열로 제공(바이트 파일 아님).",
+   "related_dd": "—"
+  },
+  {
+   "id": "F11",
+   "name": "12-search 캠페인 아카이브 어댑터(DD-39: MBNAS_ARCHIVE_CAMPAIGN_ROOTS, arm=run, 읽기 전용, 캠페인 그룹 카드)",
+   "status": "부분 구현",
+   "summary": "부분 판정 근거: app.py 배선 누락(기능 비활성), 계약 1.4.2 미반영, 운영 콘솔 미활성(사용자 재시작 결정 필요), WORKLOG 수용 기록 없음.",
+   "related_dd": "DD-39"
+  },
+  {
+   "id": "F14",
+   "name": "Lineage(모델 계보) 화면에 OFF 생성 후보 표시(DD-16)",
+   "status": "계획",
+   "summary": "application/MBNAS_web/src/screens/Lineage.tsx:37 candidateList(app.rs)=평가 행만(generatedCandidates 미포함) · 생성 후보 상세의 계보('No parents (random)')는 후보 상세에서 제공됨.",
+   "related_dd": "DD-16"
+  }
+ ],
+ "integration_unverified": [
+  {
+   "id": "B3",
+   "name": "탐색/생성 후보 학습 run(source.kind=search|generated; 원본 run·후보·구조 해시 연결)"
+  },
+  {
+   "id": "B4",
+   "name": "학습 방식 pretrained(사전학습 가중치로 추가 학습; 서버 가중치 경로·sha256)"
+  }
+ ],
+ "dd_conflicts": [
+  {
+   "id": "C1",
+   "title": "DD-A4(구조 검사는 owner worker에서만) vs 현 구현의 API 프로세스 내 동기 CPU 빌드",
+   "detail": "POST /runs/{id}/candidates/{cid}/structure-check(application/MBNAS_server/src/mbnas_server/api/routes_runs.py:315-333), POST /registry/{id}/structure-check·POST /structure-check(application/MBNAS_server/src/mbnas_server/api/routes_registry_structure.py:52-74 → application/MBNAS_server/src/mbnas_server/api/model_services.py:435-523), POST /training-runs의 bind_structure(application/MBNAS_server/src/mbnas_server/training/selection.py:297, :257)가 모두 API 프로세스에서 ultralytics/rfdetr 모델을 빌드한다(웹 타임아웃 180 s/120 s: application/MBNAS_web/src/api/client.ts:264,274,284). DD-41은 GET 경로의 rfdetr import로 CUDA가 초기화되는 결함을 이미 기록. 분할 후 core 호스트 제어면 프로세스가 무거운 import·CPU 빌드를 수행하게 되므로, 동기 유지 vs owner-worker job(비동기)으로 전환할지 결정 필요."
+  },
+  {
+   "id": "C2",
+   "title": "DD-A5(runner는 fitness/gate를 계산하지 않음) vs child의 fitness_and_gate",
+   "detail": "application/MBNAS_server/src/mbnas_server/training/handlers.py:205와 application/MBNAS_server/src/mbnas_server/evaluation/handlers.py:169이 child에서 fitness/gate를 계산해 payload에 넣고, 엔진은 application/MBNAS_server/src/mbnas_server/orchestration/engine.py:538-552에서 재계산한다(handler 값은 raw_metrics.handler_fitness로만 보존 :548). DD-A5 적용 시 child 계산 제거가 필요하며 raw_metrics 키 호환을 정해야 한다."
+  },
+  {
+   "id": "C3",
+   "title": "DD-A2(etri_bridge sys.path import 제거·패키지 import) vs DB·프로토콜에 영속화된 훅 문자열",
+   "detail": "application/MBNAS_server/src/mbnas_server/training/selection.py:139와 application/MBNAS_server/src/mbnas_server/worker/child.py:68이 'mbnas_server.search.etri_bridge:ensure_mixed_registered'를 arch.register_hook 문자열로 저장하고(application/MBNAS_server/src/mbnas_server/adapters/base.py:58,187 resolve_register_hook가 importlib로 해석), 이 값은 runs.resolved_protocol(console.extra.training.arch)과 후보 audit에 남는다. 모듈 경로가 바뀌면 기존 run의 재개·재학습이 깨지므로 호환 shim 또는 마이그레이션이 필요."
+  },
+  {
+   "id": "C4",
+   "title": "DD-A6(artifact는 고객 측 store, core는 등록만) vs API 프로세스의 직접 파일 접근",
+   "detail": "application/MBNAS_server/src/mbnas_server/training/model_artifacts.py:28-63(실행 YAML 읽기), :66-115(native 이미지 PIL verify), application/MBNAS_server/src/mbnas_server/api/routes_files.py:66-70(sha 재계산), application/MBNAS_server/src/mbnas_server/orchestration/retention.py(파일 삭제), application/MBNAS_server/src/mbnas_server/orchestration/state.py:112-114(_verify_full_state 파일 존재·sha)가 모두 같은 파일시스템을 전제한다. 다중 호스트 runner에서는 relay/등록 정보 기반으로 바꿔야 할 지점 목록."
+  },
+  {
+   "id": "C5",
+   "title": "DD-A8(웹 private 제거) 범위",
+   "detail": "확인: computeFitness 사용은 application/MBNAS_web/src/components/CandidateView.tsx:338 1곳(DD-A8 기술과 일치). 추가로 application/MBNAS_web/src/lib/lines.ts:104 selectRepresentative와 Monitor.tsx:106 'differs from client rule' 배지가 서버 planner.select_representative(application/MBNAS_server/src/mbnas_server/scheduling/planner.py:67) 규칙을 클라이언트에서 재현한다 — 대표 선택 규칙을 private 정책으로 볼지 결정 필요. application/MBNAS_web/src/lib/policy.ts:41,372의 handoff 원문 embed는 DD-A8 기술대로 존재."
+  },
+  {
+   "id": "C6",
+   "title": "DD-A3(gateway는 /api/v1 계약 유지) vs 계약 기준 버전",
+   "detail": "application/MBNAS_server/contracts/openapi.json은 1.4.1(application/MBNAS_server/src/mbnas_server/api/app.py:47)이나 서버에는 1.4.1에 없는 GET /structure/block-catalog가 라이브(application/MBNAS_server/src/mbnas_server/api/routes_registry_structure.py:76)이고 1.4.2 마이그레이션은 미완(EXPECTED '__FILL__'); 웹 contract.test.ts가 red((스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS6). gateway가 계승할 계약을 1.4.1로 동결할지 1.4.2(DD-38/39 포함)로 할지 결정 필요."
+  },
+  {
+   "id": "C7",
+   "title": "DD-A7(runtime/ 하위 경로) vs 하드코딩 기본값",
+   "detail": "application/MBNAS_server/src/mbnas_server/config.py:20(DEFAULT_OUTPUT_ROOT /root/detection/MBNAS_runs), :26-27(DEFAULT_ARCHIVE_ROOTS /data/mgjeong/...), :54-57,66; application/MBNAS_server/src/mbnas_server/registry/__init__.py:45,50(DEFAULT_OUTPUT_ROOT, ETRI_NOTEBOOK 절대경로); scripts/probe_registry.py:26-27. 재배치 시 기본값·문서·테스트(MBNAS_TEST_ROOT) 동시 수정 필요."
+  },
+  {
+   "id": "C8",
+   "title": "DD-A1 분류가 모호한 모듈",
+   "detail": "application/MBNAS_server/src/mbnas_server/registry/*(baseline 사양·probe 증거: 공개 데이터인가 core 상태인가), application/MBNAS_server/src/mbnas_server/search/structure.py(describe_genotype 투영은 공개 DTO 조립이나 check_structure 규칙은 private), application/MBNAS_server/src/mbnas_server/training/model_artifacts.py(API측 등록), application/MBNAS_server/src/mbnas_server/api/candidate_views.py(투영), application/MBNAS_server/src/mbnas_server/search/lineage.py·audit.py(제안 메타 — private로 추정). 본 문서는 잠정 배치를 표에 적었고 확정은 설계자 몫."
+  },
+  {
+   "id": "C9",
+   "title": "DD-A4 JobKind 허용목록 vs ON 경로 PROPOSE_GENERATION의 실행 위치",
+   "detail": "현재 GA/IndependentRandom 제안은 GPU worker child에서 실행(application/MBNAS_server/src/mbnas_server/search/handlers.py:190-234; shared_space 프로세스 캐시 :59-72, ETRI pool 등록). owner worker로 옮기면 core 호스트에 ultralytics·ETRI mixed operator(model_runtime)가 설치되어야 하고, OFF 생성(generation.py)도 동일 호스트로 이동한다."
+  }
+ ],
+ "decisions_needed": [
+  {
+   "id": "DN-1",
+   "question": "§9 누락 4건(구성 YAML 업로드 F5a, 버전 번호·개정 이력 F5d, 선택본↔실행본 diff F5e, 내보내기 YAML 바이트 F5g)과 원본 sha256 미영속(F5c)을 이번 구현 범위(WP-6/WP-3)에 넣을지, '서버 허용 경로 + 해시' 방식으로 범위 밖 문서화할지.",
+   "rationale": "근거: 현 설계는 브라우저 로컬 파일을 받지 않음(application/docs/FUNCTION_GUIDE.md:60), 다운로드·해시 대조는 live 검증됨(F5f). 업로드를 넣으면 gateway 업로드 경로·allowlist·1 MiB 상한·DD-A6 store 설계가 함께 필요."
+  },
+  {
+   "id": "DN-2",
+   "question": "Lineage 화면 생성 후보 표시(DD-16 '선택 과제')를 계획 상태로 유지할지 WP-6에 포함할지.",
+   "rationale": "근거: 혼입은 없음(cohort 제외 unit 증거), 누락만 존재(F14)."
+  },
+  {
+   "id": "DN-3",
+   "question": "콘솔 탐색 run에 Pareto front·'조건 포함' 후보 비교 화면을 신설할지(E4·E10). 현 규칙은 '선은 Pareto가 아님'(application/MBNAS_web/src/lib/lines.ts:1-8)이며 조건 비교는 Archive 한정(DD-33).",
+   "rationale": "§9 문구('Pareto, condition-wise comparison')가 콘솔에도 적용되면 신규 기능(서버 조건 필드 + 웹 화면)."
+  },
+  {
+   "id": "DN-4",
+   "question": "평가 OFF 후보 상태 어휘: 계약·코드의 NOT_EVALUATED/structure_status 유지 vs 지침 어휘 UNTRAINED/UNEVALUATED 도입(openapi enum·웹 문구·DD-5 배지 영향).",
+   "rationale": "근거: F6 notes(grep 0건)."
+  },
+  {
+   "id": "DN-5",
+   "question": "구조 검사 실행 위치(C1): API 동기 유지(타임아웃·heavy import 수용) vs owner-worker 비동기 job(계약에 job id/polling 추가).",
+   "rationale": "DD-A4·DD-41과 직접 연결."
+  },
+  {
+   "id": "DN-6",
+   "question": "DD-A5 적용 시점·방식(C2): child의 fitness_and_gate 제거와 raw_metrics.handler_fitness 호환.",
+   "rationale": ""
+  },
+  {
+   "id": "DN-7",
+   "question": "register_hook 문자열 호환(C3): shim(구 경로→신 경로 매핑) vs 저장값 마이그레이션 vs 기존 run 비호환 선언.",
+   "rationale": ""
+  },
+  {
+   "id": "DN-8",
+   "question": "gateway 계약 동결 버전(C6): 1.4.1 vs 1.4.2(DD-38 카탈로그 경로·DD-39 캠페인 키 포함). 1.4.2 선택 시 migrate 스크립트 완성·types.gen.ts 재생·웹 contract.test 해소가 WP-4 선행 조건.",
+   "rationale": ""
+  },
+  {
+   "id": "DN-9",
+   "question": "DD-39 캠페인 어댑터의 app.py 배선(R1)·운영 활성화(env+재시작)·계약 반영을 baseline에 포함할지(F11은 현재 비활성·부분 구현).",
+   "rationale": ""
+  },
+  {
+   "id": "DN-10",
+   "question": "CUDA 증거 등급 정책: pc2300(2026-10-06~08, 계약 ≤1.2.x·PR #1 이전 코드)과 WP-G(18c4815+WP-0) 증거를 최종 프로그램 baseline으로 인정하는 범위, T7 GPU 창에서 재실행할 최소 세트(제안: B1 baseline 학습→pause→resume, B5 evaluate_only, E9 이미지, D4 lease 회수 1회).",
+   "rationale": "근거: 이 호스트 최종 코드의 GPU 실행 증거는 WP-G 1회뿐(DD-28)."
+  },
+  {
+   "id": "DN-11",
+   "question": "DD-A8 범위 확장 여부(C5): 대표 선택 규칙(lines.ts selectRepresentative)·cohort 규칙을 서버 계산값 표시로 바꿀지.",
+   "rationale": ""
+  },
+  {
+   "id": "DN-12",
+   "question": "GPU 창에 사용자 YAML(B2) worker 학습·pretrained(B4)·생성 후보 학습(B3) 실행을 포함할지(현재 각각 CPU direct / 미실행 / 미실행).",
+   "rationale": ""
+  },
+  {
+   "id": "DN-13",
+   "question": "RF-DETR 고정 해상도 규칙(콘솔 설계; 라이브러리는 다른 크기도 빌드 가능 — (스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS2 note) 유지 여부와 INPUT_SIZE_INVALID 422 문구(WPS8 충돌 3)의 계약 반영.",
+   "rationale": ""
+  },
+  {
+   "id": "DN-14",
+   "question": "application/MBNAS_server/src/mbnas_server/registry·application/MBNAS_server/src/mbnas_server/search/structure.describe_genotype·application/MBNAS_server/src/mbnas_server/training/model_artifacts 등 모호 모듈(C8)의 패키지 배치 확정.",
+   "rationale": ""
+  }
+ ],
+ "unverified": [
+  "WPS6/WPS7/WPS8의 코드 변경이 스냅샷(21:07)에 완전히 포함됐는지: SUMMARY mtime(20:49~20:58)은 스냅샷 이전이나 파일별 sha 대조는 하지 않음(provenance MANIFEST로 가능). WPG0C(21:13~)는 스냅샷 이후.",
+  "e2e:archive-real(실서버 아카이브 브라우저)의 실행 기록 — 어느 문서에도 완주 기록 없음.",
+  "Workers 표 vram_mb/power_w/sm_clock_mhz 실값의 live 표시.",
+  "DD-41 수정(rfdetr 정적 프리셋)의 CUDA-visible 변형 테스트((스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS8/SUMMARY.md 'Unverified').",
+  "application/MBNAS_server/src/mbnas_server/adapters/ultralytics_adapter.py의 pause/full-state 캡처 행 번호(인용 540-557)는 inv_I3 기록값이며 본 분석에서 미대조.",
+  "WP-G CUDA run에서 audit.execution_configuration(실행 YAML artifact) 등록 여부.",
+  "운영 콘솔(8000/5173)이 서빙 중인 번들·코드와 스냅샷의 일치 여부(10-22 19:23 재배포 이후 변경분 미반영 가능).",
+  "pc2300 증거(ACCEPTANCE_RESULTS)가 현재 코드에서도 동일 동작임을 보장하지 않음(이후 계약 1.3.0/1.4.x·PR #1 변경). 현재 코드의 GPU 실행 증거는 WP-G 1회.",
+  "pretrained 모드(B4)와 생성/탐색 후보 학습(B3)의 실제 실행 기록 — 찾지 못함.",
+  "DD-3 웹 배너·DD-8 sha 재계산의 전용 테스트명.",
+  "WPS2 family_table의 9 계열 중 RF-DETR Small/Medium/Large는 CPU 빌드 PASS만 있고 parameters_unattributed 단언은 없음((스냅샷 밖·읽기 전용) etri_nas/application/docs/integration_20261021/evidence_impl/WPS2/SUMMARY.md 노트 3)."
+ ]
+}

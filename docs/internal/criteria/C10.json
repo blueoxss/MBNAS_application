@@ -1,0 +1,62 @@
+{
+ "id": "C10",
+ "name": "ZIP 배포",
+ "version": "1.0 (2026-10-23 22:4x, 설계자 claude-fable-5-1 고정; 변경 시 사유·버전 기록)",
+ "pass_condition": {
+  "total_score": "> 90 of 100",
+  "blocker": 0,
+  "critical": 0,
+  "mandatory_evidence": "all criteria must cite artifacts produced in TARGET_ROOT by executed commands (no source-doc reported values)"
+ },
+ "criteria": [
+  {
+   "id": "naming_allowlist",
+   "points": 25,
+   "observable_evidence": "확정 명명·allowlist: 3 ZIP 이름 규칙, 프로필별 allowlist staging만 압축",
+   "mandatory_checks": "dist/*/*.zip 이름; build/staging allowlist 파일; package.sh 로그",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "public_private",
+   "points": 25,
+   "observable_evidence": "public-private 분리: public/registration에 mbnas_core·tests/owner·deploy/owner·docs/internal·canary 0건; env만 바꿔도 코어 미출현",
+   "mandatory_checks": "T8 scan 결과; zip 멤버 목록 grep",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "final_unpack_run",
+   "points": 25,
+   "observable_evidence": "최종 압축 해제본 실행: install→doctor→start→API→verify→stop 반복",
+   "mandatory_checks": "T6 로그 per profile",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "manifest_checksum",
+   "points": 25,
+   "observable_evidence": "manifest·checksum·누출: 파일 manifest(상대경로·크기·SHA-256·역할·출처·라이선스), 외부 .sha256, 절대경로/../symlink/중복/대소문자 검사",
+   "mandatory_checks": "package.sh 검사 출력; PACKAGE_CONTENTS.md",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  }
+ ],
+ "notes": "점수는 자체 품질 평가이며 보안 확률·실측 성능이 아니다. 미실행 시험은 0점이고 BLOCKED_BY_ENV는 별도 표기(점수 아님)."
+}

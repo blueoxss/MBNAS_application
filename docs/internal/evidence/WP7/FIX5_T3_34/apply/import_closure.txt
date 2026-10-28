@@ -1,0 +1,13 @@
+import closure: OK (/home/mgjeong/Desktop/etri_hd/mbnas_application)
+counts: {"violations": 0, "unresolved": 0, "forbidden_strings": 0, "allowlisted": 0, "excepted": 1, "errors": 0, "by_rule": {}}
+transitional allowlist:
+documented data exceptions (DD-A26):
+  mbnas_model_runtime/src/mbnas_model_runtime/adapters/base.py: 'mbnas_server.search.etri_bridge:ensure_mixed_registered' (expires 1.6)
+violations: 0
+allowlisted: 0
+excepted: 1
+  [data-exception] mbnas_model_runtime/src/mbnas_model_runtime/adapters/base.py:32  mbnas_model_runtime.adapters.base -> mbnas_server.search.etri_bridge (ensure_mixed_registered) [string]
+unresolved: 0
+forbidden_strings: 0
+errors: 0
+import closure exit=0

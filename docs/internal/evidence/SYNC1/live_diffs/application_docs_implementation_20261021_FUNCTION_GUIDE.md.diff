@@ -1,0 +1,66 @@
+--- a/application/docs/implementation_20261021/FUNCTION_GUIDE.md
++++ b/application/docs/implementation_20261021/FUNCTION_GUIDE.md
+@@ -1,5 +1,7 @@
+ # MBNAS 프로그램 기능 및 사용 방법
+ 
++유지·관리되는 문서는 `docs/implementation_20261021/`과 `docs/integration_20261021/`이며, `application/docs/` 루트에 있는 같은 이름의 사본(md 4개·png 4장)은 2026-10-21 20:17 시점 복사본이다(DD-43: 삭제·이동·커밋하지 않음).
++
+ ## 이번 변경의 기능
+ 
+ MBNAS는 기존 `application/MBNAS_server`의 NAS·학습·평가·checkpoint 구현을 웹 콘솔에 연결합니다. 평가를 수행하는 기존 `IndependentRandom` arm은 유지됩니다. 평가를 끈 구조 생성은 별도 실행 경로 `RandomGeneration`으로 기록됩니다.
+@@ -76,11 +78,13 @@
+ 
+ `yaml_hash`, `architecture_hash`, `signature_hash`는 기존의 서로 다른 의미를 유지합니다. 화면에 표시한 모델의 YAML을 다운로드할 수 있고 실제 실행 구성은 adapter가 저장한 파일이 있는 경우에만 표시합니다. 구조 비교는 변경·추가·제거 블록과 연결 차이를 보여 주며 유전 대응이나 성능 개선을 추정하지 않습니다.
+ 
++같은 콘솔 run의 두 후보를 비교하면(DD-45) 구조 차이 표 위에 두 후보 평가 행에 서버가 기록한 값(dataset yaml, split hash, rung, 누적 epoch, protocol_hash, device, precision, checkpoint sha256)과 AP·Recall·latency·size·fitness를 나란히 보여 줍니다. 기록이 없는 조건은 '기록 없음', 평가되지 않았거나 값이 없는 결과는 '미평가'로 표시하고 어느 쪽이든 비교·추정하지 않습니다. 양쪽에 기록된 값이 서로 다르면 '조건 상이' 경고를 보여 줍니다.
++
+ ## 모니터링과 실제 이미지
+ 
+ 콘솔 run은 기존 pause/resume/cancel과 이벤트·snapshot 복구를 사용합니다. Archive는 기존 연구 결과를 읽는 화면이며 외부 연구 작업을 제어하는 화면으로 표시하지 않습니다. metrics·checkpoint·이미지는 선택한 run/candidate/evaluation/checkpoint의 실제 기록을 사용합니다.
+ 
+-기존 evaluator가 생성한 GT·TP·FN·FP 이미지와 산출물만 표시합니다. 미생성 학습 이미지·confusion matrix·예측 이미지를 예시 이미지로 채우지 않습니다. 선택·확대·원본 산출물 조회는 기존 artifact 인증·허용 경로·checksum 검증을 사용합니다. 일반 새로고침은 저장된 결과를 조회하며 새 추론을 예약하지 않습니다.
++기존 evaluator가 생성한 GT·TP·FN·FP 이미지와 산출물만 표시합니다. 미생성 학습 이미지·confusion matrix·예측 이미지를 예시 이미지로 채우지 않습니다. 선택·확대·원본 산출물 조회는 기존 artifact 인증·허용 경로·checksum 검증을 사용합니다. 각 이미지는 '확대' 버튼이나 이미지 클릭으로 페이지 안 라이트박스(DD-44)에서 열 수 있고, 자연 크기·확대/축소 버튼·창에 맞춤·Esc 닫기와 '원본 새 탭' 링크, 기록된 artifact sha256을 제공합니다. 같은 artifact URL의 이미지를 다시 그릴 뿐 재추론하지 않습니다. 일반 새로고침은 저장된 결과를 조회하며 새 추론을 예약하지 않습니다.
+ 
+ ## API 계약 1.4.0
+ 
+@@ -88,6 +92,40 @@
+ 
+ **1.4.1** (문서·선택 필드 보강 라운드, 경로·필수 필드·기존 enum 값 변경 없음): `StructureReport`가 native 문서의 추가 키(`fixed_resolution`, `native_config`, `observed_scopes`, `repeat_groups`, `runtime_requirements`, `scale_source` 등)를 선택·nullable 멤버로 문서화했고, 구조 경로 3개가 돌려주는 상태 코드와 `evidence_source` 값, `RegistryList.registry_roots_skipped`(읽을 수 없는 registry root 목록), 진단 코드 `CLASS_COUNT_UNKNOWN`·`STRUCTURE_CHECK_FAILED`를 기록했습니다(스냅샷 `openapi-1.4.1.json`, 재생 스크립트 `migrate_1.4.0_to_1.4.1.py`).
+ 
++### 1.4.2 (계약 라운드 3: 블록 설계 출처 카탈로그와 캠페인 아카이브 어댑터)
++
++추가 전용 라운드입니다. 기존 경로·필수 필드·enum 값은 바뀌지 않으며, 이전에 저장된 문서(`catalog` 키 없음)와 `campaign_*` 키가 없는 일반 아카이브 run은 그대로 유효합니다. 1.4.2 라운드의 스냅샷은 `openapi-1.4.2.json`이며, 현재 계약은 아래 1.4.3입니다(서버 `FastAPI` 버전과 `contracts/openapi.json` 모두 1.4.3; 이력 검사: `tests/unit/test_contract_history.py`가 changelog·스냅샷 sha256을 검사).
++
++**블록 설계 출처 카탈로그 (DD-38).** 모델 상세의 각 블록이 어느 계열(YOLOv5·YOLOv8·YOLO11·YOLO26·RT-DETR·PP-HGNet·RF-DETR/LW-DETR·ETRI mixed pool·ETRI controlled hybrid·PyTorch `torch.nn` 등)에서 온 블록인지 보여 줍니다.
++- 서버 `search/block_catalog.py`의 정적 표(모듈명 → `origin_family`, `introduced_in`, `role`, `reference`, `notes`)를 구조 보고서에 붙입니다. 표는 데이터이며 import 시 코드를 실행하지 않고 첫 조회 때 한 번 만들어 캐시합니다. torch·ultralytics·rfdetr를 import하지 않습니다.
++- 구조 보고서 키: `blocks[].catalog = {catalog_key, origin_family, introduced_in, role, reference, notes, source_path}`와 문서 최상위 `catalog_summary = {by_origin_family, unknown}`. YAML 블록은 선언 연산자명, native 블록(RF-DETR·ETRI hybrid)은 관측한 클래스(`<backend>:<class>`)로 찾습니다.
++- null/unknown 규칙: 표에 없는 모듈은 `origin_family: null`이며 웹에는 '출처 미상'으로 표시합니다. 가장 비슷한 이름으로 추정하지 않고, `introduced_in`은 `reference`가 있을 때만 채웁니다. 모르는 항목은 `notes`에 'unknown'을 적습니다.
++- `source_path`는 설치된 패키지 안 클래스 파일(`site-packages` 기준 상대경로)이며 사용자가 명시한 구조 검사(POST)로 만든 문서에서만 채웁니다. 선언 전용 GET 문서, 미등재 모듈, 설치본이 없는 클래스(ETRI mixed 블록 등)는 null입니다.
++- 새 경로 `GET /api/v1/structure/block-catalog`(bearer)는 정적 표 전체(`schema: mbnas-block-catalog/1`, `entries`, `native_entries`, `families`)를 돌려줍니다. 읽기 전용이며 모델 빌드나 import가 없습니다.
++- 웹: 모델 구조의 선택 블록 상세에 '출처 계열·도입 버전·역할·참고' 줄, 모델 상단에 '구성 블록 출처 분포', 아카이브 후보 모달의 모듈 히스토그램 옆에 '모듈별 출처 계열' 표가 있습니다. 값이 null이면 '출처 미상'으로 표시하고, 카탈로그 이전에 저장된 문서에는 줄·분포를 표시하지 않습니다(없음과 미상을 구분).
++
++**캠페인 아카이브 어댑터 (DD-39).** 아카이브는 원래 `루트/run_id/` 1단계만 읽었습니다. 12-search 캠페인은 `CROOT/arms/<space>/<method>/<seed>/` 4단계라 보이지 않았으므로 읽기 전용 어댑터(`archive/campaign.py`, `archive/scanner.py`)를 추가했습니다.
++- 환경 변수 `MBNAS_ARCHIVE_CAMPAIGN_ROOTS`(쉼표 구분 또는 JSON 목록, 절대경로, 기본 빈 목록)가 설정에 `archive_campaign_roots`로 들어가고 `api/app.py`가 `ArchiveStore(..., campaign_roots=settings.archive_campaign_roots)`로 전달합니다. 비어 있으면 기능이 꺼져 일반 아카이브 응답과 같습니다.
++- 캠페인 루트(또는 캠페인들의 부모 디렉터리)의 arm 디렉터리 하나가 run 하나입니다. run id는 `<campaign_id>__<space>__<method>__<seed_dir>`(예 `vd12_20261021_2240__S2__ga__seed_42`, 구분자 밑줄 2개)이며 발견된 arm 표에서 찾고 파싱하지 않습니다.
++- 추가 키(모두 선택): `ArchiveRoot.kind="campaign"`, run의 `campaign_id`, `campaign_arm`, `space`, `method`, `seed`, `pair`, `pair_done`, `queue_state`, `campaign_arms_total`, `arm_status`, `progress`, `result`. 읽을 수 없는 값은 0이 아니라 null입니다. 상태는 `arm_result.json`이 있으면 그 값(`ARM_COMPLETED`·`NO_TERMINAL_RESULT`→done, `BLOCKED_*`·중단→failed), 없으면 `arm_manifest.json`의 pid 생존 여부로 running/unknown을 정하며 `running|done|failed|unknown` 어휘는 그대로입니다.
++- 읽기 전용입니다. 캠페인 디렉터리에 쓰기·생성을 하지 않고, 읽는 파일은 arm 요약용 고정 목록(manifest·result·ledger·후보 jsonl·세대 요약 등)입니다. 실행 중 파일은 읽기만 하므로 캠페인에 영향이 없습니다.
++- 웹: Archive 화면에 캠페인 arm을 캠페인별로 묶은 접이식 '12-search 캠페인' 카드가 있고, 일반 run 표에서는 캠페인 arm을 제외합니다. GA/Random 쌍·seed 비교는 기존 compare를 사용합니다.
++- 상태: 코드는 `api/app.py`에 연결되어 있고 `tests/archive/test_campaign_adapter.py`(연결 테스트 포함)가 확인합니다. 운영 콘솔에서는 `MBNAS_ARCHIVE_CAMPAIGN_ROOTS`가 설정되지 않은 한 비활성이며, 운영 `.env` 변경과 API 재시작·웹 번들 반영은 사용자 결정으로 남아 있습니다. 이 환경에서는 운영 콘솔을 바꾸거나 재시작하지 않았습니다.
++
++### 1.4.3 (계약 라운드 4: POST /training-runs 422 코드 명시, 문구·어휘 전용)
++
++경로·필드·필수 목록·enum 값·상태 코드는 바뀌지 않았고, 서버가 이미 돌려주던 422 코드 5개를 계약에 이름으로 적었습니다. 서버 `FastAPI` 버전과 `contracts/openapi.json`은 1.4.3이며 스냅샷은 `contracts/history/openapi-1.4.3.json`, 재생 스크립트는 `migrate_1.4.2_to_1.4.3.py`입니다(`tests/unit/test_contract_history.py`가 changelog·sha256·1.4.2 대비 문구 전용 여부와 5개 코드가 실제 코드에서 기본 상태 422로 발생함을 검사). 아래 코드는 `x-status-vocabulary.error_codes_added`(상태 422)와 `error_codes_note`, `POST /training-runs`의 422 응답 설명에 같은 이름으로 들어 있습니다.
++
++| 코드 (모두 422) | 뜻 |
++|---|---|
++| `DEVICE_UNSUPPORTED` | 해석된 학습 장치가 `cuda:0`이 아닙니다(worker는 배정된 GPU를 `cuda:0`으로 노출합니다). |
++| `EVAL_ONLY_UNSUPPORTED` | `evaluate_only`는 검증된 공식 ultralytics baseline에만 허용됩니다. 다른 backend의 baseline, 사용자 모델, 검색·생성 후보는 거부되며 후보 checkpoint 평가는 해당 run에서 합니다. 웹 학습 패널도 baseline 선택일 때만 이 모드를 제시합니다. |
++| `VALIDATION_DISABLED_UNSUPPORTED` | `validation=false`는 ultralytics backend에서만 구현되어 있습니다. |
++| `INITIAL_WEIGHTS_REQUIRED` | `pretrained`·`evaluate_only`에 쓸 서버 가중치 파일이 없습니다(사용자·후보 모델은 `checkpoint`를 주고, baseline은 등록된 공식 가중치가 필요). |
++| `RESUME_SOURCE_REQUIRED` | `resume`에는 기존 학습 run의 `source.run_id`와 `source.candidate_id`가 필요합니다. |
++
++기존 `TRAINING_RECIPE_MISSING`·`CLASS_COUNT_MISMATCH`·`STRUCTURE_INVALID`·`EPOCH_TARGET_INVALID`·`MODEL_CONFIG_INVALID`·`BASELINE_UNAVAILABLE`은 그대로입니다. 근거: `contracts/history/openapi-1.4.3.json`.
++
+ ## 검증 범위와 제한
+ 
+ `TEST_EVIDENCE.md`와 `evidence/live-verification.json`에 실제 실행 근거를 기록했습니다. 실제 CPU 구조 검사와 짧은 ETRI CPU 학습·재개 검증, 실제 API/SQLite/CPU worker/브라우저 흐름을 수행했습니다. GPU 장기 학습·전체 NAS campaign·공식 COCO 가중치의 GPU 평가를 이번 검증 목적으로 실행하지 않았습니다.

@@ -1,0 +1,27 @@
+[PASS] interpreter: Python 3.10.22 venv /srv/mbnas registration r2/mbnas_application/runtime/venv
+[PASS] package:mbnas-contracts: 0.1.0 from /srv/mbnas registration r2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_contracts
+[PASS] package:mbnas-model-runtime: 0.1.0 from /srv/mbnas registration r2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime
+[PASS] package:mbnas-runner: 0.1.0 from /srv/mbnas registration r2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_runner
+[PASS] package:mbnas-server: 0.1.0 from /srv/mbnas registration r2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_server
+[PASS] package:mbnas-core: absent (public profile)
+[PASS] entry_points: 3 console scripts in runtime/venv/bin
+[PASS] path_strings: 169 files scanned, no original-host path string
+[PASS] config:gateway: core_url http://127.0.0.1:18900, listen 127.0.0.1:18912; secrets set: MBNAS_GW_API_TOKEN, MBNAS_GW_ARTIFACT_SIGNING_KEY, MBNAS_GW_CORE_TOKEN
+[PASS] config:runner: core_url http://127.0.0.1:18900, runner_id runner-0a212a58; secrets set: MBNAS_RUNNER_TOKEN|_TOKEN_FILE
+[PASS] process:gateway: running (pid 55)
+[PASS] process:runner: running (pid 76)
+[PASS] env:gateway: pid 55: no PYTHONPATH / PYTHONHOME in its environment
+[PASS] env:runner: pid 76: no PYTHONPATH / PYTHONHOME in its environment
+[PASS] port:gateway: 127.0.0.1:18912 held by this tree's gateway (pid 55)
+[PASS] port:web: 127.0.0.1:8720 free
+[WARN] gpu: nvidia-smi exit 9: no GPU listed
+[PASS] gateway:core_url: loopback http
+[PASS] gateway:core_tls: plain http core_url: no TLS on this connection (see core_url)
+[PASS] core:gateway: http://127.0.0.1:18900/core/v1/console/health -> HTTP 200 status=ok
+[PASS] gateway:store: /srv/mbnas registration r2/mbnas_application/runtime/gateway/artifacts
+[PASS] gateway:log_dir: /srv/mbnas registration r2/mbnas_application/runtime/gateway/logs
+[PASS] core:runner: http://127.0.0.1:18900 answers (HTTP 401 without a token)
+[PASS] disk: 132.9 GB free under runtime/
+[PASS] web_dist: mbnas_web/dist present (served by the gateway at /)
+doctor: profile=public root=/srv/mbnas registration r2/mbnas_application PASS=24 WARN=1 FAIL=0
+exit=0

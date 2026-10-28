@@ -1,0 +1,90 @@
+# 2026-10-28T04:17:38+09:00 stale __pycache__ directories deleted (fix round 1, 4C-6 / common item; DD-A29, DD-A52 d). Outside runtime/ and node_modules only.
+# every .pyc below embedded the account name in co_filename (51/51); git index entries are left to the user (no git command run)
+DIR mbnas_contracts/src/mbnas_contracts/__pycache__  (mtime 2026-10-27T13:13:31)
+    constants.cpython-310.pyc  710667b804ffff91  tracked
+    __init__.cpython-310.pyc  7393d4ec88a1daca  tracked
+    protocol_hash.cpython-310.pyc  f3ed89040ceb908e  tracked
+    structure_doc.cpython-310.pyc  2a3e90ac3a6a2dc6  tracked
+DIR mbnas_contracts/src/mbnas_contracts/schemas/__pycache__  (mtime 2026-10-27T13:13:31)
+    api.cpython-310.pyc  e25619ff77f95948  tracked
+    archive.cpython-310.pyc  ee66df26d99f1edf  tracked
+    enums.cpython-310.pyc  725dda62e6496a63  tracked
+    __init__.cpython-310.pyc  cc7fcb040d0d8113  tracked
+    jobs.cpython-310.pyc  be48df068a6f971d  tracked
+    protocol.cpython-310.pyc  e6678de14aa8ceca  tracked
+    records.cpython-310.pyc  d3c3458da534149d  tracked
+DIR mbnas_contracts/src/mbnas_contracts/util/__pycache__  (mtime 2026-10-27T13:13:30)
+    atomic.cpython-310.pyc  3afb8fb25d51be0a  tracked
+    canon.cpython-310.pyc  e40ab927ba83c5b8  tracked
+    home.cpython-310.pyc  c139f8da46113842  tracked
+    __init__.cpython-310.pyc  b9123835ac16fce4  tracked
+    paths.cpython-310.pyc  c31259e0b11e2cc7  tracked
+    time.cpython-310.pyc  04147cbaa491ceb4  tracked
+DIR mbnas_core/src/mbnas_core/console/__pycache__  (mtime 2026-10-27T13:10:53)
+    __init__.cpython-310.pyc  8dfdd6fdf6bb791c  tracked
+    model_services.cpython-310.pyc  612e253684225b3b  tracked
+DIR mbnas_core/src/mbnas_core/protocol/__pycache__  (mtime 2026-10-27T13:13:31)
+    __init__.cpython-310.pyc  e250c21e8af3c49b  tracked
+    presets.cpython-310.pyc  02eec77f45a191d2  tracked
+    validator.cpython-310.pyc  ab388874ecfd651b  tracked
+DIR mbnas_core/src/mbnas_core/__pycache__  (mtime 2026-10-27T13:05:34)
+    config.cpython-310.pyc  de396647a7ec07e2  tracked
+    __init__.cpython-310.pyc  3a5b167bf2ccf971  tracked
+DIR mbnas_core/src/mbnas_core/search/__pycache__  (mtime 2026-10-27T13:10:53)
+    __init__.cpython-310.pyc  7c3c7f62e74ba260  tracked
+    structure.cpython-310.pyc  ce0a8fa21e0e2c5b  tracked
+DIR mbnas_core/src/mbnas_core/structure/__pycache__  (mtime 2026-10-27T13:10:53)
+    __init__.cpython-310.pyc  616daa05ddd678ed  tracked
+    sandbox.cpython-310.pyc  be9b033c87e765f2  tracked
+DIR mbnas_model_runtime/src/mbnas_model_runtime/adapters/__pycache__  (mtime 2026-10-27T13:10:55)
+    base.cpython-310.pyc  d8437bd3af8c7fd3  tracked
+    common.cpython-310.pyc  11622fa63ff5f8f0  tracked
+    __init__.cpython-310.pyc  94e75d9c628c1968  tracked
+DIR mbnas_model_runtime/src/mbnas_model_runtime/datasets/__pycache__  (mtime 2026-10-27T13:13:28)
+    __init__.cpython-310.pyc  c49f885d4d49a5d3  tracked
+    manifest.cpython-310.pyc  70645a68bb817bb4  tracked
+    yaml_safe.cpython-310.pyc  a4e8370ec790ab5f  tracked
+DIR mbnas_model_runtime/src/mbnas_model_runtime/operators/__pycache__  (mtime 2026-10-27T13:10:54)
+    etri_mixed_blocks.cpython-310.pyc  afff0d54e83237e3  tracked
+    __init__.cpython-310.pyc  429b566186804871  tracked
+    parse_model_8_4_173.cpython-310.pyc  fe66d65593c8474d  tracked
+DIR mbnas_model_runtime/src/mbnas_model_runtime/provenance/__pycache__  (mtime 2026-10-27T13:13:30)
+    env_lock.cpython-310.pyc  edea977783b439b7  tracked
+    __init__.cpython-310.pyc  07661cd9e4e8690e  tracked
+DIR mbnas_model_runtime/src/mbnas_model_runtime/__pycache__  (mtime 2026-10-27T13:10:53)
+    block_catalog.cpython-310.pyc  7a9c5b093345e6b0  tracked
+    genotype.cpython-310.pyc  3f1045a17cf41bea  tracked
+    __init__.cpython-310.pyc  0901f984080a032d  tracked
+DIR mbnas_runner/src/mbnas_runner/__pycache__  (mtime 2026-10-27T14:03:27)
+    config.cpython-310.pyc  f519e230ae3d7bdd  tracked
+    __init__.cpython-310.pyc  c00064b4acb2384c  tracked
+DIR mbnas_server/src/mbnas_server/__pycache__  (mtime 2026-10-27T14:14:25)
+    config.cpython-310.pyc  7bb85ed0ed16c49e  tracked
+    __init__.cpython-310.pyc  cb208c5a5f20d3bd  tracked
+DIR tests/public/infra/__pycache__  (mtime 2026-10-26T19:27:32)
+    test_import_safety.cpython-310-pytest-9.1.1.pyc  2ad9f3349d44e37d  tracked
+DIR tests/public/__pycache__  (mtime 2026-10-26T19:27:32)
+    conftest.cpython-310-pytest-9.1.1.pyc  26160997850f4209  tracked
+DIR tests/_shared/__pycache__  (mtime 2026-10-26T19:27:32)
+    conftest_common.cpython-310.pyc  2b59c731ba264c91  tracked
+    datasets.cpython-310.pyc  ebf7c3c5e9408fd9  tracked
+    gpu_guard.cpython-310.pyc  82dff74345d073c3  tracked
+deleted mbnas_contracts/src/mbnas_contracts/__pycache__
+deleted mbnas_contracts/src/mbnas_contracts/schemas/__pycache__
+deleted mbnas_contracts/src/mbnas_contracts/util/__pycache__
+deleted mbnas_core/src/mbnas_core/console/__pycache__
+deleted mbnas_core/src/mbnas_core/protocol/__pycache__
+deleted mbnas_core/src/mbnas_core/__pycache__
+deleted mbnas_core/src/mbnas_core/search/__pycache__
+deleted mbnas_core/src/mbnas_core/structure/__pycache__
+deleted mbnas_model_runtime/src/mbnas_model_runtime/adapters/__pycache__
+deleted mbnas_model_runtime/src/mbnas_model_runtime/datasets/__pycache__
+deleted mbnas_model_runtime/src/mbnas_model_runtime/operators/__pycache__
+deleted mbnas_model_runtime/src/mbnas_model_runtime/provenance/__pycache__
+deleted mbnas_model_runtime/src/mbnas_model_runtime/__pycache__
+deleted mbnas_runner/src/mbnas_runner/__pycache__
+deleted mbnas_server/src/mbnas_server/__pycache__
+deleted tests/public/infra/__pycache__
+deleted tests/public/__pycache__
+deleted tests/_shared/__pycache__
+# remaining __pycache__ outside runtime/node_modules after deletion (2026-10-28T04:17:52+09:00): 0

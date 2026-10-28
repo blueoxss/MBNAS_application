@@ -1,0 +1,1 @@
+gen_runner_openapi --check exit=0

@@ -1,0 +1,4 @@
+command: cd <ROOT> && runtime/venv/bin/python -B scripts/dev/gen_registration_docs.py --check
+start_utc: 2026-10-28T00:30:14Z
+end_utc: 2026-10-28T00:30:14Z
+exit: 0

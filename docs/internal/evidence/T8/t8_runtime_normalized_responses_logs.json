@@ -1,0 +1,235 @@
+{
+ "schema": "mbnas.canary_scan/1",
+ "targets": [
+  "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/responses",
+  "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs"
+ ],
+ "profile": "public",
+ "expect_present": false,
+ "manifest": {
+  "path": "/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/canary/CANARY_MANIFEST.json",
+  "sha256": "98c39290f0ec49f5bcbcdab0def104e9f6d351cbe1e50439517bd70e54b7074c",
+  "areas": [
+   "CORE_STATE",
+   "FITNESS",
+   "MANIFEST_SELF",
+   "OWNER_DEPLOY",
+   "OWNER_DOC",
+   "OWNER_SECRET",
+   "OWNER_TEST",
+   "POLICY_PRIOR",
+   "POLICY_REPAIR"
+  ]
+ },
+ "host_facts": true,
+ "needle_count": 105,
+ "scanned": {
+  "files": 56,
+  "bytes": 501810,
+  "containers": 1,
+  "min_files": 1,
+  "skipped": []
+ },
+ "hits": [
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/responses/export.zip!protocol/requested.json:4",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/responses/export.zip!protocol/resolved.json:7",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/responses/export.zip!protocol/resolved.json:46",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/responses/health.json:1",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:3",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:4",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:8",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:9",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:14",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:15",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:16",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:17",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:18",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:19",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:20",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:21",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:22",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:23",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:24",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:25",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:26",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:27",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:28",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "HOST_FACT#5 owner account name",
+   "kind": "host_fact",
+   "variant": "raw",
+   "location": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/capture_normalized/logs/install-20261027T180631Z.log:29",
+   "area": null,
+   "failing": true
+  }
+ ],
+ "hits_by_label": {
+  "HOST_FACT#5 owner account name": 24
+ },
+ "expectations": [],
+ "failing_hits": 24,
+ "unmet_expectations": 0,
+ "too_few_files": false,
+ "status": "FAIL"
+}

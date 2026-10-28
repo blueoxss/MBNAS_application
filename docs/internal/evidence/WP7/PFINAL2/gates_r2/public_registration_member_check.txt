@@ -1,0 +1,6 @@
+Are the current source files still byte-identical to every non-generated member of the final public/registration ZIPs?
+(tree sha256:1b4bd1a4…, DD-A73; public 4-package hash sha256:9859adb218145b9feccb1c0be8c1c6a51eaed90dfe575a0b5e1b10dd63aff4a3 )
+public (mbnas_application-0.1.0-public-runtime-linux_x86_64.zip, sha256 bc0500bdfa43ddf5…): 475 rows: identical 468, generated/wheels 7, differing 0
+registration (mbnas_application-0.1.0-registration-runtime-linux_x86_64.zip, sha256 dea510dfb54dd85d…): 485 rows: identical 477, generated/wheels 8, differing 0
+public members among the DD-A72/A73 changed files: []
+registration members among the DD-A72/A73 changed files: []

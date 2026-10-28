@@ -1,0 +1,25 @@
+# nginx example check, round 4 (C02 EVAL_1 D7): deploy/public/nginx.example.conf with its commented owner-host core block enabled in a scratch copy
+docker run --rm --network none nginx:1.26-alpine nginx -t (dummy self-signed certs mounted at the example's paths):
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+exit=0 (only warning: the pre-existing 'listen ... http2' deprecation of the gateway block)
+
+## routing probe 1 (core block on plain :8443 in the probe copy; upstream 127.0.0.1:8700 absent -> proxied paths answer 502)
+/core/v1/owner/runs =>  HTTP/1.1 403 Forbidden wget: server returned error: HTTP/1.1 403 Forbidden 
+/core/v1/owner/ =>  HTTP/1.1 403 Forbidden wget: server returned error: HTTP/1.1 403 Forbidden 
+/core/v1/console/../owner/runs =>  HTTP/1.1 403 Forbidden wget: server returned error: HTTP/1.1 403 Forbidden 
+/core/v1/console/%2e%2e/owner/runs =>  HTTP/1.1 403 Forbidden wget: server returned error: HTTP/1.1 403 Forbidden 
+/core/v1/console/..%2Fowner/runs =>  HTTP/1.1 403 Forbidden wget: server returned error: HTTP/1.1 403 Forbidden 
+//core/v1/owner/runs =>  HTTP/1.1 403 Forbidden wget: server returned error: HTTP/1.1 403 Forbidden 
+/CORE/V1/OWNER/runs =>  HTTP/1.1 404 Not Found wget: server returned error: HTTP/1.1 404 Not Found 
+/core/v1/console/runs =>  HTTP/1.1 502 Bad Gateway wget: server returned error: HTTP/1.1 502 Bad Gateway 
+/core/v1/console/runs/run-1/events =>  HTTP/1.1 502 Bad Gateway wget: server returned error: HTTP/1.1 502 Bad Gateway 
+/core/v1/runner/claim =>  HTTP/1.1 502 Bad Gateway wget: server returned error: HTTP/1.1 502 Bad Gateway 
+/api/v1/runs =>  HTTP/1.1 404 Not Found wget: server returned error: HTTP/1.1 404 Not Found 
+/core/v1/ownerx =>  HTTP/1.1 404 Not Found wget: server returned error: HTTP/1.1 404 Not Found 
+
+## routing probe 2 (each location returns its own status: owner 403, events regex 204, console prefix 202, runner 201)
+/core/v1/console/runs =>  HTTP/1.1 202 Accepted
+/core/v1/console/runs/run-1/events =>  HTTP/1.1 204 No Content
+/core/v1/runner/claim =>  HTTP/1.1 201 Created
+/core/v1/owner/runs/run-1/candidates/c/audit =>  HTTP/1.1 403 Forbidden

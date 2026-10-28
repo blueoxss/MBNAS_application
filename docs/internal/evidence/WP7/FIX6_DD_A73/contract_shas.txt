@@ -1,0 +1,2 @@
+70e0cffaab8fafd9c7f230af9169dbbe8812b3eccf7ad7838ca3f46fa9eebc2a  mbnas_contracts/src/mbnas_contracts/openapi/openapi.json
+0f3dac4db29e36485f04941028f296f9fdaf6d00fca44fb304d410474084ecd7  mbnas_contracts/src/mbnas_contracts/openapi/openapi_runner.json

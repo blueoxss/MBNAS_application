@@ -1,0 +1,150 @@
+........................................................................ [ 20%]
+........................................................................ [ 41%]
+................................................F...........F........... [ 62%]
+.FFFF...............................................................FFFF [ 83%]
+................F......................................                  [100%]
+=================================== FAILURES ===================================
+__________________ test_samples_cover_every_registered_model ___________________
+
+    def test_samples_cover_every_registered_model() -> None:
+>       assert set(samples()) == set(rp.MODELS)
+E       AssertionError: assert {<class 'mbna...velope'>, ...} == {<class 'mbna...equest'>, ...}
+E         
+E         Extra items in the right set:
+E         <class 'mbnas_contracts.runner_protocol.PruneAck'>
+E         <class 'mbnas_contracts.runner_protocol.PruneOrder'>
+E         <class 'mbnas_contracts.runner_protocol.PruneReport'>
+E         <class 'mbnas_contracts.runner_protocol.PrunedItem'>
+E         Use -v to get more diff
+
+tests/public/contracts/test_runner_protocol.py:117: AssertionError
+______________________ test_round_trip[HeartbeatControl] _______________________
+
+model = <class 'mbnas_contracts.runner_protocol.HeartbeatControl'>
+
+    @pytest.mark.parametrize("model", rp.MODELS, ids=lambda m: m.__name__)
+    def test_round_trip(model: type[BaseModel]) -> None:
+        data = samples()[model]
+>       obj = model.model_validate(data)
+E       pydantic_core._pydantic_core.ValidationError: 1 validation error for HeartbeatControl
+E       prune.0
+E         Input should be a valid dictionary or instance of PruneOrder [type=model_type, input_value='ck-1', input_type=str]
+E           For further information visit https://errors.pydantic.dev/2.13/v/model_type
+
+tests/public/contracts/test_runner_protocol.py:123: ValidationError
+_________________________ test_round_trip[PruneOrder] __________________________
+
+model = <class 'mbnas_contracts.runner_protocol.PruneOrder'>
+
+    @pytest.mark.parametrize("model", rp.MODELS, ids=lambda m: m.__name__)
+    def test_round_trip(model: type[BaseModel]) -> None:
+>       data = samples()[model]
+E       KeyError: <class 'mbnas_contracts.runner_protocol.PruneOrder'>
+
+tests/public/contracts/test_runner_protocol.py:122: KeyError
+_________________________ test_round_trip[PrunedItem] __________________________
+
+model = <class 'mbnas_contracts.runner_protocol.PrunedItem'>
+
+    @pytest.mark.parametrize("model", rp.MODELS, ids=lambda m: m.__name__)
+    def test_round_trip(model: type[BaseModel]) -> None:
+>       data = samples()[model]
+E       KeyError: <class 'mbnas_contracts.runner_protocol.PrunedItem'>
+
+tests/public/contracts/test_runner_protocol.py:122: KeyError
+_________________________ test_round_trip[PruneReport] _________________________
+
+model = <class 'mbnas_contracts.runner_protocol.PruneReport'>
+
+    @pytest.mark.parametrize("model", rp.MODELS, ids=lambda m: m.__name__)
+    def test_round_trip(model: type[BaseModel]) -> None:
+>       data = samples()[model]
+E       KeyError: <class 'mbnas_contracts.runner_protocol.PruneReport'>
+
+tests/public/contracts/test_runner_protocol.py:122: KeyError
+__________________________ test_round_trip[PruneAck] ___________________________
+
+model = <class 'mbnas_contracts.runner_protocol.PruneAck'>
+
+    @pytest.mark.parametrize("model", rp.MODELS, ids=lambda m: m.__name__)
+    def test_round_trip(model: type[BaseModel]) -> None:
+>       data = samples()[model]
+E       KeyError: <class 'mbnas_contracts.runner_protocol.PruneAck'>
+
+tests/public/contracts/test_runner_protocol.py:122: KeyError
+______________ test_unknown_top_level_field_rejected[PruneOrder] _______________
+
+model = <class 'mbnas_contracts.runner_protocol.PruneOrder'>
+
+    @pytest.mark.parametrize("model", [m for m in rp.MODELS if m is not rp.ArtifactResponse], ids=lambda m: m.__name__)
+    def test_unknown_top_level_field_rejected(model: type[BaseModel]) -> None:
+        with pytest.raises(ValidationError):
+>           model.model_validate({**samples()[model], "surprise": 1})
+E           KeyError: <class 'mbnas_contracts.runner_protocol.PruneOrder'>
+
+tests/public/contracts/test_runner_protocol.py:164: KeyError
+______________ test_unknown_top_level_field_rejected[PrunedItem] _______________
+
+model = <class 'mbnas_contracts.runner_protocol.PrunedItem'>
+
+    @pytest.mark.parametrize("model", [m for m in rp.MODELS if m is not rp.ArtifactResponse], ids=lambda m: m.__name__)
+    def test_unknown_top_level_field_rejected(model: type[BaseModel]) -> None:
+        with pytest.raises(ValidationError):
+>           model.model_validate({**samples()[model], "surprise": 1})
+E           KeyError: <class 'mbnas_contracts.runner_protocol.PrunedItem'>
+
+tests/public/contracts/test_runner_protocol.py:164: KeyError
+______________ test_unknown_top_level_field_rejected[PruneReport] ______________
+
+model = <class 'mbnas_contracts.runner_protocol.PruneReport'>
+
+    @pytest.mark.parametrize("model", [m for m in rp.MODELS if m is not rp.ArtifactResponse], ids=lambda m: m.__name__)
+    def test_unknown_top_level_field_rejected(model: type[BaseModel]) -> None:
+        with pytest.raises(ValidationError):
+>           model.model_validate({**samples()[model], "surprise": 1})
+E           KeyError: <class 'mbnas_contracts.runner_protocol.PruneReport'>
+
+tests/public/contracts/test_runner_protocol.py:164: KeyError
+_______________ test_unknown_top_level_field_rejected[PruneAck] ________________
+
+model = <class 'mbnas_contracts.runner_protocol.PruneAck'>
+
+    @pytest.mark.parametrize("model", [m for m in rp.MODELS if m is not rp.ArtifactResponse], ids=lambda m: m.__name__)
+    def test_unknown_top_level_field_rejected(model: type[BaseModel]) -> None:
+        with pytest.raises(ValidationError):
+>           model.model_validate({**samples()[model], "surprise": 1})
+E           KeyError: <class 'mbnas_contracts.runner_protocol.PruneAck'>
+
+tests/public/contracts/test_runner_protocol.py:164: KeyError
+____________________________ test_openapi_structure ____________________________
+
+    def test_openapi_structure() -> None:
+        doc = json.loads(COMMITTED.read_text(encoding="utf-8"))
+>       assert doc["openapi"] == "3.1.0" and doc["info"]["version"] == "1.0.0"
+E       AssertionError: assert ('3.1.0' == '3.1.0'
+E         
+E           3.1.0 and '1.1.0' == '1.0.0'
+E         
+E         - 1.0.0
+E         + 1.1.0)
+
+tests/public/contracts/test_runner_protocol.py:293: AssertionError
+=============================== warnings summary ===============================
+tests/public/runner/test_benchmark_unit.py::test_export_ultralytics_raw_head_and_restores_pt_path
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/ultralytics/nn/modules/head.py:222: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+    if self.dynamic or self.shape != shape:
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/public/contracts/test_runner_protocol.py::test_samples_cover_every_registered_model
+FAILED tests/public/contracts/test_runner_protocol.py::test_round_trip[HeartbeatControl]
+FAILED tests/public/contracts/test_runner_protocol.py::test_round_trip[PruneOrder]
+FAILED tests/public/contracts/test_runner_protocol.py::test_round_trip[PrunedItem]
+FAILED tests/public/contracts/test_runner_protocol.py::test_round_trip[PruneReport]
+FAILED tests/public/contracts/test_runner_protocol.py::test_round_trip[PruneAck]
+FAILED tests/public/contracts/test_runner_protocol.py::test_unknown_top_level_field_rejected[PruneOrder]
+FAILED tests/public/contracts/test_runner_protocol.py::test_unknown_top_level_field_rejected[PrunedItem]
+FAILED tests/public/contracts/test_runner_protocol.py::test_unknown_top_level_field_rejected[PruneReport]
+FAILED tests/public/contracts/test_runner_protocol.py::test_unknown_top_level_field_rejected[PruneAck]
+FAILED tests/public/contracts/test_runner_protocol.py::test_openapi_structure
+11 failed, 332 passed, 9 deselected, 1 warning in 128.50s (0:02:08)

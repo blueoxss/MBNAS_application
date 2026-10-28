@@ -1,0 +1,70 @@
+# C07 web gates 2026-10-28T07:47:00+09:00 node v24.20.0 cwd=mbnas_web
+=== $ npm run check:types   [2026-10-28T07:47:00+09:00]
+
+> mbnas-web@0.1.0 check:types
+> node scripts/gen-types.mjs --check
+
+✨ openapi-typescript 7.13.0
+🚀 <ROOT>/mbnas_contracts/src/mbnas_contracts/openapi/openapi.json → <SCRATCH>/wp3/c07/tmp/mbnas-types-NM07cC/types.gen.ts [319.1ms]
+types.gen.ts matches the contract
+exit=0
+=== $ npm run typecheck   [2026-10-28T07:47:01+09:00]
+
+> mbnas-web@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+exit=0
+=== $ npx vitest run --no-cache   [2026-10-28T07:47:09+09:00]
+
+ RUN  v5.0.3 <ROOT>/mbnas_web
+
+
+ Test Files  45 passed (45)
+      Tests  593 passed (593)
+   Start at  07:47:10
+   Duration  12.40s (environment 33%, tests 31%, transform 25%, import 6%, setup 4%)
+
+exit=0
+=== $ npm run check:bundle   [2026-10-28T07:47:23+09:00]
+
+> mbnas-web@0.1.0 check:bundle
+> node scripts/check-bundle.mjs
+
+scanned 3 file(s), 545037 bytes under dist/
+  dist/assets/index-CG8HuodM.css
+  dist/assets/index-CY9ctObG.js
+  dist/index.html
+  required "<needle 1 redacted>": 0
+  required "<needle 2 redacted>": 0
+  required "<needle 3 redacted>": 0
+  required "<needle 4 redacted>": 0
+  required "<needle 5 redacted>": 0
+  required "<needle 6 redacted>": 0
+  required "<needle 7 redacted>": 0
+  extra    "<needle 8 redacted>": 0
+  extra    "<needle 9 redacted>": 0
+  extra    "<needle 10 redacted>": 0
+  extra    "<needle 11 redacted>": 0
+  extra    "<needle 12 redacted>": 0
+  extra    "<needle 13 redacted>": 0
+  extra    "<needle 14 redacted>": 0
+  extra    "<needle 15 redacted>": 0
+  extra    "<needle 16 redacted>": 0
+  extra    "<needle 17 redacted>": 0
+  extra    "<needle 18 redacted>": 0
+  extra    "<needle 19 redacted>": 0
+  extra    "<needle 20 redacted>": 0
+  extra    "<needle 21 redacted>": 0
+  extra    "<needle 22 redacted>": 0
+  extra    "<needle 23 redacted>": 0
+  extra    "<needle 24 redacted>": 0
+  extra    "<needle 25 redacted>": 0
+  extra    "<needle 26 redacted>": 0
+  extra    "<needle 27 redacted>": 0
+  extra    "<needle 28 redacted>": 0
+bundle hygiene: OK (0 hits)
+exit=0
+# dist sha256 after
+08772e7411b55f676927ad295933f8229ddab078422ad8e681b206a5eb9b9f60  dist/index.html
+1e0f94d5b6e2984c057f8522dde0a11beae25c1d5bdff42376f0211413c18da2  dist/assets/index-CG8HuodM.css
+6c3f29a2bfad42878f6879a4ce28ac2b8890666d8060347089ad6befef9c3130  dist/assets/index-CY9ctObG.js

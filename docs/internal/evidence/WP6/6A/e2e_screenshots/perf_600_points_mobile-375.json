@@ -1,0 +1,19 @@
+{
+ "kind": "perf_600_points",
+ "evidence_type": "browser (mock API, synthetic points)",
+ "project": "mobile-375",
+ "points_requested": 600,
+ "points_drawn_fitness_chart": 615,
+ "table_rows": 615,
+ "render_ms": 1298,
+ "fps_toggle_ms": 272,
+ "dialog_open_ms": 379,
+ "tab_30_ms": 870,
+ "long_tasks_ms": [
+  611,
+  154,
+  178,
+  120
+ ],
+ "max_long_task_ms": 611
+}

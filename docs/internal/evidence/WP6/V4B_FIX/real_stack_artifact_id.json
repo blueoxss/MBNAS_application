@@ -1,0 +1,49 @@
+{
+  "step": "V4B_FIX-core-artifact_id (after V4-10 downloaded every checkpoint through the gateway)",
+  "run_id": "train-d11850e85d77",
+  "candidate_id": "model-47908b5e2048",
+  "detail_http": 200,
+  "checkpoints": [
+    {
+      "id": "ck-3ac98a4eae153cd4",
+      "kind": "training_full",
+      "state": "PRESENT",
+      "artifact_id": "ck-3ac98a4eae153cd4",
+      "artifact_id_member_present": true,
+      "recorded_sha256": "9a5836680ac9ae27ec911ee0a62a04e1dd56ac791d4da7ea45e8a5f4c7bcbcdb",
+      "http": 200,
+      "bytes": 31600161,
+      "body_sha256": "9a5836680ac9ae27ec911ee0a62a04e1dd56ac791d4da7ea45e8a5f4c7bcbcdb",
+      "x_artifact_sha256": "9a5836680ac9ae27ec911ee0a62a04e1dd56ac791d4da7ea45e8a5f4c7bcbcdb",
+      "match": true
+    },
+    {
+      "id": "ck-70ad2e176659edbd",
+      "kind": "eval_ema",
+      "state": "PRESENT",
+      "artifact_id": "ck-70ad2e176659edbd",
+      "artifact_id_member_present": true,
+      "recorded_sha256": "a27736e6566b5db5f5a4bf934273a1c9a463dc63091c06f7b44ccbf4c4f67281",
+      "http": 200,
+      "bytes": 10573964,
+      "body_sha256": "a27736e6566b5db5f5a4bf934273a1c9a463dc63091c06f7b44ccbf4c4f67281",
+      "x_artifact_sha256": "a27736e6566b5db5f5a4bf934273a1c9a463dc63091c06f7b44ccbf4c4f67281",
+      "match": true
+    },
+    {
+      "id": "ck-e36e2728229ea749",
+      "kind": "weights_only",
+      "state": "PRESENT",
+      "artifact_id": "ck-e36e2728229ea749",
+      "artifact_id_member_present": true,
+      "recorded_sha256": "2a610529b9e2b43bfdc9a4e6ff886eede91640eae4ccf80b0867377dc2f5a2df",
+      "http": 200,
+      "bytes": 5360396,
+      "body_sha256": "2a610529b9e2b43bfdc9a4e6ff886eede91640eae4ccf80b0867377dc2f5a2df",
+      "x_artifact_sha256": "2a610529b9e2b43bfdc9a4e6ff886eede91640eae4ccf80b0867377dc2f5a2df",
+      "match": true
+    }
+  ],
+  "all_artifact_id_equal_checkpoint_id": true,
+  "all_downloads_match": true
+}

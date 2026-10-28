@@ -1,0 +1,39 @@
+{
+ "schema": "mbnas.canary_scan/1",
+ "targets": [
+  "<T>/final2/t5/dump"
+ ],
+ "profile": null,
+ "expect_present": false,
+ "manifest": {
+  "path": "docs/internal/canary/CANARY_MANIFEST.json",
+  "sha256": "f58bb3025b045da716d5af9e8681a1ff87e4eec3449041d0a8a2ca886cd84375",
+  "areas": [
+   "CORE_STATE",
+   "FITNESS",
+   "MANIFEST_SELF",
+   "OWNER_DEPLOY",
+   "OWNER_DOC",
+   "OWNER_SECRET",
+   "OWNER_TEST",
+   "POLICY_PRIOR",
+   "POLICY_REPAIR"
+  ]
+ },
+ "host_facts": true,
+ "needle_count": 118,
+ "scanned": {
+  "files": 9458,
+  "bytes": 454673273,
+  "containers": 9,
+  "min_files": 1,
+  "skipped": []
+ },
+ "hits": [],
+ "hits_by_label": {},
+ "expectations": [],
+ "failing_hits": 0,
+ "unmet_expectations": 0,
+ "too_few_files": false,
+ "status": "PASS"
+}

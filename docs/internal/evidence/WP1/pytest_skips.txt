@@ -1,0 +1,18 @@
+# skip reasons (from -rs summaries of pytest_public.txt and pytest_owner_gate.txt)
+## public
+      7 1	tests/public/server/test_routes.py	real NPS day run not present on this host
+      4 1	tests/public/server/test_analysis.py	real NPS day run not present on this host
+      2 1	tests/public/server/test_routes.py	real VisDrone smoke run not present on this host
+      2 1	tests/public/server/test_perf.py	real NPS day run not present on this host
+      1 SKIPPED [1] tests/public/model_runtime/test_datasets.py: host_data: needs real host data (PILOT subset, probe/bench evidence, real runs, weights or an ETRI reference checkout); set MBNAS_TEST_HOST_DATA=1 and the MBNAS_TEST_* roots to run it
+      1 8	tests/public/server/test_perf.py	real NPS day run not present on this host
+      1 1	tests/public/server/test_routes.py	mini run absent
+      1 1	tests/public/server/test_campaign_adapter.py	real campaign root not present on this host
+      1 1	tests/public/server/test_analysis.py	real VisDrone smoke run not present on this host
+      1 1	tests/public/runner/test_benchmark_unit.py	PILOT_VAL search_val images not present on this host
+      1 1	tests/public/runner/test_benchmark_rfdetr.py	PILOT_VAL search_val images not present on this host
+      1 1	tests/public/runner/test_benchmark_rfdetr.py	official rf-detr-nano.pth not in the weights cache
+      1 1	tests/public/model_runtime/test_adapters_cpu.py	ETRI notebook not present
+## owner gate
+SKIPPED [1] tests/owner/qa/test_benchmark_evidence.py:152: no blocked-target evidence
+## totals: public 31 skipped (all host-data/real-run absence), owner 1 skipped; deselected public 12 / owner 47 by marker

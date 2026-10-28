@@ -1,0 +1,1 @@
+[t6r2 2026-10-28T02:16:14Z] owner verify_owner: exit=1

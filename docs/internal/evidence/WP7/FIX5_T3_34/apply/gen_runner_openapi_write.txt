@@ -1,0 +1,1 @@
+wrote /home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts/openapi/openapi_runner.json

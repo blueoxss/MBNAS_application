@@ -1,0 +1,49 @@
+--- routes.py (pre DD-A64, sha256 ef331bdd)
++++ routes.py (DD-A64, sha256 1cbcc212)
+@@ -26,6 +26,13 @@
+ answers 204 when nothing else is leasable. On a CPU-only fleet (no such runner) the CPU runner leases exactly as before
+ (``repo.acquire_lease``) and an evaluation it cannot measure is committed NOT_EVALUATED with its reason (DD-A62 (a)).
+ GPU runners always lease through ``repo.acquire_lease`` unchanged.
++
++Claim (E2) and expired leases (DD-A64, C04 N1): both lease paths also take a LEASED/RUNNING job whose lease expired, so
++every claim iteration first runs the core sweeper's reclaim (:func:`.sweeper.reclaim`) at the same ``now`` - the owner
++worker's rule (reclaim right before leasing). A dead RUNNING attempt is therefore billed ``failed``/lost from
++``started_at`` to its last heartbeat (``LEASE_EXPIRED``), the job is requeued (or failed when no attempt is left) and
++the next attempt is billed ``retry`` - the same accounting as when the sweeper's own pass comes first. The reclaim also
++precedes the re-delivery of this runner's own LEASED job (E2(a)), so an expired lease is never handed out again.
+ """
+ from __future__ import annotations
+ 
+@@ -58,7 +65,7 @@
+ from mbnas_core.events.bus import emit
+ from mbnas_core.orchestration import engine
+ from mbnas_core.orchestration.views import worker_payload
+-from mbnas_core.runner_api import tickets
++from mbnas_core.runner_api import sweeper, tickets
+ from mbnas_core.runner_api.auth import (
+     check_runner, list_principals, principal_db, require_principal,
+ )
+@@ -264,7 +271,9 @@
+     lease expired, attempts left, run in a runnable status, a requested kind; ``priority, created_at, id``) that does
+     not :func:`needs_cuda`; a job that does is skipped and stays as it is. Each lease is one conditional ``UPDATE ...
+     RETURNING`` that re-checks those conditions (a concurrent claimer makes it miss and the next candidate is tried);
+-    leasing increments ``attempt`` as ``acquire_lease`` does."""
++    leasing increments ``attempt`` as ``acquire_lease`` does. The claim reclaims expired leases at the same ``now``
++    right before (DD-A64), so the expired-lease condition, kept for parity with ``acquire_lease``, finds nothing
++    unbilled."""
+     cuda_kinds = _cuda_runner_kinds(conn).intersection(kinds)
+     if not cuda_kinds:
+         return repo.acquire_lease(conn, runner_id, now, ttl_s, kinds=kinds)
+@@ -320,6 +329,12 @@
+         raise ApiError(429, "RUNNER_BUSY", "this runner already runs a job (one job per runner)")
+     for _ in range(CLAIM_ATTEMPTS):
+         now = utcnow_iso()
++        # DD-A64 (C04 N1): reclaim right before leasing, at the same ``now`` (owner worker rule, owner_worker/main.py
++        # tick): both lease paths below also take expired leases, which reclaim must bill first (lost row,
++        # LEASE_EXPIRED, the next attempt billed as retry); one BEGIN IMMEDIATE transaction, serialised with the sweeper
++        # and the owner worker, so a lease is never billed twice
++        for reclaimed_id in sweeper.reclaim(conn, settings, now):
++            _notify(request, (repo.get_job(conn, reclaimed_id) or {}).get("run_id"))
+         # (a) re-delivery of a lease whose claim response was lost (design E2(a) / F7)
+         row = conn.execute("SELECT id FROM jobs WHERE lease_owner = ? AND status = 'LEASED' "
+                            "ORDER BY updated_at, id LIMIT 1", (body.runner_id,)).fetchone()

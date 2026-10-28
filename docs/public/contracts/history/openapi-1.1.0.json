@@ -1,0 +1,3076 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "MBNAS Server API",
+  "version": "1.1.0",
+  "description": "Canonical web/server contract for MBNAS_server (package mbnas_server). Derived from NAS_Console_API_Contract_20261006.json v1.0.0 with backward-compatible extensions (see x-contract-changelog). Candidate row id is evaluation_id; candidate_id is stable across promotions. Values in examples are not measured results."
+ },
+ "servers": [
+  {
+   "url": "http://127.0.0.1:8000",
+   "description": "local development (Vite same-origin proxy /api -> this)"
+  },
+  {
+   "url": "https://YOUR_AUTHORIZED_API_ORIGIN",
+   "description": "production HTTPS origin; exact frontend origin CORS allowlist required"
+  }
+ ],
+ "security": [
+  {
+   "BearerAuth": []
+  }
+ ],
+ "paths": {
+  "/api/v1/health": {
+   "get": {
+    "operationId": "health",
+    "responses": {
+     "200": {
+      "description": "Successful response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Health"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Authentication required"
+     },
+     "403": {
+      "description": "Not authorized"
+     },
+     "409": {
+      "description": "Hash/capability/state/idempotency conflict",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Semantic validation failed",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/protocols/validate": {
+   "post": {
+    "operationId": "validateProtocol",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ValidateRequest"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ValidateResponse"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Authentication required"
+     },
+     "403": {
+      "description": "Not authorized"
+     },
+     "409": {
+      "description": "Hash/capability/state/idempotency conflict",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Semantic validation failed",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/runs": {
+   "post": {
+    "operationId": "createRun",
+    "parameters": [
+     {
+      "name": "Idempotency-Key",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "type": "string",
+       "minLength": 1
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/RunRequest"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/RunCreated"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Authentication required"
+     },
+     "403": {
+      "description": "Not authorized"
+     },
+     "409": {
+      "description": "Hash/capability/state/idempotency conflict",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Semantic validation failed",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     }
+    }
+   },
+   "get": {
+    "summary": "List runs (newest first) for loading an existing run",
+    "parameters": [
+     {
+      "name": "namespace",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 500
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/RunList"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Authentication required"
+     },
+     "403": {
+      "description": "Not authorized"
+     },
+     "404": {
+      "description": "Not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/runs/{run_id}/snapshot": {
+   "get": {
+    "operationId": "getRunSnapshot",
+    "parameters": [
+     {
+      "name": "run_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "minLength": 1
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Snapshot"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Authentication required"
+     },
+     "403": {
+      "description": "Not authorized"
+     },
+     "409": {
+      "description": "Hash/capability/state/idempotency conflict",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Semantic validation failed",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/runs/{run_id}/events": {
+   "get": {
+    "operationId": "streamRunEvents",
+    "parameters": [
+     {
+      "name": "run_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "minLength": 1
+      }
+     },
+     {
+      "name": "Last-Event-ID",
+      "in": "header",
+      "schema": {
+       "type": "string",
+       "pattern": "^[0-9]+$"
+      }
+     },
+     {
+      "name": "after_seq",
+      "in": "query",
+      "schema": {
+       "type": "integer",
+       "minimum": 0
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Bearer-authenticated fetch SSE, at-least-once delivery; event id=seq; JSON data uses Event schema. Reconnect with cursor.",
+      "content": {
+       "text/event-stream": {
+        "schema": {
+         "type": "string"
+        }
+       }
+      }
+     }
+    },
+    "description": "Bearer-authenticated fetch SSE (Content-Type text/event-stream, Cache-Control no-cache, X-Accel-Buffering no). Wire: id:<seq>, event:<type>, data:<json Event>. Replay from after_seq / Last-Event-ID (run-local monotonic, committed before publish). Heartbeat comment every 15s. If the cursor is older than the replay retention the stream emits snapshot.required."
+   }
+  },
+  "/api/v1/runs/{run_id}/pause": {
+   "post": {
+    "operationId": "pauseRun",
+    "parameters": [
+     {
+      "name": "run_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "minLength": 1
+      }
+     }
+    ],
+    "requestBody": {
+     "required": false,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "idempotency_key": {
+          "type": "string",
+          "minLength": 1
+         },
+         "reason": {
+          "type": "string"
+         }
+        },
+        "required": [],
+        "additionalProperties": true
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Run"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Authentication required"
+     },
+     "403": {
+      "description": "Not authorized"
+     },
+     "409": {
+      "description": "Hash/capability/state/idempotency conflict",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Semantic validation failed",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/runs/{run_id}/resume": {
+   "post": {
+    "operationId": "resumeRun",
+    "parameters": [
+     {
+      "name": "run_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "minLength": 1
+      }
+     }
+    ],
+    "requestBody": {
+     "required": false,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "idempotency_key": {
+          "type": "string",
+          "minLength": 1
+         },
+         "reason": {
+          "type": "string"
+         }
+        },
+        "required": [],
+        "additionalProperties": true
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Run"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Authentication required"
+     },
+     "403": {
+      "description": "Not authorized"
+     },
+     "409": {
+      "description": "Hash/capability/state/idempotency conflict",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Semantic validation failed",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/runs/{run_id}/cancel": {
+   "post": {
+    "operationId": "cancelRun",
+    "parameters": [
+     {
+      "name": "run_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "minLength": 1
+      }
+     }
+    ],
+    "requestBody": {
+     "required": false,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "idempotency_key": {
+          "type": "string",
+          "minLength": 1
+         },
+         "reason": {
+          "type": "string"
+         }
+        },
+        "required": [],
+        "additionalProperties": true
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Run"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Authentication required"
+     },
+     "403": {
+      "description": "Not authorized"
+     },
+     "409": {
+      "description": "Hash/capability/state/idempotency conflict",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Semantic validation failed",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/runs/{run_id}/artifacts/{artifact_id}": {
+   "get": {
+    "operationId": "getArtifact",
+    "parameters": [
+     {
+      "name": "run_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "minLength": 1
+      }
+     },
+     {
+      "name": "artifact_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "minLength": 1
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Authorized artifact bytes; MIME/SHA headers or short-lived signed-url response. Never accepts arbitrary filesystem paths."
+     },
+     "401": {
+      "description": "Authentication required"
+     },
+     "403": {
+      "description": "Not authorized"
+     },
+     "404": {
+      "description": "Artifact not found"
+     },
+     "409": {
+      "description": "Artifact not ready"
+     },
+     "410": {
+      "description": "Signed URL expired"
+     }
+    },
+    "description": "Registry-mediated artifact access. Bearer required unless a valid signed query (sig, exp) is present. Responses: 200 bytes with X-Artifact-Sha256/Content-Type; 401/403 ACCESS_DENIED; 404 MISSING; 409 NOT_READY; 410 EXPIRED (signed url). Never accepts filesystem paths."
+   }
+  },
+  "/api/v1/runs/{run_id}/export": {
+   "get": {
+    "operationId": "exportRun",
+    "parameters": [
+     {
+      "name": "run_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "minLength": 1
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Immutable experiment export bundle with provenance, metrics, lineage, cost ledger and manifests",
+      "content": {
+       "application/zip": {
+        "schema": {
+         "type": "string",
+         "format": "binary"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/protocols/presets": {
+   "get": {
+    "summary": "Server presets (default baseline14 example protocol, PILOT_SMOKE)",
+    "responses": {
+     "200": {
+      "description": "Successful response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PresetList"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Authentication required"
+     },
+     "403": {
+      "description": "Not authorized"
+     },
+     "404": {
+      "description": "Not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/registry": {
+   "get": {
+    "summary": "Baseline registry with capability evidence",
+    "responses": {
+     "200": {
+      "description": "Successful response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/RegistryList"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Authentication required"
+     },
+     "403": {
+      "description": "Not authorized"
+     },
+     "404": {
+      "description": "Not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/runs/{run_id}": {
+   "get": {
+    "summary": "Run object with resolved_protocol and costs",
+    "parameters": [
+     {
+      "name": "run_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Run"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Authentication required"
+     },
+     "403": {
+      "description": "Not authorized"
+     },
+     "404": {
+      "description": "Not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/runs/{run_id}/candidates/{candidate_id}": {
+   "get": {
+    "summary": "Candidate detail: lineage, blocks, all immutable evaluations, checkpoints, cost, gates",
+    "parameters": [
+     {
+      "name": "run_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "candidate_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/CandidateDetail"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Authentication required"
+     },
+     "403": {
+      "description": "Not authorized"
+     },
+     "404": {
+      "description": "Not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/runs/{run_id}/artifacts/{artifact_id}/refresh": {
+   "post": {
+    "summary": "Issue a fresh short-lived signed URL / metadata for an expired artifact reference",
+    "parameters": [
+     {
+      "name": "run_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "artifact_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Artifact"
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "Authentication required"
+     },
+     "403": {
+      "description": "Not authorized"
+     },
+     "404": {
+      "description": "Not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "securitySchemes": {
+   "BearerAuth": {
+    "type": "http",
+    "scheme": "bearer",
+    "description": "Keep token in browser memory only; fetch SSE with Authorization header; no URL/localStorage/export persistence"
+   }
+  },
+  "schemas": {
+   "Protocol": {
+    "type": "object",
+    "properties": {
+     "schema_version": {
+      "type": "string",
+      "minLength": 1
+     },
+     "status": {
+      "type": "string",
+      "minLength": 1
+     },
+     "value_provenance": {
+      "type": "string",
+      "minLength": 1
+     },
+     "console": {
+      "type": "object",
+      "properties": {
+       "paths": {
+        "type": "object",
+        "properties": {
+         "dataset_yaml": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Absolute Linux server path; existence and allowlist checked by server, not by browser"
+         },
+         "train_root": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Absolute Linux server path; existence and allowlist checked by server, not by browser"
+         },
+         "search_val_root": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Absolute Linux server path; existence and allowlist checked by server, not by browser"
+         },
+         "final_eval_root": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Absolute Linux server path; existence and allowlist checked by server, not by browser"
+         },
+         "output_root": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Absolute Linux server path; existence and allowlist checked by server, not by browser"
+         }
+        },
+        "required": [
+         "dataset_yaml",
+         "train_root",
+         "search_val_root",
+         "final_eval_root",
+         "output_root"
+        ],
+        "additionalProperties": true
+       },
+       "baselines": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "id": {
+           "type": "string",
+           "minLength": 1
+          },
+          "family": {
+           "type": "string"
+          },
+          "enabled": {
+           "type": "boolean"
+          }
+         },
+         "required": [
+          "id",
+          "enabled"
+         ],
+         "additionalProperties": true
+        }
+       },
+       "search": {
+        "type": "object",
+        "properties": {
+         "arms": {
+          "type": "array",
+          "items": {
+           "enum": [
+            "GA",
+            "IndependentRandom"
+           ]
+          }
+         },
+         "population": {
+          "type": "integer",
+          "minimum": 2
+         },
+         "generations": {
+          "type": "integer",
+          "minimum": 1
+         },
+         "mutation_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+         },
+         "seeds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+           "type": "integer",
+           "minimum": 0
+          }
+         },
+         "budget_gpu_hours": {
+          "type": "number",
+          "exclusiveMinimum": 0
+         }
+        },
+        "required": [],
+        "additionalProperties": true
+       },
+       "benchmark": {
+        "type": "object",
+        "properties": {
+         "device": {
+          "type": "string",
+          "minLength": 1
+         },
+         "precision": {
+          "enum": [
+           "FP32",
+           "FP16",
+           "INT8"
+          ]
+         },
+         "batch": {
+          "type": "integer",
+          "minimum": 1
+         },
+         "warmup": {
+          "type": "integer",
+          "minimum": 0
+         },
+         "repeats": {
+          "type": "integer",
+          "minimum": 1
+         }
+        },
+        "required": [],
+        "additionalProperties": true
+       },
+       "execution_mode": {
+        "enum": [
+         "PILOT",
+         "REGISTERED_SEARCH",
+         "HISTORICAL_REPRODUCTION"
+        ],
+        "description": "Resolved explicitly; absent pilot calibration implies PILOT, not formal completed registered search."
+       },
+       "preset": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "description": "e.g. PILOT_SMOKE; absent means the default baseline14 protocol."
+       },
+       "purpose": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "description": "SMOKE for pilot smoke runs."
+       },
+       "run_namespace": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "label": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       }
+      },
+      "required": [
+       "paths",
+       "baselines",
+       "search",
+       "benchmark"
+      ],
+      "additionalProperties": true
+     }
+    },
+    "required": [
+     "schema_version",
+     "console"
+    ],
+    "additionalProperties": true,
+    "description": "Attachment nas-policy-design/1.0 body retained as requested provenance; console extension adds web settings. Validate creates immutable actual resolved policy with verified backend/path/budget and declared execution mode. Original DESIGN_EXAMPLE_NOT_EXECUTABLE is not treated as executable by itself."
+   },
+   "Artifact": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string",
+      "minLength": 1
+     },
+     "kind": {
+      "enum": [
+       "gt",
+       "tp",
+       "fn",
+       "fp",
+       "pr_curve",
+       "confusion_matrix",
+       "architecture",
+       "checkpoint",
+       "onnx",
+       "tensorrt_engine",
+       "other"
+      ]
+     },
+     "url": {
+      "type": "string",
+      "format": "uri"
+     },
+     "auth_mode": {
+      "enum": [
+       "signed_url",
+       "bearer_fetch"
+      ]
+     },
+     "expires_at": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "sample_id": {
+      "type": "string"
+     },
+     "split_hash": {
+      "type": "string"
+     },
+     "sha256": {
+      "type": "string"
+     },
+     "mime_type": {
+      "type": "string"
+     },
+     "state": {
+      "enum": [
+       "READY",
+       "NOT_READY",
+       "EXPIRED",
+       "ACCESS_DENIED",
+       "MISSING",
+       "LOAD_FAILED"
+      ]
+     },
+     "refresh_url": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "evaluation_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "matching": {
+      "type": "object",
+      "description": "For gt/tp/fn/fp: sample_id, split, checkpoint sha, counts {tp,fp,fn,gt}, sample recall/precision (null when GT=0), matching rule."
+     }
+    },
+    "required": [
+     "kind",
+     "url"
+    ],
+    "additionalProperties": true
+   },
+   "Block": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string",
+      "minLength": 1
+     },
+     "source": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "mutated": {
+      "type": "boolean"
+     },
+     "old_name": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "position": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "source_kind": {
+      "enum": [
+       "parent_a",
+       "parent_b",
+       "baseline",
+       "random",
+       "mutation",
+       "repair",
+       "new"
+      ]
+     },
+     "parent_block_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "operation": {
+      "type": "string"
+     },
+     "params": {
+      "type": "object"
+     },
+     "before": {
+      "type": "object"
+     },
+     "after": {
+      "type": "object"
+     },
+     "repair_reason": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     }
+    },
+    "required": [
+     "name",
+     "source",
+     "mutated",
+     "old_name"
+    ],
+    "additionalProperties": true
+   },
+   "CandidateEvaluation": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Immutable evaluation_id, unique per point and device/rung/checkpoint; provisional row is mutable until evaluation committed"
+     },
+     "candidate_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable architecture candidate ID, retained across promotion"
+     },
+     "name": {
+      "type": "string",
+      "minLength": 1
+     },
+     "family": {
+      "type": "string",
+      "minLength": 1
+     },
+     "arm": {
+      "enum": [
+       "Baseline",
+       "GA",
+       "IndependentRandom",
+       "Final"
+      ]
+     },
+     "generation": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "rung": {
+      "type": "string",
+      "minLength": 1
+     },
+     "epochs": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "status": {
+      "enum": [
+       "PROPOSED",
+       "BUILD_VALID",
+       "QUEUED",
+       "TRAINING",
+       "EVALUATING",
+       "EVALUATED",
+       "PROMOTION_ELIGIBLE",
+       "PROMOTION_ADMITTED",
+       "SEARCH_COMPLETE",
+       "FINALIST",
+       "FINAL_RETRAINING",
+       "FINAL_COMPLETE",
+       "PAUSED",
+       "INVALID",
+       "TRAIN_FAILED",
+       "EVAL_FAILED",
+       "REJECTED_BY_GATE",
+       "ELIGIBLE_BUDGET_EXHAUSTED",
+       "RESUME_BLOCKED",
+       "CANCELLED"
+      ]
+     },
+     "ap": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "recall": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "latency_ms": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMinimum": 0
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "size_mb": {
+      "anyOf": [
+       {
+        "type": "number",
+        "exclusiveMinimum": 0
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "fitness": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "device": {
+      "type": "string",
+      "minLength": 1
+     },
+     "precision": {
+      "enum": [
+       "FP32",
+       "FP16",
+       "INT8"
+      ]
+     },
+     "latency_source": {
+      "enum": [
+       "measured",
+       "calibrated_proxy",
+       "unverified_proxy",
+       "pending"
+      ]
+     },
+     "parents": {
+      "type": "array",
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+       "type": "string",
+       "minLength": 1
+      }
+     },
+     "blocks": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Block"
+      }
+     },
+     "architecture_path": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "checkpoint_path": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "artifacts": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Artifact"
+      }
+     },
+     "objective_hash": {
+      "type": "string",
+      "minLength": 1
+     },
+     "evaluation_hash": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Common evaluator protocol/split/metric signature; excludes candidate/checkpoint to support cohort curves. Individual measurement uses id and checkpoint hash."
+     },
+     "split_hash": {
+      "type": "string",
+      "minLength": 1
+     },
+     "latency_scope": {
+      "type": "string",
+      "minLength": 1
+     },
+     "comparison_group": {
+      "type": "string",
+      "minLength": 1
+     },
+     "search_seed": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "training_seed": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "batch": {
+      "type": "integer",
+      "minimum": 1
+     },
+     "requested_input_shape": {
+      "type": "array",
+      "items": {
+       "type": "integer",
+       "minimum": 1
+      }
+     },
+     "resolved_input_shape": {
+      "type": "array",
+      "items": {
+       "type": "integer",
+       "minimum": 1
+      }
+     },
+     "epoch_target_total": {
+      "type": "integer",
+      "minimum": 1
+     },
+     "protocol_hash": {
+      "type": "string",
+      "minLength": 1
+     },
+     "checkpoint_sha256": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "architecture_hash": {
+      "type": "string",
+      "minLength": 1
+     },
+     "metric_definitions": {
+      "type": "object"
+     },
+     "latency_statistics": {
+      "type": "object",
+      "properties": {
+       "p50_ms": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "p95_ms": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "mean_ms": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       }
+      },
+      "required": [],
+      "additionalProperties": true
+     },
+     "gate": {
+      "type": "object"
+     },
+     "cost": {
+      "type": "object"
+     },
+     "reason_code": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "supersedes_evaluation_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "candidate_status": {
+      "type": "string",
+      "enum": [
+       "PROPOSED",
+       "BUILD_VALID",
+       "QUEUED",
+       "TRAINING",
+       "EVALUATING",
+       "EVALUATED",
+       "PROMOTION_ELIGIBLE",
+       "PROMOTION_ADMITTED",
+       "SEARCH_COMPLETE",
+       "FINALIST",
+       "FINAL_RETRAINING",
+       "FINAL_COMPLETE",
+       "PAUSED",
+       "INVALID",
+       "TRAIN_FAILED",
+       "EVAL_FAILED",
+       "REJECTED_BY_GATE",
+       "ELIGIBLE_BUDGET_EXHAUSTED",
+       "RESUME_BLOCKED",
+       "CANCELLED"
+      ],
+      "description": "Mutable architecture candidate state; measurement row status remains EVALUATED after its immutable commit."
+     },
+     "progress": {
+      "type": "object",
+      "properties": {
+       "epoch": {
+        "type": "integer",
+        "minimum": 0
+       },
+       "epoch_target_total": {
+        "type": "integer",
+        "minimum": 0
+       },
+       "learning_rate": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "global_step": {
+        "type": "integer",
+        "minimum": 0
+       },
+       "samples_seen": {
+        "type": "integer",
+        "minimum": 0
+       }
+      },
+      "additionalProperties": true,
+      "description": "Live training progress of the provisional row; absent on immutable EVALUATED rows except as history."
+     },
+     "attempt": {
+      "type": "integer",
+      "minimum": 1
+     },
+     "job_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Superseding revision number of this evaluation record."
+     },
+     "architecture_id": {
+      "type": "string",
+      "description": "Alias of architecture_hash (structure identity, not trial identity)."
+     },
+     "namespace": {
+      "type": "string",
+      "description": "Run namespace, e.g. default or pilot_smoke."
+     },
+     "execution_mode": {
+      "enum": [
+       "PILOT",
+       "REGISTERED_SEARCH",
+       "HISTORICAL_REPRODUCTION"
+      ]
+     },
+     "source_kind_legend": {
+      "type": "object",
+      "description": "Optional legend of block source kinds used in blocks[]."
+     },
+     "raw_metrics": {
+      "type": "object",
+      "description": "All raw evaluator outputs (ap_50, counts, latency statistics per scope, size definitions)."
+     },
+     "rewards": {
+      "type": "object",
+      "properties": {
+       "latency_reward": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       },
+       "size_reward": {
+        "anyOf": [
+         {
+          "type": "number"
+         },
+         {
+          "type": "null"
+         }
+        ]
+       }
+      },
+      "additionalProperties": true
+     },
+     "fitness_weights": {
+      "type": "object",
+      "description": "Named weights of the source rung applied to this row."
+     }
+    },
+    "required": [
+     "id",
+     "candidate_id",
+     "name",
+     "family",
+     "arm",
+     "generation",
+     "rung",
+     "epochs",
+     "status",
+     "ap",
+     "recall",
+     "latency_ms",
+     "size_mb",
+     "fitness",
+     "device",
+     "precision",
+     "latency_source",
+     "parents",
+     "blocks",
+     "architecture_path",
+     "checkpoint_path",
+     "artifacts",
+     "objective_hash",
+     "evaluation_hash",
+     "split_hash",
+     "latency_scope",
+     "comparison_group"
+    ],
+    "additionalProperties": true,
+    "allOf": [
+     {
+      "if": {
+       "properties": {
+        "status": {
+         "const": "EVALUATED"
+        }
+       },
+       "required": [
+        "status"
+       ]
+      },
+      "then": {
+       "properties": {
+        "ap": {
+         "type": "number",
+         "minimum": 0,
+         "maximum": 1
+        },
+        "recall": {
+         "type": "number",
+         "minimum": 0,
+         "maximum": 1
+        },
+        "latency_ms": {
+         "type": "number",
+         "exclusiveMinimum": 0
+        },
+        "size_mb": {
+         "type": "number",
+         "exclusiveMinimum": 0
+        },
+        "fitness": {
+         "type": "number",
+         "minimum": 0,
+         "maximum": 1
+        },
+        "latency_source": {
+         "enum": [
+          "measured",
+          "calibrated_proxy",
+          "unverified_proxy"
+         ]
+        },
+        "checkpoint_path": {
+         "type": "string",
+         "minLength": 1
+        }
+       },
+       "required": [
+        "comparison_group",
+        "protocol_hash",
+        "batch",
+        "resolved_input_shape"
+       ]
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "status": {
+         "const": "EVALUATED"
+        },
+        "arm": {
+         "enum": [
+          "GA",
+          "IndependentRandom"
+         ]
+        }
+       },
+       "required": [
+        "status",
+        "arm"
+       ]
+      },
+      "then": {
+       "required": [
+        "search_seed"
+       ]
+      }
+     }
+    ]
+   },
+   "Generation": {
+    "type": "object",
+    "properties": {
+     "arm": {
+      "enum": [
+       "GA",
+       "IndependentRandom"
+      ]
+     },
+     "generation": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "rung": {
+      "type": "string",
+      "minLength": 1
+     },
+     "complete": {
+      "type": "boolean"
+     },
+     "representative_candidate_id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "representative_evaluation_id": {
+      "anyOf": [
+       {
+        "type": "string",
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "comparison_group": {
+      "type": "string",
+      "minLength": 1
+     },
+     "search_seed": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "planning_closed": {
+      "type": "boolean"
+     },
+     "planned_count": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "evaluated_count": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "failed_count": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "not_admitted_count": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "pending_count": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "representative_selection_rule": {
+      "type": "string"
+     },
+     "group_key": {
+      "type": "string",
+      "description": "arm+search_seed+generation+rung+comparison_group"
+     },
+     "representative_rule": {
+      "type": "string",
+      "description": "current-rung highest fitness → lower latency → stable candidate id"
+     }
+    },
+    "required": [
+     "arm",
+     "generation",
+     "rung",
+     "complete",
+     "representative_candidate_id",
+     "comparison_group"
+    ],
+    "additionalProperties": true,
+    "allOf": [
+     {
+      "if": {
+       "properties": {
+        "complete": {
+         "const": true
+        }
+       },
+       "required": [
+        "complete"
+       ]
+      },
+      "then": {
+       "required": [
+        "planning_closed",
+        "planned_count",
+        "evaluated_count",
+        "failed_count",
+        "not_admitted_count",
+        "pending_count",
+        "search_seed"
+       ],
+       "properties": {
+        "planning_closed": {
+         "const": true
+        },
+        "pending_count": {
+         "const": 0
+        }
+       }
+      }
+     }
+    ],
+    "description": "Complete only when planning_closed=true and pending_count=0. Server semantically enforces evaluated_count+failed_count+not_admitted_count+pending_count=planned_count. No representative/line when no valid measured evaluation exists."
+   },
+   "Run": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string",
+      "minLength": 1
+     },
+     "status": {
+      "type": "string",
+      "enum": [
+       "QUEUED",
+       "RUNNING",
+       "PAUSE_REQUESTED",
+       "PAUSED",
+       "RESUMING",
+       "CANCEL_REQUESTED",
+       "COMPLETED",
+       "FAILED",
+       "CANCELLED"
+      ]
+     },
+     "protocol_hash": {
+      "type": "string",
+      "minLength": 1
+     },
+     "created_at": {
+      "type": "string",
+      "format": "date-time"
+     },
+     "reason_code": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "costs": {
+      "type": "object",
+      "properties": {
+       "ga_billed_gpu_seconds": {
+        "type": "number",
+        "minimum": 0,
+        "description": "Measured GPU seconds; null/absent until available"
+       },
+       "random_billed_gpu_seconds": {
+        "type": "number",
+        "minimum": 0,
+        "description": "Measured GPU seconds; null/absent until available"
+       },
+       "actual_gpu_seconds": {
+        "type": "number",
+        "minimum": 0,
+        "description": "Measured GPU seconds; null/absent until available"
+       },
+       "baseline_gpu_seconds": {
+        "type": "number",
+        "minimum": 0,
+        "description": "Measured GPU seconds; null/absent until available"
+       },
+       "final_gpu_seconds": {
+        "type": "number",
+        "minimum": 0,
+        "description": "Measured GPU seconds; null/absent until available"
+       },
+       "failed_gpu_seconds": {
+        "type": "number",
+        "minimum": 0
+       },
+       "retry_gpu_seconds": {
+        "type": "number",
+        "minimum": 0
+       },
+       "profile_gpu_seconds": {
+        "type": "number",
+        "minimum": 0
+       }
+      },
+      "additionalProperties": true
+     },
+     "resolved_protocol": {
+      "$ref": "#/components/schemas/Protocol"
+     },
+     "namespace": {
+      "type": "string"
+     },
+     "execution_mode": {
+      "enum": [
+       "PILOT",
+       "REGISTERED_SEARCH",
+       "HISTORICAL_REPRODUCTION"
+      ]
+     },
+     "purpose": {
+      "type": "string",
+      "description": "e.g. SMOKE for PILOT_SMOKE preset runs."
+     },
+     "preset": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "updated_at": {
+      "type": "string",
+      "format": "date-time"
+     },
+     "terminal": {
+      "type": "boolean"
+     },
+     "source_commit": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "description": "Server source identifier (git SHA or source tree sha256)."
+     },
+     "protocol_canonicalization": {
+      "type": "string",
+      "description": "Canonical JSON + hash algorithm version, e.g. mbnas-canon/1 sha256."
+     },
+     "budget": {
+      "type": "object",
+      "description": "Frozen budget per arm/seed in GPU-seconds and admission policy."
+     },
+     "cancel": {
+      "type": "object",
+      "description": "Cancel tracking: requested_at, scope, kill/cleanup state."
+     }
+    },
+    "required": [
+     "id",
+     "status",
+     "protocol_hash"
+    ],
+    "additionalProperties": true
+   },
+   "Worker": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string",
+      "minLength": 1
+     },
+     "status": {
+      "type": "string",
+      "minLength": 1
+     },
+     "device": {
+      "type": "string",
+      "minLength": 1
+     },
+     "candidate_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "heartbeat_at": {
+      "type": "string",
+      "format": "date-time"
+     },
+     "utilization_percent": {
+      "anyOf": [
+       {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 100
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "vram_mb": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "epoch": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "epoch_target_total": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "learning_rate": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "device_uuid": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "device_name": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "job_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "run_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "attempt": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "global_step": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "rung": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "pid": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "lease_expires_at": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "power_w": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "sm_clock_mhz": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     }
+    },
+    "required": [
+     "id",
+     "status",
+     "device"
+    ],
+    "additionalProperties": true
+   },
+   "Event": {
+    "type": "object",
+    "properties": {
+     "seq": {
+      "type": "integer",
+      "minimum": 1
+     },
+     "type": {
+      "enum": [
+       "candidate.updated",
+       "candidate.evaluated",
+       "generation.completed",
+       "run.updated",
+       "worker.updated",
+       "log",
+       "snapshot.required"
+      ]
+     },
+     "run_id": {
+      "type": "string",
+      "minLength": 1
+     },
+     "payload": {
+      "type": "object"
+     }
+    },
+    "required": [
+     "seq",
+     "type",
+     "run_id",
+     "payload"
+    ],
+    "additionalProperties": true,
+    "allOf": [
+     {
+      "if": {
+       "properties": {
+        "type": {
+         "enum": [
+          "candidate.updated",
+          "candidate.evaluated"
+         ]
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "payload": {
+         "$ref": "#/components/schemas/CandidateEvaluation"
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "type": {
+         "const": "generation.completed"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "payload": {
+         "$ref": "#/components/schemas/Generation"
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "type": {
+         "const": "run.updated"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "payload": {
+         "$ref": "#/components/schemas/Run"
+        }
+       }
+      }
+     },
+     {
+      "if": {
+       "properties": {
+        "type": {
+         "const": "worker.updated"
+        }
+       }
+      },
+      "then": {
+       "properties": {
+        "payload": {
+         "$ref": "#/components/schemas/Worker"
+        }
+       }
+      }
+     }
+    ],
+    "description": "SSE data JSON. seq is run-local and monotonic; duplicates/out-of-order must be deduplicated by the client; gaps require a snapshot."
+   },
+   "Snapshot": {
+    "type": "object",
+    "properties": {
+     "run": {
+      "$ref": "#/components/schemas/Run"
+     },
+     "candidates": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/CandidateEvaluation"
+      }
+     },
+     "generations": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Generation"
+      }
+     },
+     "workers": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Worker"
+      }
+     },
+     "events": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Event"
+      }
+     },
+     "last_seq": {
+      "type": "integer",
+      "minimum": 0
+     }
+    },
+    "required": [
+     "run",
+     "candidates",
+     "generations",
+     "workers",
+     "events",
+     "last_seq"
+    ],
+    "additionalProperties": true
+   },
+   "Health": {
+    "type": "object",
+    "properties": {
+     "status": {
+      "type": "string",
+      "minLength": 1
+     },
+     "capabilities": {
+      "type": "object"
+     },
+     "versions": {
+      "type": "object"
+     },
+     "devices": {
+      "type": "array",
+      "items": {
+       "type": "object"
+      }
+     },
+     "registry": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "id": {
+         "type": "string",
+         "minLength": 1
+        },
+        "family": {
+         "type": "string",
+         "minLength": 1
+        },
+        "status": {
+         "enum": [
+          "AVAILABLE",
+          "BLOCKED_SOURCE",
+          "UNSUPPORTED",
+          "UNVERIFIED"
+         ]
+        },
+        "reason": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "capabilities": {
+         "type": "object"
+        },
+        "evidence": {
+         "type": "object",
+         "description": "version/commit/import class/config+weights sha256/native loss/init/train/resume/export/device evidence."
+        }
+       },
+       "required": [
+        "id",
+        "family",
+        "status",
+        "capabilities"
+       ],
+       "additionalProperties": true
+      }
+     },
+     "commit_sha": {
+      "type": "string",
+      "minLength": 1
+     },
+     "server_time": {
+      "type": "string",
+      "format": "date-time"
+     },
+     "allowlists": {
+      "type": "object",
+      "properties": {
+       "dataset_roots": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       },
+       "output_roots": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       }
+      }
+     },
+     "presets": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/PresetSummary"
+      }
+     },
+     "worker_count": {
+      "type": "integer",
+      "minimum": 0
+     }
+    },
+    "required": [
+     "status",
+     "capabilities",
+     "versions",
+     "devices",
+     "registry",
+     "commit_sha"
+    ],
+    "additionalProperties": true
+   },
+   "ValidateRequest": {
+    "type": "object",
+    "properties": {
+     "protocol": {
+      "$ref": "#/components/schemas/Protocol"
+     }
+    },
+    "required": [
+     "protocol"
+    ],
+    "additionalProperties": false
+   },
+   "ValidateResponse": {
+    "type": "object",
+    "properties": {
+     "valid": {
+      "type": "boolean"
+     },
+     "errors": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "field": {
+         "type": "string",
+         "minLength": 1
+        },
+        "message": {
+         "type": "string",
+         "minLength": 1
+        },
+        "code": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "field",
+        "message"
+       ],
+       "additionalProperties": true
+      }
+     },
+     "protocol_hash": {
+      "anyOf": [
+       {
+        "type": "string",
+        "minLength": 1
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "resolved": {
+      "anyOf": [
+       {
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "capabilities": {
+      "type": "object"
+     },
+     "warnings": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "field": {
+         "type": "string"
+        },
+        "message": {
+         "type": "string"
+        },
+        "code": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "field",
+        "message"
+       ]
+      }
+     },
+     "resolved_diff": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "field": {
+         "type": "string"
+        },
+        "requested": {},
+        "resolved": {},
+        "reason": {
+         "type": "string"
+        }
+       },
+       "required": [
+        "field"
+       ]
+      },
+      "description": "Every field whose resolved value differs from the request (e.g. optimizer=auto → actual lr, requested vs resolved image shape, execution_mode defaulted to PILOT)."
+     },
+     "validation_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "description": "Server-side id of the frozen validated snapshot; Run may send it to prove non-stale validation."
+     }
+    },
+    "required": [
+     "valid",
+     "errors",
+     "protocol_hash",
+     "resolved",
+     "capabilities"
+    ],
+    "additionalProperties": true
+   },
+   "RunRequest": {
+    "type": "object",
+    "properties": {
+     "protocol": {
+      "$ref": "#/components/schemas/Protocol"
+     },
+     "protocol_hash": {
+      "type": "string",
+      "minLength": 1
+     },
+     "idempotency_key": {
+      "type": "string",
+      "minLength": 1
+     },
+     "validation_id": {
+      "type": "string",
+      "minLength": 1
+     }
+    },
+    "required": [
+     "protocol",
+     "protocol_hash",
+     "idempotency_key"
+    ],
+    "additionalProperties": false
+   },
+   "RunCreated": {
+    "type": "object",
+    "properties": {
+     "run_id": {
+      "type": "string",
+      "minLength": 1
+     },
+     "status": {
+      "type": "string",
+      "minLength": 1
+     }
+    },
+    "required": [
+     "run_id",
+     "status"
+    ],
+    "additionalProperties": true
+   },
+   "Error": {
+    "type": "object",
+    "properties": {
+     "code": {
+      "type": "string",
+      "minLength": 1
+     },
+     "message": {
+      "type": "string",
+      "minLength": 1
+     },
+     "errors": {
+      "type": "array",
+      "items": {
+       "type": "object"
+      }
+     },
+     "request_id": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "code",
+     "message"
+    ],
+    "additionalProperties": true
+   },
+   "PresetSummary": {
+    "type": "object",
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "purpose": {
+      "type": "string"
+     },
+     "execution_mode": {
+      "type": "string"
+     },
+     "namespace": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "id",
+     "name",
+     "purpose",
+     "execution_mode",
+     "namespace"
+    ]
+   },
+   "Preset": {
+    "allOf": [
+     {
+      "$ref": "#/components/schemas/PresetSummary"
+     },
+     {
+      "type": "object",
+      "properties": {
+       "protocol": {
+        "$ref": "#/components/schemas/Protocol"
+       }
+      },
+      "required": [
+       "protocol"
+      ]
+     }
+    ]
+   },
+   "RunList": {
+    "type": "object",
+    "properties": {
+     "runs": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Run"
+      }
+     }
+    },
+    "required": [
+     "runs"
+    ]
+   },
+   "CandidateDetail": {
+    "type": "object",
+    "properties": {
+     "candidate_id": {
+      "type": "string"
+     },
+     "run_id": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "arm": {
+      "type": "string"
+     },
+     "family": {
+      "type": "string"
+     },
+     "architecture_hash": {
+      "type": "string"
+     },
+     "architecture_yaml": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "architecture_path": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "blocks": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Block"
+      }
+     },
+     "parents": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "parent_evaluation_ids": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "lineage": {
+      "type": "object",
+      "description": "operation (crossover|clone|mutation|random|baseline), crossover mask/cut, mutation events (before/after), repair events (before/after/reason), source template."
+     },
+     "evaluations": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/CandidateEvaluation"
+      }
+     },
+     "checkpoints": {
+      "type": "array",
+      "items": {
+       "type": "object"
+      }
+     },
+     "cost": {
+      "type": "object"
+     },
+     "gate_history": {
+      "type": "array",
+      "items": {
+       "type": "object"
+      }
+     },
+     "candidate_status": {
+      "type": "string"
+     },
+     "audit": {
+      "type": "object",
+      "description": "config estimate vs built-model operator audit."
+     }
+    },
+    "required": [
+     "candidate_id",
+     "run_id",
+     "name",
+     "arm",
+     "family",
+     "architecture_hash",
+     "blocks",
+     "parents",
+     "evaluations",
+     "candidate_status"
+    ]
+   },
+   "RegistryList": {
+    "type": "object",
+    "properties": {
+     "registry": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "id": {
+         "type": "string",
+         "minLength": 1
+        },
+        "family": {
+         "type": "string",
+         "minLength": 1
+        },
+        "status": {
+         "enum": [
+          "AVAILABLE",
+          "BLOCKED_SOURCE",
+          "UNSUPPORTED",
+          "UNVERIFIED"
+         ]
+        },
+        "reason": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "null"
+          }
+         ]
+        },
+        "capabilities": {
+         "type": "object"
+        },
+        "evidence": {
+         "type": "object",
+         "description": "version/commit/import class/config+weights sha256/native loss/init/train/resume/export/device evidence."
+        }
+       },
+       "required": [
+        "id",
+        "family",
+        "status",
+        "capabilities"
+       ],
+       "additionalProperties": true
+      }
+     }
+    },
+    "required": [
+     "registry"
+    ]
+   },
+   "PresetList": {
+    "type": "object",
+    "properties": {
+     "presets": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/Preset"
+      }
+     }
+    },
+    "required": [
+     "presets"
+    ]
+   }
+  }
+ },
+ "x-execution-invariants": [
+  "Freeze actual resolved protocol and source hashes before run; attachments are design examples.",
+  "One architecture candidate may produce many immutable evaluation rows by rung/device/objective.",
+  "Plot only finite completed metrics within same fidelity/objective/evaluation/device/precision/input/timing group.",
+  "Send generation.completed after planned set closes and pending_count is zero; failures are not points.",
+  "Same idempotency key plus same payload reuses run; changed payload conflicts.",
+  "Use full-state resume at fixed global horizon; generation restore alone is insufficient.",
+  "Source-rung weights gate promotion; passing eligibility is distinct from budget admission.",
+  "IndependentRandom sampler prior never consumes observed fitness.",
+  "GT/TP/FN/FP artifacts are from same sample and evaluation with deterministic matching.",
+  "Track physical GPU and arm-equivalent billed cost separately.",
+  "Final retraining/test and search results are separate.",
+  "EVALUATED cohort fields protocol_hash/batch/resolved_input_shape/search_seed are mandatory. evaluation_hash excludes per-candidate checkpoints. Complete generation counts must sum to planned_count.",
+  "Run uses Validate.resolved and resolved protocol_hash; without calibration, actual execution is explicitly PILOT. Original design example provenance remains unchanged."
+ ],
+ "x-required-default-baselines": [
+  "yolo11s",
+  "yolo11m",
+  "yolo11l",
+  "yolo11x",
+  "yolo26s",
+  "yolo26m",
+  "yolo26l",
+  "yolo26x",
+  "rf-detr-small",
+  "rf-detr-medium",
+  "rf-detr-large",
+  "rt-detr-l",
+  "rt-detr-x",
+  "etri-controlled-cnn-transformer"
+ ],
+ "x-contract-changelog": [
+  {
+   "version": "1.1.0",
+   "date": "2026-10-06",
+   "changes": [
+    "One status spelling CANCELLED for runs and candidates (importer maps legacy CANCELED).",
+    "Run: enum status, namespace, execution_mode, purpose, preset, updated_at, terminal, source_commit, protocol_canonicalization, budget, cancel; costs add failed/retry/profile seconds.",
+    "CandidateEvaluation: progress, attempt, job_id, revision, architecture_id, namespace, execution_mode, raw_metrics, rewards, fitness_weights.",
+    "Worker: device_uuid/name, job_id, run_id, attempt, global_step, rung, pid, lease_expires_at, power_w, sm_clock_mhz.",
+    "Health: server_time, allowlists, presets, worker_count. ValidateResponse: warnings, resolved_diff, validation_id. RunRequest: validation_id.",
+    "Protocol.console: preset, purpose, run_namespace, label.",
+    "New: GET /protocols/presets, GET /registry, GET /runs, GET /runs/{id}, GET /runs/{id}/candidates/{cid}, POST /runs/{id}/artifacts/{aid}/refresh.",
+    "Artifact: state, refresh_url, evaluation_id, matching. Generation: group_key, representative_rule."
+   ]
+  }
+ ],
+ "x-status-vocabulary": {
+  "run": [
+   "QUEUED",
+   "RUNNING",
+   "PAUSE_REQUESTED",
+   "PAUSED",
+   "RESUMING",
+   "CANCEL_REQUESTED",
+   "COMPLETED",
+   "FAILED",
+   "CANCELLED"
+  ],
+  "candidate": [
+   "PROPOSED",
+   "BUILD_VALID",
+   "QUEUED",
+   "TRAINING",
+   "EVALUATING",
+   "EVALUATED",
+   "PROMOTION_ELIGIBLE",
+   "PROMOTION_ADMITTED",
+   "SEARCH_COMPLETE",
+   "FINALIST",
+   "FINAL_RETRAINING",
+   "FINAL_COMPLETE",
+   "PAUSED",
+   "INVALID",
+   "TRAIN_FAILED",
+   "EVAL_FAILED",
+   "REJECTED_BY_GATE",
+   "ELIGIBLE_BUDGET_EXHAUSTED",
+   "RESUME_BLOCKED",
+   "CANCELLED"
+  ],
+  "terminal_run": [
+   "COMPLETED",
+   "FAILED",
+   "CANCELLED"
+  ],
+  "nonterminal_run_policy_locked": [
+   "QUEUED",
+   "RUNNING",
+   "PAUSE_REQUESTED",
+   "PAUSED",
+   "RESUMING",
+   "CANCEL_REQUESTED"
+  ]
+ }
+}

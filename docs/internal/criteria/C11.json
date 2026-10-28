@@ -1,0 +1,62 @@
+{
+ "id": "C11",
+ "name": "실구동·등록",
+ "version": "1.0 (2026-10-23 22:4x, 설계자 claude-fable-5-1 고정; 변경 시 사유·버전 기록)",
+ "pass_condition": {
+  "total_score": "> 90 of 100",
+  "blocker": 0,
+  "critical": 0,
+  "mandatory_evidence": "all criteria must cite artifacts produced in TARGET_ROOT by executed commands (no source-doc reported values)"
+ },
+ "criteria": [
+  {
+   "id": "real_core_runner",
+   "points": 25,
+   "observable_evidence": "실제 core/runner: public 환경 + 원격 core로 업로드→검사→생성→승인 YAML→runner 실행→결과→Web 조회/다운로드",
+   "mandatory_checks": "T5 로그(request id 연결)",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "cpu_gpu_evidence",
+   "points": 25,
+   "observable_evidence": "CPU·GPU 증거 구분: CPU 실측과 GPU(BLOCKED_BY_ENV 또는 사용자 창 실측)를 분리 집계",
+   "mandatory_checks": "VALIDATION_REPORT 집계표",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "registration_scope",
+   "points": 25,
+   "observable_evidence": "등록 범위·도식: docs/registration 구성(System/Subsystem/Block/Module, 인터페이스, 파일 목록, 범위표, 편집 가능한 도식)",
+   "mandatory_checks": "docs/registration/* 존재·내용 검토",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "license_promise",
+   "points": 25,
+   "observable_evidence": "라이선스·공개 약속: THIRD_PARTY_NOTICES, LICENSE_STATUS, AGPL·ETRI·논문 각주 검토 항목 기록(결론 아님)",
+   "mandatory_checks": "LICENSE_STATUS.md, docs/registration/RIGHTS_REVIEW.md",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  }
+ ],
+ "notes": "점수는 자체 품질 평가이며 보안 확률·실측 성능이 아니다. 미실행 시험은 0점이고 BLOCKED_BY_ENV는 별도 표기(점수 아님)."
+}

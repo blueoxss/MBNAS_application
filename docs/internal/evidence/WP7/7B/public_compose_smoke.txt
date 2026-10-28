@@ -1,0 +1,33 @@
+# WP-7B public compose smoke 20261027T051847Z result=PASS (the validate step is informational: see open issues)
+# scratch tree: deploy/public/docker-compose.yml (copy) + config/public/{gateway,runner}.env (examples + smoke values) + runtime/ + data/synthetic4
+# env: MBNAS_PUBLIC_IMAGE=mbnas-public-cpu:0.1.0 MBNAS_NETWORK_MODE=host MBNAS_GW_BIND_HOST=127.0.0.1 MBNAS_GW_LISTEN_PORT=<free> MBNAS_UID/GID=invoking user
+# core: native runtime/venv on 127.0.0.1:<free>; tokens generated at run time, never printed; scratch removed
+  {"step": "core (native, 127.0.0.1)", "ok": true, "pid": 2324425}
+  {"step": "docker compose --profile cpu up -d gateway runner-cpu (CPU image, host network)", "ok": true, "exit": 0, "stderr": "-public-smoke-gateway-1 Creating \n gateway Published ports are discarded when using host network mode \n Container wp7b-public-smoke-gateway-1 Created \n Container wp7b-public-smoke-runner-cpu-1 Created \n Container wp7b-public-smoke-runner-cpu-1 Starting \n Container wp7b-public-smoke-gateway-1 Starting \n Container wp7b-public-smoke-gateway-1 Started \n Container wp7b-public-smoke-runner-cpu-1 Started"}
+  {"step": "gateway serves the web console", "ok": true, "http": 200}
+  {"step": "gateway -> core on loopback", "ok": true, "core": {"status": "degraded", "reachable": true}}
+  {"step": "runner-cpu registers ONLINE (cpu)", "ok": true, "device": "cpu"}
+  {"step": "structure-check yolo11n_user.yaml", "ok": true, "status": "PASS"}
+  {"step": "structure-check yolo11n_user_broken.yaml", "ok": true, "status": "FAIL"}
+  {"step": "validate via gateway with gateway path checks (dataset + output_root on the customer side)", "ok": true, "http": 200, "valid": true, "errors": [], "validation_host": "gateway"}
+  {"step": "compose down + core stopped", "ok": true, "left": []}
+# log:
+  05:18:48 STEP core (native, 127.0.0.1): PASS {"pid": 2324425}
+  05:18:50 STEP docker compose --profile cpu up -d gateway runner-cpu (CPU image, host network): PASS {"exit": 0, "stderr": "-public-smoke-gateway-1 Creating \n gateway Published ports are discarded when using host network mode \n Container wp7b-public-smoke-gateway-1 Created \n Container wp7b-public-smoke-runner-cpu-1 Created \n Container wp7b-public-smoke-runner-cpu-1 Starting \n Container wp7b-public-smoke-gateway-1 Starting \n Container wp7b-public-smoke-gateway-1 Started \n Container wp7b-public-smoke-runner-cpu-1 Started"}
+  05:18:52 STEP gateway serves the web console: PASS {"http": 200}
+  05:18:52 STEP gateway -> core on loopback: PASS {"core": {"status": "degraded", "reachable": true}}
+  05:18:54 STEP runner-cpu registers ONLINE (cpu): PASS {"device": "cpu"}
+  05:18:58 STEP structure-check yolo11n_user.yaml: PASS {"status": "PASS"}
+  05:19:00 STEP structure-check yolo11n_user_broken.yaml: PASS {"status": "FAIL"}
+  05:19:00 STEP validate via gateway with gateway path checks (dataset + output_root on the customer side): PASS {"http": 200, "valid": true, "errors": [], "validation_host": "gateway"}
+  05:19:01 STEP compose down + core stopped: PASS {"left": []}
+# compose logs (tail):
+  runner-cpu-1  | 2026-10-27T05:18:51.520227Z runner public-cpu-runner: artifact transfer: local into /srv/mbnas/runtime/gateway/artifacts (store mode same-uid, max 6 tries per file)
+  gateway-1     | INFO:     127.0.0.1:47482 - "POST /api/v1/uploads/model-config HTTP/1.1" 200 OK
+  gateway-1     | INFO:     127.0.0.1:47488 - "POST /api/v1/structure-check HTTP/1.1" 200 OK
+  gateway-1     | INFO:     127.0.0.1:56752 - "POST /api/v1/uploads/model-config HTTP/1.1" 200 OK
+  gateway-1     | INFO:     127.0.0.1:56762 - "POST /api/v1/structure-check HTTP/1.1" 200 OK
+  gateway-1     | INFO:     127.0.0.1:56766 - "POST /api/v1/protocols/validate HTTP/1.1" 200 OK
+  runner-cpu-1  | Creating new Ultralytics Settings v0.0.8 file ✅ 
+  runner-cpu-1  | View Ultralytics Settings with 'yolo settings' or at '/tmp/mbnas-home/.config/Ultralytics/settings.json'
+  runner-cpu-1  | Update Settings with 'yolo settings key=value', i.e. 'yolo settings runs_dir=path/to/dir'. For help see https://docs.ultralytics.com/usage/settings.

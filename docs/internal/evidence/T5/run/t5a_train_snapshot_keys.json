@@ -1,0 +1,30 @@
+{
+ "run": [
+  "dict",
+  18
+ ],
+ "candidates": [
+  "list",
+  1
+ ],
+ "generated_candidates": [
+  "list",
+  0
+ ],
+ "generations": [
+  "list",
+  0
+ ],
+ "workers": [
+  "list",
+  1
+ ],
+ "events": [
+  "list",
+  14
+ ],
+ "last_seq": [
+  "int",
+  14
+ ]
+}

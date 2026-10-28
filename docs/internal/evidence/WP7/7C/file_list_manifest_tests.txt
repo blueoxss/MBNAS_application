@@ -1,0 +1,13 @@
+# FILE_LIST against a scratch copy of the latest registration staging manifest + BUILD_INFO.json (nothing written in build/)
+written   docs/registration/FILE_LIST.md
+note      매니페스트: <SCRATCH>/fl_test2/FILE_MANIFEST.jsonl
+exit=0
+- 생성 입력: 이 ZIP의 1차 매니페스트 `FILE_MANIFEST.jsonl`(이 파일이 추가되기 전) · 항목 438개. ZIP에 들어 있는 최종 `FILE_MANIFEST.jsonl`에는 이 파일(`docs/registration/FILE_LIST.md`)의 항목이 하나 더 있다
+- 빌드 정보(`BUILD_INFO.json`): 버전 `0.1.0` · 프로필 `registration` · build_id `r-c2660d064f6bb673` · 빌드 시각 `1980-01-01T00:00:00Z` [normalized (1980-01-01, --reproducible)] · 플랫폼 `linux_x86_64` · 소스 트리 `sha256:ad0ee1e6c772be2e8c91f4a00fc2f6d3ee4fd9f54351fd0932f643a40521b6f2`(`mbnas-source-tree/2`) · payload `sha256:751b289b42e20eb7b229e08cee127b8165f8ec900cca175eee0ac9d62cfe5e7e`
+rows: 437
+0b5573caf8b8043ab97bfa8976523d1ac02feabfb7dcfe451f023d3496f4a1bb
+second run exit=0
+0b5573caf8b8043ab97bfa8976523d1ac02feabfb7dcfe451f023d3496f4a1bb
+# malformed manifest
+FAIL: 3 manifest problem(s); the file list marks them, fix the manifest
+exit=1

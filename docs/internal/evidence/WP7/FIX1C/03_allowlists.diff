@@ -1,0 +1,36 @@
+--- a/build/allowlists/public.txt
++++ b/build/allowlists/public.txt
+@@ -69,6 +69,9 @@
+ scripts/start.sh
+ scripts/stop.sh
+ scripts/verify.sh
++# public tools (DD-A59 b): host-default-free CLIs shipped with the bundle (make_pilot_subset.py; its interface test
++# tests/public/model_runtime/test_datasets.py::test_subset_cli_unchanged_interface runs from the bundle)
++scripts/public/**
+ config/examples/**
+ deploy/public/**
+ docs/public/**
+--- a/build/allowlists/registration.txt
++++ b/build/allowlists/registration.txt
+@@ -66,6 +66,9 @@
+ scripts/start.sh
+ scripts/stop.sh
+ scripts/verify.sh
++# public tools (DD-A59 b): host-default-free CLIs shipped with the bundle (make_pilot_subset.py; its interface test
++# tests/public/model_runtime/test_datasets.py::test_subset_cli_unchanged_interface runs from the bundle)
++scripts/public/**
+ config/examples/**
+ deploy/public/**
+ docs/public/**
+--- a/build/allowlists/owner.txt
++++ b/build/allowlists/owner.txt
+@@ -59,6 +59,9 @@
+ scripts/start.sh
+ scripts/stop.sh
+ scripts/verify.sh
++# public tools (DD-A59 b): host-default-free CLIs shipped with the bundle (make_pilot_subset.py; its interface test
++# tests/public/model_runtime/test_datasets.py::test_subset_cli_unchanged_interface runs from the bundle)
++scripts/public/**
+ config/examples/**
+ deploy/public/**
+ docs/public/**

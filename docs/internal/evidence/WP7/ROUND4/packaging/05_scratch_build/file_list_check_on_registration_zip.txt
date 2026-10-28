@@ -1,0 +1,4 @@
+unchanged docs/registration/FILE_LIST.md
+note      매니페스트: <SCRATCH>/wp3/r4pkg/final/registration unpacked/mbnas_application/FILE_MANIFEST.jsonl
+check: OK
+exit=0

@@ -1,0 +1,22 @@
+{
+ "kind": "perf_600_points",
+ "evidence_type": "browser (mock API, synthetic points)",
+ "project": "desktop-1280",
+ "points_requested": 600,
+ "points_drawn_fitness_chart": 615,
+ "table_rows": 615,
+ "render_ms": 1278,
+ "fps_toggle_ms": 324,
+ "dialog_open_ms": 449,
+ "tab_30_ms": 933,
+ "long_tasks_ms": [
+  538,
+  50,
+  138,
+  52,
+  245,
+  99,
+  56
+ ],
+ "max_long_task_ms": 538
+}

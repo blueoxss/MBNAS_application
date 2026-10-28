@@ -1,0 +1,62 @@
+{
+ "id": "C08",
+ "name": "원격 산출물",
+ "version": "1.0 (2026-10-23 22:4x, 설계자 claude-fable-5-1 고정; 변경 시 사유·버전 기록)",
+ "pass_condition": {
+  "total_score": "> 90 of 100",
+  "blocker": 0,
+  "critical": 0,
+  "mandatory_evidence": "all criteria must cite artifacts produced in TARGET_ROOT by executed commands (no source-doc reported values)"
+ },
+ "criteria": [
+  {
+   "id": "host_path",
+   "points": 25,
+   "observable_evidence": "host 경로: artifact는 id/digest/kind/runner_id로 참조, 고객 경로 core 비전달",
+   "mandatory_checks": "runner_protocol 테스트 extra=forbid; DTO 테스트",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "bytes_hash",
+   "points": 25,
+   "observable_evidence": "바이트·hash: 등록 시 runner 재계산, store 수신 시 재검증, 다운로드 시 digest 대조; 원문/정규/구조 hash 구분",
+   "mandatory_checks": "WP-5 테스트; StructureReport 3 hash 필드",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "real_download",
+   "points": 25,
+   "observable_evidence": "실제 다운로드: 웹 artifact URL이 실제 바이트를 내려받고 X-Artifact-Sha256 일치",
+   "mandatory_checks": "T4/T5 다운로드 로그",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  },
+  {
+   "id": "resume_retention",
+   "points": 25,
+   "observable_evidence": "재개·보존: checkpoint affinity 또는 전송 후 재개, retention prune 왕복",
+   "mandatory_checks": "T3-34 + 재개 시나리오",
+   "scoring": {
+    "25": "증거 파일·명령·exit code가 모두 존재하고 설계자가 재실행/열람으로 확인",
+    "20": "사소한 누락(문서 1건·라벨) 외 충족",
+    "15": "핵심 절반만 증거 있음 또는 실행 아닌 정적 근거만",
+    "0": "증거 없음·미실행·상충"
+   }
+  }
+ ],
+ "notes": "점수는 자체 품질 평가이며 보안 확률·실측 성능이 아니다. 미실행 시험은 0점이고 BLOCKED_BY_ENV는 별도 표기(점수 아님)."
+}

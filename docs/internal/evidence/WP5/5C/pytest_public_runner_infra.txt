@@ -1,0 +1,31 @@
+start 2026-10-27T04:40:00Z cwd=/home/mgjeong/Desktop/etri_hd/mbnas_application interpreter=runtime/venv/bin/python env: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null
+cmd: runtime/venv/bin/python -B -m pytest tests/public/runner tests/public/infra -q -p no:cacheprovider -rfE -m 'not gpu and not live and not legacy_records and not host_data'
+........................................................................ [ 61%]
+..............................................                           [100%]
+118 passed, 9 deselected in 103.17s (0:01:43)
+exit=0 dur=105s end=2026-10-27T04:41:45Z
+
+cmd: runtime/venv/bin/python -B -m pytest tests/public/runner/test_transfer_local.py tests/owner/runner_protocol/test_artifact_transfer.py -v -p no:cacheprovider
+tests/public/runner/test_transfer_local.py::test_settings_default_none_local_requires_store_upload_reserved PASSED [  4%]
+tests/public/runner/test_transfer_local.py::test_mode_none_writes_nothing PASSED [  9%]
+tests/public/runner/test_transfer_local.py::test_child_env_forces_transfer_none_and_drops_upload_token PASSED [ 14%]
+tests/public/runner/test_transfer_local.py::test_hard_link_object_meta_and_journal PASSED [ 19%]
+tests/public/runner/test_transfer_local.py::test_copy_fallback_on_exdev_keeps_mode_and_in_place_roles_are_copied PASSED [ 23%]
+tests/public/runner/test_transfer_local.py::test_existing_identical_digest_is_a_noop_and_the_first_meta_stays PASSED [ 28%]
+tests/public/runner/test_transfer_local.py::test_mismatching_content_under_existing_digest_is_refused_and_never_overwritten PASSED [ 33%]
+tests/public/runner/test_transfer_local.py::test_source_changed_or_missing_after_registration_stores_nothing PASSED [ 38%]
+tests/public/runner/test_transfer_local.py::test_failures_are_retried_with_backoff_and_bounded PASSED [ 42%]
+tests/public/runner/test_transfer_local.py::test_retry_succeeds_once_the_store_is_back_and_pending_items_left_by_a_crash_are_retried PASSED [ 47%]
+tests/public/runner/test_transfer_local.py::test_prune_closed_keeps_attempts_with_retryable_transfers PASSED [ 52%]
+tests/public/runner/test_transfer_local.py::test_put_rejects_digest_with_wrong_case_and_reports_codes PASSED [ 57%]
+tests/public/runner/test_transfer_local.py::test_store_modes_set_permission_bits PASSED [ 61%]
+tests/public/runner/test_transfer_local.py::test_temp_names_use_the_store_prefix_and_the_meta_is_exact PASSED [ 66%]
+tests/public/runner/test_transfer_local.py::test_gateway_store_reads_what_the_runner_wrote PASSED [ 71%]
+tests/public/runner/test_transfer_local.py::test_daemon_local_mode_stores_every_registered_file PASSED [ 76%]
+tests/public/runner/test_transfer_local.py::test_daemon_default_none_is_unchanged PASSED [ 80%]
+tests/public/runner/test_transfer_local.py::test_daemon_transfer_failure_never_fails_the_job_and_retry_completes_later PASSED [ 85%]
+tests/public/runner/test_transfer_local.py::test_heartbeat_kicks_a_background_retry PASSED [ 90%]
+tests/owner/runner_protocol/test_artifact_transfer.py::test_local_transfer_stores_every_registered_file_with_meta PASSED [ 95%]
+tests/owner/runner_protocol/test_artifact_transfer.py::test_transfer_failure_never_fails_the_job_and_a_later_retry_completes PASSED [100%]
+======================== 21 passed, 1 warning in 35.51s ========================
+exit=0

@@ -1,0 +1,31 @@
+# WP-7B evidence (2026-10-27). Commands ran in TARGET_ROOT with runtime/venv, PIP_CONFIG_FILE=/dev/null,
+# CUDA_VISIBLE_DEVICES="", PYTHONDONTWRITEBYTECODE=1; host pip only --no-index --find-links build/wheelhouse; no GPU used.
+gen_requirements.py           generator of requirements-{public,owner,cpu}.txt from constraints.txt (final version)
+gen_all_in_one.py             assembler of config/examples/owner-all-in-one.env.example from the three role examples
+check_env_examples.py         checker: every settings key documented (role file + all-in-one), example values parse
+                              through the real settings classes, no host facts / secret-like values
+env_examples_check.txt        its final output: core 40, gateway 37, runner 31 keys documented, all values load; PASS
+wheels_build.txt              the 5 project wheels built once into build/wheels/ (13:02) from isolated copies + contents
+requirements_dryrun.txt       offline `pip install --dry-run` in `unshare -rn`, cwd build/ (./wheels -> build/wheels):
+                              exact closure for public/owner (138/139 = requirement lines), negative check from ROOT
+                              (no ./wheels -> fails: paths are cwd-relative), reruns with later wheels and final files
+pip_report_{public,owner}.json.gz  raw pip --report of the first dry-run (paths shown as <ROOT>)
+examples_check.txt            examples/: 4 samples per split, no issues/overlap; yolo11n_user.yaml PASS;
+                              yolo11n_user_broken.yaml FAIL (SHAPE_MISMATCH, MERGE_INPUT_MISMATCH at 12/head[1]);
+                              placeholder protocol rejected (PATH_PLACEHOLDER), --protocol-out copy valid
+systemd_verify.txt            systemd-analyze verify of the 4 *.service.example (no findings)
+nginx_t.txt                   nginx -t of deploy/public/nginx.example.conf in nginx:1.26-alpine (ok; listen..http2 notice)
+compose_config.txt            docker compose config of both compose files (profiles, host-network variant)
+dockerignore_probe.txt        proposed ROOT/.dockerignore (allowlist) tested with the legacy builder (for WP-7D)
+docker_builds.txt             build timeline (CPU online, CUDA mirror and one fully online run), sizes, layer sharing
+image_checks.txt              static checks of the 3 final images: roles, imports, private package only in the owner
+                              image, installed set == requirements file exactly
+container_smoke_cpu.txt       CPU gateway + runner containers (docker run, host network) against a native loopback core
+public_compose_smoke.txt      deploy/public/docker-compose.yml (profile cpu, host network) against a native core
+owner_compose_smoke.txt       deploy/owner/docker-compose.yml: core + owner-worker, tokens via `compose run core principal`,
+                              all-in-one + cpu profile, structure checks, OFF generation run COMPLETED (2 candidates);
+                              negative check of the DD-A41 (d) gateway rule
+split_output_root_probe.txt   OBSERVATION: a customer-side output_root validated by the gateway -> run creation 409
+                              STALE_VALIDATION on the core (split-deployment gap, reported to the designer/WP-3)
+private_reference_scan.txt    public-profile files vs the packager's private-reference patterns: 0 refs, 0 mentions,
+                              2 allow-listed guard lines

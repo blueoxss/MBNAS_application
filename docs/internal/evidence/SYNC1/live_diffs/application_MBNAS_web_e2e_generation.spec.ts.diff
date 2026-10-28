@@ -1,0 +1,73 @@
+--- a/application/MBNAS_web/e2e/generation.spec.ts
++++ b/application/MBNAS_web/e2e/generation.spec.ts
+@@ -3,7 +3,8 @@
+  * (a) the "성능 평가 수행" checkbox (default ON -> OFF is carried by the validate and run bodies and survives a reload
+  * of the resolved run), (b) the generated-candidate table in generation order with missing metrics never shown as 0,
+  * (c) a generated candidate's structure graph from a mock `mbnas-structure/2` report, block selection and its URL
+- * restore, (d) the training panel in evaluate_only mode sends no epoch_target_total.
++ * restore, (d) the training panel for a generated candidate (scratch sends epoch_target_total; evaluate_only is not offered), (e) a baseline
++ * evaluate_only submission whose POST body carries no epoch target.
+  * Fixtures are invented (tests/detail_fixtures.ts); nothing here is a measured result.
+  */
+ import { expect, test, type Page } from '@playwright/test';
+@@ -180,7 +181,7 @@
+     await expect(page.getByTestId('selected-block')).toContainText(`#${SYNTHETIC_CONCAT_INDEX} · Concat`);
+   });
+ 
+-  test('training panel: evaluate_only sends no epoch_target_total, scratch does', async ({ page }) => {
++  test('training panel: scratch sends epoch_target_total, evaluate_only is not offered for a generated candidate', async ({ page }) => {
+     const st = offRunState();
+     await installMock(page, st);
+     await connectAndLoad(page);
+@@ -199,18 +200,39 @@
+     expect(sb.source).toMatchObject({ kind: 'generated', run_id: RUN_ID, candidate_id: GEN_CID });
+     expect(typeof getIn(sb.protocol, 'console.training.epoch_target_total')).toBe('number');
+ 
+-    await page.getByTestId('training-mode').selectOption('evaluate_only');
+-    await expect(page.getByTestId('evaluate-only-epoch-help')).toBeVisible();
+-    await expect(page.getByLabel('목표 epoch')).toHaveCount(0);
+-    await submit.click();
++    // S05 fix 1: the server refuses evaluate_only for a generated/search candidate (422 EVAL_ONLY_UNSUPPORTED), so the panel does not
++    // offer it; the evaluate_only request body (no epoch_target_total) is covered by tests/training_panel.test.tsx on a baseline source.
++    await expect(page.getByTestId('training-mode').locator('option[value="evaluate_only"]')).toHaveCount(0);
++    await expect(page.getByTestId('training-mode').locator('option[value="resume"]')).toHaveCount(1);
++    expect(st.seen.filter((s2) => s2.method === 'POST' && s2.url === '/api/v1/training-runs')).toHaveLength(1);
++    await shot(page, 'generated-training-no-evaluate-only');
++  });
++
++  // S05 fix 3: browser-level evaluate_only request body. evaluate_only exists only for an official baseline, which the standalone panel on
++  // the settings screen offers (Baseline registry ID); the POST body must carry no epoch target (jsdom twin: tests/training_panel.test.tsx).
++  test('baseline evaluate_only submission sends no epoch_target_total / epochs', async ({ page }) => {
++    const st = stateOf({ runStatus: 'COMPLETED' });
++    await installMock(page, st);
++    await connectOnly(page);
++    await openScreen(page, 'settings');
++    await page.getByLabel(/Baseline registry ID/).fill('synthetic-baseline-id');
++    const mode = page.getByTestId('training-mode');
++    await expect(mode.locator('option[value="evaluate_only"]')).toHaveCount(1);
++    await mode.selectOption('evaluate_only');
++    await expect(page.getByTestId('evaluate-only-epoch-help')).toContainText('평가 전용: 학습 epoch 없음');
++    await page.getByTestId('training-submit').click();
+     await expect(page.getByText('별도 평가 run 생성')).toBeVisible();
+-    const all = st.seen.filter((s) => s.method === 'POST' && s.url === '/api/v1/training-runs');
+-    expect(all).toHaveLength(2);
+-    const eb = all[1].body as { mode: string; protocol: Record<string, unknown> };
+-    expect(eb.mode).toBe('evaluate_only');
+-    expect(getIn(eb.protocol, 'console.training.epoch_target_total')).toBeUndefined();
+-    expect(getIn(eb.protocol, 'console.training.scheduler_horizon_epochs')).toBeUndefined();
+-    expect(getIn(eb.protocol, 'console.training'), 'only the seed remains in console.training').toEqual({ seed: 0 });
+-    await shot(page, 'generated-training-evaluate-only');
++    const hit = st.seen.filter((s2) => s2.method === 'POST' && s2.url === '/api/v1/training-runs');
++    expect(hit, 'exactly one POST /training-runs').toHaveLength(1);
++    const b = hit[0].body as { mode: string; source: Record<string, unknown>; protocol: Record<string, unknown> };
++    expect(b.mode).toBe('evaluate_only');
++    expect(b.source).toMatchObject({ kind: 'baseline', baseline_id: 'synthetic-baseline-id' });
++    expect(getIn(b.protocol, 'console.training.epoch_target_total')).toBeUndefined();
++    expect(getIn(b.protocol, 'console.training.scheduler_horizon_epochs')).toBeUndefined();
++    expect(Object.keys(b)).not.toContain('epochs');
++    expect(Object.keys(b)).not.toContain('epoch_target_total');
++    // the recipe's own rung table legitimately keeps epoch_target_total; the explicit-training section must not carry any epoch key
++    expect(Object.keys((getIn(b.protocol, 'console.training') ?? {}) as Record<string, unknown>).filter((k) => /epoch/.test(k))).toEqual([]);
++    await shot(page, 'baseline-training-evaluate-only');
+   });
+ });

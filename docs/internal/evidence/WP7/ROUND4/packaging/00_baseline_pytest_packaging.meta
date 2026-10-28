@@ -1,0 +1,6 @@
+command: cd <SCRATCH>/wp3/r4pkg/baseline_tree/proj && CUDA_VISIBLE_DEVICES="" PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null MBNAS_TEST_ROOT=<SCRATCH>/... <ROOT>/runtime/venv/bin/python -B -m pytest -p no:cacheprovider tests/public/packaging -m "not gpu and not live and not legacy_records and not host_data" --timeout=900 --basetemp=<SCRATCH>/... -q
+cwd: <SCRATCH>/wp3/r4pkg/baseline_tree/proj (copy of scripts/dev/*.py, build/allowlists/*.txt, mbnas_web/scripts/check-bundle.mjs, tests/public/packaging, tests/public/conftest.py, tests/_shared/{conftest_common,gpu_guard,datasets}.py, pyproject.toml, VERSION taken before the first edit)
+start_utc: 2026-10-27T23:56:45Z
+end_utc: 2026-10-27T23:57:46Z
+exit: 0
+result: 42 passed

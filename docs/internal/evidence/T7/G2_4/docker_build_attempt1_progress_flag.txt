@@ -1,0 +1,10 @@
+# TREE_HASH sha256:164292c6e775a52a3da02f98282257b67a282f9e84b236ded3940e592a568f2f
+# start_utc 2026-10-27T06:46:28.797Z context=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree (frozen copy) dockerfile=deploy/public/Dockerfile tag=mbnas-public:g2t7
+# docker build --network host --build-arg PIP_EXTRA_ARGS='--no-index --find-links http://127.0.0.1:8731/' -f deploy/public/Dockerfile -t mbnas-public:g2t7 .
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+unknown flag: --progress
+See 'docker build --help'.
+exit=125 end_utc 2026-10-27T06:46:28.861Z

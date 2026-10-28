@@ -1,0 +1,4 @@
+$ (cwd=/) (service env) bash '/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas owner final/mbnas_application/scripts/start.sh' --profile owner --role core
+[start] core: ready pid=3433793 HTTP 401 from http://127.0.0.1:18800/core/v1/console/health log=runtime/logs/core.log
+[start] owner-worker: ready pid=3433837 alive after 5 s log=runtime/logs/owner-worker.log
+exit=0

@@ -1,0 +1,5 @@
+$ runtime/venv/bin/python -I -B scripts/dev/canary_scan.py --json <this>.json <public-shipped paths of the current tree: tests/_shared/{conftest_common,datasets,gpu_guard,fake_core,stub_core,stub_handlers}.py tests/public mbnas_contracts mbnas_model_runtime mbnas_runner mbnas_server docs/public docs/registration config/examples deploy/public scripts/public mbnas_web/src mbnas_web/dist>
+FAIL host_fact HOST_FACT#5 owner account name [raw] mbnas_server/src/mbnas_server/__pycache__/config.cpython-310.pyc@2275
+scanned files=413 bytes=7433129 containers=0 skipped=0 hits=42 failing=42 unmet=0
+canary_scan: FAIL
+HOST_FACT#6 hits: 0 (other hits: 37 tracked __pycache__/*.pyc = D7, tests/public/infra/test_no_host_facts.py = owner-bundle-only by allowlist)

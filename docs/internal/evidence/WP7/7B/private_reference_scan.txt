@@ -1,0 +1,6 @@
+# WP-7B public-profile files scanned with the packager's own patterns (scripts/dev/package_build.py, imported read-only):
+#   RE_PRIVATE_TEXT_REF (import/path/requirement/wheel-name references) and RE_PRIVATE_MENTION (any mbnas[-_.]core mention)
+  allowed deploy/public/Dockerfile:57: && ! python -c "import mbnas_core" 2>/dev/null
+  allowed deploy/public/Dockerfile.cpu:57: && ! python -c "import mbnas_core" 2>/dev/null
+files=28 result={'text_ref': 0, 'mention': 0, 'allowed_by_[private-reference-allow]': 2}
+public allowlist name patterns: owner-only examples are config/examples/core.env.example and owner-all-in-one.env.example (denied by 'config/examples/core*.env.example' / 'config/examples/owner*'); public: gateway.env.example, runner.env.example

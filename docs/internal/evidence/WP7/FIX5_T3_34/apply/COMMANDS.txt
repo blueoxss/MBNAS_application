@@ -1,0 +1,38 @@
+FIX5 apply step (DD-A68: coordinator authorized items 1, 2, 3, 4, 6 of the fix-5 cross-package list), 2026-10-28 KST.
+cwd TARGET_ROOT, runtime/venv/bin/python -B, CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null;
+pytest -m "not gpu and not live and not legacy_records and not host_data" -p no:cacheprovider -q -rfEs --timeout=600.
+Not touched: docs/public/*.md, docs/registration prose (INTERFACES.md changed only inside BEGIN/END GENERATED), docs/internal/VALIDATION_REPORT.md.
+
+applied (diffs: test_runner_protocol.applied.diff, tests_and_generator.applied.diff, config_sweeper_docstrings.diff, INTERFACES.md.diff)
+ 1 tests/public/contracts/test_runner_protocol.py   1.1.0 samples (4 new models, PruneOrder in HeartbeatControl), version 1.1.0,
+                                                     11 paths / E1-E11, PruneReport consistency test; CheckpointReport sample
+                                                     uri "/w/runs/run-1/candidates/c/checkpoints/a.pt" (absolute, no scheme)
+ 2 tests/owner/unit/test_db.py, test_db_migration.py  schema_version "6" + prune_requests present
+ 3 tests/owner/runner_protocol/conftest.py, tests/owner/artifacts/conftest.py  base_proto pins console.retention.full_state =
+                                                     keep_all with the one-line DD-A66 comment; no assertion changed
+ 4 scripts/dev/gen_runner_openapi.py                 every {name} path variable declared (E11 checkpoint_id)
+   gen_runner_openapi.py (write)                     exit 0 -> openapi_runner.json sha256 0f3dac4db29e36485f04941028f296f9fdaf6d00fca44fb304d410474084ecd7
+   gen_runner_openapi.py --check                     exit 0                                      (gen_runner_openapi_check_final.txt)
+   gen_registration_docs.py --only interfaces        exit 0, written docs/registration/INTERFACES.md; only the runner-v1
+                                                     sha line changed, inside GENERATED (INTERFACES.md.diff)
+                                                     -> INTERFACES.md sha256 355f68d7d1f0c0f897ecbe1dc472277f46e75cf77ec25a4493206e2a10ad7126
+   gen_registration_docs.py --check (all outputs)    exit 0 before and after          (gen_registration_docs_check_*.txt)
+ 6 mbnas_core/src/mbnas_core/config.py               remote_retention_policy docstring: deprecated, ignored since runner
+                                                     protocol 1.1.0; field/default kept; no warning, no behaviour change
+   mbnas_core/src/mbnas_core/runner_api/sweeper.py    module item 1 and apply_retention docstrings updated; no code change
+
+reruns after apply (00:42-00:48 UTC)                                     -> pytest/G*.txt (+ .meta)
+ G1 tests/owner/runner_protocol tests/owner/artifacts      97 passed                         exit 0
+ G2 tests/owner/orchestration tests/owner/projection       309 passed                        exit 0
+ G3 tests/public/runner tests/public/contracts             344 passed, 9 deselected          exit 0
+ G4 tests/owner/api                                         212 passed                        exit 0
+ G5 tests/owner/worker tests/owner/unit                     465 passed, 3 deselected          exit 0
+ G6 tests/owner/qa tests/public/server tests/public/infra   877 passed, 2 skipped, 30 deselected exit 0
+ G7 tests/public/contracts (alone)                         203 passed                        exit 0
+ check_import_closure --format text                        exit 0, violations 0, unresolved 0 (import_closure.txt)
+ placement_coverage --format text                          exit 0, 221/221 (9 rows appended, placement_coverage.txt)
+ real-process smoke (config.py / sweeper.py are imported by core at runtime)
+   fix5_prune_roundtrip_smoke.py --evidence apply/prune_roundtrip_smoke_after_apply.txt   exit 0, PASS, 39.2 s
+   A REAL: e1/e2 PRUNED (already_absent), e3 PRESENT + gateway download sha match; B stub: e1/e2 deleted by the
+   runner (163 B each), PRUNED, e3 downloadable
+public contract openapi.json sha256 70e0cffaab8fafd9c7f230af9169dbbe8812b3eccf7ad7838ca3f46fa9eebc2a (unchanged)

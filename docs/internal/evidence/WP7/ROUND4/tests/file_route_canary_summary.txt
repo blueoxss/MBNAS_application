@@ -1,0 +1,48 @@
+{
+ "claims": 18,
+ "kind_counts": {
+  "BASELINE_TRAIN": 2,
+  "CANDIDATE_TRAIN": 16
+ },
+ "seeded_jobs": 18,
+ "seeded_candidates": 9,
+ "runner_route_bodies": 128,
+ "runner_bytes": 275479,
+ "routes": [
+  "POST /claim",
+  "POST /jobs/{job_id}/ack",
+  "POST /jobs/{job_id}/artifacts",
+  "POST /jobs/{job_id}/checkpoints",
+  "POST /jobs/{job_id}/progress",
+  "POST /jobs/{job_id}/result",
+  "POST /jobs/{job_id}/start",
+  "POST /register"
+ ],
+ "marker_hits": 0,
+ "owner_only_member_names": [],
+ "owner_route_status": 200,
+ "owner_route_has_marker": true
+}
+{
+ "queued_before": [
+  "BASELINE_TRAIN",
+  "PROPOSE_GENERATION",
+  "PROPOSE_GENERATION"
+ ],
+ "explicit_kind_claim": [
+  400,
+  "{\"code\":\"KIND_NOT_ALLOWED\",\"message\":\"runners may not claim ['PROPOSE_GENERATION']; allowed: ['BASELINE_TRAIN', 'BENCHMARK', 'CANDIDATE_TRAIN', 'EVALUATE', 'FIN"
+ ],
+ "default_claim": [
+  200,
+  "BASELINE_TRAIN"
+ ],
+ "queued_after": [
+  "PROPOSE_GENERATION",
+  "PROPOSE_GENERATION"
+ ]
+}
+tests/owner/projection/test_runner_route_canary.py::test_runner_route_bodies_hold_no_owner_only_data 2026-10-27T23:47:35.003Z INFO mbnas_core.access method=POST path=/api/v1/protocols/validate status=200 request_id=0393b884e15c4fb29ba4252cc35deef2 duration_ms=236.8 client=testclient:50000
+tests/owner/projection/test_runner_route_canary.py::test_runner_token_never_leases_the_policy_job 2026-10-27T23:47:39.033Z INFO mbnas_core.access method=POST path=/api/v1/protocols/validate status=200 request_id=94f5ef89a1f2422fa324d9129589c5d2 duration_ms=249.0 client=testclient:50000
+tests/owner/projection/test_runner_route_canary.py::test_runner_route_bodies_hold_no_owner_only_data
+========================= 2 passed, 1 warning in 7.07s =========================

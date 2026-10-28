@@ -1,0 +1,20 @@
+--- a/application/docs/implementation_20261021/SCREENSHOTS.md
++++ b/application/docs/implementation_20261021/SCREENSHOTS.md
+@@ -17,3 +17,17 @@
+ | 실제 CPU 학습 batch 이미지 | [live-cpu-synthetic-training-batch.png](evidence/live-cpu-synthetic-training-batch.png) |
+ 
+ 실행 검증 JSON: [generation + browser](evidence/live-verification.json), [CPU 학습 이미지 + browser](evidence/cpu-training-browser.json).
++
++## 최종 모니터링 화면 추가 (2026-10-26, 설계자 결정 DD-44·DD-45, S06_fix1)
++
++위 11장은 2026-10-21 시점의 화면이다. 이후 추가된 두 화면은 아래와 같다. 증거 등급이 다르므로 구분해서 읽는다.
++
++| 화면 | 증거 등급 | 이미지 |
++|---|---|---|
++| 이미지 확대 보기(라이트박스, DD-44): 실제 CPU 2 epoch 학습이 만든 `labels.jpg` 산출물, 같은 artifact URL·sha256 표시, 확대/축소·자연 크기·창에 맞춤·원본 새 탭 | **실제**: 격리 API·SQLite·CPU handler·Vite·Chromium (harness B 재실행, `evidence_impl/S06_fix1/cpu_training_browser/`) | [live-cpu-synthetic-training-lightbox.png](evidence/live-cpu-synthetic-training-lightbox.png) |
++| 라이트박스, 후보 대화상자 위에서 열린 모습(desktop 1280 / mobile 375) | **mock API + 합성 이미지**: Playwright e2e(`e2e/hardening.spec.ts`), 브라우저 동작(모달 포털·확대 단계·Esc 후 초점 복귀) 확인용 | [desktop](evidence/e2e-desktop-1280-artifact-lightbox.png), [mobile](evidence/e2e-mobile-375-artifact-lightbox.png) |
++| 콘솔 run 후보 간 기록된 실행 조건 표(DD-45): dataset yaml·split hash·rung·누적 epoch·protocol_hash·device·precision·checkpoint sha256, 상이 표시, '기록 없음'·'미평가' | **mock API + 합성 후보**: Playwright e2e(같은 파일). 값은 시험용으로 만든 것이며 측정 결과가 아니다 | [desktop](evidence/e2e-desktop-1280-model-comparison-conditions.png), [mobile](evidence/e2e-mobile-375-model-comparison-conditions.png) (뷰포트 캡처 · 표가 가로 스크롤이라 왼쪽 후보 열까지만 보이며 오른쪽 후보·'조건' 열은 화면 밖; 상이·기록 없음 안내문은 보임) |
++
++e2e 캡처의 이미지는 mock CDN이 돌려주는 1 px 합성 PNG라 확대해도 그림 내용은 의미가 없다(모달 동작 확인용). 한계: 조건 비교 표는 실제 CUDA worker가 만든 평가 행으로는 캡처하지 못했다(GPU 사용 금지 기간, DD-47). 위 표의 값은 계약 형태를 따르는 합성 값이다. 이미지의 출처·명령·종료 코드는 `application/docs/integration_20261021/evidence_impl/S06_fix1/SUMMARY.md`에 있다.
++
++내비게이션의 'Run 비교' 항목은 이 시점부터 'Archive run 비교'로 표시된다(NAS archive 읽기 전용 화면임을 드러내기 위한 표시 변경이며 API는 같다). 화면 제목은 그대로 'Run 비교'이고 부제에 '읽기 전용'과 콘솔 run 후보 비교 위치를 적었다.

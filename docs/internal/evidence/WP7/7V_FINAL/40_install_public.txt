@@ -1,0 +1,174 @@
+$ (cwd=<scratchpad>/t6final) bash /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas public final/mbnas_application/scripts/install.sh --profile public --offline --wheelhouse /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse --python /home/mgjeong/miniconda3/envs/mbnas310/bin/python3.10
+[install] profile=public root=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas public final/mbnas_application offline=1 log=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas public final/mbnas_application/runtime/logs/install-20261027T220849Z.log
+[install] requirements: /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas public final/mbnas_application/requirements-public.txt
+[install] wheelhouse: /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse
+[install] interpreter: /home/mgjeong/miniconda3/envs/mbnas310/bin/python3.10 (3.10.22)
+[install] BUILD_INFO.json: version=0.1.0 build_id=r-decdba6e9ffb5195
+[install] package profile: public
+[install] creating venv /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas public final/mbnas_application/runtime/venv
+[install] pip install --disable-pip-version-check --no-index --find-links /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse --no-cache-dir -c /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas public final/mbnas_application/constraints.txt -r /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas public final/mbnas_application/requirements-public.txt  (cwd /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas public final/mbnas_application)
+Looking in links: /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse
+Processing ./wheels/mbnas_contracts-0.1.0-py3-none-any.whl
+Processing ./wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl
+Processing ./wheels/mbnas_runner-0.1.0-py3-none-any.whl
+Processing ./wheels/mbnas_server-0.1.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/accelerate-1.15.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/aiohappyeyeballs-2.7.1-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/aiohttp-3.14.4-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/aiosignal-1.4.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/annotated_doc-0.0.5-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/annotated_types-0.8.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/anyio-4.15.1-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/async_timeout-5.0.1-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/attrs-26.1.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/av-17.1.0-cp310-cp310-manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/certifi-2026.7.22-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/charset_normalizer-3.5.2-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/click-8.5.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/coloredlogs-15.0.1-py2.py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/contourpy-1.3.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/cycler-0.12.1-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/defusedxml-0.7.1-py2.py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/exceptiongroup-1.3.1-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/fastapi-0.142.2-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/faster_coco_eval-1.8.0-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/filelock-3.32.3-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/filetype-1.2.0-py2.py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/flatbuffers-25.12.19-py2.py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/fonttools-4.65.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/frozenlist-1.8.0-cp310-cp310-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/fsspec-2026.7.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/h11-0.16.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/hf_xet-1.6.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/hotcoco-1.0.1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/httpcore-1.0.9-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/httptools-0.8.0-cp310-cp310-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/httpx-0.28.1-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/huggingface_hub-1.33.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/humanfriendly-10.0-py2.py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/idna-3.20-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/iniconfig-2.3.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/jinja2-3.1.6-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/jsonschema-4.26.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/jsonschema_specifications-2025.9.1-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/kiwisolver-1.5.1-cp310-cp310-manylinux_2_12_x86_64.manylinux2010_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/lightning_utilities-0.15.3-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/markdown_it_py-4.2.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/markupsafe-3.0.3-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/matplotlib-3.10.9-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/mdurl-0.1.2-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/ml_dtypes-0.6.0-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/mpmath-1.3.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/multidict-6.9.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/networkx-3.4.2-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/numpy-2.2.6-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/nvidia_cublas_cu12-12.4.5.8-py3-none-manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/nvidia_cuda_cupti_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/nvidia_cuda_nvrtc_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/nvidia_cuda_runtime_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/nvidia_cudnn_cu12-9.1.0.70-py3-none-manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/nvidia_cufft_cu12-11.2.1.3-py3-none-manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/nvidia_curand_cu12-10.3.5.147-py3-none-manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/nvidia_cusolver_cu12-11.6.1.9-py3-none-manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/nvidia_cusparse_cu12-12.3.1.170-py3-none-manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/nvidia_cusparselt_cu12-0.6.2-py3-none-manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/nvidia_ml_py-13.615.71-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/nvidia_nccl_cu12-2.21.5-py3-none-manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/nvidia_nvjitlink_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/nvidia_nvtx_cu12-12.4.127-py3-none-manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/onnx-1.23.2-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/onnx_graphsurgeon-0.6.1-py2.py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/onnxruntime_gpu-1.23.2-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/onnxsim-0.7.3-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/opencv_python-5.0.0.93-cp37-abi3-manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/opencv_python_headless-5.0.0.93-cp37-abi3-manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/opentelemetry_api-1.45.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/packaging-26.3-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/peft-0.21.2-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/pillow-12.3.0-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/pillow_avif_plugin-1.6.0-cp310-cp310-manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/pluggy-1.6.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/polars-1.44.2-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/polars_runtime_32-1.44.2-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/polygraphy-0.53.6-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/propcache-0.5.4-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/psutil-7.2.2-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/pyarrow-25.0.1-cp310-cp310-manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/pycocotools-2.0.11-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/pydantic-2.13.5-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/pydantic_settings-2.15.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/pydantic_core-2.46.5-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/pydeprecate-0.9.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/pygments-2.21.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/pyparsing-3.3.3-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/pytest-9.1.1-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/pytest_timeout-2.4.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/python_dateutil-2.9.0.post0-py2.py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/python_dotenv-1.2.4-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/pytorch_lightning-2.6.6-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/pyyaml-6.0.3-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/referencing-0.37.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/regex-2026.9.29-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/requests-2.34.2-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/requests_toolbelt-1.0.0-py2.py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/rfdetr-1.11.2-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/rich-15.0.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/roboflow-1.7.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/rpds_py-0.30.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/safetensors-0.8.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/scipy-1.15.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/shellingham-1.5.4-py2.py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/simplejpeg-1.9.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/six-1.17.0-py2.py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/starlette-1.7.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/supervision-0.30.7-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/sympy-1.13.1-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/tokenizers-0.23.2-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/tomli-2.4.1-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/torch-2.6.0+cu124-cp310-cp310-linux_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/torch_hungarian-0.1.0rc0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/torchmetrics-1.8.2-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/torchvision-0.21.0+cu124-cp310-cp310-linux_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/tqdm-4.70.1-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/transformers-5.18.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/triton-3.2.0-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/typer-0.25.1-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/typing_inspection-0.4.4-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/typing_extensions-4.16.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/ultrafast_pycocotools-0.1.13-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/ultralytics-8.4.173-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/ultralytics_thop-2.2.2-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/urllib3-2.8.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/uvicorn-0.54.0-py3-none-any.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/uvloop-0.23.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/vernier-0.5.4-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/watchfiles-1.3.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/websockets-16.1.1-cp310-cp310-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl
+Processing /home/mgjeong/Desktop/etri_hd/mbnas_application/build/wheelhouse/yarl-1.25.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+Installing collected packages: triton, pillow-avif-plugin, nvidia-ml-py, nvidia-cusparselt-cu12, mpmath, flatbuffers, filetype, websockets, uvloop, urllib3, typing_extensions, tqdm, tomli, sympy, six, shellingham, safetensors, rpds-py, regex, PyYAML, python-dotenv, pyparsing, Pygments, pyDeprecate, pyarrow, psutil, protobuf, propcache, polygraphy, polars-runtime-32, pluggy, pillow, packaging, nvidia-nvtx-cu12, nvidia-nvjitlink-cu12, nvidia-nccl-cu12, nvidia-curand-cu12, nvidia-cufft-cu12, nvidia-cuda-runtime-cu12, nvidia-cuda-nvrtc-cu12, nvidia-cuda-cupti-cu12, nvidia-cublas-cu12, numpy, networkx, mdurl, MarkupSafe, kiwisolver, iniconfig, idna, humanfriendly, httptools, hf-xet, h11, fsspec, frozenlist, fonttools, filelock, defusedxml, cycler, click, charset-normalizer, certifi, av, attrs, async-timeout, annotated-types, annotated-doc, aiohappyeyeballs, vernier, uvicorn, ultrafast-pycocotools, typing-inspection, simplejpeg, scipy, requests, referencing, python-dateutil, pydantic_core, pycocotools, polars, opentelemetry-api, opencv-python-headless, opencv-python, nvidia-cusparse-cu12, nvidia-cudnn-cu12, multidict, ml_dtypes, markdown-it-py, lightning-utilities, Jinja2, httpcore, hotcoco, faster-coco-eval, exceptiongroup, contourpy, coloredlogs, aiosignal, yarl, rich, requests-toolbelt, pytest, pydantic, onnxruntime-gpu, onnx, nvidia-cusolver-cu12, matplotlib, jsonschema-specifications, anyio, watchfiles, typer, torch, supervision, starlette, pytest-timeout, pydantic-settings, onnxsim, onnx_graphsurgeon, mbnas-contracts, jsonschema, httpx, aiohttp, ultralytics-thop, torchvision, torchmetrics, torch-hungarian, roboflow, huggingface_hub, fastapi, ultralytics, tokenizers, pytorch-lightning, accelerate, transformers, mbnas-model-runtime, rfdetr, peft, mbnas-server, mbnas-runner
+Successfully installed Jinja2-3.1.6 MarkupSafe-3.0.3 PyYAML-6.0.3 Pygments-2.21.0 accelerate-1.15.0 aiohappyeyeballs-2.7.1 aiohttp-3.14.4 aiosignal-1.4.0 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 async-timeout-5.0.1 attrs-26.1.0 av-17.1.0 certifi-2026.7.22 charset-normalizer-3.5.2 click-8.5.0 coloredlogs-15.0.1 contourpy-1.3.2 cycler-0.12.1 defusedxml-0.7.1 exceptiongroup-1.3.1 fastapi-0.142.2 faster-coco-eval-1.8.0 filelock-3.32.3 filetype-1.2.0 flatbuffers-25.12.19 fonttools-4.65.0 frozenlist-1.8.0 fsspec-2026.7.0 h11-0.16.0 hf-xet-1.6.0 hotcoco-1.0.1 httpcore-1.0.9 httptools-0.8.0 httpx-0.28.1 huggingface_hub-1.33.0 humanfriendly-10.0 idna-3.20 iniconfig-2.3.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 kiwisolver-1.5.1 lightning-utilities-0.15.3 markdown-it-py-4.2.0 matplotlib-3.10.9 mbnas-contracts-0.1.0 mbnas-model-runtime-0.1.0 mbnas-runner-0.1.0 mbnas-server-0.1.0 mdurl-0.1.2 ml_dtypes-0.6.0 mpmath-1.3.0 multidict-6.9.1 networkx-3.4.2 numpy-2.2.6 nvidia-cublas-cu12-12.4.5.8 nvidia-cuda-cupti-cu12-12.4.127 nvidia-cuda-nvrtc-cu12-12.4.127 nvidia-cuda-runtime-cu12-12.4.127 nvidia-cudnn-cu12-9.1.0.70 nvidia-cufft-cu12-11.2.1.3 nvidia-curand-cu12-10.3.5.147 nvidia-cusolver-cu12-11.6.1.9 nvidia-cusparse-cu12-12.3.1.170 nvidia-cusparselt-cu12-0.6.2 nvidia-ml-py-13.615.71 nvidia-nccl-cu12-2.21.5 nvidia-nvjitlink-cu12-12.4.127 nvidia-nvtx-cu12-12.4.127 onnx-1.23.2 onnx_graphsurgeon-0.6.1 onnxruntime-gpu-1.23.2 onnxsim-0.7.3 opencv-python-5.0.0.93 opencv-python-headless-5.0.0.93 opentelemetry-api-1.45.0 packaging-26.3 peft-0.21.2 pillow-12.3.0 pillow-avif-plugin-1.6.0 pluggy-1.6.0 polars-1.44.2 polars-runtime-32-1.44.2 polygraphy-0.53.6 propcache-0.5.4 protobuf-7.36.2 psutil-7.2.2 pyDeprecate-0.9.0 pyarrow-25.0.1 pycocotools-2.0.11 pydantic-2.13.5 pydantic-settings-2.15.0 pydantic_core-2.46.5 pyparsing-3.3.3 pytest-9.1.1 pytest-timeout-2.4.0 python-dateutil-2.9.0.post0 python-dotenv-1.2.4 pytorch-lightning-2.6.6 referencing-0.37.0 regex-2026.9.29 requests-2.34.2 requests-toolbelt-1.0.0 rfdetr-1.11.2 rich-15.0.0 roboflow-1.7.0 rpds-py-0.30.0 safetensors-0.8.0 scipy-1.15.3 shellingham-1.5.4 simplejpeg-1.9.0 six-1.17.0 starlette-1.7.0 supervision-0.30.7 sympy-1.13.1 tokenizers-0.23.2 tomli-2.4.1 torch-2.6.0+cu124 torch-hungarian-0.1.0rc0 torchmetrics-1.8.2 torchvision-0.21.0+cu124 tqdm-4.70.1 transformers-5.18.0 triton-3.2.0 typer-0.25.1 typing-inspection-0.4.4 typing_extensions-4.16.0 ultrafast-pycocotools-0.1.13 ultralytics-8.4.173 ultralytics-thop-2.2.2 urllib3-2.8.0 uvicorn-0.54.0 uvloop-0.23.0 vernier-0.5.4 watchfiles-1.3.0 websockets-16.1.1 yarl-1.25.1
+[install] checking the installed packages
+[install]   mbnas-contracts 0.1.0: inside ROOT (/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas public final/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_contracts/__init__.py)
+[install]   mbnas-model-runtime 0.1.0: inside ROOT (/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas public final/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime/__init__.py)
+[install]   mbnas-runner 0.1.0: inside ROOT (/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas public final/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_runner/__init__.py)
+[install]   mbnas-server 0.1.0: inside ROOT (/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas public final/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_server/__init__.py)
+[install] runtime directories ready under /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas public final/mbnas_application/runtime
+[install] config/public/gateway.env created from config/examples/gateway.env.example
+[install] config/public/runner.env created from config/examples/runner.env.example
+[install]   gateway.env MBNAS_GW_API_TOKEN: generated
+[install]   gateway.env MBNAS_GW_ARTIFACT_SIGNING_KEY: generated
+[install]   gateway.env MBNAS_GW_CORE_TOKEN: NOT SET - the core operator issues it: mbnas-core-principal create --kind server; put it in config/public/gateway.env
+[install]   config/public/gateway.env written (mode 0600)
+[install]   runner.env MBNAS_RUNNER_TOKEN: NOT SET - the core operator issues it: mbnas-core-principal create --kind runner --runner-id runner-85ff53ea; put it in config/public/runner.env
+[install]   config/public/runner.env written (mode 0600)
+[install]   public profile: also set MBNAS_GW_CORE_URL (gateway.env) and MBNAS_RUNNER_CORE_URL (runner.env) to the core's URL (https:// for a non-loopback core)
+[install] web console: mbnas_web/dist present (served by the gateway at /)
+[install] summary
+[install]   root      /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas public final/mbnas_application
+[install]   python    3.10.22 (/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas public final/mbnas_application/runtime/venv/bin/python)  platform Linux-5.15.0-139-generic-x86_64-with-glibc2.31
+[install]   packages  mbnas-contracts 0.1.0, mbnas-model-runtime 0.1.0, mbnas-runner 0.1.0, mbnas-server 0.1.0
+[install]   torch     2.6.0+cu124  torchvision 0.21.0+cu124  ultralytics 8.4.173  pytest 9.1.1
+[install]   config    config/public/*.env (0600)  roles: gateway, runner (core is remote)
+[install] done. Next: bash scripts/doctor.sh --profile public ; bash scripts/start.sh --profile public
+exit=0

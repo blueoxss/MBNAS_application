@@ -1,0 +1,42 @@
+........................................................................ [  6%]
+........................................................................ [ 13%]
+........................................................................ [ 20%]
+........................................................................ [ 26%]
+........................................................................ [ 33%]
+........................................................................ [ 40%]
+........................................................................ [ 47%]
+........................................................................ [ 53%]
+........................................................................ [ 60%]
+........................................................................ [ 67%]
+........................................................................ [ 73%]
+xs...................................................................... [ 80%]
+........................................................................ [ 87%]
+........................................................................ [ 94%]
+................................................................         [100%]
+=============================== warnings summary ===============================
+runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/public/runner/test_benchmark_unit.py::test_export_ultralytics_raw_head_and_restores_pt_path
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/ultralytics/nn/modules/head.py:222: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+    if self.dynamic or self.shape != shape:
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================= slowest 15 durations =============================
+18.14s call     tests/public/packaging/test_package_build.py::test_reproducible_build_is_identical_twice_and_across_invocations
+15.01s setup    tests/public/packaging/test_package_build.py::test_public_zip_name_layout_and_sha256_file
+11.01s call     tests/public/packaging/test_canary_tools.py::test_canary_test_build_positive_control_and_leak_detection
+10.39s call     tests/public/packaging/test_package_build.py::test_web_dist_missing_fails_public_unless_allowed
+8.48s call     tests/public/runner/test_runner_device_used.py::test_child_env_pins_cuda_device_order_to_nvml_pci_bus_order
+6.62s call     tests/public/runner/test_transfer_local.py::test_heartbeat_kicks_a_background_retry
+5.89s call     tests/public/ops/test_ops_start_stop.py::test_stop_escalates_to_sigkill_and_reaps_descendants
+5.59s call     tests/public/runner/test_runner_daemon_unit.py::test_happy_path_claim_start_heartbeat_progress_result_ack
+5.33s call     tests/public/ops/test_ops_install.py::test_offline_install_and_configuration
+4.91s call     tests/public/ops/test_ops_start_stop.py::test_start_stop_cycle_from_external_cwd
+4.78s call     tests/public/runner/test_runner_daemon_unit.py::test_pause_control_writes_stop_file_and_commits_paused
+4.65s call     tests/public/runner/test_runner_daemon_unit.py::test_execute_waits_before_starting_and_spawning
+4.44s call     tests/public/runner/test_runner_daemon_unit.py::test_shutdown_reports_runner_shutting_down
+4.44s call     tests/public/ops/test_ops_install.py::test_owner_requirements_override_adds_the_core_wheel
+4.38s call     tests/public/runner/test_runner_device_used.py::test_cpu_only_runner_commits_device_used_cpu_without_uuid
+1070 passed, 1 skipped, 44 deselected, 1 xfailed, 2 warnings in 276.30s (0:04:36)

@@ -1,0 +1,6 @@
+bash -n scripts/start.sh exit=0
+bash -n scripts/stop.sh exit=0
+bash -n scripts/doctor.sh exit=0
+bash -n scripts/verify.sh exit=0
+shellcheck: not installed on this host (확인 못 함)
+GNU bash, 버전 5.0.17(1)-release (x86_64-pc-linux-gnu)

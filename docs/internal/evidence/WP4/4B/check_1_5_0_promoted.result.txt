@@ -1,0 +1,56 @@
+{
+ "draft_sha256": "70e0cffaab8fafd9c7f230af9169dbbe8812b3eccf7ad7838ca3f46fa9eebc2a",
+ "live_sha256": "f3fe8ea672ee106d41c5c92723f7002136c7181892933aff7653a31c83f8c738",
+ "allowlist_entries": 969,
+ "allowlist_counts": {
+  "PUBLIC": 817,
+  "OWNER_ONLY": 48,
+  "PUBLIC_MAPPED": 104
+ },
+ "mapping_summary": {
+  "OWNER_ONLY": {
+   "allowlist_entries": 48,
+   "concrete_paths": 58,
+   "non_schema_entries": 4,
+   "status_1_4_3": {
+    "OPEN": 41,
+    "DECLARED": 17
+   },
+   "status_1_5_0": {
+    "CLOSED": 38,
+    "DENIED": 13,
+    "DECLARED": 7
+   }
+  },
+  "PUBLIC_MAPPED": {
+   "allowlist_entries": 104,
+   "concrete_paths": 111,
+   "non_schema_entries": 15,
+   "status_1_4_3": {
+    "DECLARED": 69,
+    "OPEN": 42
+   },
+   "status_1_5_0": {
+    "DECLARED": 91,
+    "OPEN": 17,
+    "CLOSED": 3
+   }
+  },
+  "PUBLIC": {
+   "allowlist_entries": 817,
+   "concrete_paths": 1132,
+   "non_schema_entries": 16,
+   "status_1_4_3": {
+    "DECLARED": 788,
+    "OPEN": 344
+   },
+   "status_1_5_0": {
+    "DECLARED": 997,
+    "OPEN": 135
+   }
+  }
+ },
+ "behaviour_ok": true,
+ "ok": true
+}
+violations: 0 structural problems 1.5.0: 0 1.4.3: 1 replay: True

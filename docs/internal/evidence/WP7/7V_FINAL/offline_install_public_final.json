@@ -1,0 +1,14 @@
+{
+ "profile": "public",
+ "network": "none (unshare -rn)",
+ "exit": 0,
+ "verified_at": "2026-10-28 07:1x KST (P1 final)",
+ "command": "unshare -rn bash \"<T6>/final/mbnas offline A/mbnas_application/scripts/install.sh\" --profile public --offline --wheelhouse <SOURCE_ROOT>/build/wheelhouse --python <python3.10>",
+ "cwd": "external (WP-7V scratch folder, outside the extracted tree)",
+ "wheelhouse": "external, not bundled: <SOURCE_ROOT>/build/wheelhouse (pins of constraints.txt; 138 wheels processed); project wheels from the ZIP's wheels/",
+ "tested_zip": "public build A of the P1-final pass (same tree as the final ZIP; the final ZIP differs only in PACKAGE_PROFILE.json/BUILD_INFO.json/FILE_MANIFEST.jsonl, which carry this record)",
+ "tested_zip_sha256": "bbe5e29f4a8eb990a5b3e30e9719b4cd8ebd4c546c8abffe177206e3dcf6aa04",
+ "evidence": ["docs/internal/evidence/WP7/7V_FINAL/20_offline_install_public_A_unshare.txt",
+              "docs/internal/evidence/WP7/7V_FINAL/21_unshare_network_proof.txt"],
+ "previous_record": "docs/internal/evidence/WP7/7V/offline_install_public.json (build 4174060d…, 2026-10-28 03:1x)"
+}

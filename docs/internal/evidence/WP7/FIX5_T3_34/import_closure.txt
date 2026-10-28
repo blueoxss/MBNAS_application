@@ -1,0 +1,14 @@
+import closure: FINDINGS (/home/mgjeong/Desktop/etri_hd/mbnas_application)
+counts: {"violations": 0, "unresolved": 2, "forbidden_strings": 0, "allowlisted": 0, "excepted": 1, "errors": 0, "by_rule": {"resolve": 2}}
+transitional allowlist:
+documented data exceptions (DD-A26):
+  mbnas_model_runtime/src/mbnas_model_runtime/adapters/base.py: 'mbnas_server.search.etri_bridge:ensure_mixed_registered' (expires 1.6)
+violations: 0
+allowlisted: 0
+excepted: 1
+  [data-exception] mbnas_model_runtime/src/mbnas_model_runtime/adapters/base.py:32  mbnas_model_runtime.adapters.base -> mbnas_server.search.etri_bridge (ensure_mixed_registered) [string]
+unresolved: 2
+  tests/public/ops/test_ops_relocation_origins.py:89  mbnas_runner.inner.mod_b  (module mbnas_runner.inner.mod_b not found and 'inner' is not bound in mbnas_runner)
+  tests/public/ops/test_ops_relocation_origins.py:90  mbnas_runner.inner  (module mbnas_runner.inner not found and 'inner' is not bound in mbnas_runner)
+forbidden_strings: 0
+errors: 0

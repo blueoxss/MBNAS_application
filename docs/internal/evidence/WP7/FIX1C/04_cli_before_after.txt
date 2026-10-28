@@ -1,0 +1,68 @@
+# make_pilot_subset.py: pre-fix copy (<SCRATCH>/make_pilot_subset.py.before) vs edited script, same synthetic source
+# source: <SCRATCH>/subset/src (images/{train:6,val:4,test:4}, labels on even indices; same generator as the test's _source)
+# runs: --help | --source S --out O --n-train 2 --n-search-val 1 --n-final-eval 1 --seed 3 --names drone,bird (twice) | --n-train 50
+
+## exit codes, before
+help exit=0
+run exit=0
+rerun exit=0
+bad exit=1
+## exit codes, after (+ the three missing-argument calls)
+help exit=0
+run exit=0
+rerun exit=0
+bad exit=1
+noargs exit=2
+no --out exit=2
+no --source exit=2
+
+## long options, before / after
+--help --names --n-final-eval --n-search-val --n-train --out --seed --source  <- before
+--help --names --n-final-eval --n-search-val --n-train --out --seed --source  <- after
+
+## --help after
+usage: make_pilot_subset.py [-h] --source SOURCE --out OUT [--seed SEED]
+                            [--n-train N_TRAIN] [--n-search-val N_SEARCH_VAL]
+                            [--n-final-eval N_FINAL_EVAL] [--names NAMES]
+
+options:
+  -h, --help            show this help message and exit
+  --source SOURCE       source YOLO dataset root holding
+                        images/{train,val,test} and labels/{train,val,test}
+  --out OUT             output directory of the subset (created if missing;
+                        the source is never modified)
+  --seed SEED
+  --n-train N_TRAIN
+  --n-search-val N_SEARCH_VAL
+  --n-final-eval N_FINAL_EVAL
+  --names NAMES         comma separated class names (source yaml declares
+                        names: [0])
+
+## stderr of the missing-argument calls (after)
+usage: make_pilot_subset.py [-h] --source SOURCE --out OUT [--seed SEED]
+                            [--n-train N_TRAIN] [--n-search-val N_SEARCH_VAL]
+                            [--n-final-eval N_FINAL_EVAL] [--names NAMES]
+make_pilot_subset.py: error: the following arguments are required: --source, --out
+usage: make_pilot_subset.py [-h] --source SOURCE --out OUT [--seed SEED]
+                            [--n-train N_TRAIN] [--n-search-val N_SEARCH_VAL]
+                            [--n-final-eval N_FINAL_EVAL] [--names NAMES]
+make_pilot_subset.py: error: the following arguments are required: --out
+usage: make_pilot_subset.py [-h] --source SOURCE --out OUT [--seed SEED]
+                            [--n-train N_TRAIN] [--n-search-val N_SEARCH_VAL]
+                            [--n-final-eval N_FINAL_EVAL] [--names NAMES]
+make_pilot_subset.py: error: the following arguments are required: --source
+
+## stdout, after (before is identical once out_before/out_after are normalised)
+[ok] train: 2 images from train
+[ok] search_val: 1 images from val
+[ok] final_eval: 1 images from test
+data.yaml: <SCRATCH>/subset/out_after/data.yaml
+[skip] <SCRATCH>/subset/out_after already holds a subset (manifest.json present)
+
+## comparisons
+run stdout: identical
+rerun ([skip]) stdout: identical
+not-enough-images stderr: identical (not enough images in <SCRATCH>/subset/src/images/train: need 50, found 6)
+data.yaml: identical (path line normalised)
+manifest.json: byte-identical (sha256 4e94383ff8dba4cb...)
+images/ and labels/: identical

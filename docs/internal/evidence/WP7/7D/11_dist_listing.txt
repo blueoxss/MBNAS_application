@@ -1,0 +1,31 @@
+$ ls -la dist/public dist/owner dist/registration
+dist/owner:
+합계 11160
+drwxrwxr-x 2 mgjeong mgjeong     4096 Oct 27 14:05 .
+drwxrwxr-x 5 mgjeong mgjeong     4096 Oct 23 21:06 ..
+-rw-rw-r-- 1 mgjeong mgjeong 11414475 Oct 27 14:05 mbnas_application-0.1.0-owner-private-runtime-linux_x86_64.zip
+-rw-rw-r-- 1 mgjeong mgjeong      129 Oct 27 14:05 mbnas_application-0.1.0-owner-private-runtime-linux_x86_64.zip.sha256
+
+dist/public:
+합계 2128
+drwxrwxr-x 2 mgjeong mgjeong    4096 Oct 27 14:05 .
+drwxrwxr-x 5 mgjeong mgjeong    4096 Oct 23 21:06 ..
+-rw-rw-r-- 1 mgjeong mgjeong 2165965 Oct 27 14:05 mbnas_application-0.1.0-public-runtime-linux_x86_64.zip
+-rw-rw-r-- 1 mgjeong mgjeong     122 Oct 27 14:05 mbnas_application-0.1.0-public-runtime-linux_x86_64.zip.sha256
+
+dist/registration:
+합계 2192
+drwxrwxr-x 2 mgjeong mgjeong    4096 Oct 27 14:06 .
+drwxrwxr-x 5 mgjeong mgjeong    4096 Oct 23 21:06 ..
+-rw-rw-r-- 1 mgjeong mgjeong 2230039 Oct 27 14:06 mbnas_application-0.1.0-registration-runtime-linux_x86_64.zip
+-rw-rw-r-- 1 mgjeong mgjeong     128 Oct 27 14:06 mbnas_application-0.1.0-registration-runtime-linux_x86_64.zip.sha256
+exit=0
+$ sha256sum -c ./mbnas_application-0.1.0-public-runtime-linux_x86_64.zip.sha256
+mbnas_application-0.1.0-public-runtime-linux_x86_64.zip: 성공
+exit=0
+$ sha256sum -c ./mbnas_application-0.1.0-owner-private-runtime-linux_x86_64.zip.sha256
+mbnas_application-0.1.0-owner-private-runtime-linux_x86_64.zip: 성공
+exit=0
+$ sha256sum -c ./mbnas_application-0.1.0-registration-runtime-linux_x86_64.zip.sha256
+mbnas_application-0.1.0-registration-runtime-linux_x86_64.zip: 성공
+exit=0

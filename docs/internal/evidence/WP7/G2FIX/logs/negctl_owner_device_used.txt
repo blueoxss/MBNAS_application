@@ -1,0 +1,12 @@
+# negative control: tests/owner/runner_protocol/test_device_used.py against the PRE-FIX mbnas_runner (snapshot copy first on PYTHONPATH); expected: both FAIL with KeyError 'device_used'
+mbnas_runner.daemon from snapshot copy: True
+tests/owner/runner_protocol/test_device_used.py:48: 
+E       KeyError: 'device_used'
+tests/owner/runner_protocol/test_device_used.py:36: KeyError
+tests/owner/runner_protocol/test_device_used.py:63: 
+E       KeyError: 'device_used'
+tests/owner/runner_protocol/test_device_used.py:36: KeyError
+FAILED tests/owner/runner_protocol/test_device_used.py::test_search_run_records_raw_metrics_device_used_cpu
+FAILED tests/owner/runner_protocol/test_device_used.py::test_explicit_training_run_records_raw_metrics_device_used_cpu
+2 failed, 1 warning in 11.72s
+exit 1

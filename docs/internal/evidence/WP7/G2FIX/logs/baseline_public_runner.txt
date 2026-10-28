@@ -1,0 +1,30 @@
+.F..........s.sss..s......ss............................................ [ 75%]
+.......................                                                  [100%]
+=================================== FAILURES ===================================
+____________ test_host_runtime_reports_rfdetr_and_the_cuda_devices _____________
+
+    @pytest.mark.gpu
+    def test_host_runtime_reports_rfdetr_and_the_cuda_devices() -> None:
+        rt = capability.host_runtime()
+        assert rt["rfdetr"]["available"] is True and rt["rfdetr"]["version"] == "1.11.2"
+>       assert rt["torch"]["cuda_available"] is True and rt["torch"]["devices"]
+E       assert (False is True)
+
+tests/public/runner/test_benchmark_rfdetr.py:79: AssertionError
+=============================== warnings summary ===============================
+tests/public/runner/test_benchmark_unit.py::test_export_ultralytics_raw_head_and_restores_pt_path
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/ultralytics/nn/modules/head.py:222: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+    if self.dynamic or self.shape != shape:
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/public/runner/test_benchmark_rfdetr.py:204: official rf-detr-nano.pth not in the weights cache
+SKIPPED [1] tests/public/runner/test_benchmark_rfdetr.py:235: official rf-detr-nano.pth not in the weights cache
+SKIPPED [1] tests/public/runner/test_benchmark_rfdetr.py:268: host CUDA GPU not available
+SKIPPED [1] tests/public/runner/test_benchmark_rfdetr.py:309: PILOT_VAL search_val images not present on this host
+SKIPPED [1] tests/public/runner/test_benchmark_unit.py:61: PILOT_VAL search_val images not present on this host
+SKIPPED [1] tests/public/runner/test_benchmark_unit.py:136: host CUDA GPU not available
+SKIPPED [1] tests/public/runner/test_benchmark_unit.py:164: host CUDA GPU not available
+FAILED tests/public/runner/test_benchmark_rfdetr.py::test_host_runtime_reports_rfdetr_and_the_cuda_devices
+1 failed, 87 passed, 7 skipped, 1 warning in 84.10s (0:01:24)
+exit 1

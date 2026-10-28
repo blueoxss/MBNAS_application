@@ -1,0 +1,3 @@
+$ env | grep -E '^(PYTHON|OLDPWD|VIRTUAL_ENV)'   (the shell that invokes verify.sh; cwd /tmp)
+PYTHONDONTWRITEBYTECODE=1
+exit=0 (1 = no match)

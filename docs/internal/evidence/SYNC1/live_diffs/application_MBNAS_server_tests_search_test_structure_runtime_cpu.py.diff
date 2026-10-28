@@ -1,0 +1,12 @@
+--- a/application/MBNAS_server/tests/search/test_structure_runtime_cpu.py
++++ b/application/MBNAS_server/tests/search/test_structure_runtime_cpu.py
+@@ -42,6 +42,9 @@
+     assert result["parameters"] is None
+     assert any(d["code"]=="SHAPE_MISMATCH" for d in result["diagnostics"])
+     assert any(d["position"]==2 for d in result["diagnostics"])
++    assert result["diagnostics"][0]["position"]==2 and result["diagnostics"][0]["path"]=="backbone[2]"  # raw forward diagnostic is positioned
++    merge_diag=next(d for d in result["diagnostics"] if d["code"]=="MERGE_INPUT_MISMATCH")
++    assert result["diagnostics"][0]["path"]==merge_diag["path"]
+     assert any(d["code"]=="MERGE_INPUT_MISMATCH" and d["position"]==2 for d in result["diagnostics"])
+ 
+ 

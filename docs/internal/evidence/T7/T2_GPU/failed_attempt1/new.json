@@ -1,0 +1,61 @@
+{
+ "error": "validation failed",
+ "errors": [
+  {
+   "code": "BASELINE_UNKNOWN",
+   "field": "console.baselines[0].id",
+   "message": "'yolo11n' is not in the server registry"
+  },
+  {
+   "code": "BASELINE_UNKNOWN",
+   "field": "console.baselines[1].id",
+   "message": "'yolo26n' is not in the server registry"
+  },
+  {
+   "code": "BASELINE_UNKNOWN",
+   "field": "console.baselines[2].id",
+   "message": "'rt-detr-l' is not in the server registry"
+  },
+  {
+   "code": "BASELINE_UNKNOWN",
+   "field": "console.baselines[3].id",
+   "message": "'rf-detr-nano' is not in the server registry"
+  },
+  {
+   "code": "BASELINE_UNKNOWN",
+   "field": "console.baselines[4].id",
+   "message": "'etri-controlled-cnn-transformer' is not in the server registry"
+  }
+ ],
+ "label": "new_1",
+ "run_record": {
+  "end_utc": "2026-10-27T06:28:26.127997Z",
+  "exit_code": 2,
+  "label": "new_1",
+  "log": "/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/T7/T2_GPU/logs/20261027T062820Z_new_1.log",
+  "nvidia_smi_after": {
+   "compute_apps": [
+    "2428785, /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/venv/bin/python, 568 MiB, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9"
+   ],
+   "gpus": [
+    "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 568 MiB, 4 %",
+    "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 0 %"
+   ]
+  },
+  "nvidia_smi_before": {
+   "compute_apps": [
+    "2428785, /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/venv/bin/python, 10 MiB, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9"
+   ],
+   "gpus": [
+    "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 1 %",
+    "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 1 %"
+   ]
+  },
+  "out": "/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/T7/T2_GPU/new.json",
+  "seconds": 3.9,
+  "side": "new",
+  "start_utc": "2026-10-27T06:28:22.200902Z"
+ },
+ "side": "new",
+ "tree_hash": "sha256:164292c6e775a52a3da02f98282257b67a282f9e84b236ded3940e592a568f2f"
+}

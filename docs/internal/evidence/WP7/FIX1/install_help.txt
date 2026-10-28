@@ -1,0 +1,66 @@
+# 2026-10-28T04:14:11+09:00 cwd=TARGET_ROOT: bash scripts/install.sh --help
+Usage: bash scripts/install.sh --profile owner|public [options]
+
+Thin wrapper around the standard installation path (DD-A31):
+    <python3.10> -m venv runtime/venv
+    runtime/venv/bin/python -m pip install -r requirements-<profile>.txt      (run from the ROOT directory)
+plus the runtime directories and the per-role configuration files. Every path is relative to ROOT, the directory
+that holds this scripts/ folder, so the tree can live anywhere (also in a path with spaces) and the script can be
+called from any working directory.
+
+Options:
+  --profile owner|public  (required) public = mbnas-contracts, mbnas-model-runtime, mbnas-runner, mbnas-server
+                          (gateway + runner hosts; they connect to a remote core). owner = public + mbnas-core
+                          (core API + owner worker on the owner host).
+  --python <interp>       Python 3.10 interpreter that creates runtime/venv (default: python3.10 on PATH, else
+                          python3 when it is 3.10). The venv never sees system site-packages (PYTHONNOUSERSITE=1).
+  --offline               install without network: pip install --no-index --find-links <wheelhouse>
+                          (plus -c constraints.txt when that file exists and the default requirements file is used).
+                          Without --offline pip downloads from PyPI and https://download.pytorch.org/whl/cu124 (the
+                          index named inside the requirements file): network access is required.
+  --wheelhouse <dir>      wheel directory used by --offline (default: <ROOT>/wheelhouse, else <ROOT>/build/wheelhouse).
+                          Only valid together with --offline.
+  --requirements <file>   use this requirements file instead of requirements-<profile>.txt, for example
+                          requirements-cpu.txt (CPU-only torch; the validated platform is cu124). A relative path is
+                          taken from ROOT. pip runs in the directory of the file (wheel paths inside are relative).
+                          With --profile owner, wheels/mbnas_core-<version>-py3-none-any.whl is added when the file
+                          does not list it (requirements-cpu.txt lists the public wheels only).
+  --web                   also run `npm ci` in mbnas_web (cache <ROOT>/build/npm-cache; with --offline npm also gets
+                          --offline) and `npm run build` when mbnas_web/dist is missing. Needs Node.js. Not needed to
+                          serve the shipped mbnas_web/dist: the gateway serves it (DD-A30).
+  -h, --help              show this help and exit.
+
+Steps:
+  1. checks the package metadata (BUILD_INFO.json / PACKAGE_PROFILE.json when present: a public or registration
+     package cannot be installed with --profile owner) and the requirements file;
+  2. creates runtime/venv with the interpreter (an existing venv is reused when it is Python 3.10 without system
+     site-packages; a venv holding editable development installs of the mbnas packages is refused, never replaced);
+  3. builds a project wheel referenced by the requirements file but missing from ROOT (source tree only: pip wheel
+     --no-deps from <ROOT>/<package>, build isolation; offline builds take setuptools/wheel from the wheelhouse);
+  4. pip install -r <requirements> (log: runtime/logs/install-<UTC stamp>.log) and checks that every package of the
+     profile imports from inside ROOT;
+  5. creates runtime/{pids,logs,data,weights,uploads,locks};
+  6. writes config/<profile>/<role>.env (roles: public = gateway, runner; owner = core, gateway, runner) by copying
+     config/examples/<role>.env.example. An existing file is never overwritten: only secrets that are missing,
+     empty or a placeholder are filled. Generated secrets (python secrets.token_urlsafe(48)):
+       core.env     MBNAS_CORE_API_TOKEN, MBNAS_CORE_ARTIFACT_SIGNING_KEY, MBNAS_CORE_TICKET_KEY
+       gateway.env  MBNAS_GW_API_TOKEN (the console bearer token), MBNAS_GW_ARTIFACT_SIGNING_KEY
+     Core-issued tokens: owner profile - a server principal (gateway.env MBNAS_GW_CORE_TOKEN) and a runner principal
+     (runner.env MBNAS_RUNNER_TOKEN, bound to the runner id of runner.env) are created in the local core DB with
+     mbnas-core-principal; public profile - these two come from the core operator
+     (mbnas-core-principal create --kind server | --kind runner --runner-id <id>; the runner id to give is printed),
+     and a placeholder line is commented out until then. Any other line with an empty value is commented out (unset =
+     default). The runner id is MBNAS_RUNNER_RUNNER_ID when runner.env sets it, else the runner's default: a random
+     runner-<8 hex> generated at install time and kept in runtime/runner/runner_id (never derived from the host name).
+     Files and the directory are private (0600 / 0700). Secret values are never printed: read the console token
+     with  grep MBNAS_GW_API_TOKEN config/<profile>/gateway.env
+  7. optional web step (--web), then an environment summary.
+
+Environment:
+  pip honours its usual variables (PIP_CONFIG_FILE, PIP_INDEX_URL, PIP_CACHE_DIR, ...); set PIP_CONFIG_FILE=/dev/null
+  to ignore a host pip.conf. MBNAS_HOME is set to <ROOT>/runtime for every step (DD-A13).
+
+Exit codes: 0 installed; 1 a step failed (see the message and the install log); 2 usage error.
+
+Next: bash scripts/doctor.sh --profile <profile>, then bash scripts/start.sh --profile <profile>.
+exit=0

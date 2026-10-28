@@ -1,0 +1,8 @@
+--- a/application/docs/implementation_20261021/README.md
++++ b/application/docs/implementation_20261021/README.md
+@@ -10,3 +10,5 @@
+ Only executed checks receive passing status. A structural diagnostic performed without the required model runtime must remain UNVERIFIED. A successful unit test with a stub validator is not a CPU model shape test. A browser test against stub network responses is not a backend integration test. Historical repository evidence is distinguished from newly executed checks.
+ 
+ Final assessment: eight criterion sets pass their tested gates; S01 and S07 remain partial because generic RF-DETR/ETRI gene/detail representations are not implemented. Full all-ten-pass acceptance is not claimed. See `evaluation-results.json` for weighted item scores and exact unmet gates. `SCREENSHOTS.md` indexes eleven actual UI screenshots.
++
++> Note (S06_fix2, DD-46): the `verify_*.py|mjs` scripts in this directory are the preserved originals of the 2026-10-21 audit and are not maintained. The maintained, current versions (CLI flags, isolated ports, and the post-DD-5/DD-44 browser assertions: `trained-not-evaluated` selector, computed `original_zoom_link` with the lightbox check) are in `../integration_20261021/harness/`. Reproduce current evidence with those, not with the originals here (e.g. the original `verify_cpu_training_browser.mjs` still prints `original_zoom_link:true` as a literal).

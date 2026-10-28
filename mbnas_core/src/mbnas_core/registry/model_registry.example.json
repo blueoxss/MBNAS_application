@@ -1,0 +1,618 @@
+{
+ "default_baseline14": [
+  "yolo11s",
+  "yolo11m",
+  "yolo11l",
+  "yolo11x",
+  "yolo26s",
+  "yolo26m",
+  "yolo26l",
+  "yolo26x",
+  "rf-detr-small",
+  "rf-detr-medium",
+  "rf-detr-large",
+  "rt-detr-l",
+  "rt-detr-x",
+  "etri-controlled-cnn-transformer"
+ ],
+ "note": "Illustrative registry shape consumed by protocol.validator (capabilities.init_modes, input_size_rule, precisions, backend; evidence.version). Every status is UNVERIFIED: only the live registry's probes may set AVAILABLE. weights_sha256 values are copied from MBNAS_data/weights/weights_manifest.json.",
+ "registry": [
+  {
+   "capabilities": {
+    "backend": "ultralytics",
+    "config": "yolo11s.yaml",
+    "gradient_accumulation": "must_be_1",
+    "import_class": "ultralytics.YOLO",
+    "inference_head": "native",
+    "init_modes": [
+     "scratch",
+     "pretrained_native"
+    ],
+    "input_size_rule": {
+     "kind": "stride_ceil",
+     "stride": 32
+    },
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32",
+     "fp32"
+    ],
+    "weights": "yolo11s.pt"
+   },
+   "evidence": {
+    "version": "8.4.173",
+    "weights_bytes": 19313732,
+    "weights_sha256": "85a76fe86dd8afe384648546b56a7a78580c7cb7b404fc595f97969322d502d5",
+    "weights_source_url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11s.pt"
+   },
+   "family": "YOLO11",
+   "id": "yolo11s",
+   "reason": "example entry: the live registry probes CPU build, weights hash and export before AVAILABLE",
+   "status": "UNVERIFIED"
+  },
+  {
+   "capabilities": {
+    "backend": "ultralytics",
+    "config": "yolo11m.yaml",
+    "gradient_accumulation": "must_be_1",
+    "import_class": "ultralytics.YOLO",
+    "inference_head": "native",
+    "init_modes": [
+     "scratch",
+     "pretrained_native"
+    ],
+    "input_size_rule": {
+     "kind": "stride_ceil",
+     "stride": 32
+    },
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32",
+     "fp32"
+    ],
+    "weights": "yolo11m.pt"
+   },
+   "evidence": {
+    "version": "8.4.173",
+    "weights_bytes": 40684120,
+    "weights_sha256": "d5ffc1a674953a08e11a8d21e022781b1b23a19b730afc309290bd9fb5305b95",
+    "weights_source_url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11m.pt"
+   },
+   "family": "YOLO11",
+   "id": "yolo11m",
+   "reason": "example entry: the live registry probes CPU build, weights hash and export before AVAILABLE",
+   "status": "UNVERIFIED"
+  },
+  {
+   "capabilities": {
+    "backend": "ultralytics",
+    "config": "yolo11l.yaml",
+    "gradient_accumulation": "must_be_1",
+    "import_class": "ultralytics.YOLO",
+    "inference_head": "native",
+    "init_modes": [
+     "scratch",
+     "pretrained_native"
+    ],
+    "input_size_rule": {
+     "kind": "stride_ceil",
+     "stride": 32
+    },
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32",
+     "fp32"
+    ],
+    "weights": "yolo11l.pt"
+   },
+   "evidence": {
+    "version": "8.4.173",
+    "weights_bytes": 51387343,
+    "weights_sha256": "9ebd0e09d59811db4b1d61e2bc6730649608b1ac47f8dd01e2da6bca7c20023f",
+    "weights_source_url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11l.pt"
+   },
+   "family": "YOLO11",
+   "id": "yolo11l",
+   "reason": "example entry: the live registry probes CPU build, weights hash and export before AVAILABLE",
+   "status": "UNVERIFIED"
+  },
+  {
+   "capabilities": {
+    "backend": "ultralytics",
+    "config": "yolo11x.yaml",
+    "gradient_accumulation": "must_be_1",
+    "import_class": "ultralytics.YOLO",
+    "inference_head": "native",
+    "init_modes": [
+     "scratch",
+     "pretrained_native"
+    ],
+    "input_size_rule": {
+     "kind": "stride_ceil",
+     "stride": 32
+    },
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32",
+     "fp32"
+    ],
+    "weights": "yolo11x.pt"
+   },
+   "evidence": {
+    "version": "8.4.173",
+    "weights_bytes": 114636239,
+    "weights_sha256": "7bc158aa95c0ebfdd87f70f01653c1131b93e92522dbe15c228bcd742e773a24",
+    "weights_source_url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11x.pt"
+   },
+   "family": "YOLO11",
+   "id": "yolo11x",
+   "reason": "example entry: the live registry probes CPU build, weights hash and export before AVAILABLE",
+   "status": "UNVERIFIED"
+  },
+  {
+   "capabilities": {
+    "backend": "ultralytics",
+    "config": "yolo26s.yaml",
+    "gradient_accumulation": "must_be_1",
+    "import_class": "ultralytics.YOLO",
+    "inference_head": "e2e_one2one_nms_false",
+    "init_modes": [
+     "scratch",
+     "pretrained_native"
+    ],
+    "input_size_rule": {
+     "kind": "stride_ceil",
+     "stride": 32
+    },
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32",
+     "fp32"
+    ],
+    "weights": "yolo26s.pt"
+   },
+   "evidence": {
+    "version": "8.4.173",
+    "weights_bytes": 20422725,
+    "weights_sha256": "646f8bc3fe0a656803d95c294f7852321748cb29d13466a1af8862e2db384a1b",
+    "weights_source_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26s.pt"
+   },
+   "family": "YOLO26",
+   "id": "yolo26s",
+   "reason": "example entry: the live registry probes CPU build, weights hash and export before AVAILABLE",
+   "status": "UNVERIFIED"
+  },
+  {
+   "capabilities": {
+    "backend": "ultralytics",
+    "config": "yolo26m.yaml",
+    "gradient_accumulation": "must_be_1",
+    "import_class": "ultralytics.YOLO",
+    "inference_head": "e2e_one2one_nms_false",
+    "init_modes": [
+     "scratch",
+     "pretrained_native"
+    ],
+    "input_size_rule": {
+     "kind": "stride_ceil",
+     "stride": 32
+    },
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32",
+     "fp32"
+    ],
+    "weights": "yolo26m.pt"
+   },
+   "evidence": {
+    "version": "8.4.173",
+    "weights_bytes": 44255705,
+    "weights_sha256": "401cea9ab23ad19246ff7744859816bc599f350e93c9dd30367b6f0a0745d0b7",
+    "weights_source_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26m.pt"
+   },
+   "family": "YOLO26",
+   "id": "yolo26m",
+   "reason": "example entry: the live registry probes CPU build, weights hash and export before AVAILABLE",
+   "status": "UNVERIFIED"
+  },
+  {
+   "capabilities": {
+    "backend": "ultralytics",
+    "config": "yolo26l.yaml",
+    "gradient_accumulation": "must_be_1",
+    "import_class": "ultralytics.YOLO",
+    "inference_head": "e2e_one2one_nms_false",
+    "init_modes": [
+     "scratch",
+     "pretrained_native"
+    ],
+    "input_size_rule": {
+     "kind": "stride_ceil",
+     "stride": 32
+    },
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32",
+     "fp32"
+    ],
+    "weights": "yolo26l.pt"
+   },
+   "evidence": {
+    "version": "8.4.173",
+    "weights_bytes": 53211173,
+    "weights_sha256": "9fe3c544f2b19bebad7ea41e76d7ad3d88b7c2f10d11d24430c5311f6b32db26",
+    "weights_source_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26l.pt"
+   },
+   "family": "YOLO26",
+   "id": "yolo26l",
+   "reason": "example entry: the live registry probes CPU build, weights hash and export before AVAILABLE",
+   "status": "UNVERIFIED"
+  },
+  {
+   "capabilities": {
+    "backend": "ultralytics",
+    "config": "yolo26x.yaml",
+    "gradient_accumulation": "must_be_1",
+    "import_class": "ultralytics.YOLO",
+    "inference_head": "e2e_one2one_nms_false",
+    "init_modes": [
+     "scratch",
+     "pretrained_native"
+    ],
+    "input_size_rule": {
+     "kind": "stride_ceil",
+     "stride": 32
+    },
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32",
+     "fp32"
+    ],
+    "weights": "yolo26x.pt"
+   },
+   "evidence": {
+    "version": "8.4.173",
+    "weights_bytes": 118667365,
+    "weights_sha256": "9fdd44a31c504547ffb81d2c6d9e6dac3493c8eaa8b0398d3f43bae6c7003e92",
+    "weights_source_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26x.pt"
+   },
+   "family": "YOLO26",
+   "id": "yolo26x",
+   "reason": "example entry: the live registry probes CPU build, weights hash and export before AVAILABLE",
+   "status": "UNVERIFIED"
+  },
+  {
+   "capabilities": {
+    "backend": "rfdetr",
+    "import_class": "rfdetr.RFDETRSmall",
+    "inference_head": "native_no_nms",
+    "init_modes": [
+     "scratch",
+     "pretrained_native"
+    ],
+    "input_size_rule": {
+     "kind": "stride_ceil",
+     "square": true,
+     "stride": 32
+    },
+    "native_recipe_init": "pretrained_native",
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32"
+    ]
+   },
+   "evidence": {
+    "block_size_rule": "resolution % (patch_size*num_windows) == 0 (16*2)",
+    "scratch_init": "pretrain_weights=None gives a true random init (STAGE_TRAINER_AUDIT B.2)",
+    "version": "1.11.2"
+   },
+   "family": "Transformer",
+   "id": "rf-detr-small",
+   "reason": "example entry: weights are fetched by the rfdetr package and hashed by the registry probe",
+   "status": "UNVERIFIED"
+  },
+  {
+   "capabilities": {
+    "backend": "rfdetr",
+    "import_class": "rfdetr.RFDETRMedium",
+    "inference_head": "native_no_nms",
+    "init_modes": [
+     "scratch",
+     "pretrained_native"
+    ],
+    "input_size_rule": {
+     "kind": "stride_ceil",
+     "square": true,
+     "stride": 32
+    },
+    "native_recipe_init": "pretrained_native",
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32"
+    ]
+   },
+   "evidence": {
+    "block_size_rule": "resolution % (patch_size*num_windows) == 0 (16*2)",
+    "scratch_init": "pretrain_weights=None gives a true random init (STAGE_TRAINER_AUDIT B.2)",
+    "version": "1.11.2"
+   },
+   "family": "Transformer",
+   "id": "rf-detr-medium",
+   "reason": "example entry: weights are fetched by the rfdetr package and hashed by the registry probe",
+   "status": "UNVERIFIED"
+  },
+  {
+   "capabilities": {
+    "backend": "rfdetr",
+    "import_class": "rfdetr.RFDETRLarge",
+    "inference_head": "native_no_nms",
+    "init_modes": [
+     "scratch",
+     "pretrained_native"
+    ],
+    "input_size_rule": {
+     "kind": "stride_ceil",
+     "square": true,
+     "stride": 32
+    },
+    "native_recipe_init": "pretrained_native",
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32"
+    ]
+   },
+   "evidence": {
+    "block_size_rule": "resolution % (patch_size*num_windows) == 0 (16*2)",
+    "scratch_init": "pretrain_weights=None gives a true random init (STAGE_TRAINER_AUDIT B.2)",
+    "version": "1.11.2"
+   },
+   "family": "Transformer",
+   "id": "rf-detr-large",
+   "reason": "example entry: weights are fetched by the rfdetr package and hashed by the registry probe",
+   "status": "UNVERIFIED"
+  },
+  {
+   "capabilities": {
+    "backend": "ultralytics",
+    "config": "rtdetr-l.yaml",
+    "gradient_accumulation": "must_be_1",
+    "import_class": "ultralytics.RTDETR",
+    "inference_head": "native",
+    "init_modes": [
+     "scratch",
+     "pretrained_native"
+    ],
+    "input_size_rule": {
+     "kind": "stride_ceil",
+     "stride": 32
+    },
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32",
+     "fp32"
+    ],
+    "weights": "rtdetr-l.pt"
+   },
+   "evidence": {
+    "version": "8.4.173",
+    "weights_bytes": 66511432,
+    "weights_sha256": "6de60b10d4bc566f00cda0f5b4d64afe4b66d48dc9695d2171effb7859d8e73f",
+    "weights_source_url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/rtdetr-l.pt"
+   },
+   "family": "Hybrid",
+   "id": "rt-detr-l",
+   "reason": "example entry: the live registry probes CPU build, weights hash and export before AVAILABLE",
+   "status": "UNVERIFIED"
+  },
+  {
+   "capabilities": {
+    "backend": "ultralytics",
+    "config": "rtdetr-x.yaml",
+    "gradient_accumulation": "must_be_1",
+    "import_class": "ultralytics.RTDETR",
+    "inference_head": "native",
+    "init_modes": [
+     "scratch",
+     "pretrained_native"
+    ],
+    "input_size_rule": {
+     "kind": "stride_ceil",
+     "stride": 32
+    },
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32",
+     "fp32"
+    ],
+    "weights": "rtdetr-x.pt"
+   },
+   "evidence": {
+    "version": "8.4.173",
+    "weights_bytes": 135755662,
+    "weights_sha256": "81071ffee0986edff2dd2d790da364843b66717cdc61d9491edb50790fd3345b",
+    "weights_source_url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/rtdetr-x.pt"
+   },
+   "family": "Hybrid",
+   "id": "rt-detr-x",
+   "reason": "example entry: the live registry probes CPU build, weights hash and export before AVAILABLE",
+   "status": "UNVERIFIED"
+  },
+  {
+   "capabilities": {
+    "backend": "etri_hybrid",
+    "import_class": "mbnas_server.adapters.etri_hybrid.ControlledDetector",
+    "inference_head": "native",
+    "init_modes": [
+     "scratch"
+    ],
+    "input_size_rule": {
+     "kind": "fixed",
+     "shape": [
+      384,
+      384
+     ]
+    },
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32",
+     "fp32"
+    ]
+   },
+   "evidence": {
+    "source": "ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb (read-only)"
+   },
+   "family": "Hybrid",
+   "id": "etri-controlled-cnn-transformer",
+   "reason": "example entry: ControlledDetector('cnn_transformer') extracted from the ETRI notebook; not SOTA",
+   "status": "UNVERIFIED"
+  },
+  {
+   "capabilities": {
+    "backend": "ultralytics",
+    "config": "yolo11n.yaml",
+    "gradient_accumulation": "must_be_1",
+    "import_class": "ultralytics.YOLO",
+    "inference_head": "native",
+    "init_modes": [
+     "scratch",
+     "pretrained_native"
+    ],
+    "input_size_rule": {
+     "kind": "stride_ceil",
+     "stride": 32
+    },
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32",
+     "fp32"
+    ],
+    "weights": "yolo11n.pt"
+   },
+   "evidence": {
+    "version": "8.4.173",
+    "weights_bytes": 5613764,
+    "weights_sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+    "weights_source_url": "https://github.com/ultralytics/assets/releases/download/v8.3.0/yolo11n.pt"
+   },
+   "family": "YOLO11",
+   "id": "yolo11n",
+   "reason": "example entry: the live registry probes CPU build, weights hash and export before AVAILABLE",
+   "status": "UNVERIFIED"
+  },
+  {
+   "capabilities": {
+    "backend": "ultralytics",
+    "config": "yolo26n.yaml",
+    "gradient_accumulation": "must_be_1",
+    "import_class": "ultralytics.YOLO",
+    "inference_head": "e2e_one2one_nms_false",
+    "init_modes": [
+     "scratch",
+     "pretrained_native"
+    ],
+    "input_size_rule": {
+     "kind": "stride_ceil",
+     "stride": 32
+    },
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32",
+     "fp32"
+    ],
+    "weights": "yolo26n.pt"
+   },
+   "evidence": {
+    "version": "8.4.173",
+    "weights_bytes": 5544453,
+    "weights_sha256": "9b09cc8bf347f0fc8a5f7657480587f25db09b34bf33b0652110fb03a8ad4fef",
+    "weights_source_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26n.pt"
+   },
+   "family": "YOLO26",
+   "id": "yolo26n",
+   "reason": "example entry: the live registry probes CPU build, weights hash and export before AVAILABLE",
+   "status": "UNVERIFIED"
+  },
+  {
+   "capabilities": {
+    "backend": "rfdetr",
+    "import_class": "rfdetr.RFDETRNano",
+    "inference_head": "native_no_nms",
+    "init_modes": [
+     "scratch",
+     "pretrained_native"
+    ],
+    "input_size_rule": {
+     "kind": "stride_ceil",
+     "square": true,
+     "stride": 32
+    },
+    "native_recipe_init": "pretrained_native",
+    "precisions": [
+     "FP32",
+     "FP16"
+    ],
+    "train_precisions": [
+     "amp_fp16_fp32"
+    ]
+   },
+   "evidence": {
+    "block_size_rule": "resolution % (patch_size*num_windows) == 0 (16*2)",
+    "scratch_init": "pretrain_weights=None gives a true random init (STAGE_TRAINER_AUDIT B.2)",
+    "version": "1.11.2"
+   },
+   "family": "Transformer",
+   "id": "rf-detr-nano",
+   "reason": "example entry: weights are fetched by the rfdetr package and hashed by the registry probe",
+   "status": "UNVERIFIED"
+  }
+ ],
+ "schema": "mbnas.model_registry_example/1"
+}

@@ -1,0 +1,24 @@
+README.md 0
+THIRD_PARTY_NOTICES.md 0
+docs/public/API.md 0
+docs/public/COMPATIBILITY.md 0
+docs/public/FEATURES.md 0
+docs/public/INSTALL.md 0
+docs/public/OPERATIONS.md 0
+docs/public/SECURITY_MODEL.md 0
+docs/public/TROUBLESHOOTING.md 0
+docs/registration/FILE_LIST.md 0
+docs/registration/INTERFACES.md 0
+docs/registration/KEY_CONTRIBUTIONS.md 0
+docs/registration/PROGRAM_OVERVIEW.md 0
+docs/registration/REVIEW_CHECKLIST.md 0
+docs/registration/RIGHTS_REVIEW.md 0
+docs/registration/SUBMISSION_SCOPE_TABLE.md 0
+docs/registration/SYSTEM_STRUCTURE.md 0
+docs/registration/diagrams/system_structure.mmd 0
+docs/registration/diagrams/system_structure.svg 0
+config/examples/core.env.example 0
+config/examples/gateway.env.example 0
+config/examples/owner-all-in-one.env.example 0
+config/examples/runner.env.example 0
+files: 23 TOTAL violations: 0

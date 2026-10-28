@@ -1,0 +1,14 @@
+# full tests/public/packaging run BEFORE THIRD_PARTY_NOTICES_WEB.md existed in the tree (parent still generating it)
+# the one failure is that precondition (the real allowlists require the file); every other test passed
+            pytest.skip("not a source tree: build/allowlists absent")
+        assert (REPO / "LICENSE").is_file()  # the LICENSE* include matches an existing file (DD-A65)
+>       assert (REPO / "THIRD_PARTY_NOTICES_WEB.md").is_file()  # npm notices (DD-A65); required by every allowlist
+E       AssertionError: assert False
+E        +  where False = is_file()
+E        +    where is_file = (PosixPath('<ROOT>') / 'THIRD_PARTY_NOTICES_WEB.md').is_file
+
+tests/public/packaging/test_package_contents_and_gates.py:290: AssertionError
+=========================== short test summary info ============================
+FAILED tests/public/packaging/test_package_contents_and_gates.py::test_real_allowlists_ship_licence_notices_and_contents_in_every_profile
+1 failed, 62 passed in 112.51s (0:01:52)
+exit=1

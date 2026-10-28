@@ -1,0 +1,97 @@
+NEGATIVE CONTROLS - round 4 ops tests (scratch copies; the project tree is not modified). Each variant is a scratch
+tree with copies of scripts/*.sh, tests/public/ops/{conftest,opstest_support,test_ops_role_env,test_ops_stop_identity,
+test_ops_relocation_origins}.py and pyproject.toml; driver: negative_control_driver.sh.txt. A FAIL here is the expected
+result (the new tests catch the defect).
+variants: head = all five scripts from git HEAD (before round 4); mut_start = current scripts, start.sh without its two
+unset lines; mut_stop = kill_verified without the start-time comparison; mut_doctor = SHADOW_KEYS = (); mut_verify =
+where() calls every origin ROOT; mut_verify_rule = module check with bad = [] (PASS rule disabled)
+
+== variant head: all five scripts as in git HEAD (before round 4)
+            assert by_name["process:gateway"]["status"] == "PASS"  # identity check passed: this tree's gateway
+FAILED tests/public/ops/test_ops_relocation_origins.py::test_relocation_json_records_every_module_origin_and_the_pth_files
+FAILED tests/public/ops/test_ops_role_env.py::test_start_removes_the_callers_python_variables_and_oldpwd
+FAILED tests/public/ops/test_ops_role_env.py::test_doctor_fails_a_running_role_that_has_pythonpath
+FAILED tests/public/ops/test_ops_stop_identity.py::test_kill_verified_signals_only_the_recorded_process
+FAILED tests/public/ops/test_ops_stop_identity.py::test_every_sigkill_target_of_stop_one_is_reverified
+5 failed, 1 passed in 14.10s
+== variant mut_start: current scripts, start.sh without both unset lines
+   unset lines left: 0
+FAILED tests/public/ops/test_ops_role_env.py::test_start_removes_the_callers_python_variables_and_oldpwd
+1 failed, 1 passed in 7.53s
+== variant mut_stop: current scripts, kill_verified never compares the start time
+   mutated lines: 1
+FAILED tests/public/ops/test_ops_stop_identity.py::test_kill_verified_signals_only_the_recorded_process
+1 failed, 2 passed in 6.74s
+== variant mut_doctor: current scripts, doctor.sh treats no key as shadowing
+   mutated lines: 1
+            assert by_name["process:gateway"]["status"] == "PASS"  # identity check passed: this tree's gateway
+FAILED tests/public/ops/test_ops_role_env.py::test_doctor_fails_a_running_role_that_has_pythonpath
+1 failed, 1 passed in 7.11s
+== variant mut_verify: current scripts, where() calls every origin ROOT
+   mutated lines: 1
+FAILED tests/public/ops/test_ops_relocation_origins.py::test_relocation_json_records_every_module_origin_and_the_pth_files
+1 failed in 0.75s
+
+FAILURE REASONS (pytest -rf, assertion lines)
+--- variant head: tests/public/ops/test_ops_role_env.py
+E                   AssertionError: ('gateway', ['OLDPWD', 'PYTHONHOME', 'PYTHONPATH', 'PYTHONSTARTUP', 'PYTHONUSERBASE'])
+E                   assert ['OLDPWD', 'P...THONUSERBASE'] == []
+E                     
+E                     Left contains 5 more items, first extra item: 'OLDPWD'
+E           KeyError: 'env:gateway'
+FAILED tests/public/ops/test_ops_role_env.py::test_start_removes_the_callers_python_variables_and_oldpwd
+FAILED tests/public/ops/test_ops_role_env.py::test_doctor_fails_a_running_role_that_has_pythonpath
+2 failed in 7.13s
+    pytest exit=1
+--- variant head: tests/public/ops/test_ops_stop_identity.py
+E           AssertionError: proc_starttime() not found in scripts/stop.sh
+E           assert None
+E       assert 'kill_verified "$p" "$t"' in 'stop_one() {\n  local name="$1" pidf="$PIDS/$1.pid" pid="" pg="" kids=""\n  if [ ! -e "$pidf" ]; then\n    echo "[sto...ped (pid $pid, SIGKILL)"\n    return 0\n  fi\n  echo "stop.sh: $name (pid $pid) survived SIGKILL" >&2\n  return 1\n}\n'
+FAILED tests/public/ops/test_ops_stop_identity.py::test_kill_verified_signals_only_the_recorded_process
+FAILED tests/public/ops/test_ops_stop_identity.py::test_every_sigkill_target_of_stop_one_is_reverified
+2 failed, 1 passed in 6.97s
+    pytest exit=1
+--- variant head: tests/public/ops/test_ops_relocation_origins.py
+E       FileNotFoundError: [Errno 2] No such file or directory: '<SCRATCH>/round4_ops/negctl/work/bt_ev_head/test_relocation_json_records_e0/ops root with spaces/mbnas app/runtime/logs/verify/20261028T000958Z-public/relocation_origins.tsv'
+FAILED tests/public/ops/test_ops_relocation_origins.py::test_relocation_json_records_every_module_origin_and_the_pth_files
+1 failed in 0.82s
+    pytest exit=1
+--- variant mut_start: tests/public/ops/test_ops_role_env.py
+E                   AssertionError: ('gateway', ['OLDPWD', 'PYTHONHOME', 'PYTHONPATH', 'PYTHONSTARTUP', 'PYTHONUSERBASE'])
+E                   assert ['OLDPWD', 'P...THONUSERBASE'] == []
+E                     
+E                     Left contains 5 more items, first extra item: 'OLDPWD'
+FAILED tests/public/ops/test_ops_role_env.py::test_start_removes_the_callers_python_variables_and_oldpwd
+1 failed, 1 passed in 7.53s
+    pytest exit=1
+--- variant mut_stop: tests/public/ops/test_ops_stop_identity.py
+E           AssertionError: assert 'killed' == 'replaced'
+E             
+E             - replaced
+E             + killed
+FAILED tests/public/ops/test_ops_stop_identity.py::test_kill_verified_signals_only_the_recorded_process
+1 failed, 2 passed in 6.77s
+    pytest exit=1
+--- variant mut_doctor: tests/public/ops/test_ops_role_env.py
+E           AssertionError: {'name': 'env:gateway', 'status': 'PASS', 'detail': 'pid 3681207: no PYTHONPATH / PYTHONHOME in its environment; also set (not blocking): OLDPWD'}
+E           assert 'PASS' == 'FAIL'
+E             
+E             - FAIL
+E             + PASS
+FAILED tests/public/ops/test_ops_role_env.py::test_doctor_fails_a_running_role_that_has_pythonpath
+1 failed, 1 passed in 7.22s
+    pytest exit=1
+--- variant mut_verify: tests/public/ops/test_ops_relocation_origins.py
+E       AssertionError: assert ('ROOT' == 'OUTSIDE'
+E         
+E         - OUTSIDE
+E         + ROOT)
+FAILED tests/public/ops/test_ops_relocation_origins.py::test_relocation_json_records_every_module_origin_and_the_pth_files
+1 failed in 0.82s
+    pytest exit=1
+--- variant mut_verify_rule: tests/public/ops/test_ops_relocation_origins.py
+E       AssertionError: {'check': 'module __file__ under ROOT (cwd outside ROOT)', 'ok': True, 'detail': '16 modules (mbnas_contracts 4, mbnas...cratchpad/round4_ops/negctl/work/bt_ev_mut_verify_rule/test_relocation_json_records_e0/ops root with spaces/mbnas app'}
+E       assert (True is False)
+FAILED tests/public/ops/test_ops_relocation_origins.py::test_relocation_json_records_every_module_origin_and_the_pth_files
+1 failed in 1.33s
+    pytest exit=1

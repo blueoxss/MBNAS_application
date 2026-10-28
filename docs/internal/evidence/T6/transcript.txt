@@ -1,0 +1,53 @@
+[03:10:48] == T6 up: external cwd /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6
+[03:11:02] owner_start: exit=0 (13.5 s) -> docs/internal/evidence/T6/00_owner_start.txt
+[03:11:03] owner_doctor_strict: exit=0 (1.7 s) -> docs/internal/evidence/T6/01_owner_doctor_strict.txt
+[03:11:04] public_doctor_strict_prestart: exit=0 (1.0 s) -> docs/internal/evidence/T6/02_public_doctor_strict_prestart.txt
+[03:11:11] public_start: exit=0 (6.7 s) -> docs/internal/evidence/T6/03_public_start.txt
+[03:11:12] public_doctor_strict: exit=0 (1.0 s) -> docs/internal/evidence/T6/04_public_doctor_strict.txt
+[03:11:12] api GET /api/v1/health -> HTTP 200 (102622 B)
+[03:11:12] api GET /api/v1/health -> HTTP 401 (127 B)
+[03:11:12] api GET /api/v1/protocols/presets -> HTTP 200 (14227 B)
+[03:11:12] api GET / -> HTTP 200 (733 B)
+[03:11:12] api POST /api/v1/uploads/model-config?filename=yolo11n_user.yaml -> HTTP 200 (187 B)
+[03:11:16] api POST /api/v1/structure-check -> HTTP 200 (71294 B)
+[03:11:16] api POST /api/v1/uploads/model-config?filename=yolo11n_user_broken.yaml -> HTTP 200 (187 B)
+[03:11:18] api POST /api/v1/structure-check -> HTTP 200 (30322 B)
+[03:11:18] api POST /api/v1/protocols/validate -> HTTP 200 (1754 B)
+[03:11:18] api POST /api/v1/runs -> HTTP 200 (152 B)
+[03:11:24] api GET /api/v1/runs/run-e15ff83bc3b0 -> HTTP 200 (2120 B)
+[03:11:24] api GET /api/v1/runs/run-e15ff83bc3b0/snapshot -> HTTP 200 (29918 B)
+[03:11:24] api GET /api/v1/runs/run-e15ff83bc3b0/candidates/run-e15ff83bc3b0:RAND:s7:g00:c000 -> HTTP 200 (154592 B)
+[03:11:24] api GET /api/v1/runs/run-e15ff83bc3b0/candidates/run-e15ff83bc3b0:RAND:s7:g00:c000/config-revisions -> HTTP 200 (537 B)
+[03:11:24] api GET /api/v1/runs/run-e15ff83bc3b0/export -> HTTP 200 (11623 B)
+[03:11:24] api GET /api/v1/runs -> HTTP 200 (1086 B)
+[03:11:25] public_no_mbnas_core_loader: exit=1 (0.1 s) -> docs/internal/evidence/T6/21_public_no_mbnas_core_loader.txt
+[03:11:25] summary -> docs/internal/evidence/T6/summary_up.json
+[03:11:46] public_no_mbnas_core_loader_rerun: exit=0 (0.8 s) -> docs/internal/evidence/T6/00_public_no_mbnas_core_loader_rerun.txt
+[03:11:46] summary -> docs/internal/evidence/T6/summary_loader.json
+[03:16:02] public_verify_unit_relocation: exit=1 (177.4 s) -> docs/internal/evidence/T6/00_public_verify_unit_relocation.txt
+[03:16:03] public_verify_package: exit=0 (0.4 s) -> docs/internal/evidence/T6/01_public_verify_package.txt
+[03:21:05] reg_doctor_strict_prestart: exit=0 (1.1 s) -> docs/internal/evidence/T6/00_reg_doctor_strict_prestart.txt
+[03:21:11] reg_start: exit=0 (6.7 s) -> docs/internal/evidence/T6/01_reg_start.txt
+[03:21:12] reg_doctor_strict: exit=0 (1.0 s) -> docs/internal/evidence/T6/02_reg_doctor_strict.txt
+[03:21:12] api GET /api/v1/health -> HTTP 200 (102622 B)
+[03:21:12] api GET /api/v1/protocols/presets -> HTTP 200 (14227 B)
+[03:21:12] api GET / -> HTTP 200 (733 B)
+[03:21:12] api POST /api/v1/uploads/model-config?filename=yolo11n_user.yaml -> HTTP 200 (187 B)
+[03:21:15] api POST /api/v1/structure-check -> HTTP 200 (71294 B)
+[03:24:29] reg_verify_unit_relocation: exit=1 (193.9 s) -> docs/internal/evidence/T6/08_reg_verify_unit_relocation.txt
+[03:24:30] reg_stop: exit=0 (1.0 s) -> docs/internal/evidence/T6/09_reg_stop.txt
+[03:24:30] registration summary -> docs/internal/evidence/T6/summary_registration.json
+[03:38:27] owner_verify_unit_integration_relocation: exit=0 (1344.3 s) -> docs/internal/evidence/T6/02_owner_verify_unit_integration_relocation.txt
+[03:38:27] summary -> docs/internal/evidence/T6/summary_verify.json
+[03:38:40] public_stop: exit=0 (1.9 s) -> docs/internal/evidence/T6/00_public_stop.txt
+[03:38:43] owner_stop: exit=0 (3.3 s) -> docs/internal/evidence/T6/01_owner_stop.txt
+[03:38:43] summary -> docs/internal/evidence/T6/summary_down.json
+[03:38:58] == T6 re-invocation from another external cwd /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/t6/second cwd
+[03:39:05] re_owner_start: exit=0 (7.1 s) -> docs/internal/evidence/T6/00_re_owner_start.txt
+[03:39:06] re_public_start: exit=0 (1.6 s) -> docs/internal/evidence/T6/01_re_public_start.txt
+[03:39:06] api GET /api/v1/health -> HTTP 200 (102622 B)
+[03:39:07] re_public_doctor: exit=0 (1.0 s) -> docs/internal/evidence/T6/03_re_public_doctor.txt
+[03:39:08] re_public_stop: exit=0 (0.3 s) -> docs/internal/evidence/T6/04_re_public_stop.txt
+[03:39:08] re_owner_stop: exit=0 (0.9 s) -> docs/internal/evidence/T6/05_re_owner_stop.txt
+[03:39:08] leftover processes of the t6 trees: 0
+[03:39:08] summary -> docs/internal/evidence/T6/summary_reinvoke.json

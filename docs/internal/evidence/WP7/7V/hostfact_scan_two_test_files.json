@@ -1,0 +1,40 @@
+{
+ "schema": "mbnas.canary_scan/1",
+ "targets": [
+  "tests/public/contracts/test_contract_history.py",
+  "tests/public/tools/smoke_api_only.py"
+ ],
+ "profile": "public",
+ "expect_present": false,
+ "manifest": {
+  "path": "docs/internal/canary/CANARY_MANIFEST.json",
+  "sha256": "98c39290f0ec49f5bcbcdab0def104e9f6d351cbe1e50439517bd70e54b7074c",
+  "areas": [
+   "CORE_STATE",
+   "FITNESS",
+   "MANIFEST_SELF",
+   "OWNER_DEPLOY",
+   "OWNER_DOC",
+   "OWNER_SECRET",
+   "OWNER_TEST",
+   "POLICY_PRIOR",
+   "POLICY_REPAIR"
+  ]
+ },
+ "host_facts": true,
+ "needle_count": 75,
+ "scanned": {
+  "files": 2,
+  "bytes": 29126,
+  "containers": 0,
+  "min_files": 1,
+  "skipped": []
+ },
+ "hits": [],
+ "hits_by_label": {},
+ "expectations": [],
+ "failing_hits": 0,
+ "unmet_expectations": 0,
+ "too_few_files": false,
+ "status": "PASS"
+}

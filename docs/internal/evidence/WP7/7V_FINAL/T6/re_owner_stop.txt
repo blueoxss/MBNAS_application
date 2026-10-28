@@ -1,0 +1,7 @@
+$ (cwd=/) (caller env) bash '/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/final/mbnas owner final/mbnas_application/scripts/stop.sh' --profile owner
+[stop] web: not running (no pid file)
+[stop] runner: not running (no pid file)
+[stop] gateway: not running (no pid file)
+[stop] owner-worker: stopped (pid 3433837, SIGTERM)
+[stop] core: stopped (pid 3433793, SIGTERM)
+exit=0

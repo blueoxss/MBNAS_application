@@ -1,0 +1,26 @@
+# C01 fix round 1b, EVAL_1 D9: mbnas_web/src/lib/validate.ts:3 comment held the original-layout server path (forbidden literal)
+# line 3 now:  * (its protocol rules and path-syntax helpers) that can be decided without the server's file
+
+$ runtime/venv/bin/python -I -B scripts/dev/check_import_closure.py --include-web --format text   (2026-10-28T04:05:21+09:00)
+import closure: OK (/home/mgjeong/Desktop/etri_hd/mbnas_application)
+counts: {"violations": 0, "unresolved": 0, "forbidden_strings": 0, "allowlisted": 0, "excepted": 1, "errors": 0, "by_rule": {}}
+violations: 0
+unresolved: 0
+forbidden_strings: 0
+errors: 0
+exit=0
+
+$ grep -c MBNAS_server mbnas_web/src/lib/validate.ts mbnas_web/dist/assets/*.js
+mbnas_web/src/lib/validate.ts:0
+mbnas_web/dist/assets/index-BnpZcnwU.js:0
+
+$ npm_config_cache=build/npm-cache npm run check:bundle   (cwd mbnas_web, 2026-10-28T04:05:13+09:00)
+exit=0
+bundle hygiene: OK (0 hits)
+
+$ npm run typecheck
+> mbnas-web@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+exit=0
+# dist/ was not rebuilt by this round (comments do not reach the minified bundle; another agent owns the web build)

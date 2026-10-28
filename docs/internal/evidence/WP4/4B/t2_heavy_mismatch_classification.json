@@ -1,0 +1,60 @@
+{
+ "note": "T2 equivalence (scripts/owner/t2_compare.py, original monolith vs split packages) of the heavy scenarios after the WP-4B changes: every remaining difference is a protocol_hash value (contract 1.5.0 hash definition: resolution.paths excluded; no search_space_resolved.etri_root / resolution.paths.*.realpath recorded), a digest of a file that embeds the protocol hash (checkpoint hashes.protocol / sha256), or the removed realpath / the extended hash_excluded list. MISMATCH verdicts here need an ALLOWED_DIFF rule of the T2 comparator (owner of scripts/owner/t2_compare.py); no other member differs.",
+ "scenarios": {
+  "T2-7": {
+   "verdict": "MISMATCH",
+   "mismatches": 227,
+   "snapshot_unchanged": true,
+   "paths": {
+    "db.events[].payload.protocol_hash": 107,
+    "db.jobs[].spec.protocol_hash": 34,
+    "db.checkpoints[].hashes.protocol": 26,
+    "db.checkpoints[].sha256": 26,
+    "db.evaluations[].row.protocol_hash": 26,
+    "db.run.protocol_hash": 1,
+    "protocol_hash": 1,
+    "validation.resolved.resolution.hash_excluded": 1,
+    "validation.resolved.resolution.paths.dataset_yaml.realpath": 1,
+    "validation.resolved.resolution.paths.final_eval_root.realpath": 1,
+    "validation.resolved.resolution.paths.output_root.realpath": 1,
+    "validation.resolved.resolution.paths.search_val_root.realpath": 1,
+    "validation.resolved.resolution.paths.train_root.realpath": 1
+   }
+  },
+  "T2-8": {
+   "verdict": "MISMATCH",
+   "mismatches": 175,
+   "snapshot_unchanged": true,
+   "paths": {
+    "children_after.<run>.events[].payload.protocol_hash": 50,
+    "children_after.<run>.checkpoints[].hashes.protocol": 22,
+    "children_after.<run>.checkpoints[].sha256": 22,
+    "child_plans.<run>.events[].payload.protocol_hash": 13,
+    "child_plans.<run>.evaluations[].row.protocol_hash": 11,
+    "child_plans.<run>.jobs[].spec.protocol_hash": 11,
+    "children_after.<run>.evaluations[].row.protocol_hash": 11,
+    "children_after.<run>.jobs[].spec.protocol_hash": 11,
+    "parent_after.events[].payload.protocol_hash": 10,
+    "selection_inputs[].row.protocol_hash": 9,
+    "child_plans.<run>.run.protocol_hash": 2,
+    "children_after.<run>.run.protocol_hash": 2,
+    "parent_after.run.protocol_hash": 1
+   }
+  },
+  "T2-10": {
+   "verdict": "MISMATCH",
+   "mismatches": 18,
+   "snapshot_unchanged": true,
+   "paths": {
+    "db.events[].payload.protocol_hash": 10,
+    "db.jobs[].spec.protocol_hash": 2,
+    "db.run.protocol_hash": 1,
+    "journals.generation-19.json.protocol_hash": 1,
+    "journals.generation-7.json.protocol_hash": 1,
+    "protocol_hash": 1,
+    "validation.resolved.resolution.hash_excluded": 1,
+    "validation.resolved.resolution.paths.output_root.realpath": 1
+   }
+  }
+ }
+}

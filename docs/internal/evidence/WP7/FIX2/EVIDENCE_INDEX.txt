@@ -1,0 +1,68 @@
+FIX2 - fix round 2 of DD-A60 (P2 T4/T5 PARTIAL, 5 defects) - evidence index, 2026-10-28 KST
+(<ROOT> = TARGET_ROOT, <HOME> = the user's home, <SCRATCH> = the session scratch dir; host paths replaced in every file)
+
+What was changed (package sources; PLACEMENT_MANIFEST rows owner_wp "FIX2/DD-A60"):
+ (1) mbnas_core/protocol/validator.py      devices_from_runners: the CPU-only runners (device "cpu", no uuid) form ONE
+                                           {"id":"cpu","uuid":None,"name":"cpu","kind":"cpu"} entry (aliases: cpu +
+                                           runner ids) instead of being left out; validate(): an evaluation-ON protocol
+                                           on a CPU-only inventory (field console.search.evaluation_enabled) or with a
+                                           benchmark device resolving to the cpu entry (field console.benchmark.device)
+                                           -> EVALUATION_REQUIRES_CUDA. Explicit training / OFF generation unaffected.
+ (2) mbnas_core/owner_worker/{main,child,paths}.py
+                                           stop files always under the core-local MBNAS_CORE_OUTPUT_ROOT/<run>/control;
+                                           attempt logs + PROPOSE_GENERATION architectures/ core-local when the run's own
+                                           directory is not usable on the core host (outside output_roots or not
+                                           creatable); any exception while a leased job is handled -> that job FAILED
+                                           (WORKER_IO_ERROR for OSError, else WORKER_JOB_ERROR; not retried; no host path
+                                           in the message; run-log event) and the worker keeps running; the entry point
+                                           logs through install_log_redaction (C05 D10).
+ (3) mbnas_core/owner_worker/child.py      owner_params(): an evaluation-ON PROPOSE_GENERATION gets nc (and
+                                           params.dataset_summary) from the gateway dataset summary recorded with the
+                                           run's validation (capabilities.validation_host == gateway, dataset.names); the
+                                           core-local console.paths.dataset_yaml read stays only as the fallback.
+ (4) mbnas_runner/evaluation/{handlers,official_evaluation}.py
+                                           on a non-CUDA job device (CPU runner maps cuda:0 -> cpu): no CUDA call, payload
+                                           NOT_EVALUATED / EVALUATION_REQUIRES_CUDA / latency_source pending / metrics
+                                           null + checkpoint refs; training, EVALUATE and official-evaluation jobs SUCCEED.
+ (5) mbnas_core/api/app.py, mbnas_server/api/app.py
+                                           AccessLogMiddleware: one line per request "method= path= status= request_id=
+                                           duration_ms= client=" on the mbnas_core.access / mbnas_server.access logger
+                                           (stderr = runtime/logs/{core,gateway}.log), query secrets redacted, control
+                                           characters escaped; mbnas-core-api / mbnas-gateway run uvicorn access_log=False.
+
+Files here:
+ split_smoke.txt           CPU-only two-host simulation (harness/fix2_split_smoke.py, built on scripts/dev/wp3_three_
+                           process_smoke.py): core + owner worker in bwrap with the customer output root's parent
+                           READ-ONLY and the customer dataset HIDDEN (tmpfs), runner in bwrap without GPU device nodes
+                           (CUDA_VISIBLE_DEVICES=""), gateway plain; MBNAS_CORE_DEVICE_SOURCE=runners. result=PASS:
+                             A OFF generation, output_root = <customer>/out -> COMPLETED, 2 candidates, nothing created
+                               under <customer>, control/ + logs/ + architectures/ under <root>/core/runs/<run>
+                             B explicit CPU training (validation off) -> COMPLETED, evaluation row SEARCH_COMPLETE with
+                               performance_status NOT_EVALUATED, latency_source pending, device_used cpu
+                             C evaluation-ON search validate -> valid=false EVALUATION_REQUIRES_CUDA (device "cpu");
+                               preset device -> DEVICE_UNAVAILABLE + EVALUATION_REQUIRES_CUDA
+                             D (informational) explicit CPU training WITH validation: runner job SUCCEEDED with the
+                               NOT_EVALUATED payload, checkpoints PRESENT - but the CORE commits that payload as an
+                               EVAL_FAILED row (METRIC_MISSING:ap) and the run FAILED MODEL_RUN_FAILED (open item, see
+                               the final report's cross-package request)
+                             E the same request id in logs/gateway.log and logs/core.log for A-create, B-create, C
+                           graceful stop (SIGTERM to the sandboxed programs; uvicorn re-raises SIGTERM: -15 / 143).
+ split_smoke_console.txt   console of that run
+ logs/                     the four process logs of that run (core.log / gateway.log carry the access lines)
+ negative_control.txt      the new tests against the PRE-change sources (git HEAD of the 7 changed files): 17 failed +
+                           4 errors (incl. the T5 PermissionError escaping Worker.tick); 2 guard tests pass on both
+ pytest/summary.txt        gate subsets before/after; pytest/new_tests.txt the 23 new tests
+ harness/fix2_split_smoke.py
+
+Coordinator follow-ups folded into this round:
+ - C05 D10: owner worker entry point -> configure_logging() + install_log_redaction (test: tests/owner/worker/
+   test_dd_a60_owner_worker.py::test_worker_entry_point_log_lines_are_redacted / ::test_configure_logging_...).
+ - import closure: the access logger names are composed (__name__.split(".")[0] + ".access"), so the checker reads no
+   dotted literal as a module reference (scripts/dev/check_import_closure.py: 0 unresolved).
+ - C05 D3: RoutedBodyLimit of both apps passes location (core: "core", also on the legacy /api/v1 debug mount;
+   gateway: "gateway"); runner/owner protocol paths keep no location field (asserted in tests/owner/runner_protocol/
+   test_t3_auth.py::test_runner_routes_have_their_own_32mib_body_limit, tests/public/server/test_gateway_skeleton.py::
+   test_body_limit_is_enforced_before_routing, tests/public/server/test_wp3_gateway_relay.py::test_body_limit_413_before_relay).
+ - mbnas_runner/client.py: verify=ssl.create_default_context(cafile=ca_file) instead of the deprecated verify=<path>
+   (tests/public/runner/test_tls_private_ca.py passes; the httpx "verify=<str> is deprecated" warning is gone).
+ - the worker subprocess of the redaction test runs with MBNAS_HOME in the test's tmp dir.

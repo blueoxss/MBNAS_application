@@ -1,0 +1,54 @@
+# FIX2 (DD-A60) pytest gate subsets: before (baseline, 2026-10-28 04:07-04:16 KST, before any FIX2 edit) and after
+# command per subset: env CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 PIP_CONFIG_FILE=/dev/null MBNAS_HOME=<ROOT>/runtime
+#   <ROOT>/runtime/venv/bin/python -B -m pytest -m 'not gpu and not live and not legacy_records and not host_data' -p no:cacheprovider -q <subset>
+# note: other agents edited other files of the tree concurrently (relay.py health, runner config, routes_runs, ...);
+#       the 'after' numbers are of the tree at 04:4x KST including their changes
+
+tests/owner/api
+  before: 202 passed, 2 warnings in 212.72s (0:03:32) (exit=0)
+  after : 205 passed, 2 warnings in 218.14s (0:03:38) (exit=0)
+tests/owner/worker
+  before: 34 passed, 1 warning in 74.30s (0:01:14) (exit=0)
+  after : 41 passed, 1 warning in 83.09s (0:01:23) (exit=0)
+tests/owner/runner_protocol
+  before: 55 passed, 1 warning in 112.54s (0:01:52) (exit=0)
+  after : 60 passed, 1 warning in 133.47s (0:02:13) (exit=0)
+tests/public/runner
+  before: 110 passed, 9 deselected, 3 warnings in 111.87s (0:01:51) (exit=0)
+  after : 115 passed, 9 deselected, 3 warnings in 109.99s (0:01:49) (exit=0)
+tests/public/server
+  before: 535 passed, 1 skipped, 25 deselected, 1 warning in 56.71s (exit=0)
+  after : 538 passed, 1 skipped, 25 deselected, 1 warning in 58.78s (exit=0)
+tests/public/contracts
+  before: 190 passed in 2.22s (exit=0)
+  after : 190 passed in 2.39s (exit=0)
+tests/public/infra
+  before: (not run before the change)
+  after : 65 passed in 14.19s (exit=0)
+tests/owner/unit/test_protocol_validator.py + tests/owner/qa/test_validator_negatives.py + tests/owner/training
+  before: (not run before the change)
+  after : 167 passed, 7 deselected, 1 warning in 49.74s (exit=0)
+
+new test files (23 tests): tests/owner/runner_protocol/test_dd_a60_cpu_fleet.py (4), tests/owner/runner_protocol/test_dd_a60_cpu_training_validation.py (1), tests/owner/worker/test_dd_a60_owner_worker.py (7), tests/owner/api/test_dd_a60_access_log.py (3), tests/public/server/test_dd_a60_access_log_gateway.py (3), tests/public/runner/test_dd_a60_cpu_evaluation.py (5)
+negative control of the new tests against the pre-change sources: ../negative_control.txt (17 failed + 4 errors; the
+2 passing ones are the 'unchanged behaviour' guards)
+
+# final rerun after the coordinator follow-ups (413 location, runner SSLContext, MBNAS_HOME in the test):
+tests/public/runner
+  115 passed, 9 deselected, 1 warning in 108.39s (0:01:48) (exit=0)
+tests/public/server
+  539 passed, 1 skipped, 25 deselected, 1 warning in 58.22s (exit=0)
+tests/owner/runner_protocol
+  60 passed, 1 warning in 125.45s (0:02:05) (exit=0)
+tests/owner/api
+  205 passed, 2 warnings in 204.31s (0:03:24) (exit=0)
+tests/owner/worker
+  41 passed, 1 warning in 83.70s (0:01:23) (exit=0)
+tests/public/infra + tests/public/contracts
+  255 passed in 17.35s (exit=0)
+follow-up targets: test_gateway_skeleton, test_wp3_gateway_relay, test_dd_a60_access_log_gateway, test_t3_auth, test_dd_a60_owner_worker, test_tls_private_ca, owner qa/test_security_negatives, public contracts
+  395 passed, 1 deselected, 7 warnings in 77.09s (0:01:17) (exit=0)
+rest of the owner gate: adapters artifacts evaluation orchestration projection qa registry search structure_sandbox t2 unit (before the follow-ups)
+  1223 passed, 8 skipped, 11 deselected, 10 warnings in 462.11s (0:07:42) (exit=0)
+rest of the public gate: model_runtime ops packaging tools (before the follow-ups)
+  215 passed, 10 deselected in 104.93s (0:01:44) (exit=0)

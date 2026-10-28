@@ -1,0 +1,4 @@
+start 2026-10-28T02:23:11Z cwd=/home/mgjeong/Desktop/etri_hd/mbnas_application interpreter=runtime/venv/bin/python tree=sha256:f00987be7994203fc16f52140bd98b3f89e1b548b6a346255066727a36dcc40c (5-package source hash; the DD-A72 edit is in tests/public/packaging/test_package_contents_and_gates.py, outside the 5 hashed package roots, so the hash is unchanged)
+test file sha256: 2217c3c7405669a87f4ffdfa2584f8960f4d8238a10a140ae329ef40c13dcad8
+cmd: runtime/venv/bin/python -B -m pytest tests/public/packaging -p no:cacheprovider -q -rfE --timeout=900
+exit=0 dur=115s end=2026-10-28T02:25:06Z

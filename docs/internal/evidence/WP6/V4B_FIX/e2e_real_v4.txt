@@ -1,0 +1,37 @@
+# Real-stack V4 E2E after the V4-B fixes (bearer never printed; run_e2e.sh redacts it). Stack: scripts/dev/web_real_stack.py (stack_log.txt), gateway served dist/assets/index-BnpZcnwU.js.
+# env: MBNAS_E2E_REAL=1 MBNAS_E2E_V4=1 MBNAS_E2E_EVIDENCE_DIR=../docs/internal/evidence/WP6/V4B_FIX/screenshots PLAYWRIGHT_HOST_PLATFORM_OVERRIDE=ubuntu22.04-x64 PLAYWRIGHT_BROWSERS_PATH=<ROOT>/runtime/pw-browsers + URL/bearer/dataset/output/pid from the stack line
+
+## 1) npx playwright test -c playwright.real.config.ts --reporter=list -g "V4-(0|1[01])"   (V4-01 .. V4-11)
+
+Running 9 tests using 1 worker
+
+  ✓  1 [real-desktop] › e2e/real-server.spec.ts:228:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-01 connect with the bearer; presets auto-apply (DEFAULT_BASELINE14) (8.0s)
+  ✓  2 [real-desktop] › e2e/real-server.spec.ts:241:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-02 upload examples/models/yolo11n_user.yaml -> structure check PASS (10.9s)
+  ✓  3 [real-desktop] › e2e/real-server.spec.ts:258:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-03 upload yolo11n_user_broken.yaml -> structure check FAIL with diagnostics (5.1s)
+  ✓  4 [real-desktop] › e2e/real-server.spec.ts:273:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-04 start a CPU explicit training run from the upload (1 epoch, 64 px, validation off) (5.9s)
+  ✓  5 [real-desktop] › e2e/real-server.spec.ts:311:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-05 monitor the training run until finished (11.4s)
+  ✓  6 [real-desktop] › e2e/real-server.spec.ts:332:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-06 candidate detail: gene/structure diagram, block table, configuration YAML (6.0s)
+  ✓  7 [real-desktop] › e2e/real-server.spec.ts:356:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-07..09 revisions tab -> diff -> download exact bytes (sha256 = source_sha256) (4.6s)
+  ✓  8 [real-desktop] › e2e/real-server.spec.ts:399:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-10 download a runner-produced checkpoint by id through the gateway (sha header match) (5.3s)
+  ✓  9 [real-desktop] › e2e/real-server.spec.ts:434:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-11 generation-only (evaluation OFF) run: UNTRAINED · UNEVALUATED in GeneratedTable and Lineage (26.3s)
+
+  9 passed (1.4m)
+exit 0
+
+## 2) after the gateway verified the store copies: -g "V4-10" again (MBNAS_E2E_EVIDENCE_DIR=.../screenshots_rerun; the detail now carries artifact_id = checkpoint id)
+
+Running 1 test using 1 worker
+
+  ✓  1 [real-desktop] › e2e/real-server.spec.ts:399:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-10 download a runner-produced checkpoint by id through the gateway (sha header match) (5.3s)
+
+  1 passed (6.5s)
+exit 0
+
+## 3) -g "V4-12" (core stopped by SIGUSR1; last)
+
+Running 1 test using 1 worker
+
+  ✓  1 [real-desktop] › e2e/real-server.spec.ts:478:3 › V4 real CPU stack: upload -> check -> train -> detail -> revisions -> diff -> download -> OFF -> core down › V4-12 stop the core process: the UI shows degraded + an explicit failure (no fallback) (5.2s)
+
+  1 passed (6.3s)
+exit 0

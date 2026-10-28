@@ -1,0 +1,40 @@
+--- a/application/MBNAS_server/tests/search/test_structure_adversarial.py
++++ b/application/MBNAS_server/tests/search/test_structure_adversarial.py
+@@ -32,6 +32,9 @@
+     result = structure.check_structure(genotype(activation="__import__('os').system('touch /tmp/forbidden')"), input_size=32)
+     assert result["status"] == "FAIL"
+     assert "ACTIVATION_REFUSED" in {d["code"] for d in result["diagnostics"]}
++    row_check = {c["name"]: c for c in result["checks"]}["yaml_rows"]
++    assert row_check["status"] == "FAIL" and row_check["evidence_level"] == "declared"  # executed-check table agrees with the diagnostic
++    assert {c["name"]: c["status"] for c in result["checks"]}["module_support"] == "NOT_CHECKED"
+ 
+ 
+ def test_unsafe_module_and_future_reference_never_build(monkeypatch):
+@@ -39,6 +42,27 @@
+     result = structure.check_structure(genotype(backbone=[[12, 1, "x.__import__('os')", [8]]]), input_size=32)
+     assert result["status"] == "FAIL"
+     assert {"BLOCK_NAME_INVALID", "FROM_OUT_OF_RANGE"} <= {d["code"] for d in result["diagnostics"]}
++    by_name = {c["name"]: c for c in result["checks"]}
++    assert by_name["yaml_rows"]["status"] == "FAIL" and by_name["yaml_rows"]["evidence_level"] == "declared"
++    assert by_name["references"]["status"] == "FAIL"
++    assert by_name["module_support"]["status"] == "NOT_CHECKED"
++
++
++def test_bad_module_name_alone_fails_yaml_rows_check(monkeypatch):
++    monkeypatch.setattr(structure, "inspect_genotype", refuse_runtime)
++    result = structure.check_structure(genotype(backbone=[[-1, 1, "x.__import__('os')", [8]]]), input_size=32)
++    assert result["status"] == "FAIL"
++    assert {d["code"] for d in result["diagnostics"]} == {"BLOCK_NAME_INVALID"}
++    by_name = {c["name"]: c for c in result["checks"]}
++    assert by_name["yaml_rows"]["status"] == "FAIL" and by_name["yaml_rows"]["evidence_level"] == "declared"
++    assert by_name["references"]["status"] == "PASS"
++
++
++def test_valid_rows_keep_yaml_rows_pass_when_only_other_rules_fail(monkeypatch):
++    monkeypatch.setattr(structure, "inspect_genotype", refuse_runtime)
++    result = structure.check_structure(genotype(), input_size=33)  # request defect only: the YAML rows themselves are fine
++    assert result["status"] == "FAIL"
++    assert {c["name"]: c["status"] for c in result["checks"]}["yaml_rows"] == "PASS"
+ 
+ 
+ def test_runtime_absence_is_not_pass(monkeypatch):

@@ -1,0 +1,5275 @@
+{
+ "documents": {
+  "checked": {
+   "architecture_hash": "sha256:358ee6550b683e32ae560eb5beaabab7a44ac97b924746c17044e1340a27ceae",
+   "backend": "ultralytics",
+   "blocks": [
+    {
+     "args": [
+      32,
+      3,
+      2
+     ],
+     "block_id": "block-0000",
+     "catalog": {
+      "catalog_key": "Conv",
+      "introduced_in": "YOLOv5",
+      "notes": null,
+      "origin_family": "YOLOv5",
+      "reference": "https://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.Conv",
+      "role": "표준 합성곱: Conv2d + BatchNorm + 활성화(기본 SiLU)",
+      "source_path": "ultralytics/nn/modules/conv.py"
+     },
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 32,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 3,
+      "c_out": 16,
+      "h_in": 64,
+      "h_out": 32,
+      "inputs": [
+       {
+        "c": 3,
+        "h": 64,
+        "source": -1,
+        "w": 64
+       }
+      ],
+      "outputs": [
+       [
+        16,
+        32,
+        32
+       ]
+      ],
+      "params": 464,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 2.0,
+      "w_in": 64,
+      "w_out": 32
+     },
+     "from": -1,
+     "from_resolved": [
+      -1
+     ],
+     "gene_index": 0,
+     "id": "block-0000",
+     "index": 0,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16,
+          3,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16
+         ]
+        ],
+        [
+         "bias",
+         [
+          16
+         ]
+        ]
+       ],
+       "path": "0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "0.act",
+       "shared": true
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "Conv",
+     "module_class": "Conv",
+     "name": "Conv",
+     "native_path": "model.0",
+     "position": 0,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[0]@abcb4f60cf17",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 0,
+     "yaml_path": "backbone[0]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      64
+     ],
+     "block_id": "block-0001",
+     "catalog": {
+      "catalog_key": "C2f",
+      "introduced_in": "YOLOv8",
+      "notes": null,
+      "origin_family": "YOLOv8",
+      "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.C2f",
+      "role": "C2f: 분할한 특징에 병목을 반복 적용하고 모든 중간 출력을 이어 붙이는 빠른 CSP 블록",
+      "source_path": "ultralytics/nn/modules/block.py"
+     },
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 64,
+      "repeats": 2
+     },
+     "effective": {
+      "c_in": 16,
+      "c_out": 32,
+      "h_in": 32,
+      "h_out": 32,
+      "inputs": [
+       {
+        "c": 16,
+        "h": 32,
+        "source": 0,
+        "w": 32
+       }
+      ],
+      "outputs": [
+       [
+        32,
+        32,
+        32
+       ]
+      ],
+      "params": 6848,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": ".m",
+      "stride": 2.0,
+      "w_in": 32,
+      "w_out": 32
+     },
+     "from": -1,
+     "from_resolved": [
+      0
+     ],
+     "gene_index": 1,
+     "id": "block-0001",
+     "index": 1,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "1.cv1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          32,
+          16,
+          1,
+          1
+         ]
+        ]
+       ],
+       "path": "1.cv1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          32
+         ]
+        ],
+        [
+         "bias",
+         [
+          32
+         ]
+        ]
+       ],
+       "path": "1.cv1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "1.cv1.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "1.cv2",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          32,
+          48,
+          1,
+          1
+         ]
+        ]
+       ],
+       "path": "1.cv2.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          32
+         ]
+        ],
+        [
+         "bias",
+         [
+          32
+         ]
+        ]
+       ],
+       "path": "1.cv2.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "1.cv2.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "ModuleList",
+       "parameters": [],
+       "path": "1.m",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "add": false
+       },
+       "module": "Bottleneck",
+       "parameters": [],
+       "path": "1.m.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "1.m.0.cv1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "1.m.0.cv1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16
+         ]
+        ],
+        [
+         "bias",
+         [
+          16
+         ]
+        ]
+       ],
+       "path": "1.m.0.cv1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "1.m.0.cv1.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "1.m.0.cv2",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "1.m.0.cv2.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16
+         ]
+        ],
+        [
+         "bias",
+         [
+          16
+         ]
+        ]
+       ],
+       "path": "1.m.0.cv2.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "1.m.0.cv2.act",
+       "shared": true
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "C2f",
+     "module_class": "C2f",
+     "name": "C2f",
+     "native_path": "model.1",
+     "position": 1,
+     "repeats": 2,
+     "repeats_detail": {
+      "declared": 2,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[1]@abcb4f60cf17",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 1,
+     "yaml_path": "backbone[1]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      1
+     ],
+     "block_id": "block-0002",
+     "catalog": {
+      "catalog_key": "Concat",
+      "introduced_in": null,
+      "notes": "ultralytics/yolov5의 models/common.py에도 같은 이름이 있음. 최초 도입 시점 unknown",
+      "origin_family": "YOLOv5",
+      "reference": "https://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.Concat",
+      "role": "지정 차원(기본 채널)으로 텐서를 이어 붙이는 병합",
+      "source_path": "ultralytics/nn/modules/conv.py"
+     },
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 48,
+      "c_out": 48,
+      "h_in": 32,
+      "h_out": 32,
+      "inputs": [
+       {
+        "c": 16,
+        "h": 32,
+        "source": 0,
+        "w": 32
+       },
+       {
+        "c": 32,
+        "h": 32,
+        "source": 1,
+        "w": 32
+       }
+      ],
+      "outputs": [
+       [
+        48,
+        32,
+        32
+       ]
+      ],
+      "params": 0,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 2.0,
+      "w_in": 32,
+      "w_out": 32
+     },
+     "from": [
+      0,
+      1
+     ],
+     "from_resolved": [
+      0,
+      1
+     ],
+     "gene_index": 2,
+     "id": "block-0002",
+     "index": 2,
+     "internal_layers": [],
+     "internal_mapping_status": "RECORDED",
+     "module": "Concat",
+     "module_class": "Concat",
+     "name": "Concat",
+     "native_path": "model.2",
+     "position": 2,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "neck",
+     "section_basis": "derived:non-detection head row -> neck",
+     "stable_id": "ul:head[0]@abcb4f60cf17",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 0,
+     "yaml_path": "head[0]",
+     "yaml_section": "head"
+    },
+    {
+     "args": [
+      64,
+      3,
+      2
+     ],
+     "block_id": "block-0003",
+     "catalog": {
+      "catalog_key": "Conv",
+      "introduced_in": "YOLOv5",
+      "notes": null,
+      "origin_family": "YOLOv5",
+      "reference": "https://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.Conv",
+      "role": "표준 합성곱: Conv2d + BatchNorm + 활성화(기본 SiLU)",
+      "source_path": "ultralytics/nn/modules/conv.py"
+     },
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 64,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 48,
+      "c_out": 32,
+      "h_in": 32,
+      "h_out": 16,
+      "inputs": [
+       {
+        "c": 48,
+        "h": 32,
+        "source": 2,
+        "w": 32
+       }
+      ],
+      "outputs": [
+       [
+        32,
+        16,
+        16
+       ]
+      ],
+      "params": 13888,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": 4.0,
+      "w_in": 32,
+      "w_out": 16
+     },
+     "from": -1,
+     "from_resolved": [
+      2
+     ],
+     "gene_index": 3,
+     "id": "block-0003",
+     "index": 3,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          32,
+          48,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "3.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          32
+         ]
+        ],
+        [
+         "bias",
+         [
+          32
+         ]
+        ]
+       ],
+       "path": "3.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "3.act",
+       "shared": true
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "Conv",
+     "module_class": "Conv",
+     "name": "Conv",
+     "native_path": "model.3",
+     "position": 3,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "neck",
+     "section_basis": "derived:non-detection head row -> neck",
+     "stable_id": "ul:head[1]@abcb4f60cf17",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 1,
+     "yaml_path": "head[1]",
+     "yaml_section": "head"
+    },
+    {
+     "args": [
+      "nc"
+     ],
+     "block_id": "block-0004",
+     "catalog": {
+      "catalog_key": "Detect",
+      "introduced_in": "YOLOv8",
+      "notes": "yolo11/yolo26 cfg도 같은 클래스를 사용한다. end2end 여부는 구조 문서의 effective.end2end를 본다",
+      "origin_family": "YOLOv8",
+      "reference": "https://docs.ultralytics.com/reference/nn/modules/head/#ultralytics.nn.modules.head.Detect",
+      "role": "Detect head: anchor-free 분리형(box/class) 검출 헤드",
+      "source_path": "ultralytics/nn/modules/head.py"
+     },
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 32,
+      "c_out": null,
+      "end2end": false,
+      "h_in": 16,
+      "h_out": null,
+      "head_strides": [
+       4.0
+      ],
+      "inputs": [
+       {
+        "c": 32,
+        "h": 16,
+        "source": 3,
+        "w": 16
+       }
+      ],
+      "nc": 2,
+      "nl": 1,
+      "outputs": [
+       [
+        6,
+        256
+       ],
+       [
+        64,
+        256
+       ],
+       [
+        2,
+        256
+       ],
+       [
+        32,
+        16,
+        16
+       ]
+      ],
+      "params": 78354,
+      "repeats": 1,
+      "repeats_scaled": 1,
+      "repeats_source": "single_module",
+      "stride": null,
+      "w_in": 16,
+      "w_out": null
+     },
+     "from": [
+      3
+     ],
+     "from_resolved": [
+      3
+     ],
+     "gene_index": 4,
+     "id": "block-0004",
+     "index": 4,
+     "internal_layers": [
+      {
+       "attributes": {},
+       "module": "ModuleList",
+       "parameters": [],
+       "path": "4.cv2",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Sequential",
+       "parameters": [],
+       "path": "4.cv2.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "4.cv2.0.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          32,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "4.cv2.0.0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "4.cv2.0.0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "4.cv2.0.0.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "4.cv2.0.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          64,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "4.cv2.0.1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "4.cv2.0.1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "4.cv2.0.1.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          64,
+          1,
+          1
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "4.cv2.0.2",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "ModuleList",
+       "parameters": [],
+       "path": "4.cv3",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Sequential",
+       "parameters": [],
+       "path": "4.cv3.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "4.cv3.0.0",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          32,
+          32,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "4.cv3.0.0.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          32
+         ]
+        ],
+        [
+         "bias",
+         [
+          32
+         ]
+        ]
+       ],
+       "path": "4.cv3.0.0.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "4.cv3.0.0.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv",
+       "parameters": [],
+       "path": "4.cv3.0.1",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          32,
+          32,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "4.cv3.0.1.conv",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "BatchNorm2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          32
+         ]
+        ],
+        [
+         "bias",
+         [
+          32
+         ]
+        ]
+       ],
+       "path": "4.cv3.0.1.bn",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "SiLU",
+       "parameters": [],
+       "path": "4.cv3.0.1.act",
+       "shared": true
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          2,
+          32,
+          1,
+          1
+         ]
+        ],
+        [
+         "bias",
+         [
+          2
+         ]
+        ]
+       ],
+       "path": "4.cv3.0.2",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "c1": 16
+       },
+       "module": "DFL",
+       "parameters": [],
+       "path": "4.dfl",
+       "shared": false
+      },
+      {
+       "attributes": {},
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          1,
+          16,
+          1,
+          1
+         ]
+        ]
+       ],
+       "path": "4.dfl.conv",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": "Detect",
+     "module_class": "Detect",
+     "name": "Detect",
+     "native_path": "model.4",
+     "position": 4,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": 1,
+      "scaled": 1
+     },
+     "section": "head",
+     "section_basis": "yaml:head+detection_module",
+     "stable_id": "ul:head[2]@abcb4f60cf17",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 2,
+     "yaml_path": "head[2]",
+     "yaml_section": "head"
+    }
+   ],
+   "catalog_summary": {
+    "by_origin_family": {
+     "YOLOv5": 3,
+     "YOLOv8": 2
+    },
+    "unknown": 0
+   },
+   "checks": [
+    {
+     "evidence_level": "declared",
+     "name": "yaml_rows",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "declared",
+     "name": "references",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "declared",
+     "name": "class_count",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "declared",
+     "name": "scales",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "built",
+     "name": "module_support",
+     "rows_checked": 5,
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "built",
+     "name": "cpu_build",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "reference_forward",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "channels_spatial_stride",
+     "rows_checked": 6,
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "merge_conditions",
+     "rows_checked": 1,
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "head_connection",
+     "rows_checked": 1,
+     "status": "PASS"
+    }
+   ],
+   "class_count": 2,
+   "diagnostics": [],
+   "edges": [
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": -1,
+     "target": 0
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 0,
+     "target": 1
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 0,
+     "source": 0,
+     "target": 2
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 1,
+     "source": 1,
+     "target": 2
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 2,
+     "target": 3
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 3,
+     "source": 3,
+     "target": 4
+    }
+   ],
+   "edges_unobserved": [],
+   "family": "cpu-branch",
+   "flops": null,
+   "flops_source": null,
+   "flops_status": "NOT_MEASURED",
+   "input_size": 64,
+   "lineage": null,
+   "lineage_status": "NOT_APPLICABLE",
+   "observation": {
+    "checked_at": "2026-10-23T11:45:43+00:00",
+    "device": "cpu",
+    "imgsz": 64,
+    "method": "ultralytics_parse_model+forward_hook",
+    "python": "3.10.22",
+    "report_origin": "executed",
+    "torch": "2.6.0+cu124",
+    "ultralytics": "8.4.173"
+   },
+   "parameters": 99554,
+   "representation": "yaml_genes",
+   "scale": null,
+   "schema": "mbnas-structure/2",
+   "signature_hash": "sha256:8a71cf362c49a5d964d1a0c77588958c95114e57d0058a86c10438678fbbbe2e",
+   "status": "PASS",
+   "template_id": "cpu-branch:native",
+   "yaml_hash": "sha256:abcb4f60cf17ff8d046b8c969996b0f34734056465a43afa7717ab03d7d9fe78"
+  },
+  "declared_with_unknown": {
+   "architecture_hash": null,
+   "backend": "ultralytics",
+   "blocks": [
+    {
+     "args": [
+      32,
+      3,
+      2
+     ],
+     "block_id": "block-0000",
+     "catalog": {
+      "catalog_key": "Conv",
+      "introduced_in": "YOLOv5",
+      "notes": null,
+      "origin_family": "YOLOv5",
+      "reference": "https://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.Conv",
+      "role": "표준 합성곱: Conv2d + BatchNorm + 활성화(기본 SiLU)",
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 32,
+      "repeats": 1
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": -1,
+     "from_resolved": [
+      -1
+     ],
+     "gene_index": 0,
+     "id": "block-0000",
+     "index": 0,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "Conv",
+     "module_class": null,
+     "name": "Conv",
+     "native_path": "model.0",
+     "position": 0,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[0]@97069bcfd28c",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 0,
+     "yaml_path": "backbone[0]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      64
+     ],
+     "block_id": "block-0001",
+     "catalog": {
+      "catalog_key": "C2f",
+      "introduced_in": "YOLOv8",
+      "notes": null,
+      "origin_family": "YOLOv8",
+      "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.C2f",
+      "role": "C2f: 분할한 특징에 병목을 반복 적용하고 모든 중간 출력을 이어 붙이는 빠른 CSP 블록",
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 64,
+      "repeats": 2
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": -1,
+     "from_resolved": [
+      0
+     ],
+     "gene_index": 1,
+     "id": "block-0001",
+     "index": 1,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "C2f",
+     "module_class": null,
+     "name": "C2f",
+     "native_path": "model.1",
+     "position": 1,
+     "repeats": 2,
+     "repeats_detail": {
+      "declared": 2,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[1]@97069bcfd28c",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 1,
+     "yaml_path": "backbone[1]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      64
+     ],
+     "block_id": "block-0002",
+     "catalog": {
+      "catalog_key": null,
+      "introduced_in": null,
+      "notes": "unknown: 카탈로그에 등재되지 않은 모듈 (출처를 추정하지 않음)",
+      "origin_family": null,
+      "reference": null,
+      "role": null,
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": -1,
+     "from_resolved": [
+      1
+     ],
+     "gene_index": 2,
+     "id": "block-0002",
+     "index": 2,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "MyCustomBlock",
+     "module_class": null,
+     "name": "MyCustomBlock",
+     "native_path": "model.2",
+     "position": 2,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "backbone",
+     "section_basis": "yaml:backbone",
+     "stable_id": "ul:backbone[2]@97069bcfd28c",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 2,
+     "yaml_path": "backbone[2]",
+     "yaml_section": "backbone"
+    },
+    {
+     "args": [
+      1
+     ],
+     "block_id": "block-0003",
+     "catalog": {
+      "catalog_key": "Concat",
+      "introduced_in": null,
+      "notes": "ultralytics/yolov5의 models/common.py에도 같은 이름이 있음. 최초 도입 시점 unknown",
+      "origin_family": "YOLOv5",
+      "reference": "https://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.Concat",
+      "role": "지정 차원(기본 채널)으로 텐서를 이어 붙이는 병합",
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": [
+      0,
+      1,
+      2
+     ],
+     "from_resolved": [
+      0,
+      1,
+      2
+     ],
+     "gene_index": 3,
+     "id": "block-0003",
+     "index": 3,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "Concat",
+     "module_class": null,
+     "name": "Concat",
+     "native_path": "model.3",
+     "position": 3,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "neck",
+     "section_basis": "derived:non-detection head row -> neck",
+     "stable_id": "ul:head[0]@97069bcfd28c",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 0,
+     "yaml_path": "head[0]",
+     "yaml_section": "head"
+    },
+    {
+     "args": [
+      64,
+      3,
+      2
+     ],
+     "block_id": "block-0004",
+     "catalog": {
+      "catalog_key": "Conv",
+      "introduced_in": "YOLOv5",
+      "notes": null,
+      "origin_family": "YOLOv5",
+      "reference": "https://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.Conv",
+      "role": "표준 합성곱: Conv2d + BatchNorm + 활성화(기본 SiLU)",
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": 64,
+      "repeats": 1
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": -1,
+     "from_resolved": [
+      3
+     ],
+     "gene_index": 4,
+     "id": "block-0004",
+     "index": 4,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "Conv",
+     "module_class": null,
+     "name": "Conv",
+     "native_path": "model.4",
+     "position": 4,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "neck",
+     "section_basis": "derived:non-detection head row -> neck",
+     "stable_id": "ul:head[1]@97069bcfd28c",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 1,
+     "yaml_path": "head[1]",
+     "yaml_section": "head"
+    },
+    {
+     "args": [
+      "nc"
+     ],
+     "block_id": "block-0005",
+     "catalog": {
+      "catalog_key": "Detect",
+      "introduced_in": "YOLOv8",
+      "notes": "yolo11/yolo26 cfg도 같은 클래스를 사용한다. end2end 여부는 구조 문서의 effective.end2end를 본다",
+      "origin_family": "YOLOv8",
+      "reference": "https://docs.ultralytics.com/reference/nn/modules/head/#ultralytics.nn.modules.head.Detect",
+      "role": "Detect head: anchor-free 분리형(box/class) 검출 헤드",
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "yaml_from",
+     "declared": {
+      "channels": null,
+      "repeats": 1
+     },
+     "effective": {
+      "repeats": null,
+      "repeats_scaled": 1
+     },
+     "from": [
+      3
+     ],
+     "from_resolved": [
+      3
+     ],
+     "gene_index": 5,
+     "id": "block-0005",
+     "index": 5,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": "Detect",
+     "module_class": null,
+     "name": "Detect",
+     "native_path": "model.5",
+     "position": 5,
+     "repeats": 1,
+     "repeats_detail": {
+      "declared": 1,
+      "observed": null,
+      "scaled": 1
+     },
+     "section": "head",
+     "section_basis": "yaml:head+detection_module",
+     "stable_id": "ul:head[2]@97069bcfd28c",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": 2,
+     "yaml_path": "head[2]",
+     "yaml_section": "head"
+    }
+   ],
+   "catalog_summary": {
+    "by_origin_family": {
+     "YOLOv5": 3,
+     "YOLOv8": 2
+    },
+    "unknown": 1
+   },
+   "class_count": 2,
+   "edges": [
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": -1,
+     "target": 0
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 0,
+     "target": 1
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 1,
+     "target": 2
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 0,
+     "source": 0,
+     "target": 3
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 1,
+     "source": 1,
+     "target": 3
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 2,
+     "source": 2,
+     "target": 3
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": -1,
+     "source": 3,
+     "target": 4
+    },
+    {
+     "connection_source": "yaml_from",
+     "from_ref": 3,
+     "source": 3,
+     "target": 5
+    }
+   ],
+   "edges_unobserved": [],
+   "family": "cpu-branch",
+   "flops": null,
+   "flops_source": null,
+   "flops_status": "NOT_MEASURED",
+   "lineage": null,
+   "lineage_status": "NOT_APPLICABLE",
+   "observation": null,
+   "parameters": null,
+   "representation": "yaml_genes",
+   "scale": null,
+   "schema": "mbnas-structure/2",
+   "signature_hash": null,
+   "template_id": "cpu-branch:custom",
+   "yaml_hash": "sha256:97069bcfd28c59ac6e207132789f42083e16b3b78dc53ac87ce49ae2db09c42f"
+  },
+  "etri_native": {
+   "architecture_hash": "sha256:09c9f7db796591548cff6874572016c519f9a9b55f5aeb268bd48876637209ab",
+   "backend": "etri_hybrid",
+   "blocks": [
+    {
+     "args": null,
+     "block_id": "block-0000",
+     "catalog": {
+      "catalog_key": "etri_hybrid:CNNStem",
+      "introduced_in": null,
+      "notes": "도입 시점 unknown",
+      "origin_family": "ETRI controlled hybrid",
+      "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+      "role": "CNN 스템: stride-2 합성곱 블록을 log2(patch)회 쌓아 patch 토큰을 만든다",
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "observed",
+     "declared": {
+      "channels": null,
+      "repeats": 8
+     },
+     "effective": {
+      "c_in": 3,
+      "c_out": 16,
+      "calls": 1,
+      "h_in": 384,
+      "h_out": 192,
+      "inputs": [
+       {
+        "c": 3,
+        "h": 384,
+        "name": "arg0",
+        "shape": [
+         1,
+         3,
+         384,
+         384
+        ],
+        "source": -1,
+        "source_path": "model_input",
+        "w": 384
+       }
+      ],
+      "output_shapes": [
+       [
+        1,
+        16,
+        192,
+        192
+       ]
+      ],
+      "outputs": [
+       [
+        16,
+        192,
+        192
+       ]
+      ],
+      "params": 464,
+      "repeats": 8,
+      "repeats_scaled": null,
+      "repeats_source": "sequential",
+      "stride": 2.0,
+      "w_in": 384,
+      "w_out": 192
+     },
+     "from": null,
+     "from_resolved": null,
+     "gene_index": null,
+     "id": "block-0000",
+     "index": 0,
+     "internal_layers": [
+      {
+       "attributes": {
+        "groups": 1,
+        "in_channels": 3,
+        "kernel_size": [
+         3,
+         3
+        ],
+        "out_channels": 16,
+        "padding": [
+         1,
+         1
+        ],
+        "stride": [
+         2,
+         2
+        ]
+       },
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16,
+          3,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "embedding.layers.0.0",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "eps": 1e-05,
+        "num_channels": 16,
+        "num_groups": 8
+       },
+       "module": "GroupNorm",
+       "parameters": [
+        [
+         "weight",
+         [
+          16
+         ]
+        ],
+        [
+         "bias",
+         [
+          16
+         ]
+        ]
+       ],
+       "path": "embedding.layers.0.1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "approximate": "none"
+       },
+       "module": "GELU",
+       "parameters": [],
+       "path": "embedding.layers.0.2",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": null,
+     "module_class": "Sequential",
+     "name": "embedding.layers.0",
+     "native_config": null,
+     "native_kind": "module",
+     "native_path": "embedding.layers.0",
+     "note": null,
+     "position": 0,
+     "repeats": null,
+     "repeats_detail": {
+      "declared": 8,
+      "declared_basis": "2*log2(patch) conv blocks",
+      "group": "embedding.layers",
+      "observed": 8,
+      "observed_basis": "len(embedding.layers)",
+      "scaled": null,
+      "unit_index": 0
+     },
+     "section": "stem",
+     "section_basis": "native:embedding.layers",
+     "stable_id": "etri:embedding.layers.0@09c9f7db7965",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": null,
+     "yaml_path": null,
+     "yaml_section": null
+    },
+    {
+     "args": null,
+     "block_id": "block-0001",
+     "catalog": {
+      "catalog_key": "etri_hybrid:CNNStem",
+      "introduced_in": null,
+      "notes": "도입 시점 unknown",
+      "origin_family": "ETRI controlled hybrid",
+      "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+      "role": "CNN 스템: stride-2 합성곱 블록을 log2(patch)회 쌓아 patch 토큰을 만든다",
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "observed",
+     "declared": {
+      "channels": null,
+      "repeats": 8
+     },
+     "effective": {
+      "c_in": 16,
+      "c_out": 16,
+      "calls": 1,
+      "h_in": 192,
+      "h_out": 192,
+      "inputs": [
+       {
+        "c": 16,
+        "h": 192,
+        "name": "arg0",
+        "shape": [
+         1,
+         16,
+         192,
+         192
+        ],
+        "source": 0,
+        "source_path": "embedding.layers.0",
+        "w": 192
+       }
+      ],
+      "output_shapes": [
+       [
+        1,
+        16,
+        192,
+        192
+       ]
+      ],
+      "outputs": [
+       [
+        16,
+        192,
+        192
+       ]
+      ],
+      "params": 2336,
+      "repeats": 8,
+      "repeats_scaled": null,
+      "repeats_source": "sequential",
+      "stride": 2.0,
+      "w_in": 192,
+      "w_out": 192
+     },
+     "from": null,
+     "from_resolved": null,
+     "gene_index": null,
+     "id": "block-0001",
+     "index": 1,
+     "internal_layers": [
+      {
+       "attributes": {
+        "groups": 1,
+        "in_channels": 16,
+        "kernel_size": [
+         3,
+         3
+        ],
+        "out_channels": 16,
+        "padding": [
+         1,
+         1
+        ],
+        "stride": [
+         1,
+         1
+        ]
+       },
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          16,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "embedding.layers.1.0",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "eps": 1e-05,
+        "num_channels": 16,
+        "num_groups": 8
+       },
+       "module": "GroupNorm",
+       "parameters": [
+        [
+         "weight",
+         [
+          16
+         ]
+        ],
+        [
+         "bias",
+         [
+          16
+         ]
+        ]
+       ],
+       "path": "embedding.layers.1.1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "approximate": "none"
+       },
+       "module": "GELU",
+       "parameters": [],
+       "path": "embedding.layers.1.2",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": null,
+     "module_class": "Sequential",
+     "name": "embedding.layers.1",
+     "native_config": null,
+     "native_kind": "module",
+     "native_path": "embedding.layers.1",
+     "note": null,
+     "position": 1,
+     "repeats": null,
+     "repeats_detail": {
+      "declared": 8,
+      "declared_basis": "2*log2(patch) conv blocks",
+      "group": "embedding.layers",
+      "observed": 8,
+      "observed_basis": "len(embedding.layers)",
+      "scaled": null,
+      "unit_index": 1
+     },
+     "section": "stem",
+     "section_basis": "native:embedding.layers",
+     "stable_id": "etri:embedding.layers.1@09c9f7db7965",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": null,
+     "yaml_path": null,
+     "yaml_section": null
+    },
+    {
+     "args": null,
+     "block_id": "block-0002",
+     "catalog": {
+      "catalog_key": "etri_hybrid:CNNStem",
+      "introduced_in": null,
+      "notes": "도입 시점 unknown",
+      "origin_family": "ETRI controlled hybrid",
+      "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+      "role": "CNN 스템: stride-2 합성곱 블록을 log2(patch)회 쌓아 patch 토큰을 만든다",
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "observed",
+     "declared": {
+      "channels": null,
+      "repeats": 8
+     },
+     "effective": {
+      "c_in": 16,
+      "c_out": 32,
+      "calls": 1,
+      "h_in": 192,
+      "h_out": 96,
+      "inputs": [
+       {
+        "c": 16,
+        "h": 192,
+        "name": "arg0",
+        "shape": [
+         1,
+         16,
+         192,
+         192
+        ],
+        "source": 1,
+        "source_path": "embedding.layers.1",
+        "w": 192
+       }
+      ],
+      "output_shapes": [
+       [
+        1,
+        32,
+        96,
+        96
+       ]
+      ],
+      "outputs": [
+       [
+        32,
+        96,
+        96
+       ]
+      ],
+      "params": 4672,
+      "repeats": 8,
+      "repeats_scaled": null,
+      "repeats_source": "sequential",
+      "stride": 4.0,
+      "w_in": 192,
+      "w_out": 96
+     },
+     "from": null,
+     "from_resolved": null,
+     "gene_index": null,
+     "id": "block-0002",
+     "index": 2,
+     "internal_layers": [
+      {
+       "attributes": {
+        "groups": 1,
+        "in_channels": 16,
+        "kernel_size": [
+         3,
+         3
+        ],
+        "out_channels": 32,
+        "padding": [
+         1,
+         1
+        ],
+        "stride": [
+         2,
+         2
+        ]
+       },
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          32,
+          16,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "embedding.layers.2.0",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "eps": 1e-05,
+        "num_channels": 32,
+        "num_groups": 8
+       },
+       "module": "GroupNorm",
+       "parameters": [
+        [
+         "weight",
+         [
+          32
+         ]
+        ],
+        [
+         "bias",
+         [
+          32
+         ]
+        ]
+       ],
+       "path": "embedding.layers.2.1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "approximate": "none"
+       },
+       "module": "GELU",
+       "parameters": [],
+       "path": "embedding.layers.2.2",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": null,
+     "module_class": "Sequential",
+     "name": "embedding.layers.2",
+     "native_config": null,
+     "native_kind": "module",
+     "native_path": "embedding.layers.2",
+     "note": null,
+     "position": 2,
+     "repeats": null,
+     "repeats_detail": {
+      "declared": 8,
+      "declared_basis": "2*log2(patch) conv blocks",
+      "group": "embedding.layers",
+      "observed": 8,
+      "observed_basis": "len(embedding.layers)",
+      "scaled": null,
+      "unit_index": 2
+     },
+     "section": "stem",
+     "section_basis": "native:embedding.layers",
+     "stable_id": "etri:embedding.layers.2@09c9f7db7965",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": null,
+     "yaml_path": null,
+     "yaml_section": null
+    },
+    {
+     "args": null,
+     "block_id": "block-0003",
+     "catalog": {
+      "catalog_key": "etri_hybrid:CNNStem",
+      "introduced_in": null,
+      "notes": "도입 시점 unknown",
+      "origin_family": "ETRI controlled hybrid",
+      "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+      "role": "CNN 스템: stride-2 합성곱 블록을 log2(patch)회 쌓아 patch 토큰을 만든다",
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "observed",
+     "declared": {
+      "channels": null,
+      "repeats": 8
+     },
+     "effective": {
+      "c_in": 32,
+      "c_out": 32,
+      "calls": 1,
+      "h_in": 96,
+      "h_out": 96,
+      "inputs": [
+       {
+        "c": 32,
+        "h": 96,
+        "name": "arg0",
+        "shape": [
+         1,
+         32,
+         96,
+         96
+        ],
+        "source": 2,
+        "source_path": "embedding.layers.2",
+        "w": 96
+       }
+      ],
+      "output_shapes": [
+       [
+        1,
+        32,
+        96,
+        96
+       ]
+      ],
+      "outputs": [
+       [
+        32,
+        96,
+        96
+       ]
+      ],
+      "params": 9280,
+      "repeats": 8,
+      "repeats_scaled": null,
+      "repeats_source": "sequential",
+      "stride": 4.0,
+      "w_in": 96,
+      "w_out": 96
+     },
+     "from": null,
+     "from_resolved": null,
+     "gene_index": null,
+     "id": "block-0003",
+     "index": 3,
+     "internal_layers": [
+      {
+       "attributes": {
+        "groups": 1,
+        "in_channels": 32,
+        "kernel_size": [
+         3,
+         3
+        ],
+        "out_channels": 32,
+        "padding": [
+         1,
+         1
+        ],
+        "stride": [
+         1,
+         1
+        ]
+       },
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          32,
+          32,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "embedding.layers.3.0",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "eps": 1e-05,
+        "num_channels": 32,
+        "num_groups": 8
+       },
+       "module": "GroupNorm",
+       "parameters": [
+        [
+         "weight",
+         [
+          32
+         ]
+        ],
+        [
+         "bias",
+         [
+          32
+         ]
+        ]
+       ],
+       "path": "embedding.layers.3.1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "approximate": "none"
+       },
+       "module": "GELU",
+       "parameters": [],
+       "path": "embedding.layers.3.2",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": null,
+     "module_class": "Sequential",
+     "name": "embedding.layers.3",
+     "native_config": null,
+     "native_kind": "module",
+     "native_path": "embedding.layers.3",
+     "note": null,
+     "position": 3,
+     "repeats": null,
+     "repeats_detail": {
+      "declared": 8,
+      "declared_basis": "2*log2(patch) conv blocks",
+      "group": "embedding.layers",
+      "observed": 8,
+      "observed_basis": "len(embedding.layers)",
+      "scaled": null,
+      "unit_index": 3
+     },
+     "section": "stem",
+     "section_basis": "native:embedding.layers",
+     "stable_id": "etri:embedding.layers.3@09c9f7db7965",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": null,
+     "yaml_path": null,
+     "yaml_section": null
+    },
+    {
+     "args": null,
+     "block_id": "block-0004",
+     "catalog": {
+      "catalog_key": "etri_hybrid:CNNStem",
+      "introduced_in": null,
+      "notes": "도입 시점 unknown",
+      "origin_family": "ETRI controlled hybrid",
+      "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+      "role": "CNN 스템: stride-2 합성곱 블록을 log2(patch)회 쌓아 patch 토큰을 만든다",
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "observed",
+     "declared": {
+      "channels": null,
+      "repeats": 8
+     },
+     "effective": {
+      "c_in": 32,
+      "c_out": 64,
+      "calls": 1,
+      "h_in": 96,
+      "h_out": 48,
+      "inputs": [
+       {
+        "c": 32,
+        "h": 96,
+        "name": "arg0",
+        "shape": [
+         1,
+         32,
+         96,
+         96
+        ],
+        "source": 3,
+        "source_path": "embedding.layers.3",
+        "w": 96
+       }
+      ],
+      "output_shapes": [
+       [
+        1,
+        64,
+        48,
+        48
+       ]
+      ],
+      "outputs": [
+       [
+        64,
+        48,
+        48
+       ]
+      ],
+      "params": 18560,
+      "repeats": 8,
+      "repeats_scaled": null,
+      "repeats_source": "sequential",
+      "stride": 8.0,
+      "w_in": 96,
+      "w_out": 48
+     },
+     "from": null,
+     "from_resolved": null,
+     "gene_index": null,
+     "id": "block-0004",
+     "index": 4,
+     "internal_layers": [
+      {
+       "attributes": {
+        "groups": 1,
+        "in_channels": 32,
+        "kernel_size": [
+         3,
+         3
+        ],
+        "out_channels": 64,
+        "padding": [
+         1,
+         1
+        ],
+        "stride": [
+         2,
+         2
+        ]
+       },
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          32,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "embedding.layers.4.0",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "eps": 1e-05,
+        "num_channels": 64,
+        "num_groups": 8
+       },
+       "module": "GroupNorm",
+       "parameters": [
+        [
+         "weight",
+         [
+          64
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "embedding.layers.4.1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "approximate": "none"
+       },
+       "module": "GELU",
+       "parameters": [],
+       "path": "embedding.layers.4.2",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": null,
+     "module_class": "Sequential",
+     "name": "embedding.layers.4",
+     "native_config": null,
+     "native_kind": "module",
+     "native_path": "embedding.layers.4",
+     "note": null,
+     "position": 4,
+     "repeats": null,
+     "repeats_detail": {
+      "declared": 8,
+      "declared_basis": "2*log2(patch) conv blocks",
+      "group": "embedding.layers",
+      "observed": 8,
+      "observed_basis": "len(embedding.layers)",
+      "scaled": null,
+      "unit_index": 4
+     },
+     "section": "stem",
+     "section_basis": "native:embedding.layers",
+     "stable_id": "etri:embedding.layers.4@09c9f7db7965",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": null,
+     "yaml_path": null,
+     "yaml_section": null
+    },
+    {
+     "args": null,
+     "block_id": "block-0005",
+     "catalog": {
+      "catalog_key": "etri_hybrid:CNNStem",
+      "introduced_in": null,
+      "notes": "도입 시점 unknown",
+      "origin_family": "ETRI controlled hybrid",
+      "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+      "role": "CNN 스템: stride-2 합성곱 블록을 log2(patch)회 쌓아 patch 토큰을 만든다",
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "observed",
+     "declared": {
+      "channels": null,
+      "repeats": 8
+     },
+     "effective": {
+      "c_in": 64,
+      "c_out": 64,
+      "calls": 1,
+      "h_in": 48,
+      "h_out": 48,
+      "inputs": [
+       {
+        "c": 64,
+        "h": 48,
+        "name": "arg0",
+        "shape": [
+         1,
+         64,
+         48,
+         48
+        ],
+        "source": 4,
+        "source_path": "embedding.layers.4",
+        "w": 48
+       }
+      ],
+      "output_shapes": [
+       [
+        1,
+        64,
+        48,
+        48
+       ]
+      ],
+      "outputs": [
+       [
+        64,
+        48,
+        48
+       ]
+      ],
+      "params": 36992,
+      "repeats": 8,
+      "repeats_scaled": null,
+      "repeats_source": "sequential",
+      "stride": 8.0,
+      "w_in": 48,
+      "w_out": 48
+     },
+     "from": null,
+     "from_resolved": null,
+     "gene_index": null,
+     "id": "block-0005",
+     "index": 5,
+     "internal_layers": [
+      {
+       "attributes": {
+        "groups": 1,
+        "in_channels": 64,
+        "kernel_size": [
+         3,
+         3
+        ],
+        "out_channels": 64,
+        "padding": [
+         1,
+         1
+        ],
+        "stride": [
+         1,
+         1
+        ]
+       },
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          64,
+          64,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "embedding.layers.5.0",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "eps": 1e-05,
+        "num_channels": 64,
+        "num_groups": 8
+       },
+       "module": "GroupNorm",
+       "parameters": [
+        [
+         "weight",
+         [
+          64
+         ]
+        ],
+        [
+         "bias",
+         [
+          64
+         ]
+        ]
+       ],
+       "path": "embedding.layers.5.1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "approximate": "none"
+       },
+       "module": "GELU",
+       "parameters": [],
+       "path": "embedding.layers.5.2",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": null,
+     "module_class": "Sequential",
+     "name": "embedding.layers.5",
+     "native_config": null,
+     "native_kind": "module",
+     "native_path": "embedding.layers.5",
+     "note": null,
+     "position": 5,
+     "repeats": null,
+     "repeats_detail": {
+      "declared": 8,
+      "declared_basis": "2*log2(patch) conv blocks",
+      "group": "embedding.layers",
+      "observed": 8,
+      "observed_basis": "len(embedding.layers)",
+      "scaled": null,
+      "unit_index": 5
+     },
+     "section": "stem",
+     "section_basis": "native:embedding.layers",
+     "stable_id": "etri:embedding.layers.5@09c9f7db7965",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": null,
+     "yaml_path": null,
+     "yaml_section": null
+    },
+    {
+     "args": null,
+     "block_id": "block-0006",
+     "catalog": {
+      "catalog_key": "etri_hybrid:CNNStem",
+      "introduced_in": null,
+      "notes": "도입 시점 unknown",
+      "origin_family": "ETRI controlled hybrid",
+      "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+      "role": "CNN 스템: stride-2 합성곱 블록을 log2(patch)회 쌓아 patch 토큰을 만든다",
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "observed",
+     "declared": {
+      "channels": null,
+      "repeats": 8
+     },
+     "effective": {
+      "c_in": 64,
+      "c_out": 128,
+      "calls": 1,
+      "h_in": 48,
+      "h_out": 24,
+      "inputs": [
+       {
+        "c": 64,
+        "h": 48,
+        "name": "arg0",
+        "shape": [
+         1,
+         64,
+         48,
+         48
+        ],
+        "source": 5,
+        "source_path": "embedding.layers.5",
+        "w": 48
+       }
+      ],
+      "output_shapes": [
+       [
+        1,
+        128,
+        24,
+        24
+       ]
+      ],
+      "outputs": [
+       [
+        128,
+        24,
+        24
+       ]
+      ],
+      "params": 73984,
+      "repeats": 8,
+      "repeats_scaled": null,
+      "repeats_source": "sequential",
+      "stride": 16.0,
+      "w_in": 48,
+      "w_out": 24
+     },
+     "from": null,
+     "from_resolved": null,
+     "gene_index": null,
+     "id": "block-0006",
+     "index": 6,
+     "internal_layers": [
+      {
+       "attributes": {
+        "groups": 1,
+        "in_channels": 64,
+        "kernel_size": [
+         3,
+         3
+        ],
+        "out_channels": 128,
+        "padding": [
+         1,
+         1
+        ],
+        "stride": [
+         2,
+         2
+        ]
+       },
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          128,
+          64,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "embedding.layers.6.0",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "eps": 1e-05,
+        "num_channels": 128,
+        "num_groups": 8
+       },
+       "module": "GroupNorm",
+       "parameters": [
+        [
+         "weight",
+         [
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          128
+         ]
+        ]
+       ],
+       "path": "embedding.layers.6.1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "approximate": "none"
+       },
+       "module": "GELU",
+       "parameters": [],
+       "path": "embedding.layers.6.2",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": null,
+     "module_class": "Sequential",
+     "name": "embedding.layers.6",
+     "native_config": null,
+     "native_kind": "module",
+     "native_path": "embedding.layers.6",
+     "note": null,
+     "position": 6,
+     "repeats": null,
+     "repeats_detail": {
+      "declared": 8,
+      "declared_basis": "2*log2(patch) conv blocks",
+      "group": "embedding.layers",
+      "observed": 8,
+      "observed_basis": "len(embedding.layers)",
+      "scaled": null,
+      "unit_index": 6
+     },
+     "section": "stem",
+     "section_basis": "native:embedding.layers",
+     "stable_id": "etri:embedding.layers.6@09c9f7db7965",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": null,
+     "yaml_path": null,
+     "yaml_section": null
+    },
+    {
+     "args": null,
+     "block_id": "block-0007",
+     "catalog": {
+      "catalog_key": "etri_hybrid:CNNStem",
+      "introduced_in": null,
+      "notes": "도입 시점 unknown",
+      "origin_family": "ETRI controlled hybrid",
+      "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+      "role": "CNN 스템: stride-2 합성곱 블록을 log2(patch)회 쌓아 patch 토큰을 만든다",
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "observed",
+     "declared": {
+      "channels": 128,
+      "repeats": 8
+     },
+     "effective": {
+      "c_in": 128,
+      "c_out": 128,
+      "calls": 1,
+      "h_in": 24,
+      "h_out": 24,
+      "inputs": [
+       {
+        "c": 128,
+        "h": 24,
+        "name": "arg0",
+        "shape": [
+         1,
+         128,
+         24,
+         24
+        ],
+        "source": 6,
+        "source_path": "embedding.layers.6",
+        "w": 24
+       }
+      ],
+      "output_shapes": [
+       [
+        1,
+        128,
+        24,
+        24
+       ]
+      ],
+      "outputs": [
+       [
+        128,
+        24,
+        24
+       ]
+      ],
+      "params": 147712,
+      "repeats": 8,
+      "repeats_scaled": null,
+      "repeats_source": "sequential",
+      "stride": 16.0,
+      "w_in": 24,
+      "w_out": 24
+     },
+     "from": null,
+     "from_resolved": null,
+     "gene_index": null,
+     "id": "block-0007",
+     "index": 7,
+     "internal_layers": [
+      {
+       "attributes": {
+        "groups": 1,
+        "in_channels": 128,
+        "kernel_size": [
+         3,
+         3
+        ],
+        "out_channels": 128,
+        "padding": [
+         1,
+         1
+        ],
+        "stride": [
+         1,
+         1
+        ]
+       },
+       "module": "Conv2d",
+       "parameters": [
+        [
+         "weight",
+         [
+          128,
+          128,
+          3,
+          3
+         ]
+        ]
+       ],
+       "path": "embedding.layers.7.0",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "eps": 1e-05,
+        "num_channels": 128,
+        "num_groups": 8
+       },
+       "module": "GroupNorm",
+       "parameters": [
+        [
+         "weight",
+         [
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          128
+         ]
+        ]
+       ],
+       "path": "embedding.layers.7.1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "approximate": "none"
+       },
+       "module": "GELU",
+       "parameters": [],
+       "path": "embedding.layers.7.2",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": null,
+     "module_class": "Sequential",
+     "name": "embedding.layers.7",
+     "native_config": null,
+     "native_kind": "module",
+     "native_path": "embedding.layers.7",
+     "note": null,
+     "position": 7,
+     "repeats": null,
+     "repeats_detail": {
+      "declared": 8,
+      "declared_basis": "2*log2(patch) conv blocks",
+      "group": "embedding.layers",
+      "observed": 8,
+      "observed_basis": "len(embedding.layers)",
+      "scaled": null,
+      "unit_index": 7
+     },
+     "section": "stem",
+     "section_basis": "native:embedding.layers",
+     "stable_id": "etri:embedding.layers.7@09c9f7db7965",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": null,
+     "yaml_path": null,
+     "yaml_section": null
+    },
+    {
+     "args": null,
+     "block_id": "block-0008",
+     "catalog": {
+      "catalog_key": "etri_hybrid:position",
+      "introduced_in": null,
+      "notes": "도입 시점 unknown. buffer(Tensor)를 native_path로 식별",
+      "origin_family": "ETRI controlled hybrid",
+      "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+      "role": "sin/cos 위치 표(등록 buffer): 스템 토큰에 더해진다",
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "native_fixed",
+     "declared": {
+      "channels": 128,
+      "repeats": 1
+     },
+     "effective": {
+      "buffers": [
+       {
+        "name": "position",
+        "shape": [
+         1,
+         576,
+         128
+        ]
+       }
+      ],
+      "calls": 0,
+      "inputs": null,
+      "output_shapes": null,
+      "outputs": null,
+      "params": 0,
+      "repeats": null,
+      "repeats_scaled": null,
+      "repeats_source": null
+     },
+     "from": null,
+     "from_resolved": null,
+     "gene_index": null,
+     "id": "block-0008",
+     "index": 8,
+     "internal_layers": [],
+     "internal_mapping_status": "UNVERIFIED",
+     "module": null,
+     "module_class": "Tensor",
+     "name": "position",
+     "native_config": null,
+     "native_kind": "buffer",
+     "native_path": "position",
+     "note": "registered buffer (sin/cos position table), added to the stem tokens in ControlledDetector.forward",
+     "position": 8,
+     "repeats": null,
+     "repeats_detail": {
+      "declared": 1,
+      "declared_basis": "single module",
+      "group": null,
+      "observed": null,
+      "observed_basis": "not a module",
+      "scaled": null,
+      "unit_index": null
+     },
+     "section": "encoder",
+     "section_basis": "native:position",
+     "stable_id": "etri:position@09c9f7db7965",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": null,
+     "yaml_path": null,
+     "yaml_section": null
+    },
+    {
+     "args": null,
+     "block_id": "block-0009",
+     "catalog": {
+      "catalog_key": "etri_hybrid:TransformerEncoderLayer",
+      "introduced_in": null,
+      "notes": "nn.TransformerEncoderLayer(Vaswani et al. 2017, arXiv 1706.03762)를 norm_first=True로 사용. 도입 시점 unknown",
+      "origin_family": "ETRI controlled hybrid",
+      "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+      "role": "pre-norm Transformer 인코더 레이어 (GELU, batch_first)",
+      "source_path": "torch/nn/modules/transformer.py"
+     },
+     "checks_local": [],
+     "connection_source": "observed",
+     "declared": {
+      "channels": 128,
+      "repeats": 3
+     },
+     "effective": {
+      "c_in": 128,
+      "c_out": 128,
+      "calls": 1,
+      "h_in": null,
+      "h_out": null,
+      "inputs": [
+       {
+        "c": 128,
+        "h": null,
+        "name": "arg0",
+        "shape": [
+         1,
+         576,
+         128
+        ],
+        "source": null,
+        "source_path": null,
+        "w": null
+       }
+      ],
+      "output_shapes": [
+       [
+        1,
+        576,
+        128
+       ]
+      ],
+      "outputs": [
+       [
+        576,
+        128
+       ]
+      ],
+      "params": 198272,
+      "repeats": 3,
+      "repeats_scaled": null,
+      "repeats_source": null,
+      "stride": 16.0,
+      "tokens_out": 576,
+      "w_in": null,
+      "w_out": null
+     },
+     "from": null,
+     "from_resolved": null,
+     "gene_index": null,
+     "id": "block-0009",
+     "index": 9,
+     "internal_layers": [
+      {
+       "attributes": {
+        "batch_first": true,
+        "embed_dim": 128,
+        "num_heads": 4
+       },
+       "module": "MultiheadAttention",
+       "parameters": [
+        [
+         "in_proj_weight",
+         [
+          384,
+          128
+         ]
+        ],
+        [
+         "in_proj_bias",
+         [
+          384
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.0.self_attn",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "in_features": 128,
+        "out_features": 128
+       },
+       "module": "NonDynamicallyQuantizableLinear",
+       "parameters": [
+        [
+         "weight",
+         [
+          128,
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          128
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.0.self_attn.out_proj",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "in_features": 128,
+        "out_features": 512
+       },
+       "module": "Linear",
+       "parameters": [
+        [
+         "weight",
+         [
+          512,
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          512
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.0.linear1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "p": 0.1
+       },
+       "module": "Dropout",
+       "parameters": [],
+       "path": "spatial_encoder.layers.0.dropout",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "in_features": 512,
+        "out_features": 128
+       },
+       "module": "Linear",
+       "parameters": [
+        [
+         "weight",
+         [
+          128,
+          512
+         ]
+        ],
+        [
+         "bias",
+         [
+          128
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.0.linear2",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "eps": 1e-05,
+        "normalized_shape": [
+         128
+        ]
+       },
+       "module": "LayerNorm",
+       "parameters": [
+        [
+         "weight",
+         [
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          128
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.0.norm1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "eps": 1e-05,
+        "normalized_shape": [
+         128
+        ]
+       },
+       "module": "LayerNorm",
+       "parameters": [
+        [
+         "weight",
+         [
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          128
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.0.norm2",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "p": 0.1
+       },
+       "module": "Dropout",
+       "parameters": [],
+       "path": "spatial_encoder.layers.0.dropout1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "p": 0.1
+       },
+       "module": "Dropout",
+       "parameters": [],
+       "path": "spatial_encoder.layers.0.dropout2",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": null,
+     "module_class": "TransformerEncoderLayer",
+     "name": "spatial_encoder.layers.0",
+     "native_config": {
+      "dim": 128,
+      "ffn": 512,
+      "heads": 4
+     },
+     "native_kind": "module",
+     "native_path": "spatial_encoder.layers.0",
+     "note": null,
+     "position": 9,
+     "repeats": null,
+     "repeats_detail": {
+      "declared": 3,
+      "declared_basis": "depth",
+      "group": "spatial_encoder.layers",
+      "observed": 3,
+      "observed_basis": "len(spatial_encoder layers)",
+      "scaled": null,
+      "unit_index": 0
+     },
+     "section": "encoder",
+     "section_basis": "native:spatial_encoder.layers",
+     "stable_id": "etri:spatial_encoder.layers.0@09c9f7db7965",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": null,
+     "yaml_path": null,
+     "yaml_section": null
+    },
+    {
+     "args": null,
+     "block_id": "block-0010",
+     "catalog": {
+      "catalog_key": "etri_hybrid:TransformerEncoderLayer",
+      "introduced_in": null,
+      "notes": "nn.TransformerEncoderLayer(Vaswani et al. 2017, arXiv 1706.03762)를 norm_first=True로 사용. 도입 시점 unknown",
+      "origin_family": "ETRI controlled hybrid",
+      "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+      "role": "pre-norm Transformer 인코더 레이어 (GELU, batch_first)",
+      "source_path": "torch/nn/modules/transformer.py"
+     },
+     "checks_local": [],
+     "connection_source": "observed",
+     "declared": {
+      "channels": 128,
+      "repeats": 3
+     },
+     "effective": {
+      "c_in": 128,
+      "c_out": 128,
+      "calls": 1,
+      "h_in": null,
+      "h_out": null,
+      "inputs": [
+       {
+        "c": 128,
+        "h": null,
+        "name": "arg0",
+        "shape": [
+         1,
+         576,
+         128
+        ],
+        "source": 9,
+        "source_path": "spatial_encoder.layers.0",
+        "w": null
+       }
+      ],
+      "output_shapes": [
+       [
+        1,
+        576,
+        128
+       ]
+      ],
+      "outputs": [
+       [
+        576,
+        128
+       ]
+      ],
+      "params": 198272,
+      "repeats": 3,
+      "repeats_scaled": null,
+      "repeats_source": null,
+      "stride": 16.0,
+      "tokens_out": 576,
+      "w_in": null,
+      "w_out": null
+     },
+     "from": null,
+     "from_resolved": null,
+     "gene_index": null,
+     "id": "block-0010",
+     "index": 10,
+     "internal_layers": [
+      {
+       "attributes": {
+        "batch_first": true,
+        "embed_dim": 128,
+        "num_heads": 4
+       },
+       "module": "MultiheadAttention",
+       "parameters": [
+        [
+         "in_proj_weight",
+         [
+          384,
+          128
+         ]
+        ],
+        [
+         "in_proj_bias",
+         [
+          384
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.1.self_attn",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "in_features": 128,
+        "out_features": 128
+       },
+       "module": "NonDynamicallyQuantizableLinear",
+       "parameters": [
+        [
+         "weight",
+         [
+          128,
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          128
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.1.self_attn.out_proj",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "in_features": 128,
+        "out_features": 512
+       },
+       "module": "Linear",
+       "parameters": [
+        [
+         "weight",
+         [
+          512,
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          512
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.1.linear1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "p": 0.1
+       },
+       "module": "Dropout",
+       "parameters": [],
+       "path": "spatial_encoder.layers.1.dropout",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "in_features": 512,
+        "out_features": 128
+       },
+       "module": "Linear",
+       "parameters": [
+        [
+         "weight",
+         [
+          128,
+          512
+         ]
+        ],
+        [
+         "bias",
+         [
+          128
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.1.linear2",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "eps": 1e-05,
+        "normalized_shape": [
+         128
+        ]
+       },
+       "module": "LayerNorm",
+       "parameters": [
+        [
+         "weight",
+         [
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          128
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.1.norm1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "eps": 1e-05,
+        "normalized_shape": [
+         128
+        ]
+       },
+       "module": "LayerNorm",
+       "parameters": [
+        [
+         "weight",
+         [
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          128
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.1.norm2",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "p": 0.1
+       },
+       "module": "Dropout",
+       "parameters": [],
+       "path": "spatial_encoder.layers.1.dropout1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "p": 0.1
+       },
+       "module": "Dropout",
+       "parameters": [],
+       "path": "spatial_encoder.layers.1.dropout2",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": null,
+     "module_class": "TransformerEncoderLayer",
+     "name": "spatial_encoder.layers.1",
+     "native_config": {
+      "dim": 128,
+      "ffn": 512,
+      "heads": 4
+     },
+     "native_kind": "module",
+     "native_path": "spatial_encoder.layers.1",
+     "note": null,
+     "position": 10,
+     "repeats": null,
+     "repeats_detail": {
+      "declared": 3,
+      "declared_basis": "depth",
+      "group": "spatial_encoder.layers",
+      "observed": 3,
+      "observed_basis": "len(spatial_encoder layers)",
+      "scaled": null,
+      "unit_index": 1
+     },
+     "section": "encoder",
+     "section_basis": "native:spatial_encoder.layers",
+     "stable_id": "etri:spatial_encoder.layers.1@09c9f7db7965",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": null,
+     "yaml_path": null,
+     "yaml_section": null
+    },
+    {
+     "args": null,
+     "block_id": "block-0011",
+     "catalog": {
+      "catalog_key": "etri_hybrid:TransformerEncoderLayer",
+      "introduced_in": null,
+      "notes": "nn.TransformerEncoderLayer(Vaswani et al. 2017, arXiv 1706.03762)를 norm_first=True로 사용. 도입 시점 unknown",
+      "origin_family": "ETRI controlled hybrid",
+      "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+      "role": "pre-norm Transformer 인코더 레이어 (GELU, batch_first)",
+      "source_path": "torch/nn/modules/transformer.py"
+     },
+     "checks_local": [],
+     "connection_source": "observed",
+     "declared": {
+      "channels": 128,
+      "repeats": 3
+     },
+     "effective": {
+      "c_in": 128,
+      "c_out": 128,
+      "calls": 1,
+      "h_in": null,
+      "h_out": null,
+      "inputs": [
+       {
+        "c": 128,
+        "h": null,
+        "name": "arg0",
+        "shape": [
+         1,
+         576,
+         128
+        ],
+        "source": 10,
+        "source_path": "spatial_encoder.layers.1",
+        "w": null
+       }
+      ],
+      "output_shapes": [
+       [
+        1,
+        576,
+        128
+       ]
+      ],
+      "outputs": [
+       [
+        576,
+        128
+       ]
+      ],
+      "params": 198272,
+      "repeats": 3,
+      "repeats_scaled": null,
+      "repeats_source": null,
+      "stride": 16.0,
+      "tokens_out": 576,
+      "w_in": null,
+      "w_out": null
+     },
+     "from": null,
+     "from_resolved": null,
+     "gene_index": null,
+     "id": "block-0011",
+     "index": 11,
+     "internal_layers": [
+      {
+       "attributes": {
+        "batch_first": true,
+        "embed_dim": 128,
+        "num_heads": 4
+       },
+       "module": "MultiheadAttention",
+       "parameters": [
+        [
+         "in_proj_weight",
+         [
+          384,
+          128
+         ]
+        ],
+        [
+         "in_proj_bias",
+         [
+          384
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.2.self_attn",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "in_features": 128,
+        "out_features": 128
+       },
+       "module": "NonDynamicallyQuantizableLinear",
+       "parameters": [
+        [
+         "weight",
+         [
+          128,
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          128
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.2.self_attn.out_proj",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "in_features": 128,
+        "out_features": 512
+       },
+       "module": "Linear",
+       "parameters": [
+        [
+         "weight",
+         [
+          512,
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          512
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.2.linear1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "p": 0.1
+       },
+       "module": "Dropout",
+       "parameters": [],
+       "path": "spatial_encoder.layers.2.dropout",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "in_features": 512,
+        "out_features": 128
+       },
+       "module": "Linear",
+       "parameters": [
+        [
+         "weight",
+         [
+          128,
+          512
+         ]
+        ],
+        [
+         "bias",
+         [
+          128
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.2.linear2",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "eps": 1e-05,
+        "normalized_shape": [
+         128
+        ]
+       },
+       "module": "LayerNorm",
+       "parameters": [
+        [
+         "weight",
+         [
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          128
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.2.norm1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "eps": 1e-05,
+        "normalized_shape": [
+         128
+        ]
+       },
+       "module": "LayerNorm",
+       "parameters": [
+        [
+         "weight",
+         [
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          128
+         ]
+        ]
+       ],
+       "path": "spatial_encoder.layers.2.norm2",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "p": 0.1
+       },
+       "module": "Dropout",
+       "parameters": [],
+       "path": "spatial_encoder.layers.2.dropout1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "p": 0.1
+       },
+       "module": "Dropout",
+       "parameters": [],
+       "path": "spatial_encoder.layers.2.dropout2",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": null,
+     "module_class": "TransformerEncoderLayer",
+     "name": "spatial_encoder.layers.2",
+     "native_config": {
+      "dim": 128,
+      "ffn": 512,
+      "heads": 4
+     },
+     "native_kind": "module",
+     "native_path": "spatial_encoder.layers.2",
+     "note": null,
+     "position": 11,
+     "repeats": null,
+     "repeats_detail": {
+      "declared": 3,
+      "declared_basis": "depth",
+      "group": "spatial_encoder.layers",
+      "observed": 3,
+      "observed_basis": "len(spatial_encoder layers)",
+      "scaled": null,
+      "unit_index": 2
+     },
+     "section": "encoder",
+     "section_basis": "native:spatial_encoder.layers",
+     "stable_id": "etri:spatial_encoder.layers.2@09c9f7db7965",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": null,
+     "yaml_path": null,
+     "yaml_section": null
+    },
+    {
+     "args": null,
+     "block_id": "block-0012",
+     "catalog": {
+      "catalog_key": "LayerNorm",
+      "introduced_in": null,
+      "notes": null,
+      "origin_family": "PyTorch torch.nn",
+      "reference": "https://pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html",
+      "role": "LayerNorm 정규화 레이어",
+      "source_path": "torch/nn/modules/normalization.py"
+     },
+     "checks_local": [],
+     "connection_source": "observed",
+     "declared": {
+      "channels": 128,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 128,
+      "c_out": 128,
+      "calls": 1,
+      "h_in": null,
+      "h_out": null,
+      "inputs": [
+       {
+        "c": 128,
+        "h": null,
+        "name": "arg0",
+        "shape": [
+         1,
+         576,
+         128
+        ],
+        "source": 11,
+        "source_path": "spatial_encoder.layers.2",
+        "w": null
+       }
+      ],
+      "output_shapes": [
+       [
+        1,
+        576,
+        128
+       ]
+      ],
+      "outputs": [
+       [
+        576,
+        128
+       ]
+      ],
+      "params": 256,
+      "repeats": 1,
+      "repeats_scaled": null,
+      "repeats_source": "single_module",
+      "stride": 16.0,
+      "tokens_out": 576,
+      "w_in": null,
+      "w_out": null
+     },
+     "from": null,
+     "from_resolved": null,
+     "gene_index": null,
+     "id": "block-0012",
+     "index": 12,
+     "internal_layers": [],
+     "internal_mapping_status": "RECORDED",
+     "module": null,
+     "module_class": "LayerNorm",
+     "name": "norm",
+     "native_config": null,
+     "native_kind": "module",
+     "native_path": "norm",
+     "note": null,
+     "position": 12,
+     "repeats": null,
+     "repeats_detail": {
+      "declared": 1,
+      "declared_basis": "single module",
+      "group": null,
+      "observed": 1,
+      "observed_basis": "single_module",
+      "scaled": null,
+      "unit_index": null
+     },
+     "section": "encoder",
+     "section_basis": "native:norm",
+     "stable_id": "etri:norm@09c9f7db7965",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": null,
+     "yaml_path": null,
+     "yaml_section": null
+    },
+    {
+     "args": null,
+     "block_id": "block-0013",
+     "catalog": {
+      "catalog_key": "etri_hybrid:head",
+      "introduced_in": null,
+      "notes": "도입 시점 unknown. Sequential 컨테이너를 native_path로 식별",
+      "origin_family": "ETRI controlled hybrid",
+      "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+      "role": "예측 head: Linear-GELU-Linear 2층 (class_head, box_head)",
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "observed",
+     "declared": {
+      "channels": 128,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 128,
+      "c_out": 2,
+      "calls": 1,
+      "h_in": null,
+      "h_out": null,
+      "inputs": [
+       {
+        "c": 128,
+        "h": null,
+        "name": "arg0",
+        "shape": [
+         1,
+         576,
+         128
+        ],
+        "source": 12,
+        "source_path": "norm",
+        "w": null
+       }
+      ],
+      "output_shapes": [
+       [
+        1,
+        576,
+        2
+       ]
+      ],
+      "outputs": [
+       [
+        576,
+        2
+       ]
+      ],
+      "params": 16770,
+      "repeats": 1,
+      "repeats_scaled": null,
+      "repeats_source": "single_module",
+      "stride": 16.0,
+      "tokens_out": 576,
+      "w_in": null,
+      "w_out": null
+     },
+     "from": null,
+     "from_resolved": null,
+     "gene_index": null,
+     "id": "block-0013",
+     "index": 13,
+     "internal_layers": [
+      {
+       "attributes": {
+        "in_features": 128,
+        "out_features": 128
+       },
+       "module": "Linear",
+       "parameters": [
+        [
+         "weight",
+         [
+          128,
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          128
+         ]
+        ]
+       ],
+       "path": "class_head.0",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "approximate": "none"
+       },
+       "module": "GELU",
+       "parameters": [],
+       "path": "class_head.1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "in_features": 128,
+        "out_features": 2
+       },
+       "module": "Linear",
+       "parameters": [
+        [
+         "weight",
+         [
+          2,
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          2
+         ]
+        ]
+       ],
+       "path": "class_head.2",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": null,
+     "module_class": "Sequential",
+     "name": "class_head",
+     "native_config": null,
+     "native_kind": "module",
+     "native_path": "class_head",
+     "note": null,
+     "position": 13,
+     "repeats": null,
+     "repeats_detail": {
+      "declared": 1,
+      "declared_basis": "single module",
+      "group": null,
+      "observed": 1,
+      "observed_basis": "single_module",
+      "scaled": null,
+      "unit_index": null
+     },
+     "section": "head",
+     "section_basis": "native:class_head",
+     "stable_id": "etri:class_head@09c9f7db7965",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": null,
+     "yaml_path": null,
+     "yaml_section": null
+    },
+    {
+     "args": null,
+     "block_id": "block-0014",
+     "catalog": {
+      "catalog_key": "etri_hybrid:head",
+      "introduced_in": null,
+      "notes": "도입 시점 unknown. Sequential 컨테이너를 native_path로 식별",
+      "origin_family": "ETRI controlled hybrid",
+      "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+      "role": "예측 head: Linear-GELU-Linear 2층 (class_head, box_head)",
+      "source_path": null
+     },
+     "checks_local": [],
+     "connection_source": "observed",
+     "declared": {
+      "channels": 128,
+      "repeats": 1
+     },
+     "effective": {
+      "c_in": 128,
+      "c_out": 4,
+      "calls": 1,
+      "h_in": null,
+      "h_out": null,
+      "inputs": [
+       {
+        "c": 128,
+        "h": null,
+        "name": "arg0",
+        "shape": [
+         1,
+         576,
+         128
+        ],
+        "source": 12,
+        "source_path": "norm",
+        "w": null
+       }
+      ],
+      "output_shapes": [
+       [
+        1,
+        576,
+        4
+       ]
+      ],
+      "outputs": [
+       [
+        576,
+        4
+       ]
+      ],
+      "params": 17028,
+      "repeats": 1,
+      "repeats_scaled": null,
+      "repeats_source": "single_module",
+      "stride": 16.0,
+      "tokens_out": 576,
+      "w_in": null,
+      "w_out": null
+     },
+     "from": null,
+     "from_resolved": null,
+     "gene_index": null,
+     "id": "block-0014",
+     "index": 14,
+     "internal_layers": [
+      {
+       "attributes": {
+        "in_features": 128,
+        "out_features": 128
+       },
+       "module": "Linear",
+       "parameters": [
+        [
+         "weight",
+         [
+          128,
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          128
+         ]
+        ]
+       ],
+       "path": "box_head.0",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "approximate": "none"
+       },
+       "module": "GELU",
+       "parameters": [],
+       "path": "box_head.1",
+       "shared": false
+      },
+      {
+       "attributes": {
+        "in_features": 128,
+        "out_features": 4
+       },
+       "module": "Linear",
+       "parameters": [
+        [
+         "weight",
+         [
+          4,
+          128
+         ]
+        ],
+        [
+         "bias",
+         [
+          4
+         ]
+        ]
+       ],
+       "path": "box_head.2",
+       "shared": false
+      }
+     ],
+     "internal_mapping_status": "RECORDED",
+     "module": null,
+     "module_class": "Sequential",
+     "name": "box_head",
+     "native_config": null,
+     "native_kind": "module",
+     "native_path": "box_head",
+     "note": null,
+     "position": 14,
+     "repeats": null,
+     "repeats_detail": {
+      "declared": 1,
+      "declared_basis": "single module",
+      "group": null,
+      "observed": 1,
+      "observed_basis": "single_module",
+      "scaled": null,
+      "unit_index": null
+     },
+     "section": "head",
+     "section_basis": "native:box_head",
+     "stable_id": "etri:box_head@09c9f7db7965",
+     "wrapped_module": null,
+     "wrapper": null,
+     "yaml_index": null,
+     "yaml_path": null,
+     "yaml_section": null
+    }
+   ],
+   "catalog_summary": {
+    "by_origin_family": {
+     "ETRI controlled hybrid": 14,
+     "PyTorch torch.nn": 1
+    },
+    "unknown": 0
+   },
+   "checks": [
+    {
+     "evidence_level": null,
+     "name": "yaml_rows",
+     "status": "NOT_CHECKED"
+    },
+    {
+     "evidence_level": null,
+     "name": "references",
+     "status": "NOT_CHECKED"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "class_count",
+     "rows_checked": 1,
+     "status": "PASS"
+    },
+    {
+     "evidence_level": null,
+     "name": "scales",
+     "status": "NOT_CHECKED"
+    },
+    {
+     "evidence_level": "built",
+     "name": "module_support",
+     "rows_checked": 15,
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "built",
+     "name": "cpu_build",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "reference_forward",
+     "status": "PASS"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "channels_spatial_stride",
+     "rows_checked": 14,
+     "status": "PASS"
+    },
+    {
+     "evidence_level": null,
+     "name": "merge_conditions",
+     "status": "NOT_CHECKED"
+    },
+    {
+     "evidence_level": "forward",
+     "name": "head_connection",
+     "rows_checked": 2,
+     "status": "PASS"
+    }
+   ],
+   "class_count": 1,
+   "diagnostics": [],
+   "edges": [
+    {
+     "connection_source": "observed",
+     "evidence": {
+      "kind": "tensor_identity",
+      "shape": [
+       1,
+       16,
+       192,
+       192
+      ],
+      "tensors": [
+       "arg0"
+      ]
+     },
+     "from_ref": null,
+     "source": 0,
+     "target": 1
+    },
+    {
+     "connection_source": "observed",
+     "evidence": {
+      "kind": "tensor_identity",
+      "shape": [
+       1,
+       16,
+       192,
+       192
+      ],
+      "tensors": [
+       "arg0"
+      ]
+     },
+     "from_ref": null,
+     "source": 1,
+     "target": 2
+    },
+    {
+     "connection_source": "observed",
+     "evidence": {
+      "kind": "tensor_identity",
+      "shape": [
+       1,
+       32,
+       96,
+       96
+      ],
+      "tensors": [
+       "arg0"
+      ]
+     },
+     "from_ref": null,
+     "source": 2,
+     "target": 3
+    },
+    {
+     "connection_source": "observed",
+     "evidence": {
+      "kind": "tensor_identity",
+      "shape": [
+       1,
+       32,
+       96,
+       96
+      ],
+      "tensors": [
+       "arg0"
+      ]
+     },
+     "from_ref": null,
+     "source": 3,
+     "target": 4
+    },
+    {
+     "connection_source": "observed",
+     "evidence": {
+      "kind": "tensor_identity",
+      "shape": [
+       1,
+       64,
+       48,
+       48
+      ],
+      "tensors": [
+       "arg0"
+      ]
+     },
+     "from_ref": null,
+     "source": 4,
+     "target": 5
+    },
+    {
+     "connection_source": "observed",
+     "evidence": {
+      "kind": "tensor_identity",
+      "shape": [
+       1,
+       64,
+       48,
+       48
+      ],
+      "tensors": [
+       "arg0"
+      ]
+     },
+     "from_ref": null,
+     "source": 5,
+     "target": 6
+    },
+    {
+     "connection_source": "observed",
+     "evidence": {
+      "kind": "tensor_identity",
+      "shape": [
+       1,
+       128,
+       24,
+       24
+      ],
+      "tensors": [
+       "arg0"
+      ]
+     },
+     "from_ref": null,
+     "source": 6,
+     "target": 7
+    },
+    {
+     "connection_source": "observed",
+     "evidence": {
+      "kind": "tensor_identity",
+      "shape": [
+       1,
+       576,
+       128
+      ],
+      "tensors": [
+       "arg0"
+      ]
+     },
+     "from_ref": null,
+     "source": 9,
+     "target": 10
+    },
+    {
+     "connection_source": "observed",
+     "evidence": {
+      "kind": "tensor_identity",
+      "shape": [
+       1,
+       576,
+       128
+      ],
+      "tensors": [
+       "arg0"
+      ]
+     },
+     "from_ref": null,
+     "source": 10,
+     "target": 11
+    },
+    {
+     "connection_source": "observed",
+     "evidence": {
+      "kind": "tensor_identity",
+      "shape": [
+       1,
+       576,
+       128
+      ],
+      "tensors": [
+       "arg0"
+      ]
+     },
+     "from_ref": null,
+     "source": 11,
+     "target": 12
+    },
+    {
+     "connection_source": "observed",
+     "evidence": {
+      "kind": "tensor_identity",
+      "shape": [
+       1,
+       576,
+       128
+      ],
+      "tensors": [
+       "arg0"
+      ]
+     },
+     "from_ref": null,
+     "source": 12,
+     "target": 13
+    },
+    {
+     "connection_source": "observed",
+     "evidence": {
+      "kind": "tensor_identity",
+      "shape": [
+       1,
+       576,
+       128
+      ],
+      "tensors": [
+       "arg0"
+      ]
+     },
+     "from_ref": null,
+     "source": 12,
+     "target": 14
+    },
+    {
+     "connection_source": "native_fixed",
+     "evidence": {
+      "citation": "ControlledDetector.forward: tokens = self.embedding(images) + self.position; CNNStem.forward: layers(images).flatten(2).transpose(1, 2)",
+      "corroborated": true,
+      "corroboration": "[1, 128, 24, 24] flatten(2).transpose(1,2) -> [1, 576, 128]; layer input [1, 576, 128]",
+      "kind": "code_fixed+shape"
+     },
+     "from_ref": null,
+     "source": 7,
+     "target": 9
+    },
+    {
+     "connection_source": "native_fixed",
+     "evidence": {
+      "citation": "ControlledDetector.forward: tokens = self.embedding(images) + self.position",
+      "corroborated": true,
+      "corroboration": "buffer [1, 576, 128] broadcasts onto layer input [1, 576, 128]",
+      "kind": "code_fixed+shape"
+     },
+     "from_ref": null,
+     "source": 8,
+     "target": 9
+    }
+   ],
+   "edges_unobserved": [],
+   "family": "Hybrid",
+   "fixed_resolution": 384,
+   "flops": null,
+   "flops_source": null,
+   "flops_status": "NOT_MEASURED",
+   "input_size": 384,
+   "lineage": null,
+   "lineage_status": "NOT_APPLICABLE",
+   "native_config": {
+    "depth": 3,
+    "dim": 128,
+    "family": "cnn_transformer",
+    "heads": 4,
+    "imgsz": 384,
+    "num_classes": 1,
+    "patch": 16
+   },
+   "observation": {
+    "checked_at": "2026-10-23T11:45:43+00:00",
+    "device": "cpu",
+    "dinov2_weights": null,
+    "fx_basis": "torch.fx is not used; value taken from docs/integration_20261021/inv_I5_adapters.md (not traceable), not re-measured",
+    "fx_traceable": false,
+    "imgsz": 384,
+    "method": "forward_hook",
+    "python": "3.10.22",
+    "report_origin": "executed",
+    "source_blob_sha1": "629ce856b4c6ea337edc8943b9e65ed91ef60e27",
+    "torch": "2.6.0+cu124"
+   },
+   "observed_scopes": [],
+   "parameter_free_modules_not_listed": [],
+   "parameters": 922870,
+   "parameters_unattributed": 0,
+   "repeat_groups": [
+    {
+     "blocks": [
+      "block-0000",
+      "block-0001",
+      "block-0002",
+      "block-0003",
+      "block-0004",
+      "block-0005",
+      "block-0006",
+      "block-0007"
+     ],
+     "declared": 8,
+     "declared_basis": "2*log2(patch) conv blocks",
+     "group": "embedding.layers",
+     "observed": 8
+    },
+    {
+     "blocks": [
+      "block-0009",
+      "block-0010",
+      "block-0011"
+     ],
+     "declared": 3,
+     "declared_basis": "depth",
+     "group": "spatial_encoder.layers",
+     "observed": 3
+    }
+   ],
+   "representation": "native_modules",
+   "scale": null,
+   "schema": "mbnas-structure/2",
+   "signature_hash": null,
+   "status": "PASS",
+   "template_id": "etri-controlled-cnn-transformer",
+   "yaml_hash": null
+  }
+ },
+ "generator": "evidence_impl/WPS6/gen_catalog_fixture.py (real server output)",
+ "table": {
+  "entries": {
+   "A2C2f": {
+    "introduced_in": "YOLOv12",
+    "notes": null,
+    "origin_family": "YOLOv12",
+    "reference": "https://arxiv.org/abs/2502.12524",
+    "role": "Area-Attention C2f: 특징맵을 영역으로 나눠 attention을 적용하는 C2f"
+   },
+   "AConv": {
+    "introduced_in": "YOLOv9",
+    "notes": null,
+    "origin_family": "YOLOv9",
+    "reference": "https://arxiv.org/abs/2402.13616",
+    "role": "다운샘플링: AvgPool 후 stride-2 합성곱"
+   },
+   "ADown": {
+    "introduced_in": "YOLOv9",
+    "notes": null,
+    "origin_family": "YOLOv9",
+    "reference": "https://arxiv.org/abs/2402.13616",
+    "role": "다운샘플링: 채널을 나눠 stride-2 합성곱 경로와 maxpool 경로를 결합"
+   },
+   "AIFI": {
+    "introduced_in": "RT-DETR",
+    "notes": null,
+    "origin_family": "RT-DETR",
+    "reference": "https://arxiv.org/abs/2304.08069",
+    "role": "AIFI(스케일 내 attention 기반 특징 상호작용): 최상위 스케일 특징에 transformer 인코더 레이어 + 2D 위치 임베딩"
+   },
+   "Bottleneck": {
+    "introduced_in": "YOLOv5",
+    "notes": null,
+    "origin_family": "YOLOv5",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.Bottleneck",
+    "role": "표준 병목 잔차 블록 (1x1/3x3 합성곱 + shortcut)"
+   },
+   "BottleneckCSP": {
+    "introduced_in": "CSPNet (2019)",
+    "notes": "설치본 docstring이 WongKinYiu/CrossStagePartialNetworks를 참조",
+    "origin_family": "CSPNet",
+    "reference": "https://arxiv.org/abs/1911.11929",
+    "role": "CSP 병목: 입력을 두 경로로 나눠 한쪽에 Bottleneck을 반복한 뒤 결합"
+   },
+   "C1": {
+    "introduced_in": null,
+    "notes": "설치본 docstring 'CSP Bottleneck with 1 convolution'. 계열·도입 시점 unknown",
+    "origin_family": null,
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.C1",
+    "role": "CSP 병목(합성곱 1개 변형)"
+   },
+   "C2": {
+    "introduced_in": null,
+    "notes": "설치본 docstring 'CSP Bottleneck with 2 convolutions'. 계열·도입 시점 unknown",
+    "origin_family": null,
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.C2",
+    "role": "CSP 병목(합성곱 2개 변형)"
+   },
+   "C2PSA": {
+    "introduced_in": "YOLO11",
+    "notes": null,
+    "origin_family": "YOLO11",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.C2PSA",
+    "role": "C2 구조에 PSA(attention) 블록을 쌓은 모듈 (yolo11/yolo26 backbone 끝부분)"
+   },
+   "C2f": {
+    "introduced_in": "YOLOv8",
+    "notes": null,
+    "origin_family": "YOLOv8",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.C2f",
+    "role": "C2f: 분할한 특징에 병목을 반복 적용하고 모든 중간 출력을 이어 붙이는 빠른 CSP 블록"
+   },
+   "C2fAttn": {
+    "introduced_in": "YOLO-World",
+    "notes": "설치본 cfg는 v8 디렉터리(yolov8-world)에서 사용",
+    "origin_family": "YOLO-World",
+    "reference": "https://arxiv.org/abs/2401.17270",
+    "role": "C2f + 추가 attention(MaxSigmoidAttnBlock; 텍스트 임베딩 유도형)"
+   },
+   "C2fCIB": {
+    "introduced_in": "YOLOv10",
+    "notes": null,
+    "origin_family": "YOLOv10",
+    "reference": "https://arxiv.org/abs/2405.14458",
+    "role": "C2f의 내부 블록을 CIB(Compact Inverted Block)로 교체한 모듈"
+   },
+   "C2fPSA": {
+    "introduced_in": null,
+    "notes": "설치본 docstring 'C2fPSA module with enhanced feature extraction using PSA blocks'. 계열·도입 시점 unknown",
+    "origin_family": null,
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.C2fPSA",
+    "role": "C2f 구조에 PSABlock을 쌓은 모듈"
+   },
+   "C3": {
+    "introduced_in": "YOLOv5",
+    "notes": null,
+    "origin_family": "YOLOv5",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.C3",
+    "role": "C3: 합성곱 3개로 구성된 CSP 병목"
+   },
+   "C3Ghost": {
+    "introduced_in": "YOLOv5",
+    "notes": null,
+    "origin_family": "YOLOv5",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.C3Ghost",
+    "role": "C3의 병목을 GhostBottleneck으로 교체한 모듈"
+   },
+   "C3TR": {
+    "introduced_in": "YOLOv5",
+    "notes": "설치본 TransformerBlock docstring이 arXiv 2010.11929(ViT)를 참조",
+    "origin_family": "YOLOv5",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.C3TR",
+    "role": "C3의 병목을 TransformerBlock(Vision Transformer 블록)으로 교체한 모듈"
+   },
+   "C3k": {
+    "introduced_in": "YOLO11",
+    "notes": null,
+    "origin_family": "YOLO11",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.C3k",
+    "role": "커널 크기를 지정할 수 있는 C3 (C3k2의 내부 블록)"
+   },
+   "C3k2": {
+    "introduced_in": "YOLO11",
+    "notes": null,
+    "origin_family": "YOLO11",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.C3k2",
+    "role": "C3k2: C2f 변형. 내부 블록이 Bottleneck, C3k, 또는 (attn 설정 시) Bottleneck + PSABlock"
+   },
+   "C3x": {
+    "introduced_in": "YOLOv5",
+    "notes": null,
+    "origin_family": "YOLOv5",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.C3x",
+    "role": "C3 + 교차 합성곱(cross convolution) 병목"
+   },
+   "CBFuse": {
+    "introduced_in": "YOLOv9",
+    "notes": "설치본 docstring에 설명 없음; 상세 설계 의도 unknown",
+    "origin_family": "YOLOv9",
+    "reference": "https://arxiv.org/abs/2402.13616",
+    "role": "여러 입력을 보간해 합산하는 융합 (YOLOv9 cfg 사용)"
+   },
+   "CBLinear": {
+    "introduced_in": "YOLOv9",
+    "notes": "설치본 docstring에 설명 없음; 상세 설계 의도 unknown",
+    "origin_family": "YOLOv9",
+    "reference": "https://arxiv.org/abs/2402.13616",
+    "role": "1x1 합성곱 출력을 채널 단위로 분할하는 투영 (YOLOv9 cfg 사용)"
+   },
+   "CIB": {
+    "introduced_in": "YOLOv10",
+    "notes": null,
+    "origin_family": "YOLOv10",
+    "reference": "https://arxiv.org/abs/2405.14458",
+    "role": "Compact Inverted Block (C2fCIB의 내부 블록)"
+   },
+   "Classify": {
+    "introduced_in": null,
+    "notes": "설치본 docstring 'YOLO classification head'. 계열·도입 시점 unknown",
+    "origin_family": null,
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/head/#ultralytics.nn.modules.head.Classify",
+    "role": "분류 헤드"
+   },
+   "Concat": {
+    "introduced_in": null,
+    "notes": "ultralytics/yolov5의 models/common.py에도 같은 이름이 있음. 최초 도입 시점 unknown",
+    "origin_family": "YOLOv5",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.Concat",
+    "role": "지정 차원(기본 채널)으로 텐서를 이어 붙이는 병합"
+   },
+   "Conv": {
+    "introduced_in": "YOLOv5",
+    "notes": null,
+    "origin_family": "YOLOv5",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.Conv",
+    "role": "표준 합성곱: Conv2d + BatchNorm + 활성화(기본 SiLU)"
+   },
+   "Conv2": {
+    "introduced_in": null,
+    "notes": "설치본 docstring 'Simplified RepConv module with Conv fusing'. 계열·도입 시점 unknown",
+    "origin_family": null,
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.Conv2",
+    "role": "RepConv 단순화판: 3x3 합성곱과 1x1 합성곱을 병렬로 두고 추론 시 융합(Conv fusing)"
+   },
+   "ConvTranspose": {
+    "introduced_in": null,
+    "notes": "설치본 docstring 'Convolution transpose module with optional batch normalization and activation'. 계열·도입 시점 unknown",
+    "origin_family": null,
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.ConvTranspose",
+    "role": "전치 합성곱 + (BatchNorm) + 활성화"
+   },
+   "ConvTranspose2d": {
+    "introduced_in": null,
+    "notes": null,
+    "origin_family": "PyTorch torch.nn",
+    "reference": "https://pytorch.org/docs/stable/generated/torch.nn.ConvTranspose2d.html",
+    "role": "2D 전치 합성곱"
+   },
+   "DWConv": {
+    "introduced_in": "YOLOv5",
+    "notes": null,
+    "origin_family": "YOLOv5",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.DWConv",
+    "role": "깊이별(depth-wise) 합성곱: groups = gcd(c1, c2)"
+   },
+   "DWConvTranspose2d": {
+    "introduced_in": null,
+    "notes": "계열·도입 시점 unknown",
+    "origin_family": null,
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.DWConvTranspose2d",
+    "role": "깊이별(depth-wise) 전치 합성곱"
+   },
+   "Depth": {
+    "introduced_in": null,
+    "notes": "설치본 cfg는 26 디렉터리에서만 사용. 계열·도입 시점 unknown",
+    "origin_family": null,
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/head/#ultralytics.nn.modules.head.Depth",
+    "role": "단안 깊이 추정 헤드"
+   },
+   "Detect": {
+    "introduced_in": "YOLOv8",
+    "notes": "yolo11/yolo26 cfg도 같은 클래스를 사용한다. end2end 여부는 구조 문서의 effective.end2end를 본다",
+    "origin_family": "YOLOv8",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/head/#ultralytics.nn.modules.head.Detect",
+    "role": "Detect head: anchor-free 분리형(box/class) 검출 헤드"
+   },
+   "ELAN1": {
+    "introduced_in": "YOLOv9",
+    "notes": null,
+    "origin_family": "YOLOv9",
+    "reference": "https://arxiv.org/abs/2402.13616",
+    "role": "합성곱 4개로 구성된 ELAN 블록"
+   },
+   "Embedding": {
+    "introduced_in": null,
+    "notes": null,
+    "origin_family": "PyTorch torch.nn",
+    "reference": "https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html",
+    "role": "임베딩 테이블 (역할은 모델 안의 위치에 따라 다름)"
+   },
+   "Focus": {
+    "introduced_in": "YOLOv5",
+    "notes": null,
+    "origin_family": "YOLOv5",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.Focus",
+    "role": "Focus: 2x2 공간 슬라이스를 채널로 쌓은 뒤 합성곱 (stem 용)"
+   },
+   "GhostConv": {
+    "introduced_in": "GhostNet (2020)",
+    "notes": "설치본 docstring이 huawei-noah/Efficient-AI-Backbones 구현을 참조",
+    "origin_family": "GhostNet",
+    "reference": "https://arxiv.org/abs/1911.11907",
+    "role": "Ghost 합성곱: 적은 수의 기본 특징맵에 저비용 depth-wise 연산을 더해 특징맵을 늘림"
+   },
+   "HGBlock": {
+    "introduced_in": "PP-HGNetV2",
+    "notes": "설치본 docstring 'HG_Block of PPHGNetV2 with 2 convolutions and LightConv'. 설치본 cfg는 rt-detr 디렉터리에서 사용",
+    "origin_family": "PP-HGNet",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.HGBlock",
+    "role": "PP-HGNetV2 HG_Block: 합성곱 + LightConv"
+   },
+   "HGStem": {
+    "introduced_in": "PP-HGNetV2",
+    "notes": "설치본 docstring 'StemBlock of PPHGNetV2'. 설치본 cfg는 rt-detr 디렉터리에서 사용",
+    "origin_family": "PP-HGNet",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.HGStem",
+    "role": "PP-HGNetV2 stem: 합성곱 5개 + maxpool 1개"
+   },
+   "Identity": {
+    "introduced_in": null,
+    "notes": null,
+    "origin_family": "PyTorch torch.nn",
+    "reference": "https://pytorch.org/docs/stable/generated/torch.nn.Identity.html",
+    "role": "입력을 그대로 반환하는 항등 레이어"
+   },
+   "ImagePoolingAttn": {
+    "introduced_in": "YOLO-World",
+    "notes": null,
+    "origin_family": "YOLO-World",
+    "reference": "https://arxiv.org/abs/2401.17270",
+    "role": "텍스트 임베딩을 이미지 특징으로 보강하는 attention"
+   },
+   "Index": {
+    "introduced_in": null,
+    "notes": "설치본 docstring 'Returns a particular index of the input'. 계열·도입 시점 unknown",
+    "origin_family": null,
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.Index",
+    "role": "입력 리스트에서 지정한 인덱스의 원소를 선택"
+   },
+   "LayerNorm": {
+    "introduced_in": null,
+    "notes": null,
+    "origin_family": "PyTorch torch.nn",
+    "reference": "https://pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html",
+    "role": "LayerNorm 정규화 레이어"
+   },
+   "LightConv": {
+    "introduced_in": "PP-HGNetV2",
+    "notes": "설치본 docstring: PaddleDetection HGNetV2 backbone 기반",
+    "origin_family": "PP-HGNet",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/conv/#ultralytics.nn.modules.conv.LightConv",
+    "role": "경량 합성곱: 1x1 합성곱 + depth-wise 합성곱"
+   },
+   "Linear": {
+    "introduced_in": null,
+    "notes": null,
+    "origin_family": "PyTorch torch.nn",
+    "reference": "https://pytorch.org/docs/stable/generated/torch.nn.Linear.html",
+    "role": "완전연결(선형) 레이어 (역할은 모델 안의 위치에 따라 다름)"
+   },
+   "MaxPool2d": {
+    "introduced_in": null,
+    "notes": null,
+    "origin_family": "PyTorch torch.nn",
+    "reference": "https://pytorch.org/docs/stable/generated/torch.nn.MaxPool2d.html",
+    "role": "2D max pooling"
+   },
+   "ModuleList": {
+    "introduced_in": null,
+    "notes": null,
+    "origin_family": "PyTorch torch.nn",
+    "reference": "https://pytorch.org/docs/stable/generated/torch.nn.ModuleList.html",
+    "role": "모듈 목록 컨테이너 (역할은 모델 안의 위치에 따라 다름)"
+   },
+   "NASGlobalTransformer": {
+    "introduced_in": null,
+    "notes": "고해상도 입력은 암묵적 pooling 없이 명시적으로 실패한다(소스 docstring). 도입 시점 unknown. 설치된 패키지가 아니므로 source_path는 null",
+    "origin_family": "ETRI mixed operator pool",
+    "reference": "yolo_ga_runtime/mixed_blocks.py",
+    "role": "ViT 스타일 global attention: 전체 토큰 self-attention + MLP, 토큰 수 상한(max_tokens)을 명시적으로 검사"
+   },
+   "NASPatchMerge": {
+    "introduced_in": null,
+    "notes": "Swin 스타일 patch merging과 비슷한 reshape + Linear 구조(정규화 위치는 Linear 뒤). mixed_blocks.py IMPLEMENTATION_VERSION=1.0.0 (현재 버전; 도입 시점 unknown). 설치된 패키지가 아니므로 source_path는 null",
+    "origin_family": "ETRI mixed operator pool",
+    "reference": "yolo_ga_runtime/mixed_blocks.py",
+    "role": "patch merging(다운샘플): patch x patch 영역을 reshape로 이어 붙이고 Linear + LayerNorm으로 채널 투영 (합성곱 없음)"
+   },
+   "NASWindowTransformer": {
+    "introduced_in": null,
+    "notes": "소스 docstring: 'Custom window attention is not an implementation of a named published model'. 실제 heads = gcd(c2, 요청 heads). 도입 시점 unknown. 설치된 패키지가 아니므로 source_path는 null",
+    "origin_family": "ETRI mixed operator pool",
+    "reference": "yolo_ga_runtime/mixed_blocks.py",
+    "role": "Swin 스타일 window attention: 이동(shift) 없는 지역 window self-attention + MLP, BCHW 유지"
+   },
+   "OBB": {
+    "introduced_in": null,
+    "notes": "OBB 태스크가 도입된 정확한 버전 unknown",
+    "origin_family": "YOLOv8",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/head/#ultralytics.nn.modules.head.OBB",
+    "role": "회전 박스(OBB) 검출 헤드"
+   },
+   "OBB26": {
+    "introduced_in": "YOLO26",
+    "notes": "설치본 docstring 'YOLO26 OBB detection head'",
+    "origin_family": "YOLO26",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/head/#ultralytics.nn.modules.head.OBB26",
+    "role": "YOLO26 회전 박스 검출 헤드"
+   },
+   "PSA": {
+    "introduced_in": "YOLOv10",
+    "notes": "설치본 docstring은 'Position-Sensitive Attention'으로 표기",
+    "origin_family": "YOLOv10",
+    "reference": "https://arxiv.org/abs/2405.14458",
+    "role": "PSA(부분 self-attention): 채널 일부에만 attention + FFN 적용"
+   },
+   "Pose": {
+    "introduced_in": "YOLOv8",
+    "notes": null,
+    "origin_family": "YOLOv8",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/head/#ultralytics.nn.modules.head.Pose",
+    "role": "keypoint(자세) 헤드"
+   },
+   "Pose26": {
+    "introduced_in": "YOLO26",
+    "notes": "설치본 docstring 'YOLO26 Pose head'",
+    "origin_family": "YOLO26",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/head/#ultralytics.nn.modules.head.Pose26",
+    "role": "YOLO26 keypoint 헤드"
+   },
+   "RTDETRDecoder": {
+    "introduced_in": "RT-DETR",
+    "notes": null,
+    "origin_family": "RT-DETR",
+    "reference": "https://arxiv.org/abs/2304.08069",
+    "role": "Real-Time Deformable Transformer Decoder: query 선택 + deformable attention 디코더(검출 헤드)"
+   },
+   "RepC3": {
+    "introduced_in": "RT-DETR",
+    "notes": null,
+    "origin_family": "RT-DETR",
+    "reference": "https://arxiv.org/abs/2304.08069",
+    "role": "RepConv를 쌓은 C3 형태 블록 (rt-detr cfg의 neck 융합에 사용)"
+   },
+   "RepConv": {
+    "introduced_in": "RepVGG (2021)",
+    "notes": "설치본 docstring이 DingXiaoH/RepVGG 구현을 참조. rt-detr cfg(RepC3 내부)에서 쓰임",
+    "origin_family": "RepVGG",
+    "reference": "https://arxiv.org/abs/2101.03697",
+    "role": "재매개변수화 합성곱: 학습 시 3x3 + 1x1 (+BN 항등) 분기, 배포 시 하나의 3x3으로 융합"
+   },
+   "RepNCSPELAN4": {
+    "introduced_in": "YOLOv9",
+    "notes": null,
+    "origin_family": "YOLOv9",
+    "reference": "https://arxiv.org/abs/2402.13616",
+    "role": "CSP-ELAN (RepNCSP 블록 기반 ELAN)"
+   },
+   "ResNetLayer": {
+    "introduced_in": "ResNet (2015)",
+    "notes": "설치본 cfg는 rt-detr 디렉터리(rtdetr-resnet*)에서 사용",
+    "origin_family": "ResNet",
+    "reference": "https://arxiv.org/abs/1512.03385",
+    "role": "ResNet 레이어: 여러 ResNet 블록의 묶음"
+   },
+   "SCDown": {
+    "introduced_in": "YOLOv10",
+    "notes": null,
+    "origin_family": "YOLOv10",
+    "reference": "https://arxiv.org/abs/2405.14458",
+    "role": "공간-채널 분리 다운샘플링: 1x1 합성곱 후 depth-wise stride-2 합성곱"
+   },
+   "SPP": {
+    "introduced_in": "SPPNet (2014)",
+    "notes": "설치본 cfg는 v3 디렉터리(YOLOv3-SPP 계열)에서 사용",
+    "origin_family": "SPPNet",
+    "reference": "https://arxiv.org/abs/1406.4729",
+    "role": "Spatial Pyramid Pooling: 여러 크기의 max-pool 결과를 이어 붙임"
+   },
+   "SPPELAN": {
+    "introduced_in": "YOLOv9",
+    "notes": null,
+    "origin_family": "YOLOv9",
+    "reference": "https://arxiv.org/abs/2402.13616",
+    "role": "SPP + ELAN 결합 블록"
+   },
+   "SPPF": {
+    "introduced_in": "YOLOv5 (v6.0)",
+    "notes": "설치본 docstring 'Spatial Pyramid Pooling - Fast (SPPF) layer for YOLOv5 by Glenn Jocher'",
+    "origin_family": "YOLOv5",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/block/#ultralytics.nn.modules.block.SPPF",
+    "role": "SPP 고속판: 같은 max-pool을 직렬 3회 적용해 결과를 이어 붙임"
+   },
+   "Segment": {
+    "introduced_in": "YOLOv8",
+    "notes": null,
+    "origin_family": "YOLOv8",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/head/#ultralytics.nn.modules.head.Segment",
+    "role": "인스턴스 분할 헤드 (Detect + mask prototype)"
+   },
+   "Segment26": {
+    "introduced_in": "YOLO26",
+    "notes": "설치본 docstring 'YOLO26 Segment head'",
+    "origin_family": "YOLO26",
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/head/#ultralytics.nn.modules.head.Segment26",
+    "role": "YOLO26 인스턴스 분할 헤드"
+   },
+   "SemanticSegment": {
+    "introduced_in": null,
+    "notes": "설치본 cfg는 26 디렉터리에서만 사용. 계열·도입 시점 unknown",
+    "origin_family": null,
+    "reference": "https://docs.ultralytics.com/reference/nn/modules/head/#ultralytics.nn.modules.head.SemanticSegment",
+    "role": "픽셀 단위 의미 분할 헤드"
+   },
+   "Sequential": {
+    "introduced_in": null,
+    "notes": null,
+    "origin_family": "PyTorch torch.nn",
+    "reference": "https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html",
+    "role": "순차 컨테이너: 자식 모듈을 차례로 적용 (역할은 모델 안의 위치에 따라 다름)"
+   },
+   "Silence": {
+    "introduced_in": "YOLOv9",
+    "notes": "설치된 ultralytics에는 없다(설치본 v9 cfg는 nn.Identity를 사용) -> source_path는 항상 null",
+    "origin_family": "YOLOv9",
+    "reference": "https://github.com/WongKinYiu/yolov9",
+    "role": "입력을 그대로 통과시키는 자리표시 레이어 (YOLOv9 원 저장소 cfg에서 보조 분기 입력에 사용)"
+   },
+   "TorchVision": {
+    "introduced_in": null,
+    "notes": "설치본 cfg는 11 디렉터리의 분류 cfg에서 사용. 도입 시점 unknown",
+    "origin_family": "torchvision",
+    "reference": "https://pytorch.org/vision/stable/models.html",
+    "role": "torchvision 모델을 임의로 불러 쓰는 래퍼"
+   },
+   "TransformerEncoder": {
+    "introduced_in": null,
+    "notes": null,
+    "origin_family": "PyTorch torch.nn",
+    "reference": "https://pytorch.org/docs/stable/generated/torch.nn.TransformerEncoder.html",
+    "role": "PyTorch Transformer 인코더 레이어 스택"
+   },
+   "TransformerEncoderLayer": {
+    "introduced_in": null,
+    "notes": "Vaswani et al. 2017 구조(arXiv 1706.03762)의 PyTorch 구현",
+    "origin_family": "PyTorch torch.nn",
+    "reference": "https://pytorch.org/docs/stable/generated/torch.nn.TransformerEncoderLayer.html",
+    "role": "PyTorch Transformer 인코더 레이어 (self-attention + FFN)"
+   },
+   "Upsample": {
+    "introduced_in": null,
+    "notes": null,
+    "origin_family": "PyTorch torch.nn",
+    "reference": "https://pytorch.org/docs/stable/generated/torch.nn.Upsample.html",
+    "role": "특징맵 업샘플링 (nn.Upsample)"
+   },
+   "WorldDetect": {
+    "introduced_in": "YOLO-World",
+    "notes": null,
+    "origin_family": "YOLO-World",
+    "reference": "https://arxiv.org/abs/2401.17270",
+    "role": "텍스트 임베딩과 정렬되는 open-vocabulary 검출 헤드"
+   },
+   "YOLOEDetect": {
+    "introduced_in": "YOLOE",
+    "notes": null,
+    "origin_family": "YOLOE",
+    "reference": "https://arxiv.org/abs/2503.07465",
+    "role": "텍스트/시각 프롬프트 임베딩 기반 검출 헤드"
+   },
+   "YOLOESegment": {
+    "introduced_in": "YOLOE",
+    "notes": null,
+    "origin_family": "YOLOE",
+    "reference": "https://arxiv.org/abs/2503.07465",
+    "role": "텍스트 임베딩을 갖는 분할 헤드"
+   },
+   "YOLOESegment26": {
+    "introduced_in": null,
+    "notes": "설치본 docstring 'YOLOE-style segmentation head module using Proto26'. YOLO26 cfg에서 사용; 도입 버전 unknown",
+    "origin_family": "YOLOE",
+    "reference": "https://arxiv.org/abs/2503.07465",
+    "role": "YOLOE 방식의 분할 헤드 (Proto26 마스크 생성)"
+   },
+   "ZeroPad2d": {
+    "introduced_in": null,
+    "notes": null,
+    "origin_family": "PyTorch torch.nn",
+    "reference": "https://pytorch.org/docs/stable/generated/torch.nn.ZeroPad2d.html",
+    "role": "0으로 테두리를 채우는 패딩"
+   },
+   "v10Detect": {
+    "introduced_in": "YOLOv10",
+    "notes": null,
+    "origin_family": "YOLOv10",
+    "reference": "https://arxiv.org/abs/2405.14458",
+    "role": "v10 검출 헤드 (이중 할당 학습, NMS-free 추론용)"
+   }
+  },
+  "families": [
+   "CSPNet",
+   "DETR",
+   "DINOv2",
+   "ETRI controlled hybrid",
+   "ETRI mixed operator pool",
+   "GhostNet",
+   "LW-DETR",
+   "PP-HGNet",
+   "PyTorch torch.nn",
+   "RF-DETR",
+   "RT-DETR",
+   "RepVGG",
+   "ResNet",
+   "SPPNet",
+   "YOLO-World",
+   "YOLO11",
+   "YOLO26",
+   "YOLOE",
+   "YOLOv10",
+   "YOLOv12",
+   "YOLOv5",
+   "YOLOv8",
+   "YOLOv9",
+   "torchvision"
+  ],
+  "native_entries": {
+   "etri_hybrid:CNNResidual": {
+    "introduced_in": null,
+    "notes": "도입 시점 unknown",
+    "origin_family": "ETRI controlled hybrid",
+    "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+    "role": "합성곱 잔차 블록 2개 합성곱 + shortcut (cnn_only 인코더)"
+   },
+   "etri_hybrid:CNNStem": {
+    "introduced_in": null,
+    "notes": "도입 시점 unknown",
+    "origin_family": "ETRI controlled hybrid",
+    "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+    "role": "CNN 스템: stride-2 합성곱 블록을 log2(patch)회 쌓아 patch 토큰을 만든다"
+   },
+   "etri_hybrid:ControlledDetector": {
+    "introduced_in": null,
+    "notes": "도입 시점 unknown",
+    "origin_family": "ETRI controlled hybrid",
+    "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+    "role": "ETRI 통제 실험용 CNN-Transformer 검출 모델 전체"
+   },
+   "etri_hybrid:LinearPatchEmbedding": {
+    "introduced_in": null,
+    "notes": "도입 시점 unknown",
+    "origin_family": "ETRI controlled hybrid",
+    "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+    "role": "선형 patch 임베딩: patch를 펼쳐 Linear 투영 (transformer_only)"
+   },
+   "etri_hybrid:TransformerEncoder": {
+    "introduced_in": null,
+    "notes": "도입 시점 unknown",
+    "origin_family": "ETRI controlled hybrid",
+    "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+    "role": "Transformer 인코더 레이어 스택 (nn.TransformerEncoder)"
+   },
+   "etri_hybrid:TransformerEncoderLayer": {
+    "introduced_in": null,
+    "notes": "nn.TransformerEncoderLayer(Vaswani et al. 2017, arXiv 1706.03762)를 norm_first=True로 사용. 도입 시점 unknown",
+    "origin_family": "ETRI controlled hybrid",
+    "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+    "role": "pre-norm Transformer 인코더 레이어 (GELU, batch_first)"
+   },
+   "etri_hybrid:head": {
+    "introduced_in": null,
+    "notes": "도입 시점 unknown. Sequential 컨테이너를 native_path로 식별",
+    "origin_family": "ETRI controlled hybrid",
+    "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+    "role": "예측 head: Linear-GELU-Linear 2층 (class_head, box_head)"
+   },
+   "etri_hybrid:position": {
+    "introduced_in": null,
+    "notes": "도입 시점 unknown. buffer(Tensor)를 native_path로 식별",
+    "origin_family": "ETRI controlled hybrid",
+    "reference": "mbnas_server/adapters/etri_hybrid/model.py (verbatim from ETRI_NAS/notebooks/ETRI_NAS_CNN_Transformer_Experiment.ipynb, cell 10)",
+    "role": "sin/cos 위치 표(등록 buffer): 스템 토큰에 더해진다"
+   },
+   "rfdetr:DinoV2": {
+    "introduced_in": null,
+    "notes": "DINOv2 가중치 상태는 observation.dinov2_weights. 도입 시점 unknown",
+    "origin_family": "DINOv2",
+    "reference": "https://arxiv.org/abs/2304.07193",
+    "role": "RF-DETR 인코더 래퍼: DINOv2 ViT를 windowed attention 백본으로 사용 (rfdetr.models.backbone.dinov2)"
+   },
+   "rfdetr:LWDETR": {
+    "introduced_in": null,
+    "notes": "설치본 docstring 'This is the Group DETR v3 module that performs object detection'. 도입 시점 unknown",
+    "origin_family": "LW-DETR",
+    "reference": "https://arxiv.org/abs/2406.03459",
+    "role": "RF-DETR 최상위 검출 모델 (Group DETR v3 module)"
+   },
+   "rfdetr:MLP": {
+    "introduced_in": null,
+    "notes": "rfdetr 패키지의 구현 위치 기준 분류. 원 설계 출처 unknown",
+    "origin_family": "RF-DETR",
+    "reference": "https://github.com/roboflow/rf-detr",
+    "role": "작은 MLP(FFN): 박스 회귀 head, query 위치 head 등에 쓰이는 선형층 스택"
+   },
+   "rfdetr:MSDeformAttn": {
+    "introduced_in": null,
+    "notes": "연산 자체는 Deformable DETR(arXiv 2010.04159) 기원. 도입 시점 unknown",
+    "origin_family": "LW-DETR",
+    "reference": "https://arxiv.org/abs/2406.03459",
+    "role": "멀티스케일 deformable attention 연산"
+   },
+   "rfdetr:MultiScaleProjector": {
+    "introduced_in": "LW-DETR (2024)",
+    "notes": "설치본 docstring 'implements MultiScaleProjector in :paper:`lwdetr`'",
+    "origin_family": "LW-DETR",
+    "reference": "https://arxiv.org/abs/2406.03459",
+    "role": "다중 스케일 projector: 인코더 특징에서 피라미드 특징을 구성"
+   },
+   "rfdetr:PositionEmbeddingSine": {
+    "introduced_in": "DETR (2020)",
+    "notes": "설치본 docstring: Attention is all you need의 위치 임베딩과 매우 비슷한 표준판",
+    "origin_family": "DETR",
+    "reference": "https://arxiv.org/abs/2005.12872",
+    "role": "사인/코사인 2D 위치 인코딩"
+   },
+   "rfdetr:Transformer": {
+    "introduced_in": null,
+    "notes": "rfdetr 구현. 도입 시점 unknown",
+    "origin_family": "LW-DETR",
+    "reference": "https://arxiv.org/abs/2406.03459",
+    "role": "인코더 출력 + query로 박스/클래스를 예측하는 transformer (two-stage query 선택 포함)"
+   },
+   "rfdetr:TransformerDecoder": {
+    "introduced_in": null,
+    "notes": "rfdetr 구현. 도입 시점 unknown",
+    "origin_family": "LW-DETR",
+    "reference": "https://arxiv.org/abs/2406.03459",
+    "role": "디코더 레이어 스택"
+   },
+   "rfdetr:TransformerDecoderLayer": {
+    "introduced_in": null,
+    "notes": "rfdetr 구현(rfdetr.models.transformer). 도입 시점 unknown",
+    "origin_family": "LW-DETR",
+    "reference": "https://arxiv.org/abs/2406.03459",
+    "role": "디코더 레이어: self-attention + 멀티스케일 deformable cross-attention + FFN (키포인트 서브네트워크 옵션)"
+   },
+   "rfdetr:WindowedDinov2WithRegistersBackbone": {
+    "introduced_in": null,
+    "notes": "설치본 docstring 'Dinov2WithRegisters backbone, to be used with frameworks like DETR and MaskFormer'. 도입 시점 unknown",
+    "origin_family": "DINOv2",
+    "reference": "https://arxiv.org/abs/2304.07193",
+    "role": "windowed attention을 넣은 Dinov2WithRegisters ViT 인코더 백본"
+   }
+  },
+  "schema": "mbnas-block-catalog/1"
+ }
+}

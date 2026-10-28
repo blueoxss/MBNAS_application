@@ -1,0 +1,83 @@
+--- a/application/MBNAS_web/e2e/hardening.spec.ts
++++ b/application/MBNAS_web/e2e/hardening.spec.ts
+@@ -7,6 +7,7 @@
+ import { expect, test, type Page } from '@playwright/test';
+ import { CDN, connectAndLoad, installMock, openScreen, sse, stateOf, TOKEN, captureEvidence } from './mock';
+ import { cand, RUN_ID } from '../tests/fixtures';
++import { syntheticGeneratedDetail } from '../tests/detail_fixtures';
+ import type { Artifact } from '../src/api/types';
+ 
+ const shot = async (page: Page, name: string): Promise<void> => {
+@@ -319,6 +320,72 @@
+     expect(st.seen.some((s) => s.url.includes(TOKEN))).toBe(false);
+     await shot(page, 'artifact-load-failed');
+   });
++
++  test('DD-44 lightbox: 확대 opens a modal with the same image, zoom steps change the scale, Esc closes it and returns focus to the 확대 button', async ({ page }) => {
++    const st = stateOf();
++    st.extraCandidates = [candWith('lightbox-candidate', (k) => art(`lb-${k}`, k, {}))];
++    await installMock(page, st);
++    await connectAndLoad(page);
++    await openCandidate(page, 'lightbox-candidate');
++    const gt = page.getByTestId('artifact-gt');
++    await expect(gt).toHaveAttribute('data-state', 'READY');
++    await gt.scrollIntoViewIfNeeded();
++    await expect(gt).toHaveAttribute('data-loaded', 'true');
++    // Card caption (375 px): the 원본 새 탭 link stays on one line and a ' · ' separates it from the sample id.
++    const capLink = gt.getByRole('link', { name: '원본 새 탭' });
++    await expect(capLink).toHaveCSS('white-space', 'nowrap');
++    const capLinkBox = await capLink.boundingBox();
++    const zoomBtnBox = await page.getByTestId('artifact-zoom-gt').boundingBox();
++    expect(capLinkBox && zoomBtnBox).toBeTruthy();
++    expect(capLinkBox!.height).toBeLessThanOrEqual(zoomBtnBox!.height + 1);
++    expect(await gt.locator('figcaption').innerText()).toMatch(/원본 새 탭 · sample \S+$/);
++    const zoom = page.getByTestId('artifact-zoom-gt');
++    await zoom.click();
++    const box = page.getByRole('dialog').filter({ has: page.getByTestId('lightbox-image') });
++    await expect(box).toBeVisible();
++    await expect(page.getByTestId('lightbox-image')).toBeVisible();
++    await expect.poll(() => page.getByTestId('lightbox-image').evaluate((i) => (i as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
++    await expect(page.getByTestId('lightbox-scale')).toHaveText('100 %');
++    await page.getByTestId('lightbox-zoom-in').click();
++    await expect(page.getByTestId('lightbox-scale')).toHaveText('150 %');
++    await expect(page.getByTestId('lightbox-original')).toHaveAttribute('href', /^https?:/);
++    // The 닫기 label stays on one line even at 375 px (it used to wrap): its box is not taller than the single-line zoom button.
++    const closeBox = await page.getByTestId('lightbox-close').boundingBox();
++    const zoomInBox = await page.getByTestId('lightbox-zoom-in').boundingBox();
++    expect(closeBox && zoomInBox).toBeTruthy();
++    expect(closeBox!.height).toBeLessThanOrEqual(zoomInBox!.height + 1);
++    await expect(page.getByTestId('lightbox-close')).toHaveCSS('white-space', 'nowrap');
++    await shot(page, 'artifact-lightbox');
++    await page.keyboard.press('Escape');
++    await expect(page.getByTestId('lightbox-image')).toHaveCount(0);
++    await expect(zoom).toBeFocused();
++  });
++});
++
++test.describe('DD-45 recorded conditions of two console-run candidates', () => {
++  test('choosing a second model lists both rows conditions, flags the differing recorded ones and never invents a missing one', async ({ page }) => {
++    const left = cand({ id: 'synthetic-ev-cond-left', candidate_id: 'synthetic-cand-cond-left', name: 'conditions-left-candidate', rung: 'L0', precision: 'FP16', split_hash: 'sha256:synthetic-split-1', protocol_hash: 'synthetic-protocol-1', checkpoint_sha256: 'c'.repeat(64) });
++    const right = cand({ id: 'synthetic-ev-cond-right', candidate_id: 'synthetic-cand-cond-right', name: 'conditions-right-candidate', rung: 'L1', precision: 'FP32', split_hash: 'sha256:synthetic-split-1', protocol_hash: undefined, checkpoint_sha256: null });
++    const st = stateOf();
++    st.extraCandidates = [left, right];
++    st.details = Object.fromEntries([left, right].map((row) => [row.candidate_id, { ...syntheticGeneratedDetail(row.candidate_id, RUN_ID), name: row.name, evaluations: [row], evaluation_status: 'EVALUATED' }]));
++    await installMock(page, st);
++    await connectAndLoad(page);
++    await openCandidate(page, 'conditions-left-candidate');
++    await page.getByLabel('비교할 모델').selectOption('synthetic-cand-cond-right');
++    const box = page.getByTestId('eval-conditions');
++    await expect(box).toBeVisible();
++    await expect(box.getByRole('row').filter({ hasText: 'rung' })).toContainText('상이');
++    await expect(box.getByRole('row').filter({ hasText: 'precision' })).toContainText('상이');
++    await expect(box.getByRole('row').filter({ hasText: 'protocol_hash' })).toContainText('기록 없음');
++    await expect(page.getByTestId('eval-conditions-differ')).toContainText('조건 상이');
++    await expect(page.getByTestId('eval-conditions-unknown')).toContainText('checkpoint sha256');
++    // viewport capture, not an element capture: the table sits inside a fixed-position, scrollable dialog, and an
++    // element capture composed the wrong region on the 375 viewport (S06_fix1 round 1). Align the box top with the viewport top first.
++    await box.evaluate((el) => el.scrollIntoView({ block: 'start', inline: 'nearest' }));
++    await expect(box.getByRole('table')).toBeInViewport();
++    await page.screenshot({ path: `evidence/${test.info().project.name}-model-comparison-conditions.png`, fullPage: false });
++  });
+ });
+ 
+ test.describe('token and origin hygiene', () => {

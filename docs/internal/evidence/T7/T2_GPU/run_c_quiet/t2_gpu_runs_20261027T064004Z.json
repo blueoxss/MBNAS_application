@@ -1,0 +1,126 @@
+{
+ "tree_hash": "sha256:164292c6e775a52a3da02f98282257b67a282f9e84b236ded3940e592a568f2f",
+ "work": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t2_gpu/20261027T064004Z",
+ "steps": [
+  {
+   "label": "new_1",
+   "side": "new",
+   "exit_code": 0,
+   "start_utc": "2026-10-27T06:40:06.682184Z",
+   "end_utc": "2026-10-27T06:40:39.840414Z",
+   "seconds": 33.2,
+   "out": "/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/T7/T2_GPU/run_c_quiet/new.json",
+   "log": "/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/T7/T2_GPU/run_c_quiet/logs/20261027T064004Z_new_1.log",
+   "nvidia_smi_before": {
+    "gpus": [
+     "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 0 %",
+     "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 0 %"
+    ],
+    "compute_apps": []
+   },
+   "nvidia_smi_after": {
+    "gpus": [
+     "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 0 %",
+     "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 7 %"
+    ],
+    "compute_apps": []
+   }
+  },
+  {
+   "label": "ref",
+   "side": "ref",
+   "exit_code": 0,
+   "start_utc": "2026-10-27T06:40:40.153435Z",
+   "end_utc": "2026-10-27T06:41:13.660483Z",
+   "seconds": 33.5,
+   "out": "/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/T7/T2_GPU/run_c_quiet/ref.json",
+   "log": "/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/T7/T2_GPU/run_c_quiet/logs/20261027T064004Z_ref.log",
+   "nvidia_smi_before": {
+    "gpus": [
+     "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 0 %",
+     "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 0 %"
+    ],
+    "compute_apps": []
+   },
+   "nvidia_smi_after": {
+    "gpus": [
+     "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 0 %",
+     "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 0 %"
+    ],
+    "compute_apps": []
+   }
+  },
+  {
+   "label": "new_2",
+   "side": "new",
+   "exit_code": 0,
+   "start_utc": "2026-10-27T06:41:14.004899Z",
+   "end_utc": "2026-10-27T06:41:47.512001Z",
+   "seconds": 33.5,
+   "out": "/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/T7/T2_GPU/run_c_quiet/new_2.json",
+   "log": "/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/T7/T2_GPU/run_c_quiet/logs/20261027T064004Z_new_2.log",
+   "nvidia_smi_before": {
+    "gpus": [
+     "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 0 %",
+     "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 7 %"
+    ],
+    "compute_apps": []
+   },
+   "nvidia_smi_after": {
+    "gpus": [
+     "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 0 %",
+     "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 0 %"
+    ],
+    "compute_apps": []
+   }
+  },
+  {
+   "label": "ref_2",
+   "side": "ref",
+   "exit_code": 0,
+   "start_utc": "2026-10-27T06:41:47.862175Z",
+   "end_utc": "2026-10-27T06:42:23.273904Z",
+   "seconds": 35.4,
+   "out": "/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/T7/T2_GPU/run_c_quiet/ref_2.json",
+   "log": "/home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/T7/T2_GPU/run_c_quiet/logs/20261027T064004Z_ref_2.log",
+   "nvidia_smi_before": {
+    "gpus": [
+     "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 0 %",
+     "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 7 %"
+    ],
+    "compute_apps": []
+   },
+   "nvidia_smi_after": {
+    "gpus": [
+     "0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 0 %",
+     "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 0 %"
+    ],
+    "compute_apps": []
+   }
+  }
+ ],
+ "dataset": {
+  "dataset_yaml": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t2_gpu/20261027T064004Z/data/t2shapes/data.yaml",
+  "counts": {
+   "train": 480,
+   "val": 16,
+   "test": 16
+  },
+  "size": 160,
+  "seed": 2028
+ },
+ "requested_protocol": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t2_gpu/20261027T064004Z/requested_protocol.json",
+ "snapshot_guard": {
+  "tree_hash": "sha256:164292c6e775a52a3da02f98282257b67a282f9e84b236ded3940e592a568f2f",
+  "snapshot": "/home/mgjeong/Desktop/etri_hd/mbnas_application/build/source_snapshot",
+  "before": {
+   "sha256": "1f3d8ee58bfebfe612248c3349e7ff676500d7096c665aa5fcb8c9856c255f3f",
+   "files": 603
+  },
+  "after": {
+   "sha256": "1f3d8ee58bfebfe612248c3349e7ff676500d7096c665aa5fcb8c9856c255f3f",
+   "files": 603
+  },
+  "unchanged": true
+ }
+}

@@ -1,0 +1,88 @@
+--- a/tests/public/contracts/test_runner_protocol.py
++++ b/tests/public/contracts/test_runner_protocol.py
+@@ -85,13 +85,15 @@
+         rp.StartRequest: {**jw, "device_uuid": "GPU-1"},
+         rp.StartResponse: {"started_at": "a", "lease_expires_at": "b", "server_time": "c"},
+         rp.HeartbeatRequest: {**jw, "progress": {"epoch": 1}, "device_sample": {"util": 3}},
+-        rp.HeartbeatControl: {"action": "pause", "run_status": "PAUSE_REQUESTED", "stop_requested": True, "prune": ["ck-1"]},
++        rp.HeartbeatControl: {"action": "pause", "run_status": "PAUSE_REQUESTED", "stop_requested": True,
++                              "prune": [prune_order()]},
+         rp.HeartbeatResponse: {"lease_expires_at": "b", "control": {"action": None, "run_status": "RUNNING",
+                                                                     "stop_requested": False, "prune": None}, "server_time": "c"},
+         rp.ProgressBatch: {**jw, "seq_start": 5, "messages": [msg]},
+         rp.ProgressResponse: {"accepted_seq": 5},
+         rp.CheckpointReport: {**jw, "checkpoint_id": "ck-1", "candidate_id": "c", "kind": "training_full", "epoch": 1,
+-                              "rung": "L0", "relpath": "candidates/c/checkpoints/a.pt", "uri": "file:///w/a.pt",
++                              "rung": "L0", "relpath": "candidates/c/checkpoints/a.pt",
++                              "uri": "/w/runs/run-1/candidates/c/checkpoints/a.pt",  # the runner's realpath, no scheme
+                               "sha256": H, "bytes": 10, "hashes": {"architecture": H}},
+         rp.CheckpointResponse: {"checkpoint_id": "ck-1", "location_id": "loc-1", "state": "PRESENT"},
+         rp.ArtifactItem: {"kind": "evaluation", "relpath": "e/evaluation.json", "sha256": H, "bytes": 1, "mime_type": "application/json",
+@@ -106,9 +108,28 @@
+         rp.ResultResponse: {"outcome": "SUCCEEDED", "job_status": "SUCCEEDED", "run_status": "RUNNING",
+                             "response_digest": "sha256:" + H},
+         rp.AckRequest: jw,
++        rp.PruneOrder: prune_order(),
++        rp.PrunedItem: {"relpath": "candidates/c/checkpoints/native_e0001.ckpt", "bytes": 5, "sha256": None},
++        rp.PruneReport: prune_report(),
++        rp.PruneAck: {"checkpoint_id": "ck-1", "request_id": "prq-1", "state": "PRUNED", "replayed": False},
+     }
+ 
+ 
++def prune_order() -> dict[str, Any]:
++    return {"request_id": "prq-1", "checkpoint_id": "ck-1", "run_id": "run-1",
++            "relpath": "candidates/c/checkpoints/full_e0001.pt", "sha256": H, "bytes": 10,
++            "policy": "last_rung_end_only", "reason": "RETENTION_LAST_RUNG_END_ONLY"}
++
++
++def prune_report() -> dict[str, Any]:
++    return {"runner_id": "runner-A", "request_id": "prq-1", "run_id": "run-1",
++            "relpath": "candidates/c/checkpoints/full_e0001.pt", "sha256": H, "bytes": 10, "already_absent": False,
++            "bytes_freed": 15, "removed": [{"relpath": "candidates/c/checkpoints/full_e0001.pt", "bytes": 10, "sha256": H},
++                                           {"relpath": "candidates/c/checkpoints/native_e0001.ckpt", "bytes": 5,
++                                            "sha256": None}],
++            "detail": None, "pruned_at": "2026-10-28T00:00:00Z"}
++
++
+ def _norm(v: Any) -> Any:
+     return json.loads(json.dumps(v))
+ 
+@@ -256,6 +277,20 @@
+         rp.ProgressBatch.model_validate({**d, "messages": [{"type": "nope", "job_id": "j", "ts": "t"}]})
+ 
+ 
++def test_prune_report_consistency() -> None:
++    """DD-A66 (1.1.0): an already_absent report deletes nothing; a deletion report lists the ordered payload."""
++    ok = prune_report()
++    rp.PruneReport.model_validate(ok)
++    for bad in ({**ok, "already_absent": True}, {**ok, "removed": []}, {**ok, "bytes_freed": 1},
++                {**ok, "run_id": ".."}, {**ok, "relpath": "../x"}, {**ok, "request_id": "a/b"}):
++        with pytest.raises(ValidationError):
++            rp.PruneReport.model_validate(bad)
++    absent = {**ok, "already_absent": True, "removed": [], "bytes_freed": 0}
++    assert rp.PruneReport.model_validate(absent).already_absent is True
++    with pytest.raises(ValidationError):
++        rp.PruneOrder.model_validate({**prune_order(), "relpath": "/abs/x.pt"})
++
++
+ def test_heartbeat_control_actions() -> None:
+     for action in (None, "pause", "cancel"):
+         rp.HeartbeatControl(action=action, run_status="RUNNING", stop_requested=False)
+@@ -290,13 +325,14 @@
+ 
+ def test_openapi_structure() -> None:
+     doc = json.loads(COMMITTED.read_text(encoding="utf-8"))
+-    assert doc["openapi"] == "3.1.0" and doc["info"]["version"] == "1.0.0"
++    assert doc["openapi"] == "3.1.0" and doc["info"]["version"] == "1.1.0"
+     assert doc["components"]["securitySchemes"]["BearerAuth"] == {
+         "type": "http", "scheme": "bearer", "description": doc["components"]["securitySchemes"]["BearerAuth"]["description"]}
+     assert set(doc["paths"]) == {rp.RUNNER_BASE_PATH + p for p in (
+         "/register", "/claim", "/jobs/{job_id}/start", "/jobs/{job_id}/heartbeat", "/jobs/{job_id}/progress",
+-        "/jobs/{job_id}/checkpoints", "/jobs/{job_id}/artifacts", "/jobs/{job_id}/result", "/jobs/{job_id}/ack", "/deregister")}
+-    assert sorted(op["x-endpoint"] for p in doc["paths"].values() for op in p.values()) == sorted(f"E{i}" for i in range(1, 11))
++        "/jobs/{job_id}/checkpoints", "/jobs/{job_id}/artifacts", "/jobs/{job_id}/result", "/jobs/{job_id}/ack", "/deregister",
++        "/checkpoints/{checkpoint_id}/pruned")}
++    assert sorted(op["x-endpoint"] for p in doc["paths"].values() for op in p.values()) == sorted(f"E{i}" for i in range(1, 12))
+     schemas = doc["components"]["schemas"]
+     assert set(schemas["RunnerProtocolError"]["enum"]) == {e.value for e in rp.RunnerProtocolError}
+     for m in rp.MODELS:

@@ -1,0 +1,2 @@
+id=sha256:be21b5a88c7e4219c1258c37c682044b3fbc697877767cf28d9eef2e968f751f size_bytes=2972536141 created=2026-10-27T18:22:07.185412049Z arch=amd64 os=linux layers=14 user=10001:10001 entrypoint=["/usr/local/bin/mbnas-entrypoint"]
+base python:3.10-slim id=sha256:0f61d91517f6602b9d99096696845f54ddfe01a52029b4f55fdddb277ebe034a digests=["python@sha256:6ff506466f8b1e981719b468cc0023b8ef000b983cdec0eafe119d01f379e31d"]

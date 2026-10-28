@@ -1,0 +1,292 @@
+# TREE_HASH sha256:164292c6e775a52a3da02f98282257b67a282f9e84b236ded3940e592a568f2f (header added after the run; the frozen copy's installed tree)
+2026-10-27T06:20:55.760598Z T7 work root /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z; interpreter /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/venv/bin/python; core port 32769; gateway port 45385; gpu 0; items a,b,h,c,d,e,f
+2026-10-27T06:20:55.924162Z STEP nvidia-smi-before: PASS (0.0 s) {"nvidia_smi": {"compute_apps": [], "compute_apps_exit": 0, "gpus": ["0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 49140 MiB, 0 %", "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 49140 MiB, 0 %"], "gpus_exit": 0, "utc": "2026-10-27T06:20:55.760638Z"}}
+2026-10-27T06:20:57.959959Z STEP inputs: PASS (2.0 s) {"datasets": {"big": {"counts": {"test": 16, "train": 480, "val": 16}, "dataset_yaml": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z/core_data/t7shapes_big/data.yaml", "seed": 2027, "size": 160}, "small": {"counts": {"test": 16, "train": 64, "val": 16}, "dataset_yaml": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z/core_data/t7shapes/data.yaml", "seed": 2026, "size": 160}}, "note": "SYNTHETIC shapes datasets (160 px PNG, 1 class); runner byte copy via dataset mounts"}
+2026-10-27T06:20:57.961166Z spawned core pid=2420164 argv=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/venv/bin/python -B -m uvicorn --factory mbnas_core.api.app:app_from_env --host 127.0.0.1 --port 32769 --log-level warning log=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z/logs/core.log
+2026-10-27T06:20:59.200088Z STEP core-start: PASS (1.2 s) {"pid": 2420164, "port": 32769}
+2026-10-27T06:20:59.659389Z STEP principal-server: PASS (0.5 s) {"exit_code": 0, "principal_id": "pr-0947609cfd11489f", "stderr": ""}
+2026-10-27T06:21:00.112435Z STEP principal-runner: PASS (0.5 s) {"exit_code": 0, "principal_id": "pr-a509fd8eb9681a61", "stderr": ""}
+2026-10-27T06:21:00.569496Z STEP principal-admin: PASS (0.5 s) {"exit_code": 0, "principal_id": "pr-f56c0cd99710e5dd", "stderr": ""}
+2026-10-27T06:21:00.571783Z spawned owner pid=2420202 argv=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/venv/bin/python -B -m mbnas_core.owner_worker --owner --poll-s 0.5 --worker-id t7-owner-1 log=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z/logs/owner.log
+2026-10-27T06:21:00.571938Z STEP owner-start: PASS (0.0 s) {"owner_pid": 2420202}
+2026-10-27T06:21:00.573766Z spawned runner pid=2420203 argv=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/venv/bin/python -B -m mbnas_runner run log=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z/logs/runner.log
+2026-10-27T06:21:02.654139Z STEP runner-start: PASS (2.1 s) {"runner": {"data_mounts": {"/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z/core_data": true}, "device": "host-gpu-0", "device_name": "NVIDIA RTX A6000", "device_uuid": "GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9", "id": "t7-gpu0", "kinds": ["BASELINE_TRAIN", "BENCHMARK", "CANDIDATE_TRAIN", "EVALUATE", "FINAL_RETRAIN"], "status": "ONLINE"}, "runner_pid": 2420203, "runtime_verification": "verified"}
+2026-10-27T06:21:02.656266Z spawned gateway pid=2420208 argv=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/venv/bin/python -B -m uvicorn --factory mbnas_server.api.app:app_from_env --host 127.0.0.1 --port 45385 --log-level warning log=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z/logs/gateway.log
+2026-10-27T06:21:03.896009Z GW GET /api/v1/health -> 200 request_id=smoke3-81afb6ac3c6c4c42 echoed=True
+2026-10-27T06:21:03.965347Z GW GET / -> 200 request_id=smoke3-732b806c58ea4005 echoed=True
+2026-10-27T06:21:03.985770Z GW GET /monitor/smoke-run -> 200 request_id=smoke3-3ba7f55b91424b8f echoed=True
+2026-10-27T06:21:04.010987Z GW GET /assets/index-BuCPwHwg.js -> 200 request_id=smoke3-f4f0fdd54da64258 echoed=True
+2026-10-27T06:21:04.014077Z STEP gateway-start: PASS (1.4 s) {"asset": {"cache_control": "public, max-age=31536000, immutable", "path": "/assets/index-BuCPwHwg.js", "same_bytes": true, "status": 200}, "core_legacy_api_status": 404, "health": {"allowlists": {"archive_roots": [], "dataset_roots": ["/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z/core_data"], "output_roots": ["/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z/core/runs"]}, "capabilities": {"adapter_class": {"etri-controlled-cnn-transformer": "EtriHybridAdapter", "rf-detr-large": "RfdetrAdapter", "rf-detr-medium": "RfdetrAdapter", "rf-detr-nano": "RfdetrAdapter", "rf-detr-small": "RfdetrAdapter", "rt-detr-l": "RtdetrAdapter", "rt-detr-x": "RtdetrAdapter", "yolo11l": "YoloDetectAdapter", "yolo11m": "YoloDetectAdapter", "yolo11n": "YoloDetectAdapter", "yolo11s": "YoloDetectAdapter", "yolo11x": "YoloDetectAdapter", "yolo26l": "YoloDetectAdapter", "yolo26m": "YoloDetectAdapter", "yolo26n": "YoloDetectAdapter", "yolo26s": "YoloDetectAdapter", "yolo26x": "YoloDetectAdapter"}, "device_targets": [{"available": true, "id": "host-gpu-0", "kind": "host_gpu", "name": "NVIDIA A100 80GB PCIe", "reason": null, "status": "AVAILABLE"}, {"available": false, "id": "jetson-orin-nx", "kind": "jetson", "name": "NVIDIA Jetson Orin NX", "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not dep
+2026-10-27T06:21:04.282223Z GW POST /api/v1/uploads/model-config -> 200 request_id=smoke3-2a358045bc7e465c echoed=True
+2026-10-27T06:21:06.265804Z GW POST /api/v1/training-runs -> 200 request_id=smoke3-20d0997c3c0e47ae echoed=True
+2026-10-27T06:21:06.265950Z STEP a-baseline-train-create: PASS (2.0 s) {"body": {"candidate_id": "model-19db729f856f", "created": true, "protocol_hash": "sha256:47b86b117a54516a21a50494430b997431f56437a3957f24c3dc64a8e4c3cb34", "run_id": "train-a296ce62247f", "status": "QUEUED"}, "http": 200, "request_id": "smoke3-20d0997c3c0e47ae"}
+2026-10-27T06:21:06.294267Z GW GET /api/v1/runs/train-a296ce62247f -> 200 request_id=smoke3-4a989ebe1c704346 echoed=True
+2026-10-27T06:21:09.335314Z GW GET /api/v1/runs/train-a296ce62247f -> 200 request_id=smoke3-04b91470b4334380 echoed=True
+2026-10-27T06:21:12.395308Z GW GET /api/v1/runs/train-a296ce62247f -> 200 request_id=smoke3-c81059f0cc6e4eb0 echoed=True
+2026-10-27T06:21:15.427356Z GW GET /api/v1/runs/train-a296ce62247f -> 200 request_id=smoke3-e571ac25029c4272 echoed=True
+2026-10-27T06:21:18.457104Z GW GET /api/v1/runs/train-a296ce62247f -> 200 request_id=smoke3-6ae58233e96e4d54 echoed=True
+2026-10-27T06:21:21.489694Z GW GET /api/v1/runs/train-a296ce62247f -> 200 request_id=smoke3-b1e948e2e6644253 echoed=True
+2026-10-27T06:21:24.525644Z GW GET /api/v1/runs/train-a296ce62247f -> 200 request_id=smoke3-9d6dd2375612416d echoed=True
+2026-10-27T06:21:24.645286Z GW GET /api/v1/runs/train-a296ce62247f/snapshot -> 200 request_id=smoke3-5175eb46d30c4563 echoed=True
+2026-10-27T06:21:24.752665Z STEP a-baseline-train-gpu: PASS (18.5 s) {"checkpoints": [["training_full", 1], ["training_full", 2], ["eval_ema", 2], ["weights_only", 2]], "commits": [{"acked_at": "2026-10-27T06:21:22.408922Z", "attempt": 1, "committed_at": "2026-10-27T06:21:22.375307Z", "job_id": "job-a70fe33f42934951", "payload_digest": "sha256:f431cff555dcfaf9fc63cc4801f07545ae92e32c3161292086caaf8ddddf3ca2", "runner_id": "t7-gpu0", "state": "DONE", "status_code": 200}], "eval_device_uuid_matches_runner_gpu": true, "evaluated_rows": 1, "evaluation": {"ap": 0.0, "ap_50": 0.0, "device": "host-gpu-0", "device_name": "NVIDIA RTX A6000", "device_uuid": "GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9", "epochs": 2, "eval_split": "search_val", "evaluation_hash": "sha256:e1e07d4e093d00fb48e3c87f27e626c76b3bbae4c41524b74a03b2cb3bab6854", "latency_ms": 7.9503722954541445, "latency_scope": "forward_and_postprocess(conf=0.25,iou=0.7,max_det=300)", "latency_source": "measured", "precision": "FP16", "recall": 0.0, "size_mb": 5.360396}, "jobs": [{"attempt": 1, "device_used": null, "gpu_seconds": 11.391, "id": "job-a70fe33f42934951", "kind": "BASELINE_TRAIN", "lease_owner": "t7-gpu0", "result_reason": null, "status": "SUCCEEDED"}], "request_id": "smoke3-20d0997c3c0e47ae", "run_id": "train-a296ce62247f", "run_status": "COMPLETED", "runner_gpu_uuid": "GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9"}
+2026-10-27T06:21:24.752819Z STEP a-device-used-recorded: FAIL (0.0 s) {"evaluation_raw_metrics_device_used": [null], "note": "criterion: device_used=cuda:0 recorded in result outputs / evaluation raw_metrics", "outputs_device_used": [null]}
+2026-10-27T06:21:24.903951Z ITEM a: FAIL (20.7 s)
+2026-10-27T06:21:25.358428Z GW POST /api/v1/protocols/validate -> 200 request_id=smoke3-2bf9e1be77ae45bf echoed=True
+2026-10-27T06:21:25.359173Z STEP b-validate: PASS (0.3 s) {"capabilities": {"baselines": {"etri-controlled-cnn-transformer": {"backend": "etri_hybrid", "capabilities": {"adapter_class": "EtriHybridAdapter", "adapter_module": "mbnas_model_runtime.adapters.etri_hybrid.adapter", "backend": "etri_hybrid", "default_baseline14": true, "determinism_profile": "deterministic_algorithms_warn_only_workers0", "devices": {"host-gpu-0": {"evidence": null, "kind": "host_gpu", "name": "NVIDIA A100 80GB PCIe", "reason": "no TensorRT engine build for etri-controlled-cnn-transformer in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used", "status": "NOT_RUN"}, "jetson-agx-orin": {"evidence": null, "kind": "jetson", "name": "NVIDIA Jetson AGX Orin", "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.", "status": "UNAVAILABLE", "tensorrt": null}, "jetson-orin-nano": {"evidence": null, "kind": "jetson", "name": "NVIDIA Jetson Orin Nano", "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.", "status": "UNAVAILABLE", "tensorrt": null}, "jetson-orin-nx": {"evidence": null, "kind": "jetson", "name": "NVIDIA Jetson Orin NX", "reason": "target 'jetson-orin-nx' 
+2026-10-27T06:21:25.499557Z GW POST /api/v1/runs -> 200 request_id=smoke3-92c54e57c16043a4 echoed=True
+2026-10-27T06:21:25.499748Z STEP b-create: PASS (0.1 s) {"body": {"created": true, "protocol_hash": "sha256:d2040c6d25880e91a919f7d12dc6766d6f2037f6a7dadf2b580057470943fff9", "run_id": "run-7b3f1da6d222", "status": "QUEUED"}, "http": 200, "request_id": "smoke3-92c54e57c16043a4"}
+2026-10-27T06:21:25.531022Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-37ee64ae901c4a24 echoed=True
+2026-10-27T06:21:28.557188Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-a3a65a788f5b49b0 echoed=True
+2026-10-27T06:21:31.587757Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-04a808160c46447b echoed=True
+2026-10-27T06:21:34.618326Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-2cc51d862d9e4e99 echoed=True
+2026-10-27T06:21:37.643729Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-e2d2209c3437459b echoed=True
+2026-10-27T06:21:40.672404Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-19346d13a5e5403f echoed=True
+2026-10-27T06:21:43.709127Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-fc77a23d18fd4c96 echoed=True
+2026-10-27T06:21:46.736811Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-a1da5d968a724922 echoed=True
+2026-10-27T06:21:49.784567Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-516d5e676baf43c6 echoed=True
+2026-10-27T06:21:52.816490Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-57774141cd5f45ca echoed=True
+2026-10-27T06:21:55.848503Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-006c8b626fbf4464 echoed=True
+2026-10-27T06:21:58.877095Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-2b9df7bf849f465a echoed=True
+2026-10-27T06:22:01.924744Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-2f4e547f32b6402c echoed=True
+2026-10-27T06:22:04.960933Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-e89b01e206a04b1e echoed=True
+2026-10-27T06:22:07.996390Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-7a2e02e9af344e67 echoed=True
+2026-10-27T06:22:11.026862Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-b32845001f4948b7 echoed=True
+2026-10-27T06:22:14.054410Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-6425310a52814699 echoed=True
+2026-10-27T06:22:17.084014Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-6fa26abb3e804554 echoed=True
+2026-10-27T06:22:20.110734Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-f293a613d94946cd echoed=True
+2026-10-27T06:22:23.147277Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-e52194ba0c8d4fbc echoed=True
+2026-10-27T06:22:26.177303Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-f618a21d169b404b echoed=True
+2026-10-27T06:22:29.213706Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-10b142041c554cbc echoed=True
+2026-10-27T06:22:32.248726Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-58e9739bc12b4c04 echoed=True
+2026-10-27T06:22:35.284642Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-f071d443e9214d16 echoed=True
+2026-10-27T06:22:38.315019Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-b0dd10793bb241e7 echoed=True
+2026-10-27T06:22:41.343856Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-ac03c7eb889049ee echoed=True
+2026-10-27T06:22:44.381045Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-bfc42839b3e64a1a echoed=True
+2026-10-27T06:22:47.418606Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-4b486e8cc8df4c55 echoed=True
+2026-10-27T06:22:50.449871Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-164e9a8e08ef4dd1 echoed=True
+2026-10-27T06:22:53.478414Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-4ed4676f55824e32 echoed=True
+2026-10-27T06:22:56.526272Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-3c9793b7a20d434f echoed=True
+2026-10-27T06:22:59.563104Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-18dfabcb6bc74c8c echoed=True
+2026-10-27T06:23:02.600105Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-f26f00a671634554 echoed=True
+2026-10-27T06:23:05.637074Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-7e4d903968d04ad9 echoed=True
+2026-10-27T06:23:08.674303Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-3f67a5228e054ea4 echoed=True
+2026-10-27T06:23:11.710724Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-fbce0aa7a881402c echoed=True
+2026-10-27T06:23:14.750791Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-555b3b52737c48ab echoed=True
+2026-10-27T06:23:17.787958Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-9b89fd94640543c0 echoed=True
+2026-10-27T06:23:20.826411Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-3bfb2063dd944d98 echoed=True
+2026-10-27T06:23:23.873876Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-618b6030ff2c41fe echoed=True
+2026-10-27T06:23:26.909764Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-94e341023503489a echoed=True
+2026-10-27T06:23:29.944446Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-0159cfb3108d49b9 echoed=True
+2026-10-27T06:23:32.981416Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-dc4f49e750164caa echoed=True
+2026-10-27T06:23:36.022626Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-75f28e13ae374d98 echoed=True
+2026-10-27T06:23:39.059163Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-995896a0ad0e4613 echoed=True
+2026-10-27T06:23:42.095320Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-e76f957b7cb2412c echoed=True
+2026-10-27T06:23:45.131124Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-2badf05be60c460c echoed=True
+2026-10-27T06:23:48.165898Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-560d88865f1a4824 echoed=True
+2026-10-27T06:23:51.202197Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-b4f97e60faf4447e echoed=True
+2026-10-27T06:23:54.237352Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-5a42fc08a4a341e1 echoed=True
+2026-10-27T06:23:57.282650Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-7a3d54c4de7849c0 echoed=True
+2026-10-27T06:24:00.319011Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-0f40a527e39d482c echoed=True
+2026-10-27T06:24:03.350854Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-a8850656253f48b0 echoed=True
+2026-10-27T06:24:06.384959Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-dcb196e82bd24e9e echoed=True
+2026-10-27T06:24:09.420504Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-2049aea389a44d68 echoed=True
+2026-10-27T06:24:12.455953Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-4872a0cdc5cb4d18 echoed=True
+2026-10-27T06:24:15.490998Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-7a3d26afb6fc49d5 echoed=True
+2026-10-27T06:24:18.526585Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-f9d22287cfc24072 echoed=True
+2026-10-27T06:24:21.561179Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-a5deab4bff9a43f9 echoed=True
+2026-10-27T06:24:24.595811Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-7b49048e9cc446bb echoed=True
+2026-10-27T06:24:27.631798Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-1670d4ddf73a412e echoed=True
+2026-10-27T06:24:30.665747Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-d0ab6098339b455c echoed=True
+2026-10-27T06:24:33.701466Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-cd9674e35385429a echoed=True
+2026-10-27T06:24:36.736408Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-8c5f0deb4d204603 echoed=True
+2026-10-27T06:24:39.771162Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-5540720b8366463e echoed=True
+2026-10-27T06:24:42.806270Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-bf6e640dfa1c4a85 echoed=True
+2026-10-27T06:24:45.853749Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-478419104a064c02 echoed=True
+2026-10-27T06:24:48.880072Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-0da242a05b1f4ad2 echoed=True
+2026-10-27T06:24:51.907728Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-e6e8af69981640f1 echoed=True
+2026-10-27T06:24:54.946120Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-afba253faea24937 echoed=True
+2026-10-27T06:24:57.974289Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-ed4d06cc9eaa4357 echoed=True
+2026-10-27T06:25:00.997623Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-d31b2a2435da40a5 echoed=True
+2026-10-27T06:25:04.031749Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-7fde942744b14a7e echoed=True
+2026-10-27T06:25:07.069403Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-9b3943b4ff2d43d1 echoed=True
+2026-10-27T06:25:10.104529Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-35e599be83f74bb0 echoed=True
+2026-10-27T06:25:13.152993Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-0283ae4a83e948d3 echoed=True
+2026-10-27T06:25:16.189212Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-32da2ecdb9274fce echoed=True
+2026-10-27T06:25:19.225317Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-eced23bced5840a9 echoed=True
+2026-10-27T06:25:22.261894Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-34dfcd14b8474d28 echoed=True
+2026-10-27T06:25:25.298447Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-b6c31ccaf94a41cd echoed=True
+2026-10-27T06:25:28.334987Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-7b385142c61a478b echoed=True
+2026-10-27T06:25:31.371336Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-2beb443600bb453b echoed=True
+2026-10-27T06:25:34.408213Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-a441df62d6ab4f0e echoed=True
+2026-10-27T06:25:37.444945Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-1154d80ddb084185 echoed=True
+2026-10-27T06:25:40.481624Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-b1bfc24c53324a12 echoed=True
+2026-10-27T06:25:43.518357Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-e7281ffa73c74872 echoed=True
+2026-10-27T06:25:46.556273Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-27ed995fbbb2418b echoed=True
+2026-10-27T06:25:49.592762Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-3959f2feb42a45f4 echoed=True
+2026-10-27T06:25:52.626524Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-b8f73842062f4c8e echoed=True
+2026-10-27T06:25:55.660845Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-b2cbe501b7ff4d5e echoed=True
+2026-10-27T06:25:58.702088Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-c558517fd8984dd8 echoed=True
+2026-10-27T06:26:01.738605Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-e7a69f93f3ce48e8 echoed=True
+2026-10-27T06:26:04.774938Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-5fa51bdd80ad4375 echoed=True
+2026-10-27T06:26:07.819011Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-ea2f5ae2cbe447a9 echoed=True
+2026-10-27T06:26:10.865605Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-7a22f933951e40f8 echoed=True
+2026-10-27T06:26:13.902439Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-9222cc2a5cc04800 echoed=True
+2026-10-27T06:26:16.936120Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-235fee8ca9cd448a echoed=True
+2026-10-27T06:26:19.971856Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-2fd70e3707964930 echoed=True
+2026-10-27T06:26:23.007018Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-30e4285536e14b2a echoed=True
+2026-10-27T06:26:26.039823Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-87dd6ef246774346 echoed=True
+2026-10-27T06:26:29.069803Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-5308745849b14503 echoed=True
+2026-10-27T06:26:32.097341Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-b3511014b3e44a07 echoed=True
+2026-10-27T06:26:35.147060Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-7fad98771bf944f4 echoed=True
+2026-10-27T06:26:38.184375Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-0e719fa5e8b34eef echoed=True
+2026-10-27T06:26:41.220856Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-ce81c03d366e4778 echoed=True
+2026-10-27T06:26:44.257678Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-9eb671277d6c4353 echoed=True
+2026-10-27T06:26:47.306060Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-400911f12b1d4031 echoed=True
+2026-10-27T06:26:50.337197Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-ed7e8d10e1aa4c31 echoed=True
+2026-10-27T06:26:53.365488Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-e1ab75c014734e71 echoed=True
+2026-10-27T06:26:56.393401Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-26acc5d02f0c4829 echoed=True
+2026-10-27T06:26:59.420185Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-b849383dac9f4092 echoed=True
+2026-10-27T06:27:02.469151Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-7b97dcc0f0c14d04 echoed=True
+2026-10-27T06:27:05.506313Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-f81f68c61a9146c8 echoed=True
+2026-10-27T06:27:08.542871Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-20d5410690004913 echoed=True
+2026-10-27T06:27:11.577438Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-92491d73f30748de echoed=True
+2026-10-27T06:27:14.614503Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-95c6b5e1b89843a9 echoed=True
+2026-10-27T06:27:17.648173Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-455dfdf0b8824d07 echoed=True
+2026-10-27T06:27:20.685970Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-4af65bfde4724ed4 echoed=True
+2026-10-27T06:27:23.721513Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-08e8753f58174a5e echoed=True
+2026-10-27T06:27:26.756600Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-11d4b72c9b7747ff echoed=True
+2026-10-27T06:27:29.805668Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-9caf9385b8c14126 echoed=True
+2026-10-27T06:27:32.842558Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-9da16c5c832145d9 echoed=True
+2026-10-27T06:27:35.870900Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-bb643ab931f54d08 echoed=True
+2026-10-27T06:27:38.898830Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-04c9754fedbd4e6d echoed=True
+2026-10-27T06:27:41.923824Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-1caa439cea5e4301 echoed=True
+2026-10-27T06:27:44.952017Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-6603bb8c97064d28 echoed=True
+2026-10-27T06:27:47.994756Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-4a0028903a1542b5 echoed=True
+2026-10-27T06:27:51.021655Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-7e2e627ee238406d echoed=True
+2026-10-27T06:27:54.057882Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-8da4493bfe324916 echoed=True
+2026-10-27T06:27:57.103917Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-4de45e80bffc4440 echoed=True
+2026-10-27T06:28:00.140462Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-1536c4458ff54a77 echoed=True
+2026-10-27T06:28:03.175808Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-2daad365a7f5491b echoed=True
+2026-10-27T06:28:06.212901Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-3126f2da37c04725 echoed=True
+2026-10-27T06:28:09.249819Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-306fe421f2344df4 echoed=True
+2026-10-27T06:28:12.286736Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-031f8636fd0d4e38 echoed=True
+2026-10-27T06:28:15.323112Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-8bac1d62080c4717 echoed=True
+2026-10-27T06:28:18.398694Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-5a7d1a85c85d4b23 echoed=True
+2026-10-27T06:28:21.434116Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-331c287a2c8d4057 echoed=True
+2026-10-27T06:28:24.475583Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-1c0dec015a004914 echoed=True
+2026-10-27T06:28:27.512085Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-985361a6d7374c19 echoed=True
+2026-10-27T06:28:30.547786Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-67cec1ee35c7462b echoed=True
+2026-10-27T06:28:33.584308Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-fe80122e65cb4ead echoed=True
+2026-10-27T06:28:34.078571Z GW GET /api/v1/runs/run-7b3f1da6d222/snapshot -> 200 request_id=smoke3-692ecdb286674821 echoed=True
+2026-10-27T06:28:34.505222Z STEP b-search-eval-on: PASS (429.0 s) {"evaluated": 32, "evaluated_real": 32, "failed_jobs": [], "jobs_by_kind": {"CANDIDATE_TRAIN": {"SUCCEEDED": 32}, "PROPOSE_GENERATION": {"SUCCEEDED": 8}}, "promotion_decisions": {"PROMOTION_ELIGIBLE": 16, "SEARCH_RUNG_FINAL": 16}, "run_id": "run-7b3f1da6d222", "run_status": "COMPLETED", "sample_rows": [{"ap": 0.0, "candidate_id": "run-7b3f1da6d222:GA:s101:g00:c000", "device_uuid": null, "fitness": 0.6991837663157895, "latency_ms": 9.00053745135665, "latency_source": "measured", "rung": "L0", "size_mb": 5.258474}, {"ap": 0.0, "candidate_id": "run-7b3f1da6d222:GA:s101:g00:c001", "device_uuid": null, "fitness": 0.6977147957894737, "latency_ms": 9.09069599583745, "latency_source": "measured", "rung": "L0", "size_mb": 5.723648}, {"ap": 0.0, "candidate_id": "run-7b3f1da6d222:GA:s202:g00:c000", "device_uuid": null, "fitness": 0.6940340610526317, "latency_ms": 11.646905448287725, "latency_source": "measured", "rung": "L0", "size_mb": 6.889214}, {"ap": 0.0, "candidate_id": "run-7b3f1da6d222:GA:s202:g00:c001", "device_uuid": null, "fitness": 0.6997041747368422, "latency_ms": 9.179298533126712, "latency_source": "measured", "rung": "L0", "size_mb": 5.093678}, {"ap": 0.0, "candidate_id": "run-7b3f1da6d222:RAND:s101:g00:c000", "device_uuid": null, "fitness": 0.6991837663157895, "latency_ms": 8.82163573987782, "latency_source": "measured", "rung": "L0", "size_mb": 5.258474}, {"ap": 0.0, "candidate_id": "run-7b3f1da6d222:RAND:s101:g00:c001", "device_uuid": null, "fitness": 0.697714795789473
+2026-10-27T06:28:34.674996Z ITEM b: PASS (429.6 s)
+2026-10-27T06:28:34.858021Z GW GET /api/v1/runs/run-7b3f1da6d222 -> 200 request_id=smoke3-8f79d0d91c714d6f echoed=True
+2026-10-27T06:28:35.101573Z GW POST /api/v1/runs/run-7b3f1da6d222/final-retrain -> 200 request_id=smoke3-73124a1a747e4311 echoed=True
+2026-10-27T06:28:35.101764Z STEP h-create: PASS (0.2 s) {"body": {"created": true, "finalist_count": 4, "kind": "FINAL_RETRAIN", "parent_run_id": "run-7b3f1da6d222", "protocol_hash": "sha256:d2040c6d25880e91a919f7d12dc6766d6f2037f6a7dadf2b580057470943fff9", "run_id": "run-b6b1b4851829", "status": "QUEUED"}, "http": 200, "request_id": "smoke3-73124a1a747e4311"}
+2026-10-27T06:28:35.134830Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-b61208fd4e684d66 echoed=True
+2026-10-27T06:28:38.171012Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-95c9240fcdac4209 echoed=True
+2026-10-27T06:28:41.204050Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-6da2171b0e7e4373 echoed=True
+2026-10-27T06:28:44.239672Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-e9f4f6f949944a15 echoed=True
+2026-10-27T06:28:47.283125Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-5c888689aa39495c echoed=True
+2026-10-27T06:28:50.319799Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-aadee974a83f442a echoed=True
+2026-10-27T06:28:53.401373Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-277598ef9c144397 echoed=True
+2026-10-27T06:28:56.436475Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-261d817044a74c32 echoed=True
+2026-10-27T06:28:59.475411Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-b470fba91383405d echoed=True
+2026-10-27T06:29:02.512290Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-7a251a5ff2974be0 echoed=True
+2026-10-27T06:29:05.548607Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-cfb48d47b6944b9b echoed=True
+2026-10-27T06:29:08.585258Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-eebce892496e412a echoed=True
+2026-10-27T06:29:11.632272Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-8ffe97775b4847d4 echoed=True
+2026-10-27T06:29:14.669867Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-46453f956b334a6a echoed=True
+2026-10-27T06:29:17.705293Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-23c2f41a669c4f4e echoed=True
+2026-10-27T06:29:20.739866Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-cdda2e9ddb254ae6 echoed=True
+2026-10-27T06:29:23.780950Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-79f64b73bbf8427d echoed=True
+2026-10-27T06:29:26.816811Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-481ef6d52d384aa4 echoed=True
+2026-10-27T06:29:29.854063Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-59eabfb2c52641b4 echoed=True
+2026-10-27T06:29:32.890688Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-8a9db76c49724176 echoed=True
+2026-10-27T06:29:35.926218Z GW GET /api/v1/runs/run-b6b1b4851829 -> 200 request_id=smoke3-d385dae03aee43f6 echoed=True
+2026-10-27T06:29:36.065155Z GW GET /api/v1/runs/run-b6b1b4851829/snapshot -> 200 request_id=smoke3-a7e2482e20f140fa echoed=True
+2026-10-27T06:29:36.158787Z STEP h-final-retrain: PASS (61.1 s) {"evaluated": 4, "final_jobs": [{"attempt": 1, "evaluation": {"ap": 3.0306869689484536e-05, "ap_50": 0.00012521577360988131, "device": "host-gpu-0", "device_name": "NVIDIA RTX A6000", "device_uuid": "GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9", "epochs": 2, "eval_split": "final_eval", "evaluation_hash": "sha256:d6e3a003aa249027af49a34edb8657a5cf29224a6a6a1485ce92227ca1d2509d", "latency_ms": 9.013934526592493, "latency_scope": "forward_and_postprocess(conf=0.25,iou=0.7,max_det=300)", "latency_source": "measured", "precision": "FP16", "recall": 0.0, "size_mb": 5.258474}, "id": "job-e0745334fa8d4518", "result_reason": null, "status": "SUCCEEDED"}, {"attempt": 1, "evaluation": {"ap": 9.509425518823069e-05, "ap_50": 0.00039156458018683223, "device": "host-gpu-0", "device_name": "NVIDIA RTX A6000", "device_uuid": "GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9", "epochs": 2, "eval_split": "final_eval", "evaluation_hash": "sha256:d6e3a003aa249027af49a34edb8657a5cf29224a6a6a1485ce92227ca1d2509d", "latency_ms": 9.09881992265582, "latency_scope": "forward_and_postprocess(conf=0.25,iou=0.7,max_det=300)", "latency_source": "measured", "precision": "FP16", "recall": 0.0, "size_mb": 5.093678}, "id": "job-51a2a71c89ab4391", "result_reason": null, "status": "SUCCEEDED"}, {"attempt": 1, "evaluation": {"ap": 0.0, "ap_50": 0.0, "device": "host-gpu-0", "device_name": "NVIDIA RTX A6000", "device_uuid": "GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9", "epochs": 2, "eval_split": "final_eval", "evaluation_hash":
+2026-10-27T06:29:36.304160Z ITEM h: PASS (61.5 s)
+2026-10-27T06:29:37.068493Z GW POST /api/v1/training-runs -> 200 request_id=smoke3-3332877762294589 echoed=True
+2026-10-27T06:29:37.068711Z STEP c-pause-resume-create: PASS (0.6 s) {"body": {"candidate_id": "model-2bf598212ffb", "created": true, "protocol_hash": "sha256:04ac0b607ffcbc56aa581584a56cafbda3e425f66779fda1792567a57449572d", "run_id": "train-69a0087c88a6", "status": "QUEUED"}, "http": 200, "request_id": "smoke3-3332877762294589"}
+2026-10-27T06:30:00.175495Z GW POST /api/v1/runs/train-69a0087c88a6/pause -> 200 request_id=smoke3-27e733ab52c64ac1 echoed=True
+2026-10-27T06:30:00.175736Z STEP c-pause-request: PASS (23.1 s) {"at_checkpoint": {"epoch": 2, "kind": "training_full"}, "http": 200, "request_id": "smoke3-27e733ab52c64ac1", "run_status": "PAUSE_REQUESTED"}
+2026-10-27T06:30:00.213840Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-15fa8440d9084c1f echoed=True
+2026-10-27T06:30:03.248703Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-e1cef7054ad34a87 echoed=True
+2026-10-27T06:30:06.284681Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-676b918b04404227 echoed=True
+2026-10-27T06:30:09.320132Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-f85bc20f45a24aaa echoed=True
+2026-10-27T06:30:09.439148Z GW GET /api/v1/runs/train-69a0087c88a6/snapshot -> 200 request_id=smoke3-26c4ee1c95694e39 echoed=True
+2026-10-27T06:30:09.737288Z STEP c-paused: PASS (9.6 s) {"child_pids_after_pause": [], "full_states": [[1, "training_full"], [2, "training_full"], [3, "training_full"]], "job": {"artifact_transfer": null, "attempt": 1, "candidate_id": "model-2bf598212ffb", "cumulative_target": 8, "device_used": null, "error": {"attempt": 1, "exit_code": 3, "finished_at": "2026-10-27T06:30:08.463574Z", "gpu_seconds": 27.568, "job_id": "job-fcf0d8c91d7f464e", "message": "paused after epoch 3", "outputs": {"architecture_hash": "sha256:6f39fc80935b6ae21a2b6f17390e80006a155fa191d69b7e9be93d55bc90f4d1", "artifact_transfer": {"failed": [], "mode": "local", "ok": true, "transferred": 9}, "epochs_done": 3, "execution_configuration": {"artifact_id": "art-5eec4bb98c545a0bc105", "class_count": 1, "sha256": "e1d49bbe4a28ec1317c528cd5600a5b50f067fd687b309beecaf568ec9e54c21", "yaml_hash": "sha256:a48faaf596727b3c6d96b9f0b8bac3dadfa0db32673450065d5753418e714525", "yaml_text": "backbone:\n- - -1\n  - 1\n  - Conv\n  - - 64\n    - 3\n    - 2\n- - -1\n  - 1\n  - Conv\n  - - 128\n    - 3\n    - 2\n- - -1\n  - 2\n  - C3k2\n  - - 256\n    - false\n    - 0.25\n- - -1\n  - 1\n  - Conv\n  - - 256\n    - 3\n    - 2\n- - -1\n  - 2\n  - C3k2\n  - - 512\n    - false\n    - 0.25\n- - -1\n  - 1\n  - Conv\n  - - 512\n    - 3\n    - 2\n- - -1\n  - 2\n  - C3k2\n  - - 512\n    - true\n- - -1\n  - 1\n  - Conv\n  - - 1024\n    - 3\n    - 2\n- - -1\n  - 2\n  - C3k2\n  - - 1024\n    - true\n- - -1\n  - 1\n  - SPPF\n  - - 1024\n    - 5\n- - -1\n  - 2\n  - C2PSA\n  - - 1024\nhead:\n- - -1
+2026-10-27T06:30:09.848697Z GW POST /api/v1/runs/train-69a0087c88a6/resume -> 200 request_id=smoke3-c613fad0abb44713 echoed=True
+2026-10-27T06:30:09.848869Z STEP c-resume-request: PASS (0.1 s) {"body": {"status": "RUNNING"}, "http": 200, "request_id": "smoke3-c613fad0abb44713"}
+2026-10-27T06:30:09.880588Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-0845b17edbe44551 echoed=True
+2026-10-27T06:30:12.916413Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-a29da5cdaecb4963 echoed=True
+2026-10-27T06:30:15.942984Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-a380b85652e54fbf echoed=True
+2026-10-27T06:30:18.981315Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-f8809017135b428c echoed=True
+2026-10-27T06:30:22.010569Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-bf0e3e152c6040d9 echoed=True
+2026-10-27T06:30:25.047292Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-5c65bd2f95b543e0 echoed=True
+2026-10-27T06:30:28.083976Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-f25569b4ab184c6b echoed=True
+2026-10-27T06:30:31.129401Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-9e61868d6b564a4c echoed=True
+2026-10-27T06:30:34.166768Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-4803a658c8114e68 echoed=True
+2026-10-27T06:30:37.203638Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-2e9e1625eeda49fc echoed=True
+2026-10-27T06:30:40.240993Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-e4470b9d3646438d echoed=True
+2026-10-27T06:30:43.278223Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-b1f248d63b5b4932 echoed=True
+2026-10-27T06:30:46.313589Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-7c7fcd517ab245e8 echoed=True
+2026-10-27T06:30:49.348286Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-bbf40cafffed47aa echoed=True
+2026-10-27T06:30:52.384084Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-8e589bd516904dc8 echoed=True
+2026-10-27T06:30:55.420615Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-156bc1108a9c4dc8 echoed=True
+2026-10-27T06:30:58.469112Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-8149841cfe04421a echoed=True
+2026-10-27T06:31:01.509501Z GW GET /api/v1/runs/train-69a0087c88a6 -> 200 request_id=smoke3-ef03ddf19677410e echoed=True
+2026-10-27T06:31:01.735374Z GW GET /api/v1/runs/train-69a0087c88a6/snapshot -> 200 request_id=smoke3-08371d427755470b echoed=True
+2026-10-27T06:31:01.914270Z STEP c-full-state-resume: PASS (52.1 s) {"commits": [{"acked_at": "2026-10-27T06:30:08.954421Z", "attempt": 1, "committed_at": "2026-10-27T06:30:08.922468Z", "job_id": "job-fcf0d8c91d7f464e", "payload_digest": "sha256:e31be5289f50de3319e5efea218681227f4200da63e0c0685ea6768ba78cf860", "runner_id": "t7-gpu0", "state": "DONE", "status_code": 200}, {"acked_at": "2026-10-27T06:31:00.958733Z", "attempt": 2, "committed_at": "2026-10-27T06:31:00.926080Z", "job_id": "job-fcf0d8c91d7f464e", "payload_digest": "sha256:952c6b941ed7e605929859f09c9ba284d366440aea175996620b9d9c76f688ad", "runner_id": "t7-gpu0", "state": "DONE", "status_code": 200}], "evaluated": 1, "full_state_resume": true, "job_attempt": 2, "job_status": "SUCCEEDED", "paused_epoch": 3, "resumed_from": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z/runner/work/runs/train-69a0087c88a6/candidates/model-2bf598212ffb/ckpt/full_e0003.pt", "run_status": "COMPLETED", "rung_result": {"cumulative_target": 8, "epochs_done": 8, "notes": [], "resumed_from": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z/runner/work/runs/train-69a0087c88a6/candidates/model-2bf598212ffb/ckpt/full_e0003.pt", "samples_seen": 3840, "step_count": 480, "stopped_reason": "TARGET_REACHED"}}
+2026-10-27T06:31:02.080386Z ITEM c: PASS (85.6 s)
+2026-10-27T06:31:02.677648Z GW POST /api/v1/training-runs -> 200 request_id=smoke3-1bda3bfd36884b52 echoed=True
+2026-10-27T06:31:02.677872Z STEP d-cancel-create: PASS (0.5 s) {"body": {"candidate_id": "model-a27ba69ef9e7", "created": true, "protocol_hash": "sha256:04ac0b607ffcbc56aa581584a56cafbda3e425f66779fda1792567a57449572d", "run_id": "train-d4c2c595346b", "status": "QUEUED"}, "http": 200, "request_id": "smoke3-1bda3bfd36884b52"}
+2026-10-27T06:31:16.789994Z GW POST /api/v1/runs/train-d4c2c595346b/cancel -> 200 request_id=smoke3-f56e411c8ad84f38 echoed=True
+2026-10-27T06:31:16.790189Z STEP d-cancel-request: PASS (14.1 s) {"at_checkpoint": {"epoch": 1, "kind": "training_full"}, "child_pids_before": [2432848], "http": 200, "request_id": "smoke3-f56e411c8ad84f38"}
+2026-10-27T06:31:16.821697Z GW GET /api/v1/runs/train-d4c2c595346b -> 200 request_id=smoke3-247dae1186ff43bd echoed=True
+2026-10-27T06:31:19.857146Z GW GET /api/v1/runs/train-d4c2c595346b -> 200 request_id=smoke3-3b921f96a2384337 echoed=True
+2026-10-27T06:31:22.961267Z GW GET /api/v1/runs/train-d4c2c595346b/snapshot -> 200 request_id=smoke3-8410cce95154463d echoed=True
+2026-10-27T06:31:23.251567Z STEP d-cancelled: PASS (6.5 s) {"child_pids_still_alive": [], "job": {"artifact_transfer": null, "attempt": 1, "candidate_id": "model-a27ba69ef9e7", "cumulative_target": 8, "device_used": null, "error": {"attempt": 1, "discarded_result": {"attempt": 1, "exit_code": -15, "finished_at": null, "gpu_seconds": null, "job_id": "job-8244007ddc6c41fe", "message": "child exited with code -15 without a result", "outputs": {"artifact_transfer": {"failed": [], "mode": "local", "ok": true, "transferred": 6}, "execution_configuration": {"artifact_id": "art-0a32901b45a92a37b949", "class_count": 1, "sha256": "e1d49bbe4a28ec1317c528cd5600a5b50f067fd687b309beecaf568ec9e54c21", "yaml_hash": "sha256:a48faaf596727b3c6d96b9f0b8bac3dadfa0db32673450065d5753418e714525", "yaml_text": "backbone:\n- - -1\n  - 1\n  - Conv\n  - - 64\n    - 3\n    - 2\n- - -1\n  - 1\n  - Conv\n  - - 128\n    - 3\n    - 2\n- - -1\n  - 2\n  - C3k2\n  - - 256\n    - false\n    - 0.25\n- - -1\n  - 1\n  - Conv\n  - - 256\n    - 3\n    - 2\n- - -1\n  - 2\n  - C3k2\n  - - 512\n    - false\n    - 0.25\n- - -1\n  - 1\n  - Conv\n  - - 512\n    - 3\n    - 2\n- - -1\n  - 2\n  - C3k2\n  - - 512\n    - true\n- - -1\n  - 1\n  - Conv\n  - - 1024\n    - 3\n    - 2\n- - -1\n  - 2\n  - C3k2\n  - - 1024\n    - true\n- - -1\n  - 1\n  - SPPF\n  - - 1024\n    - 5\n- - -1\n  - 2\n  - C2PSA\n  - - 1024\nhead:\n- - -1\n  - 1\n  - nn.Upsample\n  - - None\n    - 2\n    - nearest\n- - - -1\n    - 6\n  - 1\n  - Concat\n  - - 1\n- - -1\n  - 2\n  - C3k2\n  - - 512\n    - false\n- - -1
+2026-10-27T06:31:23.399465Z ITEM d: PASS (21.2 s)
+2026-10-27T06:31:23.948611Z GW POST /api/v1/training-runs -> 200 request_id=smoke3-bb76522c193641da echoed=True
+2026-10-27T06:31:23.948832Z STEP e-runner-kill-create: PASS (0.4 s) {"body": {"candidate_id": "model-a8b5323a3f75", "created": true, "protocol_hash": "sha256:04ac0b607ffcbc56aa581584a56cafbda3e425f66779fda1792567a57449572d", "run_id": "train-fe074a484661", "status": "QUEUED"}, "http": 200, "request_id": "smoke3-bb76522c193641da"}
+2026-10-27T06:31:46.310754Z STEP e-sigkill-runner: PASS (22.4 s) {"at_checkpoint": {"epoch": 2, "kind": "training_full"}, "child_pids": [2433300], "child_pids_alive_after": [], "job_before": {"attempt": 1, "id": "job-1ec746f8bf15418f", "lease_owner": "t7-gpu0", "status": "RUNNING"}, "runner_exit": -9, "runner_pid": 2420203}
+2026-10-27T06:32:45.476252Z STEP e-lease-expired-requeued: PASS (59.2 s) {"job": {"attempt": 1, "error_json": {"attempt": 1, "lease_expires_at": "2026-10-27T06:32:44.201623Z", "lease_owner": "t7-gpu0", "reason_code": "LEASE_EXPIRED", "reclaimed_at": "2026-10-27T06:32:44.658291Z"}, "id": "job-1ec746f8bf15418f", "lease_owner": null, "status": "QUEUED"}, "runner_row": [{"id": "t7-gpu0", "last_seen_at": "2026-10-27T06:31:45.651656Z", "status": "LOST"}], "seconds_after_kill": 59.2}
+2026-10-27T06:32:45.478448Z spawned runner pid=2435069 argv=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/venv/bin/python -B -m mbnas_runner run log=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z/logs/runner.log
+2026-10-27T06:32:47.551202Z STEP e-runner-restart: PASS (2.1 s) {"runner": {"data_mounts": {"/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z/core_data": true}, "device": "host-gpu-0", "device_name": "NVIDIA RTX A6000", "device_uuid": "GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9", "id": "t7-gpu0", "kinds": ["BASELINE_TRAIN", "BENCHMARK", "CANDIDATE_TRAIN", "EVALUATE", "FINAL_RETRAIN"], "status": "ONLINE"}, "runner_pid": 2435069, "runtime_verification": "verified"}
+2026-10-27T06:32:47.590460Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-863acd2c69e64f91 echoed=True
+2026-10-27T06:32:50.626683Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-ee7ac3021c1e4e50 echoed=True
+2026-10-27T06:32:53.663547Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-c16e05c5f5384e67 echoed=True
+2026-10-27T06:32:56.710347Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-4bae147afda447f8 echoed=True
+2026-10-27T06:32:59.748234Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-1c1a66afc2614fbd echoed=True
+2026-10-27T06:33:02.785313Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-c50350fa89094358 echoed=True
+2026-10-27T06:33:05.821761Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-cb13d4e816c94683 echoed=True
+2026-10-27T06:33:08.866247Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-414829366cfa476f echoed=True
+2026-10-27T06:33:11.903142Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-774f529fc7294ad4 echoed=True
+2026-10-27T06:33:14.939784Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-8afd46f2fe0b4459 echoed=True
+2026-10-27T06:33:17.978340Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-72000bda8a8a4389 echoed=True
+2026-10-27T06:33:21.012383Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-a46926e073d74806 echoed=True
+2026-10-27T06:33:24.060652Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-8fd0f3e4f53f4ba4 echoed=True
+2026-10-27T06:33:27.096886Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-72638b89e65c40c7 echoed=True
+2026-10-27T06:33:30.132423Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-2f36447928204e2d echoed=True
+2026-10-27T06:33:33.168677Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-9dc8035e43254639 echoed=True
+2026-10-27T06:33:36.204927Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-564b995f6e264df6 echoed=True
+2026-10-27T06:33:39.241084Z GW GET /api/v1/runs/train-fe074a484661 -> 200 request_id=smoke3-aa54c5bf556e4335 echoed=True
+2026-10-27T06:33:39.411637Z GW GET /api/v1/runs/train-fe074a484661/snapshot -> 200 request_id=smoke3-ec98afe6df26450d echoed=True
+2026-10-27T06:33:39.646070Z STEP e-reclaimed-attempt-plus-1: PASS (54.2 s) {"commits": [{"acked_at": null, "attempt": 1, "committed_at": "2026-10-27T06:32:47.436251Z", "job_id": "job-1ec746f8bf15418f", "payload_digest": "sha256:32c685a7e7aff96329a1cc797f46752728cdab0f8dc06ae1269171f632bd8b9e", "runner_id": "t7-gpu0", "state": "DONE", "status_code": 409}, {"acked_at": "2026-10-27T06:33:36.911372Z", "attempt": 2, "committed_at": "2026-10-27T06:33:36.879583Z", "job_id": "job-1ec746f8bf15418f", "payload_digest": "sha256:a07438295f2deaed02f9f9d6d0d6e1cca6c7889d5505846f5cfe3be779dc1c1c", "runner_id": "t7-gpu0", "state": "DONE", "status_code": 200}], "job": {"attempt": 2, "id": "job-1ec746f8bf15418f", "lease_owner": "t7-gpu0", "result_reason": null, "status": "SUCCEEDED"}, "journal": {"a1": ["checkpoints", "discarded", "envelope.json", "progress.cursor", "result.json", "spec.json", "started.json", "transfers"], "a2": ["acked", "artifacts", "checkpoints", "envelope.json", "progress.cursor", "response.json", "result.json", "spec.json", "started.json", "transfers"]}, "run_status": "COMPLETED", "rung_result": {"cumulative_target": 8, "epochs_done": 8, "notes": [], "resumed_from": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z/runner/work/runs/train-fe074a484661/candidates/model-a8b5323a3f75/ckpt/full_e0002.pt", "samples_seen": 3840, "step_count": 480, "stopped_reason": "TARGET_REACHED"}, "stale_attempt_discarded": {"at": "2026-10-27T06:32:47.437781Z", "code": "LEASE_LOST", "reason": "result refused: lease
+2026-10-27T06:33:39.747672Z STEP e-replay-idempotent: PASS (0.1 s) {"job_after": {"attempt": 2, "result_status": "SUCCEEDED", "status": "SUCCEEDED"}, "replays": {"1": {"attempt": 1, "code": "LEASE_LOST", "message": "lease of job-1ec746f8bf15418f attempt 1 was lost; result discarded", "payload_digest": "sha256:32c685a7e7aff96329a1cc797f46752728cdab0f8dc06ae1269171f632bd8b9e", "result_reason": "CHILD_EXIT_NO_RESULT", "result_status": "FAILED", "status": 409}, "2": {"attempt": 2, "payload_digest": "sha256:a07438295f2deaed02f9f9d6d0d6e1cca6c7889d5505846f5cfe3be779dc1c1c", "response": {"job_status": "SUCCEEDED", "outcome": "SUCCEEDED", "response_digest": "sha256:813b0be714f585d412043bc6a70a49a1c1be2c71ebbf4d484628edb916307f3c", "run_status": "COMPLETED"}, "result_reason": null, "result_status": "SUCCEEDED", "same_as_stored_response": true, "status": 200}}}
+2026-10-27T06:33:39.915224Z ITEM e: PASS (136.3 s)
+2026-10-27T06:33:47.087969Z STEP f-store-contents: PASS (7.0 s) {"artifacts_in_store": 85, "artifacts_total": 401, "bad": [], "checkpoints_not_in_store": [], "checkpoints_total": 137, "meta_example": {"artifact_id": "art-1912d2dc3385802ad730", "attempt": 1, "bytes": 24955, "job_id": "job-9b7beb19f32149a7", "kind": "other", "mime": "application/json", "received_at": "2026-10-27T06:23:41.794601Z", "registered_by": "t7-gpu0", "relpath": "candidates/run-7b3f1da6d222:GA:s101:g00:c001/eval/L1_search_val_e0002_job-9b7beb19f32149a7/evaluation.json", "run_id": "run-7b3f1da6d222", "source": "local"}, "objects": 201, "store": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/g2_tree/runtime/t7/20261027T062055Z/gateway/artifacts", "verified": 201}
+2026-10-27T06:33:47.110405Z GW GET /api/v1/runs/train-a296ce62247f/artifacts/art-586235251b74883512c2 -> 404 request_id=smoke3-d4ae16557e4e4d73 echoed=True
+2026-10-27T06:33:47.129778Z GW GET /api/v1/runs/train-a296ce62247f/artifacts/art-8e6d878a48e53b398f97 -> 404 request_id=smoke3-04edf96e6e0b4816 echoed=True
+2026-10-27T06:33:47.155830Z GW GET /api/v1/runs/train-a296ce62247f/artifacts/art-74bdb592d6c7888b8260 -> 404 request_id=smoke3-0d0c7699cdfa4149 echoed=True
+2026-10-27T06:33:47.190421Z GW GET /api/v1/runs/train-a296ce62247f/artifacts/art-34b2101cbb5d3caaea2e -> 200 request_id=smoke3-0f5b1e60c2d141b4 echoed=True
+2026-10-27T06:33:47.222364Z GW GET /api/v1/runs/train-a296ce62247f/artifacts/ck-59dc3d74b0b9710f -> 404 request_id=smoke3-ec79446c396d4465 echoed=True
+2026-10-27T06:33:47.332587Z GW GET /api/v1/runs/train-a296ce62247f/export -> 200 request_id=smoke3-409854fd7a7044c6 echoed=True
+2026-10-27T06:33:47.333519Z STEP f-download-via-gateway: FAIL (0.2 s) {"downloads": [{"bytes": null, "digest_match": false, "error": {"code": "MISSING", "location": "core", "message": "artifact file is missing on the server", "request_id": "smoke3-d4ae16557e4e4d73"}, "header_sha": null, "http": 404, "id": "art-586235251b74883512c2", "in_gateway_store": true, "kind": "other", "object": "artifact", "record_sha": "65c528041eda430adc5249e66e085e92b096a0e0d978e5fe69661dc170d2b59a", "request_id": "smoke3-d4ae16557e4e4d73", "sha256": null}, {"bytes": null, "digest_match": false, "error": {"code": "MISSING", "location": "core", "message": "artifact file is missing on the server", "request_id": "smoke3-04edf96e6e0b4816"}, "header_sha": null, "http": 404, "id": "art-8e6d878a48e53b398f97", "in_gateway_store": true, "kind": "gt", "object": "artifact", "record_sha": "eb9f7faa2462903f1e347ed25a5f0f6bb0e825d4ff8e0f815eb6d8ba8eb9feea", "request_id": "smoke3-04edf96e6e0b4816", "sha256": null}, {"bytes": null, "digest_match": false, "error": {"code": "MISSING", "location": "core", "message": "artifact file is missing on the server", "request_id": "smoke3-0d0c7699cdfa4149"}, "header_sha": null, "http": 404, "id": "art-74bdb592d6c7888b8260", "in_gateway_store": true, "kind": "tp", "object": "artifact", "record_sha": "144ee7853819fc2630ec821442e7ad752e4110771041462c52b1bf15c2879769", "request_id": "smoke3-0d0c7699cdfa4149", "sha256": null}, {"bytes": 975, "digest_match": true, "error": null, "header_sha": "0e47ec6b95d7f8beb17f3326730db8d709d41fd3a1d0f566fb71df91c07
+2026-10-27T06:33:47.500653Z ITEM f: FAIL (7.4 s)
+2026-10-27T06:33:48.759500Z STEP stop-own-processes: PASS (1.3 s) {"exit_codes": {"core": -15, "gateway": -15, "owner": 0, "runner": 0}, "pids": {"core": 2420164, "gateway": 2420208, "owner": 2420202, "runner": 2435069}, "still_alive": []}
+2026-10-27T06:33:51.921958Z STEP nvidia-smi-after: PASS (0.0 s) {"nvidia_smi": {"compute_apps": [], "compute_apps_exit": 0, "gpus": ["0, GPU-e8fe2321-08dc-0cbb-4bfa-fe29f1f53ff9, NVIDIA RTX A6000, 42 MiB, 49140 MiB, 0 %", "1, GPU-a27ee4cd-f0d5-9281-b474-4793ce913449, NVIDIA RTX A6000, 18 MiB, 49140 MiB, 0 %"], "gpus_exit": 0, "utc": "2026-10-27T06:33:51.762975Z"}}
+2026-10-27T06:33:51.933050Z summary -> /home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/T7/t7_summary_20261027T062055Z.json
+exit=1

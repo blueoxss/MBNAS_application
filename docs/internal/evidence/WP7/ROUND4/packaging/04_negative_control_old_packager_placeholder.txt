@@ -1,0 +1,10 @@
+# C10 D5 negative control: the OLD packager (copy taken before the edit, package_build.py sha 129be019...) builds
+# registration --reproducible on two synthetic trees that differ only by the source placeholder
+# docs/registration/FILE_LIST.md (absent / present). The bundle digests differ (the generated_shadow info finding
+# entered BUILD_INFO.json). The round-4 packager gives one digest for absent / present / altered placeholder
+# (tests/public/packaging/test_package_contents_and_gates.py::test_registration_build_does_not_depend_on_the_file_list_placeholder,
+# and the real-tree scratch build in 05_*).
+packager under test: <SCRATCH>/wp3/r4pkg/baseline_tree/proj/scripts/dev/package_build.py
+without exit 0 60a94c8a3be6ae5c5653823dbf87b45194c02131372501fa2ea837ae99bfbd5c
+with exit 0 3095c6ec7873cee3e6689ddd1ea82f06a611f6a659edf84ac58182242199ac29
+OLD packager: DIFFERENT digests (C10 D5 reproduced)
