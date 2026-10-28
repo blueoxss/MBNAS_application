@@ -1,4 +1,4 @@
-"""Job tickets (DD-A18 / WP-2 contract section 1.3): ``HMAC-SHA256(job_id|attempt|stage|runner_id|exp)``.
+"""Job tickets: ``HMAC-SHA256(job_id|attempt|stage|runner_id|exp)``.
 
 ``claim`` issues one ticket per lease (``stage`` = the job's rung, ``-`` without one; ``exp`` = unix seconds); every
 job-scoped write must present it. Format: ``v1.<base64url(payload)>.<hex hmac>``; the payload is the ``|``-joined

@@ -101,6 +101,8 @@ def test_offline_install_and_configuration(tmp_path: Path) -> None:
     write(examples / "gateway.env.example", GATEWAY_VARIANT)
     write(examples / "runner.env.example", (REPO / "config" / "examples" / "runner.env.example").read_text())
     args = ("--profile", "public", "--offline", "--wheelhouse", str(wheelhouse), "--python", sys.executable)
+    # as in a distribution (DD-A76): no tests/ folder and no root pyproject.toml - install.sh needs neither
+    assert not (root / "tests").exists() and not (root / "pyproject.toml").exists()
     proc = run(root, "install", *args, cwd=tmp_path, env=env, timeout=600)
     assert proc.returncode == 0, proc.stdout[-3000:] + proc.stderr[-3000:]
     venv_cfg = (root / "runtime" / "venv" / "pyvenv.cfg").read_text()

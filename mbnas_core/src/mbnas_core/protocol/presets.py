@@ -9,7 +9,7 @@
   stays the example "Orin NX", which this host does not have, so validating it unchanged reports DEVICE_UNAVAILABLE.
 * ``pilot_smoke_protocol()`` — the ``PILOT_SMOKE`` preset: tiny real-data subset, 2→4→6 cumulative epochs,
   permissive smoke gates, one search seed, 0.75 GPU-h cap, separate run namespace, scratch initialization for
-  every representative model (one ``common_scratch`` comparison group, PLAN §8.1), GA
+  every representative model (one ``common_scratch`` comparison group), GA
   ``console.search.crossover_rate`` 1.0, final retraining 2/2 epochs and ``console.retention.full_state =
   last_rung_end_only`` (a terminal candidate keeps only the full state of its last rung end; eval snapshots,
   weights-only files and sidecars are always kept). **Smoke values only**: they exercise the
@@ -23,7 +23,7 @@ from functools import lru_cache
 from importlib import resources
 from typing import Any
 
-from mbnas_contracts.constants import BASELINE_FAMILIES, DEFAULT_BASELINE14  # noqa: F401 - re-exported (contract §4)
+from mbnas_contracts.constants import BASELINE_FAMILIES, DEFAULT_BASELINE14  # noqa: F401 - re-exported
 
 PLACEHOLDER_DATA_ROOT = "/ABSOLUTE/PATH/TO/MBNAS_data"
 PLACEHOLDER_OUTPUT_ROOT = "/ABSOLUTE/PATH/TO/MBNAS_runs"
@@ -34,7 +34,7 @@ HANDOFF_RESOURCE = "handoff_protocol_20261006.json"
 
 
 def preset_paths(settings: Any = None) -> dict[str, Any]:
-    """Example ``console.paths`` values of the presets (DD-A19 / DD-A21; contract section 8).
+    """Example ``console.paths`` values of the presets.
 
     ``settings.preset_data_root`` is the directory holding the PILOT subset directory ``pilot_visdrone_v1`` and
     ``settings.preset_output_root`` the directory under which the preset output roots ``default`` / ``pilot_smoke``

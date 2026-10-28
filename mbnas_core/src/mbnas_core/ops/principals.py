@@ -1,8 +1,8 @@
-"""``mbnas-core-principal create|rotate|revoke|list`` - owner CLI for scoped principals (WP-2 contract section 1.3,
-design A3 section 11.1). Tokens are printed once (JSON on stdout) and only their sha256 is stored.
+"""``mbnas-core-principal create|rotate|revoke|list`` - owner CLI for scoped principals.
+Tokens are printed once (JSON on stdout) and only their sha256 is stored.
 
     mbnas-core-principal create --kind runner --runner-id R1 [--ttl-days 90]
-    mbnas-core-principal create --kind server [--ttl-days 365]   # the gateway's service token (WP-3): put it in the
+    mbnas-core-principal create --kind server [--ttl-days 365]   # the gateway's service token: put it in the
                                                                   # gateway environment; it calls /core/v1/console/*
     mbnas-core-principal create --kind admin [--ttl-days 1]      # owner-local token (admin scope: console + owner)
     mbnas-core-principal rotate <principal_id> [--grace-s 900]

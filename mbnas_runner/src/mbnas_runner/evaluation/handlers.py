@@ -5,7 +5,7 @@ and counts from the common evaluator on a split manifest, four gt/tp/fn/fp panel
 latency (all scopes, ``forward_and_postprocess`` is the fitness scope) on the job's device at the protocol's benchmark
 precision/batch/warmup/repeats with a device manifest, the FP16 weights-only size, the evaluation/split hashes and the
 artifact list (paths relative to the run directory). Fitness and the promotion gate are not computed here: the core
-scores the raw metrics with the source rung's weights (DD-A15). The latency of ``forward_and_postprocess`` runs at
+scores the raw metrics with the source rung's weights. The latency of ``forward_and_postprocess`` runs at
 the resolved ``console.benchmark.postprocess`` operating point (``latency_scope`` = e.g.
 ``forward_and_postprocess(conf=0.25,iou=0.7,max_det=300)``, part of ``evaluation_hash``); torchvision is imported
 before any NMS and the NMS implementation that ran is recorded as ``postprocess_runtime``. AP keeps the evaluator's
@@ -14,7 +14,7 @@ own floor (conf 0.001, max_det 300).
 ``run_evaluation_job(spec, emit)`` re-evaluates an existing evaluation snapshot (e.g. on another device entry or after
 an evaluator fix). The final evaluation split is refused unless ``spec.arm == "Final"`` (search never sees it).
 
-CPU device (DD-A32 / DD-A60 (4)): latency is measured on a CUDA device only, so on a job device that is not a CUDA
+CPU device: latency is measured on a CUDA device only, so on a job device that is not a CUDA
 device - a CPU-only runner maps the core's ``cuda:0`` to ``cpu`` - :func:`evaluate_checkpoint` measures nothing and
 touches no CUDA API (no ``Torch not compiled with CUDA enabled`` AssertionError): it returns the
 :func:`not_evaluated_payload` (``evaluation_status``/``performance_status`` ``NOT_EVALUATED``, ``reason_code``
@@ -72,7 +72,7 @@ class EvalJobParams(BaseModel):
 def latency_device_problem(device: str) -> str | None:
     """Why no evaluation can be measured on the job ``device``, or None for a CUDA device (``cuda`` / ``cuda:N``).
 
-    Only the device NAME is inspected - no CUDA call - so a CPU device (a CPU-only runner, DD-A32) is recognised before
+    Only the device NAME is inspected - no CUDA call - so a CPU device (a CPU-only runner) is recognised before
     anything touches CUDA (on a CPU-only torch build any CUDA call raises ``AssertionError: Torch not compiled with
     CUDA enabled``). A CUDA device that turns out to be unusable keeps failing as before (that is a broken GPU host,
     not the CPU path)."""
@@ -87,7 +87,7 @@ def not_evaluated_payload(*, reason: str, device: str, device_entry: str | None,
                           input_shape: list[int] | tuple[int, int], benchmark: Mapping[str, Any], split: str,
                           epochs: int, eval_ckpt: str | Path | None = None, eval_sha256: str | None = None,
                           checkpoint_path: str | None = None, checkpoint_sha256: str | None = None) -> dict[str, Any]:
-    """Evaluation payload of a snapshot that was NOT evaluated (DD-A60 (4)): ``NOT_EVALUATED`` with reason
+    """Evaluation payload of a snapshot that was NOT evaluated: ``NOT_EVALUATED`` with reason
     ``EVALUATION_REQUIRES_CUDA`` and the human-readable ``reason``, ``latency_source`` ``pending``, ``ap`` / ``recall``
     / ``latency_ms`` / ``size_mb`` / hashes null (never a made-up value, never fitness input), the latency scope the
     protocol asked for, and the checkpoint references so the trained snapshot is kept. Same keys the callers read from
@@ -157,7 +157,7 @@ def evaluate_checkpoint(adapter: Any, eval_ckpt: str | Path, manifest: Any, *, r
 
     ``split`` names the manifest's split (``search_val`` or ``final_eval``); it labels the panels and the payload.
     On a device that is not a CUDA device (:func:`latency_device_problem`) nothing is measured or written: the
-    :func:`not_evaluated_payload` of this snapshot is returned (DD-A60 (4)).
+    :func:`not_evaluated_payload` of this snapshot is returned.
     """
     problem = latency_device_problem(device)
     if problem is not None:

@@ -1,0 +1,7 @@
+Member check on the DD-A75 tree (5-package sha256:26e02259bb83eca0cf56e7e11bd9e216d383361a57fd70082f2ff9c0c346de13; public 4-package sha256:9859adb218145b9feccb1c0be8c1c6a51eaed90dfe575a0b5e1b10dd63aff4a3)
+Are the current source files byte-identical to every non-generated member of the final public/registration ZIPs?
+  public (mbnas_application-0.1.0-public-runtime-linux_x86_64.zip, sha256 bc0500bdfa43ddf5…): 475 rows: identical 468, generated/wheels 7, differing 0
+  registration (mbnas_application-0.1.0-registration-runtime-linux_x86_64.zip, sha256 dea510dfb54dd85d…): 485 rows: identical 477, generated/wheels 8, differing 0
+Files changed since 1b4bd1a4… (DD-A75 F1/F2, DD-A74) and earlier fix files — membership in the public/registration ZIPs:
+  public: changed files that are members: []; members under mbnas_core/, tests/owner/, scripts/dev/, docs/internal/: []
+  registration: changed files that are members: []; members under mbnas_core/, tests/owner/, scripts/dev/, docs/internal/: []

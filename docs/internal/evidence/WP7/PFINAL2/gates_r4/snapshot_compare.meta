@@ -1,0 +1,3 @@
+start 2026-10-28T05:47:41Z cwd=/home/mgjeong/Desktop/etri_hd/mbnas_application interpreter=runtime/venv/bin/python tree=sha256:8fc93f2a596891174c2884e1697fd6003377b713102c0b21b01eb45d3f6f7312 tree_public4=sha256:9859adb218145b9feccb1c0be8c1c6a51eaed90dfe575a0b5e1b10dd63aff4a3
+cmd: runtime/venv/bin/python -B scripts/dev/snapshot_compare.py --json-out docs/internal/evidence/WP7/PFINAL2/gates_r4/snapshot_compare.json
+exit=0 dur=0s end=2026-10-28T05:47:41Z

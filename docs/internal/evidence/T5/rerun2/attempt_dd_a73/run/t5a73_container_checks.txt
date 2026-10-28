@@ -1,0 +1,17 @@
+## t5a73-gw: import mbnas_core
+ModuleNotFoundError: No module named 'mbnas_core'
+exit=1
+## t5a73-gw: find_spec / dists / *mbnas_core* files
+find_spec(mbnas_core)= None
+['mbnas-contracts', 'mbnas-model-runtime', 'mbnas-runner', 'mbnas-server']
+0
+## t5a73-runner: import mbnas_core
+ModuleNotFoundError: No module named 'mbnas_core'
+exit=1
+## t5a73-runner: find_spec / dists / *mbnas_core* files
+find_spec(mbnas_core)= None
+['mbnas-contracts', 'mbnas-model-runtime', 'mbnas-runner', 'mbnas-server']
+0
+## runner id: runner-3c560d74 format_ok=1 contains_host_name=0 runner_env_has_RUNNER_ID=0
+## schema_version: 6
+## core processes: secret-like keys in /proc environ: 0 (secrets read via --env-file)

@@ -6,7 +6,7 @@ the handler for the job kind expects, see :mod:`mbnas_contracts.jobs_protocol`),
 reports through JSONL ``ProgressMessage`` lines on the original stdout. Everything else written to fd 1 by libraries is
 redirected to stderr (the caller stores stderr in the per-attempt job log). The last line is always one ``result``
 message; the exit code is 0 for SUCCEEDED, 3 otherwise. The child has no database and imports nothing from the core:
-who writes the spec file (smoke runs and tests today, the runner service from WP-2 on) is not its concern.
+who writes the spec file (the runner service, smoke runs, tests) is not its concern.
 
 GPU job kinds import torchvision before the handler runs: ultralytics' NMS (native per-epoch validation, AP
 evaluation, latency) uses ``torchvision.ops.nms`` only when torchvision is already imported and otherwise falls back to
@@ -85,9 +85,9 @@ def observed_cuda_device() -> dict[str, Any]:
 
 
 def with_observed_device(spec: JobSpec, result: JobResult) -> JobResult:
-    """DD-A49 (a), child side: results of the device kinds (:data:`NMS_KINDS`) carry the CUDA device the job ran on
+    """Child side: results of the device kinds (:data:`NMS_KINDS`) carry the CUDA device the job ran on
     (:func:`observed_cuda_device`); values the handler set itself are kept. The runner daemon completes and, for a
-    CPU-only runner (DD-A32), overrides them before the commit (``RunnerDaemon._with_device``)."""
+    CPU-only runner, overrides them before the commit (``RunnerDaemon._with_device``)."""
     if spec.kind.value not in NMS_KINDS:
         return result
     seen = observed_cuda_device()

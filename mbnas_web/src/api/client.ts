@@ -2,7 +2,7 @@
  * Typed fetch wrapper for the MBNAS server (REST prefix /api/v1).
  *
  * Origin rules: the configured origin is either '' (same origin: in production the gateway serves this bundle and the API
- * together, DD-A30; in development the Vite dev proxy forwards /api to the local gateway) or an explicit
+ * together; in development the Vite dev proxy forwards /api to the local gateway) or an explicit
  * `https://host[:port]`; plain `http://` is accepted only for localhost / 127.0.0.1 / [::1].
  * The bearer token is passed in by the caller (React state), is never persisted, never placed in a URL,
  * and is sent only to the configured API origin (see `isApiOrigin`).
@@ -297,7 +297,7 @@ export class ApiClient {
     return this.json<RegistryStructure>(`/api/v1/registry/${encodeURIComponent(modelId)}/structure-check`, { method: 'POST', body: inputSize === undefined ? {} : { input_size: inputSize }, timeoutMs: 180000 });
   }
 
-  /** Static block design-origin table (DD-38); the server imports nothing for it. In the contract since 1.4.2 (generated BlockCatalogTable). */
+  /** Static block design-origin table; the server imports nothing for it. In the contract since 1.4.2 (generated BlockCatalogTable). */
   blockCatalog(signal?: AbortSignal): Promise<BlockCatalogTable> {
     return this.json<BlockCatalogTable>('/api/v1/structure/block-catalog', { signal });
   }
@@ -311,7 +311,7 @@ export class ApiClient {
   }
 
   /**
-   * F5a: upload a detector model configuration YAML as a raw body (the bytes are sent unchanged; the file name travels in
+   * Upload a detector model configuration YAML as a raw body (the bytes are sent unchanged; the file name travels in
    * `?filename=` so any Unicode name is safe, unlike a header). The gateway stores the original bytes content-addressed and
    * answers {upload_id, source_sha256, bytes}; it never returns a server path.
    */
@@ -321,7 +321,7 @@ export class ApiClient {
     });
   }
 
-  /** F5d: configuration revisions of a candidate, oldest first (original / selected / executed / generated). */
+  /** Configuration revisions of a candidate, oldest first (original / selected / executed / generated). */
   configRevisions(runId: string, candidateId: string, signal?: AbortSignal): Promise<ModelConfigRevisionList> {
     return this.json<ModelConfigRevisionList>(`/api/v1/runs/${encodeURIComponent(runId)}/candidates/${encodeURIComponent(candidateId)}/config-revisions`, { signal });
   }
@@ -333,7 +333,7 @@ export class ApiClient {
     return { blob: await res.blob(), headerSha256: header ? header.trim().toLowerCase().replace(/^sha256:/, '') : null };
   }
 
-  /** Bytes of one registered run artifact by id (never by path; DD-A39: digest-checked by the gateway store). */
+  /** Bytes of one registered run artifact by id (never by path; digest-checked by the gateway store). */
   async artifactBytes(runId: string, artifactId: string): Promise<RevisionBytes> {
     const res = await this.raw(`/api/v1/runs/${encodeURIComponent(runId)}/artifacts/${encodeURIComponent(artifactId)}`, { headers: { Accept: '*/*' }, timeoutMs: 600000 });
     const header = res.headers.get('x-artifact-sha256');

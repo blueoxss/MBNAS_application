@@ -1,0 +1,24 @@
+{
+ "gen_run": "run-88c59d217e8f",
+ "gen_candidate": "run-88c59d217e8f:RAND:s7:g00:c000",
+ "last_download_sha": "382bad5ebda9050d116c6b5c908994200cd37adc61098dee42c424735da098ba",
+ "gen_arch_ok": true,
+ "gen_arch_sha": "6999dc2b24664927e03d6ccaaac84c132834261597c5f9f306fa6caa3cefecfd",
+ "genetri_gen_run": "run-88c59d217e8f",
+ "genetri_candidate": "run-88c59d217e8f:RAND:s7:g00:c000",
+ "genetri_blocks": [
+  "NASGlobalTransformer"
+ ],
+ "genconfig_run": "train-be84e912c42c",
+ "genconfig_candidate": "model-7333f32156de",
+ "upload_id": "upl-ecb6c44bd2b024d8e8edd5a1adc8421a39a1f5ad35b3d6de9d1087c320592720",
+ "train_run": "train-587eeb4e31be",
+ "train_candidate": "model-ff9c51afaf03",
+ "paused_epochs": [
+  1
+ ],
+ "trainval_run": "train-554acdd5b4ea",
+ "trainval_candidate": "model-3b3f6e4649d9",
+ "train3_run": "train-9bf2edcef48a",
+ "train3_candidate": "model-166813f9e7c5"
+}

@@ -1,0 +1,181 @@
+# started: 2026-10-28 13:48:58 KST
+# cwd: /home/mgjeong/Desktop/etri_hd/mbnas_application
+# env: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1
+# projection.py sha256: 320398a0aaf4ebacd37c0146a75328e8ab3711d41f7f84cea6b951a3f46da430
+# command: runtime/venv/bin/python -m pytest -p no:cacheprovider -m "not gpu and not live and not legacy_records and not host_data" -q -rfE tests/owner/projection/test_dd_a75_raw_metrics_paths.py
+
+......FFFFFFFF.                                                          [100%]
+=================================== FAILURES ===================================
+__________ test_abc_no_absolute_path_in_any_public_surface[snapshot] ___________
+
+surface = 'snapshot'
+
+    @pytest.mark.parametrize("surface", ("snapshot", "candidate_detail", "sse", "export"))
+    def test_abc_no_absolute_path_in_any_public_surface(surface: str) -> None:
+        _, text, raws = project_surfaces(stored_row())[surface]
+>       assert _leaks(text) == [], (surface, _leaks(text))
+E       AssertionError: ('snapshot', ['/home/mbnas-owner/datasets/pilot_smoke/data.yaml', '/home/mbnas-owner/mbnas/runtime/runner/work/train-0...train-0123456789ab/model-0123456789ab/ultralytics/TRAIN/weights/last.pt', '/tmp/mbnas-runner-cache/labels.cache', ...])
+E       assert ['/home/mbnas...s.cache', ...] == []
+E         
+E         Left contains 18 more items, first extra item: '/home/mbnas-owner/datasets/pilot_smoke/data.yaml'
+E         Use -v to get more diff
+
+tests/owner/projection/test_dd_a75_raw_metrics_paths.py:154: AssertionError
+______ test_abc_no_absolute_path_in_any_public_surface[candidate_detail] _______
+
+surface = 'candidate_detail'
+
+    @pytest.mark.parametrize("surface", ("snapshot", "candidate_detail", "sse", "export"))
+    def test_abc_no_absolute_path_in_any_public_surface(surface: str) -> None:
+        _, text, raws = project_surfaces(stored_row())[surface]
+>       assert _leaks(text) == [], (surface, _leaks(text))
+E       AssertionError: ('candidate_detail', ['/home/mbnas-owner/datasets/pilot_smoke/data.yaml', '/home/mbnas-owner/mbnas/runtime/runner/work...runs/train-0123456789ab/model-0123456789ab/ultralytics/TRAIN/weights/last.pt', '/tmp/mbnas-runner-cache/labels.cache'])
+E       assert ['/home/mbnas...labels.cache'] == []
+E         
+E         Left contains 6 more items, first extra item: '/home/mbnas-owner/datasets/pilot_smoke/data.yaml'
+E         Use -v to get more diff
+
+tests/owner/projection/test_dd_a75_raw_metrics_paths.py:154: AssertionError
+_____________ test_abc_no_absolute_path_in_any_public_surface[sse] _____________
+
+surface = 'sse'
+
+    @pytest.mark.parametrize("surface", ("snapshot", "candidate_detail", "sse", "export"))
+    def test_abc_no_absolute_path_in_any_public_surface(surface: str) -> None:
+        _, text, raws = project_surfaces(stored_row())[surface]
+>       assert _leaks(text) == [], (surface, _leaks(text))
+E       AssertionError: ('sse', ['/home/mbnas-owner/datasets/pilot_smoke/data.yaml', '/home/mbnas-owner/mbnas/runtime/runner/work/train-012345...train-0123456789ab/model-0123456789ab/ultralytics/TRAIN/weights/last.pt', '/tmp/mbnas-runner-cache/labels.cache', ...])
+E       assert ['/home/mbnas...s.cache', ...] == []
+E         
+E         Left contains 12 more items, first extra item: '/home/mbnas-owner/datasets/pilot_smoke/data.yaml'
+E         Use -v to get more diff
+
+tests/owner/projection/test_dd_a75_raw_metrics_paths.py:154: AssertionError
+___________ test_abc_no_absolute_path_in_any_public_surface[export] ____________
+
+surface = 'export'
+
+    @pytest.mark.parametrize("surface", ("snapshot", "candidate_detail", "sse", "export"))
+    def test_abc_no_absolute_path_in_any_public_surface(surface: str) -> None:
+        _, text, raws = project_surfaces(stored_row())[surface]
+>       assert _leaks(text) == [], (surface, _leaks(text))
+E       AssertionError: ('export', ['/home/mbnas-owner/datasets/pilot_smoke/data.yaml', '/home/mbnas-owner/mbnas/runtime/runner/work/train-012...runs/train-0123456789ab/model-0123456789ab/ultralytics/TRAIN/weights/last.pt', '/tmp/mbnas-runner-cache/labels.cache'])
+E       assert ['/home/mbnas...labels.cache'] == []
+E         
+E         Left contains 6 more items, first extra item: '/home/mbnas-owner/datasets/pilot_smoke/data.yaml'
+E         Use -v to get more diff
+
+tests/owner/projection/test_dd_a75_raw_metrics_paths.py:154: AssertionError
+_________ test_d_non_path_values_keys_and_device_ids_survive[snapshot] _________
+
+surface = 'snapshot'
+
+    @pytest.mark.parametrize("surface", ("snapshot", "candidate_detail", "sse", "export"))
+    def test_d_non_path_values_keys_and_device_ids_survive(surface: str) -> None:
+        row = stored_row()
+        stored = copy.deepcopy(row)
+        _, _, raws = project_surfaces(row)[surface]
+        assert row == stored, "the stored row is never rewritten by the projection"
+        recipe = stored["raw_metrics"]["resolved_recipe"]
+        for raw in raws:
+            rr = raw["resolved_recipe"]
+            assert set(rr) == set(recipe), "keys unchanged"
+>           assert {k: rr[k] for k in RECIPE_PATHS} == {k: "<path>" for k in RECIPE_PATHS}
+E           AssertionError: assert {'data': '/ho...lytics/TRAIN'} == {'data': '<pa...ir': '<path>'}
+E             
+E             Differing items:
+E             {'model': '/home/mbnas-owner/mbnas/runtime/runner/work/train-0123456789ab/model-0123456789ab/model.yaml'} != {'model': '<path>'}
+E             {'save_dir': '/work/runs/train-0123456789ab/model-0123456789ab/ultralytics/TRAIN'} != {'save_dir': '<path>'}
+E             {'project': '/work/runs/train-0123456789ab/model-0123456789ab/ultralytics'} != {'project': '<path>'}
+E             {'data': '/home/mbnas-owner/datasets/pilot_smoke/data.yaml'} != {'data': '<path>'}
+E             Use -v to get more diff
+
+tests/owner/projection/test_dd_a75_raw_metrics_paths.py:170: AssertionError
+_____ test_d_non_path_values_keys_and_device_ids_survive[candidate_detail] _____
+
+surface = 'candidate_detail'
+
+    @pytest.mark.parametrize("surface", ("snapshot", "candidate_detail", "sse", "export"))
+    def test_d_non_path_values_keys_and_device_ids_survive(surface: str) -> None:
+        row = stored_row()
+        stored = copy.deepcopy(row)
+        _, _, raws = project_surfaces(row)[surface]
+        assert row == stored, "the stored row is never rewritten by the projection"
+        recipe = stored["raw_metrics"]["resolved_recipe"]
+        for raw in raws:
+            rr = raw["resolved_recipe"]
+            assert set(rr) == set(recipe), "keys unchanged"
+>           assert {k: rr[k] for k in RECIPE_PATHS} == {k: "<path>" for k in RECIPE_PATHS}
+E           AssertionError: assert {'data': '/ho...lytics/TRAIN'} == {'data': '<pa...ir': '<path>'}
+E             
+E             Differing items:
+E             {'model': '/home/mbnas-owner/mbnas/runtime/runner/work/train-0123456789ab/model-0123456789ab/model.yaml'} != {'model': '<path>'}
+E             {'save_dir': '/work/runs/train-0123456789ab/model-0123456789ab/ultralytics/TRAIN'} != {'save_dir': '<path>'}
+E             {'project': '/work/runs/train-0123456789ab/model-0123456789ab/ultralytics'} != {'project': '<path>'}
+E             {'data': '/home/mbnas-owner/datasets/pilot_smoke/data.yaml'} != {'data': '<path>'}
+E             Use -v to get more diff
+
+tests/owner/projection/test_dd_a75_raw_metrics_paths.py:170: AssertionError
+___________ test_d_non_path_values_keys_and_device_ids_survive[sse] ____________
+
+surface = 'sse'
+
+    @pytest.mark.parametrize("surface", ("snapshot", "candidate_detail", "sse", "export"))
+    def test_d_non_path_values_keys_and_device_ids_survive(surface: str) -> None:
+        row = stored_row()
+        stored = copy.deepcopy(row)
+        _, _, raws = project_surfaces(row)[surface]
+        assert row == stored, "the stored row is never rewritten by the projection"
+        recipe = stored["raw_metrics"]["resolved_recipe"]
+        for raw in raws:
+            rr = raw["resolved_recipe"]
+            assert set(rr) == set(recipe), "keys unchanged"
+>           assert {k: rr[k] for k in RECIPE_PATHS} == {k: "<path>" for k in RECIPE_PATHS}
+E           AssertionError: assert {'data': '/ho...lytics/TRAIN'} == {'data': '<pa...ir': '<path>'}
+E             
+E             Differing items:
+E             {'model': '/home/mbnas-owner/mbnas/runtime/runner/work/train-0123456789ab/model-0123456789ab/model.yaml'} != {'model': '<path>'}
+E             {'save_dir': '/work/runs/train-0123456789ab/model-0123456789ab/ultralytics/TRAIN'} != {'save_dir': '<path>'}
+E             {'project': '/work/runs/train-0123456789ab/model-0123456789ab/ultralytics'} != {'project': '<path>'}
+E             {'data': '/home/mbnas-owner/datasets/pilot_smoke/data.yaml'} != {'data': '<path>'}
+E             Use -v to get more diff
+
+tests/owner/projection/test_dd_a75_raw_metrics_paths.py:170: AssertionError
+__________ test_d_non_path_values_keys_and_device_ids_survive[export] __________
+
+surface = 'export'
+
+    @pytest.mark.parametrize("surface", ("snapshot", "candidate_detail", "sse", "export"))
+    def test_d_non_path_values_keys_and_device_ids_survive(surface: str) -> None:
+        row = stored_row()
+        stored = copy.deepcopy(row)
+        _, _, raws = project_surfaces(row)[surface]
+        assert row == stored, "the stored row is never rewritten by the projection"
+        recipe = stored["raw_metrics"]["resolved_recipe"]
+        for raw in raws:
+            rr = raw["resolved_recipe"]
+            assert set(rr) == set(recipe), "keys unchanged"
+>           assert {k: rr[k] for k in RECIPE_PATHS} == {k: "<path>" for k in RECIPE_PATHS}
+E           AssertionError: assert {'data': '/ho...lytics/TRAIN'} == {'data': '<pa...ir': '<path>'}
+E             
+E             Differing items:
+E             {'model': '/home/mbnas-owner/mbnas/runtime/runner/work/train-0123456789ab/model-0123456789ab/model.yaml'} != {'model': '<path>'}
+E             {'save_dir': '/work/runs/train-0123456789ab/model-0123456789ab/ultralytics/TRAIN'} != {'save_dir': '<path>'}
+E             {'project': '/work/runs/train-0123456789ab/model-0123456789ab/ultralytics'} != {'project': '<path>'}
+E             {'data': '/home/mbnas-owner/datasets/pilot_smoke/data.yaml'} != {'data': '<path>'}
+E             Use -v to get more diff
+
+tests/owner/projection/test_dd_a75_raw_metrics_paths.py:170: AssertionError
+=========================== short test summary info ============================
+FAILED tests/owner/projection/test_dd_a75_raw_metrics_paths.py::test_abc_no_absolute_path_in_any_public_surface[snapshot]
+FAILED tests/owner/projection/test_dd_a75_raw_metrics_paths.py::test_abc_no_absolute_path_in_any_public_surface[candidate_detail]
+FAILED tests/owner/projection/test_dd_a75_raw_metrics_paths.py::test_abc_no_absolute_path_in_any_public_surface[sse]
+FAILED tests/owner/projection/test_dd_a75_raw_metrics_paths.py::test_abc_no_absolute_path_in_any_public_surface[export]
+FAILED tests/owner/projection/test_dd_a75_raw_metrics_paths.py::test_d_non_path_values_keys_and_device_ids_survive[snapshot]
+FAILED tests/owner/projection/test_dd_a75_raw_metrics_paths.py::test_d_non_path_values_keys_and_device_ids_survive[candidate_detail]
+FAILED tests/owner/projection/test_dd_a75_raw_metrics_paths.py::test_d_non_path_values_keys_and_device_ids_survive[sse]
+FAILED tests/owner/projection/test_dd_a75_raw_metrics_paths.py::test_d_non_path_values_keys_and_device_ids_survive[export]
+8 failed, 7 passed in 0.71s
+
+# exit code: 1
+# finished: 2026-10-28 13:48:59 KST (wall 1 s)

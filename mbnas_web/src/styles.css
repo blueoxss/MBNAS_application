@@ -1,6 +1,6 @@
 /*
  * MBNAS research console styles.
- * Design tokens live on :root and are checked by tests/contrast.test.ts (normal text >= 4.5:1).
+ * Design tokens live on :root; normal text keeps a contrast of at least 4.5:1.
  * Documented text/background pairs:
  *   --text on --bg / --surface / --surface-2, --text-muted on --bg / --surface / --surface-2,
  *   --sidebar-text and --sidebar-muted on --sidebar-bg / --sidebar-bg-hover,
@@ -251,7 +251,7 @@ input[type='range'] { width: 100%; accent-color: var(--accent); }
 }
 .run-pick .mono { overflow-wrap: normal; word-break: normal; white-space: nowrap; }
 
-/* ---------- configuration revision diff (WP-6B, F5e): text markers +/− carry the meaning, colours only reinforce it ---------- */
+/* ---------- configuration revision diff: text markers +/− carry the meaning, colours only reinforce it ---------- */
 table.diff-table { border-collapse: collapse; width: 100%; font-size: 0.85rem; background: var(--surface); }
 table.diff-table th { text-align: left; font-weight: 600; padding: 4px 8px; border-bottom: 1px solid var(--border); background: var(--surface-2); white-space: nowrap; }
 table.diff-table td { padding: 1px 8px; vertical-align: top; }

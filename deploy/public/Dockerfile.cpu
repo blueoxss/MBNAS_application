@@ -1,8 +1,8 @@
-# MBNAS Research Console 0.1.0 - PUBLIC runtime image, CPU ONLY (DD-A31, WP-7 section 1b): CPU smoke and hosts
+# MBNAS Research Console 0.1.0 - PUBLIC runtime image, CPU ONLY (standard pip installation path): CPU smoke and hosts
 # without an NVIDIA GPU. Same roles as deploy/public/Dockerfile (gateway | runner), built from requirements-cpu.txt
 # (torch/torchvision +cpu builds; not the verified cu124 platform). CUDA_VISIBLE_DEVICES is empty, so a runner
 # registers as a CPU runner: training, checkpoints, structure checks and OFF generation run; evaluation latency needs
-# CUDA, so CPU evaluations stay latency_source=pending (DD-A32). No private core package, no secrets in the image.
+# CUDA, so CPU evaluations stay latency_source=pending. No private core package, no secrets in the image.
 #
 # Build context = the unpacked public ZIP root (requirements-cpu.txt, wheels/, mbnas_web/dist):
 #   docker build -f deploy/public/Dockerfile.cpu -t mbnas-public-cpu:0.1.0 .

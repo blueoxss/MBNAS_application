@@ -1,4 +1,4 @@
-"""``/api/v1`` relay routers of the gateway (WP-3 contract section 2.2-2.5; WEB_PRIVATE_INVENTORY section 7).
+"""``/api/v1`` relay routers of the gateway.
 
 Every console route is forwarded to core ``<core_url><core_prefix><same sub-path>`` with the service token
 (:mod:`mbnas_server.api.core_client`); query strings, ``Idempotency-Key`` and ``Last-Event-ID`` are forwarded, the gateway
@@ -15,17 +15,17 @@ Route-specific work:
 * ``POST /protocols/validate`` — :mod:`validate_prep` adds ``path_checks`` / ``dataset_yaml`` / ``dataset_manifests`` and the
   answer's ``resolution.paths.*.realpath`` is scrubbed to ``requested``. Host inputs a browser put in the body are
   dropped first (only this gateway measures its host; the core trusts them). A valid answer's inputs are cached by its
-  ``protocol_hash`` (DD-A46, :mod:`mbnas_server.api.gateway_inputs`).
-* ``POST /runs``, ``POST /training-runs``, ``POST /runs/{id}/final-retrain`` (DD-A46) and ``POST /runs/{id}/resume``
+  ``protocol_hash`` (:mod:`mbnas_server.api.gateway_inputs`).
+* ``POST /runs``, ``POST /training-runs``, ``POST /runs/{id}/final-retrain`` and ``POST /runs/{id}/resume``
   (re-validated before a PAUSED run resumes) — the same host inputs are attached (measured now from the request's
   protocol, for a final retrain / resume from the run's protocol in core's run view; the cache entry of the protocol
   hash when there is nothing to measure), so the core re-validates with the customer host's view instead of its own
   filesystem; browser-supplied host inputs are dropped. Nothing is attached without ``dataset_roots``.
 * ``POST /structure-check`` and ``POST /training-runs`` (``source.kind == "user"``) — ``upload_id`` (or a legacy absolute
   ``model_path`` read on this host) is replaced by ``model_yaml_text`` + ``source_sha256`` (+ ``model_name``), so core
-  never receives a path for a translated request; body problems go to core unchanged (DD-A44 (d),
-  :func:`mbnas_server.api.uploads.carry_model_source`). Without ``model_yaml_roots`` and ``output_roots`` an absolute
-  ``model_path`` goes to core unchanged (DD-A47 (d), owner all-in-one: core checks its own roots).
+  never receives a path for a translated request; body problems go to core unchanged
+  (:func:`mbnas_server.api.uploads.carry_model_source`). Without ``model_yaml_roots`` and ``output_roots`` an absolute
+  ``model_path`` goes to core unchanged (owner all-in-one: core checks its own roots).
 * ``GET /runs/{id}/events`` — SSE relay, frame-faithful (``after_seq`` forwarded, ``Last-Event-ID`` only when it is a
   decimal sequence number; gateway heartbeat comment when core is silent for ``sse_heartbeat_s``). When core ends the
   stream the browser stream ends too (never a synthesized ``snapshot.required``); when it fails mid-way a ``retry:``
@@ -34,8 +34,8 @@ Route-specific work:
 Every path parameter goes into the core URL through :func:`mbnas_server.api.path_guard.segment` (one percent-encoded
 segment; 404 ``NOT_FOUND`` for a dot segment or a control character), and JSON bodies the gateway re-encodes are parsed
 strictly (``NaN``/``Infinity``/overflowing numbers: 422 ``VALIDATION_FAILED``, never echoed).
-* Artifact bytes, refresh, export and the configuration revisions: :mod:`mbnas_server.api.artifact_routes` (WP-5B:
-  bytes from the gateway's artifact store, records from core).
+* Artifact bytes, refresh, export and the configuration revisions: :mod:`mbnas_server.api.artifact_routes` (bytes
+  from the gateway's artifact store, records from core).
 """
 from __future__ import annotations
 
@@ -67,7 +67,7 @@ SSE_HEADERS = {"Cache-Control": "no-cache", "X-Accel-Buffering": "no", "Connecti
 SSE_RETRY_MS = 3000
 RETRY = f"retry: {SSE_RETRY_MS}\n\n".encode()  # sent when the core stream fails mid-way (core already sent one at start)
 LAST_EVENT_ID = re.compile(r"[0-9]+")
-# DD-A44 (d): the keys core's POST /structure-check and TrainingSource accept; a legacy model_path request is translated
+# the keys core's POST /structure-check and TrainingSource accept; a legacy model_path request is translated
 # to model_yaml_text only when its keys are a subset of these (else core answers the body problem itself)
 STRUCTURE_CHECK_KEYS = frozenset({"model_path", "model_yaml_text", "source_sha256", "model_name", "input_size",
                                   "class_count"})
@@ -214,7 +214,7 @@ async def health(request: Request) -> JSONResponse:
     if not gateway["store_writable"] and body.get("status") == "ok":
         body["status"] = "degraded"
         body.setdefault("warnings", []).append("gateway: artifact store not writable")
-    # DD-A19 / DD-A59 (a): the allowlists are the customer host's roots, i.e. this gateway's own settings (empty lists
+    # the allowlists are the customer host's roots, i.e. this gateway's own settings (empty lists
     # when unset) plus its read-only archive roots. The core's allowlists name core-host paths: never relayed, also not
     # as a fallback when the gateway has no roots of its own.
     body["allowlists"] = {"dataset_roots": list(s.dataset_roots), "output_roots": list(s.output_roots),
@@ -251,7 +251,7 @@ async def validate(request: Request) -> Response:
         return _response(request, resp)
     inputs = gateway_inputs.inputs_of(body)
     if inputs is not None and isinstance(answer, dict) and answer.get("valid") and answer.get("protocol_hash"):
-        await run_in_threadpool(_inputs_cache(request).put, answer["protocol_hash"], inputs)  # DD-A46
+        await run_in_threadpool(_inputs_cache(request).put, answer["protocol_hash"], inputs)
     return _response(request, resp, _rewrite(data, _url_pairs(request)))
 
 
@@ -263,7 +263,7 @@ def _hash_of(protocol: Any) -> str | None:
 
 
 async def _with_inputs(request: Request, body: Any, *, protocol_hash_: Any = None, protocol: Any = None) -> Any:
-    """``body`` (a JSON object) with browser-supplied host inputs dropped and this gateway's attached (DD-A46)."""
+    """``body`` (a JSON object) with browser-supplied host inputs dropped and this gateway's attached."""
     if not isinstance(body, dict):
         return body
     settings = _settings(request)

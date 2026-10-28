@@ -1,0 +1,7 @@
+$ (cwd=/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/pfinal2/t6r2) bash /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/mbnas_application/scripts/stop.sh --profile owner
+[stop] web: not running (no pid file)
+[stop] runner: stopped (pid 4101980, SIGTERM)
+[stop] gateway: stopped (pid 4101934, SIGTERM)
+[stop] owner-worker: stopped (pid 4101861, SIGTERM)
+[stop] core: stopped (pid 4101839, SIGTERM)
+exit=0

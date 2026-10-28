@@ -6,9 +6,7 @@
  * Every outcome is a state the UI prints as text; nothing ends in an endless spinner.
  * Also: the `Artifact.matching` record (nested `counts {tp,fp,fn,gt}`) and the per-sample recall (N/A when gt = 0).
  *
- * 재구현(2026-10-15), 원본 누락(리포 루트 .gitignore `lib/` 규칙으로 커밋되지 않음).
- * 근거 테스트: tests/api.test.ts ('artifact origin rule and states', 'Artifact.matching'), tests/components.test.tsx
- * ('ArtifactImage states'), e2e/console.spec.ts + e2e/hardening.spec.ts (artifact state machine), 사용처 src/components/ArtifactImage.tsx.
+ * 사용처: src/components/ArtifactImage.tsx.
  */
 import { ApiError, type ApiClient } from '../api/client';
 import type { Artifact } from '../api/types';
@@ -24,7 +22,7 @@ export interface ArtifactResult {
   isBlob?: boolean;
   /** human readable detail (only when there is something to say beyond the state name) */
   detail?: string;
-  /** `Error.code` of a failed download (the state is derived from it, DD-A39) */
+  /** `Error.code` of a failed download (the state is derived from it) */
   code?: string;
 }
 
@@ -36,7 +34,7 @@ export interface LoadContext {
 }
 
 /**
- * Error code of an artifact download -> state (DD-A39 / contract 1.5.0; the code decides, not the status): the gateway store
+ * Error code of an artifact download -> state (contract 1.5.0; the code decides, not the status): the gateway store
  * answers 404 ARTIFACT_NOT_READY while the bytes are not there yet and 409 LOAD_FAILED when the stored bytes no longer match
  * the registered sha256. null for a code this table does not know (then the HTTP status decides, for older servers).
  */

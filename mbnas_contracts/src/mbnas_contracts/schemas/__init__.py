@@ -26,9 +26,9 @@ CONTRACT_MODELS = {
     "RegistryEntry": RegistryEntry, "FinalRetrainRequest": FinalRetrainRequest,
     "GeneratedCandidate": GeneratedCandidate, "StructureReport": StructureReport,
     "BlockCatalog": BlockCatalog, "BlockCatalogEntry": BlockCatalogEntry, "BlockCatalogSummary": BlockCatalogSummary,
-    "BlockCatalogTable": BlockCatalogTable,  # contract 1.4.2 (DD-38)
+    "BlockCatalogTable": BlockCatalogTable,  # contract 1.4.2
     "TrainingRequest": TrainingRequest, "TrainingRunCreated": TrainingRunCreated,  # contract 1.4.0
-    # contract 1.5.0 (WP-4): RuntimeManifestStatus is a string-enum component, so its entry is the StrEnum itself
+    # contract 1.5.0: RuntimeManifestStatus is a string-enum component, so its entry is the StrEnum itself
     # (no model_json_schema; non-object components carry no properties to compare)
     "RuntimeManifestStatus": RuntimeManifestStatus, "ModelConfigRevision": ModelConfigRevision,
     "ModelConfigRevisionList": ModelConfigRevisionList, "UploadResponse": UploadResponse,

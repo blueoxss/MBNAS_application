@@ -1,0 +1,37 @@
+# T5 DD-A73 attempt — exact commands, in order, with exit codes. Agent P2, 2026-10-28 (UTC).
+# <ROOT> = TARGET_ROOT; <SP> = session scratchpad; <W> = <SP>/p2dd73; <H> = <ROOT>/runtime/test_root/t4t5/harness (scripts only).
+# Host owner core = the DD-A73 owner ZIP 53e6a1f0... install of the T4 attempt (<W>/t4/zip/mbnas_application), own MBNAS_HOME.
+# Public image reused: mbnas-public-cpu:final2 = sha256:a97cb3dd07c5ba03e59eb274fe393c1240c9c499054b5b283ed299a3cffb04c9 (public ZIP
+# bc0500bd... unchanged; build log + image scan in ../ (rerun2)). CPU only; no GPU, no /data, no etri_nas.
+
+cp -p <ROOT>/runtime/test_root/t4t5/final2/zips/...public...zip <W>/zips/ ; sha256sum -c   # bc0500bd... OK
+(cd <W>/t5/zip && unzip -q ...public...zip)                                                 # exit 0 (client inputs: examples/)
+
+## stack (<H>/t5a73_run.sh <phase>; console t5a73_console.txt) — core processes read secrets with --env-file
+bash t5a73_run.sh setup              # exit 0 (core.env 0600, DEVICE_SOURCE=runners, core-only dataset root)
+bash t5a73_run.sh core_start         # exit 0  mbnas-core-api --env-file core.env --host 127.0.0.1 --port 18750 ; owner worker --env-file
+bash t5a73_run.sh runner_id          # exit 0  image python persistent_runner_id() -> runner-3c560d74
+bash t5a73_run.sh principals         # exit 0  mbnas-core-principal --env-file core.env create --kind server / --kind runner --runner-id runner-3c560d74
+bash t5a73_run.sh containers_start   # exit 0  t5a73-gw (127.0.0.1:18760), t5a73-runner (CPU), --rm --init --network host
+
+## API (t45r2.py through the gateway; ETRI generated-config FIRST, before any structure-check call)
+bash t5a73_run.sh harness --items health,gen,waitdev,genetri,web,structure,train,results,download,sse,trainval,decision,train3,prunecheck --pause
+                                     # exit 0, 14/14 items PASS (during train3: capture_env during_train3, exit 0)
+<py3.10> -I - (inline, run/t5a73_pruned_state_flip_check.json)   # exit 0 (public state re-read after the store downloads)
+
+## checks / T8
+bash t5a73_run.sh capture_env idle   # exit 0 ; host core+owner-worker /proc environ captured (0600 scratch)
+docker exec t5a73-{gw,runner} python -c "import mbnas_core"       # exit 1 ModuleNotFoundError (expected)
+canary_scan.py ... <W>/t5/dump (6 927 files)                       # exit 0, 0 hits (118 needles)
+canary_scan.py ... <public logs> / <W>/t5/run/runtime (24 286 files) / <container /proc environ x4>   # exit 0, 0 hits each
+canary_scan.py --no-host-facts --secrets-env ... <core host /proc environ>   # exit 0, 0 hits
+canary_scan.py --no-host-facts --needles-file "/srv/mbnas/runtime/runner/" <W>/t5/dump   # exit 1: 12 hits (finding: runner paths in raw_metrics.resolved_recipe)
+canary_scan.py ... <probe + env files> (positive control)         # exit 1 as expected: 22 hits
+
+## core down / stop
+bash t5a73_run.sh core_stop          # exit 0 (both stopped)
+T5_LABEL=t5a73b bash t5a73_run.sh harness --items coredown        # exit 0 (degraded + 503 CORE_UNAVAILABLE)
+bash t5a73_run.sh logs               # exit 0
+bash t5a73_run.sh containers_stop    # exit 0, containers left: []
+<py3.10> -I <H>/reqid_link2.py ... --gw-access run/t5a73_gateway_container.log --core-access logs/core.log   # exit 0
+<py3.10> (inline) -> run/t5a73_no_structure_check_before_creation.txt   # exit 0 (access-log proof, T5 and both T4 variants)

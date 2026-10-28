@@ -1,4 +1,4 @@
-"""Event bus over the ``events`` table (PLAN §0: at-least-once, replayable, no Redis).
+"""Event bus over the ``events`` table (at-least-once, replayable, no Redis).
 
 Contract
 * :func:`emit` appends one event **inside the caller's open transaction** (``repo.append_event`` allocates the

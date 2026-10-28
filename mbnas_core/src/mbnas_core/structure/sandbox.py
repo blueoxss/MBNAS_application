@@ -1,4 +1,4 @@
-"""Subprocess sandbox of the explicit structure checks (REMOTE_PROTOCOL_DESIGN section 10.2, WP-3 contract 1.4).
+"""Subprocess sandbox of the explicit structure checks.
 
 A check builds an untrusted model description with torch/ultralytics; it never runs inside the API process. The
 parent (:class:`StructureSandbox`) starts

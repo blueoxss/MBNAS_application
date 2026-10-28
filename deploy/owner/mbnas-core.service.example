@@ -1,8 +1,7 @@
 # systemd unit EXAMPLE - MBNAS core API (owner host, PRIVATE): /core/v1/console (gateways), /core/v1/runner (runners),
-# /core/v1/owner (admin) on 127.0.0.1:8700. Adapted from the MBNAS_server mbnas-api.service.example of the source
-# snapshot (split architecture: the core keeps the DB, the search policy and the job queue).
+# /core/v1/owner (admin) on 127.0.0.1:8700. The core keeps the DB, the search policy and the job queue.
 #
-# Assumes the pip install path (DD-A31) in /opt/mbnas = the unpacked owner ZIP root:
+# Assumes the pip install path in /opt/mbnas = the unpacked owner ZIP root:
 #   cd /opt/mbnas && python3.10 -m venv .venv && .venv/bin/python -m pip install -r requirements-owner.txt
 # and /opt/mbnas/config/owner/core.env (from config/examples/core.env.example, owner mbnas, mode 0600) with the
 # generated MBNAS_CORE_API_TOKEN, MBNAS_CORE_ARTIFACT_SIGNING_KEY and MBNAS_CORE_TICKET_KEY.

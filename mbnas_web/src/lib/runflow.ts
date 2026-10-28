@@ -5,9 +5,7 @@
  *  - the key is sent as header and as `idempotency_key` in the body (the client does both);
  *  - Run sends the RESOLVED protocol with its hash and validation id, never the editor state.
  *
- * 재구현(2026-10-15), 원본 누락(리포 루트 .gitignore `lib/` 규칙으로 커밋되지 않음).
- * 근거 테스트: tests/api.test.ts ('Run idempotency'), tests/final_retrain.test.tsx ('POST /runs/{id}/final-retrain idempotency'),
- * tests/qa_hardening.test.ts (이 파일만 Math.random 폴백 허용), e2e/hardening.spec.ts, 사용처 src/state/context.tsx.
+ * 이 파일만 Math.random 폴백을 허용한다. 사용처: src/state/context.tsx.
  */
 import { ApiError, type ApiClient } from '../api/client';
 import type { FinalRetrainRequest, RunCreated, RunRequest, ValidateResponse } from '../api/types';

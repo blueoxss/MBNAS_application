@@ -1,0 +1,58 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.22, pytest-9.1.1, pluggy-1.6.0 -- <ROOT>/runtime/venv/bin/python
+rootdir: <ROOT>
+configfile: pyproject.toml
+plugins: anyio-4.15.1, timeout-2.4.0
+timeout: 600.0s
+timeout method: signal
+timeout func_only: False
+collecting ... collected 40 items
+
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_t4_sandbox_inventory_is_the_cpu_only_mode_with_the_cpu_entry PASSED [  2%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_t6_host_inventory_is_the_gpu_mode_with_the_unchanged_preset_device PASSED [  5%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_a_mixed_inventory_is_the_gpu_mode PASSED [  7%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_no_usable_inventory_is_unknown_and_keeps_the_gpu_mode_steps[200-health0] PASSED [ 10%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_no_usable_inventory_is_unknown_and_keeps_the_gpu_mode_steps[503-health1] PASSED [ 12%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_no_usable_inventory_is_unknown_and_keeps_the_gpu_mode_steps[None-health2] PASSED [ 15%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_no_usable_inventory_is_unknown_and_keeps_the_gpu_mode_steps[200-health3] PASSED [ 17%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_no_usable_inventory_is_unknown_and_keeps_the_gpu_mode_steps[200-not json] PASSED [ 20%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_no_usable_inventory_is_unknown_and_keeps_the_gpu_mode_steps[200-health5] PASSED [ 22%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_is_cpu_device[entry0-True] PASSED [ 25%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_is_cpu_device[entry1-True] PASSED [ 27%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_is_cpu_device[entry2-True] PASSED [ 30%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_is_cpu_device[entry3-False] PASSED [ 32%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_is_cpu_device[entry4-False] PASSED [ 35%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_is_cpu_device[entry5-False] PASSED [ 37%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_is_cpu_device[cpu-False] PASSED [ 40%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_is_cpu_device[None-False] PASSED [ 42%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_the_by_design_refusal_passes_every_cpu_check PASSED [ 45%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_deviation_from_the_by_design_answer_fails[answer0-refused_at_validate] PASSED [ 47%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_deviation_from_the_by_design_answer_fails[answer1-only_error_is_EVALUATION_REQUIRES_CUDA] PASSED [ 50%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_deviation_from_the_by_design_answer_fails[answer2-only_error_is_EVALUATION_REQUIRES_CUDA] PASSED [ 52%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_deviation_from_the_by_design_answer_fails[answer3-only_error_is_EVALUATION_REQUIRES_CUDA] PASSED [ 55%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_deviation_from_the_by_design_answer_fails[answer4-only_error_is_EVALUATION_REQUIRES_CUDA] PASSED [ 57%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_deviation_from_the_by_design_answer_fails[answer5-cpu_entry_resolved] PASSED [ 60%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_deviation_from_the_by_design_answer_fails[answer6-no_resolution_claim] PASSED [ 62%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_deviation_from_the_by_design_answer_fails[answer7-no_resolution_claim] PASSED [ 65%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_deviation_from_the_by_design_answer_fails[answer8-no_resolution_claim] PASSED [ 67%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_deviation_from_the_by_design_answer_fails[answer9-validation_host_gateway] PASSED [ 70%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_deviation_from_the_by_design_answer_fails[answer10-core_used_the_3_split_manifests] PASSED [ 72%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_deviation_from_the_by_design_answer_fails[answer11-core_used_the_3_split_manifests] PASSED [ 75%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_unverifiable_or_wrong_side_fact_fails[kw0-http_200] PASSED [ 77%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_unverifiable_or_wrong_side_fact_fails[kw1-no_validation_stored] PASSED [ 80%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_unverifiable_or_wrong_side_fact_fails[kw2-no_validation_stored] PASSED [ 82%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_unverifiable_or_wrong_side_fact_fails[kw3-gateway_split_hashes_set] PASSED [ 85%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_unverifiable_or_wrong_side_fact_fails[kw4-gateway_split_hashes_set] PASSED [ 87%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_unverifiable_or_wrong_side_fact_fails[kw5-gateway_split_hashes_set] PASSED [ 90%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_every_unverifiable_or_wrong_side_fact_fails[kw6-cpu_entry_resolved] PASSED [ 92%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_cpu_only_core_health_gives_the_cpu_mode_and_the_validator_refuses_exactly_as_expected PASSED [ 95%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_gpu_core_health_gives_the_gpu_mode_and_the_preset_device_still_validates PASSED [ 97%]
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_core_without_gpu_and_runner_is_unknown_not_cpu_only PASSED [100%]
+
+=============================== warnings summary ===============================
+tests/owner/qa/test_wp3_smoke_fleet_mode.py::test_cpu_only_core_health_gives_the_cpu_mode_and_the_validator_refuses_exactly_as_expected
+  <ROOT>/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 40 passed, 1 warning in 4.10s =========================

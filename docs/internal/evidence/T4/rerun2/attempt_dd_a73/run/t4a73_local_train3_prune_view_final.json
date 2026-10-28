@@ -1,0 +1,119 @@
+{
+ "prune_requests": [
+  {
+   "id": "prq-c4985f0d5167c4d6707baffe",
+   "checkpoint_id": "ck-fa15d77ff08f7cce",
+   "runner_id": "runner-b491a985",
+   "relpath": "full_e0001.pt",
+   "policy": "last_rung_end_only",
+   "reason": "RETENTION_LAST_RUNG_END_ONLY",
+   "state": "DONE",
+   "deliveries": 1,
+   "delivered_job_id": "job-eb289a6890594bc0",
+   "cancel_reason": null,
+   "reported_at": "2026-10-28T04:10:15.812601Z",
+   "report": {
+    "already_absent": true,
+    "removed": []
+   }
+  },
+  {
+   "id": "prq-4d1edc2baa4b662677739ecc",
+   "checkpoint_id": "ck-eefb4418016ada01",
+   "runner_id": "runner-b491a985",
+   "relpath": "full_e0002.pt",
+   "policy": "last_rung_end_only",
+   "reason": "RETENTION_LAST_RUNG_END_ONLY",
+   "state": "DONE",
+   "deliveries": 1,
+   "delivered_job_id": "job-eb289a6890594bc0",
+   "cancel_reason": null,
+   "reported_at": "2026-10-28T04:10:15.881488Z",
+   "report": {
+    "already_absent": true,
+    "removed": []
+   }
+  }
+ ],
+ "checkpoints": [
+  {
+   "id": "ck-e409d66dc41fa1cd",
+   "kind": "eval_ema",
+   "epoch": 3,
+   "state": "PRESENT",
+   "prune": null
+  },
+  {
+   "id": "ck-fa15d77ff08f7cce",
+   "kind": "training_full",
+   "epoch": 1,
+   "state": "PRUNED",
+   "prune": {
+    "policy": "last_rung_end_only",
+    "reason": "RETENTION_LAST_RUNG_END_ONLY",
+    "remote": true,
+    "already_absent": true,
+    "runner_id": "runner-b491a985"
+   }
+  },
+  {
+   "id": "ck-eefb4418016ada01",
+   "kind": "training_full",
+   "epoch": 2,
+   "state": "PRUNED",
+   "prune": {
+    "policy": "last_rung_end_only",
+    "reason": "RETENTION_LAST_RUNG_END_ONLY",
+    "remote": true,
+    "already_absent": true,
+    "runner_id": "runner-b491a985"
+   }
+  },
+  {
+   "id": "ck-8508bc4c2cc8e059",
+   "kind": "training_full",
+   "epoch": 3,
+   "state": "PRESENT",
+   "prune": null
+  },
+  {
+   "id": "ck-ddd5d1746df0310c",
+   "kind": "weights_only",
+   "epoch": 3,
+   "state": "PRESENT",
+   "prune": null
+  }
+ ],
+ "checkpoint_locations": [
+  {
+   "object_id": "ck-8508bc4c2cc8e059",
+   "store": "runner_local",
+   "state": "PRESENT"
+  },
+  {
+   "object_id": "ck-8508bc4c2cc8e059",
+   "store": "server_store",
+   "state": "PRESENT"
+  },
+  {
+   "object_id": "ck-ddd5d1746df0310c",
+   "store": "runner_local",
+   "state": "PRESENT"
+  },
+  {
+   "object_id": "ck-e409d66dc41fa1cd",
+   "store": "runner_local",
+   "state": "PRESENT"
+  },
+  {
+   "object_id": "ck-eefb4418016ada01",
+   "store": "runner_local",
+   "state": "PRUNED"
+  },
+  {
+   "object_id": "ck-fa15d77ff08f7cce",
+   "store": "runner_local",
+   "state": "PRUNED"
+  }
+ ]
+}

@@ -1,0 +1,23 @@
+# T5 DD-A75 targeted re-check — exact commands, in order, with exit codes. Agent P2, 2026-10-28 (UTC).
+# <W2> = <scratchpad>/p2a75; <H> = <ROOT>/runtime/test_root/t4t5/harness. Host owner core = the T4 DD-A75 install
+# ("<W2>/t4work/t4 공백 rootX7kQ2/mbnas_application", owner ZIP 9f03c484...); core home "<W2>/t5work/t5 공백 coreX8mR5"
+# (blank + unicode + token). Public image mbnas-public-cpu:final2 = sha256:a97cb3dd07c5... (public ZIP bc0500bd..., unchanged).
+# Runner work root inside the container: "/srv/mbnas/runtime/rw 작업 Zq9mT4". CPU only.
+
+bash <H>/t5a75_run.sh setup              # exit 0 (core.env 0600; DEVICE_SOURCE=runners; core-only dataset root)
+bash <H>/t5a75_run.sh core_start         # exit 0 (mbnas-core-api --env-file ...; owner worker --env-file; 0 secret keys in their environ)
+bash <H>/t5a75_run.sh runner_id          # exit 0 -> runner-4a98f8bc
+bash <H>/t5a75_run.sh principals         # exit 0
+bash <H>/t5a75_run.sh containers_start   # exit 0 (t5a75-gw 127.0.0.1:18760, t5a75-runner CPU; --rm --init --network host); schema_version 6
+bash <H>/t5a75_run.sh harness --items health,gen,waitdev,genetri,trainval,pathcheck,train3,prunecheck   # exit 0, 8/8 items
+bash <H>/t5a75_run.sh capture_env idle   # exit 0 (during_train3 capture ran inside the harness)
+docker exec t5a75-{gw,runner} python -c "import mbnas_core"    # exit 1 ModuleNotFoundError (expected)
+<py3.10> -I <H>/pathcheck_positive_control.py <H>/t45r3.py <pre-fix DD-A73 T5 candidate detail>   # exit 0: PASS (leak detected)
+canary_scan.py (128 needles incl. 5 planted fragments, 7 owner strings, 14 secrets) <W2>/t5work/dump      # exit 0, 5 123 files, 0 hits
+canary_scan.py ... <public logs> / <gateway /proc environ x2>                                            # exit 0, 0 hits
+canary_scan.py --no-host-facts --secrets-env ... <runner /proc environ x2> / <core host /proc environ x2>   # exit 0, 0 hits
+canary_scan.py ... <probe + env files> (positive control)                                                # exit 1 as expected, 30 hits
+bash <H>/t5a75_run.sh core_stop          # exit 0
+T5_LABEL=t5a75b bash <H>/t5a75_run.sh harness --items coredown      # exit 0 (degraded + 503 CORE_UNAVAILABLE)
+bash <H>/t5a75_run.sh logs ; bash <H>/t5a75_run.sh containers_stop  # exit 0 / exit 0, containers left: []
+<py3.10> -I <H>/reqid_link2.py ... --gw-access run/t5a75_gateway_container.log --core-access logs/core.log   # exit 0

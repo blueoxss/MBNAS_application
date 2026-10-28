@@ -11,16 +11,16 @@ GPU job kinds import torchvision before the handler runs: ultralytics' NMS (nati
 evaluation, latency) uses ``torchvision.ops.nms`` only when torchvision is already imported and otherwise falls back to
 a Python loop; a fresh child would not have it imported.
 
-Baseline ArchSpec (DD-A16): ``baseline_arch``/``native_params``/``load_context`` live in
-:mod:`mbnas_core.runner_api.envelope` (moved there in WP-2 so the claim envelope builder and this child share one
-implementation; re-exported here). WP-2 contract section 1.7: with the real handlers this child runs only
+Baseline ArchSpec: ``baseline_arch``/``native_params``/``load_context`` live in
+:mod:`mbnas_core.runner_api.envelope` (so the claim envelope builder and this child share one
+implementation; re-exported here). With the real handlers this child runs only
 PROPOSE_GENERATION (:data:`OWNER_KINDS`; any other kind fails ``KIND_NOT_ALLOWED``); training, evaluation and benchmark
 jobs are claimed by remote runners over ``/core/v1/runner``. The stub override (``$MBNAS_JOB_HANDLERS_MODULE``, tests
-and smokes) still runs every kind in-process. The core never imports ``mbnas_runner`` (DD-A25 rule iii).
+and smokes) still runs every kind in-process. The core never imports ``mbnas_runner``.
 
 Owner-host adjustments of a PROPOSE_GENERATION spec (:func:`owner_params`, applied by :func:`main` after
-``load_context``): DD-A60 (2) the ``architecture_dir`` moves to the core-local run directory when the run's own
-directory is not usable on this host, and DD-A60 (3) an evaluation-ON proposal takes its class count from the gateway's
+``load_context``): the ``architecture_dir`` moves to the core-local run directory when the run's own
+directory is not usable on this host, and an evaluation-ON proposal takes its class count from the gateway's
 dataset summary recorded with the run's validation instead of reading ``console.paths.dataset_yaml`` here.
 """
 from __future__ import annotations
@@ -38,7 +38,7 @@ from mbnas_contracts.jobs_protocol import PAUSED_REASON, STOP_ENV, Emitter, JobF
 from mbnas_core.db import repo
 from mbnas_core.owner_worker.contract import handler_override, resolve_handler
 from mbnas_core.owner_worker.paths import core_run_dir, usable_here
-from mbnas_core.runner_api.envelope import (  # noqa: F401 - moved here from this module (WP-2, R7); re-exported
+from mbnas_core.runner_api.envelope import (  # noqa: F401 - moved here from this module; re-exported
     MIXED_HOOK, TRAIN_PARAM_KEYS, _read_only, baseline_arch, latest_live_full_state, load_context, native_params, safe_name,
     search_arch,
 )
@@ -54,13 +54,13 @@ def _protocol_stream() -> IO[str]:
 
 NMS_KINDS = frozenset({*(k.value for k in TRAINING_KINDS), JobKind.EVALUATE.value, JobKind.BENCHMARK.value})
 OWNER_KINDS = frozenset({JobKind.PROPOSE_GENERATION.value})
-"""Kinds this child executes with the real handlers (WP-2 contract section 1.7): GPU kinds run on remote runners."""
+"""Kinds this child executes with the real handlers: GPU kinds run on remote runners."""
 
 
 def gateway_dataset_summary(db_path: str, run_id: str) -> dict[str, Any] | None:
-    """DD-A60 (3): the gateway's dataset summary recorded with the run's validation, as
+    """The gateway's dataset summary recorded with the run's validation, as
     ``{"source": "gateway", "validation_id", "names", "nc"}``, when that validation used the gateway's host inputs
-    (``capabilities.validation_host == "gateway"``, DD-A34/A37) and recorded the class names
+    (``capabilities.validation_host == "gateway"``) and recorded the class names
     (``capabilities.dataset.names``); None otherwise (read-only DB access)."""
     conn = _read_only(db_path)
     try:
@@ -87,16 +87,16 @@ def owner_params(spec: JobSpec, db_path: str, settings: Any = None,
                  note: Callable[[str], None] | None = None) -> JobSpec:
     """Owner-host adjustments of a PROPOSE_GENERATION spec; any other kind is returned unchanged.
 
-    * DD-A60 (2) ``architecture_dir``: kept as ``<run dir>/architectures`` when that directory is usable on this host
+    * ``architecture_dir``: kept as ``<run dir>/architectures`` when that directory is usable on this host
       (inside the core output allowlist and creatable: owner all-in-one, unchanged); otherwise - a split deployment's
       customer-only ``console.paths.output_root`` - it becomes ``core_run_dir(settings, run)/architectures`` on the core
       host, which is never asked to create the customer path. The candidates' YAML text is stored in the database
       either way.
-    * DD-A60 (3) ``nc`` (evaluation ON, when the job carries none): the class count of the gateway's dataset summary
+    * ``nc`` (evaluation ON, when the job carries none): the class count of the gateway's dataset summary
       recorded with the run's validation (:func:`gateway_dataset_summary`; kept as ``params.dataset_summary``), so the
       proposal does not read ``console.paths.dataset_yaml`` on the core host. Where the gateway sent no dataset summary
       (the run was validated core-locally) the handler still reads the dataset YAML on this host: the core-local read
-      is only the fallback. Limitation (as DD-A53 g for training): in a split deployment an evaluation-ON search must be
+      is only the fallback. Limitation (as for training): in a split deployment an evaluation-ON search must be
       validated through the gateway, otherwise that core-local read fails with DATASET_YAML_INVALID.
 
     ``note`` receives one line per adjustment (the child's stderr = the attempt log). A failure to adjust is noted and
@@ -170,7 +170,7 @@ def main(argv: list[str] | None = None) -> int:
         emit.result(JobResult(job_id=args.job_id, status=JobStatus.FAILED, reason_code=fail.reason_code,
                               message=fail.message, finished_at=utcnow_iso()))
         return 3
-    spec = owner_params(spec, db_path, note=lambda msg: print(msg, file=sys.stderr, flush=True))  # DD-A60 (2)/(3)
+    spec = owner_params(spec, db_path, note=lambda msg: print(msg, file=sys.stderr, flush=True))
     if spec.kind.value in NMS_KINDS:
         from mbnas_model_runtime.evaluation.latency import ensure_torchvision
 

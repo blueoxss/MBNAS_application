@@ -1,6 +1,6 @@
-"""Content-addressed artifact store of the gateway (WP-5 contract section 1; DD-A6, DD-A38, DD-A39).
+"""Content-addressed artifact store of the gateway.
 
-Layout (DD-A39; the runner ``local`` transfer mode of WP-5C writes the same layout into the same directory)::
+Layout (the runner ``local`` transfer mode writes the same layout into the same directory)::
 
     <root>/<sha256[:2]>/<sha256>        the bytes: a regular file (never followed when it is a symlink)
     <root>/<sha256[:2]>/<sha256>.json   meta: run_id, artifact_id, relpath, kind, bytes, mime, registered_by, job_id,
@@ -32,8 +32,6 @@ Rules:
 
 Entries outside the layout (the ``uploads/`` directory of the model-config upload route, doctor probe files, any name
 that is not a 2-hex fan-out directory holding 64-hex objects) are not artifacts and are ignored.
-
-Source: new in WP-5A (no counterpart in the original single-host code, which served files from run directories).
 """
 from __future__ import annotations
 
@@ -59,7 +57,7 @@ from mbnas_contracts.util.time import utcnow_iso
 log = logging.getLogger(__name__)
 
 DEFAULT_MAX_BYTES = 4 << 30
-"""Default size cap of one object (4 GiB, WP-5 contract section 1)."""
+"""Default size cap of one object (4 GiB)."""
 DEFAULT_CHUNK_BYTES = 1 << 20
 TMP_PREFIX = ".tmp-"
 META_SUFFIX = ".json"
@@ -67,7 +65,7 @@ META_MAX_BYTES = 64 << 10
 TMP_MAX_AGE_S = 3600.0
 META_KEYS = ("run_id", "artifact_id", "relpath", "kind", "bytes", "mime", "registered_by", "job_id", "attempt",
              "received_at", "source")
-"""DD-A39 meta keys; every stored meta has all of them (``None`` when unknown)."""
+"""Meta keys; every stored meta has all of them (``None`` when unknown)."""
 SOURCES = ("local", "upload")
 STATUS = {"ARTIFACT_NOT_READY": 404, "LOAD_FAILED": 409, "PAYLOAD_TOO_LARGE": 413, "SHA256_INVALID": 422,
           "META_INVALID": 422, "STORE_UNAVAILABLE": 507}
@@ -139,7 +137,7 @@ def _bad_meta(message: str) -> StoreError:
 
 
 def clean_meta(meta: Mapping[str, Any] | None, *, default_source: str = "upload") -> dict[str, Any]:
-    """Validated caller meta (every DD-A39 key except the store-owned ``received_at``; unknown keys are refused).
+    """Validated caller meta (every meta key except the store-owned ``received_at``; unknown keys are refused).
 
     ``bytes`` is the declared size (compared with the received bytes); ``source`` defaults to ``default_source``.
     """

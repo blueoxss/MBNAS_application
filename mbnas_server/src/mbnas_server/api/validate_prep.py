@@ -1,4 +1,4 @@
-"""Gateway-side pre-processing of ``POST /api/v1/protocols/validate`` (WP-3 contract sections 1.3 / 2.4, DD-A34).
+"""Gateway-side pre-processing of ``POST /api/v1/protocols/validate``.
 
 When ``GatewaySettings.dataset_roots`` is configured, the gateway checks the protocol's ``console.paths`` on *its* host
 (the customer host holding the data) with :func:`mbnas_contracts.util.paths.check_server_path` against
@@ -11,7 +11,7 @@ body next to ``protocol``:
                      final_eval_root/output_root, plus ``output_root.free_disk_gb``;
 ``dataset_yaml``     ``{ok, names, nc, splits{train,val,test: realpath}, ignored_keys}`` or ``{ok: false, message}``;
 ``dataset_manifests`` ``{format: "mbnas.gateway-manifests/1", splits: {role: summary}, cross_split_overlap: [<=100],
-                     cross_split_overlap_total}`` (DD-A37) for role in train/search_val/final_eval, ``summary = {root,
+                     cross_split_overlap_total}`` for role in train/search_val/final_eval, ``summary = {root,
                      split_hash, class_mapping_hash, names, counts, sample_count, sample_ids_sha256, issues[<=500],
                      issues_total, duplicates[<=100], duplicates_total}``;
                      overlap = identical images across splits (``cross_split_overlap`` of model_runtime); present only when every path check passed, the YAML parsed, its splits match the console
@@ -20,10 +20,10 @@ body next to ``protocol``:
 With ``dataset_roots`` empty the body is forwarded unchanged (core checks locally: owner all-in-one). The model-runtime
 modules are imported lazily, so importing :mod:`mbnas_server` never loads ``mbnas_model_runtime``. Host-input fields a
 caller put in the body (:data:`HOST_INPUT_FIELDS`) are never forwarded: core trusts them as this host's measurements
-(WP-5B finding: without this a browser could hand core forged ``path_checks`` and pass core's path allowlist).
+(without this a browser could hand core forged ``path_checks`` and pass core's path allowlist).
 
 :func:`scrub_realpaths` replaces ``resolution.paths.*.realpath`` (top level or under ``resolved``) by ``requested`` in the core answer (temporary
-scrub until the WP-4 projection removes the field).
+scrub until the core projection removes the field).
 """
 from __future__ import annotations
 
@@ -101,7 +101,7 @@ def prepare(settings: GatewaySettings, body: dict[str, Any]) -> dict[str, Any]:
     overlap = cross_split_overlap(manifests)
     result["dataset_manifests"] = {"format": FORMAT, "splits": {r: _summary(m) for r, m in manifests.items()},
                                    "cross_split_overlap": overlap[:MAX_OVERLAP],
-                                   "cross_split_overlap_total": len(overlap)}  # DD-A37: core gateway_inputs schema
+                                   "cross_split_overlap_total": len(overlap)}  # core gateway_inputs schema
     return result
 
 

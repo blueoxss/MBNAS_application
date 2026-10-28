@@ -1,12 +1,12 @@
-"""Bearer authentication of the WP-1 core console app.
+"""Bearer authentication of the core console app.
 
 * :func:`require_bearer` guards every ``/api/v1`` route: no/blank ``Authorization`` -> 401 ``AUTH_REQUIRED``
   (with ``WWW-Authenticate: Bearer``), a wrong token -> 403 ``ACCESS_DENIED``. Comparison is constant-time. The expected
   token is ``app.state.api_token`` (``CoreSettings.api_token``, set by ``create_app``).
 
 The request-id middleware that used to live here is :class:`mbnas_contracts.asgi.RequestIdMiddleware` (shared by both
-hosts). ``mbnas_server.api.auth`` carries the same two helpers for the gateway; WP-2 replaces this core copy with scoped
-principals (WP-1 contract section 4).
+hosts). ``mbnas_server.api.auth`` carries the same two helpers for the gateway; on the core, scoped principals replace
+it everywhere except the optional ``/api/v1`` owner debug mount.
 """
 from __future__ import annotations
 

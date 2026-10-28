@@ -1,0 +1,2 @@
+# T4 DD-A75 responses raw scan: 1332 files, 148 hits: {('host_fact', 'HOST_FACT#5 owner account name'): 148} needles 98
+## client-sent path echoed back: 148 string occurrences in 23 files; fields: ['.console.paths.dataset_yaml', '.console.paths.final_eval_root', '.console.paths.output_root', '.console.paths.search_val_root', '.console.paths.train_root', '.resolution.paths.dataset_yaml.requested', '.resolution.paths.output_root.requested', '.resolution.paths.search_val_root.requested', '.resolution.paths.train_root.requested', '.resolved.console.paths.output_root']

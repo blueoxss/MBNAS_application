@@ -1,0 +1,114 @@
+{
+ "prune_requests": [
+  {
+   "id": "prq-0d14db05bcabde35ba310803",
+   "checkpoint_id": "ck-5e7b9ef638cdd593",
+   "runner_id": "runner-4a98f8bc",
+   "relpath": "full_e0001.pt",
+   "policy": "last_rung_end_only",
+   "reason": "RETENTION_LAST_RUNG_END_ONLY",
+   "state": "DONE",
+   "deliveries": 1,
+   "delivered_job_id": "job-1421c6591e8c47d7",
+   "cancel_reason": null,
+   "reported_at": "2026-10-28T06:39:08.123056Z",
+   "report": {
+    "already_absent": true,
+    "removed": []
+   }
+  },
+  {
+   "id": "prq-16df956013480a4d41c43826",
+   "checkpoint_id": "ck-0144b9f224ad6430",
+   "runner_id": "runner-4a98f8bc",
+   "relpath": "full_e0002.pt",
+   "policy": "last_rung_end_only",
+   "reason": "RETENTION_LAST_RUNG_END_ONLY",
+   "state": "DONE",
+   "deliveries": 1,
+   "delivered_job_id": "job-1421c6591e8c47d7",
+   "cancel_reason": null,
+   "reported_at": "2026-10-28T06:39:08.184789Z",
+   "report": {
+    "already_absent": true,
+    "removed": []
+   }
+  }
+ ],
+ "checkpoints": [
+  {
+   "id": "ck-001111a95a9f382d",
+   "kind": "eval_ema",
+   "epoch": 3,
+   "state": "PRESENT",
+   "prune": null
+  },
+  {
+   "id": "ck-5e7b9ef638cdd593",
+   "kind": "training_full",
+   "epoch": 1,
+   "state": "PRUNED",
+   "prune": {
+    "policy": "last_rung_end_only",
+    "reason": "RETENTION_LAST_RUNG_END_ONLY",
+    "remote": true,
+    "already_absent": true,
+    "runner_id": "runner-4a98f8bc"
+   }
+  },
+  {
+   "id": "ck-0144b9f224ad6430",
+   "kind": "training_full",
+   "epoch": 2,
+   "state": "PRUNED",
+   "prune": {
+    "policy": "last_rung_end_only",
+    "reason": "RETENTION_LAST_RUNG_END_ONLY",
+    "remote": true,
+    "already_absent": true,
+    "runner_id": "runner-4a98f8bc"
+   }
+  },
+  {
+   "id": "ck-56f38c74769abc2e",
+   "kind": "training_full",
+   "epoch": 3,
+   "state": "PRESENT",
+   "prune": null
+  },
+  {
+   "id": "ck-7319c831c0bf2ac9",
+   "kind": "weights_only",
+   "epoch": 3,
+   "state": "PRESENT",
+   "prune": null
+  }
+ ],
+ "checkpoint_locations": [
+  {
+   "object_id": "ck-001111a95a9f382d",
+   "store": "runner_local",
+   "state": "PRESENT"
+  },
+  {
+   "object_id": "ck-0144b9f224ad6430",
+   "store": "runner_local",
+   "state": "PRUNED"
+  },
+  {
+   "object_id": "ck-56f38c74769abc2e",
+   "store": "runner_local",
+   "state": "PRESENT"
+  },
+  {
+   "object_id": "ck-5e7b9ef638cdd593",
+   "store": "runner_local",
+   "state": "PRUNED"
+  },
+  {
+   "object_id": "ck-7319c831c0bf2ac9",
+   "store": "runner_local",
+   "state": "PRESENT"
+  }
+ ]
+}

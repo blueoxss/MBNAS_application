@@ -1,0 +1,10 @@
+$ runtime/venv/bin/python -I scripts/dev/canary_scan.py --manifest docs/internal/canary/CANARY_MANIFEST.json --profile owner --json <evidence>/canary_scan_owner.json dist/owner/mbnas_application-0.1.0-owner-private-runtime-linux_x86_64.zip
+ok   host_fact HOST_FACT#1 owner data root: 137 hit(s) (not failing for profile owner)
+ok   host_fact HOST_FACT#2 original host root: 390 hit(s) (not failing for profile owner)
+ok   host_fact HOST_FACT#3 original host address: 26 hit(s) (not failing for profile owner)
+ok   host_fact HOST_FACT#4 original host name: 78 hit(s) (not failing for profile owner)
+ok   host_fact HOST_FACT#5 owner account name: 4253 hit(s) (not failing for profile owner)
+ok   host_fact HOST_FACT#6 original host GPU UUID: 119 hit(s) (not failing for profile owner)
+scanned files=3553 bytes=306128323 containers=11 skipped=0 hits=5003 failing=0 unmet=0
+canary_scan: PASS
+exit=0

@@ -2,7 +2,7 @@
 router dependencies that authenticate the caller and bind the request scope (projection) and the structure sandbox.
 
 * :func:`console_principal` guards ``/core/v1/console/*``: a scoped principal of kind ``server`` or ``admin``
-  (:func:`mbnas_core.runner_api.auth.require_principal`). Since WP-4 every console body is the public projection
+  (:func:`mbnas_core.runner_api.auth.require_principal`). Every console body is the public projection
   (:func:`mbnas_core.console.projection.project_public`) whatever the principal kind; raw owner payloads exist only on
   ``/core/v1/owner/*`` (:mod:`mbnas_core.console.owner_routes`).
 * :func:`legacy_principal` guards the optional ``/api/v1`` owner debug mount (``CoreSettings.expose_legacy_api``):
@@ -54,7 +54,7 @@ def db(request: Request) -> Iterator[sqlite3.Connection]:
 
 def contract_body(component: str, model: type[BaseModel], payload: dict[str, Any], *,
                   run_id: str | None = None) -> dict[str, Any]:
-    """``payload`` projected onto the public contract component (WP-4) and validated with its pydantic mirror.
+    """``payload`` projected onto the public contract component and validated with its pydantic mirror.
 
     The mirror validates the PROJECTED body (closed components forbid unknown members, so the projection must have
     reduced the payload to the public DTO). A body that still does not match is the SERVER's fault (a stored row or a

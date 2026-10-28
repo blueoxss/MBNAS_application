@@ -1,4 +1,4 @@
-"""Helpers bound to the canonical contract ``openapi.json`` (commander-owned, read-only here).
+"""Helpers bound to the canonical contract ``openapi.json`` (read-only here).
 
 The contract ships as package data of this package next to ``HISTORY.json`` (the version index of the contract
 history; the history snapshots and migration scripts themselves are repository files, not package data).
@@ -11,11 +11,7 @@ locations of the two data files for tools and tests that need a path (the distri
   are dumped with ``exclude_none=False``, so every response passes through here before leaving the API.
 * The jsonschema Draft 2020-12 validator (``validator``/``contract_errors``, used by tests and the smoke script to check
   live responses) is not here: this package imports only pydantic/PyYAML, so it lives in the gateway package
-  (``mbnas_server.api.contract_check``, WP-1 contract §4) and validates against :func:`contract`.
-
-Source: ``mbnas_server.api.contract`` (monolithic package, snapshot HEAD 18c4815), split per WP-1 contract §4 / DD-A10.
-``component``, ``prune`` and their helpers are unchanged; :func:`contract` reads the package data instead of
-``SERVER_ROOT/contracts/openapi.json``; ``HISTORY_PATH`` is new.
+  (``mbnas_server.api.contract_check``) and validates against :func:`contract`.
 """
 from __future__ import annotations
 

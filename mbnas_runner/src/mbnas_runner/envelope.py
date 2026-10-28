@@ -1,14 +1,14 @@
-"""JobEnvelope (A3 section 4, ``envelope_version`` 1) -> the JobSpec file the runner child runs.
+"""JobEnvelope (``envelope_version`` 1) -> the JobSpec file the runner child runs.
 
-The core sends what the owner child used to read from the DB (D1-D6) as one JSON envelope; this module rebuilds the
-same handler parameters on the runner host without a database (A3 section 4.2):
+The core sends what the owner child used to read from the DB as one JSON envelope; this module rebuilds the
+same handler parameters on the runner host without a database:
 
 * generic params = ``job.spec.params`` + ``protocol``, ``run_dir`` (``<work_root>/runs/<run_id>``, a runner-local path:
   the envelope carries no path), ``resolved_protocol_path``, ``work_dir``, ``stop_request_path``, ``attempt`` and, for
   training kinds, ``resume_from`` (= ``resume.recorded_latest``) - exactly the keys of the owner child's
   ``load_context``;
 * native params = :func:`native_params` (the owner child's ``native_params``/``search_arch`` bodies, unchanged except
-  that the baseline ArchSpec is not resolved here: the core injects it as ``job.spec.params.arch`` (DD-A16) and a
+  that the baseline ArchSpec is not resolved here: the core injects it as ``job.spec.params.arch`` and a
   Baseline candidate without it reaches ``resolve_model``, which fails with ``ARCH_REQUIRED`` - never silently).
 
 Nothing here imports the core (the runner never does).
@@ -35,7 +35,7 @@ def safe_name(candidate_id: str) -> str:
 
 
 def run_dir_for(work_root: str | Path, run_id: str) -> Path:
-    """``<work_root>/runs/<run_id>`` (A3 section 9.2); the run id must be one safe path component."""
+    """``<work_root>/runs/<run_id>``; the run id must be one safe path component."""
     if not run_id or "/" in run_id or "\\" in run_id or run_id in (".", "..") or "\x00" in run_id:
         raise JobFailure("RUN_ID_INVALID", f"run id {run_id!r} is not a safe path component")
     return Path(work_root) / "runs" / run_id
@@ -80,7 +80,7 @@ def search_arch(cand: dict[str, Any]) -> dict[str, Any]:
 
 
 def _baseline_arch(out: dict[str, Any], cand: dict[str, Any] | None, injected: Any) -> dict[str, Any]:
-    """DD-A16 on the runner: the ArchSpec the core resolved for a Baseline candidate (``job.spec.params.arch``)."""
+    """The ArchSpec the core resolved for a Baseline candidate (``job.spec.params.arch``)."""
     if out.get("arch") is not None or (cand or {}).get("arm") != "Baseline":
         return out
     return {**out, "arch": injected} if isinstance(injected, dict) else out

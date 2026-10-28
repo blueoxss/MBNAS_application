@@ -1,4 +1,4 @@
-"""Read-only adapter that serves the arms of a 12-search VisDrone campaign as archive runs (design decision DD-39).
+"""Read-only adapter that serves the arms of a 12-search VisDrone campaign as archive runs.
 
 A campaign root ``CROOT`` is written by ``scripts/campaign12`` and looks like::
 

@@ -1,0 +1,48 @@
+.............F
+=================================== FAILURES ===================================
+__________ test_canary_test_build_positive_control_and_leak_detection __________
+
+tree = PosixPath('/tmp/pytest-of-mgjeong/pytest-1117/test_canary_test_build_positiv0/proj')
+
+    def test_canary_test_build_positive_control_and_leak_detection(tree: Path) -> None:
+        owner = run_build(tree, "--profile", "owner", "--canary")
+>       assert owner.returncode == 0, owner.stdout[-4000:] + owner.stderr[-2000:]
+E       AssertionError: [package] canary tree build/canary/owner/tree: 70 files; planted POLICY_PRIOR=1, POLICY_REPAIR=1, FITNESS=2, CORE_STATE=1, OWNER_TEST=2, OWNER_DOC=3, OWNER_SECRET=2, OWNER_DEPLOY=2, MANIFEST_SELF=1
+E         Traceback (most recent call last):
+E           File "/home/mgjeong/Desktop/etri_hd/mbnas_application/scripts/dev/package_build.py", line 1840, in <module>
+E             sys.exit(main())
+E                      ^^^^^^
+E           File "/home/mgjeong/Desktop/etri_hd/mbnas_application/scripts/dev/package_build.py", line 1830, in main
+E             return build_canary(opts) if opts.canary else build(opts)
+E                    ^^^^^^^^^^^^^^^^^^
+E           File "/home/mgjeong/Desktop/etri_hd/mbnas_application/scripts/dev/package_build.py", line 1799, in build_canary
+E             rc = build(sub)
+E                  ^^^^^^^^^^
+E           File "/home/mgjeong/Desktop/etri_hd/mbnas_application/scripts/dev/package_build.py", line 1679, in build
+E             scan_mod, hash_mod = _load("canary_scan"), _load("source_tree_hash")
+E                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/home/mgjeong/Desktop/etri_hd/mbnas_application/scripts/dev/package_build.py", line 246, in _load
+E             spec.loader.exec_module(mod)  # type: ignore[union-attr]
+E             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+E           File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+E           File "/home/mgjeong/Desktop/etri_hd/mbnas_application/scripts/dev/source_tree_hash.py", line 22, in <module>
+E             from mbnas_contracts.util.source_hash import ALGORITHM, _entries, compute_source_tree_hash, package_roots
+E         ModuleNotFoundError: No module named 'mbnas_contracts'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/home/mgjeong/miniconda3/bin/python', '-I', '-B', '/home/mgjeong/Desktop/etri_hd/mbnas_applica...ORITHM, _entries, compute_source_tree_hash, package_roots\nModuleNotFoundError: No module named \'mbnas_contracts\'\n').returncode
+
+tests/public/packaging/test_canary_tools.py:200: AssertionError
+=============================== warnings summary ===============================
+../../../miniconda3/lib/python3.12/site-packages/_pytest/config/__init__.py:1428
+  /home/mgjeong/miniconda3/lib/python3.12/site-packages/_pytest/config/__init__.py:1428: PytestConfigWarning: Unknown config option: timeout
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/public/packaging/test_canary_tools.py::test_canary_test_build_positive_control_and_leak_detection
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 13 passed, 1 warning in 0.53s
+exit=1

@@ -1,0 +1,6 @@
+# read-only facts of the smoke's core DB (integration_root/core/db/mbnas.sqlite3); GPU uuids not copied
+job PROPOSE_GENERATION SUCCEEDED lease_owner=smoke-owner-1 device_used=None
+job BASELINE_TRAIN SUCCEEDED lease_owner=smoke-runner-1 device_used=cpu
+run run-c9a1ee6ed080 console.benchmark.device=None device_resolved=None
+run train-463ccb7eefb5 console.benchmark.device=cpu device_resolved={'id': 'cpu', 'name': 'cpu', 'uuid': None}
+runner id=smoke-runner-1 device=cpu device_uuid=None

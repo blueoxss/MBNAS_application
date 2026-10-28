@@ -1,11 +1,6 @@
 """Split manifests: every image of a split with sha256, size, validated YOLO boxes and a content-addressed hash.
 
-재구현(2026-10-15), 원본 누락, 근거: docs/orchestration/PLAN.md(datasets/ 항목: sample id, sha256 image+label,
-class ids, box validation, duplicates, cross-split leakage → split_hash), tests/unit/test_datasets.py(manifest 케이스),
-protocol/validator.py(issues·duplicates·counts·cross_split_overlap 사용), evaluation/·training/·adapters/(Manifest
-필드 사용), tests/unit/test_protocol_validator.py, tests/qa/test_validator_negatives.py.
-
-Conventions (all derived from those callers/tests):
+Conventions:
 
 * Images are found recursively below the split root (dot-directories skipped; ultralytics ``*.cache`` and every
   non-image file are ignored); ``sample_id`` = image path relative to the root without extension (``/`` kept).
@@ -78,10 +73,7 @@ class Manifest(BaseModel):
 
 
 def class_mapping_hash(names: Mapping[int, str]) -> str:
-    """``sha256:`` of the {id: name} mapping (order independent).
-
-    재구현(2026-10-15), 원본 누락, 근거: tests/unit/test_datasets.py::test_build_manifest_tiny, validator.dataset_hash.
-    """
+    """``sha256:`` of the {id: name} mapping (order independent)."""
     return canonical_sha256({"class_mapping": {str(int(k)): str(v) for k, v in sorted(names.items())}})
 
 
@@ -89,8 +81,6 @@ def label_path_for(image_path: str) -> str:
     """Label file of an image: the last ``/images/`` path component becomes ``/labels/``, extension → ``.txt``.
 
     Paths without an ``images`` component fall back to the image's own directory.
-
-    재구현(2026-10-15), 원본 누락, 근거: tests/unit/test_datasets.py::test_label_rule (ultralytics img2label_paths).
     """
     stem = os.path.splitext(image_path)[0]
     sep = f"{os.sep}images{os.sep}"
@@ -183,12 +173,7 @@ def _allowed(path: str, roots: Sequence[str] | None) -> bool:
 
 def build_manifest(root: str | os.PathLike[str] | Sequence[str], *, names: Mapping[int, str],
                    allow_roots: Sequence[str] | None = None) -> Manifest:
-    """Scan a split directory (or an explicit image list) into a :class:`Manifest`.
-
-    재구현(2026-10-15), 원본 누락, 근거: tests/unit/test_datasets.py(test_build_manifest_tiny, test_label_row_validation,
-    test_duplicates_overlap_and_bad_image, test_symlink_escape_excluded, test_manifest_from_image_list) 와
-    benchmark/handlers.py(``build_manifest(root, names=names)``).
-    """
+    """Scan a split directory (or an explicit image list) into a :class:`Manifest`."""
     names = {int(k): str(v) for k, v in names.items()}
     real_roots = None if allow_roots is None else [os.path.realpath(r) for r in allow_roots]
     listing, roots, issues = _list_images(root if not isinstance(root, os.PathLike) else os.fspath(root))
@@ -253,9 +238,6 @@ def cross_split_overlap(manifests: Mapping[str, Manifest]) -> list[dict[str, Any
     """Images with identical bytes present in two or more splits.
 
     One entry per shared image: ``{"image_sha256", "splits": [sorted split names], "sample_ids": {split: [ids]}}``.
-
-    재구현(2026-10-15), 원본 누락, 근거: validator.manifests(`"/".join(o["splits"])`, `o["sample_ids"]`),
-    test_duplicates_overlap_and_bad_image, tests/qa/test_validator_negatives.py(내용 기준, 이름 무관).
     """
     where: dict[str, dict[str, list[str]]] = defaultdict(lambda: defaultdict(list))
     for split, m in manifests.items():
@@ -284,10 +266,6 @@ class DatasetService:
     The cache is keyed twice: the JSON file by ``split_hash`` (also read by export/bundle.py), and a small index
     ``_index/<signature>.json`` that maps a cheap (path, size, mtime) signature of the split to its ``split_hash``
     so an unchanged split is not re-hashed. Any change of size/mtime, names or allow-roots → fresh scan.
-
-    재구현(2026-10-15), 원본 누락, 근거: tests/unit/test_datasets.py::test_dataset_service_cache,
-    ``DatasetService(workdir, [roots])`` 호출(scripts/*), ``DatasetService.from_settings`` (api/services.py,
-    training/context.py), export/bundle.py(manifests/ 경로).
     """
 
     def __init__(self, output_root: str, allow_roots: Sequence[str]) -> None:
@@ -297,10 +275,7 @@ class DatasetService:
 
     @classmethod
     def from_settings(cls, settings: Any) -> "DatasetService":
-        """Service rooted at ``settings.output_root`` with ``settings.dataset_roots`` as the allowlist.
-
-        재구현(2026-10-15), 원본 누락, 근거: api/services.py, training/context.py, tests/conftest.py(ctx_factory).
-        """
+        """Service rooted at ``settings.output_root`` with ``settings.dataset_roots`` as the allowlist."""
         return cls(settings.output_root, list(settings.dataset_roots))
 
     def _signature(self, root: str, names: Mapping[int, str]) -> str:
@@ -313,11 +288,7 @@ class DatasetService:
                                  "allow": sorted(self.allow_roots), "files": rows}).split(":", 1)[1]
 
     def manifest_for(self, root: str, names: Mapping[int, str]) -> Manifest:
-        """Manifest of the split directory ``root`` (cached; rebuilt when any file's size/mtime changed).
-
-        재구현(2026-10-15), 원본 누락, 근거: validator.manifests, training/context.split_manifests, test_dataset_service_cache
-        (캐시 파일 ``<output_root>/manifests/<hex>.json`` 이 ``Manifest.model_validate_json`` 로 왕복).
-        """
+        """Manifest of the split directory ``root`` (cached; rebuilt when any file's size/mtime changed)."""
         root = os.path.abspath(os.fspath(root))
         names = {int(k): str(v) for k, v in names.items()}
         sig = self._signature(root, names)

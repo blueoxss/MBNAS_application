@@ -1,0 +1,4 @@
+$ (cwd=/) svc bash /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2d/mbnas_application/scripts/start.sh --profile owner --role core --wait-s 120
+[start] core: ready pid=245934 HTTP 401 from http://127.0.0.1:18900/core/v1/console/health log=runtime/logs/core.log
+[start] owner-worker: ready pid=246066 alive after 5 s log=runtime/logs/owner-worker.log
+exit=0

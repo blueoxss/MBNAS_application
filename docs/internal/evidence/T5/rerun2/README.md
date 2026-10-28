@@ -1,0 +1,1 @@
+History note: the files directly in this folder are T5 rerun2 on the PRE-DD-A73 owner core (owner ZIP a43a8a2e…; generated-config on an ETRI-block candidate → 422 STRUCTURE_INVALID), superseded by `attempt_dd_a73/` (owner ZIP 53e6a1f0…).

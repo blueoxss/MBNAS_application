@@ -7,13 +7,13 @@
   every read is appended to the run's split access log (:class:`SplitAccess`, ``<run_dir>/logs/split_access.jsonl``:
   job id/kind/arm, split, root, hash, purpose) so audits can prove ``final_eval`` is read only by FINAL_RETRAIN
   (or arm Final) evaluation;
-* :func:`local_data_path` — ``data_refs`` remapping (WP-2 contract §2.3): a dataset path frozen in the resolved protocol
+* :func:`local_data_path` — ``data_refs`` remapping: a dataset path frozen in the resolved protocol
   (the core host's ``console.paths.*``) becomes this host's path through ``RunnerSettings.dataset_mounts``
   (``{protocol_root: local_root}``, longest matching root wins). With no mounts configured the protocol paths are used
   as they are (single-host / owner profile). A path no mount covers, or a mapped path that does not exist, fails with
   ``DATASET_UNAVAILABLE``; a remapped split whose manifest hash differs from the frozen one fails with
   ``DATASET_DRIFT`` (the split hash is location independent, so a faithful copy passes). Nothing proceeds silently;
-* :func:`resolve_model` — ArchSpec from ``params.arch`` (required: the core resolves registry baselines, DD-A16) and
+* :func:`resolve_model` — ArchSpec from ``params.arch`` (required: the core resolves registry baselines) and
   the adapter built from it;
 * :func:`progress_bridge` — adapter progress dicts -> :class:`ProgressMessage` for the worker's ``emit``.
 """
@@ -176,7 +176,7 @@ def split_manifests(protocol: Mapping[str, Any], settings: RunnerSettings, split
 
 
 def resolve_model(params: Any, settings: RunnerSettings) -> tuple[ArchSpec, Any, dict[str, Any] | None]:
-    """(ArchSpec, adapter, None) from ``params.arch``, which is required (DD-A16).
+    """(ArchSpec, adapter, None) from ``params.arch``, which is required.
 
     The core decides whether a registry baseline is AVAILABLE and hands its ArchSpec over like any other model, so the
     runner reads no registry evidence. An ``arch`` that equals a registry declaration (same id, backend, family and

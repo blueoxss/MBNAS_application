@@ -1,5 +1,5 @@
-"""Gateway FastAPI application factory and the ``mbnas-gateway`` entry point (WP-1 skeleton, contract section 3.1(b);
-WP-3B relay, uploads, rate limits, audit log and static web).
+"""Gateway FastAPI application factory and the ``mbnas-gateway`` entry point: console relay, uploads, rate limits,
+audit log and static web.
 
 ``create_app(settings)`` requires ``MBNAS_GW_API_TOKEN`` (startup fails without it) and mounts every ``/api/v1`` route behind
 the bearer dependency: the minimal ``GET /api/v1/health`` and the read-only archive router. CORS allows exactly
@@ -10,20 +10,20 @@ answered 413 before they are read. uvicorn access/error log records are passed t
 secrets are never logged.
 
 The gateway has no database and imports no core or runner code (``mbnas_model_runtime`` only lazily, for validate
-manifests). WP-3B: the console API is relayed to core over HTTP (:mod:`mbnas_server.api.relay`, ``core_url`` +
+manifests). The console API is relayed to core over HTTP (:mod:`mbnas_server.api.relay`, ``core_url`` +
 ``core_prefix`` with ``core_token``); ``GET /api/v1/health`` merges gateway and core status; ``POST
 /api/v1/uploads/model-config`` stores model YAML uploads (body limit ``upload_max_bytes`` + 64 KiB multipart slack on
 that path); :class:`~mbnas_server.api.limits.RateLimitMiddleware` limits ``/api`` traffic per token and writes the
 sensitive-read audit log; :class:`~mbnas_server.api.path_guard.PathGuardMiddleware` answers 404 ``NOT_FOUND`` for a
-``.``/``..`` path segment before routing (DD-A44); the built web console is served from ``web_dist`` for every other
-GET (DD-A30).
+``.``/``..`` path segment before routing; the built web console is served from ``web_dist`` for every other
+GET.
 ``create_app(settings, core_transport=...)`` accepts an ``httpx`` transport for the in-process combined harness.
 
-WP-5B: ``app.state.artifact_store`` is the content-addressed artifact store (``ArtifactStore.from_settings``: root
+``app.state.artifact_store`` is the content-addressed artifact store (``ArtifactStore.from_settings``: root
 ``artifact_store``, cap ``artifact_max_bytes``); stale temp files of crashed writers are swept when the app starts.
 Artifact bytes, refresh, export and the configuration revisions are served by :mod:`mbnas_server.api.artifact_routes`.
 
-Access log (DD-A60 (5), C11 "T5 log request id linkage"): :class:`AccessLogMiddleware` writes exactly one line per
+Access log: :class:`AccessLogMiddleware` writes exactly one line per
 HTTP request to the ``mbnas_server.access`` logger - ``method``, ``path`` (query string through
 :func:`~mbnas_contracts.util.log_redact.redact`: ``token``/``access_token``/``sig``/``exp`` values become ``***``;
 control characters and whitespace escaped, so one request is always one line), ``status``, ``request_id`` (the id
@@ -162,7 +162,7 @@ MULTIPART_SLACK = 64 << 10
 class RoutedBodyLimit:
     """Pure ASGI: :class:`BodyLimitMiddleware` with ``upload_bytes`` below ``/api/v1/uploads/`` and ``default_bytes``
     elsewhere (a 1 MiB YAML in a multipart envelope is slightly larger than 1 MiB); its 413 bodies name ``location``
-    ``gateway`` (C05 D3)."""
+    ``gateway``."""
 
     def __init__(self, app: Any, default_bytes: int, upload_bytes: int, location: str = "gateway") -> None:
         self.default = BodyLimitMiddleware(app, max_bytes=default_bytes, location=location)
@@ -179,7 +179,7 @@ def create_app(settings: GatewaySettings | None = None,
     settings = settings or GatewaySettings.load()
     token = settings.require_api_token()
     # uvicorn has configured its loggers before it calls this factory: strip token/access_token/sig/exp query
-    # values and Authorization values from access/error log records (S11-F3)
+    # values and Authorization values from access/error log records
     install_log_redaction()
     version = str(contract()["info"]["version"])  # the API version served is the packaged contract's
 
@@ -189,7 +189,7 @@ def create_app(settings: GatewaySettings | None = None,
     @asynccontextmanager
     async def lifespan(_app: FastAPI):  # type: ignore[no-untyped-def]
         try:
-            removed = store.sweep_tmp()  # temp files of crashed writers (DD-A47 (a): hard-link temps by ctime)
+            removed = store.sweep_tmp()  # temp files of crashed writers (hard-link temps by ctime)
             if removed:
                 log.info("artifact store: %d stale temp file(s) removed at start", len(removed))
         except Exception as exc:  # noqa: BLE001 - an unreadable store must not stop the gateway (health reports it)
@@ -204,31 +204,31 @@ def create_app(settings: GatewaySettings | None = None,
     app.state.core = core
     app.state.api_token = token
     app.state.settings = settings
-    app.state.artifact_store = store  # WP-5B (DD-A39): runner local transfer target, served with digest re-check
-    app.state.inputs_cache = InputsCache.from_settings(settings)  # DD-A46: validate-time host inputs
+    app.state.artifact_store = store  # runner local transfer target, served with digest re-check
+    app.state.inputs_cache = InputsCache.from_settings(settings)  # validate-time host inputs
     app.state.contract_version = version
     app.state.archive = ArchiveStore(settings.archive_roots, settings.archive_driver_dirs, settings.archive_cache_ttl_s,
-                                     campaign_roots=settings.archive_campaign_roots)  # DD-A23: 12-search campaign arms
+                                     campaign_roots=settings.archive_campaign_roots)  # 12-search campaign arms
     errors.install(app)
 
     protected = APIRouter(prefix=API_PREFIX, dependencies=[Depends(require_bearer)])
-    protected.include_router(relay.router)  # WP-3B: console relay to core (+ merged /health)
-    protected.include_router(artifact_routes.router)  # WP-5B: refresh, export zip, config revisions
-    protected.include_router(uploads.router)  # F5a model-config uploads
+    protected.include_router(relay.router)  # console relay to core (+ merged /health)
+    protected.include_router(artifact_routes.router)  # refresh, export zip, config revisions
+    protected.include_router(uploads.router)  # model-config uploads
     protected.include_router(archive_router)  # contract 1.3.0: read-only /archive/* (bearer, like every route above)
     app.include_router(protected)
     app.include_router(artifact_routes.open_router, prefix=API_PREFIX)  # artifact bytes: bearer or signed URL
-    app.include_router(static_web.router)  # DD-A30: last, catch-all GET outside /api
+    app.include_router(static_web.router)  # last, catch-all GET outside /api
 
     app.add_middleware(RoutedBodyLimit, default_bytes=settings.max_request_body_bytes,  # innermost
                        upload_bytes=max(settings.max_request_body_bytes, settings.upload_max_bytes + MULTIPART_SLACK))
-    app.add_middleware(PathGuardMiddleware)  # DD-A44 (e): dot path segments -> 404 before routing
+    app.add_middleware(PathGuardMiddleware)  # dot path segments -> 404 before routing
     app.add_middleware(RateLimitMiddleware, settings=settings, limiter=Limiter(settings),
                        audit=AuditLog(settings.audit_log))  # inside CORS: a 429 still carries CORS headers
     app.add_middleware(CORSMiddleware, allow_origins=list(settings.cors_origins), allow_credentials=False,
                        allow_methods=["GET", "POST", "OPTIONS"], allow_headers=ALLOWED_HEADERS,
                        expose_headers=EXPOSED_HEADERS, max_age=600)
-    app.add_middleware(AccessLogMiddleware, logger=access_logger())  # DD-A60 (5): one line per request with its id
+    app.add_middleware(AccessLogMiddleware, logger=access_logger())  # one line per request with its id
     app.add_middleware(RequestIdMiddleware)
     return app
 
@@ -249,13 +249,13 @@ def main(argv: list[str] | None = None) -> int:
     if args.env_file:
         os.environ["MBNAS_GW_ENV_FILE"] = args.env_file
     settings = GatewaySettings.load()
-    problem = settings.core_url_problem()  # DD-A41 (d): refuse before uvicorn starts (exit 2, like mbnas-runner)
+    problem = settings.core_url_problem()  # refuse before uvicorn starts (exit 2, like mbnas-runner)
     if problem is not None:
         print(f"mbnas-gateway: {problem}", file=sys.stderr)
         return 2
     # open SSE streams never end on their own: bound the graceful shutdown so a restart takes seconds; clients
     # reconnect with Last-Event-ID and the server replays what they missed
-    # access_log=False: AccessLogMiddleware writes the one access line per request (with its request id, DD-A60 (5))
+    # access_log=False: AccessLogMiddleware writes the one access line per request (with its request id)
     uvicorn.run("mbnas_server.api.app:app_from_env", factory=True, host=args.host or settings.host,
                 port=args.port or settings.port, proxy_headers=True, log_level="info", access_log=False,
                 timeout_graceful_shutdown=GRACEFUL_SHUTDOWN_S)

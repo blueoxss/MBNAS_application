@@ -1,4 +1,4 @@
-"""Host-side validation inputs computed by the gateway (WP-3 contract section 1.3, DD-A34).
+"""Host-side validation inputs computed by the gateway.
 
 When the core does not share a filesystem with the customer data, ``POST /core/v1/console/protocols/validate`` carries
 what the gateway measured on its own host and the validator uses it *instead of* touching the core filesystem:
@@ -16,7 +16,7 @@ with the default required splits) or ``{ok: false, message}``.
 cross_split_overlap: [...], cross_split_overlap_total}`` with ``summary = {root, split_hash, class_mapping_hash, names,
 counts, sample_count, sample_ids_sha256, issues[<=500], issues_total, duplicates[<=100], duplicates_total,
 manifest_json_artifact_id?}`` (no ``format`` key inside a split summary; ``cross_split_overlap`` <= 100 entries;
-all models ``extra=forbid``). This core schema is the fixed wire format (DD-A37); the gateway sends exactly this shape.
+all models ``extra=forbid``). This core schema is the fixed wire format; the gateway sends exactly this shape.
 
 Without them the core-local behaviour is unchanged (owner all-in-one). A validation that used any of them records
 ``capabilities.validation_host = "gateway"`` (not ``resolution``: ``protocol_hash`` covers ``resolution``, so a host

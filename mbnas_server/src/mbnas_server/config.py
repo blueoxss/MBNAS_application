@@ -1,6 +1,6 @@
 """Gateway settings (pydantic-settings, environment prefix ``MBNAS_GW_``).
 
-WP-1 contract section 5 / DD-A13: the gateway owns the browser-facing settings (user bearer token, CORS, listen address,
+The gateway owns the browser-facing settings (user bearer token, CORS, listen address,
 the upstream core URL + service token, artifact signing, archive roots, request body limit). Core and runner have their own
 classes (``mbnas_core.config.CoreSettings`` / ``mbnas_runner.config.RunnerSettings``); the only thing shared at runtime is the
 common root ``MBNAS_HOME`` (:func:`mbnas_contracts.util.home.mbnas_home`), under which every default path lives.
@@ -44,7 +44,7 @@ StrList = Annotated[list[str], NoDecode]
 
 
 class CoreUrlInsecure(RuntimeError):
-    """DD-A41 (d): ``core_url`` is plain ``http://`` to a non-loopback host and ``core_allow_insecure_http`` is not set
+    """``core_url`` is plain ``http://`` to a non-loopback host and ``core_allow_insecure_http`` is not set
     (the runner's ``CORE_URL_INSECURE`` rule). ``str(exc)`` starts with the code."""
 
     code = "CORE_URL_INSECURE"
@@ -76,7 +76,7 @@ def _split_list(value: Any) -> Any:
 
 
 def _default_web_dist() -> str:
-    """``<ROOT>/mbnas_web/dist`` (DD-A30): ROOT is the source/ZIP tree holding ``mbnas_server/src/mbnas_server`` when the
+    """``<ROOT>/mbnas_web/dist``: ROOT is the source/ZIP tree holding ``mbnas_server/src/mbnas_server`` when the
     package runs from there (editable install / unpacked ZIP), else the current working directory."""
     here = Path(__file__).resolve()
     root = here.parents[3] if len(here.parents) > 3 and (here.parents[3] / "mbnas_server").is_dir() else Path.cwd()
@@ -103,16 +103,16 @@ class GatewaySettings(BaseSettings):
     host: str = DEFAULT_HOST
     port: int = Field(default=DEFAULT_PORT, ge=1, le=65535)
     core_url: str = DEFAULT_CORE_URL
-    """Base URL of the core control plane the gateway relays to (``/core/v1/console``; the relay itself arrives with WP-3)."""
+    """Base URL of the core control plane the gateway relays to (``/core/v1/console``)."""
     core_token: SecretStr | None = None
     """Service token the gateway presents to core (never sent to browsers)."""
     artifact_signing_key: SecretStr | None = None
     signed_url_ttl_s: int = Field(default=600, gt=0)
     artifact_store: str = Field(default_factory=_home_default("gateway", "artifacts"))
-    """Content-addressed artifact store ``<root>/<sha256[:2]>/<sha256>`` (+ ``.json`` meta, DD-A39); the runner's
+    """Content-addressed artifact store ``<root>/<sha256[:2]>/<sha256>`` (+ ``.json`` meta); the runner's
     ``local`` transfer writes into the same directory (``MBNAS_RUNNER_ARTIFACT_STORE_DIR``)."""
     artifact_max_bytes: int = Field(default=4 << 30, gt=0)
-    """Size cap of one stored artifact object (WP-5 contract section 1; default 4 GiB)."""
+    """Size cap of one stored artifact object (default 4 GiB)."""
     artifact_verify_first_max_bytes: int = Field(default=64 << 20, ge=0)
     """Downloads of objects up to this size are hashed completely before the response starts, so a digest mismatch is
     a clean 409 ``LOAD_FAILED``; larger objects are verified while they stream (``mbnas_server.artifacts.download``;
@@ -133,19 +133,19 @@ class GatewaySettings(BaseSettings):
     """Seconds before cached archive scans are re-validated against file mtime/size (0 = always re-check)."""
     log_dir: str = Field(default_factory=_home_default("gateway", "logs"))
 
-    # -- WP-3B relay to core ------------------------------------------------------------------------------------------
+    # -- relay to core ------------------------------------------------------------------------------------------------
     core_prefix: str = DEFAULT_CORE_PREFIX
     """Path prefix of the core console API (``/core/v1/console``; ``/api/v1`` only for a legacy-exposing core)."""
     core_allow_insecure_http: bool = False
-    """DD-A41 (d): a plain ``http://`` ``core_url`` to a non-loopback host is refused (``CORE_URL_INSECURE``: the service
+    """A plain ``http://`` ``core_url`` to a non-loopback host is refused (``CORE_URL_INSECURE``: the service
     token would cross the network in clear text) unless this is set explicitly (``MBNAS_GW_CORE_ALLOW_INSECURE_HTTP=
     true``). ``https://`` and loopback ``http://`` are always accepted. Enforced when the gateway opens its network client
     to core (app start) and reported by ``mbnas-gateway-doctor``."""
     core_tls_verify: bool = True
     """Verify the core TLS certificate (https core_url). ``core_ca_file`` adds a private CA bundle. ``false`` accepts
     any certificate (the service token can then reach an impostor): never silent - the gateway logs a warning when it
-    opens its network client to core and ``mbnas-gateway-doctor`` reports a ``core_tls`` warning (C05 D5,
-    :meth:`core_tls_problem`)."""
+    opens its network client to core and ``mbnas-gateway-doctor`` reports a ``core_tls`` warning
+    (:meth:`core_tls_problem`)."""
     core_ca_file: str | None = None
     core_connect_timeout_s: float = Field(default=5.0, gt=0, le=300)
     core_read_timeout_s: float = Field(default=120.0, gt=0, le=3600)
@@ -165,7 +165,7 @@ class GatewaySettings(BaseSettings):
     """DatasetService output root: manifests are cached under ``<manifest_cache_root>/manifests``."""
     min_free_disk_gb: float = Field(default=0.0, ge=0)
     upload_max_bytes: int = Field(default=1 << 20, gt=0, le=16 << 20)
-    # -- rate limits (R13 / DD-A20) -----------------------------------------------------------------------------------
+    # -- rate limits --------------------------------------------------------------------------------------------------
     rate_limit_enabled: bool = True
     rate_limit_rps: float = Field(default=10.0, gt=0)
     rate_limit_burst: int = Field(default=50, ge=1)
@@ -173,7 +173,7 @@ class GatewaySettings(BaseSettings):
     expensive_per_minute: int = Field(default=30, ge=1)
     sse_max_per_token: int = Field(default=4, ge=1)
     audit_log: str = Field(default_factory=_home_default("gateway", "logs", "audit.jsonl"))
-    # -- static web (DD-A30) ------------------------------------------------------------------------------------------
+    # -- static web ---------------------------------------------------------------------------------------------------
     web_dist: str = Field(default_factory=_default_web_dist)
 
     @field_validator("cors_origins", "archive_roots", "archive_campaign_roots", "archive_driver_dirs", "dataset_roots",
@@ -256,7 +256,7 @@ class GatewaySettings(BaseSettings):
                 "MBNAS_GW_CORE_CA_FILE for a private CA) or set MBNAS_GW_CORE_ALLOW_INSECURE_HTTP=true explicitly")
 
     def core_tls_problem(self) -> str | None:
-        """``CORE_TLS_VERIFY_DISABLED`` warning text when ``core_tls_verify`` is false, else ``None`` (C05 D5)."""
+        """``CORE_TLS_VERIFY_DISABLED`` warning text when ``core_tls_verify`` is false, else ``None``."""
         if self.core_tls_verify:
             return None
         parts = urlsplit(self.core_url)

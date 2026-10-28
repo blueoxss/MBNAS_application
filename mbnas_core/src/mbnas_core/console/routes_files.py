@@ -4,15 +4,15 @@
 see ``artifacts.registry``). It looks the artifact up **by id in the run's registry** — the request never carries
 a filesystem path — and answers 200 bytes (+ ``X-Artifact-Sha256``), 401/403 ACCESS_DENIED, 404 MISSING,
 409 NOT_READY / LOAD_FAILED (bytes no longer match the registry) or 410 EXPIRED (authentic but stale signed URL).
-Since WP-5B it serves only files of the core's own run directories (``origin = core``: the owner worker / all-in-one
-profile; DD-A62 (c): also the generated architecture YAMLs a split deployment keeps in the core-local run directory,
+It serves only files of the core's own run directories (``origin = core``: the owner worker / all-in-one
+profile; also the generated architecture YAMLs a split deployment keeps in the core-local run directory,
 ``meta.location = core_local``, resolved against ``settings.output_root``); runner-produced bytes live in the gateway's
-artifact store and are served by the gateway (DD-A39). For an
+artifact store and are served by the gateway. For an
 artifact a runner registered (a ``runner_local`` location) it answers 404 ``ARTIFACT_NOT_READY``
-without looking at its disk and without changing the row (T7 finding f2: a core-local lookup used to flip such rows to
+without looking at its disk and without changing the row (a core-local lookup would flip such rows to
 MISSING).
 
-WP-5B routes for the gateway (scope ``server``/``admin`` on ``/core/v1/console``; static bearer on the legacy mount):
+Routes for the gateway (scope ``server``/``admin`` on ``/core/v1/console``; static bearer on the legacy mount):
 
 * ``GET /runs/{rid}/artifacts/{id}/record`` - the run-scoped record of an artifact or, failing that, a checkpoint of
   the run (:func:`mbnas_core.artifacts.locations.gateway_record`: digest, size, media type, public metadata, ``origin``
@@ -65,8 +65,8 @@ STATUS = {"NOT_READY": 409, "LOAD_FAILED": 409, "MISSING": 404, "ACCESS_DENIED":
 EXPORT_MANIFEST_FORMAT = "mbnas.export-manifest/1"
 EXPORT_OBJECT_KINDS = {"architecture": "architectures", "gt": "images", "tp": "images", "fn": "images", "fp": "images",
                        "pr_curve": "images", "confusion_matrix": "images"}
-"""Artifact kinds whose bytes the gateway may add to the export zip, and their member directory (WP-5 section 1;
-DD-A23 F5g: ``architectures/*.yaml`` always, images on request)."""
+"""Artifact kinds whose bytes the gateway may add to the export zip, and their member directory
+(``architectures/*.yaml`` always, images on request)."""
 _EXTENSIONS = {"image/png": ".png", "image/jpeg": ".jpg", "image/svg+xml": ".svg", "image/webp": ".webp",
                "application/x-yaml": ".yaml", "application/yaml": ".yaml", "text/yaml": ".yaml",
                "application/json": ".json", "text/plain": ".txt"}
@@ -166,7 +166,7 @@ def build_router(mode: str) -> APIRouter:
         if row is None:
             raise ApiError(404, "MISSING", "artifact not found in this run's registry")
         if locations.is_runner_object(repo.list_artifact_locations(conn, "artifact", artifact_id)):
-            # DD-A39 / T7 finding f2: a runner's bytes are never on this host. No disk lookup, and above all no
+            # a runner's bytes are never on this host. No disk lookup, and above all no
             # MISSING / LOAD_FAILED flip of the row (the gateway serves the bytes from its artifact store).
             raise ApiError(404, "ARTIFACT_NOT_READY", "this artifact was registered by a runner: the gateway serves "
                                                       "its bytes from the artifact store, the core host has none")

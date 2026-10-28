@@ -6,16 +6,15 @@ Types are generated from the canonical contract `../mbnas_contracts/src/mbnas_co
 1.5.0** (never edited here; `MBNAS_OPENAPI` overrides the path). `src/api/types.ts` only aliases generated components: no
 hand-written field is added to a contract type.
 
-> Installation, start/stop and the gateway/core/runner configuration are documented by the deployment docs (WP-7). This
-> file covers the web console itself.
+> Installation, start/stop and the gateway/core/runner configuration are documented in `docs/public/INSTALL.md` and
+> `docs/public/OPERATIONS.md`. This file covers the web console itself.
 
 ## Ports
 
 | Port | What | When |
 |---|---|---|
-| **8710** | gateway (`mbnas_server`): the API under `/api/v1` **and** the built console `dist/` at `/` | production and every real-server check |
+| **8710** | gateway (`mbnas_server`): the API under `/api/v1` **and** the built console `dist/` at `/` | production |
 | **8720** | `vite preview` (or `vite` dev) of this folder, `/api` proxied to the gateway on 8710 | development only |
-| 4173 | `vite preview` started by the mocked browser suite (`npm run e2e`) | tests only |
 
 The core (8700) is never called by the browser: the gateway relays to it.
 
@@ -24,7 +23,7 @@ The core (8700) is never called by the browser: the gateway relays to it.
 ### Production: the gateway serves the console (same origin, no CORS)
 
 `npm run build` writes `dist/`; the gateway (`mbnas_server`, default port 8710) serves that directory at `/` with an SPA
-fallback (`MBNAS_GW_WEB_DIST`, default `<install root>/mbnas_web/dist`, DD-A30). The release ZIP already contains the built
+fallback (`MBNAS_GW_WEB_DIST`, default `<install root>/mbnas_web/dist`). The release ZIP already contains the built
 `dist/`, so Node is needed only to rebuild the bundle. Open `http://<gateway host>:8710/`, go to the **Server** screen
 (서버 연결·실행 검토), leave *API origin* empty (same origin), paste the bearer token (the gateway's `MBNAS_GW_API_TOKEN`)
 and press **Connect / Health check**. No API URL is compiled into the bundle.
@@ -50,7 +49,7 @@ says so. Anything typed before connecting, a chosen preset or a loaded run is ne
 5. Use Pause / Resume / Cancel / Export on the Server screen. After a reload, enter the token again and use
    **Load by id**.
 
-## Model configuration: upload, revisions, diff, download (contract 1.5.0, F5)
+## Model configuration: upload, revisions, diff, download (contract 1.5.0)
 
 **Upload (Settings → 개별 모델 학습, 모델 출처 = 사용자 지정 모델).** Pick a `.yaml` / `.yml` file (at most 1 MiB; the
 browser refuses other names, empty files and larger files before sending anything, the gateway stays authoritative). Its
@@ -75,8 +74,8 @@ behind the **고급: 서버 경로 사용 (model_path)** toggle and is exclusive
 - **원문 바이트 다운로드** saves exactly those stored bytes (file `<candidate>-<kind>-<revision>.yaml`) and shows the hash
   verdict. The older **화면에 표시한 구성 YAML 다운로드** of the candidate view saves the displayed (canonical) text of the
   detail document; the two are labelled differently because their bytes can differ.
-- **Export**: the run export ZIP (Server screen, `GET /runs/{run_id}/export`) is meant to carry the executed configurations
-  as `architectures/*.yaml` bytes (DD-A23 F5g); the console does not inspect the ZIP, compare the sha256 yourself.
+- **Export**: the run export ZIP (Server screen, `GET /runs/{run_id}/export`) carries the executed configurations
+  as `architectures/*.yaml` bytes; the console does not inspect the ZIP, compare the sha256 yourself.
 - A gateway without these routes (contract < 1.5.0) answers 404: the tab is hidden and a note says why
   (`RUN_NOT_FOUND` / `CANDIDATE_NOT_FOUND`: no record for this candidate). A 5xx keeps the tab with the error and a retry.
 
@@ -98,72 +97,18 @@ and check the bytes against the recorded sha256. A failed download (and a diagno
    `Authorization: Bearer ...`. The browser sends no cookies (`credentials: omit`).
 4. A CORS or network failure shows up as *Cannot reach the server ...* in the connection panel.
 
-## Build, check, test
+## Build and check
 
 ```bash
 npm install                 # versions are locked in package-lock.json (Node 22)
-npx playwright install chromium   # only for the browser suites
 npm run gen:types     # regenerate src/api/types.gen.ts from the contract
 npm run check:types   # regenerate to a temp file and diff; exit 1 on drift
 npm run typecheck     # tsc --noEmit
 npm run build         # typecheck + vite build -> dist/
 npm run check:bundle  # grep dist/ for host facts, the removed policy embeds and removed private vocabulary (7 required + 21 extra needles; exit 1 on a hit, 2 without dist/)
-npm test              # vitest (unit + component, jsdom)
-npm run e2e           # Playwright / real Chromium against `vite preview` (port 4173) with a SYNTHETIC mocked API
-npm run e2e:real      # Playwright against the REAL server (opt-in, see below)
 ```
 
-`npm run e2e` builds the app, serves `dist/` on 127.0.0.1:4173, and runs desktop (1280) and mobile (375)
-projects. Screenshots are written to `evidence/` (not part of any release ZIP; delete it after a run). The mock API and
-fixtures (`e2e/mock.ts`, `tests/mockapi.ts`, `tests/fixtures.ts`, `tests/detail_fixtures.ts`, `tests/config_fixtures.ts`)
-are synthetic, labelled as such, and are not imported from `src/` so they never reach the production bundle.
-Mock specs by topic: `console`/`hardening`/`final`/`mobile`/`perf` (core console), `archive` (NAS archive),
-`generation` (evaluation-OFF switch, generated-candidate table, structure graph and block selection, evaluate-only training
-request), `config_upload` (upload → structure check → training request → revisions → diff → exact-byte download, the 404
-fallback and upload refusals) and `weights` (fitness-weight edit -> Validate body -> Run body -> applied weights in the
-candidate view). On a host without the Playwright-supported distro set `PLAYWRIGHT_HOST_PLATFORM_OVERRIDE=ubuntu22.04-x64`;
-`PLAYWRIGHT_BROWSERS_PATH` selects where Chromium is installed.
-
-**Owner-only test files (DD-A43 a).** `tests/fitness_oracle.ts` (the test-only fitness formula) and every file importing
-it — `tests/fixtures_oracle.ts`, `tests/fixtures_oracle.test.ts`, `e2e/weights.spec.ts` — are left out of the public and
-registration bundles by the packager. The shared fixtures do not import it: `tests/fixtures.ts` carries the fitness the
-synthetic server stamped on its canonical rows as recorded values (`RECORDED_FITNESS`, re-derived bit for bit by the
-owner-only `tests/fixtures_oracle.test.ts`) and gives ad-hoc rows a documented stand-in that is not a formula.
-`tests/oracle_isolation.test.ts` (public) fails if `tests/fixtures.ts`, `tests/mockapi.ts`, `e2e/mock.ts` or another shared
-fixture ever joins the oracle's import closure.
-
-`npm run e2e:real` (`playwright.real.config.ts`, `e2e/real-server.spec.ts`) drives the production build on
-http://127.0.0.1:8720 (`vite preview`, proxy to the gateway on 8710; or the gateway itself with
-`MBNAS_E2E_BASE_URL=http://127.0.0.1:8710`) against the live gateway, core and runner, and nothing is mocked. The browser runs Validate → Run on PILOT_SMOKE and
-follows the real GPU run to completion (about 20 min). It then checks generation lines, the crossover dialog with real images,
-pause/resume, reload restore and the export download, followed by the explicit-origin bearer/Blob path and a 375 px check.
-It needs:
-```bash
-export MBNAS_E2E_REAL=1
-export MBNAS_E2E_TOKEN=...                           # the gateway's MBNAS_GW_API_TOKEN, from your deployment env (never hardcoded)
-export MBNAS_E2E_XORIGIN_API=https://...             # optional: a 2nd API origin without signing key whose CORS allows the page origin
-export MBNAS_E2E_RUN_ID=run-...                      # optional: skip the GPU run, check an existing COMPLETED run
-export MBNAS_E2E_FINAL=1                             # optional, starts real GPU work: drive the Final Retrain panel
-export MBNAS_E2E_FINAL_PARENT_ID=run-...             # optional parent for it (default MBNAS_E2E_RUN_ID / the new run)
-npm run e2e:real
-```
-Screenshots: `evidence/real_*.png`.
-
-With `MBNAS_E2E_FINAL=1` the last real test loads the COMPLETED search run, fills the Final Retrain panel (budget
-`MBNAS_E2E_FINAL_BUDGET_GPU_HOURS`, default 0.25) and clicks Start. The server creates a new `FINAL_RETRAIN` child run and
-the worker trains it on the GPU (PILOT_SMOKE: 2 scratch epochs per finalist). The test then checks:
-- the child id and `finalist_count`;
-- **Load child run** shows the kind, the parent link and the finalist table;
-- the child reaches COMPLETED with `final_gpu_seconds` > 0;
-- every EVALUATED row has arm `Final`, rung `FINAL`, comparison group `final` and the final split hash;
-- the Monitor draws that final cohort alone, with the final cohort note;
-- the keyboard-opened point dialog shows lineage operation `final` with one "Source candidate (finalist)";
-- History lists the parent;
-- **Load parent run** goes back to the parent.
-
-Screenshots: `evidence/real_final_{panel,created,child_server,monitor,modal_lineage,history}.png`.
-
-## Final retraining flow (contract v1.2.0)
+## Final retraining flow
 
 Final retraining is a separate, explicit phase that never runs inside a search run.
 
@@ -213,7 +158,7 @@ the screen name and a run id (not a secret) so a reload can reload the run after
 
 ## Accessibility and design tokens
 
-Normal-text contrast >= 4.5:1 for the documented token pairs (checked by `tests/contrast.test.ts` from
+Normal-text contrast >= 4.5:1 for the documented token pairs (defined in
 `src/styles.css`); sidebar `#0b3d2e`/`#114b38`, page `#f6f8f6`. Mobile (<768px): menu disclosure
 (`aria-expanded`, inert when closed), stacked cards, 44px touch targets, 16px inputs; `prefers-reduced-motion`
 respected. Chart points are focusable buttons (Enter / Space / click) with an equivalent sortable table.

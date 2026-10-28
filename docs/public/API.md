@@ -1,6 +1,6 @@
 # API — 공개 사용자 API 요약 (Public API summary)
 
-문서 기준일: 2026-10-28. 권위 있는 정의는 계약 파일이다: 공개 API `mbnas_contracts/openapi/openapi.json`(현재 **1.5.0**, sha256 `70e0cffa…`), runner 프로토콜 `mbnas_contracts/openapi/openapi_runner.json`(1.1.0: 1.0.0에 보존 정책 삭제 지시 `control.prune`와 삭제 보고 경로 `POST /core/v1/runner/checkpoints/{checkpoint_id}/pruned`를 더함, `COMPATIBILITY.md` §2). 모든 연산의 표는 계약 파일에서 생성한 등록 문서(registration 배포본의 `docs/registration/INTERFACES.md`)에도 있다. 1.4.3 대비 바뀐 점은 §8에 있다.
+권위 있는 정의는 계약 파일이다: 공개 API `mbnas_contracts/openapi/openapi.json`(현재 **1.5.0**, sha256 `70e0cffa…`), runner 프로토콜 `mbnas_contracts/openapi/openapi_runner.json`(1.1.0: 1.0.0에 보존 정책 삭제 지시 `control.prune`와 삭제 보고 경로 `POST /core/v1/runner/checkpoints/{checkpoint_id}/pruned`를 더함, `COMPATIBILITY.md` §2). 모든 연산의 표는 계약 파일에서 생성한 등록 문서(registration 배포본의 `docs/registration/INTERFACES.md`)에도 있다. 1.4.3 대비 바뀐 점은 §8에 있다.
 
 ## 1. 기본 규칙 (Basics)
 
@@ -24,7 +24,7 @@
 | 탐색 run | `POST /runs`, `GET /runs`, `GET /runs/{run_id}`, `GET /runs/{run_id}/snapshot` | 생성 본문 `{protocol, protocol_hash, idempotency_key, validation_id?}` + 헤더 `Idempotency-Key`. 검증 뒤 프로토콜이 바뀌었으면 `409 STALE_VALIDATION` |
 | 실행 제어 | `POST /runs/{run_id}/pause`, `…/resume`, `…/cancel`, `…/final-retrain` | 일시정지는 안전 경계 도달 후 `PAUSED`. 반복 요청은 no-op |
 | 이벤트 | `GET /runs/{run_id}/events` | SSE. 이벤트 id = `seq`. 재연결 시 `Last-Event-ID` 헤더 또는 `after_seq` 쿼리 |
-| 후보 | `GET /runs/{run_id}/candidates/{candidate_id}`, `POST …/structure-check` | 계보·블록·평가·checkpoint·비용·게이트. 구조 재검사는 CPU, 학습·평가 없음. 학습했지만 평가하지 못한 행(CPU runner)은 `status: SEARCH_COMPLETE`, `performance_status: NOT_EVALUATED`, `reason_code`(예: `EVALUATION_REQUIRES_CUDA`), 지표·`fitness`·`gate` null로 나온다(`OPERATIONS.md` §15) |
+| 후보 | `GET /runs/{run_id}/candidates/{candidate_id}`, `POST …/structure-check` | 계보·블록·평가·checkpoint·비용·게이트. 구조 재검사는 CPU, 학습·평가 없음. 학습했지만 평가하지 못한 행(CPU runner)은 `status: SEARCH_COMPLETE`, `performance_status: NOT_EVALUATED`, `reason_code`(예: `EVALUATION_REQUIRES_CUDA`), 지표·`fitness`·`gate` null로 나온다(`OPERATIONS.md` §14) |
 | 별도 학습 | `POST /training-runs` | 본문 `{source, protocol, mode?, validation_enabled?, checkpoint?, idempotency_key}`. `mode`: scratch·pretrained·evaluate_only·resume |
 | 구조 | `GET /registry/{model_id}/structure`, `POST /registry/{model_id}/structure-check`, `POST /structure-check`, `GET /structure/block-catalog` | 사용자 YAML 검사 결과는 저장하지 않는다 |
 | 산출물 | `GET /runs/{run_id}/artifacts/{artifact_id}`, `POST …/refresh`, `GET /runs/{run_id}/export` | id로만 조회(파일 경로를 받지 않음). checkpoint도 같은 경로에서 id로 받는다. 응답의 artifact URL은 상대경로(`/api/v1/...`). gateway가 고객 측 저장소에서 sha256을 대조해 제공(`X-Artifact-Sha256`). core가 core 호스트에 만든 생성 구조 YAML(분리 배치의 평가 없는 생성)은 gateway 저장소에 없으므로 gateway가 core에서 받아 sha256을 다시 대조해 전달한다(`X-Artifact-Verification: core`, core 연결 필요). 만료된 서명 URL은 `410` |
@@ -58,7 +58,7 @@ curl -sS "${AUTH[@]}" -H 'Content-Type: application/json' -H "Idempotency-Key: $
 curl -sS -N "${AUTH[@]}" "$MBNAS_URL/runs/<run_id>/events"   # SSE: 끊기면 -H "Last-Event-ID: <seq>" 로 이어서
 ```
 
-위 예는 계약의 요청 형식을 보여 준다. 같은 흐름(업로드→검사→생성·학습→결과 조회·다운로드)은 공개 배포본 gateway → 원격 core 구성에서 시험 하네스로 실행했다(독립 실행 1차, 개발 단계). 이 curl 예를 그대로 실행한 기록은 없다.
+위 예는 계약의 요청 형식을 보여 준다.
 
 ## 4. 구성 YAML 업로드와 구조 검사 (Upload and structure check)
 
@@ -71,7 +71,7 @@ curl -sS "${AUTH[@]}" -H 'Content-Type: application/json' \
 ```
 
 - 업로드: `.yaml`/`.yml`, UTF-8, 1 MiB 이하. 원문 바이트는 고객 측 저장소에 sha256 이름으로 보존되고(같은 내용 재업로드는 no-op), 서버 경로는 응답하지 않는다. 오류: `UPLOAD_TYPE_UNSUPPORTED`(422), `PAYLOAD_TOO_LARGE`(413), `UPLOAD_EMPTY`, `UPLOAD_NOT_UTF8`, `UPLOAD_INVALID`(422), 이후 요청의 `UPLOAD_ID_INVALID`(422)·`UPLOAD_NOT_FOUND`(404)·`UPLOAD_CORRUPT`(409), `STORE_UNAVAILABLE`(507).
-- `POST /structure-check`와 `POST /training-runs`(`source.kind: "user"`)는 `upload_id` 또는 `model_path`(gateway 호스트의 허용 루트 안 경로)를 받는다. gateway는 core에 경로 대신 YAML 원문과 sha256을 보낸다. `model_path`의 거부 코드는 분할 전과 같다: 경로 검사 코드(`PATH_*`), `.yaml`/`.yml`이 아니거나 1 MiB를 넘거나 UTF-8이 아니면 `422 MODEL_CONFIG_INVALID`. 본문 형식 문제는 gateway가 따로 검사하지 않고 core의 `VALIDATION_FAILED`를 그대로 전달한다. 계약 1.5.0은 요청 필드 `upload_id`·`model_yaml_text`·`source_sha256`·`model_name`을 정의한다(`model_yaml_text`·`source_sha256`은 gateway가 core로 보낼 때 채운다).
+- `POST /structure-check`와 `POST /training-runs`(`source.kind: "user"`)는 `upload_id` 또는 `model_path`(gateway 호스트의 허용 루트 안 경로)를 받는다. gateway는 core에 경로 대신 YAML 원문과 sha256을 보낸다. `model_path`의 거부 코드: 경로 검사 코드(`PATH_*`), `.yaml`/`.yml`이 아니거나 1 MiB를 넘거나 UTF-8이 아니면 `422 MODEL_CONFIG_INVALID`. 본문 형식 문제는 gateway가 따로 검사하지 않고 core의 `VALIDATION_FAILED`를 그대로 전달한다. 계약 1.5.0은 요청 필드 `upload_id`·`model_yaml_text`·`source_sha256`·`model_name`을 정의한다(`model_yaml_text`·`source_sha256`은 gateway가 core로 보낼 때 채운다).
 - 구조 검사 결과 상태는 `PASS`, `FAIL`, `UNVERIFIED`이며 사용자 YAML은 빌드 전에 모듈 허용목록·인자 한도를 먼저 검사한다(`SECURITY_MODEL.md` §5).
 
 ## 5. 이벤트 스트림 (SSE)
@@ -90,7 +90,7 @@ curl -sS "${AUTH[@]}" -H 'Content-Type: application/json' \
 
 ## 8. 계약 1.5.0 — 1.4.3 대비 변경
 
-계약 이력에 `openapi-1.5.0.json`과 `migrate_1.4.3_to_1.5.0.py`가 추가되었고(재생 결과 byte 동일), 웹 타입도 같은 계약에서 생성된다.
+웹 콘솔의 타입은 이 계약에서 생성된다.
 
 **공개 응답 투영(projection).** 투영 대상 component는 `additionalProperties: false`이며, 계약에 없는 필드는 공개 응답·SSE 이벤트·내보내기에서 빠진다(저장된 원본 행은 바뀌지 않는다).
 

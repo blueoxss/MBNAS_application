@@ -1,4 +1,4 @@
-"""Log redaction for secrets carried in URLs or headers (S11-F3).
+"""Log redaction for secrets carried in URLs or headers.
 
 uvicorn's access logger writes the full request path including the query string. A signed artifact URL
 (``exp=``/``sig=``) is a bearer capability, and a client that wrongly puts its API token in the URL

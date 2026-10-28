@@ -1,8 +1,8 @@
-"""FastAPI application factory of the core console app and the ``mbnas-core-api`` entry point (WP-1 contract §3.1(b)).
+"""FastAPI application factory of the core console app and the ``mbnas-core-api`` entry point.
 
 ``create_app(settings, services=None)`` requires ``MBNAS_CORE_API_TOKEN`` (startup fails without it), initialises the
 DB schema once, and mounts every console route at ``/core/v1/console`` behind a scoped principal of kind ``server`` or
-``admin`` (WP-3 contract section 1.1; the gateway relays the browser's ``/api/v1`` to it with its server token) except
+``admin`` (the gateway relays the browser's ``/api/v1`` to it with its server token) except
 the artifact download, which accepts that principal *or* a valid signed URL. Responses and SSE events go through the
 projection hook :func:`mbnas_core.console.projection.project_public`. The same routes are also mounted at ``/api/v1``
 behind the static bearer token only when ``CoreSettings.expose_legacy_api`` is true (owner-mode local debugging;
@@ -13,9 +13,9 @@ Request bodies larger than ``MBNAS_CORE_MAX_REQUEST_BODY_BYTES`` (default 1 MiB)
 uvicorn access/error log records are passed through ``util.log_redact`` so URL/header secrets are never logged.
 The read-only ``/archive/*`` routes are not part of this app: they are served by the gateway (``mbnas_server``).
 
-WP-2 (contract section 1.4): ``/core/v1/runner/*`` (E1-E10, scope ``runner``; :mod:`mbnas_core.runner_api.routes`) and
-the minimal ``/core/v1/owner/{runners,principals}`` reads (scope ``admin``) are mounted beside ``/api/v1`` (kept until
-WP-3). WP-4 (contract 1.5.0): every console body, SSE event and the public export is the public projection
+``/core/v1/runner/*`` (E1-E10, scope ``runner``; :mod:`mbnas_core.runner_api.routes`) and
+the minimal ``/core/v1/owner/{runners,principals}`` reads (scope ``admin``) are mounted beside ``/api/v1``.
+Contract 1.5.0: every console body, SSE event and the public export is the public projection
 (:mod:`mbnas_core.console.projection`, opaque ids salted per database), the configuration-revision routes
 (:mod:`mbnas_core.console.routes_revisions`) join the console, and the raw owner audit / owner export live only under
 ``/core/v1/owner/*`` (:mod:`mbnas_core.console.owner_routes`, scope ``admin``). Runner routes have their own body limit ``MBNAS_CORE_RUNNER_BODY_LIMIT_BYTES`` (32 MiB); every other route keeps
@@ -23,7 +23,7 @@ WP-3). WP-4 (contract 1.5.0): every console body, SSE event and the public expor
 when unset, logged as a warning). The core sweeper (:mod:`mbnas_core.runner_api.sweeper`) runs once when the app
 starts and then every ``heartbeat_s`` until shutdown.
 
-Access log (DD-A60 (5), C11 "T5 log request id linkage"): :class:`AccessLogMiddleware` writes exactly one line per
+Access log: :class:`AccessLogMiddleware` writes exactly one line per
 HTTP request to the ``mbnas_core.access`` logger - ``method``, ``path`` (query string through
 :func:`~mbnas_contracts.util.log_redact.redact`: ``token``/``access_token``/``sig``/``exp`` values become ``***``;
 control characters and whitespace escaped, so one request is always one line), ``status``, ``request_id`` (the
@@ -64,7 +64,7 @@ from mbnas_core.runner_api.sweeper import Sweeper
 
 API_PREFIX = "/api/v1"
 CONSOLE_PREFIX = "/core/v1/console"
-API_VERSION = "1.5.0"  # contract version served (mbnas_contracts openapi.json; WP-4 promotion, DD-A42)
+API_VERSION = "1.5.0"  # contract version served (mbnas_contracts openapi.json)
 ALLOWED_HEADERS = ["Authorization", "Content-Type", "Idempotency-Key", "Last-Event-ID", "X-Request-ID"]
 EXPOSED_HEADERS = ["X-Request-ID", "X-Artifact-Sha256", "X-Bundle-Sha256", "Content-Disposition"]
 GRACEFUL_SHUTDOWN_S = 3
@@ -158,7 +158,7 @@ class AccessLogMiddleware:
 class RoutedBodyLimit:
     """Pure ASGI: :class:`BodyLimitMiddleware` with ``runner_bytes`` below ``prefix`` and ``default_bytes`` elsewhere.
 
-    Its 413 bodies name ``location`` ``core`` (C05 D3) - also on the legacy ``/api/v1`` owner debug mount, whose path
+    Its 413 bodies name ``location`` ``core`` - also on the legacy ``/api/v1`` owner debug mount, whose path
     alone would read as a gateway route; the runner / owner protocol paths get no ``location`` field
     (:func:`mbnas_contracts.asgi.body_limit_location`)."""
 
@@ -187,7 +187,7 @@ def create_app(settings: CoreSettings | None = None, services: AppServices | Non
     settings = settings or CoreSettings.load()
     token = settings.require_api_token()
     # uvicorn has configured its loggers before it calls this factory: strip token/access_token/sig/exp query
-    # values and Authorization values from access/error log records (S11-F3)
+    # values and Authorization values from access/error log records
     install_log_redaction()
     svc = services or AppServices(settings)
     conn = connect(settings)  # creates/migrates the schema once
@@ -196,7 +196,7 @@ def create_app(settings: CoreSettings | None = None, services: AppServices | Non
     finally:
         conn.close()
     if salt:
-        projection.configure(salt)  # opaque public worker / device ids are stable per database (DD-A19 D7)
+        projection.configure(salt)  # opaque public worker / device ids are stable per database
     bus = EventBus(settings, poll_s=svc.sse_poll_s)
 
     @asynccontextmanager
@@ -224,15 +224,15 @@ def create_app(settings: CoreSettings | None = None, services: AppServices | Non
         protected.include_router(routes_runs.router)
         protected.include_router(routes_training.router)
         protected.include_router(routes_registry_structure.router)  # contract 1.4.0: registry / user model structure
-        protected.include_router(routes_revisions.router)  # contract 1.5.0: configuration revisions (F5d)
+        protected.include_router(routes_revisions.router)  # contract 1.5.0: configuration revisions
         protected.include_router(routes_stream.router)
         app.include_router(protected)
         app.include_router(routes_files.build_router(mode), prefix=prefix)  # credential or signed URL, per route
 
-    console_routers(CONSOLE_PREFIX, console_principal, "console")  # scope server|admin (WP-3 section 1.1)
+    console_routers(CONSOLE_PREFIX, console_principal, "console")  # scope server|admin
     if settings.expose_legacy_api:
         console_routers(API_PREFIX, legacy_principal, "legacy")  # owner local debug only
-    app.include_router(runner_routes.router, prefix=runner_routes.RUNNER_PREFIX)  # scope runner (WP-2 E1-E10)
+    app.include_router(runner_routes.router, prefix=runner_routes.RUNNER_PREFIX)  # scope runner (E1-E10)
     app.include_router(runner_routes.owner_router, prefix=runner_routes.OWNER_PREFIX)  # scope admin
     app.include_router(owner_routes.router, prefix=runner_routes.OWNER_PREFIX)  # scope admin: raw audit / owner export
 
@@ -241,7 +241,7 @@ def create_app(settings: CoreSettings | None = None, services: AppServices | Non
     app.add_middleware(CORSMiddleware, allow_origins=list(settings.cors_origins), allow_credentials=False,
                        allow_methods=["GET", "POST", "OPTIONS"], allow_headers=ALLOWED_HEADERS,
                        expose_headers=EXPOSED_HEADERS, max_age=600)
-    app.add_middleware(AccessLogMiddleware, logger=access_logger())  # DD-A60 (5): one line per request with its id
+    app.add_middleware(AccessLogMiddleware, logger=access_logger())  # one line per request with its id
     app.add_middleware(RequestIdMiddleware)
     return app
 
@@ -266,7 +266,7 @@ def main(argv: list[str] | None = None) -> int:
     settings = CoreSettings.load()
     # open SSE streams never end on their own: bound the graceful shutdown so a restart takes seconds; clients
     # reconnect with Last-Event-ID and the server replays what they missed
-    # access_log=False: AccessLogMiddleware writes the one access line per request (with its request id, DD-A60 (5))
+    # access_log=False: AccessLogMiddleware writes the one access line per request (with its request id)
     uvicorn.run("mbnas_core.api.app:app_from_env", factory=True, host=args.host or settings.host,
                 port=args.port or settings.port, proxy_headers=True, log_level="info", access_log=False,
                 timeout_graceful_shutdown=GRACEFUL_SHUTDOWN_S)

@@ -1,0 +1,72 @@
+{
+ "schema": "mbnas.canary_scan/1",
+ "targets": [
+  "<W>/t5/run/runtime"
+ ],
+ "profile": null,
+ "expect_present": false,
+ "manifest": {
+  "path": "docs/internal/canary/CANARY_MANIFEST.json",
+  "sha256": "2fd0b0491784a1668946c195c68ecdd0ef05e1686f4dfd830475f427eeaa5ca5",
+  "areas": [
+   "CORE_STATE",
+   "FITNESS",
+   "MANIFEST_SELF",
+   "OWNER_DEPLOY",
+   "OWNER_DOC",
+   "OWNER_SECRET",
+   "OWNER_TEST",
+   "POLICY_PRIOR",
+   "POLICY_REPAIR"
+  ]
+ },
+ "host_facts": true,
+ "needle_count": 118,
+ "scanned": {
+  "files": 24286,
+  "bytes": 1067231605,
+  "containers": 29,
+  "min_files": 1,
+  "skipped": [
+   "<W>/t5/run/runtime/runner/runs/runs/train-554acdd5b4ea/data_view/2d3fb087c8875d9f/images/train/train_000.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-554acdd5b4ea/data_view/2d3fb087c8875d9f/images/train/train_001.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-554acdd5b4ea/data_view/2d3fb087c8875d9f/images/train/train_002.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-554acdd5b4ea/data_view/2d3fb087c8875d9f/images/train/train_003.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-554acdd5b4ea/data_view/2d3fb087c8875d9f/images/val/val_000.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-554acdd5b4ea/data_view/2d3fb087c8875d9f/images/val/val_001.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-554acdd5b4ea/data_view/2d3fb087c8875d9f/images/val/val_002.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-554acdd5b4ea/data_view/2d3fb087c8875d9f/images/val/val_003.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-587eeb4e31be/data_view/3779c1a432f52e74/images/train/train_000.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-587eeb4e31be/data_view/3779c1a432f52e74/images/train/train_001.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-587eeb4e31be/data_view/3779c1a432f52e74/images/train/train_002.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-587eeb4e31be/data_view/3779c1a432f52e74/images/train/train_003.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-587eeb4e31be/data_view/3779c1a432f52e74/images/val/train_000.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-587eeb4e31be/data_view/3779c1a432f52e74/images/val/train_001.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-587eeb4e31be/data_view/3779c1a432f52e74/images/val/train_002.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-587eeb4e31be/data_view/3779c1a432f52e74/images/val/train_003.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-9bf2edcef48a/data_view/3779c1a432f52e74/images/train/train_000.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-9bf2edcef48a/data_view/3779c1a432f52e74/images/train/train_001.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-9bf2edcef48a/data_view/3779c1a432f52e74/images/train/train_002.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-9bf2edcef48a/data_view/3779c1a432f52e74/images/train/train_003.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-9bf2edcef48a/data_view/3779c1a432f52e74/images/val/train_000.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-9bf2edcef48a/data_view/3779c1a432f52e74/images/val/train_001.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-9bf2edcef48a/data_view/3779c1a432f52e74/images/val/train_002.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-9bf2edcef48a/data_view/3779c1a432f52e74/images/val/train_003.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-be84e912c42c/data_view/3779c1a432f52e74/images/train/train_000.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-be84e912c42c/data_view/3779c1a432f52e74/images/train/train_001.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-be84e912c42c/data_view/3779c1a432f52e74/images/train/train_002.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-be84e912c42c/data_view/3779c1a432f52e74/images/train/train_003.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-be84e912c42c/data_view/3779c1a432f52e74/images/val/train_000.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-be84e912c42c/data_view/3779c1a432f52e74/images/val/train_001.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-be84e912c42c/data_view/3779c1a432f52e74/images/val/train_002.png: symbolic link not followed",
+   "<W>/t5/run/runtime/runner/runs/runs/train-be84e912c42c/data_view/3779c1a432f52e74/images/val/train_003.png: symbolic link not followed"
+  ]
+ },
+ "hits": [],
+ "hits_by_label": {},
+ "expectations": [],
+ "failing_hits": 0,
+ "unmet_expectations": 0,
+ "too_few_files": false,
+ "status": "PASS"
+}

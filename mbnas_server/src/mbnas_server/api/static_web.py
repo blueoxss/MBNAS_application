@@ -1,4 +1,4 @@
-"""Static web serving (DD-A30, WP-3 contract section 2.7).
+"""Static web serving of the built web console.
 
 When ``GatewaySettings.web_dist`` (``MBNAS_GW_WEB_DIST``, default ``<ROOT>/mbnas_web/dist``) holds an ``index.html``, every
 ``GET``/``HEAD`` outside ``/api`` is served from it: an existing file is returned as is, any other path gets

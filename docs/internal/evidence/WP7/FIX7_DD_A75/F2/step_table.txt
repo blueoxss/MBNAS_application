@@ -1,0 +1,26 @@
+# side-by-side step table (verify.sh's own parse rule over integration_smoke.txt; '-- (absent)' = the step never ran)
+# T4_orig_sbx  = P2 T4 attempt_dd_a73 (docs/internal/evidence/T4/rerun2/attempt_dd_a73/verify/integration_smoke.txt), original smoke, bwrap without /dev/nvidia*
+# F2_orig_sbx  = this round, ORIGINAL smoke, fresh install, same no-GPU sandbox (baseline_original_smoke_cpu_only_sandbox/)
+# F2_(a)_new   = this round, NEW smoke, fresh install, no-GPU sandbox (a_cpu_only_sandbox/)
+# T6_orig_host = T6 rerun2 owner attempt3 (docs/internal/evidence/T6/rerun2/owner/attempt3_dd_a73_final/verify_20261028T033646Z-owner/), original smoke, host
+# F2_(b)_new   = this round, NEW smoke, fresh install, sandbox WITH the /dev/nvidia* nodes, CUDA_VISIBLE_DEVICES='' (b_gpu_nodes_visible_sandbox/)
+step                                       T4_orig_sbx     F2_orig_sbx     F2_(a)_new      T6_orig_host    F2_(b)_new      
+(fleet mode)                               (no fleet-mode  (no fleet-mode  CPU-only        (no fleet-mode  GPU             
+ 1 core-start                              PASS            PASS            PASS            PASS            PASS            
+ 2 principal-server                        PASS            PASS            PASS            PASS            PASS            
+ 3 principal-runner                        PASS            PASS            PASS            PASS            PASS            
+ 4 principal-admin                         PASS            PASS            PASS            PASS            PASS            
+ 5 owner+runner-start                      PASS            PASS            PASS            PASS            PASS            
+ 6 gateway-start                           PASS            PASS            PASS            PASS            PASS            
+ 7 structure-check-pass                    PASS            PASS            PASS            PASS            PASS            
+ 8 structure-check-bad-yaml                PASS            PASS            PASS            PASS            PASS            
+ 9 validate-dataset-manifests-via-gateway  FAIL            FAIL            PASS            PASS            PASS            
+10 validate-via-gateway                    PASS            PASS            PASS            PASS            PASS            
+11 off-generation-run                      PASS            PASS            PASS            PASS            PASS            
+12 candidate-detail                        PASS            PASS            PASS            PASS            PASS            
+13 export-download-via-gateway             PASS            PASS            PASS            PASS            PASS            
+14 runner-training-via-gateway             FAIL            FAIL            PASS            PASS            PASS            
+15 artifact-download-from-gateway-store    -- (absent)     -- (absent)     PASS            PASS            PASS            
+16 core-down-degraded-503                  PASS            PASS            PASS            PASS            PASS            
+17 stop-own-processes                      PASS            PASS            PASS            PASS            PASS            
+counts                                     14/16           14/16           17/17           17/17           17/17           

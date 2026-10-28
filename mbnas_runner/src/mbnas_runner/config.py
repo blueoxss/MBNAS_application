@@ -1,6 +1,6 @@
 """Runner settings (pydantic-settings, environment prefix ``MBNAS_RUNNER_``).
 
-One settings class per host (WP-1 contract §5, DD-A13): the runner host reads only this one; the core service and the
+One settings class per host: the runner host reads only this one; the core service and the
 gateway have settings classes of their own. Every default path lives below
 :func:`mbnas_contracts.util.home.mbnas_home` (``$MBNAS_HOME`` or ``<cwd>/runtime``); nothing points into a source tree
 or at a fixed host directory. The core's owner worker hands its job children the roots they may use through
@@ -13,15 +13,16 @@ alias of ``work_root`` because ``extra="ignore"`` would otherwise drop it silent
 root). ``token`` is optional at load time so tools and tests can share one object; an explicitly empty secret is
 always rejected. List settings accept JSON (``["a","b"]``) or comma-separated values.
 
-Remote queue settings (WP-2 contract §2.4): ``token_file`` (bearer token read from a file; wins over nothing, an
+Remote queue settings: ``token_file`` (bearer token read from a file; wins over nothing, an
 explicit ``token`` wins over the file), ``ca_file`` (CA bundle that verifies the core's TLS certificate; unset = the
 system store), ``dataset_mounts`` (JSON object ``{protocol_root: local_root}``: the core host's dataset paths frozen in
 the resolved protocol and where the same bytes live on this host; every local root is also a dataset allow root),
-``kinds`` (job kinds this runner claims, default the five runner kinds of DD-A4), ``kill_on_lease_expiry`` (stop the
-child when the lease ran out locally without a renewal, F15), ``progress_interval_s`` / ``max_batch_messages`` (progress
-batching) and ``request_retries`` / ``request_backoff_s`` (HTTP retry policy of :mod:`mbnas_runner.client`).
+``kinds`` (job kinds this runner claims, default the five runner kinds of :data:`RUNNER_KINDS`),
+``kill_on_lease_expiry`` (stop the child when the lease ran out locally without a renewal), ``progress_interval_s`` /
+``max_batch_messages`` (progress batching) and ``request_retries`` / ``request_backoff_s`` (HTTP retry policy of
+:mod:`mbnas_runner.client`).
 
-Artifact transfer settings (WP-5C, DD-A38/DD-A39; :mod:`mbnas_runner.transfer`): ``artifact_transfer`` = ``none``
+Artifact transfer settings (:mod:`mbnas_runner.transfer`): ``artifact_transfer`` = ``none``
 (default: nothing is transferred, behaviour unchanged) | ``local`` (every registered file is hard-linked, or copied, into
 ``artifact_store_dir`` = the gateway's artifact store directory on this host, ``MBNAS_GW_ARTIFACT_STORE``; required in
 that mode), ``artifact_store_mode`` (``same-uid`` | ``link-0644`` | ``copy-0644``: who may read the stored files, see
@@ -29,7 +30,7 @@ that mode), ``artifact_store_mode`` (``same-uid`` | ``link-0644`` | ``copy-0644`
 (runner -> gateway HTTP upload) is reserved: **upload mode is not implemented in 0.1.0** and is refused; ``gateway_url``
 and ``gateway_upload_token_file`` are reserved names for it and are never read in 0.1.0.
 
-Runner id (C06-D1, fix round 1): ``runner_id`` (``MBNAS_RUNNER_RUNNER_ID``) names this runner to the core, and its runner
+Runner id: ``runner_id`` (``MBNAS_RUNNER_RUNNER_ID``) names this runner to the core, and its runner
 token is bound to it (``mbnas-core-principal create --kind runner --runner-id <id>``). Unset, it is the runtime root's
 generated id (:func:`persistent_runner_id`): ``runner-`` + 8 lower-case hex digits from :func:`secrets.token_hex`,
 written to ``mbnas_home()/runner/runner_id`` the first time a settings object needs it (``scripts/install.sh`` does that
@@ -54,13 +55,13 @@ from mbnas_contracts.util.home import mbnas_home
 StrList = Annotated[list[str], NoDecode]
 StrMap = Annotated[dict[str, str], NoDecode]
 
-#: the job kinds a runner may run (DD-A4); the core rejects anything else with 400 KIND_NOT_ALLOWED
+#: the job kinds a runner may run; the core rejects anything else with 400 KIND_NOT_ALLOWED
 RUNNER_KINDS: tuple[str, ...] = ("BASELINE_TRAIN", "CANDIDATE_TRAIN", "FINAL_RETRAIN", "EVALUATE", "BENCHMARK")
 #: ``artifact_transfer`` values (mirrors mbnas_runner.transfer.MODES / RESERVED_MODES; not imported to keep this light)
 ARTIFACT_TRANSFER_MODES: tuple[str, ...] = ("none", "local")
 ARTIFACT_TRANSFER_RESERVED: tuple[str, ...] = ("upload",)
 ARTIFACT_STORE_MODES: tuple[str, ...] = ("same-uid", "link-0644", "copy-0644")  # = mbnas_runner.transfer.STORE_MODES
-#: where the generated default runner id lives, below ``mbnas_home()`` (one id per runtime root; C06-D1)
+#: where the generated default runner id lives, below ``mbnas_home()`` (one id per runtime root)
 RUNNER_ID_FILE: tuple[str, ...] = ("runner", "runner_id")
 #: the form of a generated runner id (8 hex digits are generated; longer ones are accepted)
 GENERATED_RUNNER_ID = re.compile(r"runner-[0-9a-f]{8,}")
@@ -140,7 +141,7 @@ class RunnerSettings(BaseSettings):
     runner_id: str | None = Field(default=None, min_length=1)
     """``None`` resolves after validation to the runtime root's generated id (:func:`persistent_runner_id`:
     ``runner-<8 hex>`` stored in ``mbnas_home()/runner/runner_id``), so ``settings.runner_id`` is always a string; it is
-    never derived from the host name (C06-D1)."""
+    never derived from the host name."""
     work_root: str = Field(default_factory=lambda: _home("runner", "runs"))
     output_roots: StrList = Field(default_factory=lambda data: [data["work_root"]])
     """Roots a run directory may live below (default: ``[work_root]``)."""
@@ -153,7 +154,7 @@ class RunnerSettings(BaseSettings):
     log_dir: str = Field(default_factory=lambda: _home("runner", "logs"))
     allow_pickle_resume: bool = False
     """RF-DETR native resume loads a pickled checkpoint (``torch.load(weights_only=False)``); off unless the operator
-    opts in (DD-A20). The owner profile turns it on through ``MBNAS_RUNNER_ALLOW_PICKLE_RESUME=1``."""
+    opts in. The owner profile turns it on through ``MBNAS_RUNNER_ALLOW_PICKLE_RESUME=1``."""
     token_file: str | None = None
     ca_file: str | None = None
     dataset_mounts: StrMap = Field(default_factory=dict)

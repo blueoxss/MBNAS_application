@@ -1,6 +1,6 @@
 /**
- * Archive display formatting (design 4.3): mAP/recall 4 decimals, latency 2 decimals, params as an integer with
- * thousands separators. A missing / non-finite value is ALWAYS the dash and never 0 (design D9).
+ * Archive display formatting: mAP/recall 4 decimals, latency 2 decimals, params as an integer with
+ * thousands separators. A missing / non-finite value is ALWAYS the dash and never 0.
  */
 import { DASH } from '../lib/format';
 

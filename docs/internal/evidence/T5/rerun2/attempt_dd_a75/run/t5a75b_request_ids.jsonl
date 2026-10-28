@@ -1,0 +1,3 @@
+{"rid": "t5a75b-291e209d2d64412bb851", "method": "GET", "path": "/api/v1/health", "status": 200, "echoed": true}
+{"rid": "t5a75b-6e197dcfd25f405d96ef", "method": "POST", "path": "/api/v1/protocols/validate", "status": 503, "echoed": true}
+{"rid": "t5a75b-20ae685ffd0b418aa59c", "method": "GET", "path": "/api/v1/runs", "status": 503, "echoed": true}

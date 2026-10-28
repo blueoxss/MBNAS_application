@@ -1,0 +1,134 @@
+{
+ "snapshot": {
+  "http": 200,
+  "request_id": "t5a75-79a2baacc4d1400faba9",
+  "fragments": {},
+  "other_samples": [],
+  "abs_path_regex": {
+   "client_echo": 9,
+   "other": 0
+  },
+  "abs_samples": [],
+  "recipe_values": {
+   "data": [
+    "<path>"
+   ],
+   "model": [
+    "<path>"
+   ],
+   "project": [
+    "<path>"
+   ],
+   "save_dir": [
+    "<path>"
+   ]
+  },
+  "raw_body_grep": {
+   "owner_install_token": 0,
+   "core_home_token": 0,
+   "owner_unicode": 0,
+   "runner_wr_token": 0,
+   "runner_wr_unicode": 0
+  }
+ },
+ "candidate_detail": {
+  "http": 200,
+  "request_id": "t5a75-1385ea5ea1814b8f86c8",
+  "fragments": {},
+  "other_samples": [],
+  "abs_path_regex": {
+   "client_echo": 0,
+   "other": 0
+  },
+  "abs_samples": [],
+  "recipe_values": {
+   "data": [
+    "<path>"
+   ],
+   "model": [
+    "<path>"
+   ],
+   "project": [
+    "<path>"
+   ],
+   "save_dir": [
+    "<path>"
+   ]
+  },
+  "raw_body_grep": {
+   "owner_install_token": 0,
+   "core_home_token": 0,
+   "owner_unicode": 0,
+   "runner_wr_token": 0,
+   "runner_wr_unicode": 0
+  }
+ },
+ "sse_replay": {
+  "http": 200,
+  "request_id": "t5a75-938a7e267782446781b2",
+  "events": 16,
+  "data_payloads": 16,
+  "fragments": {},
+  "other_samples": [],
+  "abs_path_regex": {
+   "client_echo": 0,
+   "other": 0
+  },
+  "abs_samples": [],
+  "recipe_values": {
+   "data": [
+    "<path>"
+   ],
+   "model": [
+    "<path>"
+   ],
+   "project": [
+    "<path>"
+   ],
+   "save_dir": [
+    "<path>"
+   ]
+  },
+  "raw_body_grep": {
+   "owner_install_token": 0,
+   "core_home_token": 0,
+   "owner_unicode": 0,
+   "runner_wr_token": 0,
+   "runner_wr_unicode": 0
+  }
+ },
+ "export": {
+  "http": 200,
+  "request_id": "t5a75-331382b26bd94b84b22b",
+  "members": 21,
+  "sha_match": true,
+  "fragments": {},
+  "other_samples": [],
+  "abs_path_regex": {
+   "client_echo": 14,
+   "other": 0
+  },
+  "abs_samples": [],
+  "recipe_values": {
+   "data": [
+    "<path>"
+   ],
+   "model": [
+    "<path>"
+   ],
+   "project": [
+    "<path>"
+   ],
+   "save_dir": [
+    "<path>"
+   ]
+  },
+  "raw_body_grep": {
+   "owner_install_token": 0,
+   "core_home_token": 0,
+   "owner_unicode": 0,
+   "runner_wr_token": 0,
+   "runner_wr_unicode": 0
+  }
+ }
+}

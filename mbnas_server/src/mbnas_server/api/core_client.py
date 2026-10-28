@@ -1,4 +1,4 @@
-"""HTTP client of the gateway towards the core console API (WP-3 contract section 2.1).
+"""HTTP client of the gateway towards the core console API.
 
 * One :class:`httpx.AsyncClient` per app (``base_url = core_url + core_prefix``), authenticated with the service token
   ``GatewaySettings.core_token`` (``Authorization: Bearer``; never sent to browsers, never logged). TLS verification
@@ -12,12 +12,12 @@
   ``CORE_BAD_RESPONSE``.
 * Connection failures / timeouts are 503 ``CORE_UNAVAILABLE`` (``location=core``, ``Retry-After``). There is no fallback:
   the gateway never answers a relayed route from local state.
-* DD-A41 (d): without an injected transport the client refuses a plain ``http://`` ``core_url`` to a non-loopback host
+* Without an injected transport the client refuses a plain ``http://`` ``core_url`` to a non-loopback host
   (:class:`mbnas_server.config.CoreUrlInsecure`, ``CORE_URL_INSECURE``) unless ``core_allow_insecure_http`` is set, so
   the app factory fails at start instead of sending the service token in clear text.
 
 ``transport`` (an ``httpx.AsyncBaseTransport``) can be injected, e.g. ``httpx.ASGITransport(core_app)`` for the in-process
-combined harness (WP-3C).
+combined harness.
 """
 from __future__ import annotations
 
@@ -84,7 +84,7 @@ class CoreClient:
     """Async relay client (see module docstring)."""
 
     def __init__(self, settings: GatewaySettings, transport: httpx.AsyncBaseTransport | None = None) -> None:
-        if transport is None:  # a real network client: DD-A41 (d) CORE_URL_INSECURE (an injected transport has no wire)
+        if transport is None:  # a real network client: CORE_URL_INSECURE (an injected transport has no wire)
             settings.require_secure_core_url()
         self.settings = settings
         self.base_url = settings.core_url + settings.core_prefix

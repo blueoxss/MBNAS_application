@@ -1,0 +1,4 @@
+# 2026-10-28T06:42:10Z canary_scan.py --manifest docs/internal/canary/CANARY_MANIFEST.json --secrets-env <14 secret needles: DD-A75 T5 core/gateway/runner env + owner-install core/gateway/runner env (temporary 0600, deleted)> docs/internal/evidence/T5/rerun2/attempt_dd_a75  (host facts on, no profile = any hit fails)
+scanned files=51 bytes=1146003 containers=0 skipped=0 hits=0 failing=0 unmet=0
+canary_scan: PASS
+# exit=0

@@ -304,3 +304,197 @@ owner 대기:
 - 이것이 확인되면 owner 부분 D4, D5, D6을 닫는다.
 
 점수: import_origin 25, package_data 25, clean_env 25, relocation 25 = **100**. public/registration 기준으로 **PASS가 유지된다.** owner 확인 후 최종 확정한다.
+
+## Owner addendum (DD-A73 ZIP 53e6a1f0…) — 2026-10-28T13:0x+09:00
+
+결론: **100점(PASS)이 확정이다.** 세 프로필 모두 최종 ZIP 기준이다. Blocker 0, Critical 0, Major 0이고, 남은 것은 Minor D7(DD-A71에 따라 1.5.1로 이월) 하나다.
+
+- tree hash: `sha256:1b4bd1a4a45196e3c558d62507f109301973eddc180df5968ed7014a72e6708c`. 13:03과 13:08에 같았다.
+- `sha256sum dist/*/*.zip`: owner `53e6a1f0…`, public `bc0500bd…`, registration `dea510df…`.
+- 평가자 산출물은 `$S4` = scratchpad의 `c09_eval4/`에 있다.
+
+| # | 항목 | 판정 | 근거(읽은 파일, 실행) |
+|---|---|---|---|
+| 1 | owner sha와 BUILD_INFO 트리 해시 | **PASS** | 아래 "항목 1 상세" 참고 |
+| 2 | 동봉된 `owner_wheels.txt`가 PASS이고 ZIP의 `wheels/`와 같은지 | **PASS** | 아래 "항목 2 상세" 참고 |
+| 3 | attempt3의 relocation, 호출자 env, cwd `/` 재호출 | **PASS** | 아래 "항목 3 상세" 참고 |
+| 4 | 배치(TARGET_ROOT 밖) | 아래 판정 참고 | 아래 "항목 4 상세" 참고 |
+| 5 | a43a8a2e… 대비 FILE_MANIFEST 차이 범위 | **PASS** | 아래 "항목 5 상세" 참고 |
+| 6 | D4 | **CLOSED (3종 모두)** | owner BUILD_INFO source tree가 현재 트리와 같다(1). core wheel 92/92가 현재 `mbnas_core/src`와 내용 차이 0이다. 공개 wheel 4개는 owner·public·registration ZIP 사이에서 sha가 같다(contracts `a947997e…`, model_runtime `65a13736…`, runner `a8401c99…`, server `2243162f…`) |
+
+항목 1 상세:
+- `sha256sum` = `.sha256` = `53e6a1f0cf100cb813ff500d4936a4dcf03feea623886b43879c51de572434c9`, 82 702 282 B, 3246 멤버(`unzip -l`)
+- BUILD_INFO `build_id r-99eeb029485c9de8`, `source_tree` = `1b4bd1a4…` (221 files). 현재 트리와 같다.
+- `PFINAL2/owner_c/build/build_twice_console.txt`: 두 빌드의 sha가 같다.
+- `check_owner_c.txt`: manifest == members, digest mismatch 0
+
+항목 2 상세:
+- 평가자 도구 `check_wheel_listing.py`로 세 목록을 owner ZIP 안의 wheel 5개와 대조했다:
+  - ZIP에서 `unzip -p`로 꺼낸 `docs/internal/evidence/package_build/owner_wheels.txt`
+  - `PFINAL2/owner_c/build/build{1,2}/owner_wheels.txt`
+- 결과:
+  - 5개 wheel 모두 wheel sha와 bytes가 같고 멤버 행(sha, bytes)도 같다(27/49/23/30/92).
+  - gate는 모두 PASS다. contracts와 core의 package data는 3/3이다.
+  - `mbnas_core` wheel은 `a2d97415…`다.
+  - 세 목록은 바이트 단위로 같다.
+- 출력: `$S4/out/owner_wheel_listing_check.txt`
+
+항목 3 상세 (`T6/rerun2/owner/attempt3_dd_a73_final/`):
+- `relocation_20261028T033646Z-owner.json`:
+  - **215행 전부 ROOT**(core 89 포함)
+  - `caller_env_python_vars=[]`
+  - `.pth`는 import 줄뿐
+  - sys.path는 BASE ×3 + ROOT
+  - 검사 8/8
+- `verify_owner.txt`: unit 2747 passed / 0 failed / 56 skipped, integration 17/17, relocation PASS, exit 0. `verify_owner_package.txt`: PASS.
+- `verify_caller_env.txt`: 호출자 셸에는 `PYTHONDONTWRITEBYTECODE=1`과 `OLDPWD=<TR>`만 있었다(PYTHONPATH, PYTHONHOME, PYTHONSTARTUP, PYTHONUSERBASE, VIRTUAL_ENV 없음).
+- `doctor_owner_strict.txt`: `env:core|owner-worker|gateway|runner` PASS(실제 role), PASS=32.
+- cwd `/` 재호출:
+  - `reinvoke_start_core_from_root.txt` exit 0
+  - `reinvoke_doctor_from_root.txt` exit 0, PASS=30, `env:core`와 `env:owner-worker` PASS
+  - `reinvoke_stop_from_root.txt` exit 0
+  - `leftover_check.txt`: 남은 프로세스 0
+
+항목 4 상세:
+- **attempt3의 추출 경로(`<TR>/runtime/test_root/t6/rerun2/mbnas owner r2c`, 호스트에서 샌드박스 없이 실행)는 "TARGET_ROOT 밖 배치" 조건을 충족하지 않는다.** 그 경로에서는 부모 트리가 보인다.
+- 충족하는 근거는 다음 두 가지다.
+  - (a) public/registration: 앞 addendum의 T6 rerun2 bwrap 실행. 트리를 `/srv/mbnas <p> r2`로 다시 bind했고 `/home`이 보이지 않았다.
+  - (b) owner: **이번 평가자 실행**. 평가자 소유의 빈 디렉터리 `$S4/owner_x`에 owner ZIP을 풀고, bwrap 안에서 새 경로 `/srv/mbnas owner c09`(공백 포함)에 bind했다. `/home`, `<TR>`, etri_nas, `/data`가 보이지 않았고, 네트워크와 `/dev/nvidia*`도 없었다. 외부 cwd `/tmp/elsewhere`에서:
+    - `install.sh --profile owner --offline --wheelhouse /opt/wheelhouse`: **exit 0**(91 s), `--no-cache-dir`, `inside ROOT` 5행
+    - `verify --suite relocation`: **8/8**, 215행 전부 ROOT, `caller_env_python_vars=[]`
+    - 리소스 probe: 215/215, schema.sql `84240467…`(18 CREATE TABLE), openapi 1.5.0, runner openapi 1.1.0
+    - PYTHONPATH(종료하는 그림자 `mbnas_server`), PYTHONHOME, PYTHONSTARTUP, PYTHONUSERBASE가 섞인 호출자 env로 `start.sh` 실행: **exit 0**. 4개 role env에 남은 Python 변수는 `PYTHONNOUSERSITE`뿐이고, doctor `env:` 4개 PASS, stop 0, 남은 프로세스 0이다.
+  - 출력: `$S4/out/owner_final_console.txt`, `$S4/out_sbx/`
+- 판정: **D6 CLOSED**. public/registration은 프로젝트 증거로, owner는 평가자 증거로 닫는다. owner의 프로젝트 쪽 격리 증거는 P2 T4 재실행에서 나온다.
+- relocation 기준 자체(다른 절대경로, 공백 경로, 외부 cwd에서 제공 명령 동작)는 attempt3만으로도 충족한다. 그래서 점수 25는 유지된다.
+- `verify.sh:136`의 needle이 2개뿐인 점은 관찰 사항이다(결함으로 세지 않음).
+
+항목 5 상세:
+- 비교 대상: `pfinal2/builds/build1/owner/…zip`(a43a8a2e…, 읽기 전용)과 dist의 53e6a1f0…
+- `FILE_MANIFEST.jsonl`의 `relpath` 기준으로 직접 대조했다. 추가 461, 삭제 0, 변경 17.
+- docs/internal 밖의 변경은 정확히 다음뿐이다:
+  - 추가: `tests/owner/api/test_dd_a73_bind_structure_mixed.py`
+  - 변경: `BUILD_INFO.json`, `PACKAGE_CONTENTS.md`, `PACKAGE_PROFILE.json`(build-metadata), `mbnas_core/src/mbnas_core/training_runs/selection.py`, `tests/public/packaging/test_package_contents_and_gates.py`, `wheels/mbnas_core-0.1.0-py3-none-any.whl`
+- 나머지는 모두 `docs/internal/**`다(추가는 T6 207, WP7 188, T5 63, FINAL_REPORT.md 1, CRITERIA 1. 변경 11).
+- `selection.py`의 차이는 DD-A73 블록(+18줄)뿐이다. 패키지 내부 import(`model_services.MIXED_NAMES`, `mixed_pool.bridge.load_etri_mixed`)만 쓰고, `load_etri_mixed`는 vendored 모듈만 적재한다(`bridge.py:107-`: `sys.path`나 외부 root를 쓰지 않음). 폐쇄성에 영향이 없다.
+- ZIP 안의 `selection.py`는 현재 트리와 같다.
+- 출력: `$S4/out/manifest_diff.txt`
+
+| 기준 | 점수 | 앵커 |
+|---|---|---|
+| import_origin | 25 | 최종 3종 모두 relocation 로그에 모듈별 origin 표(126/126/215, 전부 ROOT)가 있고, 실제 role의 `env:` PASS. 평가자 재실행으로 확인 |
+| package_data | 25 | 최종 3종의 wheel 목록과 게이트 PASS가 ZIP과 같다. 설치본에서 리소스 로드도 성공(T6 unit과 평가자 probe) |
+| clean_env | 25 | public/registration은 T6 rerun2 bwrap, owner는 평가자 bwrap(최종 ZIP). 기존 T4/T5도 열람했다 |
+| relocation | 25 | T6 rerun2 3종(공백 경로, 외부 cwd, cwd `/` 재호출) + 평가자 `/srv` 재배치 실행 |
+| **합계** | **100** | **PASS**: Blocker 0, Critical 0, Major 0, Minor 1(D7 이월) |
+
+확인 못 함(이 addendum):
+- P2 T4/T5를 최종 owner ZIP으로 재실행한 결과(학습, 다운로드, export, docker)는 아직 없다.
+- 예정된 docs-only owner 재빌드(DD-A70)는 이후의 일이다. 그 FILE_MANIFEST 차이가 `docs/internal/**`와 build metadata로 한정되는지는 그때 대조해야 한다. 이 보고서 자체도 owner ZIP에 동봉되므로 이번 추가로 다시 바뀐다.
+- registration을 `unshare -rn`으로 설치하는 것과 `requirements-cpu.txt` 오프라인 설치는 PFINAL2 SUMMARY에 미시험으로 적혀 있다. C09 앵커 밖이다.
+
+## Confirmation (DD-A75 ZIP 9f03c484…) — 2026-10-28T15:5x+09:00
+
+결론: **ZIP 3종 {owner `9f03c484…`, public `bc0500bd…`, registration `dea510df…`}에 대해 100점(PASS)을 확인한다.** Blocker 0, Critical 0, Major 0이다. Minor 2개는 모두 1.5.1 이월분이다(아래).
+
+**단, 평가 시점(15:53–15:56)에 작업 트리가 DD-A76(배포본 정리, 15:3x)으로 계속 바뀌고 있었다.**
+- tree hash가 `8c3bfae2…`(15:53)에서 `5da47f98…`(15:56)로 바뀌었다. 15:30 이후 변경된 파일은 134개이고, 그중 패키지 `.py`는 15:55까지 수정되었다.
+- DD-A76은 DD-A70을 대체하고 ZIP 3종을 모두 재빌드하도록 정한다.
+- 따라서 이 확인은 위 ZIP 3종에 한정된다. CLEAN1 ZIP이 나오면 C09를 다시 채점해야 한다(맨 아래 "주의" 참고).
+
+| 항목 | 판정 | 근거(읽은 파일, 실행) |
+|---|---|---|
+| sha와 BUILD_INFO | **PASS** | `sha256sum` = `.sha256` = `9f03c484bbc8c0a2227cc325658892e3efe286d08cca9a1978383158075c2f2a`, 85 188 530 B, 3693 멤버. BUILD_INFO `r-07c7cef95cd73775`, source tree `sha256:8fc93f2a596891174c2884e1697fd6003377b713102c0b21b01eb45d3f6f7312`(221). `PFINAL2/owner_d/build/build_twice_console.txt`: 두 빌드의 sha가 같다 |
+| `owner_wheels.txt` PASS 및 ZIP과의 동일성 | **PASS** | ZIP 동봉본과 `owner_d/build/build{1,2}/owner_wheels.txt`를 평가자 `check_wheel_listing.py`로 ZIP의 wheel 5개와 대조했다. wheel sha와 멤버 행(27/49/23/30/92)이 같고, gate는 모두 PASS다(contracts 3/3, core 3/3). 세 목록은 바이트 단위로 같다(`$S5/out/owner_d_wheel_listing_check.txt`, `$S5` = scratchpad `c09_eval5/`) |
+| 53e6a1f0… 목록 대비 wheel 5개의 sha | **PASS** | 아래 "wheel sha 대조 상세" 참고 |
+| FILE_MANIFEST 차이(53e6a1f0 → 9f03c484) | **PASS** | 아래 "FILE_MANIFEST 차이 상세" 참고 |
+| T6 attempt4 relocation.json 등 | **PASS** | 아래 "T6 attempt4 상세" 참고 |
+| 배치(TARGET_ROOT 밖)와 격리 설치 | **PASS (프로젝트 증거)** | 아래 "배치와 격리 설치 상세" 참고 |
+| 평가자 bwrap 설치 probe 재실행 | **안 함 (판단)** | 아래 "재실행하지 않은 이유" 참고 |
+
+wheel sha 대조 상세:
+- contracts `a947997e…`, model_runtime `65a13736…`, runner `a8401c99…`, server `2243162f…`는 그대로다. public·registration ZIP의 wheel과도 같다.
+- 바뀐 것은 `mbnas_core`뿐이다(`a2d97415…` → `2348b6e3…`). core wheel 안에서 바뀐 멤버는 `mbnas_core/console/projection.py` 하나다.
+
+FILE_MANIFEST 차이 상세:
+- 비교 대상: `pfinal2/builds_owner_c/build1`의 53e6a1f0 사본(읽기 전용)과 dist의 9f03c484
+- 3245 → 3692행. 추가 451, 삭제 4, 변경 21.
+- docs/internal 밖:
+  - 추가: owner 시험 5개(`tests/owner/api/test_dd_a75_*` 2, `tests/owner/projection/test_dd_a75*` 2, `tests/owner/qa/test_wp3_smoke_fleet_mode.py`)
+  - 변경: `BUILD_INFO.json`, `PACKAGE_CONTENTS.md`, `PACKAGE_PROFILE.json`, `mbnas_core/src/mbnas_core/console/projection.py`, `scripts/dev/wp3_three_process_smoke.py`, `wheels/mbnas_core-…whl`
+  - 삭제: 0
+- 나머지는 모두 `docs/internal/**`다.
+- `projection.py`의 차이는 DD-A75 F1/F1b 블록(`_path_values` 추가, `_raw_metrics`가 `scrub_deep(_path_values(raw))`를 반환)과 docstring뿐이다. **import 줄 변화가 없고**, 경로를 읽거나 쓰지 않으며 package data에도 손대지 않는다. 폐쇄성에 영향이 없다.
+- 출력: `$S5/out/manifest_diff_53e6_9f03.txt`
+
+T6 attempt4 상세 (`T6/rerun2/owner/attempt4_dd_a75/`):
+- `ZIP_USED.txt`: 9f03c484, tree 8fc93f2a
+- `relocation_20261028T062616Z-owner.json`:
+  - **215행 전부 ROOT**
+  - `caller_env_python_vars=[]`
+  - `.pth`는 import 줄뿐
+  - sys.path는 BASE ×3 + ROOT
+  - 검사 8/8
+- `verify_owner.txt`: unit 2829 passed / 0 failed, integration 17/17, relocation PASS
+- `verify_owner_package.json`: manifest 3692/3692, mismatch 0, PASS
+- `verify_caller_env.txt`: 호출자 셸에는 `PYTHONDONTWRITEBYTECODE=1`과 `OLDPWD`만 있었다.
+- `doctor_owner_strict.txt`: `env:core|owner-worker|gateway|runner` PASS, PASS=32
+- cwd `/` 재호출: start, doctor(PASS=30), stop이 모두 exit 0이다. `leftover_check.txt`: 0
+
+배치와 격리 설치 상세:
+- T6 attempt4의 추출 경로 `<TR>/runtime/test_root/t6/rerun2/mbnas owner r2d`는 TARGET_ROOT 안이고 호스트에서 실행되었다. 그래서 그 자체로는 배치 조건을 충족하지 않는다.
+- 대신 **P2 T4 attempt_dd_a75**(`T4/rerun2/attempt_dd_a75/`)가 이 ZIP을 **TARGET_ROOT 밖(scratchpad `p2a75`)**에 풀어 bwrap에서 실행했다.
+  - `harness/sbx2.sh`로 WORK, wheelhouse, harness, 기반 py만 보이게 했다. 네트워크는 lo뿐이고 GPU 노드는 없다.
+  - `t4a75_local_console.txt:2`: 원본 트리, etri_nas, /data가 모두 보이지 않았다.
+  - 공백과 유니코드가 섞인 경로(`t4 공백 rootX7kQ2`)에서 install --offline exit 0, integration 17/17, relocation 8/8(215행 ROOT, `caller_env_python_vars=[]`), package PASS
+  - 짧은 경로(`/r/s 1/…`)에서도 relocation 8/8(215행 ROOT)
+- 이로써 owner의 배치·격리 항목은 **프로젝트 증거로도** 닫힌다. 직전 owner addendum의 평가자 증거를 대체한다.
+
+재실행하지 않은 이유:
+- 런타임 변경은 core wheel 안의 `projection.py` 하나다. import, 경로, package data가 바뀌지 않았다.
+- 같은 ZIP에 대해 P2 T4(격리, TARGET_ROOT 밖, 경로 2종)와 T6 attempt4가 이미 실행되었다.
+- 디스크 사용률이 87%다.
+- P2의 설치 트리는 이미 삭제되어 읽기 전용 probe도 할 수 없었다.
+- 이번에 평가자 추출본은 만들지 않았다. 53e6a1f0과의 비교는 ZIP 멤버를 직접 읽어서 했다.
+
+| 기준 | 점수 | 앵커 |
+|---|---|---|
+| import_origin | 25 | relocation 로그의 모듈별 origin 표(owner 215, public/registration 126, 전부 ROOT), 실제 role의 `env:` PASS. 증거를 열람하고 평가자 대조로 확인 |
+| package_data | 25 | 최종 3종의 wheel 목록이 gate PASS이고 ZIP과 같다. 설치본 리소스 로드는 T6 unit(owner 2829, public/registration 761)과 T4 하네스(schema v6)로 확인 |
+| clean_env | 25 | owner는 P2 T4 bwrap(TARGET_ROOT 밖), public/registration은 T6 rerun2 bwrap |
+| relocation | 25 | T6 rerun2 3종 + T4의 두 경로(공백+유니코드, 짧은 경로), 외부 cwd, cwd `/` 재호출 |
+| **합계** | **100** | **PASS**: Blocker 0, Critical 0, Major 0, Minor 2(아래) |
+
+남은 결함(Minor, 둘 다 1.5.1 이월로 기록됨):
+- **D7**: `verify.sh` `base_env`가 호출자의 PYTHON* 변수를 suite에 넘긴다(DD-A71). T6 증거에는 호출자 env가 함께 기록된다.
+- **DD-A75 F3 (#13)**: `scripts/doctor.sh:171-179`와 `scripts/verify.sh:192-200`(9f03c484 ZIP 사본의 `script_interpreter`)이 pip `/bin/sh` 트램펄린에서 따옴표가 있는 경로만 파싱한다. 그래서 공백 없는 긴 설치 경로에서는 entry_points와 "console scripts bound" 검사가 거짓 FAIL을 낸다(명령 자체는 동작). relocation 도구의 한계로, 이번에 C09 결함 목록에 추가한다. 평가자가 직접 재현하지는 않았다. T6/T4 증거의 경로는 모두 공백을 포함하므로 점수에는 영향이 없다.
+
+확인 못 함:
+- P2 T5와 T8 runtime의 9f03c484 결과는 열람 범위 밖이다.
+- 평가자 자신의 설치 probe는 위 이유로 하지 않았다.
+
+**주의 — DD-A76 CLEAN1 재채점 때 C09에서 볼 점:**
+- (1) tests/**가 출하되지 않으므로 배포본의 `verify --suite unit`이 NOT_APPLICABLE이 된다(`CLEAN_DISTRIBUTION_SPEC.md` §4). 그러면 package_data의 "설치본에서 리소스 로드 테스트"를 뒷받침하던 T6 unit 경로가 사라진다. 다음 중 하나로 실행 증거를 대신 남겨야 한다:
+  - 선언된 package data를 설치본에서 모두 적재하는 doctor/verify 검사(EVAL_1 D3에서 제안한 단계)
+  - T6/T4 API 흐름에서 contract 버전, presets(handoff), schema 초기화를 명시적으로 기록
+- (2) DD-A76 §3의 주석 정리로 패키지 소스가 바뀐다. 다음을 다시 확인해야 한다:
+  - wheel gate
+  - `openapi*.json` sha 불변(R3)
+  - relocation 215/126행
+  - `relocation.json` 기록 형식, 그리고 verify.sh 변경(§4) 이후에도 relocation과 package suite가 그대로인지
+
+### Confirmation 보충 — ZIP 자체 대조와 트리 변동 (2026-10-28T15:59+09:00)
+
+설계자의 NOTICE에 따라 9f03c484 ZIP을 **ZIP이 담은 자기 소스**와 대조했다. 작업 트리와의 대조는 관찰로만 남긴다.
+
+- **자기 일관성: PASS.**
+  - ZIP 안의 `mbnas_*/src`만 평가자 소유의 빈 디렉터리 `$S6/zipsrc`(`$S6` = scratchpad `c09_eval6/`)에 풀었다.
+  - ZIP에 들어 있는 `mbnas_contracts/util/source_hash.py`를 경로로 직접 적재해 mbnas-source-tree/2 digest를 계산했다. 결과는 **`sha256:8fc93f2a…`(221 files)로 BUILD_INFO `source_tree`와 같다.**
+  - wheel 5개의 payload(dist-info 제외)는 ZIP 자신의 `<pkg>/src`와 멤버, sha 모두 같다. 차이 0이며 core `2348b6e3…` 92/92 포함이다.
+  - 도구는 `$S6/scripts/zip_self_check.py`, 출력은 `$S6/out/zip_self_check.txt`
+- **관찰 (결함 아님, DD-A76)**: 작업 트리는 다른 세션의 docstring/provenance 정리로 바뀌고 있다.
+  - 관찰한 tree hash는 15:53 `8c3bfae2…`, 15:56 `5da47f98…`, 15:59 `308a16519c04fdfffeedf0d70074e2756737514e82da39cec65f0acbd11fde7d`다.
+  - 15:59 기준으로 ZIP의 패키지 소스 221개 중 137개가 작업 트리와 다르고, 트리에 없는 파일은 0개다.
+  - 검증된 릴리스 트리는 BUILD_INFO의 `8fc93f2a…`다. 위 PASS 판정은 ZIP 자체에 대한 것이므로 이 변동과 무관하다.
+  - 직전 owner addendum의 "core wheel = 현재 소스" 대조는 당시 트리(`1b4bd1a4…`) 기준으로만 유효하다.
+- 점수는 변하지 않는다(25/25/25/25 = **100, PASS**). 남은 결함은 Minor 2(D7, DD-A75 F3 #13, 둘 다 이월)다.

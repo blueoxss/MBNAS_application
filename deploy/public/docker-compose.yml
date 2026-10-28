@@ -1,4 +1,4 @@
-# MBNAS Research Console 0.1.0 - PUBLIC deployment (DD-A31, WP-7 section 1b): gateway (user API /api/v1 + web console
+# MBNAS Research Console 0.1.0 - PUBLIC deployment: gateway (user API /api/v1 + web console
 # on port 8710) and a runner (GPU job daemon). The core runs on the owner host; this deployment needs it reachable.
 #
 # Files next to this deployment, relative to the unpacked ZIP root (the build context):
@@ -25,7 +25,7 @@
 # CPU-only host (deploy/public/Dockerfile.cpu; no NVIDIA runtime needed):
 #   export MBNAS_PUBLIC_IMAGE=mbnas-public-cpu:0.1.0 MBNAS_PUBLIC_DOCKERFILE=deploy/public/Dockerfile.cpu
 #   docker compose -f deploy/public/docker-compose.yml --profile cpu up -d gateway runner-cpu
-# Core on THIS host's loopback (smoke/T5; the runner accepts plain http only for a loopback core): host networking,
+# Core on THIS host's loopback (the runner accepts plain http only for a loopback core): host networking,
 #   export MBNAS_NETWORK_MODE=host MBNAS_GW_BIND_HOST=127.0.0.1 [MBNAS_GW_LISTEN_PORT=<free host port>]
 #   and MBNAS_GW_CORE_URL / MBNAS_RUNNER_CORE_URL = http://127.0.0.1:8700 in the env files (published ports are
 #   ignored in host mode: the gateway listens on MBNAS_GW_LISTEN_PORT of the host itself).
@@ -108,7 +108,7 @@ services:
       - ../../config/public/runner.env
     environment:
       <<: *runner-env
-      CUDA_VISIBLE_DEVICES: ""   # set and empty = CPU runner (DD-A32)
+      CUDA_VISIBLE_DEVICES: ""   # set and empty = CPU runner
     shm_size: ${MBNAS_RUNNER_SHM_SIZE:-2gb}
     stop_grace_period: 90s
     restart: unless-stopped

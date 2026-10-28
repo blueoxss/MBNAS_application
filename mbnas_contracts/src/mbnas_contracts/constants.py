@@ -6,10 +6,6 @@
 * ``DEFAULT_POSTPROCESS`` - the latency operating point (conf / iou / max_det) used when the protocol or job gives no
   ``benchmark.postprocess`` (contract v1.2.0); the AP evaluation keeps its own floor. Read-only by convention: callers
   copy it (``{**DEFAULT_POSTPROCESS, ...}``) and never mutate it.
-
-Source (monolithic package ``mbnas_server``, snapshot HEAD 18c4815), moved per WP-1 contract §4 / DD-A10; values
-unchanged: ``DEFAULT_BASELINE14``/``BASELINE_FAMILIES`` from ``protocol.presets`` (L24-36); ``DEFAULT_POSTPROCESS`` from
-``protocol.validator`` (L73) and its identical duplicate in ``benchmark.capability`` (L27-28), now one definition.
 """
 from __future__ import annotations
 

@@ -1,9 +1,9 @@
 """Authenticated explicit model selection → training/evaluation, sharing the ordinary run monitor/control API.
 
 ``POST /training-runs`` answers the contract ``TrainingRunCreated`` through the public projection
-(:func:`mbnas_core.console.deps.contract_json`, DD-A42) like every other console route.
+(:func:`mbnas_core.console.deps.contract_json`) like every other console route.
 
-Gateway host inputs (DD-A46): the body may carry the same optional ``path_checks`` / ``dataset_yaml`` /
+Gateway host inputs: the body may carry the same optional ``path_checks`` / ``dataset_yaml`` /
 ``dataset_manifests`` the gateway measured for validate (:mod:`mbnas_core.protocol.gateway_inputs`, not part of the
 browser contract). They are removed before the request model is parsed and, when present, the training protocol is
 validated with them (gateway path checks, the gateway's dataset YAML summary and split manifests) instead of core-local
@@ -43,7 +43,7 @@ def create_model_training(request: Request, body: dict[str, Any] = Body(...),
     from mbnas_core.console.routes_runs import gateway_inputs_of
 
     body = dict(body)
-    gateway, _ = gateway_inputs_of(body)  # DD-A46: host inputs the gateway measured (never part of the request model)
+    gateway, _ = gateway_inputs_of(body)  # host inputs the gateway measured (never part of the request model)
     req = TrainingRunRequest.model_validate(body)
     if idempotency_key is not None and idempotency_key != req.idempotency_key:
         raise ApiError(409,"IDEMPOTENCY_KEY_MISMATCH","Idempotency-Key header differs from the request")
@@ -62,7 +62,7 @@ def create_model_training(request: Request, body: dict[str, Any] = Body(...),
                 raise TrainingSelectionError("RESUME_RECIPE_MISMATCH","resume must use the stored run protocol; use the run Resume control to preserve it",409)
             ck = repo.latest_checkpoint(conn,cand["id"],"training_full")
             if req.checkpoint:
-                # DD-9 / DD-36 (G12): a checkpoint path names the full-state to resume; only the latest full-state this
+                # a checkpoint path names the full-state to resume; only the latest full-state this
                 # server recorded for the candidate qualifies. No recorded training_full at all -> the path is an
                 # external file that cannot be imported into a run; a recorded one that differs -> mismatch.
                 if ck is None:
@@ -72,7 +72,7 @@ def create_model_training(request: Request, body: dict[str, Any] = Body(...),
                         f"an existing paused run (POST /api/v1/runs/{run['id']}/resume)",409)
                 if not _same_checkpoint(req.checkpoint, ck, run["id"]):
                     raise TrainingSelectionError("RESUME_CHECKPOINT_MISMATCH","resume requires the latest recorded full-state checkpoint",409)
-            # No checkpoint path (DD-36): ordinary run Resume path; state.resume_checks decides (e.g. a run paused
+            # No checkpoint path: ordinary run Resume path; state.resume_checks decides (e.g. a run paused
             # before its first epoch has no full-state yet and is resumed from its start).
             revalidate = svc.revalidate if gateway is None else (
                 lambda resolved: svc.revalidate(resolved, gateway, local_fallback=True))

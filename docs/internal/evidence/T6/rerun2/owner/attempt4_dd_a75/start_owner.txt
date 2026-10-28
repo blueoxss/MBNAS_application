@@ -1,0 +1,6 @@
+$ (cwd=/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/pfinal2/t6r2) svc bash /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2d/mbnas_application/scripts/start.sh --profile owner --wait-s 120
+[start] core: ready pid=199349 HTTP 401 from http://127.0.0.1:18900/core/v1/console/health log=runtime/logs/core.log
+[start] owner-worker: ready pid=199373 alive after 5 s log=runtime/logs/owner-worker.log
+[start] gateway: ready pid=199453 HTTP 200 from http://127.0.0.1:18911/api/v1/health status=ok core=reachable log=runtime/logs/gateway.log
+[start] runner: ready pid=199500 alive after 5 s log=runtime/logs/runner.log
+exit=0

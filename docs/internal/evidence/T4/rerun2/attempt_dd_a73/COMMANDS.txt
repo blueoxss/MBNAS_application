@@ -1,0 +1,40 @@
+# T4 DD-A73 attempt — exact commands, in order, with exit codes. Agent P2, 2026-10-28 (UTC).
+# <ROOT> = TARGET_ROOT; <SP> = session scratchpad; <W> = <SP>/p2dd73; <H> = <ROOT>/runtime/test_root/t4t5/harness (scripts only).
+# CPU only: no /dev/nvidia* in the sandbox, CUDA_VISIBLE_DEVICES="", no GPU, no /data, no etri_nas; PIP_CONFIG_FILE=/dev/null.
+
+## 0. input (04:05Z)
+cp -p <ROOT>/dist/owner/mbnas_application-0.1.0-owner-private-runtime-linux_x86_64.zip <W>/zips/            # exit 0
+echo "53e6a1f0cf100cb813ff500d4936a4dcf03feea623886b43879c51de572434c9  <zip>" | sha256sum -c -           # OK (82 702 282 B)
+(cd <W>/t4/zip && unzip -q <W>/zips/...owner...zip)   # exit 0; empty dir -> only mbnas_application/; BUILD_INFO build r-99eeb029485c9de8,
+                                                      # tree sha256:1b4bd1a4...; wheels/mbnas_core sha256 a2d97415...; selection.py:366-384 loads the ETRI backend
+
+## 1. install (sandbox: <H>/sbx2.sh = env -i bwrap --unshare-net/pid/ipc/uts, ro /usr /etc, --dev /dev, tmpfs /tmp,
+##    bind <W>/t4 rw, ro /opt/wheelhouse (= <ROOT>/build/wheelhouse), ro /opt/harness, ro python3.10 base)
+WORK=<W>/t4 <H>/sbx2.sh bash zip/mbnas_application/scripts/install.sh --profile owner --offline --wheelhouse /opt/wheelhouse --python <py3.10>
+                                                      # exit 0, 93 s; runner principal for the random id runner-b491a985
+
+## 2. variant local (default MBNAS_CORE_DEVICE_SOURCE) — <H>/t4r3_inside.sh = doctor.sh -> start.sh -> t45r2.py -> stop.sh
+WORK=<W>/t4 T4_VARIANT=local T4_LABEL_SUFFIX=_local <H>/sbx2.sh /bin/bash /opt/harness/t4r3_inside.sh \
+  health,web,gen,waitdev,genetri,structure,train,results,download,sse,trainval,decision,train3,prunecheck,reqids --pause
+  doctor exit 0 (PASS=24 WARN=3 FAIL=1: entry_points, see verify) | start exit 0 | schema_version 6 | harness exit 0 (15/15) | stop exit 0
+## 3. variant runners (MBNAS_CORE_DEVICE_SOURCE=runners)
+WORK=<W>/t4 T4_VARIANT=runners T4_LABEL_SUFFIX=_runners <H>/sbx2.sh /bin/bash /opt/harness/t4r3_inside.sh health,waitdev,gen,genetri,trainval,decision,reqids
+  doctor exit 0 | start exit 0 | harness exit 0 (7/7) | stop exit 0; process list after stop = bwrap init only (both variants)
+
+## 4. verify (inside the sandbox, nothing else running)
+WORK=<W>/t4 <H>/sbx2.sh /bin/bash -c 'cd /tmp; bash $WORK/zip/mbnas_application/scripts/verify.sh --profile owner --suite integration,relocation,package --json ...'
+                                                      # exit 1, 44 s: integration FAIL 14/16, relocation FAIL 4/7, package PASS 3245/3245
+  (unit suite not run here: referenced from the owner T6 rerun2 attempt3 on this ZIP, 2747/0)
+
+## 5. v5 -> v6 migration on COPIES of the T4 FINAL DB (<ROOT>/runtime/test_root/t4t5/final/t4/.../core/db/mbnas.sqlite3, schema 5)
+sqlite3 -readonly <src> ".backup <W>/t4/migration/v5_copy_{A,B,C,D}.sqlite3"     # exit 0; source sha dc3eef8d... unchanged afterwards
+WORK=<W>/t4 <H>/sbx2.sh <venv>/bin/python -I /opt/harness/t4_migrate_check.py <copy_A> <copy_B>   # exit 1: criterion bug (meta flagged), see file
+WORK=<W>/t4 <H>/sbx2.sh <venv>/bin/python -I /opt/harness/t4_migrate_check.py <copy_C> <copy_D>   # exit 0: PASS (corrected criterion)
+
+## 6. T8 runtime (scanner <ROOT>/scripts/dev/canary_scan.py, source tree; needles: 7 owner-install secrets, canaries, host facts,
+##    4 owner strings: core DB dir, owner config dir, core log dir, mbnas.sqlite3)
+canary_scan.py ... <W>/t4/dump  (8 242 response files)            # exit 1: 504 hits, all HOST_FACT#5 (classified in t8/responses_host_path_classification.txt)
+canary_scan.py --no-host-facts --secrets-env ... <owner logs>     # exit 0, 0 hits (secrets/canaries)
+canary_scan.py --no-host-facts --secrets-env ... <W>/t4/proc_capture  # exit 0, 0 hits
+canary_scan.py ... <probe + config/owner>  (positive control)    # exit 1 as expected: 20 hits
+<py3.10> -I <H>/reqid_link2.py ... --gw-access runtime/logs/gateway.log --core-access runtime/logs/core.log   # exit 0

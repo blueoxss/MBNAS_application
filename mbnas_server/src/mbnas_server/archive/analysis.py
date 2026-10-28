@@ -251,8 +251,7 @@ def _is_down(module: str, args: Any) -> bool:
 
 def derive_stages(cfg: Any) -> list[dict[str, Any]]:
     """Backbone stages: a new stage starts at the first row and at every down-sampling row (stride-2 conv-like module,
-    pooling, ADown/SCDown). Agrees with the runtime genotype stages on all 33 archive entries of the NPS day run that
-    have a cfg file (checked in tests/archive)."""
+    pooling, ADown/SCDown)."""
     stages: list[dict[str, Any]] = []
     cur: dict[str, Any] | None = None
     for i, r in enumerate(cfg_rows(cfg, "backbone")):

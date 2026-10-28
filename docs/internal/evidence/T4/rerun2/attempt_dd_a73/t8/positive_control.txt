@@ -1,0 +1,22 @@
+FAIL host_fact HOST_FACT#5 owner account name [raw] probe.txt:1
+FAIL extra     NEEDLE#1 [raw] probe.txt:2
+FAIL extra     NEEDLE#4 [raw] probe.txt:2
+FAIL extra     NEEDLE#4 [urlencoded] probe.txt:2
+FAIL extra     SECRET:OWNCORE_MBNAS_CORE_API_TOKEN [raw] owner/core.env:33
+FAIL extra     SECRET:OWNCORE_MBNAS_CORE_API_TOKEN [urlencoded] owner/core.env:33
+FAIL extra     SECRET:OWNCORE_MBNAS_CORE_ARTIFACT_SIGNING_KEY [raw] owner/core.env:36
+FAIL extra     SECRET:OWNCORE_MBNAS_CORE_ARTIFACT_SIGNING_KEY [urlencoded] owner/core.env:36
+FAIL extra     SECRET:OWNCORE_MBNAS_CORE_TICKET_KEY [raw] owner/core.env:40
+FAIL extra     SECRET:OWNCORE_MBNAS_CORE_TICKET_KEY [urlencoded] owner/core.env:40
+FAIL extra     NEEDLE#4 [raw] owner/core.env:53
+FAIL extra     NEEDLE#4 [urlencoded] owner/core.env:53
+FAIL extra     SECRET:OWNGW_MBNAS_GW_API_TOKEN [raw] owner/gateway.env:29
+FAIL extra     SECRET:OWNGW_MBNAS_GW_API_TOKEN [urlencoded] owner/gateway.env:29
+FAIL extra     SECRET:OWNGW_MBNAS_GW_CORE_TOKEN [raw] owner/gateway.env:33
+FAIL extra     SECRET:OWNGW_MBNAS_GW_CORE_TOKEN [urlencoded] owner/gateway.env:33
+FAIL extra     SECRET:OWNGW_MBNAS_GW_ARTIFACT_SIGNING_KEY [raw] owner/gateway.env:36
+FAIL extra     SECRET:OWNGW_MBNAS_GW_ARTIFACT_SIGNING_KEY [urlencoded] owner/gateway.env:36
+FAIL extra     SECRET:OWNRUN_MBNAS_RUNNER_TOKEN [raw] owner/runner.env:29
+FAIL extra     SECRET:OWNRUN_MBNAS_RUNNER_TOKEN [urlencoded] owner/runner.env:29
+scanned files=4 bytes=29773 containers=0 skipped=0 hits=20 failing=20 unmet=0
+canary_scan: FAIL

@@ -1,0 +1,96 @@
+FIX7 / DD-A75 F1b (C02 addendum D9; core only) - a raw_metrics string VALUE that is a path is replaced whole.
+Commands actually run and their results; written 2026-10-28 14:34 KST (times KST = UTC+9 unless marked Z).
+Brief: the coordinator's F1b message (+ its correction: mbnas_contracts/runner_protocol.py is a public/registration
+member and is NOT edited; the note goes into projection.py's docstrings). Decision: docs/internal/DECISIONS.md DD-A75,
+"F1b(14:24, C02 추록 D9)". Index of docs/internal/evidence/WP7/FIX7_DD_A75/F1b/ (there is no SUMMARY.md on purpose).
+Previous step: ../F1/01_COMMANDS.txt.
+
+cwd TARGET_ROOT = /home/mgjeong/Desktop/etri_hd/mbnas_application; runtime/venv/bin/python with -B and
+PYTHONDONTWRITEBYTECODE=1 for EVERY interpreter call of this step (no bytecode was written: checked before and after),
+CUDA_VISIBLE_DEVICES=''; pytest -p no:cacheprovider -m "not gpu and not live and not legacy_records and not host_data"
+through the same wrapper as F1 (start time, env, projection.py sha256, command, output, exit code, wall time per file).
+Not touched: runner, gateway, mbnas_contracts (runner_protocol.py sha256 278aa9bf... before and after), mbnas_web,
+docs/public (SECURITY_MODEL.md sha256 234e9724... read only), dist/, git state, GPU, /data, etri_nas.
+
+1. Defect (C02 D9) reproduced before the change
+   _ABS_PATH stops at the first blank: "/srv/mbnas owner r2c/.../train-x/data.yaml" -> "<path> owner r2c/.../data.yaml"
+   (also at NBSP U+00A0 and U+3000; a unicode path WITHOUT a blank was already replaced whole). The F1 detectors were
+   the same regex, so they could not see the tail. Evidence: 11_ (new tests on the F1 code) and 30_..._before_f1b.
+
+2. Change  (mbnas_core/src/mbnas_core/console/projection.py only; diffs 20_projection_py_F1_to_F1b.diff and the
+   cumulative 20_projection_py_vs_HEAD.diff; sha256 7604d3f2... (F1) -> b097bbbe...)
+   :291-302 new _path_values(value): a str whose value.lstrip() starts with "/" and not with the /api/v1 prefixes ->
+            "<path>" (whole value: blanks, unicode whitespace, unicode names, trailing text); recurses into dict values
+            and list items; keys and non-strings unchanged. Used by _raw_metrics only (scrub_text, _ABS_PATH and every
+            other scrub call site unchanged; free-text messages with spaced paths = the 1.5.1 note).
+   :319     _raw_metrics returns scrub_deep(_path_values(raw)) (F1: scrub_deep(raw)); :306-312 its docstring now also
+            records that the runner's resolved recipe is kept in the evaluation row's raw_metrics (a storage place the
+            list in mbnas_contracts.runner_protocol does not name) and reaches a public response only through this scrub.
+   :18-23   module docstring scrub bullet: the whole-value rule of raw_metrics.
+   Behaviour table: 22_path_value_rule_probe.txt (includes the scope limit below).
+
+3. New tests (tests/owner only; tests/public untouched; the F1 test files are unchanged)
+   tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py   19 tests
+   tests/owner/api/test_dd_a75b_raw_metrics_path_values_routes.py    4 tests
+   NON-circular detector: planted directory-name fragments ("owner r2c", "김철수", "train-x", the sandbox root basename
+   "f1b 샌드박스 root", "샌드박스", "작업", "emb-owner", "mbnas user", "mbnas sandbox") searched literally AND as JSON \u
+   escapes (SSE frames and export members are ensure_ascii) in the JSON text of snapshot (candidates[] + events[]),
+   candidate detail, SSE frames (routes_stream.format_event) and the export row; at route level in the raw gateway
+   bodies (snapshot, detail, SSE replay over uvicorn, every export member). Fixture: spaced path (the C02 example),
+   unicode path, blank before a unicode name, leading blanks, path + trailing text in a list and in a nested dict,
+   NBSP inside, an embedded blank-free path (regex rule), non-path strings with blanks / " / ", /api/v1 strings (one
+   after a leading blank). Asserted: no fragment anywhere; the four recipe keys present = "<path>"; /api/v1 and
+   non-path strings unchanged; keys, scalars, device_id mapping, stored row unchanged; contract-valid bodies.
+   Positive controls: fixture holds every fragment; pass-through _raw_metrics (pre-DD-A75) leaks all 9 fragments and
+   the F1 _raw_metrics (scrub_deep only) leaks the 6 tails on all 4 surfaces; route level: stored row + event hold all.
+   on the F1 code  11_new_f1b_tests_on_f1_code.txt       11 failed, 12 passed (the fragment / <path> assertions on every
+                   surface and the 3 route reads fail; every control passes; the failures name the 6 leaked tails)
+   on F1b          21_f1b_and_f1_tests_on_f1b_code.txt   42 passed (23 F1b + 19 F1)
+
+4. Suites on the F1b code (F1 post-fix numbers, tree 26e02259..., for comparison: ../F1/4N_*)
+   suite                                                   F1 (26e02259...)                      F1b
+   tests/owner/projection                                  276 passed                            295 passed (+19)
+   runner set (3 tests/public/runner files +               19 passed                             19 passed
+     tests/owner/runner_protocol/test_device_used.py)
+   tests/owner/api                                         219 passed                            223 passed (+4)
+   tests/public (full)                                     1190 passed, 1 skipped, 44 deselected 1190 passed, 1 skipped, 44 deselected
+   0 failed / 0 errors everywhere (the 1 skip: tests/public/server/test_routes.py:306 "mini run absent", as before);
+   no existing test was changed, deselected or weakened.
+
+5. Real process with a SPACED + UNICODE root (f1b_raw_metrics_path_values_smoke.py = the F1 v2 smoke + fragment scan;
+   core + owner worker + REAL ultralytics CPU runner + gateway; --device-source runners, benchmark.device = cpu; root
+   "<session scratchpad>/f1b/f1b 공백 루트/<label>", runner work root "<root>/runner 작업 dir/work"; validation-ON
+   training 1 epoch 64 px -> COMPLETED, row NOT_EVALUATED / EVALUATION_REQUIRES_CUDA; bodies: snapshot, detail, SSE
+   replay seq 1..12, export zip; fragments searched literally + \u-escaped, located by JSON pointer)
+     fragment (occurrences in the raw bodies)      before F1b (F1 code, 14:31)        after F1b (14:33)
+     RUNNER "runner 작업 dir"  anywhere / in raw_metrics      24 / 24                    0 / 0
+     RUNNER_TAIL "작업 dir"    anywhere / in raw_metrics      24 / 24                    0 / 0
+     ROOT "f1b 공백 루트"      anywhere / in raw_metrics      23 / 0                     23 / 0
+     ROOT_TAIL "공백 루트"     anywhere / in raw_metrics      47 / 24                    23 / 0
+     _ABS_PATH matches inside raw_metrics (the old, circular detector)  0                 0
+   before: the 24 = resolved_recipe.{data,model,project,save_dir} x (snapshot candidates + events, detail, SSE,
+   export evaluations.jsonl + events.jsonl), values "<path> 공백 루트/before_f1b/runner 작업 dir/work/..."; after: the
+   four keys are present with "<path>" in all those bodies. The 23 ROOT hits (both runs) are the client-provided
+   protocol echo only: snapshot run.resolved_protocol.console.paths.* / resolution.paths.*.requested (9) and the export
+   protocol/requested.json (5) + protocol/resolved.json (9) - not runner paths, not F1/F1b scope. GPU: no process of this
+   tree on the GPU (sampled during training). Evidence 30_real_process_{before,after}_f1b.txt (+ _console).
+
+6. Source tree hashes (scripts/dev/source_tree_hash.py; __pycache__/*.pyc excluded)
+   five packages   before sha256:26e02259bb83eca0cf56e7e11bd9e216d383361a57fd70082f2ff9c0c346de13 (221 files)
+                   after  sha256:8fc93f2a596891174c2884e1697fd6003377b713102c0b21b01eb45d3f6f7312 (221 files; 14:45, after all suites)
+   manifest diff (51_tree_manifest_diff.json): changed [mbnas_core/console/projection.py], added [], removed [], unchanged 220
+   public 4 packages (mbnas_contracts, mbnas_model_runtime, mbnas_runner, mbnas_server)
+                   before sha256:9859adb218145b9feccb1c0be8c1c6a51eaed90dfe575a0b5e1b10dd63aff4a3 (129 files)
+                   after  sha256:9859adb218145b9feccb1c0be8c1c6a51eaed90dfe575a0b5e1b10dd63aff4a3 (unchanged; runner_protocol.py sha256 278aa9bf... unchanged)
+
+7. docs/public/SECURITY_MODEL.md:96 (item 6, read only) - verdict in 52_security_model_96_verdict.txt.
+
+8. Not verified / limits (also in the final report)
+   - A path embedded inside longer free text keeps the _ABS_PATH rule: with a blank, its tail stays - in raw_metrics
+     (e.g. "saved to /srv/a b/x") and in every other scrubbed free-text field (log message / message_detail, error
+     messages): 22_ probe. Not observed in the real-process bodies (0 RUNNER fragments), but no failure path (runner
+     failure text with a spaced path) was exercised. 1.5.1 item per the decision.
+   - Windows drive / UNC paths, file:// URLs, ~/ paths and dict KEYS stay unchanged (not "/"-led values).
+   - The storage list in mbnas_contracts/runner_protocol.py:6-14 does not name the evaluation row's raw_metrics copy of
+     the resolved recipe: 1.5.1 docs item (that file is a public member and was not edited).
+   - T4/T5 environments not re-run; no GPU EVALUATED row in a real process.

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # stop.sh - stop the processes that scripts/start.sh started for one profile (own pid files only).
-# WP-7A; contract docs/internal/WORK_PACKAGES/WP-7_OPS_PACKAGING.md section 1.
+# Run with --help for the roles and options.
 set -u -o pipefail
 unset CDPATH
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -216,7 +216,7 @@ stop_one() {
   while read -r p t; do [ -n "$p" ] && kid_pids+="$p "; done <<<"$kids"
   pg="$(pgid_of "$pid" || true)"
   echo "[stop] $name: pid $pid still running after ${TIMEOUT_S} s: SIGKILL${kid_pids:+ (descendants: $kid_pids)}"
-  # every SIGKILL target is re-verified right before the signal (C12 D8: no stale pid is signalled)
+  # every SIGKILL target is re-verified right before the signal (no stale pid is signalled)
   if [ "$pg" = "$pid" ] && group_still_ours "$pid" "$lead_t" "$kids"; then
     kill -KILL -- "-$pid" 2>/dev/null
   elif [ -n "$lead_t" ] && [ "$(proc_starttime "$pid")" = "$lead_t" ]; then

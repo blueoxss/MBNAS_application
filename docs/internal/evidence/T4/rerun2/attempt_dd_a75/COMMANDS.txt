@@ -1,0 +1,35 @@
+# T4 DD-A75 targeted re-check — exact commands, in order, with exit codes. Agent P2, 2026-10-28 (UTC).
+# <ROOT> = TARGET_ROOT; <W2> = <scratchpad>/p2a75; <H> = <ROOT>/runtime/test_root/t4t5/harness (scripts only).
+# Install ROOT (blank + unicode word + planted token): "<W2>/t4work/t4 공백 rootX7kQ2/mbnas_application"
+# Planted runner work root: "<ROOT_T4>/runtime/rw 작업 Zq9mT4" (MBNAS_RUNNER_WORK_ROOT). CPU only; no /dev/nvidia* in the
+# sandbox; no /data, no etri_nas, no GPU; PIP_CONFIG_FILE=/dev/null.
+
+## inputs (06:25Z)
+cp -p <ROOT>/dist/owner/mbnas_application-0.1.0-owner-private-runtime-linux_x86_64.zip <W2>/zips/          # exit 0
+echo "9f03c484bbc8c0a2227cc325658892e3efe286d08cca9a1978383158075c2f2a  <zip>" | sha256sum -c -         # OK, 85 188 530 B
+(cd "<W2>/t4work/t4 공백 rootX7kQ2" && unzip -q <zip>)   # dir was empty (0 entries); BUILD_INFO r-07c7cef95cd73775, tree 8fc93f2a...
+
+## install + run (sandbox <H>/sbx2.sh, WORK=<W2>/t4work)
+WORK=<W2>/t4work <H>/sbx2.sh bash "<ROOT_T4>/scripts/install.sh" --profile owner --offline --wheelhouse /opt/wheelhouse --python <py3.10>
+                                         # exit 0, 88 s; console scripts use pip's QUOTED /bin/sh trampoline (path has blanks)
+WORK=<W2>/t4work T4_VARIANT=local T4_LABEL_SUFFIX=_local <H>/sbx2.sh /bin/bash /opt/harness/t4r4_inside.sh \
+     health,gen,waitdev,genetri,trainval,pathcheck,reqids
+  start exit 0 | doctor exit 0 (PASS=31 WARN=1 FAIL=0) | schema_version 6 | harness exit 0 (7/7) | stop exit 0
+
+## verify at the long blank+unicode path (inside the sandbox)
+WORK=<W2>/t4work <H>/sbx2.sh /bin/bash -c 'cd /tmp; bash "<ROOT_T4>/scripts/verify.sh" --profile owner --suite integration,relocation,package --json ...'
+                                         # exit 0, 52 s: integration PASS 17/17 (FLEET MODE CPU-only), relocation PASS 8/8, package PASS
+
+## short-path relocation (fresh extraction "<W2>/short/s 1/" bound at /r: ROOT "/r/s 1/mbnas_application", 24 chars)
+SHORTSRC=<W2>/short <H>/sbx3_short.sh /bin/bash -c 'bash "/r/s 1/mbnas_application/scripts/install.sh" --profile owner --offline ...;
+                                         bash "/r/s 1/mbnas_application/scripts/verify.sh" --profile owner --suite relocation --json ...'
+                                         # install exit 0 (90 s); verify exit 0: relocation PASS 8/8; tree deleted afterwards (evidence kept)
+
+## path detector / T8 (host)
+<py3.10> -I <H>/pathcheck_positive_control.py <H>/t45r3.py <pre-fix DD-A73 snapshot + candidate detail>   # exit 0: PASS (leak detected)
+canary_scan.py --secrets-env <7 owner secrets> --needles-file <4 owner strings> <W2>/t4work/dump      # exit 1: 148 hits, all HOST_FACT#5 =
+                                         # client-sent paths echoed back (t8/responses_host_fact_classification.txt)
+canary_scan.py --no-host-facts --secrets-env ... <owner logs>          # exit 0, 0 hits
+canary_scan.py --no-host-facts --secrets-env ... <W2>/t4work/proc_capture  # exit 0, 0 hits
+canary_scan.py ... <probe + config/owner> (positive control)           # exit 1 as expected, 20 hits
+<py3.10> -I <H>/reqid_link2.py ... --gw-access runtime/logs/gateway.log --core-access runtime/logs/core.log   # exit 0

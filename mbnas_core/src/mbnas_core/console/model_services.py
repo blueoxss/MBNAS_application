@@ -4,7 +4,7 @@ Normal GET requests use immutable saved data only: refreshing a model page canno
 schedule inference, training, or evaluation.  The explicit check operation is the
 only entry point here that builds a model.
 
-WP-3 (contract sections 1.4-1.6): every explicit check first runs the static allowlist / argument-schema check
+Every explicit check first runs the static allowlist / argument-schema check
 :func:`mbnas_model_runtime.genotype.validate_declared` (a violation is a ``FAIL`` document built from the declaration;
 nothing is imported or built), then builds the model in the structure sandbox
 (:mod:`mbnas_core.structure.sandbox`) when the request bound one (the console routes do); without a bound sandbox
@@ -369,7 +369,7 @@ def run_structure_check(candidate: dict[str, Any], run: dict[str, Any], *, input
 
 # -- registry (baseline) models and user models ----------------------------------------------------------------------
 def derive_model_scale(config: dict[str, Any], name: str) -> tuple[dict[str, Any], str | None]:
-    """Set ``scale`` the way ultralytics does for a config file name (DD-30); returns ``(config, source)``.
+    """Set ``scale`` the way ultralytics does for a config file name; returns ``(config, source)``.
 
     ``scale`` is kept when it names an entry of ``scales``.  Otherwise it comes from the file name
     (``guess_model_scale``: ``yolo11n.yaml`` -> ``n``), else from a trailing ``-<letter>`` (``rtdetr-l.yaml`` -> ``l``,
@@ -403,7 +403,7 @@ def derive_model_scale(config: dict[str, Any], name: str) -> tuple[dict[str, Any
 
 
 def registry_genotype(model_id: str) -> tuple[Genotype, str | None]:
-    """Genotype of an Ultralytics registry model read from its packaged config file, with the DD-30 scale rule."""
+    """Genotype of an Ultralytics registry model from its packaged config file (scale: :func:`derive_model_scale`)."""
     from mbnas_model_runtime.registry import SPEC_BY_ID
 
     spec = SPEC_BY_ID.get(model_id)
@@ -531,7 +531,7 @@ def check_registry_model(settings: Any, model_id: str, input_size: int | None = 
 
     Ultralytics models use ``check_structure`` at ``input_size`` (default 640); RF-DETR / ETRI hybrid go through their
     adapter at the fixed resolution.  A multiple of 32 that differs from that fixed resolution is a request error:
-    422 ``INPUT_SIZE_INVALID`` (CONTRACTS_v2 section 2), decided from the static declaration before anything is built.
+    422 ``INPUT_SIZE_INVALID``, decided from the static declaration before anything is built.
     Only a check that really ran (``observation`` present: PASS or a runtime FAIL) is saved.  An UNVERIFIED runtime
     failure is returned but never overwrites the recorded evidence, so a later GET still shows the last real check
     (or the declaration).
@@ -573,7 +573,7 @@ def check_registry_yaml_safe(model_id: str, input_size: int) -> dict[str, Any]:
 
 
 def user_yaml_roots(settings: Any) -> list[str]:
-    """Read roots of user model YAMLs: ``model_yaml_roots`` + ``output_roots`` (WP-3 section 1.6; not ``weights_dir``)."""
+    """Read roots of user model YAMLs: ``model_yaml_roots`` + ``output_roots`` (not ``weights_dir``)."""
     return [*settings.model_yaml_roots, *settings.output_roots]
 
 
@@ -597,7 +597,7 @@ def carried_yaml_text(model_yaml_text: Any, source_sha256: Any, model_name: Any 
 
     ``source_sha256`` must be the sha256 of the UTF-8 bytes of ``model_yaml_text`` (hex, optionally ``sha256:``-
     prefixed); the text is at most 1 MiB. ``model_name`` (optional) is the uploaded file's base name, used only for
-    the DD-30 scale rule (``yolo11n.yaml`` -> ``n``); default ``upload-<sha12>.yaml``.
+    the :func:`derive_model_scale` rule (``yolo11n.yaml`` -> ``n``); default ``upload-<sha12>.yaml``.
     """
     if not isinstance(model_yaml_text, str) or not model_yaml_text:
         raise StructureRequestError("MODEL_CONFIG_INVALID", "model_yaml_text must be a non-empty string")
@@ -623,7 +623,7 @@ def check_user_model(settings: Any, model_path: str | None = None, input_size: i
     """POST /structure-check: CPU structure check of a user YAML (not saved), read from an allowed server root
     (``model_path``) or carried in the body (``model_yaml_text`` + ``source_sha256``; no filesystem access).
 
-    ``source_sha256`` is the sha256 of the ORIGINAL bytes on both paths (C08 EVAL_1 D1, DD-A66): a ``model_path`` file is
+    ``source_sha256`` is the sha256 of the ORIGINAL bytes on both paths: a ``model_path`` file is
     read as bytes (no newline translation: a CRLF file keeps its CR bytes, exactly what the gateway carries and what the
     training ``original`` revision records with ``sha256_file``) and the text checked is those bytes decoded as UTF-8."""
     if model_yaml_text is not None:

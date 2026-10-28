@@ -8,11 +8,8 @@
  *  - EVALUATED rows missing a mandatory field are UNRESOLVED_COHORT and are not drawn (never guessed).
  *  - Final retraining rows (arm Final / rung FINAL / comparison group final) form their own cohort.
  *
- * 재구현(2026-10-15), 원본 누락(리포 루트 .gitignore `lib/` 규칙으로 커밋되지 않음).
- * 근거 테스트: tests/cohort_lines.test.ts, tests/final_retrain.test.tsx ('final cohort'), tests/s0910_fix1.test.tsx
- * (S8-F5 postprocess_runtime, S9-F2 cohort labels), tests/components.test.tsx, e2e/console.spec.ts (cohort guard);
- * 사용처 src/screens/Monitor.tsx, src/components/Scatter.tsx. 어떤 필드가 '필수'인지는 테스트가 열거한 것
- * (batch, resolved_input_shape, protocol_hash, search_seed, evaluation_hash)에 해시·그룹 필드를 더해 정했다.
+ * 사용처: src/screens/Monitor.tsx, src/components/Scatter.tsx. 필수 필드: batch, resolved_input_shape, protocol_hash,
+ * search_seed, evaluation_hash 및 해시·그룹 필드.
  */
 import type { Candidate } from '../api/types';
 

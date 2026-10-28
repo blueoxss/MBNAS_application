@@ -37,7 +37,7 @@ export function curveSeries(runs: readonly ArchiveCompareRun[], which: 'best' | 
   });
 }
 
-/** DD-33: run conditions as the server recorded them (ArchiveCompareRun.conditions). A null member is "not recorded", never inferred. */
+/** Run conditions as the server recorded them (ArchiveCompareRun.conditions). A null member is "not recorded", never inferred. */
 export const CONDITION_KEYS = ['dataset', 'split', 'stage', 'epochs_total', 'protocol_hash', 'device', 'precision', 'checkpoint'] as const;
 export type ConditionKey = (typeof CONDITION_KEYS)[number];
 const NO_RECORD = '기록 없음';

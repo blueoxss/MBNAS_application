@@ -18,7 +18,7 @@ mbnas_core.orchestration.retention --run-id <id> [--policy P]`` applies a policy
 ``scripts/owner/smoke_end_to_end.py``). Candidate detail renders each row's ``state`` with :func:`checkpoint_views`, and its
 ``artifact_id`` (the checkpoint id once the gateway store holds verified bytes) with :func:`store_verified_checkpoints`.
 
-Remote runs — the prune round trip (DD-A66; WP-5 section 2 R11; T3-34). The payloads of a run executed by a remote
+Remote runs — the prune round trip. The payloads of a run executed by a remote
 runner (:func:`is_remote_run`) live on that runner's host: the core never deletes or stats them. Instead the run's OWN
 policy is planned over the candidate's runner-held full states (rows with a ``runner_local`` location) and every
 deletion becomes a ``prune_requests`` row (:func:`request_remote_prunes`; id = :func:`prune_request_id`, one request per
@@ -39,7 +39,7 @@ protections first (a request whose checkpoint became protected is CANCELLED) - a
 the runner's E11 report: only then is the checkpoint row marked PRUNED (with the runner's ``already_absent`` finding when
 the bytes were gone before it acted) and its ``runner_local`` location set PRUNED. A copy in the gateway store is never
 touched (the gateway keeps serving it). The former forced ``keep_all`` of remote runs (``remote_policy`` /
-``CoreSettings.remote_retention_policy``, design D7) is lifted; the argument is accepted and ignored.
+``CoreSettings.remote_retention_policy``) is lifted; the argument is accepted and ignored.
 """
 from __future__ import annotations
 
@@ -60,7 +60,7 @@ POLICIES = ("keep_all", "rung_end_only", "last_rung_end_only")
 TERMINAL_FOR_RETENTION = frozenset({"SEARCH_COMPLETE", "REJECTED_BY_GATE", "TRAIN_FAILED", "EVAL_FAILED", "INVALID",
                                     "FINAL_COMPLETE"})
 TRAINER_PRUNE_REASON = "STAGE_TRAINER_KEEP_NEWEST_AND_RUNG_END"
-# -- remote prune round trip (DD-A66) ---------------------------------------------------------------------------------
+# -- remote prune round trip ------------------------------------------------------------------------------------------
 KEEP_EVERYTHING_STATUSES = frozenset({"CANCELLED", "RESUME_BLOCKED", "ELIGIBLE_BUDGET_EXHAUSTED", "PAUSED"})
 NO_PRUNE_RUN_STATUSES = frozenset({"CANCEL_REQUESTED", "CANCELLED"})
 LATEST_FULL_STATE = "LATEST_FULL_STATE"
@@ -83,11 +83,11 @@ def checkpoint_views(rows: list[dict[str, Any]], located: dict[str, str] | None 
                      stored: Collection[str] | None = None) -> list[dict[str, Any]]:
     """Checkpoint rows for API views: ``state`` = PRUNED (recorded deletion), PRESENT (file exists) or MISSING.
 
-    ``located`` (WP-5B, :func:`mbnas_core.artifacts.locations.checkpoint_states`): ``{checkpoint id: state}`` from the
+    ``located`` (:func:`mbnas_core.artifacts.locations.checkpoint_states`): ``{checkpoint id: state}`` from the
     recorded locations of runner-registered checkpoints - a core-local file check cannot see a runner's disk or the
     gateway store, so those rows take the recorded state; rows without locations keep the core-local check.
 
-    ``stored`` (V4-B fix, DD-A55 a / DD-A51 c): the ids of the checkpoints whose bytes the gateway verified in its store
+    ``stored``: the ids of the checkpoints whose bytes the gateway verified in its store
     (:func:`store_verified_checkpoints`). Every view then carries the 1.5.0 member ``artifact_id``: the checkpoint id
     itself - the id the gateway serves at ``GET /api/v1/runs/{run_id}/artifacts/{checkpoint id}`` - for those rows and
     ``None`` for all others. Without ``stored`` the views have no ``artifact_id`` member (callers that do not ask the
@@ -202,7 +202,7 @@ def is_remote_run(conn: sqlite3.Connection, run_id: str) -> bool:
     return row is not None
 
 
-# -- remote runs: the prune round trip (DD-A66) -------------------------------------------------------------------------
+# -- remote runs: the prune round trip ----------------------------------------------------------------------------------
 class PruneReportError(Exception):
     """An E11 report the core refuses: ``status`` / ``code`` / ``message`` of the Error answer."""
 
@@ -455,11 +455,11 @@ def apply_for_candidate(conn: sqlite3.Connection, run: dict[str, Any], candidate
     Deletions happen only for candidates that are terminal (see module docstring) unless ``force``. A remote run
     (``report["remote"]``) applies its own policy through the prune round trip instead: no core-side deletion, the
     opened requests are listed in ``report["requested"]`` (:func:`request_remote_prunes`), the local-file
-    reconciliation is skipped. ``remote_policy`` (the former forced policy of remote runs, design D7) is ignored since
-    DD-A66."""
+    reconciliation is skipped. ``remote_policy`` (the former forced policy of remote runs) is ignored since
+    runner protocol 1.1.0."""
     from mbnas_core.artifacts.registry import run_dir
 
-    del remote_policy  # DD-A66: remote runs follow their own policy (prune round trip)
+    del remote_policy  # remote runs follow their own policy (prune round trip)
     ctx = engine.RunContext(run)
     cand = repo.get_candidate(conn, candidate_id)
     policy = policy or run_policy(run, default_policy)

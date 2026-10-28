@@ -24,8 +24,8 @@ from typing import Any, Callable, Mapping, Protocol, runtime_checkable
 
 LATENCY_SCOPES = ("forward_only", "forward_and_postprocess", "end_to_end")
 DEFAULT_LATENCY_SCOPE = "forward_and_postprocess"
-#: register_hook strings a job spec may name -> the function they run (WP-1 contract §6.7, DD-A12). Exact strings
-#: only; the pre-split string stored in existing runs (``resolved.console.extra.training.arch.register_hook``) is an
+#: register_hook strings a job spec may name -> the function they run. Exact strings
+#: only; the legacy string stored in existing runs (``resolved.console.extra.training.arch.register_hook``) is an
 #: explicit alias of the same target. This is data: the alias module does not exist and is never imported.
 REGISTER_HOOKS: dict[str, str] = {
     "mbnas_model_runtime.operators:ensure_registered": "mbnas_model_runtime.operators:ensure_registered",
@@ -207,7 +207,7 @@ def resolve_register_hook(spec: str | None) -> Callable[[], Any] | None:
 
 
 def default_weights_dir() -> Path:
-    """``$MBNAS_HOME/weights``: the hosts' default ``weights_dir`` (WP-1 contract §5, DD-A13), used when a caller
+    """``$MBNAS_HOME/weights``: the hosts' default ``weights_dir``, used when a caller
     passes no weights directory (``registry.arch_spec``, the RF-DETR ``RF_HOME`` default)."""
     from mbnas_contracts.util.home import mbnas_home
 

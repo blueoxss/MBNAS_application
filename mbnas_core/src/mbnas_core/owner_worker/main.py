@@ -1,10 +1,10 @@
 """Owner worker process: ``python -m mbnas_core.owner_worker`` (console script ``mbnas-core-owner-worker``).
 
-WP-2 contract section 1.7 / DD-A4: the default (``--owner``) mode leases only PROPOSE_GENERATION jobs (all of them:
-``WorkerConfig(kinds=["PROPOSE_GENERATION"], generation_only=None)``, R6) and needs no GPU; BASELINE_TRAIN,
+The default (``--owner``) mode leases only PROPOSE_GENERATION jobs (all of them:
+``WorkerConfig(kinds=["PROPOSE_GENERATION"], generation_only=None)``) and needs no GPU; BASELINE_TRAIN,
 CANDIDATE_TRAIN, FINAL_RETRAIN, EVALUATE and BENCHMARK are claimed by remote runners over ``/core/v1/runner``
 (:mod:`mbnas_core.runner_api`). ``--cpu`` keeps the former evaluation-free proposal queue (generation_only jobs).
-The NVML occupancy wait and GPU sampling of WP-1 (``mbnas_runner.gpu``) are gone from the core (DD-A27 expired):
+The NVML occupancy wait and GPU sampling (``mbnas_runner.gpu``) are not part of the core:
 :meth:`Worker.wait_gpu_clear` returns immediately and the workers row carries no device samples. The single-host DB
 loop itself is unchanged::
 
@@ -20,7 +20,7 @@ loop itself is unchanged::
     -> watch the run: PAUSE_REQUESTED writes the stop request (the child stops at its next epoch boundary),
        CANCEL_REQUESTED terminates the child (SIGTERM, SIGKILL after the grace period)
     -> finalize in one transaction: :func:`mbnas_core.runner_api.settle.settle_job` (job state, cost ledger row,
-       orchestration step, run settlement) - the same function the remote result endpoint uses (R5).
+       orchestration step, run settlement) - the same function the remote result endpoint uses.
 
 A child that exits without a result is a retryable failure (``CHILD_EXIT_NO_RESULT``); a pause at a safe
 boundary requeues the job without consuming a retry; a lost lease discards the result (another worker owns it).
@@ -28,7 +28,7 @@ A ``BLOCKED`` result (e.g. ``TARGET_BLOCKED``: the target device is unavailable)
 ``jobs`` row is FAILED with the BLOCKED result in ``error_json``. After every finished job the run's full-state
 retention policy is applied to the job's candidate in its own transaction (``orchestration.retention``).
 
-DD-A60 (2): the worker's own files live on the core host (:mod:`mbnas_core.owner_worker.paths`): the stop file is
+The worker's own files live on the core host (:mod:`mbnas_core.owner_worker.paths`): the stop file is
 ``<MBNAS_CORE_OUTPUT_ROOT>/<run>/control/<job>.stop`` (default ``MBNAS_HOME/core/runs/<run>/control``), and the
 per-attempt stderr log moves next to it when the run's own ``console.paths.output_root`` directory is not usable on this
 host (a split deployment's customer-only output root, which the core host must never try to create). An exception
@@ -37,7 +37,7 @@ THAT job with reason ``WORKER_IO_ERROR`` (``OSError``) or ``WORKER_JOB_ERROR`` (
 retried, traceback in the worker log, reason in the run log) and the worker keeps running. The entry point
 (:func:`main`) logs to stderr - the worker's existing log destination - through :func:`configure_logging`, which
 installs :func:`mbnas_contracts.util.log_redact.install_log_redaction` on that handler like the core and gateway apps
-do for their uvicorn records (C05 D10).
+do for their uvicorn records.
 """
 from __future__ import annotations
 
@@ -86,10 +86,10 @@ SECRET_ENV = ("MBNAS_CORE_API_TOKEN", "MBNAS_CORE_ARTIFACT_SIGNING_KEY", "MBNAS_
 EVENT_INTERVAL_S = 1.0
 WORKER_ROW_RETENTION_S = 24 * 3600  # worker rows older than a day are deleted at worker startup
 LOCK_FD_ENV = "MBNAS_GPU_LOCK_FD"  # descriptor of a held GPU lock (runner gpu_guard), passed on when open
-OWNER_KINDS = ["PROPOSE_GENERATION"]  # WP-2 section 1.7: the owner worker's lease filter
+OWNER_KINDS = ["PROPOSE_GENERATION"]  # the owner worker's lease filter
 _PR_SET_PDEATHSIG = 1
-WORKER_IO_ERROR = "WORKER_IO_ERROR"  # DD-A60 (2): an OSError on this host while handling the job (e.g. a directory)
-WORKER_JOB_ERROR = "WORKER_JOB_ERROR"  # DD-A60 (2): any other exception of the worker around one job
+WORKER_IO_ERROR = "WORKER_IO_ERROR"  # an OSError on this host while handling the job (e.g. a directory)
+WORKER_JOB_ERROR = "WORKER_JOB_ERROR"  # any other exception of the worker around one job
 LOG_FORMAT = "%(asctime)s.%(msecs)03dZ %(levelname)s %(name)s: %(message)s"
 logger = logging.getLogger("mbnas_core.owner_worker")
 
@@ -111,7 +111,7 @@ class _StderrHandler(logging.StreamHandler):  # type: ignore[type-arg]
 
 
 def configure_logging() -> logging.Logger:
-    """Entry-point logging of the owner worker (C05 D10): one handler on the root logger writing UTC-stamped lines to
+    """Entry-point logging of the owner worker: one handler on the root logger writing UTC-stamped lines to
     stderr (the worker's log destination under start.sh / systemd / docker), then
     :func:`~mbnas_contracts.util.log_redact.install_log_redaction` on the root logger and that handler, so no worker
     line carries a URL/header secret (``token=``, ``access_token=``, ``sig=``, ``exp=``, ``Authorization``) - the same
@@ -147,9 +147,9 @@ def _stop_child(proc: subprocess.Popen[str], grace_s: float) -> None:
 
 
 def child_settings_env(settings: CoreSettings) -> dict[str, str]:
-    """The worker's effective non-secret settings for the job child (children never read a dotenv file; WP-1 contract
-    section 5): ``MBNAS_RUNNER_*`` for the runner handlers (``RunnerSettings``; work root = the core output root, native
-    pickle resume enabled on the owner host, DD-A20) and ``MBNAS_CORE_*`` for the child's own core side (DB loader,
+    """The worker's effective non-secret settings for the job child (children never read a dotenv file):
+    ``MBNAS_RUNNER_*`` for the runner handlers (``RunnerSettings``; work root = the core output root, native
+    pickle resume enabled on the owner host) and ``MBNAS_CORE_*`` for the child's own core side (DB loader,
     baseline ArchSpec, PROPOSE_GENERATION)."""
     output_roots, dataset_roots = json.dumps(settings.output_roots), json.dumps(settings.dataset_roots)
     return {"MBNAS_RUNNER_WORK_ROOT": settings.output_root, "MBNAS_RUNNER_OUTPUT_ROOTS": output_roots,
@@ -193,7 +193,7 @@ class WorkerConfig:
     once: bool = False
     kinds: list[str] | None = None
     gpu_clear_timeout_s: float = 15.0  # bounded wait for foreign NVML compute pids before leasing / spawning
-    # lease filter on params.generation_only, separated from ``cpu`` (R6): True = only generation_only jobs,
+    # lease filter on params.generation_only, separated from ``cpu``: True = only generation_only jobs,
     # False = only the others, None = no filter; "auto" (default) keeps the original coupling (True for --cpu).
     generation_only: bool | None | Literal["auto"] = GENERATION_ONLY_AUTO
 
@@ -225,7 +225,7 @@ class Worker:
         self.cfg = cfg or WorkerConfig()
         self.id = worker_id or f"{socket.gethostname()}:{os.getpid()}"
         self.conn = connect(settings)
-        # no NVML in the core (WP-2): a non-cpu worker (tests with stub handlers) reports an unverified device label
+        # no NVML in the core: a non-cpu worker (tests with stub handlers) reports an unverified device label
         self.device = ({"id": "cpu", "uuid": "cpu", "name": "CPU structure generation"} if self.cfg.cpu else
                        {"id": f"{socket.gethostname()}-gpu-{self.cfg.gpu_index}", "uuid": f"gpu-index-{self.cfg.gpu_index}",
                         "name": "unverified device (owner worker has no NVML)"})
@@ -236,7 +236,7 @@ class Worker:
 
     # -- device occupancy -------------------------------------------------------------------------------------
     def wait_gpu_clear(self, job: dict[str, Any] | None = None) -> dict[str, Any]:
-        """No-op since WP-2: the owner worker runs CPU proposal jobs only; the NVML occupancy wait (S7-F1) moved to
+        """No-op: the owner worker runs CPU proposal jobs only; the NVML occupancy wait moved to
         the runner daemon together with the GPU kinds."""
         return {"cleared": True, "waited_s": 0.0, "foreign": [], "nvml": False}
 
@@ -290,7 +290,7 @@ class Worker:
         return 0
 
     def prune_worker_rows(self, now: str | None = None) -> int:
-        """Age out worker rows (other workers) whose heartbeat is older than ``WORKER_ROW_RETENTION_S`` (S7-F4):
+        """Age out worker rows (other workers) whose heartbeat is older than ``WORKER_ROW_RETENTION_S``:
         offline workers and workers killed without writing ``offline`` no longer pile up in ``workers``."""
         with tx(self.conn):
             return repo.prune_workers(self.conn, iso_after(now or utcnow_iso(), -WORKER_ROW_RETENTION_S), keep=self.id)
@@ -309,7 +309,7 @@ class Worker:
     def tick(self) -> bool:
         """Wait for the device, reclaim expired leases, then lease and execute at most one job; True when a job ran.
 
-        DD-A60 (2): an exception while the leased job is handled fails that job (:meth:`job_error`) and the worker
+        An exception while the leased job is handled fails that job (:meth:`job_error`) and the worker
         goes on with the next tick instead of exiting."""
         self.wait_gpu_clear()
         # reclaim right before leasing: acquire_lease also takes expired leases, which must be billed by reclaim first
@@ -320,7 +320,7 @@ class Worker:
             return False
         try:
             self.execute(job)
-        except Exception as exc:  # noqa: BLE001 - DD-A60 (2): one job's failure never stops the worker
+        except Exception as exc:  # noqa: BLE001 - one job's failure never stops the worker
             self.job_error(job, exc)
         self.jobs_done += 1
         return True
@@ -386,7 +386,7 @@ class Worker:
 
     # -- one job ---------------------------------------------------------------------------------------------
     def _paths(self, job: dict[str, Any]) -> tuple[Path, Path, Path]:
-        """``(run dir, stop file, attempt stderr log)``. DD-A60 (2): the stop file always lives in the core-local
+        """``(run dir, stop file, attempt stderr log)``. The stop file always lives in the core-local
         ``core_run_dir(settings, run)/control``; the attempt log stays in ``<run dir>/logs`` when the run's directory is
         usable on this host (owner all-in-one: unchanged) and goes to ``core_run_dir(settings, run)/logs`` otherwise.
         ``base`` remains the run's own directory (checkpoint reports are checked against it)."""
@@ -405,7 +405,7 @@ class Worker:
         env.update(child_settings_env(self.settings))
         env.update({"CUDA_VISIBLE_DEVICES": ("" if self.cfg.cpu or ((job.get("spec") or {}).get("params") or {}).get("generation_only")
                                                  else str(self.cfg.gpu_index)), "PYTHONUNBUFFERED": "1", STOP_ENV: str(stop),
-                    "MBNAS_WORKER_ID": str(self.id)})  # recorded in generation audit (DD-6); not a secret
+                    "MBNAS_WORKER_ID": str(self.id)})  # recorded in generation audit; not a secret
         argv = [self.settings.worker_python, "-m", "mbnas_core.owner_worker.child", "--job-id", job["id"],
                 "--db-path", self.settings.db_path]
         with open(log, "a", encoding="utf-8") as stderr:  # the child keeps its own descriptor
@@ -415,7 +415,7 @@ class Worker:
 
     def execute(self, job: dict[str, Any]) -> None:
         """Run one leased job to a final state (see module docstring); an exception propagates to :meth:`tick`
-        (DD-A60 (2)) after the job's child, if any, was stopped."""
+        after the job's child, if any, was stopped."""
         base, stop, attempt_log = self._paths(job)
         stop.unlink(missing_ok=True)
         self.wait_gpu_clear(job)  # before the attempt starts: waiting for the device is not billed GPU time
@@ -437,7 +437,7 @@ class Worker:
         try:
             result, cancelled = self._monitor(job, proc, lines, live, base, stop)
         except BaseException:
-            _stop_child(proc, self.cfg.kill_grace_s)  # DD-A60 (2): no child outlives a failed attempt
+            _stop_child(proc, self.cfg.kill_grace_s)  # no child outlives a failed attempt
             raise
         finally:
             done.set()
@@ -543,7 +543,7 @@ class Worker:
         problem = "outside run dir, missing or size mismatch"
         actual = reported = ""
         if ok:
-            # DD-8 / G11: never trust the child's reported digest; recompute it from the bytes on disk (streaming).
+            # never trust the child's reported digest; recompute it from the bytes on disk (streaming).
             reported = _normal_sha(p.get("sha256"))
             try:
                 actual = sha256_file(path)
@@ -579,7 +579,7 @@ class Worker:
             started = live.started_at  # this attempt's start (the row may already belong to another worker)
             owned = current["lease_owner"] == self.id and current["status"] in jobs.ACTIVE_STATUSES
             if not owned:
-                # one physical row per (job, attempt): complements a reclaimer's failed row (S7-F2)
+                # one physical row per (job, attempt): complements a reclaimer's failed row
                 costs.record_lost_attempt(self.conn, current | {"attempt": job["attempt"]}, started_at=started,
                                           finished_at=finished, reason_code="LEASE_LOST",
                                           device_uuid=self.device["uuid"])
@@ -667,10 +667,10 @@ def main(argv: list[str] | None = None) -> int:
                         help="unused since WP-2 (the NVML occupancy wait moved to the runner daemon)")
     parser.add_argument("--env-file", default=None, help="dotenv file (else environment / MBNAS_CORE_ENV_FILE)")
     args = parser.parse_args(argv)
-    configure_logging()  # C05 D10: redacted stderr lines, like the core and gateway apps
+    configure_logging()  # redacted stderr lines, like the core and gateway apps
     if args.env_file:
         # like mbnas-core-api: every CoreSettings.load() of THIS process - e.g. the engine's core-local journal lookup
-        # (DD-A62 (c)) - then reads the same file; children never inherit it (_inherited drops MBNAS_*_ENV_FILE)
+        # - then reads the same file; children never inherit it (_inherited drops MBNAS_*_ENV_FILE)
         os.environ[ENV_FILE_VAR] = args.env_file
     settings = CoreSettings.load()
     cfg = owner_config(cpu_only=args.cpu, gpu_index=args.gpu_index, poll_s=args.poll_s,

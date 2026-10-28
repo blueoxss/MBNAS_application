@@ -1,19 +1,16 @@
 """Remote runner protocol v1 (``/core/v1/runner/*``): wire models shared by the core (server side) and the runner (client).
 
-Normative sources: WP-2 contract section 3 and ``docs/internal/analysis/REMOTE_PROTOCOL_DESIGN.md`` sections 3 (endpoints
-E1-E10), 4.1 (JobEnvelope v1), 6.2/7 (journal, result idempotency) and 11 (auth). Field names follow those sections.
-
 Rules enforced by every model here: ``extra="forbid"``; files are named by a run-relative ``relpath`` (validated:
-relative, no ``..``) and no field of a runner -> core model is called ``path``/``file``/``dir`` (R8). Runner-local
-ABSOLUTE paths still reach the core on two channels, by design (REMOTE_PROTOCOL_DESIGN 6.3/9.3): the checkpoint
+relative, no ``..``) and no field of a runner -> core model is called ``path``/``file``/``dir``. Runner-local
+ABSOLUTE paths still reach the core on two channels, by design: the checkpoint
 ``uri`` of :class:`CheckpointReport` (the daemon's realpath of the file) and the free-form ``ResultCommit.result.outputs``
 (rung results, resolved recipe paths). The core stores those runner-local absolute paths in its DB (``checkpoints.path``,
 ``artifact_locations.uri``, ``jobs.result_json``) for the owner only (owner routes / owner export) and never projects
 them into a public response (``mbnas_core.console.projection``: checkpoint views carry an id instead of a path, row
-paths become run-relative). The :class:`JobEnvelope` carries the runner-side locations that the design fixes in 4.1
+paths become run-relative). The :class:`JobEnvelope` carries runner-side locations
 (``resume.*.path``, ``data_refs.*.protocol_root``, ...); they are read-only inputs to the runner and never echoed back.
 
-1.1.0 (DD-A66, fix round 5): the retention prune round trip (WP-5 section 2 R11, T3-34). ``HeartbeatControl.prune`` is a
+1.1.0: the retention prune round trip. ``HeartbeatControl.prune`` is a
 list of :class:`PruneOrder` (was ``list[str]``, never populated in 1.0.0) - each order is handed out at most once per
 lease (job, attempt) - and E11 ``POST /checkpoints/{checkpoint_id}/pruned`` (:class:`PruneReport` ->
 :class:`PruneAck`) reports the outcome; the core marks the checkpoint ``PRUNED`` only on that report.
@@ -37,7 +34,7 @@ RUNNER_API_VERSION = "1.1.0"
 RUNNER_BASE_PATH = "/core/v1/runner"
 ALLOWED_RUNNER_KINDS: tuple[JobKind, ...] = (
     JobKind.BASELINE_TRAIN, JobKind.CANDIDATE_TRAIN, JobKind.FINAL_RETRAIN, JobKind.EVALUATE, JobKind.BENCHMARK)
-"""DD-A4 / ``scheduling.jobs.GPU_KINDS``: the kinds a runner may claim (PROPOSE_GENERATION is owner-worker only)."""
+"""``scheduling.jobs.GPU_KINDS``: the kinds a runner may claim (PROPOSE_GENERATION is owner-worker only)."""
 
 SHA256_HEX = r"^[0-9a-f]{64}$"
 SHA256_PREFIXED = r"^sha256:[0-9a-f]{64}$"

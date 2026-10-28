@@ -4,7 +4,7 @@
  * never a host path), raw metrics, fitness weights, gate/cost/hashes, the four diagnostic images of one sample and the
  * "구성" tab (configuration revisions, diff, exact-byte download; hidden with a note when the server has no revision API).
  * Everything shown comes from server rows; nothing is invented. Missing values are an em dash.
- * Fitness and rewards are the server's values only: the client never recomputes them (DD-A8).
+ * Fitness and rewards are the server's values only: the client never recomputes them.
  */
 import { useEffect, useMemo, useState } from 'react';
 import type { ApiClient } from '../api/client';
@@ -38,7 +38,7 @@ export function lineageOperation(c: Pick<Candidate, 'parents' | 'arm'> & { block
   if (n === 1 && (c.blocks ?? []).some((b) => b.source_kind === 'mutation')) return { op: 'mutation', text: 'mutation (1 parent)' };
   if (n === 1) return { op: 'clone', text: 'clone / elite carry-over (1 parent)' };
   if (n === 0 && (c.arm === 'IndependentRandom' || c.arm === 'GA' || declared === 'random')) return { op: 'random', text: 'random (0 parents)' };
-  // a generated (evaluation-OFF) candidate without a detail: the random generator drew it (F14 Lineage rows)
+  // a generated (evaluation-OFF) candidate without a detail: the random generator drew it (Lineage rows)
   if (n === 0 && generationOnlyRow(c) && (rec(c).origin === 'random_generation' || rec(c).effective_method === 'RandomGeneration')) return { op: 'random', text: 'random (0 parents)' };
   if (n === 0 && (c.arm === 'Baseline' || declared === 'baseline')) return { op: 'baseline', text: 'baseline (0 parents)' };
   return { op: 'unknown', text: declared || 'unknown' };
@@ -79,7 +79,7 @@ function compact(v: unknown): string {
 
 /**
  * YAML row of a block (contract 1.5.0): a searched row carries it in `params` (from, repeats, module, args, scope), a
- * user-model row (explicit training of a user / baseline YAML, DD-A42) at the top level. The observed `effective` shapes are
+ * user-model row (explicit training of a user / baseline YAML) at the top level. The observed `effective` shapes are
  * left to the structure view.
  */
 function yamlRow(b: Block): string {
@@ -92,7 +92,7 @@ function yamlRow(b: Block): string {
 }
 
 /**
- * C07-D1: the structure block id of each YAML position, derived with the same `structureNodes` call (same blocks, model key
+ * The structure block id of each YAML position, derived with the same `structureNodes` call (same blocks, model key
  * and document options) as the ModelStructure view, so a block-table row opens exactly the block detail that its graph node
  * and gene button open. A native-module document has no YAML row <-> module correspondence, so it maps nothing.
  */
@@ -105,9 +105,9 @@ export function structureBlockIdsByPosition(structureBlocks: readonly unknown[],
 }
 
 /**
- * Public block lineage (contract 1.5.0 / DD-A19): position, block, source kind (a repaired row is reported with the source it
+ * Public block lineage (contract 1.5.0): position, block, source kind (a repaired row is reported with the source it
  * was repaired from; the repair trace, old names and before/after are owner-only and never reach the console), operation,
- * parent block and the YAML row. C07-D1: the Pos cell of a row whose position is a node of the structure view is a button
+ * parent block and the YAML row. The Pos cell of a row whose position is a node of the structure view is a button
  * that opens the same block detail as the graph node / gene button (`?block=`, `model_tab=structure`); a row without such a
  * node keeps a plain cell.
  */
@@ -135,7 +135,7 @@ function BlockTable({ blocks, structureIds, onOpenBlock }: { blocks: Block[]; st
 const DOWNLOADABLE_CHECKPOINT_STATES: ReadonlySet<string> = new Set(['PRESENT', 'READY']);
 
 /**
- * The id a checkpoint row is downloaded by (DD-A51 c, DD-A55): the store `artifact_id` when the server filled it in, else the
+ * The id a checkpoint row is downloaded by: the store `artifact_id` when the server filled it in, else the
  * checkpoint id itself for a PRESENT / READY row, because the gateway serves checkpoints by id on the same artifact route
  * (GET /runs/{run_id}/artifacts/{ck-id}). null for a row without either (PRUNED / MISSING and no store id): nothing to fetch.
  * Bytes that are not in the store yet answer 404 ARTIFACT_NOT_READY, shown as "아직 저장소에 없음" (ArtifactDownload).
@@ -353,7 +353,7 @@ export function CandidateView({ c, run, runId, all, client, onTrainingCreated }:
   const [detail, setDetail] = useState<CandidateDetail | null>(null);
   const [wantedTab, setTab] = useState(() => typeof window === 'undefined' ? 'all' : new URL(window.location.href).searchParams.get('model_tab') ?? 'all');
   const chooseTab = (value: string): void => { setTab(value); const url = new URL(window.location.href); url.searchParams.set('model_tab', value); window.history.replaceState(null, '', url); };
-  // C07-D1: a block-table row asks the structure view to select its block (each click a new seq)
+  // a block-table row asks the structure view to select its block (each click a new seq)
   const [blockRequest, setBlockRequest] = useState<{ id: string; seq: number } | null>(null);
   useEffect(() => setBlockRequest(null), [c.candidate_id]);
   const openBlock = (id: string): void => {
@@ -399,9 +399,9 @@ export function CandidateView({ c, run, runId, all, client, onTrainingCreated }:
     // eslint-disable-next-line react-hooks/exhaustive-deps -- the document options are the only fields of `structure` read
     [structureBlocks, c.candidate_id, structure.representation, structure.schema]);
   const generation = rec(rec(detail?.audit).generation);
-  // DD-5: the row's performance_status may only be known from the audit of the opened detail
+  // the row's performance_status may only be known from the audit of the opened detail
   const trainedNotEvaluated = isTrainedNotEvaluated({ ...c, performance_status: (c as unknown as Record<string, unknown>).performance_status ?? rec(rec(detail?.audit).performance).status }, run);
-  // DD-A23: training_status (contract 1.5.0) of the row or the detail; a 1.4.x generated candidate without one is UNTRAINED
+  // training_status (contract 1.5.0) of the row or the detail; a 1.4.x generated candidate without one is UNTRAINED
   const trainingRow = { ...row, training_status: row.training_status ?? detail?.training_status, evaluation_status: row.evaluation_status ?? detail?.evaluation_status };
   const untrained = !trainedNotEvaluated && isUntrainedUnevaluated(trainingRow);
   // the executed architecture file by id + sha256 (1.5.0): the 'architecture' artifact, else audit.execution_configuration {artifact_id, sha256}

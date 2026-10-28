@@ -4,7 +4,7 @@ Only the existing frozen-prior proposer and structure service are used. A durabl
 records each completed draw before a progress notification. Replaying the same job resumes its RNG stream and
 candidate IDs. No trainer, evaluator, benchmark, fitness, promotion or final-retrain module is imported here.
 
-Duplicate policy (DD-2): ``duplicate_scope`` is ``per_seed``. A repeated architecture hash is rejected against the
+Duplicate policy: ``duplicate_scope`` is ``per_seed``. A repeated architecture hash is rejected against the
 candidates of the *same* seed journal only; seeds never read each other's journals (seed independence, replay).
 
 Test-only hook: when the environment variable ``MBNAS_TEST_GENERATION_SLEEP_S`` is set in the generation child (a

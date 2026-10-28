@@ -1,4 +1,4 @@
-"""Runner journal: the on-disk outbox of one job attempt (A3 section 6.2) and its restart replay (A3 section 5.5).
+"""Runner journal: the on-disk outbox of one job attempt and its restart replay.
 
 Layout ``<work_root>/journal/<job_id>/a<attempt>/``::
 
@@ -24,7 +24,7 @@ exists: a resend carries the same bytes and therefore the same ``payload_digest`
 Transfer entries never change the stage of an attempt (a CLOSED attempt can still hold items to retry) and never touch
 ``result.json``.
 
-Retention prune orders (DD-A66, runner protocol 1.1.0) are not attempt-scoped - an order may be reported after its lease
+Retention prune orders (runner protocol 1.1.0) are not attempt-scoped - an order may be reported after its lease
 ended - so they have their own outbox, :class:`PruneJournal` = ``<work_root>/prunes/<request_id>.json``::
 
     {order, report | null, refused | null, response | null, updated_at}
@@ -35,7 +35,7 @@ BEFORE it is sent; a re-delivered order (same ``request_id``) never deletes agai
 core's answer (``{"ack": ...}`` or ``{"error": code, "status": n}``). Entries are never deleted (they are small).
 
 ``payload_digest`` = ``canonical_sha256({result, started_at, finished_at, cancel_observed, artifact_ids})``
-(A3 section 7.1; ``sha256:``-prefixed, identical to ``mbnas_contracts.runner_protocol.compute_payload_digest``).
+(``sha256:``-prefixed, identical to ``mbnas_contracts.runner_protocol.compute_payload_digest``).
 """
 from __future__ import annotations
 
@@ -55,7 +55,7 @@ DIGEST_FIELDS = ("result", "started_at", "finished_at", "cancel_observed", "arti
 
 
 def payload_digest(commit: dict[str, Any]) -> str:
-    """Digest of the result commit (A3 section 7.1; the core recomputes it)."""
+    """Digest of the result commit (the core recomputes it)."""
     return canonical_sha256({k: commit.get(k) for k in DIGEST_FIELDS})
 
 
@@ -201,7 +201,7 @@ class AttemptJournal:
     def record_discarded(self, reason: str, code: str | None = None) -> None:
         atomic_write_json(self.root / "discarded", {"reason": reason, "code": code, "at": utcnow_iso()})
 
-    # -- artifact transfers (WP-5C, mbnas_runner.transfer) -----------------------------------------------------------
+    # -- artifact transfers (mbnas_runner.transfer) ------------------------------------------------------------------
     def record_transfers(self, mode: str, items: list[dict[str, Any]]) -> Path:
         """Outbox entry ``transfers/<n>.json`` = ``{mode, items}``, written before any store write."""
         path = self._next("transfers")

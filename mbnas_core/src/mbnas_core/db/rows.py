@@ -1,4 +1,4 @@
-"""Storage-row models of the core database (owner side; WP-4 / contract 1.5.0 split).
+"""Storage-row models of the core database (owner side; contract 1.5.0 split).
 
 Until contract 1.5.0 the repository validated stored rows with the public pydantic mirrors of
 :mod:`mbnas_contracts.schemas.records`. Contract 1.5.0 closes those mirrors to the public DTO (owner-only members such as
@@ -150,7 +150,7 @@ class CandidateEvaluation(_Open):
     batch: Annotated[int, Field(ge=1)] | None = None
     requested_input_shape: list[Annotated[int, Field(ge=1)]] | None = None
     resolved_input_shape: list[Annotated[int, Field(ge=1)]] | None = None
-    epoch_target_total: Annotated[int, Field(ge=1)] | None = None  # >= 1 or absent (DD-35b): evaluate_only rows carry epochs 0 and none
+    epoch_target_total: Annotated[int, Field(ge=1)] | None = None  # >= 1 or absent: evaluate_only rows carry epochs 0 and none
     protocol_hash: NonEmptyStr | None = None
     checkpoint_sha256: str | None = None
     architecture_hash: NonEmptyStr | None = None

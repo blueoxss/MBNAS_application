@@ -1,4 +1,4 @@
-"""Per-token rate limiting and the sensitive-read audit log of the gateway (R13 / DD-A20, WP-3 contract section 2.6).
+"""Per-token rate limiting and the sensitive-read audit log of the gateway.
 
 :class:`RateLimitMiddleware` (pure ASGI, applies to ``/api/`` paths only; static web is not limited):
 

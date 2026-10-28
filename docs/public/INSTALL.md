@@ -1,6 +1,6 @@
 # INSTALL — 설치 (Installation)
 
-문서 기준일: 2026-10-28. 설치 방법은 ① Docker compose, ② `pip install -r requirements-<profile>.txt`, ③ (선택) `scripts/install.sh`(②의 래퍼, 오프라인 설치 지원) 순으로 권장한다. 이 문서의 명령은 각 스크립트의 실제 `--help`와 저장소의 파일을 기준으로 적었다. **설치 검증 상태**: 세 배포본(owner·public·registration) 모두 새 경로(공백 포함)·외부 작업 디렉터리에서 설치·기동·검증·정지가 통과했고(T6), owner ZIP은 오프라인 설치, public ZIP은 네트워크 차단 설치에 성공했다(서드파티 wheel 묶음 필요). CPU 이미지·compose는 실행 확인. 배포본만으로 처음부터 끝까지 실행하는 독립 실행(owner T4, public T5)은 1차 PARTIAL 뒤 결함을 고쳐 최종 배포본으로 다시 실행해 PASS했다(`FEATURES.md` I).
+설치 방법은 ① Docker compose, ② `pip install -r requirements-<profile>.txt`, ③ (선택) `scripts/install.sh`(②의 래퍼, 오프라인 설치 지원) 순으로 권장한다.
 
 ## 0. 시작 전에 (Before you start)
 
@@ -25,24 +25,23 @@
 - 온라인 설치(방법 ②·③, 이미지 빌드)는 `pypi.org`, `files.pythonhosted.org`, `download.pytorch.org`, `download-r2.pytorch.org`, `pypi.nvidia.com`에 접속한다(방화벽·프록시 허용 필요)
 - 기본 포트: core 8700, gateway 8710, 웹 preview 8720(개발용)
 - Node.js는 웹을 다시 빌드할 때만 필요하다(gateway가 `mbnas_web/dist`를 제공)
+- 사전학습 가중치(Ultralytics 공식 가중치, RF-DETR·DINOv2 등)와 데이터셋은 배포본에 들어 있지 않으며(예제는 합성 데이터), 각 배포처의 이용 조건을 따른다
 
 배포 ZIP을 푼 최상위 디렉터리(`mbnas_application/`)를 아래에서 **ROOT**라 부른다. 모든 명령은 ROOT에서 실행한다.
 
 ## 1. 방법 ① Docker compose
 
-공개 배포 정의는 `deploy/public/`(gateway + runner, 웹은 gateway가 정적 제공), owner 배포 정의는 `deploy/owner/`(core + owner worker, 선택적으로 gateway·runner)에 있다. 이미지 빌드 컨텍스트는 ZIP을 푼 ROOT다. 이 절은 compose 파일의 사용법 주석과 서비스 정의를 옮긴 것이다.
-
-검증 상태(개발 단계 시험, 2026-10-27): CPU 이미지의 gateway·CPU runner 컨테이너, public compose(`cpu` 프로필, host 네트워크), owner compose(core + owner worker, `all-in-one` + `cpu` 프로필)는 실행해 확인했다. CUDA 이미지(`deploy/public/Dockerfile`)는 GPU 검증 1차에서 `docker run --gpus`로 GPU 인식(torch CUDA 사용 가능, RTX A6000)과 역할 진입점만 확인했다. **compose의 GPU runner 서비스로 실제 GPU 작업을 실행하는 것은 미검증이다**(이 작업 환경의 compose GPU 예약 경로는 확인하지 못함).
+공개 배포 정의는 `deploy/public/`(gateway + runner, 웹은 gateway가 정적 제공), owner 배포 정의는 `deploy/owner/`(core + owner worker, 선택적으로 gateway·runner)에 있다. 이미지 빌드 컨텍스트는 ZIP을 푼 ROOT다.
 
 | 이미지(기본 태그) | Dockerfile | 기반 이미지 | 크기(대략) | 비고 |
 |---|---|---|---|---|
 | `mbnas-public:0.1.0` | `deploy/public/Dockerfile` | `nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04` | 10.6 GB | GPU runner + gateway. 역할 인자 `gateway` 또는 `runner` |
-| `mbnas-public-cpu:0.1.0` | `deploy/public/Dockerfile.cpu` | `python:3.10-slim` | 3 GB | CPU 전용(검증 플랫폼 아님) |
+| `mbnas-public-cpu:0.1.0` | `deploy/public/Dockerfile.cpu` | `python:3.10-slim` | 3 GB | CPU 전용(GPU 없는 호스트) |
 | `mbnas-owner:0.1.0` | `deploy/owner/Dockerfile` | `nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04` | 10.6 GB | **비공개 core 포함 — owner 호스트 로컬에서만 빌드·보관하고 외부 레지스트리에 올리지 않는다** |
 
 - 이미지는 uid/gid 10001로 실행된다(compose는 `MBNAS_UID`·`MBNAS_GID`로 바꿀 수 있다). `runtime/`은 그 uid가 쓸 수 있고 `data/`는 읽을 수 있어야 한다.
 - 이미지 빌드도 온라인 설치와 같은 서버에 접속한다(로컬 wheel 묶음으로 빌드하는 방법은 각 Dockerfile 머리말 참고).
-- compose 변수 전체(이미지·네트워크·포트 공개·GPU·공유 메모리)는 `OPERATIONS.md` §12에 있다.
+- compose 변수 전체(이미지·네트워크·포트 공개·GPU·공유 메모리)는 `OPERATIONS.md` §11에 있다.
 
 **준비(공통)**
 
@@ -104,7 +103,7 @@ python3.10 -m venv .venv
 
 - requirements 파일 끝의 프로젝트 wheel(`./wheels/mbnas_*-0.1.0-py3-none-any.whl`)은 **현재 작업 디렉터리 기준 경로**다. 반드시 ROOT에서 실행한다.
 - 서드파티 버전은 `constraints.txt`와 같은 값으로 고정되어 있고, PyTorch는 cu124 index에서 받는다.
-- GPU가 없는 호스트: `requirements-cpu.txt`(CPU 빌드 torch, CPU smoke용, 검증 플랫폼 아님). CPU runner는 평가 완료 판정을 하지 않는다. 이 파일은 `download.pytorch.org/whl/cpu`의 +cpu 빌드를 쓰며 `triton==3.2.0`을 고정한다(의존성 폐포 보정). cu124 wheel 묶음(`build/wheelhouse`)에는 +cpu 빌드가 없으므로 **그 묶음으로는 오프라인 설치할 수 없다**.
+- GPU가 없는 호스트: `requirements-cpu.txt`(CPU 빌드 torch). CPU runner는 평가 완료 판정을 하지 않는다. 이 파일은 `download.pytorch.org/whl/cpu`의 +cpu 빌드를 쓰며 `triton==3.2.0`을 고정한다(의존성 폐포 보정). cu124 wheel 묶음에는 +cpu 빌드가 없으므로 **그 묶음으로는 오프라인 설치할 수 없다**.
 - 호스트의 `pip.conf`가 방해하면 `PIP_CONFIG_FILE=/dev/null`을 붙인다.
 - 오프라인: wheel 묶음이 있으면 `pip install --no-index --find-links <wheelhouse> -r requirements-public.txt`.
 - 알려진 한계: requirements 파일은 버전을 정확히 고정하지만 hash 고정(`--require-hashes`)은 하지 않는다. 내려받는 파일의 무결성은 index 서버(TLS)에 의존한다.
@@ -157,7 +156,7 @@ bash scripts/install.sh --profile owner                                         
 - 공통 루트 `MBNAS_HOME`은 **프로세스 환경에서만** 읽는다(env 파일로는 설정되지 않음). `scripts/start.sh`는 `<ROOT>/runtime`으로 설정한다. 방법 ②로 직접 실행할 때는 `export MBNAS_HOME=<ROOT>/runtime`.
 - 우선순위: 프로세스 환경 변수 > env 파일 > 기본값. 비밀 키에 빈 값(`KEY=`)을 쓰면 거부되므로, 쓰지 않을 키는 주석으로 둔다.
 - 경로 설정은 절대경로여야 한다. 목록은 `a,b` 또는 JSON 배열.
-- **분리 배치의 `output_root`**: gateway에 데이터 허용 루트(`MBNAS_GW_DATASET_ROOTS`)가 있으면 gateway가 고객 호스트에서 `console.paths`를 검사하고, run·학습·최종 재학습 생성 때도 다시 측정해 core에 보낸다. 따라서 사용자가 입력하는 `output_root`는 gateway 호스트의 `MBNAS_GW_OUTPUT_ROOTS` 안에 있으면 되고, core 호스트에 없는 경로여도 된다(시험으로 확인, 개발 단계). 그런 run에서 core가 쓰는 파일(owner worker의 제어 파일·작업 로그·생성 구조 YAML·생성 journal)은 core 호스트의 `<MBNAS_CORE_OUTPUT_ROOT>/<run id>/`에 남고, 생성 구조 YAML은 core가 gateway를 거쳐 제공한다(`OPERATIONS.md` §5·§15). gateway에 데이터 허용 루트가 없는 owner 일체형은 core가 자기 `MBNAS_CORE_DATASET_ROOTS`·`MBNAS_CORE_OUTPUT_ROOTS`로 검사한다.
+- **분리 배치의 `output_root`**: gateway에 데이터 허용 루트(`MBNAS_GW_DATASET_ROOTS`)가 있으면 gateway가 고객 호스트에서 `console.paths`를 검사하고, run·학습·최종 재학습 생성 때도 다시 측정해 core에 보낸다. 따라서 사용자가 입력하는 `output_root`는 gateway 호스트의 `MBNAS_GW_OUTPUT_ROOTS` 안에 있으면 되고, core 호스트에 없는 경로여도 된다. 그런 run에서 core가 쓰는 파일(owner worker의 제어 파일·작업 로그·생성 구조 YAML·생성 journal)은 core 호스트의 `<MBNAS_CORE_OUTPUT_ROOT>/<run id>/`에 남고, 생성 구조 YAML은 core가 gateway를 거쳐 제공한다(`OPERATIONS.md` §5·§14). gateway에 데이터 허용 루트가 없는 owner 일체형은 core가 자기 `MBNAS_CORE_DATASET_ROOTS`·`MBNAS_CORE_OUTPUT_ROOTS`로 검사한다.
 - **분리 배치의 학습 프로토콜**: core와 gateway가 다른 호스트일 때 학습 프로토콜의 `console.paths`에는 `train_root`·`search_val_root`를 명시한다. `dataset_yaml`만 주면 gateway가 측정하지 않은 split 경로를 core가 자기 호스트에서 찾다가 실패한다.
 - 콘솔 토큰 확인: `grep MBNAS_GW_API_TOKEN config/<profile>/gateway.env`(화면에 비밀이 표시되므로 주의).
 - owner 일체형(한 호스트에 core·gateway·runner)은 `config/examples/owner-all-in-one.env.example`을 참고한다. 이 파일은 **dotenv로만**(`--env-file`) 읽어야 한다. systemd `EnvironmentFile=`나 compose `env_file:`로 쓰면 core 비밀이 gateway·runner 프로세스 환경에 들어간다.
@@ -174,7 +173,7 @@ bash scripts/verify.sh --profile public --suite relocation   # 설치 위치 점
 bash scripts/stop.sh   --profile public
 ```
 
-- `start.sh --role`: `core`(owner 전용) = core API(`mbnas-core-api`, 8700) + owner worker, `gateway`(8710, 웹 `dist`도 제공), `runner`, `web`(개발·e2e용 Vite preview, 127.0.0.1:`MBNAS_WEB_PORT`, 기본 8720, Node.js와 `mbnas_web/node_modules` 필요), `all`(기본: owner = core·owner worker·gateway·runner, public = gateway·runner). gateway가 웹을 제공하므로 `all`에는 `web`이 들어가지 않는다.
+- `start.sh --role`: `core`(owner 전용) = core API(`mbnas-core-api`, 8700) + owner worker, `gateway`(8710, 웹 `dist`도 제공), `runner`, `web`(개발용 Vite preview, 127.0.0.1:`MBNAS_WEB_PORT`, 기본 8720, Node.js와 `mbnas_web/node_modules` 필요), `all`(기본: owner = core·owner worker·gateway·runner, public = gateway·runner). gateway가 웹을 제공하므로 `all`에는 `web`이 들어가지 않는다.
 - 이미 설정된 환경 변수가 env 파일보다 우선한다(예: `MBNAS_GW_PORT`, `MBNAS_CORE_PORT`). core·owner worker·gateway는 `CUDA_VISIBLE_DEVICES`를 빈 값으로 두고(CPU) 실행되며, runner는 호출한 쪽의 `CUDA_VISIBLE_DEVICES`를 물려받는다.
 
 방법 ②로 설치한 경우(같은 일을 직접):
@@ -195,32 +194,7 @@ owner 호스트에서는 core API(`mbnas-core-api --env-file ...`, 기본 8700)�
 2. `runtime/`을 지우면 venv·로그·데이터·산출물이 사라진다. owner 호스트의 `runtime/core/db/`는 run 기록 전체이므로 먼저 백업한다.
 3. `config/<profile>/`에는 비밀 값이 있으므로 안전하게 폐기한다. 발급받은 토큰은 core 운영자에게 폐기(`mbnas-core-principal revoke <principal_id>`)를 요청한다.
 
-## 7. 배포 ZIP 만들기 (Packaging; 소스 트리·owner 전용)
+## 7. 라이선스 (Licenses)
 
-```bash
-bash scripts/package.sh --profile owner|public|registration [--platform auto|<tag>] [--reproducible] \
-                        [--allow-missing-web] [--canary]
-```
-
-| 옵션 | 뜻 |
-|---|---|
-| `--profile owner\|public\|registration` | (필수) owner = core 포함 비공개, public = 고객용 런타임, registration = public + 등록 문서 |
-| `--platform auto\|<tag>` | ZIP 이름의 플랫폼 표기(기본 auto: 이 호스트, 예 `linux_x86_64`) |
-| `--reproducible` | 시각·순서·권한을 고정해 두 번 빌드하고 digest 비교 결과를 `BUILD_INFO.json`에 기록 |
-| `--allow-missing-web` | `mbnas_web/dist`가 없어도 public·registration을 빌드(그 사실을 `BUILD_INFO.json`에 기록) |
-| `--canary` | 누출 검사(T8)용 시험 빌드: 트리를 `build/canary/<profile>/tree`로 복사해 표식을 심고 빌드·검사(`dist/`는 건드리지 않음) |
-
-- 출력: `dist/<profile>/mbnas_application-0.1.0-<profile>-runtime-<platform>.zip`(owner는 `mbnas_application-0.1.0-owner-private-runtime-<platform>.zip`)과 같은 이름의 `.sha256`. 중간 산출물 `build/staging/<profile>/mbnas_application/`, wheel `build/wheels/`, 보고서 `build/package_reports/<profile>.json`.
-- ZIP 구성은 `build/allowlists/<profile>.txt`가 정한다. registration 프로필은 그 ZIP의 매니페스트로 `docs/registration/FILE_LIST.md`를 다시 만든다.
-- `mbnas_web/dist`를 담는 빌드는 번들 위생 검사(`node mbnas_web/scripts/check-bundle.mjs`)를 통과해야 한다. **`node`가 PATH에 없으면 검사 실패**로 처리된다.
-- 빌드용 venv(`runtime/venv`: Python 3.10 + pip·setuptools·wheel + mbnas 패키지)가 필요하고 네트워크는 쓰지 않는다.
-- 종료 코드: 0 빌드 완료, 1 검사 실패(아무것도 내보내지 않음), 2 사용법·설정 오류, 3 빌드 도구 실패.
-
-## 8. 라이선스 (Licenses)
-
-- 이 프로그램 자체 코드(`mbnas_*` 패키지, 웹 콘솔)의 라이선스는 **아직 정해지지 않았다**. 정해지기 전에는 재배포 조건을 가정하지 않는다. 루트 `LICENSE`는 그때까지의 자리표시 고지다: 권리 유보(All rights reserved), 권리자 미정, 어떤 라이선스도 부여하지 않으며 제3자 구성요소의 조건을 바꾸지 않는다. 결정되면 교체한다.
-- 설치되는 제3자 패키지와 라이선스 메타데이터는 `THIRD_PARTY_NOTICES.md`에 있다. 자동으로 모은 값이며 법적 검토 결과가 아니다.
-- **ultralytics 8.4.173**(및 `ultralytics-thop`)은 AGPL-3.0으로 표기되어 있다. 모델 런타임이 실행 시 import하며, `mbnas_model_runtime/operators/parse_model_8_4_173.py`는 ultralytics `parse_model`의 수정 사본이다.
-- 방법 ①의 GPU 이미지, cu124 설치, 오프라인 wheel 묶음에는 NVIDIA CUDA 런타임 패키지(메타데이터상 NVIDIA Proprietary Software)가 들어간다.
-- 웹 번들(`mbnas_web/dist`)에는 React 등 npm 런타임 의존성이 포함된다. npm 패키지와 라이선스 메타데이터 목록은 `THIRD_PARTY_NOTICES_WEB.md`에 있다(런타임 5개 모두 MIT, 빌드·시험용 개발 의존성 161개는 `dist`에 들어가지 않음, 라이선스 미확인 0개). 이것도 법적 검토 결과가 아니다.
-- 사전학습 가중치(Ultralytics 공식 가중치, RF-DETR·DINOv2 등)와 데이터셋은 각 배포처의 이용 조건을 따른다. 이 배포본은 가중치·데이터셋을 포함하지 않는다(예제는 합성 데이터).
+- 설치되는 Python 제3자 패키지의 라이선스 목록은 `THIRD_PARTY_NOTICES.md`, 웹 번들(`mbnas_web/dist`)에 들어가는 npm 패키지의 목록은 `THIRD_PARTY_NOTICES_WEB.md`에 있다.
+- **ultralytics 8.4.173**(및 `ultralytics-thop`)은 AGPL-3.0이다. 모델 런타임이 실행 시 import하며, `mbnas_model_runtime/operators/parse_model_8_4_173.py`는 ultralytics `parse_model`의 수정 사본이다.

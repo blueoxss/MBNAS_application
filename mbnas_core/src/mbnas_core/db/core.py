@@ -32,16 +32,16 @@ MIGRATION_COLUMNS: tuple[tuple[str, str, str], ...] = (
 MIGRATION_INDEXES: tuple[str, ...] = (
     "CREATE INDEX IF NOT EXISTS runs_parent ON runs(parent_run_id)",
 )
-# v2 -> v3: events.type CHECK gains 'generation.updated' (contract 1.2.9, S9-F3). SQLite cannot alter a CHECK, so
+# v2 -> v3: events.type CHECK gains 'generation.updated' (contract 1.2.9). SQLite cannot alter a CHECK, so
 # the table is rebuilt (copy every row into the new definition, verify, swap) when its stored DDL lacks a type.
 EVENT_TYPES_REQUIRED: tuple[str, ...] = ("generation.updated",)
-# v3 -> v4 (WP-2 remote runner protocol): new tables only (design A3 section 12; no ``public_ids``, DD-A19). Their DDL
+# v3 -> v4 (remote runner protocol): new tables only (no ``public_ids``). Their DDL
 # lives once in schema.sql; :func:`migrate` creates a missing one (and its indexes) from there.
 V4_TABLES: tuple[str, ...] = ("runners", "principals", "idempotent_responses", "artifact_locations")
-# v4 -> v5 (WP-4): the configuration revision table (F5d) and the per-database salt of the public opaque ids (device /
-# worker ids of the console projection, DD-A19 D7); both additive, created when missing.
+# v4 -> v5: the configuration revision table and the per-database salt of the public opaque ids (device /
+# worker ids of the console projection); both additive, created when missing.
 V5_TABLES: tuple[str, ...] = ("config_revisions",)
-# v5 -> v6 (DD-A66, fix round 5): the retention prune round trip of runner-held checkpoints (WP-5 section 2 R11);
+# v5 -> v6: the retention prune round trip of runner-held checkpoints;
 # additive, created when missing.
 V6_TABLES: tuple[str, ...] = ("prune_requests",)
 PUBLIC_ID_SALT_KEY = "public_id_salt"
@@ -66,7 +66,7 @@ def migrate(conn: sqlite3.Connection) -> list[str]:
     v1 -> v2 adds columns; v2 -> v3 widens the ``events.type`` CHECK by rebuilding ``events`` with every row copied
     (:func:`_rebuild_events_if_needed`); v3 -> v4 creates the remote-runner tables :data:`V4_TABLES` (``table:<name>``);
     v4 -> v5 creates :data:`V5_TABLES` and the ``meta`` salt :data:`PUBLIC_ID_SALT_KEY` (``meta:<key>``); v5 -> v6 creates
-    :data:`V6_TABLES` (``prune_requests``, DD-A66). Runs in one ``BEGIN IMMEDIATE`` transaction, so the API and the worker
+    :data:`V6_TABLES` (``prune_requests``). Runs in one ``BEGIN IMMEDIATE`` transaction, so the API and the worker
     starting together serialise and a failure leaves the old DB untouched; returns what it changed
     (``table.column`` names, ``events.type:<type>``, ``table:<name>``).
     """

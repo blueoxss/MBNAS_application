@@ -1,0 +1,24 @@
+owner ZIP 9f03c484… — canary_scan hits by area (host facts allowed only under docs/internal/**)
+canary-token hits: 0 | host-fact hits: 5358 | failing: 0
+inside docs/internal/**: 5320 hits in 946 files: {'HOST_FACT#4 original host name': 61, 'HOST_FACT#2 original host root': 347, 'HOST_FACT#1 owner data root': 66, 'HOST_FACT#3 original host address': 7, 'HOST_FACT#5 owner account name': 4678, 'HOST_FACT#6 original host GPU UUID': 161}
+OUTSIDE docs/internal/**: 38 hits in 12 files
+    2  scripts/dev/check_import_closure.py  [HOST_FACT#1 owner data root]
+    2  scripts/dev/check_import_closure.py  [HOST_FACT#2 original host root]
+    2  scripts/dev/check_import_closure.py  [HOST_FACT#3 original host address]
+    2  scripts/dev/check_import_closure.py  [HOST_FACT#4 original host name]
+    2  scripts/dev/check_import_closure.py  [HOST_FACT#5 owner account name]
+    3  scripts/owner/probe_registry.py  [HOST_FACT#2 original host root]
+    3  scripts/owner/search_dry_run.py  [HOST_FACT#2 original host root]
+    4  scripts/owner/smoke_end_to_end.py  [HOST_FACT#2 original host root]
+    2  scripts/runner/download_weights.py  [HOST_FACT#2 original host root]
+    2  tests/owner/legacy/test_handoff_inputs_record.py  [HOST_FACT#2 original host root]
+    2  tests/owner/legacy/test_registry_workspace_evidence.py  [HOST_FACT#2 original host root]
+    2  tests/owner/live/test_live_stack.py  [HOST_FACT#2 original host root]
+    1  tests/owner/qa/test_benchmark_evidence.py  [HOST_FACT#2 original host root]
+    2  tests/owner/t2/t2_core.py  [HOST_FACT#6 original host GPU UUID]
+    2  tests/owner/unit/test_protocol_validator.py  [HOST_FACT#2 original host root]
+    1  tests/public/infra/test_no_host_facts.py  [HOST_FACT#1 owner data root]
+    1  tests/public/infra/test_no_host_facts.py  [HOST_FACT#2 original host root]
+    1  tests/public/infra/test_no_host_facts.py  [HOST_FACT#3 original host address]
+    1  tests/public/infra/test_no_host_facts.py  [HOST_FACT#4 original host name]
+    1  tests/public/infra/test_no_host_facts.py  [HOST_FACT#5 owner account name]

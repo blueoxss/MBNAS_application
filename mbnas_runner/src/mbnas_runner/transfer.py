@@ -1,13 +1,13 @@
-"""Runner-side artifact transfer into the customer-side artifact store (WP-5C; DD-A6, DD-A38, DD-A39).
+"""Runner-side artifact transfer into the customer-side artifact store.
 
 Modes (``RunnerSettings.artifact_transfer``):
 
-* ``none`` (default) - nothing is transferred and the daemon behaves exactly as before WP-5: no journal entries, no
+* ``none`` (default) - nothing is transferred: no journal entries, no
   ``outputs.artifact_transfer`` in results;
 * ``local`` - the store is a directory on this host (``RunnerSettings.artifact_store_dir`` = the gateway's
   ``GatewaySettings.artifact_store``, same-host deployment). Every file the core accepted a registration for - E6
   checkpoints, and the E7 evaluation artifacts, executed ``architecture.yaml``, trainer plots and ``evaluation_detail``
-  JSON - is placed at ``<store>/<sha256[:2]>/<sha256>`` with the DD-A39 meta ``<store>/<sha256[:2]>/<sha256>.json``
+  JSON - is placed at ``<store>/<sha256[:2]>/<sha256>`` with the meta ``<store>/<sha256[:2]>/<sha256>.json``
   ``{run_id, artifact_id, relpath, kind, bytes, mime, registered_by, job_id, attempt, received_at, source: "local"}``
   (``artifact_id`` = the core's artifact id, or the checkpoint id of an E6 checkpoint whose ``kind`` is
   ``checkpoint``; ``registered_by`` = this runner's id; ``relpath`` is run-directory relative);
@@ -28,8 +28,9 @@ Writing one object (:meth:`LocalArtifactStore.put`):
 4. the temp name is published with ``link(tmp, final)``, which never overwrites (``EEXIST`` -> step 1 against the
    object that won the race), then removed; the shard directory is fsynced;
 5. the meta is written the same way, after the bytes (temp + fsync + no-overwrite publish, mode 0644): exactly the
-   DD-A39 keys, ``bytes``/``attempt`` integers, ``received_at`` fixed-width UTC (``2026-10-27T04:16:21.407324Z``), a
-   ``mime`` that is not a plain media type replaced by ``application/octet-stream``; an existing meta is never touched.
+   meta keys (:data:`META_KEYS`), ``bytes``/``attempt`` integers, ``received_at`` fixed-width UTC
+   (``2026-10-27T04:16:21.407324Z``), a ``mime`` that is not a plain media type replaced by
+   ``application/octet-stream``; an existing meta is never touched.
 
 Permission bits (``RunnerSettings.artifact_store_mode``; checkpoints are written 0600 by their writer, a hard link
 shares the inode and so its mode): ``same-uid`` (default) - the gateway runs as the runner's user: links and copies keep
@@ -43,7 +44,7 @@ the run-directory file, so a writer that later rewrites that file *in place* wou
 digest name: the daemon therefore registers files whose writer rewrites them in place (the executed
 ``architecture.yaml``, ``ultralytics_adapter._write_arch_yaml`` uses ``write_text``; the trainer's own plots) with
 ``link=False`` (always copied); checkpoints, evaluation panels/JSON and weights are written by atomic replace (new
-inode) and are linked. The gateway still recomputes the sha256 on download (DD-A39, 409 ``LOAD_FAILED``).
+inode) and are linked. The gateway still recomputes the sha256 on download (409 ``LOAD_FAILED``).
 
 Journal and retries (:class:`ArtifactTransfer`): the items of one registration (one checkpoint, one E7 batch) are
 written to ``<journal>/transfers/<n>.json`` *before* any store write (outbox rule), tried once right after the
@@ -79,7 +80,7 @@ MODES: tuple[str, ...] = ("none", "local")
 RESERVED_MODES: tuple[str, ...] = ("upload",)
 STORE_MODES: tuple[str, ...] = ("same-uid", "link-0644", "copy-0644")
 SOURCE = "local"
-TMP_PREFIX = ".tmp-"  # the store's temp-name prefix (DD-A39 store readers skip it; the gateway sweeps stale ones)
+TMP_PREFIX = ".tmp-"  # the store's temp-name prefix (store readers skip it; the gateway sweeps stale ones)
 READABLE_MODE = 0o644
 #: a media type the gateway accepts as a header value (type/subtype + at most four simple parameters); same rule as the
 #: gateway store's meta check, restated here by specification (the runner imports nothing from the gateway)
@@ -167,7 +168,7 @@ def sha256_nofollow(path: str | os.PathLike[str], *, fsync: bool = False, chmod:
 
 
 class LocalArtifactStore:
-    """The DD-A39 content-addressed directory store, written from the runner host (``local`` mode)."""
+    """The content-addressed directory store, written from the runner host (``local`` mode)."""
 
     def __init__(self, root: str | os.PathLike[str], *, mode: str = "same-uid") -> None:
         if mode not in STORE_MODES:
@@ -403,7 +404,7 @@ def transfer_item(*, obj: str, artifact_id: str, run_id: str, job_id: str, attem
 
 
 def store_meta(item: dict[str, Any], received_at: str | None = None) -> dict[str, Any]:
-    """The DD-A39 meta of one stored object (exactly :data:`META_KEYS`)."""
+    """The meta of one stored object (exactly :data:`META_KEYS`)."""
     mime = item.get("mime")
     return {"run_id": item["run_id"], "artifact_id": item["artifact_id"], "relpath": item["relpath"],
             "kind": item["kind"], "bytes": int(item["bytes"]),

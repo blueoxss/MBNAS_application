@@ -1,6 +1,5 @@
 # systemd unit EXAMPLE - MBNAS owner worker (owner host, PRIVATE): leases PROPOSE_GENERATION jobs from the core DB and
-# runs them in child processes on the CPU (GPU job kinds are claimed by runners). Adapted from the MBNAS_server
-# mbnas-worker.service.example of the source snapshot (the GPU work moved to mbnas-runner).
+# runs them in child processes on the CPU (GPU job kinds are claimed by runners).
 #
 # Same install and env file as deploy/owner/mbnas-core.service.example (/opt/mbnas, config/owner/core.env). Replace
 # /opt/mbnas and the service user, then:

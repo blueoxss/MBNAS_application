@@ -1,0 +1,7 @@
+unchanged docs/registration/SYSTEM_STRUCTURE.md
+unchanged docs/registration/diagrams/system_structure.mmd
+unchanged docs/registration/diagrams/system_structure.svg
+unchanged docs/registration/INTERFACES.md
+unchanged docs/registration/FILE_LIST.md
+note      매니페스트: 없음 → 생성 대기 문구
+check: OK

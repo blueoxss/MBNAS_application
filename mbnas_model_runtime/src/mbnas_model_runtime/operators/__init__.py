@@ -1,5 +1,4 @@
-"""Custom NAS operators for ultralytics YAML models: the vendored ETRI mixed operator pool (DD-A2, DD-A12; WP-1
-contract §6.1-§6.3).
+"""Custom NAS operators for ultralytics YAML models: the vendored ETRI mixed operator pool.
 
 * :mod:`.etri_mixed_blocks` — ``NASPatchMerge`` / ``NASWindowTransformer`` / ``NASGlobalTransformer``, ``audit_model``
   and ``register_ultralytics_blocks``, vendored from ETRI_NAS ``yolo_ga_runtime/mixed_blocks.py``;
@@ -13,7 +12,7 @@ Importing this package is torch-free: torch, ultralytics and the operator code a
 torch. :func:`ensure_registered` is the target of the ``register_hook`` string
 ``"mbnas_model_runtime.operators:ensure_registered"`` (:data:`mbnas_model_runtime.adapters.base.REGISTER_HOOKS`).
 The classes now live in this package, so ultralytics checkpoints that pickled them under the pre-vendoring module
-path ``yolo_ga_runtime.mixed_blocks`` cannot be unpickled and are not supported (DD-A12).
+path ``yolo_ga_runtime.mixed_blocks`` cannot be unpickled and are not supported.
 """
 from __future__ import annotations
 

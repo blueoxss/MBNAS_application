@@ -1,4 +1,4 @@
-"""Configuration revisions of candidate model YAMLs (F5d / DD-A23; contract 1.5.0 ``ModelConfigRevision``).
+"""Configuration revisions of candidate model YAMLs (contract 1.5.0 ``ModelConfigRevision``).
 
 One ``config_revisions`` row (schema v5) per recorded revision of a candidate's model configuration:
 

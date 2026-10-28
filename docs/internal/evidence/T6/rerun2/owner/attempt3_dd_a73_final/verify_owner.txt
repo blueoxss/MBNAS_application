@@ -1,0 +1,19 @@
+$ (cwd=/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/pfinal2/t6r2) bash /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/mbnas_application/scripts/verify.sh --profile owner --suite unit,integration,relocation --json /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/evidence/verify_owner.json
+[verify] profile=owner root=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/mbnas_application suites=unit,integration,relocation evidence=runtime/logs/verify/20261028T033646Z-owner
+[verify] unit: running
+[verify] unit: PASS (tests=2803 passed=2747 failed=0 errors=0 skipped=56 deselected=91)
+[verify] integration: running
+[verify] integration: PASS (steps=17 passed=17 failed=0)
+[verify] relocation: running
+[verify]   relocation: module __file__ under ROOT (cwd outside ROOT): ok - 215 modules (mbnas_contracts 24, mbnas_model_runtime 49, mbnas_runner 23, mbnas_server 30, mbnas_core 89), all under /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/mbnas_application
+[verify]   relocation: sys.prefix under ROOT: ok - /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/mbnas_application/runtime/venv
+[verify]   relocation: console scripts bound to runtime/venv inside ROOT: ok - ok
+[verify]   relocation: no original-host path strings: ok - 275 files scanned
+[verify]   relocation: doctor.sh from an external working directory: ok - exit 0; origin checks PASS
+[verify]   relocation: doctor.sh through a path with spaces: ok - exit 0; origin checks PASS
+[verify]   relocation: start/stop/install.sh --help through a path with spaces: ok - exit codes [0, 0, 0]
+[verify]   relocation: ROOT itself contains spaces: ok - /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/mbnas_application
+[verify]   relocation: per-module origins in runtime/logs/verify/20261028T033646Z-owner/relocation.json and runtime/logs/verify/20261028T033646Z-owner/relocation_origins.tsv; .pth files: coloredlogs.pth (1 line(s)), distutils-precedence.pth (1 line(s))
+[verify] relocation: PASS (checks=8 passed=8 failed=0)
+[verify] result: PASS PASS=3 (report runtime/logs/verify/20261028T033646Z-owner/verify.json)
+exit=0

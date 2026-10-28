@@ -1,5 +1,5 @@
 /**
- * F5a (contract 1.5.0): pick a detector model configuration YAML in the browser and upload its bytes unchanged to
+ * Model-config upload (contract 1.5.0): pick a detector model configuration YAML in the browser and upload its bytes unchanged to
  * POST /uploads/model-config (raw body). The gateway stores them content-addressed and answers {upload_id, source_sha256,
  * bytes}; the console then sends `upload_id` (+ the file name as `model_name`) to POST /structure-check and
  * POST /training-runs. No server path is involved and none is shown. The browser also hashes the file (WebCrypto) and

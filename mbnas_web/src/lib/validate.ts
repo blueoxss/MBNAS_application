@@ -5,13 +5,9 @@
  * distinctness. The server stays authoritative (existence, allowlists, registry, devices, dataset content); a pre-check
  * problem never replaces the Validate answer, and a clean pre-check is not a valid protocol.
  *
- * 재구현(2026-10-15), 원본 누락(리포 루트 .gitignore `lib/` 규칙으로 커밋되지 않음).
- * 근거 테스트: tests/validate.test.ts, tests/qa_hardening.test.ts ('client path pre-check mirrors the server negatives'),
- * tests/final_retrain.test.tsx (checkSearch), e2e/console.spec.ts + e2e/hardening.spec.ts (WEIGHTS_SUM_NOT_ONE,
- * EPOCHS_NOT_INCREASING, PATH_NOT_ABSOLUTE 표시), 사용처 src/screens/Settings.tsx, src/state/context.tsx.
+ * 사용처: src/screens/Settings.tsx, src/state/context.tsx.
  * 규칙의 범위: 값이 '있는데 틀린' 경우를 잡고, 없는 선택·서버 기본값 필드는 서버(Validate)에 맡긴다. 클라이언트가 먼저 요구하는 것은
- * rungs 구조, 예산(null/비어 있으면 BUDGET_MISSING), search.arms/seeds 뿐이다. 근거: tests/validate.test.ts(checkSearch 가 population 등
- * 없는 입력에서 이슈 0 이어야 함), e2e/hardening.spec.ts 'text-only zoom 200%'(최소 resolved_protocol 이 로드된 화면에서 긴 이슈 배지가 없어야 함).
+ * rungs 구조, 예산(null/비어 있으면 BUDGET_MISSING), search.arms/seeds 뿐이다.
  * 서버가 아직 검사하지 않는 일부 값(lr_initial 등)은 '값이 있으면 범위만' 보는 가장 단순한 규칙으로 두었다.
  */
 import { evaluationEnabled } from './generation';
@@ -288,7 +284,7 @@ function checkFinal(p: unknown): Issue[] {
 export function validatePolicy(p: unknown): Issue[] {
   if (!isObj(p)) return [err('$', 'FIELD_INVALID', 'The protocol must be a JSON object.')];
   if (!evaluationEnabled(p)) {
-    // DD-17: evaluation-only settings (paths other than output_root, rungs, weights, ...) are preserved, not
+    // evaluation-only settings (paths other than output_root, rungs, weights, ...) are preserved, not
     // validated, in OFF mode. The only message about them is this single info-level notice.
     const out: Issue[] = [info('console.search.evaluation_enabled', 'EVALUATION_SETTINGS_PRESERVED', '성능 평가 OFF: 평가 설정 값은 보존되며 검증하지 않습니다')];
     const search = getIn(p, 'console.search') as Record<string, unknown>;

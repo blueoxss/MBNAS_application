@@ -1,0 +1,33 @@
+{
+ "before": {
+  "root": "build/source_snapshot",
+  "sha256": "1475baa52c82f0fc076fb237efff8113fb1efee757c51c97d0834f07a96cd09f",
+  "files": 603,
+  "dirs": 77,
+  "links": 0
+ },
+ "after": {
+  "root": "build/source_snapshot",
+  "sha256": "1475baa52c82f0fc076fb237efff8113fb1efee757c51c97d0834f07a96cd09f",
+  "files": 603,
+  "dirs": 77,
+  "links": 0
+ },
+ "root": "build/source_snapshot",
+ "before_sha256": "1475baa52c82f0fc076fb237efff8113fb1efee757c51c97d0834f07a96cd09f",
+ "after_sha256": "1475baa52c82f0fc076fb237efff8113fb1efee757c51c97d0834f07a96cd09f",
+ "files": 603,
+ "dirs": 77,
+ "links": 0,
+ "unchanged": true,
+ "diff": {
+  "added": [],
+  "removed": [],
+  "changed": []
+ },
+ "source_tree_hash_py": {
+  "before": "sha256:c84a1d9605ed50515a59d92202cbe85fc1f44fab1b13c41653dcef828aec5dc9",
+  "after": "sha256:c84a1d9605ed50515a59d92202cbe85fc1f44fab1b13c41653dcef828aec5dc9",
+  "note": "mbnas-source-tree/2 (scripts/dev/source_tree_hash.py algorithm) over the snapshot; excludes __pycache__/pyc, the full listing above does not"
+ }
+}

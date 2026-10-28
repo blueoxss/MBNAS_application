@@ -1,8 +1,8 @@
-"""Where the owner worker writes its own files on the core host (DD-A60 (2)).
+"""Where the owner worker writes its own files on the core host.
 
 ``run_dir(run)`` is ``<console.paths.output_root>/<run id>`` of the run's protocol. In a split deployment that output
-root is a customer-host path: the gateway checked it on its host (DD-A46) and the core host may not be able to create
-it at all (T5: ``PermissionError`` on ``mkdir``, the worker process died and the run stayed QUEUED). The owner worker
+root is a customer-host path: the gateway checked it on its host and the core host may not be able to create
+it at all (a ``PermissionError`` on ``mkdir`` would kill the worker process and leave the run QUEUED). The owner worker
 therefore keeps its own files on the core host:
 
 * :func:`core_run_dir` = ``<MBNAS_CORE_OUTPUT_ROOT>/<run id>`` (default ``MBNAS_HOME/core/runs/<run>``) holds the

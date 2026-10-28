@@ -2,7 +2,7 @@
 
 Only :func:`contract_json` is needed here (the archive routes use it). The per-request database connection, the service
 container and the run lookup of the original ``api.deps`` belong to the core console (``mbnas_core.console.deps``); the
-gateway holds no database. ``prune`` comes from :mod:`mbnas_contracts.openapi` (WP-1 contract section 4).
+gateway holds no database. ``prune`` comes from :mod:`mbnas_contracts.openapi`.
 """
 from __future__ import annotations
 

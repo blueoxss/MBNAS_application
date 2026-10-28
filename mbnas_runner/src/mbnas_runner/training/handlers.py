@@ -5,8 +5,8 @@
 1. validates ``spec.params`` (:class:`TrainJobParams`; ``stage_epochs_added`` is required for ``CANDIDATE_TRAIN`` /
    ``BASELINE_TRAIN`` — a job without the stage hint is ``JOB_PARAMS_INVALID``, never a scratch start), loads the resolved protocol (hash must equal
    ``spec.protocol_hash``), checks ``run_dir`` against the output allowlist and prepares backend environments;
-2. resolves the model from ``params.arch`` (required: the core resolves registry baselines and their availability,
-   DD-A16), the split manifests (hashes must equal the protocol's) and a run-local YOLO view, and the recipe from the
+2. resolves the model from ``params.arch`` (required: the core resolves registry baselines and their availability),
+   the split manifests (hashes must equal the protocol's) and a run-local YOLO view, and the recipe from the
    protocol;
 3. runs ``StageTrainer.run_until(candidate_id, cumulative_target, fixed_horizon, protocol_hash)`` with
    ``expected_resume=params.resume_from`` (the orchestrator's latest non-PRUNED ``training_full`` row) and
@@ -17,7 +17,7 @@
 4. evaluates the exact rung-end EMA snapshot inline (``evaluation.handlers.evaluate_checkpoint``) on ``search_val``
    (``final_eval`` only for ``FINAL_RETRAIN``; search jobs never load it); returns ``SUCCEEDED`` with ``outputs = {"epochs_done", "rung_result", "evaluation",
    "recipe", "init", "architecture_hash", "timings"}`` (the worker contract's ``{"epochs_done", "evaluation"}``).
-   The runner computes no fitness and no gate: the core scores the raw metrics with the source rung's weights (DD-A15).
+   The runner computes no fitness and no gate: the core scores the raw metrics with the source rung's weights.
    ``FINAL_RETRAIN`` (rung ``FINAL``, scratch, the pinned final epochs/horizon from the job spec): the final split is
    evaluated with panels labelled ``split=final_eval`` (first 2 sorted final samples). Every split read is in
    ``<run_dir>/logs/split_access.jsonl``.

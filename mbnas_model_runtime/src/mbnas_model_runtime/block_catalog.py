@@ -1,4 +1,4 @@
-"""Static block design-origin catalog (DD-38): which model family a block comes from, what it does, where it is written.
+"""Static block design-origin catalog: which model family a block comes from, what it does, where it is written.
 
 The table is DATA.  Importing this module imports nothing heavy (no torch, ultralytics, rfdetr); the catalog that
 ``GET`` documents carry (and ``GET /structure/block-catalog`` returns) is made of the static fields only and

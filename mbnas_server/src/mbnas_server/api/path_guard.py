@@ -1,4 +1,4 @@
-"""Path hygiene of the gateway (DD-A44 (e), WP-3 contract section 2.2; SECURITY_BASELINE R7).
+"""Path hygiene of the gateway.
 
 Two layers, both answering the public ``Error`` ``404 NOT_FOUND`` with ``location: gateway``:
 

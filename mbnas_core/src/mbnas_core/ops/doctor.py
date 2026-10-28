@@ -44,7 +44,7 @@ def _db(settings: Settings) -> dict[str, Any]:
 
 
 def _registry_roots_skipped(settings: Settings) -> list[dict[str, str]]:
-    """DD-26: registry roots that exist but this process cannot read (evidence there is ignored, entries stay
+    """Registry roots that exist but this process cannot read (evidence there is ignored, entries stay
     UNVERIFIED); ``[]`` when all are readable."""
     try:
         return registry_roots_skipped(settings.output_root)

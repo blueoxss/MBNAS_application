@@ -8,7 +8,7 @@ listed separately instead of inventing a one-to-one internal-layer correspondenc
 
 Declared (D), derived (R) and observed (O) values live under separate keys: ``repeats_detail`` carries the
 declared count, the depth-scaled formula value and the count read from the built module; ``effective.repeats`` is
-the observed count and is ``None`` whenever nothing was observed.  Individual rules (CONTRACTS_v2 section 1.3):
+the observed count and is ``None`` whenever nothing was observed.  Individual rules:
 
 * ``channels_spatial_stride`` - every tensor delivered to a layer equals the output of its source row.
 * ``merge_conditions`` - Concat sources agree on every axis but the concat axis; Add/Sum sources agree on c, h, w.
@@ -23,7 +23,7 @@ import math
 import re
 from typing import Any
 
-from mbnas_contracts.structure_doc import (  # noqa: F401 - StructureReport document constants (contract §4)
+from mbnas_contracts.structure_doc import (  # noqa: F401 - StructureReport document constants
     BACKEND, CHECK_EVIDENCE, CHECK_NAMES, EVIDENCE_LEVELS, REPRESENTATION, SCHEMA,
 )
 from mbnas_model_runtime import block_catalog
@@ -95,7 +95,7 @@ def _scale(genotype: Genotype) -> tuple[float, float, float] | None:
 
 
 def _section_basis(index: int, genotype: Genotype, module: Any) -> tuple[str, str]:
-    """``(section, section_basis)`` per DD-15; the section value keeps the v1 rule, the basis states why."""
+    """``(section, section_basis)``; the section value keeps the v1 rule, the basis states why."""
     if index < genotype.n_backbone:
         return "backbone", "yaml:backbone"
     if _name(module) in DETECTION_MODULES:
@@ -109,7 +109,7 @@ def describe_genotype(genotype: Genotype, *, report: BuildReport | None = None,
                       resolve_source: bool = False) -> dict[str, Any]:
     """Render exact declared rows and any *recorded* runtime metadata; no model is executed.
 
-    Every block carries ``catalog`` (static design-origin entry, DD-38) and the document ``catalog_summary``.
+    Every block carries ``catalog`` (static design-origin entry) and the document ``catalog_summary``.
     ``resolve_source`` (only the explicit checks pass True) additionally imports the module classes to fill
     ``catalog.source_path``; the default keeps a declared-only document import-light with ``source_path`` null.
 

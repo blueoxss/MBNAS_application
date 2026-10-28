@@ -1,4 +1,4 @@
-"""Configuration revisions of a candidate (F5d; contract 1.5.0 ``listConfigRevisions`` / ``getConfigRevisionYaml``).
+"""Configuration revisions of a candidate (contract 1.5.0 ``listConfigRevisions`` / ``getConfigRevisionYaml``).
 
 * ``GET /runs/{run_id}/candidates/{candidate_id}/config-revisions`` - ``ModelConfigRevisionList`` (oldest first) through
   the public projection; 404 RUN_NOT_FOUND / CANDIDATE_NOT_FOUND.

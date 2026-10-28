@@ -33,7 +33,7 @@ export interface ModelStructureProps {
   /** The whole mbnas-structure document: lets the view read representation, report edges, edges_unobserved and checks. */
   report?: Record<string, unknown> | null;
   /**
-   * C07-D1: a selection asked for outside the view (the candidate block table). Each new `seq` selects block `id` exactly as
+   * A selection asked for outside the view (the candidate block table). Each new `seq` selects block `id` exactly as
    * a click on its graph node or gene button does (same detail, URL `?block=`) and then moves focus to the block detail.
    * An id that is not a node of this document is ignored.
    */
@@ -124,7 +124,7 @@ export function ModelStructure({ blocks, modelKey, status, diagnostics, report, 
       window.history.replaceState(window.history.state, '', url);
     }
   };
-  // C07-D1: only a new request (seq) selects; the same select() as a node / gene click, then focus moves to the detail
+  // only a new request (seq) selects; the same select() as a node / gene click, then focus moves to the detail
   // heading (the table button that asked is hidden by the tab switch, so focus must not stay on it).
   const requestSeq = selectRequest?.seq;
   useEffect(() => {
@@ -254,7 +254,7 @@ export function ModelStructure({ blocks, modelKey, status, diagnostics, report, 
   );
 }
 
-/** DD-38 rows of the selected block. A null field reads "출처 미상": the catalog never fills in a guess. */
+/** Design-origin rows of the selected block. A null field reads "출처 미상": the catalog never fills in a guess. */
 function BlockOrigin({ catalog }: { catalog: BlockCatalog }): JSX.Element {
   const known = (value: string | null): string => value ?? UNKNOWN_ORIGIN;
   const url = catalog.reference != null && /^https?:\/\//.test(catalog.reference);
@@ -291,7 +291,7 @@ function BlockDetail({ node: current }: { node: StructureNode }): JSX.Element {
     ['입력 shape', effective.input_shape ?? (effective.h_in != null ? [effective.h_in, effective.w_in] : null)],
     ['출력 shape', effective.output_shape ?? (effective.h_out != null ? [effective.h_out, effective.w_out] : null)],
     ['stride', effective.stride], ['실제 parameters', effective.params], ['계산량 (기록값)', effective.flops],
-    // contract 1.5.0 / DD-A19: the repair trace (reason, old name, before/after) is owner-only and never in a public document
+    // contract 1.5.0: the repair trace (reason, old name, before/after) is owner-only and never in a public document
     ['부모 출처', current.record.source], ['부모 block ID', current.record.parent_block_id], ['operation', current.record.operation],
   ];
   return <section aria-label="선택 블록 상세" data-testid="selected-block" style={{ marginTop: 14 }}>

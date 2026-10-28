@@ -1,0 +1,9 @@
+2026-10-28T05:05:28Z
+$ WORK=<W>/a GPU_NODES=0 sbx_f2.sh /bin/bash -c 'ls /dev | grep -c nvidia; cd /tmp; bash $WORK/zip/mbnas_application/scripts/verify.sh --profile owner --suite integration --json $WORK/verify_a.json'
+nvidia nodes in /dev: 0
+CUDA_VISIBLE_DEVICES=[]
+[verify] profile=owner root=<W>/a/zip/mbnas_application suites=integration evidence=runtime/logs/verify/20261028T050528Z-owner
+[verify] integration: running
+[verify] integration: PASS (steps=17 passed=17 failed=0)
+[verify] result: PASS PASS=1 (report runtime/logs/verify/20261028T050528Z-owner/verify.json)
+VERIFY_EXIT=0 seconds=49

@@ -1,11 +1,11 @@
-"""Handler table of the owner worker (WP-2 contract section 1.7; DD-A4) plus the handler contract.
+"""Handler table of the owner worker plus the handler contract.
 
 The handler <-> child protocol types (``JobFailure``, ``JobPaused``, ``Emitter``, ``Handler``, ``STOP_ENV``,
 ``PAUSED_REASON``, ``PAUSE_REASONS``, ``HANDLERS_ENV``) live in :mod:`mbnas_contracts.jobs_protocol` and are
 re-exported here; this module keeps the owner's :data:`DEFAULT_HANDLERS` (PROPOSE_GENERATION only: the core search
 handler), :func:`resolve_handler`, :func:`handler_override` and :func:`_load`. The five GPU kinds are executed by
-remote runners (``mbnas_runner.contract`` holds their table); the transitional ``mbnas_runner`` handler strings of
-WP-1 (DD-A14/DD-A25) are gone. A stub module named by ``$MBNAS_JOB_HANDLERS_MODULE`` may still serve any kind (tests).
+remote runners (``mbnas_runner.contract`` holds their table); the core table names no
+``mbnas_runner`` handler. A stub module named by ``$MBNAS_JOB_HANDLERS_MODULE`` may still serve any kind (tests).
 Nothing in this module touches the DB.
 
 Contract between the worker child and the job handlers implemented by the training/evaluation/benchmark/search

@@ -1,4 +1,4 @@
-"""Core sweeper (WP-2 contract section 1.3, design 5.4/5.6/6.1, DD-A18 "lease reclaim is the core sweeper's"):
+"""Core sweeper (lease reclaim is the core sweeper's job):
 a background thread that runs :func:`sweep_once` every ``heartbeat_s`` and once immediately at core start.
 
 One pass, each step in its own short transaction:
@@ -7,15 +7,15 @@ One pass, each step in its own short transaction:
    attempt is billed ``lost`` from ``started_at`` to ``heartbeat_at`` (``LEASE_EXPIRED``) -> FAILED jobs get
    ``engine.job_finished(LEASE_EXPIRED_MAX_ATTEMPTS)``, the others ``engine.job_requeued`` + ``engine.settle_run`` ->
    ``costs.refresh_run_costs``; afterwards retention for the failed jobs' candidates (own tx, never fatal; a remote
-   run's policy becomes prune requests for its runners, DD-A66);
+   run's policy becomes prune requests for its runners);
 2. ``repo.prune_workers`` (rows older than a day);
 3. ``runners`` ONLINE/REGISTERED whose ``last_seen_at`` is older than the liveness window (3 x heartbeat_s + 5 s) ->
    ``LOST``;
 4. ``idempotent_responses`` rows still ``PROCESSING`` after 60 s are deleted (their transaction rolled back, so the
-   result can be committed again; design 7.2).
+   result can be committed again).
 
 The owner worker still calls its own ``reclaim`` before leasing; both serialise on ``BEGIN IMMEDIATE`` so a lease is
-never billed twice (design D4).
+never billed twice.
 """
 from __future__ import annotations
 
@@ -62,7 +62,7 @@ def reclaim(conn: sqlite3.Connection, settings: CoreSettings, now: str | None = 
 
 def apply_retention(conn: sqlite3.Connection, settings: CoreSettings, job: dict[str, Any]) -> dict[str, Any] | None:
     """Retention for the job's candidate in its own transaction (remote runs: the run's own policy through the prune
-    round trip, DD-A66 - ``remote_retention_policy`` is passed for compatibility and ignored; see retention)."""
+    round trip - ``remote_retention_policy`` is passed for compatibility and ignored; see retention)."""
     if not job.get("candidate_id"):
         return None
     try:
@@ -140,7 +140,7 @@ class Sweeper:
 
     def start(self) -> "Sweeper":
         try:
-            self.run_once()  # design 5.6: once immediately at core start
+            self.run_once()  # once immediately at core start
         except Exception:  # noqa: BLE001
             log.exception("initial sweeper pass failed")
         self._thread = threading.Thread(target=self._loop, name="mbnas-core-sweeper", daemon=True)

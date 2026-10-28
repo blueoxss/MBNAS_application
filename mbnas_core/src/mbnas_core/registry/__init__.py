@@ -12,7 +12,7 @@
   its adapter family's PILOT representative (``VERIFIED_FAMILY_REPRESENTATIVE``), a failed run (``FAILED_GPU``) or
   missing (``NOT_RUN``).
 
-Device / TensorRT capability (S3-F1): ``capabilities.devices`` has one row per declared target
+Device / TensorRT capability: ``capabilities.devices`` has one row per declared target
 (:data:`~mbnas_model_runtime.benchmark.capability.DECLARED_TARGETS`). ``host-gpu-0`` (host GPU) is ``VERIFIED_TRT`` /
 ``FAILED_TRT`` from the entry's OWN benchmark evidence (``bench_host_gpu_*.json`` subjects, matched by official
 weights file name; ``qa_etri_hybrid_tensorrt_record.json`` for the ETRI hybrid adapter path, reported as
@@ -27,9 +27,9 @@ adapter class. All of this is read from JSON / metadata files: loading the regis
 ``load_registry(output_root)`` uses the newest probe file under ``<output_root>/registry`` (falling back to the
 canonical core output root :data:`DEFAULT_OUTPUT_ROOT` = ``$MBNAS_HOME/core/runs`` when a run-specific output root has
 none); evidence is merged from both roots. A root this process cannot read (PermissionError/OSError) is skipped, not
-fatal (DD-26): :func:`roots_skipped` lists it for ``GET /registry`` and the doctor. ``registry_lookup`` is the
+fatal: :func:`roots_skipped` lists it for ``GET /registry`` and the doctor. ``registry_lookup`` is the
 validator's lookup. ``SPEC_BY_ID`` / ``adapter_for`` / ``arch_spec`` live in :mod:`mbnas_model_runtime.registry`
-(contract section 4) and are re-exported here for existing callers.
+and are re-exported here for existing callers.
 """
 from __future__ import annotations
 
@@ -46,7 +46,7 @@ from mbnas_model_runtime.registry.specs import SPECS, ModelSpec, representative_
 
 log = logging.getLogger(__name__)
 
-DEFAULT_OUTPUT_ROOT = str(mbnas_home() / "core" / "runs")  # == CoreSettings().output_root default (DD-A13)
+DEFAULT_OUTPUT_ROOT = str(mbnas_home() / "core" / "runs")  # == CoreSettings().output_root default
 EVIDENCE_KINDS = ("resume_equivalence", "resume_sanity", "train_smoke", "evaluation_pipeline")
 RESUME_KINDS = ("resume_equivalence", "resume_sanity")
 HOST_TARGET = "host-gpu-0"
@@ -80,7 +80,7 @@ def _unreadable(path: Path) -> str | None:
 
 def roots_skipped(output_root: str = DEFAULT_OUTPUT_ROOT) -> list[dict[str, str]]:
     """Diagnostic list ``[{path, reason}]`` of the registry roots (and their ``registry`` / ``evidence`` sub-directories)
-    that exist but cannot be read by this process. They are skipped by :func:`load_registry` (DD-26): entries stay
+    that exist but cannot be read by this process. They are skipped by :func:`load_registry`: entries stay
     UNVERIFIED for evidence that lives only there, while readable roots still produce VERIFIED / AVAILABLE entries."""
     out: list[dict[str, str]] = []
     for root in _candidate_roots(output_root):
@@ -280,7 +280,7 @@ def source_identity(spec: ModelSpec) -> dict[str, Any]:
         else:
             from mbnas_model_runtime.adapters.etri_hybrid import ETRI_AUDITED_HEAD, NOTEBOOK_BLOB_SHA1, NOTEBOOK_CELLS
 
-            # recorded constants only: the notebook path / on-disk comparison is gone (contract section 8)
+            # recorded constants only: the notebook path / on-disk comparison is gone
             _SOURCE_CACHE[spec.backend] = {
                 "kind": "etri_notebook", "notebook_blob_sha1": NOTEBOOK_BLOB_SHA1,
                 "notebook_cells": dict(NOTEBOOK_CELLS), "etri_audited_head": ETRI_AUDITED_HEAD}
@@ -357,7 +357,7 @@ def build_entry(spec: ModelSpec, rec: Mapping[str, Any] | None, probe_meta: Mapp
         "probe_file": probe_meta.get("path"), "probed_at": probe_meta.get("created_at"),
         "notes": list(spec.notes), "source": source_identity(spec),
     }
-    if skipped:  # DD-26 diagnostic: why evidence under these roots was not considered (absent when all roots readable)
+    if skipped:  # diagnostic: why evidence under these roots was not considered (absent when all roots readable)
         evidence_out["registry_roots_skipped"] = skipped
     entry = {"id": spec.id, "family": spec.family, "status": status, "reason": reason, "capabilities": caps,
              "evidence": evidence_out}

@@ -1,0 +1,284 @@
+{
+ "schema": "mbnas.build_info/1",
+ "product": "MBNAS Research Console",
+ "version": "0.1.0",
+ "profile": "owner",
+ "build_id": "r-99eeb029485c9de8",
+ "built_at": "1980-01-01T00:00:00Z",
+ "built_at_source": "normalized (1980-01-01, --reproducible)",
+ "test_build": null,
+ "platform": {
+  "tag": "linux_x86_64",
+  "system": "Linux",
+  "release": "5.15.0-139-generic",
+  "machine": "x86_64",
+  "libc": "glibc 2.31"
+ },
+ "source_tree": {
+  "algorithm": "mbnas-source-tree/2",
+  "sha256": "sha256:1b4bd1a4a45196e3c558d62507f109301973eddc180df5968ed7014a72e6708c",
+  "roots": [
+   "mbnas_contracts",
+   "mbnas_model_runtime",
+   "mbnas_runner",
+   "mbnas_server",
+   "mbnas_core"
+  ],
+  "files": 221,
+  "computed_over": "the staged package directories <pkg>/src/<pkg> of this bundle",
+  "tool": "scripts/dev/source_tree_hash.py (mbnas_contracts.util.source_hash)",
+  "git": null
+ },
+ "payload_sha256": "sha256:2363f6ae960b506bcb7ae53192c10e6df4711217f4813fd25a0b1e7659ff90d7",
+ "payload_sha256_covers": "every file of the bundle except BUILD_INFO.json, PACKAGE_PROFILE.json, FILE_MANIFEST.jsonl and the documents rendered from the manifest (PACKAGE_CONTENTS.md; registration: docs/registration/FILE_LIST.md)",
+ "packages": [
+  {
+   "import_name": "mbnas_contracts",
+   "name": "mbnas-contracts",
+   "version": "0.1.0",
+   "wheel": "wheels/mbnas_contracts-0.1.0-py3-none-any.whl",
+   "sha256": "a947997e240b68af3bfab56215a81f7dfdb806475a0868d3eeb0f324a3736284",
+   "bytes": 121647,
+   "members": 27,
+   "package_data": [
+    {
+     "path": "mbnas_contracts/openapi/openapi.json",
+     "sha256": "70e0cffaab8fafd9c7f230af9169dbbe8812b3eccf7ad7838ca3f46fa9eebc2a"
+    },
+    {
+     "path": "mbnas_contracts/openapi/HISTORY.json",
+     "sha256": "0904011c6aaf637d2d451794ff4a1b8fa1efa522e99c1a288aeb8b68d7259130"
+    },
+    {
+     "path": "mbnas_contracts/openapi/openapi_runner.json",
+     "sha256": "0f3dac4db29e36485f04941028f296f9fdaf6d00fca44fb304d410474084ecd7"
+    }
+   ]
+  },
+  {
+   "import_name": "mbnas_model_runtime",
+   "name": "mbnas-model-runtime",
+   "version": "0.1.0",
+   "wheel": "wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl",
+   "sha256": "65a1373695904836bd5178d6c26046186495204f6540dd8dcbe9598da040c112",
+   "bytes": 180928,
+   "members": 49,
+   "package_data": []
+  },
+  {
+   "import_name": "mbnas_runner",
+   "name": "mbnas-runner",
+   "version": "0.1.0",
+   "wheel": "wheels/mbnas_runner-0.1.0-py3-none-any.whl",
+   "sha256": "a8401c99760f0dc79494fbd83d2162f1e7b164ce22de44359e9d1d2c4cb6f2ca",
+   "bytes": 97167,
+   "members": 23,
+   "package_data": []
+  },
+  {
+   "import_name": "mbnas_server",
+   "name": "mbnas-server",
+   "version": "0.1.0",
+   "wheel": "wheels/mbnas_server-0.1.0-py3-none-any.whl",
+   "sha256": "2243162fa72dcf8802f202d6709cbbda5d4b6dfcbd698c2e0c4eefaca13e474e",
+   "bytes": 116359,
+   "members": 30,
+   "package_data": []
+  },
+  {
+   "import_name": "mbnas_core",
+   "name": "mbnas-core",
+   "version": "0.1.0",
+   "wheel": "wheels/mbnas_core-0.1.0-py3-none-any.whl",
+   "sha256": "a2d9741568a7af559a2595f2ca607d3d201e10e10906cb417de6e04d7f3326b1",
+   "bytes": 343810,
+   "members": 92,
+   "package_data": [
+    {
+     "path": "mbnas_core/db/schema.sql",
+     "sha256": "84240467fd745128839614f48fc8d0cadb13759b68c48becb1a4d39ce1aa5fc6"
+    },
+    {
+     "path": "mbnas_core/protocol/handoff_protocol_20261006.json",
+     "sha256": "f0f43d78b3102ef48e21406232068f206babdf6f781df050ed47b34fbb266ce7"
+    },
+    {
+     "path": "mbnas_core/registry/model_registry.example.json",
+     "sha256": "27db92514067cb2d4058a7e389f45c8a33d2f736c9693141800c22aaa7118d9f"
+    }
+   ]
+  }
+ ],
+ "web_dist": {
+  "present": true,
+  "bundle_gate": {
+   "tool": "mbnas_web/scripts/check-bundle.mjs",
+   "status": "pass",
+   "node": "v24.20.0",
+   "exit": 0,
+   "files": 3,
+   "bytes": 546817,
+   "needles": 28,
+   "hits": 0
+  },
+  "files": 3,
+  "status": "present (prebuilt, copied as-is)"
+ },
+ "allowlist": {
+  "file": "build/allowlists/owner.txt",
+  "sha256": "e5eb88fc4bb320d58d6cfb643bc2e5c787202488ebee16c0e57abc5178d5f610"
+ },
+ "tools": {
+  "python": "3.10.22",
+  "pip": "25.3",
+  "setuptools": "80.10.2",
+  "wheel": "0.48.0",
+  "package_build_sha256": "930e98aaad8f9ec14145d816558dcc17338d3fa705b6a1ece293b7d168d4eff2",
+  "canary_scan_sha256": "5de3402c9598fa01c0ee262a3e00e174e8f4a9b5b4c1f8d7e8e42204c73fdf3d",
+  "source_tree_hash_sha256": "307551b1c410e8bb83b3eb7dce594126e5b15186b1cb2a23f3623ba1236c65d5"
+ },
+ "checks": {
+  "status": "pass",
+  "counts": {
+   "violation": 0,
+   "warning": 0,
+   "info": 5003
+  },
+  "by_check": {
+   "info:host_fact": 5003
+  },
+  "warnings": [],
+  "run": [
+   {
+    "id": "selection",
+    "status": "pass",
+    "violations": 0,
+    "warnings": 0,
+    "info": 0
+   },
+   {
+    "id": "deny_importers",
+    "status": "not run",
+    "violations": 0,
+    "warnings": 0,
+    "info": 0
+   },
+   {
+    "id": "deny_patterns",
+    "status": "pass",
+    "violations": 0,
+    "warnings": 0,
+    "info": 0
+   },
+   {
+    "id": "required_files",
+    "status": "pass",
+    "violations": 0,
+    "warnings": 0,
+    "info": 0
+   },
+   {
+    "id": "expected_files",
+    "status": "pass",
+    "violations": 0,
+    "warnings": 0,
+    "info": 0
+   },
+   {
+    "id": "web_dist",
+    "status": "pass",
+    "violations": 0,
+    "warnings": 0,
+    "info": 0
+   },
+   {
+    "id": "web_bundle_gate",
+    "status": "pass",
+    "violations": 0,
+    "warnings": 0,
+    "info": 0
+   },
+   {
+    "id": "path_safety",
+    "status": "pass",
+    "violations": 0,
+    "warnings": 0,
+    "info": 0
+   },
+   {
+    "id": "case_collision",
+    "status": "pass",
+    "violations": 0,
+    "warnings": 0,
+    "info": 0
+   },
+   {
+    "id": "content_scan",
+    "status": "pass",
+    "violations": 0,
+    "warnings": 0,
+    "info": 5003
+   },
+   {
+    "id": "private_package",
+    "status": "not run",
+    "violations": 0,
+    "warnings": 0,
+    "info": 0
+   },
+   {
+    "id": "wheel_build",
+    "status": "pass",
+    "violations": 0,
+    "warnings": 0,
+    "info": 0
+   },
+   {
+    "id": "wheel_contents",
+    "status": "pass",
+    "violations": 0,
+    "warnings": 0,
+    "info": 0
+   },
+   {
+    "id": "versions",
+    "status": "pass",
+    "violations": 0,
+    "warnings": 0,
+    "info": 0
+   },
+   {
+    "id": "generated_declared",
+    "status": "pass",
+    "violations": 0,
+    "warnings": 0,
+    "info": 0
+   }
+  ],
+  "after_this_file": {
+   "checks": [
+    "zip_entries",
+    "manifest",
+    "package_contents",
+    "reproducibility"
+   ],
+   "note": "run on the finished ZIP after BUILD_INFO.json is written (the ZIP contains this file); results in build/package_reports/<profile>.json and the package.sh check table"
+  },
+  "not_counted": "findings about source-tree copies that do not ship (generated_shadow) are in the build report only"
+ },
+ "reproducibility": {
+  "requested": true,
+  "builds": 2,
+  "equal": true,
+  "zip_sha256": [
+   "23babe4ef21ea416683ea88e1be09e63195351d8f444e99723dd68ba0e00d711",
+   "23babe4ef21ea416683ea88e1be09e63195351d8f444e99723dd68ba0e00d711"
+  ],
+  "payload_sha256": [
+   "sha256:2363f6ae960b506bcb7ae53192c10e6df4711217f4813fd25a0b1e7659ff90d7",
+   "sha256:2363f6ae960b506bcb7ae53192c10e6df4711217f4813fd25a0b1e7659ff90d7"
+  ],
+  "method": "two complete builds (staging, wheels, metadata, zip) with fixed timestamps; the second re-stages the first build's source snapshot; ZIP digests compared before this verdict was written into BUILD_INFO",
+  "timestamp_epoch": 315532800
+ }
+}

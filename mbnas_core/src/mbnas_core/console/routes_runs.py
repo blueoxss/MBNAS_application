@@ -11,12 +11,12 @@
    hash (else 409 PROTOCOL_HASH_MISMATCH).
 4. The stored resolved protocol is re-validated now; any change of dataset manifests, registry capability or
    devices yields a different hash: 409 STALE_VALIDATION (validate again). When the gateway sent its host inputs
-   (``path_checks`` / ``dataset_yaml`` / ``dataset_manifests``, DD-A34/DD-A46) the re-validation uses them instead of
+   (``path_checks`` / ``dataset_yaml`` / ``dataset_manifests``) the re-validation uses them instead of
    core-local path checks, so a protocol whose dataset and ``output_root`` live on the customer host is not refused.
 5. One transaction creates the QUEUED run (namespace/execution_mode/purpose/preset from the resolved protocol,
    frozen budget, source tree hash), plans the first jobs and emits ``run.updated``.
 
-``GET /runs/{id}/snapshot`` lists the run's workers (S7-F4): workers attached to the run (``workers.run_id``, any
+``GET /runs/{id}/snapshot`` lists the run's workers: workers attached to the run (``workers.run_id``, any
 age) plus every non-offline worker whose heartbeat is within ``SNAPSHOT_WORKER_WINDOW_HEARTBEATS x heartbeat_s``
 (alive, or recently lost: readers mark rows stale beyond 3 heartbeats + 5 s as ``lost``). Offline rows and long-dead
 workers of other runs are not listed; workers delete rows older than a day at startup (``repo.prune_workers``).
@@ -73,7 +73,7 @@ def _gateway_path(svc: AppServices, validation_id: str) -> str:
 
 def gateway_inputs_of(body: dict[str, Any]) -> tuple[GatewayInputs | None, dict[str, Any]]:
     """Pop and parse the optional gateway host inputs (``path_checks`` / ``dataset_yaml`` / ``dataset_manifests``) of a
-    validate, run-create, training-run or final-retrain body (DD-A34 / DD-A46); 422 VALIDATION_FAILED when malformed."""
+    validate, run-create, training-run or final-retrain body; 422 VALIDATION_FAILED when malformed."""
     raw = {k: body.pop(k) for k in BODY_FIELDS if k in body}
     try:
         return GatewayInputs.parse(raw.get("path_checks"), raw.get("dataset_yaml"), raw.get("dataset_manifests")), raw
@@ -84,14 +84,14 @@ def gateway_inputs_of(body: dict[str, Any]) -> tuple[GatewayInputs | None, dict[
                        errors=errors) from exc
 
 
-_gateway_inputs = gateway_inputs_of  # pre-DD-A46 name
+_gateway_inputs = gateway_inputs_of  # former name, kept as an alias
 
 
 @router.post("/protocols/validate")
 def validate_protocol(body: dict[str, Any] = Body(...), conn: sqlite3.Connection = Depends(db),
                       svc: AppServices = Depends(services)):
     body = dict(body)
-    # WP-3 section 1.3: optional host-side inputs measured by the gateway (not part of the browser contract)
+    # optional host-side inputs measured by the gateway (not part of the browser contract)
     gateway, raw_inputs = _gateway_inputs(body)
     ValidateRequest.model_validate(body)
     requested = body["protocol"]
@@ -146,7 +146,7 @@ def check_fresh(svc: AppServices, resolved: dict[str, Any], expected_hash: str, 
     """Re-validate ``resolved`` and compare its hash with ``expected_hash``: 409 STALE_VALIDATION when it differs.
 
     With the host inputs the gateway measured for THIS request (``path_checks`` / ``dataset_yaml`` /
-    ``dataset_manifests`` on ``POST /runs``, ``/training-runs`` or ``/final-retrain``, DD-A46) the validator uses them
+    ``dataset_manifests`` on ``POST /runs``, ``/training-runs`` or ``/final-retrain``) the validator uses them
     instead of core-local path checks, else it checks core-locally. The inputs recorded at validation time
     (``validations/<id>.gateway.json``) are audit only: re-using them would make the freshness check blind to data
     changed since validation."""
@@ -175,7 +175,7 @@ def write_protocol_copies(shell: dict[str, Any], resolved: dict[str, Any], reque
     """``<run dir>/protocol/{resolved,requested}.json`` on this host (audit copies; the database row is authoritative).
 
     ``best_effort`` (the gateway sent its host inputs, i.e. ``console.paths.output_root`` is a customer-host path that
-    this core host may not be able to create, DD-A46): an ``OSError`` is logged and the run is still created - the
+    this core host may not be able to create): an ``OSError`` is logged and the run is still created - the
     runner writes its own copy into the run directory on the customer host."""
     try:
         atomic_write_json(run_dir(shell) / "protocol" / "resolved.json", resolved)
@@ -284,12 +284,12 @@ def create_final_retrain(request: Request, run_id: str, body: dict[str, Any] = B
     if isinstance(budget, (int, float)) and not isinstance(budget, bool) and not (math.isfinite(budget) and budget > 0):
         raise ApiError(409, "BUDGET_INVALID", "budget_gpu_hours must be a finite number of GPU hours > 0",
                        errors=[{"field": "budget_gpu_hours", "message": str(budget), "code": "BUDGET_INVALID"}])
-    gateway, _ = gateway_inputs_of(body)  # DD-A46: optional host inputs (422 VALIDATION_FAILED when malformed)
+    gateway, _ = gateway_inputs_of(body)  # optional host inputs (422 VALIDATION_FAILED when malformed)
     req = FinalRetrainRequest.model_validate(body)
     if idempotency_key is not None and idempotency_key != req.idempotency_key:
         raise ApiError(409, "IDEMPOTENCY_KEY_MISMATCH", "Idempotency-Key header differs from body.idempotency_key")
 
-    def fresh(parent: dict[str, Any]) -> None:  # DD-A46: gateway inputs re-validate the parent's frozen protocol
+    def fresh(parent: dict[str, Any]) -> None:  # gateway inputs re-validate the parent's frozen protocol
         if gateway is not None:
             check_fresh(svc, parent["resolved_protocol"], parent["protocol_hash"], gateway)
 
@@ -350,7 +350,7 @@ def candidate_detail(request: Request, run_id: str, candidate_id: str, conn: sql
                 "blocks": cand["blocks"], "parents": cand["parents"],
                 "parent_evaluation_ids": cand["parent_evaluation_ids"], "lineage": lineage_view(cand["lineage"]),
                 "evaluations": evals,
-                # artifact_id = the checkpoint id once the gateway store holds verified bytes (DD-A55 a, DD-A51 c)
+                # artifact_id = the checkpoint id once the gateway store holds verified bytes
                 "checkpoints": checkpoint_views(repo.list_checkpoints(conn, run_id, candidate_id=candidate_id),
                                                 locations.checkpoint_states(conn, run_id),
                                                 stored=store_verified_checkpoints(conn, run_id)),
@@ -371,7 +371,7 @@ STRUCTURE_HISTORY_MAX = 5
 
 
 def _archive_structure(audit: dict[str, Any]) -> None:
-    """Move the evidence currently in ``audit['structure']`` into ``audit['structure_history']`` (DD-7).
+    """Move the evidence currently in ``audit['structure']`` into ``audit['structure_history']``.
 
     History is chronological (oldest first, newest last) and capped at the 5 most recent entries; each entry keeps
     ``checked_at`` (the evidence's own ``observation.checked_at`` when it has one), ``yaml_hash``, ``status`` and the
@@ -400,7 +400,7 @@ def check_candidate_structure(run_id: str, candidate_id: str, conn: sqlite3.Conn
     result = run_structure_check(cand, run)
     with tx(conn):
         audit = dict(cand.get('audit') or {})
-        _archive_structure(audit)  # DD-7: audit.structure stays the latest evidence, the previous one is kept
+        _archive_structure(audit)  # audit.structure stays the latest evidence, the previous one is kept
         audit['structure'] = result
         repo.update_candidate(conn, candidate_id, audit=audit)
         engine.log(conn, run_id, 'explicit structure check finished', candidate_id=candidate_id,
@@ -441,7 +441,7 @@ def cancel(run_id: str, body: dict[str, Any] | None = Body(None), conn: sqlite3.
 def resume(run_id: str, body: dict[str, Any] | None = Body(None), conn: sqlite3.Connection = Depends(db),
            svc: AppServices = Depends(services), events: EventBus = Depends(bus)):
     run = get_run_or_404(conn, run_id)
-    # DD-A46 (same rule as run creation): host inputs the gateway measured re-validate the protocol on resume
+    # same rule as run creation: host inputs the gateway measured re-validate the protocol on resume
     gateway = gateway_inputs_of(dict(body))[0] if isinstance(body, dict) else None
     revalidate = svc.revalidate if gateway is None else (lambda resolved: svc.revalidate(resolved, gateway))
     report = state.resume_checks(conn, run, revalidate) if run["status"] == "PAUSED" else None

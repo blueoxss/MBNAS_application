@@ -1,7 +1,7 @@
 /**
- * Non-dominated sets used by the archive scatter (design D6/D9). These are DISPLAY helpers: the numbers on the
+ * Non-dominated sets used by the archive scatter. These are DISPLAY helpers: the numbers on the
  * page come from the server; when the server supplies `front2d` ids the chart uses those, and this module is used
- * for a tier-filtered view and as the independent definition that the tests pin down.
+ * for a tier-filtered view.
  *
  *  - 2D front: maximise mAP50-95, minimise latency_median_ms.
  *  - 4D front: maximise mAP50-95 and small_target_recall, minimise latency_median_ms and params_deploy.

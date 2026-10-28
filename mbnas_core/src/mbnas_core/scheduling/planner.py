@@ -1,4 +1,4 @@
-"""Generation planning, closure and representatives (PLAN §2 ``scheduling/planner.py``).
+"""Generation planning, closure and representatives.
 
 Each search candidate records, per rung, one planning state in ``candidates.audit.orchestration.rungs[rung]``:
 ``pending`` (planned, work queued or running), ``evaluated`` (immutable EVALUATED row committed),

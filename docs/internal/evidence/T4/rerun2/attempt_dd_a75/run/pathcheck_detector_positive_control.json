@@ -1,0 +1,71 @@
+{
+ "t4a73_local_0082_GET_api_v1_runs_train-15c5bd1e6e8b_snapshot_200.bin": {
+  "fragments": {
+   "install_root_token": {
+    "client_echo": 9,
+    "other": 8
+   },
+   "runner_wr_dirs": {
+    "client_echo": 0,
+    "other": 8
+   }
+  },
+  "abs_path_regex": {
+   "client_echo": 9,
+   "other": 8
+  },
+  "recipe_values": {
+   "data": [
+    "<NOT REPLACED>"
+   ],
+   "model": [
+    "<NOT REPLACED>"
+   ],
+   "project": [
+    "<NOT REPLACED>"
+   ],
+   "save_dir": [
+    "<NOT REPLACED>"
+   ]
+  },
+  "raw_body_grep": {
+   "install_root_token": 17,
+   "runner_wr_dirs": 8
+  }
+ },
+ "t4a73_local_0083_GET_api_v1_runs_train-15c5bd1e6e8b_candidates_model-2c4839389d17_200.bin": {
+  "fragments": {
+   "install_root_token": {
+    "client_echo": 0,
+    "other": 4
+   },
+   "runner_wr_dirs": {
+    "client_echo": 0,
+    "other": 4
+   }
+  },
+  "abs_path_regex": {
+   "client_echo": 0,
+   "other": 4
+  },
+  "recipe_values": {
+   "data": [
+    "<NOT REPLACED>"
+   ],
+   "model": [
+    "<NOT REPLACED>"
+   ],
+   "project": [
+    "<NOT REPLACED>"
+   ],
+   "save_dir": [
+    "<NOT REPLACED>"
+   ]
+  },
+  "raw_body_grep": {
+   "install_root_token": 4,
+   "runner_wr_dirs": 4
+  }
+ }
+}
+detector positive control: PASS (pre-fix leak detected)

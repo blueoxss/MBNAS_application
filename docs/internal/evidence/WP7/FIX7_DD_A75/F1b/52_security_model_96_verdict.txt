@@ -1,0 +1,30 @@
+# docs/public/SECURITY_MODEL.md:96 after DD-A75 F1b - verdict (2026-10-28 14:35:49 KST); file read only, sha256 234e97249365c9d23a79238bb36fb49fc601fc41e29b7608420c26345f9a7a73
+# line 96:
+6. **고객 정보 일부는 core로 간다.** core 운영자는 사용자 프로토콜(경로 문자열 포함), gateway가 보내는 데이터셋 요약(split hash, 표본 수, 클래스 이름, 표본 id hash, 경로 검사 결과와 실제 경로), 사용자 구성 YAML 원문, 학습 진행 지표·측정값, runner 장치 정보, runner가 보고하는 checkpoint·결과 파일의 runner 호스트 절대경로(core DB에만 저장되는 owner 전용 값이며 공개 응답에는 투영되지 않는다)를 받는다. 이미지·라벨 파일과 가중치·checkpoint 바이트는 고객 호스트(runner 작업 디렉터리와 gateway 저장소)에 남는다. 고객은 이 정보 흐름을 전제로 core 운영자를 신뢰해야 한다.
+
+# claim checked: the runner host absolute paths of checkpoints / result files that the runner reports are owner-only
+# values kept in the core DB and are not projected into public responses ("공개 응답에는 투영되지 않는다").
+
+VERDICT: true for the path-valued channels after F1b; NOT unconditionally true (free-text residual, the 1.5.1 item).
+
+holds (verified):
+- raw_metrics string values that are paths (the runner's resolved recipe data / model / project / save_dir and any
+  other "/"-led value, at any depth) become "<path>" whole, blanks and unicode included (F1b). Unit (snapshot, detail,
+  SSE frame, export row), route (gateway snapshot, detail, SSE replay, export) and real process with a spaced + unicode
+  runner work root: the runner-only fragment occurs 0 times in every public body (before F1b, on the F1 code: 24 -
+  i.e. with a spaced install path the line-96 claim was false for raw_metrics until F1b).
+- checkpoint_path / architecture_path are run-relative and checkpoints are referenced by id (existing rules; the
+  real-process bodies carry no runner path outside raw_metrics).
+- stored rows keep the raw values (projection never rewrites them): consistent with "kept in the core DB".
+
+does not hold in general:
+- a runner path EMBEDDED in longer free text keeps the _ABS_PATH rule; if the path contains a blank, everything after
+  the first blank stays - both in a raw_metrics value that does not start with "/" and in the other scrubbed free-text
+  fields, e.g. a log event's message_detail built from runner failure text:
+  "FileNotFoundError: /srv/mbnas owner r2c/runtime/runner/x.pt" -> "FileNotFoundError: <path> owner r2c/runtime/runner/x.pt"
+  (22_path_value_rule_probe.txt). Not observed in the real-process bodies (a successful run), and no failure path
+  with a spaced runner path was exercised - so the size of this residual on real failure texts is not verified.
+- Windows drive / UNC paths, file:// URLs and ~/ paths are not covered by either rule (Linux runners only today).
+
+suggested wording (for the owner record / 1.5.1; docs/public was not edited): "... 공개 응답에는 경로 값으로는 투영되지
+않는다(값 전체가 <path>). 자유 텍스트 메시지 안에 섞인, 공백이 있는 경로의 꼬리는 1.5.1에서 처리한다."

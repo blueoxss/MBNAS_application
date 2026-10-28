@@ -1,11 +1,11 @@
-"""Gateway host inputs for the run-creating relays (DD-A46; WP-3 contract section 1.3, DD-A34, DD-A37).
+"""Gateway host inputs for the run-creating relays.
 
 In a split deployment the customer's data and output root exist on the gateway host only. ``POST /protocols/validate``
 therefore carries what the gateway measured (:mod:`mbnas_server.api.validate_prep`: ``path_checks``, ``dataset_yaml``,
 ``dataset_manifests``), and the core re-validates with the same inputs when a run is created; without them the core
-checks its own filesystem and answers 409 ``STALE_VALIDATION`` (evidence/WP7/7B/split_output_root_probe.txt).
+checks its own filesystem and answers 409 ``STALE_VALIDATION``.
 
-DD-A46: the same inputs are attached to the relayed ``POST /runs``, ``POST /training-runs`` and ``POST
+The same inputs are attached to the relayed ``POST /runs``, ``POST /training-runs`` and ``POST
 /runs/{id}/final-retrain`` bodies, and to ``POST /runs/{id}/resume`` (a PAUSED run is re-validated before it resumes)
 (field names exactly those of the validate payload, :data:`BODY_FIELDS`). The core documents them as "the host inputs
 the gateway measured for THIS request" (``routes_runs.check_fresh``: the freshness check must not be blind to data
@@ -154,7 +154,7 @@ class InputsCache:
 
 def for_request(settings: GatewaySettings, cache: InputsCache, *, protocol_hash: Any = None,
                 protocol: Any = None) -> dict[str, Any] | None:
-    """Host inputs to attach to a run-creating relay (DD-A46): a measurement of ``protocol`` on this host now (cached
+    """Host inputs to attach to a run-creating relay: a measurement of ``protocol`` on this host now (cached
     under ``protocol_hash``), else the cache entry of ``protocol_hash`` (validate time or an earlier request), else
     None."""
     if not enabled(settings):

@@ -1,0 +1,20 @@
+# projection.py _raw_metrics = device ids -> _path_values -> scrub_deep; _ABS_PATH unchanged: (?<![\w.~/:%@-])/(?![/\s])[^\s'\"`,;()\[\]{}<>|]+
+{"case": "spaced install path (C02 D9 example)", "in": "/srv/mbnas owner r2c/runtime/runner/runs/runs/train-x/data.yaml", "out": "<path>"}
+{"case": "unicode path, no blank", "in": "/home/김철수/mbnas/runtime/runner/runs/train-x/model.yaml", "out": "<path>"}
+{"case": "blank before a unicode name", "in": "/home/mbnas user/김철수/train-x/TRAIN", "out": "<path>"}
+{"case": "NBSP inside", "in": "/home/김철수/mbnas 작업/train-x/x.pt", "out": "<path>"}
+{"case": "ideographic space inside", "in": "/home/김철수/mbnas　작업/train-x/x.pt", "out": "<path>"}
+{"case": "leading blanks", "in": "   /tmp/f1b 샌드박스 root/train-x", "out": "<path>"}
+{"case": "path + trailing text", "in": "/srv/mbnas owner r2c/x/last.pt (removed after epoch 1)", "out": "<path>"}
+{"case": "public API path (kept)", "in": "/api/v1/runs/train-0123456789ab/artifacts/art-1", "out": "/api/v1/runs/train-0123456789ab/artifacts/art-1"}
+{"case": "public API path after a blank (kept)", "in": " /api/v1/runs/train-0123456789ab/snapshot", "out": " /api/v1/runs/train-0123456789ab/snapshot"}
+{"case": "embedded path without blank (regex rule)", "in": "no predictions: /home/emb-owner/val.cache missing", "out": "no predictions: <path> missing"}
+{"case": "embedded path WITH blank (regex rule; tail stays - out of F1b scope)", "in": "saved to /srv/mbnas owner r2c/x.pt", "out": "saved to <path> owner r2c/x.pt"}
+{"case": "non-path text with ' / '", "in": "weights_only fp16 state_dict bytes / 1e6", "out": "weights_only fp16 state_dict bytes / 1e6"}
+{"case": "non-path text with blanks", "in": "torch.autocast(float16) over FP32 weights", "out": "torch.autocast(float16) over FP32 weights"}
+{"case": "relative path", "in": "weights/last.pt", "out": "weights/last.pt"}
+{"case": "Windows path (not '/': unchanged, known limit)", "in": "C:\\Users\\owner\\data.yaml", "out": "C:\\Users\\owner\\data.yaml"}
+# nested: list items and dict values at any depth, keys unchanged
+{"a": ["<path>", {"/k ey": "<path>"}], "n": 1, "b": false, "z": null}
+# scope limit (general messages, not raw_metrics): log message_detail with a spaced runner path
+{"message": "job failed", "message_detail": "FileNotFoundError: <path> owner r2c/runtime/runner/x.pt"}

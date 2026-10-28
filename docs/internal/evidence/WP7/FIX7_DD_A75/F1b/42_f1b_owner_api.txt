@@ -1,0 +1,80 @@
+# started: 2026-10-28 14:35:05 KST
+# cwd: /home/mgjeong/Desktop/etri_hd/mbnas_application
+# env: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1
+# projection.py sha256: b097bbbe27ffbc4616e230bab29503c662b9119b48021786eb161322f81320e6
+# command: runtime/venv/bin/python -m pytest -p no:cacheprovider -m "not gpu and not live and not legacy_records and not host_data" tests/owner/api
+
+============================= test session starts ==============================
+platform linux -- Python 3.10.22, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/mgjeong/Desktop/etri_hd/mbnas_application
+configfile: pyproject.toml
+plugins: anyio-4.15.1, timeout-2.4.0
+timeout: 600.0s
+timeout method: signal
+timeout func_only: False
+collected 223 items
+
+tests/owner/api/test_access_log_redaction.py .                           [  0%]
+tests/owner/api/test_artifact_signature_non_ascii.py .....               [  2%]
+tests/owner/api/test_artifacts_export.py .........                       [  6%]
+tests/owner/api/test_auth_cors.py .........................              [ 17%]
+tests/owner/api/test_block_catalog_route.py ....                         [ 19%]
+tests/owner/api/test_candidate_detail_lineage.py ...                     [ 21%]
+tests/owner/api/test_checkpoint_state_row.py ..                          [ 21%]
+tests/owner/api/test_contract_responses.py ....                          [ 23%]
+tests/owner/api/test_dd_a46_core_gateway_inputs.py .....                 [ 26%]
+tests/owner/api/test_dd_a60_access_log.py ...                            [ 27%]
+tests/owner/api/test_dd_a62_device_source_local.py ....                  [ 29%]
+tests/owner/api/test_dd_a73_bind_structure_mixed.py ...                  [ 30%]
+tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py ..2026-10-28T05:36:18.600Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-28b71c347eed/events?after_seq=0 status=200 request_id=983494f239ed4450a908ad1bcb73caf6 duration_ms=59.6 client=127.0.0.1:50000
+2026-10-28T05:36:18.601Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-28b71c347eed/events?after_seq=0 status=200 request_id=983494f239ed4450a908ad1bcb73caf6 duration_ms=62.9 client=127.0.0.1:40472
+..             [ 32%]
+tests/owner/api/test_dd_a75b_raw_metrics_path_values_routes.py ..2026-10-28T05:36:21.412Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-5c68eb67d5f1/events?after_seq=0 status=200 request_id=8f4e9d4e6b474bab9192087e714332a4 duration_ms=59.7 client=127.0.0.1:50000
+2026-10-28T05:36:21.413Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-5c68eb67d5f1/events?after_seq=0 status=200 request_id=8f4e9d4e6b474bab9192087e714332a4 duration_ms=63.8 client=127.0.0.1:43836
+..      [ 34%]
+tests/owner/api/test_error_trace_id.py ...                               [ 35%]
+tests/owner/api/test_final_retrain.py ..........                         [ 39%]
+tests/owner/api/test_generation_freshness.py ..                          [ 40%]
+tests/owner/api/test_generation_multi_seed.py .......                    [ 43%]
+tests/owner/api/test_generation_real_cpu.py .                            [ 44%]
+tests/owner/api/test_generation_real_cpu_training_status.py .            [ 44%]
+tests/owner/api/test_off_run_guards.py ...........                       [ 49%]
+tests/owner/api/test_postprocess_runtime_row.py .....                    [ 52%]
+tests/owner/api/test_registry_roots_skipped.py .....                     [ 54%]
+tests/owner/api/test_registry_structure.py ............................. [ 67%]
+.....                                                                    [ 69%]
+tests/owner/api/test_runs_idempotency.py ........                        [ 73%]
+tests/owner/api/test_set3_health.py ...                                  [ 74%]
+tests/owner/api/test_sse.py 2026-10-28T05:37:55.176Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-5b87f6cc1c9b/events status=200 request_id=52881013db264e94acc71e2fe6d0e757 duration_ms=38.6 client=127.0.0.1:50000
+2026-10-28T05:37:55.176Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-5b87f6cc1c9b/events status=200 request_id=52881013db264e94acc71e2fe6d0e757 duration_ms=42.4 client=127.0.0.1:33454
+.2026-10-28T05:37:56.042Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-45070c8ee526/events?after_seq=0 status=200 request_id=d9a4d7a36d594837a3b99e34558c240e duration_ms=14.4 client=127.0.0.1:50000
+2026-10-28T05:37:56.043Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-45070c8ee526/events?after_seq=0 status=200 request_id=d9a4d7a36d594837a3b99e34558c240e duration_ms=17.9 client=127.0.0.1:50744
+.2026-10-28T05:37:57.169Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-c1749156d8f6/events?after_seq=3 status=200 request_id=3052618851c4426cb7ad708f0a34fed3 duration_ms=331.1 client=127.0.0.1:50000
+2026-10-28T05:37:57.169Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-c1749156d8f6/events?after_seq=3 status=200 request_id=3052618851c4426cb7ad708f0a34fed3 duration_ms=335.2 client=127.0.0.1:41298
+.2026-10-28T05:37:58.296Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-b59b43529a9d/events?after_seq=3 status=200 request_id=54e11ffbb87d467aaef4736bb324ca54 duration_ms=336.5 client=127.0.0.1:50000
+2026-10-28T05:37:58.297Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-b59b43529a9d/events?after_seq=3 status=200 request_id=54e11ffbb87d467aaef4736bb324ca54 duration_ms=340.6 client=127.0.0.1:59334
+.2026-10-28T05:37:59.373Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-cb9960726595/events?after_seq=3 status=200 request_id=345a1c8132bf4e43be5189f55618c794 duration_ms=286.0 client=127.0.0.1:50000
+2026-10-28T05:37:59.374Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-cb9960726595/events?after_seq=3 status=200 request_id=345a1c8132bf4e43be5189f55618c794 duration_ms=290.1 client=127.0.0.1:56968
+.2026-10-28T05:38:00.594Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-13bdf014440b/events?after_seq=73 status=200 request_id=2f2d0f46619f4b20962903bd5a1e75cc duration_ms=11.3 client=127.0.0.1:50000
+2026-10-28T05:38:00.594Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-13bdf014440b/events?after_seq=73 status=200 request_id=2f2d0f46619f4b20962903bd5a1e75cc duration_ms=14.4 client=127.0.0.1:35742
+..                                      [ 77%]
+tests/owner/api/test_state_machine.py .........                          [ 81%]
+tests/owner/api/test_structure_history.py .                              [ 82%]
+tests/owner/api/test_structure_report_hashes.py ...                      [ 83%]
+tests/owner/api/test_training_selection.py ............................. [ 96%]
+........                                                                 [100%]
+
+=============================== warnings summary ===============================
+tests/owner/api/test_artifact_signature_non_ascii.py::test_non_ascii_signature_is_403_access_denied[exp={exp}&sig=%C3%A9]
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/owner/api/test_training_selection.py::test_non_ultralytics_baseline_binding_records_native_structure[rf-detr-nano-rfdetr-30147076]
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/pydantic/main.py:263: PretrainWeightsCompatibilityWarning: RFDETRNanoConfig was instantiated with pretrain_weights=None. The model will be initialised from scratch, which typically produces lower accuracy than fine-tuning from the published checkpoint ('rf-detr-nano.pth').
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================= 223 passed, 2 warnings in 236.55s (0:03:56) ==================
+
+# exit code: 0
+# finished: 2026-10-28 14:39:04 KST (wall 239 s)

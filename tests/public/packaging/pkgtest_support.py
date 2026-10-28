@@ -2,9 +2,13 @@
 
 The tree has tiny setuptools packages for the five distribution names (the private one included, so the tests can
 prove it never reaches a public bundle), a prebuilt ``mbnas_web/dist``, owner-only material (core env example, owner
-tests, internal documents, owner deploy files), and things that must never ship (``runtime/``, ``build/`` junk,
-``node_modules``, ``__pycache__``, a dotenv file). ``build/allowlists/*.txt`` are copied from the repository, so the
-tests exercise the real allowlists. The packager runs as a subprocess, exactly as ``scripts/package.sh`` runs it.
+tools, the owner integration driver, owner deploy files), repository-only material that no bundle ships (tests, web
+tests and e2e specs, internal documents, contract history, the registration review records, ``LICENSE`` /
+``LICENSE_STATUS.md``, the workspace ``pyproject.toml``, the packager and other development tools), and things that
+must never ship (``runtime/``, ``build/`` junk, ``node_modules``, ``__pycache__``, a dotenv file).
+``build/allowlists/*.txt`` are copied from the repository, so the tests exercise the real allowlists; the public
+offline-install record the public allowlist names is written as a passing record, as in the source tree. The packager
+runs as a subprocess, exactly as ``scripts/package.sh`` runs it.
 
 Public tests never name the private package as a module reference (``tests/public`` is a public host for the import
 closure checker): its name is composed (``CORE``).
@@ -14,6 +18,7 @@ from __future__ import annotations
 import importlib.util
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -65,7 +70,7 @@ def make_tree(base: Path) -> Path:
     _w(root, "constraints.txt", "# synthetic constraints (empty)\n")
     _w(root, "THIRD_PARTY_NOTICES.md", "# notices\n")
     _w(root, "THIRD_PARTY_NOTICES_WEB.md", "# npm notices of the web bundle\n")  # required in every profile (DD-A65)
-    _w(root, "LICENSE", "All rights reserved (placeholder; licence undetermined)\n")  # required in every profile
+    _w(root, "LICENSE", "All rights reserved (placeholder; licence undetermined)\n")  # never shipped
     _w(root, "LICENSE_STATUS.md", "# licence status\n")
     _w(root, "README.md", "# synthetic project\n")
     _w(root, ".dockerignore", "*\n!wheels/*.whl\n!mbnas_web/dist/\n")
@@ -88,6 +93,9 @@ def make_tree(base: Path) -> Path:
     _w(root, "mbnas_web/dist/index.html", "<!doctype html><title>console</title><script src=assets/app.js></script>\n")
     _w(root, "mbnas_web/dist/assets/app.js", "console.log('app');\n")
     _w(root, "mbnas_web/src/main.ts", "export const source = 1;\n")
+    _w(root, "mbnas_web/tsconfig.json", "{}\n")
+    _w(root, "mbnas_web/scripts/gen-types.mjs", "// synthetic type generator of npm run build\n")
+    _w(root, "mbnas_web/playwright.config.ts", "export default {};\n")  # e2e configuration: never shipped
     # DD-A43 (a): the test-only fitness oracle and every web test importing it (also transitively) are owner only
     _w(root, "mbnas_web/tests/fitness_oracle.ts", "export const fitnessOracle = (x: number) => x;\n")
     _w(root, "mbnas_web/tests/fixtures.ts",
@@ -102,7 +110,13 @@ def make_tree(base: Path) -> Path:
     _w(root, "mbnas_web/node_modules/left-pad/index.js", "module.exports = 1;\n")
     for name in ("install", "doctor", "start", "stop", "verify"):
         _w(root, f"scripts/{name}.sh", "#!/usr/bin/env bash\necho synthetic\n", 0o644)
-    _w(root, "scripts/dev/tool.py", "print('owner tool')\n")
+    _w(root, "scripts/dev/tool.py", "print('development tool')\n")  # never shipped
+    _w(root, "scripts/dev/wp3_three_process_smoke.py", "print('owner integration driver')\n")  # owner only
+    _w(root, "scripts/package.sh", "#!/usr/bin/env bash\necho packager\n")  # never shipped
+    _w(root, "scripts/owner/probe_registry.py", "print('owner tool')\n")
+    _w(root, "scripts/owner/t2_compare.py", "print('test tool')\n")  # never shipped
+    _w(root, "scripts/runner/download_weights.py", "print('runner tool')\n")  # owner only
+    _w(root, "scripts/public/make_pilot_subset.py", "print('public tool')\n")
     _w(root, "config/examples/gateway.env.example", "# gateway\nMBNAS_GW_TOKEN=\nMBNAS_GW_PORT=8710\n")
     _w(root, "config/examples/runner.env.example", "# runner\nMBNAS_RUNNER_TOKEN=<issued by the core owner>\n")
     _w(root, "config/examples/core.env.example", "# core (owner only)\nMBNAS_CORE_TICKET_KEY=\n")
@@ -112,7 +126,12 @@ def make_tree(base: Path) -> Path:
     _w(root, "deploy/owner/Dockerfile", "FROM scratch\n")
     _w(root, "deploy/owner/docker-compose.yml", "services: {}\n")
     _w(root, "docs/public/INSTALL.md", f"# Install\nThe private core package ({CORE}) runs on the owner host only.\n")
-    _w(root, "docs/registration/PROGRAM_OVERVIEW.md", "# Program overview\n")
+    _w(root, "docs/public/contracts/history/HISTORY.json", "{}\n")  # contract history: never shipped
+    for name in ("PROGRAM_OVERVIEW", "SYSTEM_STRUCTURE", "INTERFACES", "KEY_CONTRIBUTIONS", "SUBMISSION_SCOPE_TABLE"):
+        _w(root, f"docs/registration/{name}.md", f"# {name}\n")
+    _w(root, "docs/registration/diagrams/system_structure.mmd", "graph LR\n  a --> b\n")
+    for name in ("REVIEW_CHECKLIST", "RIGHTS_REVIEW"):  # internal review records: never shipped
+        _w(root, f"docs/registration/{name}.md", f"# {name} (internal)\n")
     _w(root, "docs/internal/DECISIONS.md", "# decisions (internal)\n")
     _w(root, "docs/internal/TASK_STATE.md", "# task state (internal)\n")
     _w(root, "docs/internal/provenance/vendored_reference/README.md", "# vendored reference (owner)\n")
@@ -136,6 +155,14 @@ def make_tree(base: Path) -> Path:
     (root / "build" / "allowlists").mkdir(parents=True, exist_ok=True)
     for f in sorted((REPO / "build" / "allowlists").glob("*.txt")):
         shutil.copy2(f, root / "build" / "allowlists" / f.name)
+    public_al = root / "build" / "allowlists" / "public.txt"
+    m = re.search(r"^offline_install_evidence\s*=\s*(\S+)\s*$", public_al.read_text(encoding="utf-8") if
+                  public_al.is_file() else "", re.M)
+    if m:  # a passing record (read by the packager only; docs/internal never ships)
+        _w(root, m.group(1), json.dumps({
+            "profile": "public", "exit": 0, "network": "none (unshare -rn)", "verified_at": "1980-01-01 (synthetic)",
+            "command": "unshare -rn bash scripts/install.sh --profile public --offline --wheelhouse <dir>",
+            "wheelhouse": "external, not bundled", "tested_zip_sha256": "0" * 64}) + "\n")
     return root
 
 

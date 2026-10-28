@@ -1,6 +1,6 @@
 # TROUBLESHOOTING — 문제 해결 (Troubleshooting)
 
-문서 기준일: 2026-10-28. 먼저 `bash scripts/doctor.sh --profile <owner|public>`를 실행해 PASS/WARN/FAIL 목록을 본다(비밀 값은 출력하지 않는다). 오류 응답의 `code`와 `request_id`가 원인 추적의 기준이다. 아래 코드는 이 저장소의 소스에 정의된 것이다.
+먼저 `bash scripts/doctor.sh --profile <owner|public>`를 실행해 PASS/WARN/FAIL 목록을 본다(비밀 값은 출력하지 않는다). 오류 응답의 `code`와 `request_id`가 원인 추적의 기준이다.
 
 ## 1. 설치 (Installation)
 
@@ -12,7 +12,7 @@
 | `./wheels/...whl`을 찾지 못함 | requirements 파일의 프로젝트 wheel 경로는 **현재 작업 디렉터리 기준** | 압축을 푼 최상위 디렉터리(requirements 파일과 `wheels/`가 있는 곳)에서 `pip install -r ...` 실행 |
 | install.sh가 기존 venv를 거부 | 개발용 editable 설치가 들어 있는 venv | 다른 위치에 설치하거나 그 venv를 직접 정리(스크립트는 지우지 않는다) |
 | `OperatorsUnavailable` / 맞춤 연산자 등록 실패 | ultralytics 버전이 8.4.173이 아님(파서 소스 hash 불일치) | 고정 버전으로 재설치(`COMPATIBILITY.md` §3) |
-| CPU 전용 호스트에서 CUDA wheel 설치 | 검증 플랫폼은 cu124 | `--requirements requirements-cpu.txt`(CPU smoke용, 평가 완료 판정 없음) |
+| CPU 전용 호스트에서 CUDA wheel 설치 | 기본 requirements는 cu124 빌드 | `--requirements requirements-cpu.txt`(GPU 없는 호스트용, 평가 완료 판정 없음) |
 
 ## 2. 기동·정지 (Start and stop)
 
@@ -54,7 +54,7 @@
 | `EXTERNAL_CHECKPOINT_IMPORT_UNSUPPORTED` | 409 | 외부 checkpoint를 새 run에 붙이는 재개 | 지원하지 않음(`COMPATIBILITY.md` §6) |
 | `FINAL_RETRAIN_NOT_APPLICABLE` | 409 | 평가 없는 생성 run에 최종 재학습 요청 | 평가를 수행한 탐색 run에만 가능 |
 | `EVALUATION_REQUIRES_CUDA` | — (검증 오류 `errors[].code`) | 검증용 장치 목록이 CPU뿐인데(또는 `console.benchmark.device`가 `cpu`) 평가 ON 탐색을 요청함. 지연시간은 CUDA에서만 잰다. 후보 행의 `reason_code`로 나오면 뜻이 다르다(§7) | GPU runner를 등록하거나(GPU runner가 다른 호스트면 `MBNAS_CORE_DEVICE_SOURCE=runners`), 평가 OFF 생성(`console.search.evaluation_enabled=false`) 또는 명시 학습을 쓴다 |
-| `DEVICE_UNAVAILABLE` | — (검증 오류 `errors[].code`) | 검증용 장치 목록이 비어 있음. 기본 `MBNAS_CORE_DEVICE_SOURCE=local`에서는 core 호스트에 GPU가 없고 등록된 CPU runner도 없을 때(`local`은 GPU 없는 core 호스트에서 등록된 CPU runner의 `cpu` 항목으로 대신하지만 GPU runner는 보지 않는다), `runners`에서는 등록된 runner가 없을 때 | runner를 실행해 둔 채(`mbnas-runner run`; 정지했거나 응답이 끊긴 runner는 목록에서 빠진다) 다시 검증한다(장치 목록은 최대 30초 캐시). GPU runner가 다른 호스트에 있으면 owner 쪽에서 `MBNAS_CORE_DEVICE_SOURCE=runners`(`OPERATIONS.md` §15) |
+| `DEVICE_UNAVAILABLE` | — (검증 오류 `errors[].code`) | 검증용 장치 목록이 비어 있음. 기본 `MBNAS_CORE_DEVICE_SOURCE=local`에서는 core 호스트에 GPU가 없고 등록된 CPU runner도 없을 때(`local`은 GPU 없는 core 호스트에서 등록된 CPU runner의 `cpu` 항목으로 대신하지만 GPU runner는 보지 않는다), `runners`에서는 등록된 runner가 없을 때 | runner를 실행해 둔 채(`mbnas-runner run`; 정지했거나 응답이 끊긴 runner는 목록에서 빠진다) 다시 검증한다(장치 목록은 최대 30초 캐시). GPU runner가 다른 호스트에 있으면 owner 쪽에서 `MBNAS_CORE_DEVICE_SOURCE=runners`(`OPERATIONS.md` §14) |
 | `WORKER_IO_ERROR` / `WORKER_JOB_ERROR` | — (owner worker 작업 실패 사유) | 후보 생성 작업 중 core 호스트의 파일 오류 / 그 밖의 예외. worker는 계속 돌고 그 작업만 실패 | core 쪽 작업 로그(`<MBNAS_CORE_OUTPUT_ROOT>/<run>/logs` 또는 run 디렉터리의 `logs`) 확인 |
 | `RESUME_BLOCKED` | — (작업 실패 사유) | full-state가 없거나 손상·불일치 | 가중치만으로 대체하지 않는다. checkpoint 상태(`PRESENT/PRUNED/MISSING`) 확인 |
 
@@ -95,7 +95,7 @@
 | `RESULT_CONFLICT` | 409 | 같은 시도에 다른 결과 본문 | journal 손상 여부 확인 |
 | `KIND_NOT_ALLOWED` | 400 | 허용되지 않은 작업 종류 요청 | `MBNAS_RUNNER_KINDS`를 허용 집합 안으로 |
 | `RUNNER_BUSY` | 429 | runner 하나가 작업 둘을 동시에 요청 | runner 하나 = 장치 하나 = 작업 하나 |
-| 후보가 `SEARCH_COMPLETE`인데 지표가 없음(`performance_status=NOT_EVALUATED`, `reason_code=EVALUATION_REQUIRES_CUDA`, `latency_source=pending`) | — | CPU runner가 학습만 하고 평가하지 못했다(지연시간은 CUDA에서만 잰다). checkpoint는 남고, 지표·적합도는 null이며 승급하지 않는다. 웹 표시는 "학습 완료 · 미평가" | 평가가 필요하면 GPU runner로 실행한다. GPU·CPU 혼합 fleet에서는 GPU runner가 `ONLINE`일 때만 CPU runner가 이런 작업을 건너뛴다(`OPERATIONS.md` §15) |
+| 후보가 `SEARCH_COMPLETE`인데 지표가 없음(`performance_status=NOT_EVALUATED`, `reason_code=EVALUATION_REQUIRES_CUDA`, `latency_source=pending`) | — | CPU runner가 학습만 하고 평가하지 못했다(지연시간은 CUDA에서만 잰다). checkpoint는 남고, 지표·적합도는 null이며 승급하지 않는다. 웹 표시는 "학습 완료 · 미평가" | 평가가 필요하면 GPU runner로 실행한다. GPU·CPU 혼합 fleet에서는 GPU runner가 `ONLINE`일 때만 CPU runner가 이런 작업을 건너뛴다(`OPERATIONS.md` §14) |
 | CPU runner가 대기 중인 작업을 가져가지 않음(claim이 계속 `204`) | 204 | 그 작업은 CUDA 측정이 필요하고(평가 ON 탐색·최종 재학습, 평가하는 명시 학습, BENCHMARK), 같은 작업 종류를 받는 GPU runner가 `ONLINE`이다. 작업은 시도 횟수를 쓰지 않고 `QUEUED`로 GPU runner를 기다린다 | 정상 동작. 오래 기다리면 GPU runner의 상태와 `MBNAS_RUNNER_KINDS`를 확인한다 |
 
 ## 8. 산출물 다운로드 (Artifact downloads)
@@ -103,8 +103,8 @@
 | 코드 | HTTP | 뜻 | 조치 |
 |---|---|---|---|
 | `ARTIFACT_NOT_READY` | 404 | runner가 등록한 산출물이 아직 gateway 저장소로 전송되지 않음 | runner의 로컬 전송 설정(`MBNAS_RUNNER_ARTIFACT_TRANSFER=local`, `MBNAS_RUNNER_ARTIFACT_STORE_DIR` = gateway 저장소, 같은 호스트) 확인 |
-| `MISSING` | 404 | 이 run에 없는 id, 또는 core 쪽 파일(분리 배치의 생성 구조 YAML)이 core 호스트에서 사라짐 | id 확인. core 쪽 파일이면 `<MBNAS_CORE_OUTPUT_ROOT>/<run id>/architectures/`를 백업에서 복원(`OPERATIONS.md` §8·§15) |
-| `ACCESS_DENIED` | 403 | 서명 URL의 서명이 맞지 않음(토큰 문제는 §3), 또는 core 쪽 생성 구조 YAML이 심볼릭 링크이거나 허용 위치 밖, 또는 `MBNAS_CORE_OUTPUT_ROOT`가 `MBNAS_CORE_OUTPUT_ROOTS` 밖 | 서명 URL을 다시 받는다. core 쪽 파일이면 링크를 실제 파일로 되돌리거나 `MBNAS_CORE_OUTPUT_ROOTS`에 `MBNAS_CORE_OUTPUT_ROOT`를 넣는다(`OPERATIONS.md` §15) |
+| `MISSING` | 404 | 이 run에 없는 id, 또는 core 쪽 파일(분리 배치의 생성 구조 YAML)이 core 호스트에서 사라짐 | id 확인. core 쪽 파일이면 `<MBNAS_CORE_OUTPUT_ROOT>/<run id>/architectures/`를 백업에서 복원(`OPERATIONS.md` §8·§14) |
+| `ACCESS_DENIED` | 403 | 서명 URL의 서명이 맞지 않음(토큰 문제는 §3), 또는 core 쪽 생성 구조 YAML이 심볼릭 링크이거나 허용 위치 밖, 또는 `MBNAS_CORE_OUTPUT_ROOT`가 `MBNAS_CORE_OUTPUT_ROOTS` 밖 | 서명 URL을 다시 받는다. core 쪽 파일이면 링크를 실제 파일로 되돌리거나 `MBNAS_CORE_OUTPUT_ROOTS`에 `MBNAS_CORE_OUTPUT_ROOT`를 넣는다(`OPERATIONS.md` §14) |
 | `LOAD_FAILED` | 409 | 저장된 바이트가 기록된 sha256과 다름(gateway 저장소 또는 core 쪽 파일; core 쪽 파일은 1 MiB 초과도 포함) | 파일이 바뀌었거나 손상됨. 원본을 복원한다 |
 | `EXPIRED` | 410 | 서명 URL 만료 | `POST …/refresh`로 새 URL을 받는다(웹은 한 번 자동으로 요청한다) |
 | `CORE_UNAVAILABLE` | 503 | core에 연결하지 못함. 모든 다운로드가 core의 기록을 먼저 확인하고, core 쪽 생성 구조 YAML은 바이트도 core에서 받는다 | core 연결 복구 |
@@ -119,5 +119,5 @@
 - 프로세스 로그: `runtime/logs/<이름>.log`(start.sh가 기록), 설치 로그: `runtime/logs/install-<시각>.log`.
 - gateway 감사 로그: `MBNAS_GW_AUDIT_LOG`(기본 `runtime/gateway/logs/audit.jsonl`).
 - runner 작업 디렉터리: `MBNAS_RUNNER_WORK_ROOT`(journal, checkpoint, 자식 로그).
-- 요청 하나를 두 호스트에서 추적하기: gateway와 core의 접근 로그는 요청마다 한 줄(`method path status request_id duration_ms client`)이고 같은 `request_id`를 쓴다. 오류 본문의 `request_id`로 `grep "request_id=<id>" runtime/logs/gateway.log`(고객 호스트)와 core 로그(owner 호스트)를 찾는다(`OPERATIONS.md` §14).
+- 요청 하나를 두 호스트에서 추적하기: gateway와 core의 접근 로그는 요청마다 한 줄(`method path status request_id duration_ms client`)이고 같은 `request_id`를 쓴다. 오류 본문의 `request_id`로 `grep "request_id=<id>" runtime/logs/gateway.log`(고객 호스트)와 core 로그(owner 호스트)를 찾는다(`OPERATIONS.md` §13).
 - 지원을 요청할 때는 `request_id`, `bash scripts/doctor.sh --profile <p> --json -` 출력, 관련 로그 구간을 함께 보낸다. env 파일이나 토큰 값은 보내지 않는다.

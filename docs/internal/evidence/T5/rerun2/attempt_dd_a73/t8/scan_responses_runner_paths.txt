@@ -1,0 +1,14 @@
+FAIL extra     NEEDLE#1 [raw] dump/t5a73_0077_GET_api_v1_runs_train-554acdd5b4ea_snapshot_200.bin:1
+FAIL extra     NEEDLE#1 [raw] dump/t5a73_0077_GET_api_v1_runs_train-554acdd5b4ea_snapshot_200.bin:1
+FAIL extra     NEEDLE#1 [raw] dump/t5a73_0077_GET_api_v1_runs_train-554acdd5b4ea_snapshot_200.bin:1
+FAIL extra     NEEDLE#1 [raw] dump/t5a73_0077_GET_api_v1_runs_train-554acdd5b4ea_snapshot_200.bin:1
+FAIL extra     NEEDLE#1 [raw] dump/t5a73_0077_GET_api_v1_runs_train-554acdd5b4ea_snapshot_200.bin:1
+FAIL extra     NEEDLE#1 [raw] dump/t5a73_0077_GET_api_v1_runs_train-554acdd5b4ea_snapshot_200.bin:1
+FAIL extra     NEEDLE#1 [raw] dump/t5a73_0077_GET_api_v1_runs_train-554acdd5b4ea_snapshot_200.bin:1
+FAIL extra     NEEDLE#1 [raw] dump/t5a73_0077_GET_api_v1_runs_train-554acdd5b4ea_snapshot_200.bin:1
+FAIL extra     NEEDLE#1 [raw] dump/t5a73_0078_GET_api_v1_runs_train-554acdd5b4ea_candidates_model-3b3f6e4649d9_200.bin:1
+FAIL extra     NEEDLE#1 [raw] dump/t5a73_0078_GET_api_v1_runs_train-554acdd5b4ea_candidates_model-3b3f6e4649d9_200.bin:1
+FAIL extra     NEEDLE#1 [raw] dump/t5a73_0078_GET_api_v1_runs_train-554acdd5b4ea_candidates_model-3b3f6e4649d9_200.bin:1
+FAIL extra     NEEDLE#1 [raw] dump/t5a73_0078_GET_api_v1_runs_train-554acdd5b4ea_candidates_model-3b3f6e4649d9_200.bin:1
+scanned files=6927 bytes=328430638 containers=7 skipped=0 hits=12 failing=12 unmet=0
+canary_scan: FAIL

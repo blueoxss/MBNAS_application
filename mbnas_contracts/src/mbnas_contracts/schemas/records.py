@@ -4,7 +4,7 @@ Worker, Event, Snapshot, CandidateDetail, GeneratedCandidate and StructureReport
 Field names, required sets, enums and numeric bounds follow contracts/openapi.json exactly. Contract 1.5.0 closes every
 component the core console projection emits (``additionalProperties: false``, ``x-public-projection``): their mirrors
 forbid unknown fields (``_Closed``), so a response the projection did not reduce to the public DTO fails validation
-(500 RESPONSE_CONTRACT_VIOLATION) instead of leaving core. Removed owner-only members (DD-A19): Block old_name / before /
+(500 RESPONSE_CONTRACT_VIOLATION) instead of leaving core. Removed owner-only members: Block old_name / before /
 after / repair_reason (and params.slot_kind), Generation.group_key, Worker pid / lease_expires_at, the lineage trace keys.
 The contract's conditional (``if/then``) rules are enforced by ``model_validator``s:
 
@@ -169,7 +169,7 @@ class CandidateEvaluation(_Closed):
     batch: Annotated[int, Field(ge=1)] | None = None
     requested_input_shape: list[Annotated[int, Field(ge=1)]] | None = None
     resolved_input_shape: list[Annotated[int, Field(ge=1)]] | None = None
-    epoch_target_total: Annotated[int, Field(ge=1)] | None = None  # >= 1 or absent (DD-35b): evaluate_only rows carry epochs 0 and none
+    epoch_target_total: Annotated[int, Field(ge=1)] | None = None  # >= 1 or absent: evaluate_only rows carry epochs 0 and none
     protocol_hash: NonEmptyStr | None = None
     checkpoint_sha256: str | None = None
     architecture_hash: NonEmptyStr | None = None
@@ -615,7 +615,7 @@ class StructureReport(_Closed):
     flops_source: str | None = None
     observation: dict[str, Any] | None = None
     blocks: list[dict[str, Any]] | None = None
-    catalog_summary: BlockCatalogSummary | None = None  # contract 1.4.2 (DD-38); blocks[].catalog is checked by contract_errors
+    catalog_summary: BlockCatalogSummary | None = None  # contract 1.4.2; blocks[].catalog is checked by contract_errors
     edges: list[dict[str, Any]] | None = None
     edges_unobserved: list[dict[str, Any]] | None = None
     # contract 1.4.1: native-backend members (typed in the contract; nested shapes are checked by contract_errors, not re-modelled)

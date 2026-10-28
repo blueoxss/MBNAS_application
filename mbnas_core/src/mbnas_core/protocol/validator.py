@@ -1,4 +1,4 @@
-"""Protocol validation and resolution (PLAN.md §2, §4).
+"""Protocol validation and resolution.
 
 ``validate(requested, ctx)`` never mutates ``requested``. It collects *all* problems as
 ``{field, message, code}`` errors (warnings use the same shape), and only when there is no error returns the
@@ -6,8 +6,8 @@ immutable resolved protocol plus ``protocol_hash`` = canonical SHA-256 of the re
 ``RESOLUTION_HASH_EXCLUDED`` fields. Re-validating a resolved protocol is a fixed point (same hash), so the Run
 endpoint can re-validate whatever the client echoes back and compare hashes.
 
-Codes: PLAN §4 list plus FIELD_MISSING / FIELD_INVALID (structure and type), DATASET_YAML_PATH_MISMATCH,
-DATASET_EMPTY, LABEL_INVALID, IMAGE_INVALID (data content), EVALUATION_REQUIRES_CUDA (DD-A60 (1): an evaluation-ON
+Codes: the base validation codes plus FIELD_MISSING / FIELD_INVALID (structure and type), DATASET_YAML_PATH_MISMATCH,
+DATASET_EMPTY, LABEL_INVALID, IMAGE_INVALID (data content), EVALUATION_REQUIRES_CUDA (an evaluation-ON
 protocol on a CPU-only device inventory or with a CPU benchmark device); warning-only codes: HORIZON_ADJUSTED,
 BASELINE_OVERRIDE, DUPLICATE_SAMPLE, DATASET_HASH_RECOMPUTED, BUDGET_INCONSISTENT, DATASET_YAML_NO_TEST,
 DATASET_YAML_IGNORED_KEYS, INPUT_RULE_MISSING.
@@ -25,7 +25,7 @@ Resolution rules worth knowing:
 * execution_mode defaults to PILOT; HISTORICAL_REPRODUCTION is not supported; REGISTERED_SEARCH needs a
   readable ``console.extra.pilot_calibration_ref`` file under an output root and a non-example, non-smoke policy.
 * ``training.backend_resolved.ultralytics`` records what ultralytics 8.4.173 will actually do with this recipe on
-  the train split (PLAN §8.3–8.4): batches/epoch = ceil(n/batch), warmup_iterations =
+  the train split: batches/epoch = ceil(n/batch), warmup_iterations =
   round(min(warmup, horizon-1) * nb), optimizer iterations = ceil(n/max(batch, nbs)) * horizon and, for
   ``optimizer=auto``, the chosen optimizer (AdamW lr=round(0.002*5/(4+nc), 6), or MuSGD 0.01 above 10000
   iterations; warmup_bias_lr 0) with ``training.lr_initial`` reported as ignored in ``resolved_diff``.
@@ -128,19 +128,19 @@ class ValidationContext:
     ``registry_lookup(id)`` returns a RegistryEntry (or dict of that shape) or None; ``devices`` are dicts with
     ``id``, ``uuid``, ``name`` and optional ``aliases`` / ``precisions`` (local NVML, or the registered runners'
     devices: :func:`devices_from_runners`, ``MBNAS_CORE_DEVICE_SOURCE=runners``, whose CPU-only runners form one
-    ``{"id": "cpu", "uuid": None, "kind": "cpu"}`` entry, DD-A60 (1); :func:`is_cpu_device`).
+    ``{"id": "cpu", "uuid": None, "kind": "cpu"}`` entry; :func:`is_cpu_device`).
 
-    ``manifest_provider`` (optional, WP-2 contract section 1.6): ``provider(role, root, names) -> Manifest`` supplies
+    ``manifest_provider`` (optional): ``provider(role, root, names) -> Manifest`` supplies
     the split manifest (samples, counts, class mapping, split hash) of ``role`` in {train, search_val, final_eval}
     instead of ``dataset_service.manifest_for`` reading the files (the gateway computes it on the customer host).
 
-    ``gateway`` (optional, WP-3 contract section 1.3 / DD-A34): :class:`mbnas_core.protocol.gateway_inputs.GatewayInputs`
+    ``gateway`` (optional): :class:`mbnas_core.protocol.gateway_inputs.GatewayInputs`
     built from the validate request's ``path_checks`` / ``dataset_yaml`` / ``dataset_manifests``. When it carries
     ``path_checks`` the path rules use them instead of ``check_server_path``/``free_disk_gb``; when it carries
     ``dataset_yaml`` the dataset YAML summary, the per-split manifest summaries and the cross-split overlap come from it
     (a split without a summary is a ``MANIFEST_MISSING`` error) instead of the core filesystem.
 
-    ``gateway_local_fallback`` (DD-A46, explicit training runs only): the training selection rewrites the split roots of
+    ``gateway_local_fallback`` (explicit training runs only): the training selection rewrites the split roots of
     ``console.paths`` from the dataset YAML before validating, so the gateway may not have measured those exact paths;
     a path the gateway sent no matching check for (``PATH_CHECK_MISSING`` / ``PATH_CHECK_MISMATCH``) is then checked on
     this host instead of being refused (in a split deployment that local check fails with the core's own path code).
@@ -201,12 +201,12 @@ def sample_count(manifest: Any) -> int:
 
 
 CPU_DEVICE = "cpu"
-"""Inventory id and alias of the device of the CPU-only runners (registered ``device = "cpu"``, no uuid; DD-A32)."""
+"""Inventory id and alias of the device of the CPU-only runners (registered ``device = "cpu"``, no uuid)."""
 
 
 def is_cpu_device(dev: Any) -> bool:
     """True for the CPU entry of :func:`devices_from_runners` (``kind == "cpu"``) and for a resolved benchmark device
-    ``{"id": "cpu", "uuid": None}`` (DD-A60 (1)); NVML / CUDA entries always carry a uuid."""
+    ``{"id": "cpu", "uuid": None}``; NVML / CUDA entries always carry a uuid."""
     if not isinstance(dev, dict):
         return False
     return dev.get("kind") == "cpu" or (dev.get("uuid") is None and str(dev.get("id") or "").lower() == CPU_DEVICE)
@@ -406,7 +406,7 @@ class _Run:
                              f"previous target {prev} = {target - prev}); remove the manual value "
                              f"{rung['epochs_added']!r}")
                 else:
-                    # S4-F4: a rejected manual value is never "resolved" -- no diff entry, no resolved write.
+                    # a rejected manual value is never "resolved" -- no diff entry, no resolved write.
                     self.resolve(pre + ".epochs_added", rung.get("epochs_added"), target - prev,
                                  "cumulative target minus previous rung target (computed, never entered)")
                     self.out["rungs"][i]["epochs_added"] = target - prev
@@ -589,7 +589,7 @@ class _Run:
                      f"ETRI mixed operator pool unavailable ({probe['reason']}); set "
                      "console.search.allow_native_fallback=true to search the native_fallback space instead")
             return
-        # vendored pool (DD-A12): no external root; contract 1.5.0 records {variant} only (no etri_root, WP-4)
+        # vendored pool: no external root; contract 1.5.0 records {variant} only (no etri_root)
         resolved = {"variant": variant}
         self.resolve("console.search.search_space_resolved", s.get("search_space_resolved"), resolved, detail)
         out["search_space_resolved"] = resolved
@@ -762,7 +762,7 @@ class _Run:
                 self.err(f"console.benchmark.{key}", "FIELD_INVALID", f"{key} must be an integer >= {lo}")
 
     def evaluation_device(self) -> None:
-        """DD-A60 (1) / DD-A32: an evaluation-ON protocol needs a CUDA device (latency is measured on CUDA only, and the
+        """An evaluation-ON protocol needs a CUDA device (latency is measured on CUDA only, and the
         fitness needs it), so it is refused here with EVALUATION_REQUIRES_CUDA when the device inventory holds only the
         CPU runners' ``cpu`` device (a CPU-only fleet; field ``console.search.evaluation_enabled``) or when
         ``console.benchmark.device`` resolved to that device (field ``console.benchmark.device``) - instead of a run
@@ -982,7 +982,7 @@ class _Run:
             # ``validated_at`` is excluded), and a re-validation on another host must stay a fixed point
             self.caps["validation_host"] = "gateway"
         if self.errors:
-            # S4-F4: an invalid result makes no resolution claim; resolved_diff is empty (contract ValidateResponse).
+            # an invalid result makes no resolution claim; resolved_diff is empty (contract ValidateResponse).
             return ValidationResult(False, self.errors, self.warnings, None, None, self.caps, [])
         original = self.req.get("original_status", self.req.get("status"))
         status = "RESOLVED_REGISTERED" if self.out["console"]["execution_mode"] == "REGISTERED_SEARCH" else "RESOLVED_PILOT"
@@ -992,7 +992,7 @@ class _Run:
         self.out["resolution"] = {
             "canonicalization": CANONICALIZATION_ID, "hash_excluded": list(RESOLUTION_HASH_EXCLUDED),
             "validated_at": self.ctx.now(), "validator": VALIDATOR_VERSION,
-            # contract 1.5.0 (WP-4): the requested path only - the realpath on the validating host is never recorded
+            # contract 1.5.0: the requested path only - the realpath on the validating host is never recorded
             # (it differs between the gateway and core hosts of a split deployment; resolution.paths is hash-excluded)
             "paths": {k: {"requested": self.req["console"]["paths"][k]} for k in sorted(self.path_real)},
         }
@@ -1002,9 +1002,9 @@ class _Run:
 
 def devices_from_runners(conn: Any) -> list[dict[str, Any]]:
     """Validation devices (``ValidationContext.devices`` shape) of the registered runners that are not OFFLINE/LOST:
-    one entry per distinct device uuid, aliases = uuid, name and the runner id (WP-2 contract section 1.6).
+    one entry per distinct device uuid, aliases = uuid, name and the runner id.
 
-    DD-A60 (1): the CPU-only runners (registered with ``device = "cpu"`` and no uuid, DD-A32) are no longer left out:
+    The CPU-only runners (registered with ``device = "cpu"`` and no uuid) are not left out:
     together they form ONE entry ``{"id": "cpu", "uuid": None, "name": "cpu", "kind": "cpu"}`` (aliases ``cpu`` and
     their runner ids), listed after the GPU entries. Explicit training then validates on a GPU-less fleet (the runner
     maps the assigned ``cuda:0`` to ``cpu``), while an evaluation-ON protocol is refused with EVALUATION_REQUIRES_CUDA
@@ -1061,7 +1061,7 @@ def validate(requested: dict[str, Any], ctx: ValidationContext) -> ValidationRes
     arms = run.search()
     run.baselines(arms)
     run.device()
-    run.evaluation_device()  # DD-A60 (1): evaluation ON needs a CUDA device (CPU-only fleet -> refused here)
+    run.evaluation_device()  # evaluation ON needs a CUDA device (CPU-only fleet -> refused here)
     run.postprocess()
     run.retention()
     if run.paths():
@@ -1136,7 +1136,7 @@ def _validate_generation(run: _Run) -> ValidationResult:
         run.err("console.search.arms", "FIELD_INVALID", "requested arms must be GA or IndependentRandom")
     cfg["requested_method"] = list(arms) if isinstance(arms, list) else []
     cfg["effective_method"] = "RandomGeneration"
-    # DD-2: duplicates are suppressed inside one seed's journal only (seed independence / replay); resolved-only field.
+    # duplicates are suppressed inside one seed's journal only (seed independence / replay); resolved-only field.
     if search.get("duplicate_scope", "per_seed") != "per_seed":
         run.err("console.search.duplicate_scope", "FIELD_INVALID", "duplicate_scope is resolved-only and fixed to per_seed")
     cfg["duplicate_scope"] = "per_seed"

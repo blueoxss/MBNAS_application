@@ -1,4 +1,4 @@
-/** Live card (design D7): GPUs, the running run's stage / watchdog, driver status; polled every 10 s by the context. */
+/** Live card: GPUs, the running run's stage / watchdog, driver status; polled every 10 s by the context. */
 import { Badge, Banner, Card } from '../ui';
 import type { ArchiveLive, ArchiveRun } from '../../archive/types';
 import { DASH, fmtDur, fmtInt, fmtStamp, fmtVal } from '../../archive/format';

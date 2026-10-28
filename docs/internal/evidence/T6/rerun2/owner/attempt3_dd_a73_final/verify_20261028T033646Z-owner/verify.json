@@ -1,0 +1,110 @@
+{
+ "suite": "unit,integration,relocation",
+ "status": "PASS",
+ "counts": {
+  "PASS": 3,
+  "FAIL": 0,
+  "NOT_APPLICABLE": 0,
+  "BLOCKED_BY_ENV": 0
+ },
+ "evidence": [
+  "runtime/logs/verify/20261028T033646Z-owner"
+ ],
+ "results": [
+  {
+   "suite": "unit",
+   "status": "PASS",
+   "counts": {
+    "tests": 2803,
+    "passed": 2747,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 56,
+    "summary": "2747 passed, 56 skipped, 91 deselected, 12 warnings in 1222.14s (0:20:22)",
+    "deselected": 91
+   },
+   "evidence": [
+    "runtime/logs/verify/20261028T033646Z-owner/unit.log",
+    "runtime/logs/verify/20261028T033646Z-owner/unit.junit.xml"
+   ],
+   "reason": "",
+   "command": [
+    "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/mbnas_application/runtime/venv/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "-m",
+    "not gpu and not live and not legacy_records and not host_data",
+    "-p",
+    "no:cacheprovider",
+    "--junitxml=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/mbnas_application/runtime/logs/verify/20261028T033646Z-owner/unit.junit.xml",
+    "tests/owner",
+    "tests/public"
+   ],
+   "exit_code": 0,
+   "duration_s": 1226.6,
+   "scope": {
+    "test_dirs": [
+     "tests/owner",
+     "tests/public"
+    ],
+    "markers": "not gpu and not live and not legacy_records and not host_data",
+    "not_applicable": []
+   },
+   "profile": "owner"
+  },
+  {
+   "suite": "integration",
+   "status": "PASS",
+   "counts": {
+    "steps": 17,
+    "passed": 17,
+    "failed": 0
+   },
+   "evidence": [
+    "runtime/logs/verify/20261028T033646Z-owner/integration.log",
+    "runtime/logs/verify/20261028T033646Z-owner/integration_smoke.txt"
+   ],
+   "reason": "",
+   "command": [
+    "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/mbnas_application/runtime/venv/bin/python",
+    "-B",
+    "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/mbnas_application/scripts/dev/wp3_three_process_smoke.py",
+    "--root",
+    "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/mbnas_application/runtime/logs/verify/20261028T033646Z-owner/integration_root",
+    "--evidence",
+    "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/mbnas_application/runtime/logs/verify/20261028T033646Z-owner/integration_smoke.txt"
+   ],
+   "exit_code": 0,
+   "duration_s": 47.3,
+   "driver": "scripts/dev/wp3_three_process_smoke.py",
+   "profile": "owner"
+  },
+  {
+   "suite": "relocation",
+   "status": "PASS",
+   "counts": {
+    "checks": 8,
+    "passed": 8,
+    "failed": 0
+   },
+   "evidence": [
+    "runtime/logs/verify/20261028T033646Z-owner/relocation.json",
+    "runtime/logs/verify/20261028T033646Z-owner/relocation_doctor_external_cwd.log",
+    "runtime/logs/verify/20261028T033646Z-owner/relocation_doctor_external_cwd.json",
+    "runtime/logs/verify/20261028T033646Z-owner/relocation_doctor_spaced_path.log",
+    "runtime/logs/verify/20261028T033646Z-owner/relocation_doctor_spaced_path.json",
+    "runtime/logs/verify/20261028T033646Z-owner/relocation_help_spaced.log",
+    "runtime/logs/verify/20261028T033646Z-owner/relocation_origins.tsv"
+   ],
+   "reason": "",
+   "duration_s": 3.9,
+   "profile": "owner"
+  }
+ ],
+ "schema": "mbnas.verify/1",
+ "root": "/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/mbnas_application",
+ "profile": "owner",
+ "started_at": "2026-10-28T03:36:46Z",
+ "finished_at": "2026-10-28T03:58:04Z"
+}

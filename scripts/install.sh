@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # install.sh - install the MBNAS Research Console runtime of one profile into <ROOT>/runtime/venv.
-# WP-7A; contract docs/internal/WORK_PACKAGES/WP-7_OPS_PACKAGING.md section 1/1b, DD-A31 (standard pip path), DD-A13
-# (MBNAS_HOME = <ROOT>/runtime), DD-A7 (Python 3.10). Run `bash scripts/install.sh --help` for the full description.
+# Standard pip path, MBNAS_HOME = <ROOT>/runtime, Python 3.10. Run `bash scripts/install.sh --help` for the full
+# description.
 set -u -o pipefail
 unset CDPATH
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -10,7 +10,7 @@ usage() {
   cat <<'EOF'
 Usage: bash scripts/install.sh --profile owner|public [options]
 
-Thin wrapper around the standard installation path (DD-A31):
+Thin wrapper around the standard installation path:
     <python3.10> -m venv runtime/venv
     runtime/venv/bin/python -m pip install -r requirements-<profile>.txt      (run from the ROOT directory)
 plus the runtime directories and the per-role configuration files. Every path is relative to ROOT, the directory
@@ -36,7 +36,7 @@ Options:
                           does not list it (requirements-cpu.txt lists the public wheels only).
   --web                   also run `npm ci` in mbnas_web (cache <ROOT>/build/npm-cache; with --offline npm also gets
                           --offline) and `npm run build` when mbnas_web/dist is missing. Needs Node.js. Not needed to
-                          serve the shipped mbnas_web/dist: the gateway serves it (DD-A30).
+                          serve the shipped mbnas_web/dist: the gateway serves it.
   -h, --help              show this help and exit.
 
 Steps:
@@ -67,7 +67,7 @@ Steps:
 
 Environment:
   pip honours its usual variables (PIP_CONFIG_FILE, PIP_INDEX_URL, PIP_CACHE_DIR, ...); set PIP_CONFIG_FILE=/dev/null
-  to ignore a host pip.conf. MBNAS_HOME is set to <ROOT>/runtime for every step (DD-A13).
+  to ignore a host pip.conf. MBNAS_HOME is set to <ROOT>/runtime for every step.
 
 Exit codes: 0 installed; 1 a step failed (see the message and the install log); 2 usage error.
 
@@ -167,7 +167,7 @@ fi
 BASE_VER="$(py_version "$BASE_PY")"
 case "$BASE_VER" in
   3.10.*) ;;
-  *) fail "Python 3.10 is required (DD-A7; the pinned wheels are cp310), $BASE_PY is '${BASE_VER:-unknown}'" ;;
+  *) fail "Python 3.10 is required (the pinned wheels are cp310), $BASE_PY is '${BASE_VER:-unknown}'" ;;
 esac
 say "interpreter: $BASE_PY ($BASE_VER)"
 
@@ -455,8 +455,8 @@ for role, lines in contents.items():
             say(f"  {role}.env {key}: generated")
 if profile == "owner" and "runner" in created and not is_set(contents["runner"], "MBNAS_RUNNER_ALLOW_PICKLE_RESUME"):
     put(contents["runner"], "MBNAS_RUNNER_ALLOW_PICKLE_RESUME", "true",
-        "owner profile: RF-DETR native resume of the owner's own checkpoints (DD-A20)")
-    say("  runner.env MBNAS_RUNNER_ALLOW_PICKLE_RESUME: true (owner profile, DD-A20)")
+        "owner profile: RF-DETR native resume of the owner's own checkpoints")
+    say("  runner.env MBNAS_RUNNER_ALLOW_PICKLE_RESUME: true (owner profile)")
 
 if profile == "owner" and "core" in contents and not failed:
     write_private(os.path.join(cfg_dir, "core.env"), contents["core"])  # the principal CLI reads it

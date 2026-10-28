@@ -1,0 +1,18 @@
+== T5 DD-A73: genconfig creation request_id=t5a73-d5012a27d4834c3aa119
+   gateway access line: 2026-10-28T04:18:06.051Z INFO mbnas_server.access method=POST path=/api/v1/training-runs status=200 request_id=t5a73-d5012a27d4834c3aa119 duration_ms=2146.8 client=127.0.0.1:48626
+   core access line:    2026-10-28T04:18:06.051Z INFO mbnas_core.access method=POST path=/core/v1/console/training-runs status=200 request_id=t5a73-d5012a27d4834c3aa119 duration_ms=1904.2 client=127.0.0.1:40286
+   structure-check lines BEFORE creation: gateway=0 core=0
+   candidate structure-check route (/runs/*/candidates/*/structure-check) calls in the whole gateway access log: 0
+   all structure-check lines in the gateway access log (user-YAML route, after creation): 2
+== T4 DD-A73 local: genconfig creation request_id=t4a73_local-5f9486bf5cea46749c67
+   gateway access line: 2026-10-28T04:09:05.560Z INFO mbnas_server.access method=POST path=/api/v1/training-runs status=200 request_id=t4a73_local-5f9486bf5cea46749c67 duration_ms=1978.4 client=127.0.0.1:55012
+   core access line:    2026-10-28T04:09:05.562Z INFO mbnas_core.access method=POST path=/core/v1/console/training-runs status=200 request_id=t4a73_local-5f9486bf5cea46749c67 duration_ms=1972.9 client=127.0.0.1:54526
+   structure-check lines BEFORE creation: gateway=0 core=0
+   candidate structure-check route (/runs/*/candidates/*/structure-check) calls in the whole gateway access log: 0
+   all structure-check lines in the gateway access log (user-YAML route, after creation): 2
+== T4 DD-A73 runners: genconfig creation request_id=t4a73_runners-d34038f30c1540869083
+   gateway access line: 2026-10-28T04:11:44.005Z INFO mbnas_server.access method=POST path=/api/v1/training-runs status=200 request_id=t4a73_runners-d34038f30c1540869083 duration_ms=2167.9 client=127.0.0.1:35550
+   core access line:    2026-10-28T04:11:44.004Z INFO mbnas_core.access method=POST path=/core/v1/console/training-runs status=200 request_id=t4a73_runners-d34038f30c1540869083 duration_ms=2157.3 client=127.0.0.1:49762
+   structure-check lines BEFORE creation: gateway=2 core=2
+   candidate structure-check route (/runs/*/candidates/*/structure-check) calls in the whole gateway access log: 0
+   all structure-check lines in the gateway access log (user-YAML route, after creation): 2

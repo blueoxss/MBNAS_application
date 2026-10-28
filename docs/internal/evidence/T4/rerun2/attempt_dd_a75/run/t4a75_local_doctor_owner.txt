@@ -1,0 +1,33 @@
+[PASS] interpreter: Python 3.10.22 venv <SP>/p2a75/t4work/t4 공백 rootX7kQ2/mbnas_application/runtime/venv
+[PASS] package:mbnas-contracts: 0.1.0 from <SP>/p2a75/t4work/t4 공백 rootX7kQ2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_contracts
+[PASS] package:mbnas-model-runtime: 0.1.0 from <SP>/p2a75/t4work/t4 공백 rootX7kQ2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime
+[PASS] package:mbnas-runner: 0.1.0 from <SP>/p2a75/t4work/t4 공백 rootX7kQ2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_runner
+[PASS] package:mbnas-server: 0.1.0 from <SP>/p2a75/t4work/t4 공백 rootX7kQ2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_server
+[PASS] package:mbnas-core: 0.1.0 from <SP>/p2a75/t4work/t4 공백 rootX7kQ2/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core
+[PASS] entry_points: 7 console scripts in runtime/venv/bin
+[PASS] path_strings: 275 files scanned, no original-host path string
+[PASS] config:core: listen 127.0.0.1:8700, db <SP>/p2a75/t4work/t4 공백 rootX7kQ2/mbnas_application/runtime/core/db/mbnas.sqlite3; secrets set: MBNAS_CORE_API_TOKEN, MBNAS_CORE_ARTIFACT_SIGNING_KEY, MBNAS_CORE_TICKET_KEY
+[PASS] config:gateway: core_url http://127.0.0.1:8700, listen 127.0.0.1:8710; secrets set: MBNAS_GW_API_TOKEN, MBNAS_GW_ARTIFACT_SIGNING_KEY, MBNAS_GW_CORE_TOKEN
+[PASS] config:runner: core_url http://127.0.0.1:8700, runner_id runner-c9373fd7; secrets set: MBNAS_RUNNER_TOKEN|_TOKEN_FILE
+[PASS] process:core: running (pid 40)
+[PASS] process:owner-worker: running (pid 62)
+[PASS] process:gateway: running (pid 78)
+[PASS] process:runner: running (pid 105)
+[PASS] env:core: pid 40: no PYTHONPATH / PYTHONHOME in its environment
+[PASS] env:owner-worker: pid 62: no PYTHONPATH / PYTHONHOME in its environment
+[PASS] env:gateway: pid 78: no PYTHONPATH / PYTHONHOME in its environment
+[PASS] env:runner: pid 105: no PYTHONPATH / PYTHONHOME in its environment
+[PASS] port:core: 127.0.0.1:8700 held by this tree's core (pid 40)
+[PASS] port:gateway: 127.0.0.1:8710 held by this tree's gateway (pid 78)
+[PASS] port:web: 127.0.0.1:8720 free
+[WARN] gpu: nvidia-smi exit 9: no GPU listed
+[PASS] gateway:core_url: loopback http
+[PASS] gateway:core_tls: plain http core_url: no TLS on this connection (see core_url)
+[PASS] core:gateway: http://127.0.0.1:8700/core/v1/console/health -> HTTP 200 status=ok
+[PASS] gateway:store: <SP>/p2a75/t4work/t4 공백 rootX7kQ2/mbnas_application/runtime/gateway/artifacts
+[PASS] gateway:log_dir: <SP>/p2a75/t4work/t4 공백 rootX7kQ2/mbnas_application/runtime/gateway/logs
+[PASS] core:runner: http://127.0.0.1:8700 answers (HTTP 401 without a token)
+[PASS] core_doctor: db present (schema 6); registry 17 entries (mbnas_core.registry.load_registry); free 79.9 GB
+[PASS] disk: 79.9 GB free under runtime/
+[PASS] web_dist: mbnas_web/dist present (served by the gateway at /)
+doctor: profile=owner root=<SP>/p2a75/t4work/t4 공백 rootX7kQ2/mbnas_application PASS=31 WARN=1 FAIL=0

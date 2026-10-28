@@ -1,0 +1,3672 @@
+# FIX7 DD-A75 F1 real-process raw_metrics path check, label=postfix_v2, expect=clean (2026-10-28T04:56:42.038011Z .. 2026-10-28T04:57:01.604552Z, 19.6 s) result=PASS
+# command: /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python -B docs/internal/evidence/WP7/FIX7_DD_A75/F1/f1_raw_metrics_paths_smoke.py --root /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2 --label postfix_v2 --expect clean --evidence /home/mgjeong/Desktop/etri_hd/mbnas_application/docs/internal/evidence/WP7/FIX7_DD_A75/F1/31_real_process_postfix_v2_values.txt
+# cwd: /home/mgjeong/Desktop/etri_hd/mbnas_application  CUDA_VISIBLE_DEVICES=''  device source: runners  core: http://127.0.0.1:37031  gateway: http://127.0.0.1:35037
+# smoke root: /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2
+# projection.py sha256 at start/end: 7604d3f2cbea46f961e5de6aae069f32d21f3053fdb9599abca27d61c8bb056b / 7604d3f2cbea46f961e5de6aae069f32d21f3053fdb9599abca27d61c8bb056b
+# _ABS_PATH: (?<![\w.~/:%@-])/(?![/\s])[^\s'\"`,;()\[\]{}<>|]+   kept prefixes: ['/api/v1/', '/api/v1']
+{
+ "expect": "clean",
+ "gpu_compute_apps": {
+  "before": "pid, process_name, used_gpu_memory [MiB]\n2887174, /home/mgjeong/venvs/sg26/bin/python, 348 MiB\n4176845, /home/mgjeong/venvs/sg26/bin/python, 24058 MiB\n2887181, /home/mgjeong/venvs/sg26/bin/python, 342 MiB\n4187583, /home/mgjeong/venvs/sg26/bin/python, 13226 MiB\n",
+  "during_or_after": "pid, process_name, used_gpu_memory [MiB]\n2887174, /home/mgjeong/venvs/sg26/bin/python, 348 MiB\n4176845, /home/mgjeong/venvs/sg26/bin/python, 24058 MiB\n2887181, /home/mgjeong/venvs/sg26/bin/python, 342 MiB\n4187583, /home/mgjeong/venvs/sg26/bin/python, 13226 MiB\n"
+ },
+ "label": "postfix_v2",
+ "projection_py_sha256": {
+  "end": "7604d3f2cbea46f961e5de6aae069f32d21f3053fdb9599abca27d61c8bb056b",
+  "start": "7604d3f2cbea46f961e5de6aae069f32d21f3053fdb9599abca27d61c8bb056b"
+ },
+ "result": "PASS",
+ "scan": {
+  "bodies": {
+   "candidate_detail": {
+    "bytes": 160512,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [
+     {
+      "count": 1,
+      "values": {
+       "data": "<path>",
+       "model": "<path>",
+       "project": "<path>",
+       "save_dir": "<path>"
+      }
+     }
+    ],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!README.txt": {
+    "bytes": 2784,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 4
+   },
+   "export!SHA256SUMS": {
+    "bytes": 1934,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!architectures/art-4bca88e99785c165d3c1.yaml": {
+    "bytes": 1318,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!architectures/art-ecaf0af34cad982b077f.yaml": {
+    "bytes": 975,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!artifacts.json": {
+    "bytes": 1339,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!checkpoints.json": {
+    "bytes": 2708,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!cost_ledger.csv": {
+    "bytes": 378,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!environment.lock.json": {
+    "bytes": 820,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!evaluations.csv": {
+    "bytes": 1051,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!evaluations.jsonl": {
+    "bytes": 8641,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [
+     {
+      "count": 1,
+      "values": {
+       "data": "<path>",
+       "model": "<path>",
+       "project": "<path>",
+       "save_dir": "<path>"
+      }
+     }
+    ],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!events.jsonl": {
+    "bytes": 30508,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [
+     {
+      "count": 1,
+      "values": {
+       "data": "<path>",
+       "model": "<path>",
+       "project": "<path>",
+       "save_dir": "<path>"
+      }
+     }
+    ],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!export_objects.json": {
+    "bytes": 732,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!generations.json": {
+    "bytes": 3,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!jobs.json": {
+    "bytes": 403,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!lineage.json": {
+    "bytes": 5775,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!manifests/9b23bcafa80cbeb493cb1d0b6e8cafbffae7339dec418472b73e62eaa981d7a7.json": {
+    "bytes": 1773,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!manifests/a648d24a49a94dccf2cba524899699f8548395177a4c8a7892004e55a0c1c6bc.json": {
+    "bytes": 1781,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!manifests/hashes.json": {
+    "bytes": 742,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!protocol/protocol_hash.txt": {
+    "bytes": 72,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "export!protocol/requested.json": {
+    "bytes": 10516,
+    "elsewhere_by_pointer": {
+     "$.console.paths.dataset_yaml": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/data.yaml"
+     },
+     "$.console.paths.final_eval_root": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/images/test"
+     },
+     "$.console.paths.output_root": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core/runs"
+     },
+     "$.console.paths.search_val_root": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/images/val"
+     },
+     "$.console.paths.train_root": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/images/train"
+     }
+    },
+    "elsewhere_matches": 5,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 5
+   },
+   "export!protocol/resolved.json": {
+    "bytes": 13087,
+    "elsewhere_by_pointer": {
+     "$.console.paths.dataset_yaml": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/data.yaml"
+     },
+     "$.console.paths.final_eval_root": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/images/test"
+     },
+     "$.console.paths.output_root": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core/runs"
+     },
+     "$.console.paths.search_val_root": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/images/val"
+     },
+     "$.console.paths.train_root": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/images/train"
+     },
+     "$.resolution.paths.dataset_yaml.requested": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/data.yaml"
+     },
+     "$.resolution.paths.output_root.requested": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core/runs"
+     },
+     "$.resolution.paths.search_val_root.requested": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/images/val"
+     },
+     "$.resolution.paths.train_root.requested": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/images/train"
+     }
+    },
+    "elsewhere_matches": 9,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 9
+   },
+   "export!provenance.json": {
+    "bytes": 912,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   },
+   "snapshot": {
+    "bytes": 46031,
+    "elsewhere_by_pointer": {
+     "$.run.resolved_protocol.console.paths.dataset_yaml": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/data.yaml"
+     },
+     "$.run.resolved_protocol.console.paths.final_eval_root": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/images/test"
+     },
+     "$.run.resolved_protocol.console.paths.output_root": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core/runs"
+     },
+     "$.run.resolved_protocol.console.paths.search_val_root": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/images/val"
+     },
+     "$.run.resolved_protocol.console.paths.train_root": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/images/train"
+     },
+     "$.run.resolved_protocol.resolution.paths.dataset_yaml.requested": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/data.yaml"
+     },
+     "$.run.resolved_protocol.resolution.paths.output_root.requested": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core/runs"
+     },
+     "$.run.resolved_protocol.resolution.paths.search_val_root.requested": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/images/val"
+     },
+     "$.run.resolved_protocol.resolution.paths.train_root.requested": {
+      "count": 1,
+      "sample": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/images/train"
+     }
+    },
+    "elsewhere_matches": 9,
+    "http": 200,
+    "projected_recipe_values": [
+     {
+      "count": 2,
+      "values": {
+       "data": "<path>",
+       "model": "<path>",
+       "project": "<path>",
+       "save_dir": "<path>"
+      }
+     }
+    ],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 9
+   },
+   "sse_replay": {
+    "bytes": 28025,
+    "elsewhere_by_pointer": {},
+    "elsewhere_matches": 0,
+    "http": 200,
+    "projected_recipe_values": [
+     {
+      "count": 1,
+      "values": {
+       "data": "<path>",
+       "model": "<path>",
+       "project": "<path>",
+       "save_dir": "<path>"
+      }
+     }
+    ],
+    "raw_metrics_matches": 0,
+    "raw_metrics_pointers": [],
+    "stored_recipe_values_found_verbatim": [],
+    "text_matches": 0
+   }
+  },
+  "export_members": [
+   "README.txt",
+   "SHA256SUMS",
+   "architectures/art-4bca88e99785c165d3c1.yaml",
+   "architectures/art-ecaf0af34cad982b077f.yaml",
+   "artifacts.json",
+   "checkpoints.json",
+   "cost_ledger.csv",
+   "environment.lock.json",
+   "evaluations.csv",
+   "evaluations.jsonl",
+   "events.jsonl",
+   "export_objects.json",
+   "generations.json",
+   "jobs.json",
+   "lineage.json",
+   "manifests/9b23bcafa80cbeb493cb1d0b6e8cafbffae7339dec418472b73e62eaa981d7a7.json",
+   "manifests/a648d24a49a94dccf2cba524899699f8548395177a4c8a7892004e55a0c1c6bc.json",
+   "manifests/hashes.json",
+   "protocol/protocol_hash.txt",
+   "protocol/requested.json",
+   "protocol/resolved.json",
+   "provenance.json"
+  ],
+  "sse": {
+   "events": 12,
+   "events_with_raw_metrics": 1,
+   "last_seq": 12,
+   "replayed_to": 12
+  },
+  "totals": {
+   "elsewhere": 23,
+   "raw_metrics": 0,
+   "recipe_values_verbatim": 0,
+   "text": 27
+  }
+ },
+ "step_log": [
+  "2026-10-28T04:56:42.126755Z smoke root /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2; interpreter /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python; core port 37031; gateway port 35037; projection.py sha256 7604d3f2cbea46f961e5de6aae069f32d21f3053fdb9599abca27d61c8bb056b; label postfix_v2",
+  "2026-10-28T04:56:43.594204Z synthetic dataset /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data/smoke4/data.yaml (4 train + 4 val PNG, 1 class); runner copy /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/runner_data; model yaml /tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/uploads/yolo11n.yaml",
+  "2026-10-28T04:56:43.595348Z spawned core pid=27325 argv=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python -B -m uvicorn --factory mbnas_core.api.app:app_from_env --host 127.0.0.1 --port 37031 --log-level warning log=/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/logs/core.log",
+  "2026-10-28T04:56:44.842340Z STEP core-start: PASS (1.2 s) {\"pid\": 27325, \"port\": 37031}",
+  "2026-10-28T04:56:45.391454Z STEP principal-server: PASS (0.5 s) {\"exit_code\": 0, \"principal_id\": \"pr-3fc8f7c647e6334c\", \"stderr\": \"\"}",
+  "2026-10-28T04:56:45.864310Z STEP principal-runner: PASS (0.5 s) {\"exit_code\": 0, \"principal_id\": \"pr-9088cf19d0ccb93c\", \"stderr\": \"\"}",
+  "2026-10-28T04:56:46.335309Z STEP principal-admin: PASS (0.5 s) {\"exit_code\": 0, \"principal_id\": \"pr-e15a3e0d6aa19455\", \"stderr\": \"\"}",
+  "2026-10-28T04:56:46.337336Z spawned owner pid=27349 argv=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python -B -m mbnas_core.owner_worker --owner --poll-s 0.5 --worker-id smoke-owner-1 log=/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/logs/owner.log",
+  "2026-10-28T04:56:46.339142Z spawned runner pid=27350 argv=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python -B -m mbnas_runner run log=/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/logs/runner.log",
+  "2026-10-28T04:56:46.371152Z HTTP GET /core/v1/owner/runners -> 200 request_id=smoke-fe288c2075984262 echoed=True",
+  "2026-10-28T04:56:47.396781Z HTTP GET /core/v1/owner/runners -> 200 request_id=smoke-20278b53bebf43ec echoed=True",
+  "2026-10-28T04:56:48.422735Z HTTP GET /core/v1/owner/runners -> 200 request_id=smoke-2ed05a646cfe4e87 echoed=True",
+  "2026-10-28T04:56:49.447156Z HTTP GET /core/v1/owner/runners -> 200 request_id=smoke-106831eaa9794de5 echoed=True",
+  "2026-10-28T04:56:49.447341Z STEP owner+runner-start: PASS (3.1 s) {\"owner_pid\": 27349, \"runner\": {\"data_mounts\": {\"/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data\": true}, \"device\": \"cpu\", \"id\": \"smoke-runner-1\", \"kinds\": [\"BASELINE_TRAIN\", \"BENCHMARK\", \"CANDIDATE_TRAIN\", \"EVALUATE\", \"FINAL_RETRAIN\"], \"status\": \"ONLINE\"}, \"runner_pid\": 27350, \"runtime_verification\": \"verified\"}",
+  "2026-10-28T04:56:49.449223Z spawned gateway pid=27383 argv=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/bin/python -B -m uvicorn --factory mbnas_server.api.app:app_from_env --host 127.0.0.1 --port 35037 --log-level warning log=/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/logs/gateway.log",
+  "2026-10-28T04:56:50.807579Z GW GET /api/v1/health -> 200 request_id=smoke3-5ae1c49cb8d54d71 echoed=True",
+  "2026-10-28T04:56:50.893594Z GW GET / -> 200 request_id=smoke3-daed6a08e85e497f echoed=True",
+  "2026-10-28T04:56:50.914505Z GW GET /monitor/smoke-run -> 200 request_id=smoke3-227f86e5d69d4d98 echoed=True",
+  "2026-10-28T04:56:50.937737Z GW GET /assets/index-7f__3l0I.js -> 200 request_id=smoke3-d388ffd188414caa echoed=True",
+  "2026-10-28T04:56:50.941007Z STEP gateway-start: PASS (1.5 s) {\"asset\": {\"cache_control\": \"public, max-age=31536000, immutable\", \"path\": \"/assets/index-7f__3l0I.js\", \"same_bytes\": true, \"status\": 200}, \"core_legacy_api_status\": 404, \"health\": {\"allowlists\": {\"archive_roots\": [], \"dataset_roots\": [\"/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data\"], \"output_roots\": [\"/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core/runs\"]}, \"capabilities\": {\"adapter_class\": {\"etri-controlled-cnn-transformer\": \"EtriHybridAdapter\", \"rf-detr-large\": \"RfdetrAdapter\", \"rf-detr-medium\": \"RfdetrAdapter\", \"rf-detr-nano\": \"RfdetrAdapter\", \"rf-detr-small\": \"RfdetrAdapter\", \"rt-detr-l\": \"RtdetrAdapter\", \"rt-detr-x\": \"RtdetrAdapter\", \"yolo11l\": \"YoloDetectAdapter\", \"yolo11m\": \"YoloDetectAdapter\", \"yolo11n\": \"YoloDetectAdapter\", \"yolo11s\": \"YoloDetectAdapter\", \"yolo11x\": \"YoloDetectAdapter\", \"yolo26l\": \"YoloDetectAdapter\", \"yolo26m\": \"YoloDetectAdapter\", \"yolo26n\": \"YoloDetectAdapter\", \"yolo26s\": \"YoloDetectAdapter\", \"yolo26x\": \"YoloDetectAdapter\"}, \"device_targets\": [{\"available\": false, \"id\": \"host-gpu-0\", \"kind\": \"host_gpu\", \"name\": \"NVIDIA RTX A6000\", \"reason\": \"host-gpu-0 is a measurable target but is not in the live device inventory (no NVML device / CUDA_VISIBLE_DEVICES hides it)\", \"status\": \"UNAVAILABLE\"}, {\"available\": false, \"id\": \"jetson-orin-nx\", \"kind\": \"jetson\", \"name\": \"NVIDIA Jetson Orin NX\", \"reason\": \"tar",
+  "2026-10-28T04:56:50.970106Z GW POST /api/v1/uploads/model-config -> 200 request_id=smoke3-984160c95c334c6b echoed=True",
+  "2026-10-28T04:56:53.101741Z GW POST /api/v1/training-runs -> 200 request_id=smoke3-be71bf38da274c58 echoed=True",
+  "2026-10-28T04:56:53.231517Z GW GET /api/v1/runs/train-81bcd9df2fa6 -> 200 request_id=smoke3-d1666097ab414e67 echoed=True",
+  "2026-10-28T04:56:55.334015Z GW GET /api/v1/runs/train-81bcd9df2fa6 -> 200 request_id=smoke3-8fbc01e0a85040a4 echoed=True",
+  "2026-10-28T04:56:57.465131Z GW GET /api/v1/runs/train-81bcd9df2fa6 -> 200 request_id=smoke3-81d8be9bef2d451b echoed=True",
+  "2026-10-28T04:56:59.592634Z GW GET /api/v1/runs/train-81bcd9df2fa6 -> 200 request_id=smoke3-a681881cb53545f5 echoed=True",
+  "2026-10-28T04:56:59.612759Z STEP validation-on-training-run: PASS (8.7 s) {\"candidate_id\": \"model-e98e29c8328f\", \"jobs\": [{\"kind\": \"BASELINE_TRAIN\", \"lease_owner\": \"smoke-runner-1\", \"status\": \"SUCCEEDED\"}], \"positive_control_stored_resolved_recipe_abs\": {\"data\": \"/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/runner/work/runs/train-81bcd9df2fa6/data_view/2d3fb087c8875d9f/data.yaml\", \"model\": \"/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/runner/work/runs/train-81bcd9df2fa6/candidates/model-e98e29c8328f/architecture.yaml\", \"project\": \"/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/runner/work/runs/train-81bcd9df2fa6/candidates/model-e98e29c8328f/native\", \"save_dir\": \"/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/runner/work/runs/train-81bcd9df2fa6/candidates/model-e98e29c8328f/native/stage_e0000_e0001\"}, \"request_id\": \"smoke3-be71bf38da274c58\", \"rows\": [{\"device_used\": \"cpu\", \"id\": \"model-e98e29c8328f.TRAIN.eval\", \"performance_status\": \"NOT_EVALUATED\", \"reason_code\": \"EVALUATION_REQUIRES_CUDA\", \"resolved_recipe_keys\": 123, \"status\": \"SEARCH_COMPLETE\", \"stored_abs_recipe_keys\": [\"data\", \"model\", \"project\", \"save_dir\"], \"validation_enabled\": true}], \"run_id\": \"train-81bcd9df2fa6\", \"run_status\": \"COMPLETED\"}",
+  "2026-10-28T04:56:59.687127Z GW GET /api/v1/runs/train-81bcd9df2fa6/snapshot -> 200 request_id=smoke3-c6cae042d46d4913 echoed=True",
+  "2026-10-28T04:56:59.790357Z GW GET /api/v1/runs/train-81bcd9df2fa6/candidates/model-e98e29c8328f -> 200 request_id=smoke3-ab6b4a175c204711 echoed=True",
+  "2026-10-28T04:56:59.863705Z GW GET /api/v1/runs/train-81bcd9df2fa6/events?after_seq=0 -> 200 request_id=f1-sse-ba88ee5c4cc4 last id 12",
+  "2026-10-28T04:57:00.123442Z GW GET /api/v1/runs/train-81bcd9df2fa6/export -> 200 request_id=smoke3-44cf1e11a3ce42b6 echoed=True",
+  "2026-10-28T04:57:00.204128Z STEP fetch-and-scan(expect=clean): PASS (0.6 s) {\"http\": {\"candidate_detail\": 200, \"export\": 200, \"snapshot\": 200, \"sse_replay\": 200}, \"last_seq\": 12, \"request_ids\": [\"smoke3-c6cae042d46d4913\", \"smoke3-ab6b4a175c204711\", \"smoke3-44cf1e11a3ce42b6\"], \"sse_events\": 12, \"sse_events_with_raw_metrics\": 1, \"totals\": {\"elsewhere\": 23, \"raw_metrics\": 0, \"recipe_values_verbatim\": 0, \"text\": 27}}",
+  "2026-10-28T04:57:00.204760Z gateway-start step ok=True (recorded; not part of the F1 verdict)",
+  "2026-10-28T04:57:01.603848Z STEP stop-own-processes: PASS (1.3 s) {\"exit_codes\": {\"core\": -15, \"gateway\": -15, \"owner\": 0, \"runner\": 0}, \"pids\": {\"core\": 27325, \"gateway\": 27383, \"owner\": 27349, \"runner\": 27350}, \"still_alive\": []}",
+  "2026-10-28T04:57:01.604370Z STEP no-own-process-on-gpu: PASS (19.6 s) {\"own_compute_apps\": [], \"samples_during_training\": 4}"
+ ],
+ "steps": [
+  {
+   "duration_s": 1.25,
+   "ok": true,
+   "pid": 27325,
+   "port": 37031,
+   "step": "core-start"
+  },
+  {
+   "duration_s": 0.55,
+   "exit_code": 0,
+   "ok": true,
+   "principal_id": "pr-3fc8f7c647e6334c",
+   "stderr": "",
+   "step": "principal-server"
+  },
+  {
+   "duration_s": 0.47,
+   "exit_code": 0,
+   "ok": true,
+   "principal_id": "pr-9088cf19d0ccb93c",
+   "stderr": "",
+   "step": "principal-runner"
+  },
+  {
+   "duration_s": 0.47,
+   "exit_code": 0,
+   "ok": true,
+   "principal_id": "pr-e15a3e0d6aa19455",
+   "stderr": "",
+   "step": "principal-admin"
+  },
+  {
+   "duration_s": 3.11,
+   "ok": true,
+   "owner_pid": 27349,
+   "runner": {
+    "data_mounts": {
+     "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data": true
+    },
+    "device": "cpu",
+    "id": "smoke-runner-1",
+    "kinds": [
+     "BASELINE_TRAIN",
+     "BENCHMARK",
+     "CANDIDATE_TRAIN",
+     "EVALUATE",
+     "FINAL_RETRAIN"
+    ],
+    "status": "ONLINE"
+   },
+   "runner_pid": 27350,
+   "runtime_verification": "verified",
+   "step": "owner+runner-start"
+  },
+  {
+   "asset": {
+    "cache_control": "public, max-age=31536000, immutable",
+    "path": "/assets/index-7f__3l0I.js",
+    "same_bytes": true,
+    "status": 200
+   },
+   "core_legacy_api_status": 404,
+   "duration_s": 1.49,
+   "health": {
+    "allowlists": {
+     "archive_roots": [],
+     "dataset_roots": [
+      "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core_data"
+     ],
+     "output_roots": [
+      "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/core/runs"
+     ]
+    },
+    "capabilities": {
+     "adapter_class": {
+      "etri-controlled-cnn-transformer": "EtriHybridAdapter",
+      "rf-detr-large": "RfdetrAdapter",
+      "rf-detr-medium": "RfdetrAdapter",
+      "rf-detr-nano": "RfdetrAdapter",
+      "rf-detr-small": "RfdetrAdapter",
+      "rt-detr-l": "RtdetrAdapter",
+      "rt-detr-x": "RtdetrAdapter",
+      "yolo11l": "YoloDetectAdapter",
+      "yolo11m": "YoloDetectAdapter",
+      "yolo11n": "YoloDetectAdapter",
+      "yolo11s": "YoloDetectAdapter",
+      "yolo11x": "YoloDetectAdapter",
+      "yolo26l": "YoloDetectAdapter",
+      "yolo26m": "YoloDetectAdapter",
+      "yolo26n": "YoloDetectAdapter",
+      "yolo26s": "YoloDetectAdapter",
+      "yolo26x": "YoloDetectAdapter"
+     },
+     "device_targets": [
+      {
+       "available": false,
+       "id": "host-gpu-0",
+       "kind": "host_gpu",
+       "name": "NVIDIA RTX A6000",
+       "reason": "host-gpu-0 is a measurable target but is not in the live device inventory (no NVML device / CUDA_VISIBLE_DEVICES hides it)",
+       "status": "UNAVAILABLE"
+      },
+      {
+       "available": false,
+       "id": "jetson-orin-nx",
+       "kind": "jetson",
+       "name": "NVIDIA Jetson Orin NX",
+       "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+       "status": "UNAVAILABLE"
+      },
+      {
+       "available": false,
+       "id": "jetson-orin-nano",
+       "kind": "jetson",
+       "name": "NVIDIA Jetson Orin Nano",
+       "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+       "status": "UNAVAILABLE"
+      },
+      {
+       "available": false,
+       "id": "jetson-agx-orin",
+       "kind": "jetson",
+       "name": "NVIDIA Jetson AGX Orin",
+       "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+       "status": "UNAVAILABLE"
+      }
+     ],
+     "devices": {
+      "etri-controlled-cnn-transformer": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for etri-controlled-cnn-transformer in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      },
+      "rf-detr-large": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for rf-detr-large in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      },
+      "rf-detr-medium": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for rf-detr-medium in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      },
+      "rf-detr-nano": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for rf-detr-nano in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      },
+      "rf-detr-small": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for rf-detr-small in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      },
+      "rt-detr-l": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for rt-detr-l in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      },
+      "rt-detr-x": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for rt-detr-x in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      },
+      "yolo11l": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for yolo11l in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      },
+      "yolo11m": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for yolo11m in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      },
+      "yolo11n": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for yolo11n in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      },
+      "yolo11s": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for yolo11s in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      },
+      "yolo11x": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for yolo11x in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      },
+      "yolo26l": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for yolo26l in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      },
+      "yolo26m": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for yolo26m in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      },
+      "yolo26n": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for yolo26n in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      },
+      "yolo26s": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for yolo26s in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      },
+      "yolo26x": {
+       "host-gpu-0": {
+        "evidence": null,
+        "kind": "host_gpu",
+        "name": "NVIDIA RTX A6000",
+        "reason": "no TensorRT engine build for yolo26x in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "jetson-agx-orin": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson AGX Orin",
+        "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nano": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin Nano",
+        "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       },
+       "jetson-orin-nx": {
+        "evidence": null,
+        "kind": "jetson",
+        "name": "NVIDIA Jetson Orin NX",
+        "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+        "status": "UNAVAILABLE",
+        "tensorrt": null
+       }
+      }
+     },
+     "execution_modes": [
+      "PILOT",
+      "REGISTERED_SEARCH"
+     ],
+     "export_onnx": {
+      "etri-controlled-cnn-transformer": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "rf-detr-large": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "rf-detr-medium": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "rf-detr-nano": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "rf-detr-small": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "rt-detr-l": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "rt-detr-x": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo11l": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo11m": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo11n": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo11s": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo11x": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo26l": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo26m": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo26n": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo26s": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo26x": {
+       "error": null,
+       "evidence": null,
+       "status": "NOT_RUN"
+      }
+     },
+     "export_trt": {
+      "etri-controlled-cnn-transformer": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for etri-controlled-cnn-transformer in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      },
+      "rf-detr-large": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for rf-detr-large in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      },
+      "rf-detr-medium": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for rf-detr-medium in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      },
+      "rf-detr-nano": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for rf-detr-nano in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      },
+      "rf-detr-small": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for rf-detr-small in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      },
+      "rt-detr-l": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for rt-detr-l in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      },
+      "rt-detr-x": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for rt-detr-x in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      },
+      "yolo11l": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for yolo11l in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      },
+      "yolo11m": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for yolo11m in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      },
+      "yolo11n": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for yolo11n in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      },
+      "yolo11s": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for yolo11s in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      },
+      "yolo11x": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for yolo11x in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      },
+      "yolo26l": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for yolo26l in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      },
+      "yolo26m": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for yolo26m in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      },
+      "yolo26n": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for yolo26n in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      },
+      "yolo26s": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for yolo26s in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      },
+      "yolo26x": {
+       "device": "host-gpu-0",
+       "evidence": null,
+       "method": "benchmark module (TensorRT python API from the exported ONNX)",
+       "reason": "no TensorRT engine build for yolo26x in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+       "status": "NOT_RUN"
+      }
+     },
+     "full_state_resume": {
+      "etri-controlled-cnn-transformer": {
+       "declared": "EXACT_BITWISE_TARGET",
+       "detail": "own loop restores model, EMA+updates, optimizer, LambdaLR, GradScaler, epoch, steps, samples, python/numpy/torch/CUDA RNG and the shuffle generator",
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "rf-detr-large": {
+       "declared": "PARTIAL",
+       "detail": "restored natively by PTL from last.ckpt: FP32 model, EMA weights + update counter, optimizer, LR scheduler (per-step LambdaLR), precision plugin, loop counters (epoch/global_step), callback states. NOT restored by PTL: RNG and sampler/data order (seed_everything re-seeds at on_fit_start); MBNAS restores both: python/numpy/torch/CUDA RNG overlay at the first resumed epoch, and the train sampler draws from an explicit MBNAS torch.Generator whose state is saved per epoch (loader_generator_state), so the sampler order is continued. PTL deterministic=False (CUDA kernels), so weights are compared with a tolerance and bitwise equality is not claimed (see evidence)",
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "rf-detr-medium": {
+       "declared": "PARTIAL",
+       "detail": "restored natively by PTL from last.ckpt: FP32 model, EMA weights + update counter, optimizer, LR scheduler (per-step LambdaLR), precision plugin, loop counters (epoch/global_step), callback states. NOT restored by PTL: RNG and sampler/data order (seed_everything re-seeds at on_fit_start); MBNAS restores both: python/numpy/torch/CUDA RNG overlay at the first resumed epoch, and the train sampler draws from an explicit MBNAS torch.Generator whose state is saved per epoch (loader_generator_state), so the sampler order is continued. PTL deterministic=False (CUDA kernels), so weights are compared with a tolerance and bitwise equality is not claimed (see evidence)",
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "rf-detr-nano": {
+       "declared": "PARTIAL",
+       "detail": "restored natively by PTL from last.ckpt: FP32 model, EMA weights + update counter, optimizer, LR scheduler (per-step LambdaLR), precision plugin, loop counters (epoch/global_step), callback states. NOT restored by PTL: RNG and sampler/data order (seed_everything re-seeds at on_fit_start); MBNAS restores both: python/numpy/torch/CUDA RNG overlay at the first resumed epoch, and the train sampler draws from an explicit MBNAS torch.Generator whose state is saved per epoch (loader_generator_state), so the sampler order is continued. PTL deterministic=False (CUDA kernels), so weights are compared with a tolerance and bitwise equality is not claimed (see evidence)",
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "rf-detr-small": {
+       "declared": "PARTIAL",
+       "detail": "restored natively by PTL from last.ckpt: FP32 model, EMA weights + update counter, optimizer, LR scheduler (per-step LambdaLR), precision plugin, loop counters (epoch/global_step), callback states. NOT restored by PTL: RNG and sampler/data order (seed_everything re-seeds at on_fit_start); MBNAS restores both: python/numpy/torch/CUDA RNG overlay at the first resumed epoch, and the train sampler draws from an explicit MBNAS torch.Generator whose state is saved per epoch (loader_generator_state), so the sampler order is continued. PTL deterministic=False (CUDA kernels), so weights are compared with a tolerance and bitwise equality is not claimed (see evidence)",
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "rt-detr-l": {
+       "declared": "EXACT_COUNTERS_TOLERANCE_WEIGHTS",
+       "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG); grid_sample backward is nondeterministic, so weights match only within tolerance even between two continuous runs",
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "rt-detr-x": {
+       "declared": "EXACT_COUNTERS_TOLERANCE_WEIGHTS",
+       "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG); grid_sample backward is nondeterministic, so weights match only within tolerance even between two continuous runs",
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo11l": {
+       "declared": "EXACT_UNDER_PILOT_PROFILE",
+       "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo11m": {
+       "declared": "EXACT_UNDER_PILOT_PROFILE",
+       "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo11n": {
+       "declared": "EXACT_UNDER_PILOT_PROFILE",
+       "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo11s": {
+       "declared": "EXACT_UNDER_PILOT_PROFILE",
+       "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo11x": {
+       "declared": "EXACT_UNDER_PILOT_PROFILE",
+       "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo26l": {
+       "declared": "EXACT_UNDER_PILOT_PROFILE",
+       "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo26m": {
+       "declared": "EXACT_UNDER_PILOT_PROFILE",
+       "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo26n": {
+       "declared": "EXACT_UNDER_PILOT_PROFILE",
+       "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo26s": {
+       "declared": "EXACT_UNDER_PILOT_PROFILE",
+       "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+       "evidence": null,
+       "status": "NOT_RUN"
+      },
+      "yolo26x": {
+       "declared": "EXACT_UNDER_PILOT_PROFILE",
+       "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+       "evidence": null,
+       "status": "NOT_RUN"
+      }
+     },
+     "idempotency": true,
+     "registry_source": "live",
+     "search_space": {
+      "checked": "vendored operators importable + ultralytics installed",
+      "fallback_policy": "opt-in: console.search.allow_native_fallback=true resolves to native_fallback; otherwise SEARCH_SPACE_UNAVAILABLE",
+      "reason": null,
+      "variant": "etri_mixed"
+     },
+     "signed_artifact_urls": true,
+     "sse": true
+    },
+    "commit_sha": "sha256:cb40dc5147a65f97687df7dd991a0682e6e1119e0b25c7097c1a9a1f6bb037a0",
+    "core": {
+     "reachable": true,
+     "status": "ok"
+    },
+    "devices": [
+     {
+      "aliases": [
+       "cpu",
+       "smoke-runner-1"
+      ],
+      "id": "cpu",
+      "kind": "cpu",
+      "memory_total_mb": null,
+      "name": "cpu",
+      "precisions": [
+       "FP32",
+       "FP16"
+      ],
+      "runners": [
+       "smoke-runner-1"
+      ],
+      "worker_id": "smoke-runner-1"
+     }
+    ],
+    "gateway": {
+     "core_url_configured": true,
+     "status": "ok",
+     "store_writable": true,
+     "version": "1.5.0",
+     "web_dist": true
+    },
+    "presets": [
+     {
+      "description": "Handoff 10/30/90 design example (illustrative values, status DESIGN_EXAMPLE_NOT_EXECUTABLE kept); paths are example server paths; benchmark device must be set to an available one.",
+      "execution_mode": "PILOT",
+      "id": "DEFAULT_BASELINE14",
+      "name": "Default baseline14 design example",
+      "namespace": "default",
+      "purpose": "RESEARCH_TEMPLATE"
+     },
+     {
+      "description": "Deterministic 32/16/16 VisDrone subset, 2→4→6 epochs, one small model per family, all scratch-initialised (one comparison group), 0.75 GPU-h cap, GA crossover rate 1.0 so the two-parent lineage path is always exercised, final retraining 2/2 epochs, full-state retention last_rung_end_only. Smoke values, not research results.",
+      "execution_mode": "PILOT",
+      "id": "PILOT_SMOKE",
+      "name": "Pilot smoke",
+      "namespace": "pilot_smoke",
+      "purpose": "SMOKE"
+     }
+    ],
+    "registry": [
+     {
+      "capabilities": {
+       "adapter_class": "YoloDetectAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.ultralytics_adapter",
+       "backend": "ultralytics",
+       "default_baseline14": true,
+       "determinism_profile": "pilot_bitwise_workers0",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for yolo11s in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for yolo11s in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": null,
+       "full_state_resume": {
+        "declared": "EXACT_UNDER_PILOT_PROFILE",
+        "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "ultralytics.YOLO",
+       "inference_head": "native",
+       "init_modes": [
+        "scratch",
+        "pretrained_native"
+       ],
+       "input_size_rule": {
+        "kind": "stride_ceil",
+        "stride": 32
+       },
+       "native_loss": "v8DetectionLoss (CIoU + DFL + BCE, TAL topk 10)",
+       "native_recipe_init": "pretrained_native",
+       "pilot_representative": false,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32",
+        "fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "ultralytics.YOLO",
+       "notes": [],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "kind": "pip",
+        "package": "ultralytics",
+        "record_sha256": "b4545893dc3521f4aef5363b25e8c90be7205fbf6329fa3c232a3e7d641b47a3",
+        "version": "8.4.173"
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "YOLO11",
+      "id": "yolo11s",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     },
+     {
+      "capabilities": {
+       "adapter_class": "YoloDetectAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.ultralytics_adapter",
+       "backend": "ultralytics",
+       "default_baseline14": true,
+       "determinism_profile": "pilot_bitwise_workers0",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for yolo11m in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for yolo11m in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": null,
+       "full_state_resume": {
+        "declared": "EXACT_UNDER_PILOT_PROFILE",
+        "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "ultralytics.YOLO",
+       "inference_head": "native",
+       "init_modes": [
+        "scratch",
+        "pretrained_native"
+       ],
+       "input_size_rule": {
+        "kind": "stride_ceil",
+        "stride": 32
+       },
+       "native_loss": "v8DetectionLoss (CIoU + DFL + BCE, TAL topk 10)",
+       "native_recipe_init": "pretrained_native",
+       "pilot_representative": false,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32",
+        "fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "ultralytics.YOLO",
+       "notes": [],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "kind": "pip",
+        "package": "ultralytics",
+        "record_sha256": "b4545893dc3521f4aef5363b25e8c90be7205fbf6329fa3c232a3e7d641b47a3",
+        "version": "8.4.173"
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "YOLO11",
+      "id": "yolo11m",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     },
+     {
+      "capabilities": {
+       "adapter_class": "YoloDetectAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.ultralytics_adapter",
+       "backend": "ultralytics",
+       "default_baseline14": true,
+       "determinism_profile": "pilot_bitwise_workers0",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for yolo11l in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for yolo11l in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": null,
+       "full_state_resume": {
+        "declared": "EXACT_UNDER_PILOT_PROFILE",
+        "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "ultralytics.YOLO",
+       "inference_head": "native",
+       "init_modes": [
+        "scratch",
+        "pretrained_native"
+       ],
+       "input_size_rule": {
+        "kind": "stride_ceil",
+        "stride": 32
+       },
+       "native_loss": "v8DetectionLoss (CIoU + DFL + BCE, TAL topk 10)",
+       "native_recipe_init": "pretrained_native",
+       "pilot_representative": false,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32",
+        "fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "ultralytics.YOLO",
+       "notes": [],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "kind": "pip",
+        "package": "ultralytics",
+        "record_sha256": "b4545893dc3521f4aef5363b25e8c90be7205fbf6329fa3c232a3e7d641b47a3",
+        "version": "8.4.173"
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "YOLO11",
+      "id": "yolo11l",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     },
+     {
+      "capabilities": {
+       "adapter_class": "YoloDetectAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.ultralytics_adapter",
+       "backend": "ultralytics",
+       "default_baseline14": true,
+       "determinism_profile": "pilot_bitwise_workers0",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for yolo11x in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for yolo11x in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": null,
+       "full_state_resume": {
+        "declared": "EXACT_UNDER_PILOT_PROFILE",
+        "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "ultralytics.YOLO",
+       "inference_head": "native",
+       "init_modes": [
+        "scratch",
+        "pretrained_native"
+       ],
+       "input_size_rule": {
+        "kind": "stride_ceil",
+        "stride": 32
+       },
+       "native_loss": "v8DetectionLoss (CIoU + DFL + BCE, TAL topk 10)",
+       "native_recipe_init": "pretrained_native",
+       "pilot_representative": false,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32",
+        "fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "ultralytics.YOLO",
+       "notes": [],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "kind": "pip",
+        "package": "ultralytics",
+        "record_sha256": "b4545893dc3521f4aef5363b25e8c90be7205fbf6329fa3c232a3e7d641b47a3",
+        "version": "8.4.173"
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "YOLO11",
+      "id": "yolo11x",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     },
+     {
+      "capabilities": {
+       "adapter_class": "YoloDetectAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.ultralytics_adapter",
+       "backend": "ultralytics",
+       "default_baseline14": true,
+       "determinism_profile": "pilot_bitwise_workers0",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for yolo26s in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for yolo26s in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": null,
+       "full_state_resume": {
+        "declared": "EXACT_UNDER_PILOT_PROFILE",
+        "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "ultralytics.YOLO",
+       "inference_head": "e2e_one2one_nms_false",
+       "init_modes": [
+        "scratch",
+        "pretrained_native"
+       ],
+       "input_size_rule": {
+        "kind": "stride_ceil",
+        "stride": 32
+       },
+       "native_loss": "E2ELoss (one2many v8DetectionLoss topk10 + one2one topk7/1, epoch-decayed one2many weight)",
+       "native_recipe_init": "pretrained_native",
+       "pilot_representative": false,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32",
+        "fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "ultralytics.YOLO",
+       "notes": [],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "kind": "pip",
+        "package": "ultralytics",
+        "record_sha256": "b4545893dc3521f4aef5363b25e8c90be7205fbf6329fa3c232a3e7d641b47a3",
+        "version": "8.4.173"
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "YOLO26",
+      "id": "yolo26s",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     },
+     {
+      "capabilities": {
+       "adapter_class": "YoloDetectAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.ultralytics_adapter",
+       "backend": "ultralytics",
+       "default_baseline14": true,
+       "determinism_profile": "pilot_bitwise_workers0",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for yolo26m in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for yolo26m in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": null,
+       "full_state_resume": {
+        "declared": "EXACT_UNDER_PILOT_PROFILE",
+        "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "ultralytics.YOLO",
+       "inference_head": "e2e_one2one_nms_false",
+       "init_modes": [
+        "scratch",
+        "pretrained_native"
+       ],
+       "input_size_rule": {
+        "kind": "stride_ceil",
+        "stride": 32
+       },
+       "native_loss": "E2ELoss (one2many v8DetectionLoss topk10 + one2one topk7/1, epoch-decayed one2many weight)",
+       "native_recipe_init": "pretrained_native",
+       "pilot_representative": false,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32",
+        "fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "ultralytics.YOLO",
+       "notes": [],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "kind": "pip",
+        "package": "ultralytics",
+        "record_sha256": "b4545893dc3521f4aef5363b25e8c90be7205fbf6329fa3c232a3e7d641b47a3",
+        "version": "8.4.173"
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "YOLO26",
+      "id": "yolo26m",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     },
+     {
+      "capabilities": {
+       "adapter_class": "YoloDetectAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.ultralytics_adapter",
+       "backend": "ultralytics",
+       "default_baseline14": true,
+       "determinism_profile": "pilot_bitwise_workers0",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for yolo26l in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for yolo26l in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": null,
+       "full_state_resume": {
+        "declared": "EXACT_UNDER_PILOT_PROFILE",
+        "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "ultralytics.YOLO",
+       "inference_head": "e2e_one2one_nms_false",
+       "init_modes": [
+        "scratch",
+        "pretrained_native"
+       ],
+       "input_size_rule": {
+        "kind": "stride_ceil",
+        "stride": 32
+       },
+       "native_loss": "E2ELoss (one2many v8DetectionLoss topk10 + one2one topk7/1, epoch-decayed one2many weight)",
+       "native_recipe_init": "pretrained_native",
+       "pilot_representative": false,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32",
+        "fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "ultralytics.YOLO",
+       "notes": [],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "kind": "pip",
+        "package": "ultralytics",
+        "record_sha256": "b4545893dc3521f4aef5363b25e8c90be7205fbf6329fa3c232a3e7d641b47a3",
+        "version": "8.4.173"
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "YOLO26",
+      "id": "yolo26l",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     },
+     {
+      "capabilities": {
+       "adapter_class": "YoloDetectAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.ultralytics_adapter",
+       "backend": "ultralytics",
+       "default_baseline14": true,
+       "determinism_profile": "pilot_bitwise_workers0",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for yolo26x in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for yolo26x in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": null,
+       "full_state_resume": {
+        "declared": "EXACT_UNDER_PILOT_PROFILE",
+        "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "ultralytics.YOLO",
+       "inference_head": "e2e_one2one_nms_false",
+       "init_modes": [
+        "scratch",
+        "pretrained_native"
+       ],
+       "input_size_rule": {
+        "kind": "stride_ceil",
+        "stride": 32
+       },
+       "native_loss": "E2ELoss (one2many v8DetectionLoss topk10 + one2one topk7/1, epoch-decayed one2many weight)",
+       "native_recipe_init": "pretrained_native",
+       "pilot_representative": false,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32",
+        "fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "ultralytics.YOLO",
+       "notes": [],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "kind": "pip",
+        "package": "ultralytics",
+        "record_sha256": "b4545893dc3521f4aef5363b25e8c90be7205fbf6329fa3c232a3e7d641b47a3",
+        "version": "8.4.173"
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "YOLO26",
+      "id": "yolo26x",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     },
+     {
+      "capabilities": {
+       "adapter_class": "RfdetrAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.rfdetr_adapter",
+       "backend": "rfdetr",
+       "default_baseline14": true,
+       "determinism_profile": "ptl_nondeterministic_rng_overlay",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for rf-detr-small in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for rf-detr-small in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": null,
+       "full_state_resume": {
+        "declared": "PARTIAL",
+        "detail": "restored natively by PTL from last.ckpt: FP32 model, EMA weights + update counter, optimizer, LR scheduler (per-step LambdaLR), precision plugin, loop counters (epoch/global_step), callback states. NOT restored by PTL: RNG and sampler/data order (seed_everything re-seeds at on_fit_start); MBNAS restores both: python/numpy/torch/CUDA RNG overlay at the first resumed epoch, and the train sampler draws from an explicit MBNAS torch.Generator whose state is saved per epoch (loader_generator_state), so the sampler order is continued. PTL deterministic=False (CUDA kernels), so weights are compared with a tolerance and bitwise equality is not claimed (see evidence)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "rfdetr.RFDETRSmall",
+       "inference_head": "native_no_nms",
+       "init_modes": [
+        "scratch",
+        "pretrained_native"
+       ],
+       "input_size_rule": {
+        "kind": "stride_ceil",
+        "square": true,
+        "stride": 32
+       },
+       "native_loss": "rfdetr SetCriterion (IA-BCE + L1 + GIoU, HungarianMatcher, group_detr 13)",
+       "native_recipe_init": "pretrained_native",
+       "pilot_representative": false,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "rfdetr.RFDETRSmall",
+       "notes": [
+        "DINOv2-windowed ViT encoder + LW-DETR decoder; scratch = pretrain_weights=None (true random init, PLAN §8.1); native recipe is pretrained_native (separate native_pretrained comparison group)"
+       ],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "kind": "pip",
+        "package": "rfdetr",
+        "record_sha256": "3534b43fe39c42a84c8f5bb96c0eb7c669e6a6c83c4cd2c25f5a4de4b213befd",
+        "version": "1.11.2"
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "Transformer",
+      "id": "rf-detr-small",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     },
+     {
+      "capabilities": {
+       "adapter_class": "RfdetrAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.rfdetr_adapter",
+       "backend": "rfdetr",
+       "default_baseline14": true,
+       "determinism_profile": "ptl_nondeterministic_rng_overlay",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for rf-detr-medium in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for rf-detr-medium in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": null,
+       "full_state_resume": {
+        "declared": "PARTIAL",
+        "detail": "restored natively by PTL from last.ckpt: FP32 model, EMA weights + update counter, optimizer, LR scheduler (per-step LambdaLR), precision plugin, loop counters (epoch/global_step), callback states. NOT restored by PTL: RNG and sampler/data order (seed_everything re-seeds at on_fit_start); MBNAS restores both: python/numpy/torch/CUDA RNG overlay at the first resumed epoch, and the train sampler draws from an explicit MBNAS torch.Generator whose state is saved per epoch (loader_generator_state), so the sampler order is continued. PTL deterministic=False (CUDA kernels), so weights are compared with a tolerance and bitwise equality is not claimed (see evidence)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "rfdetr.RFDETRMedium",
+       "inference_head": "native_no_nms",
+       "init_modes": [
+        "scratch",
+        "pretrained_native"
+       ],
+       "input_size_rule": {
+        "kind": "stride_ceil",
+        "square": true,
+        "stride": 32
+       },
+       "native_loss": "rfdetr SetCriterion (IA-BCE + L1 + GIoU, HungarianMatcher, group_detr 13)",
+       "native_recipe_init": "pretrained_native",
+       "pilot_representative": false,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "rfdetr.RFDETRMedium",
+       "notes": [
+        "DINOv2-windowed ViT encoder + LW-DETR decoder; scratch = pretrain_weights=None (true random init, PLAN §8.1); native recipe is pretrained_native (separate native_pretrained comparison group)"
+       ],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "kind": "pip",
+        "package": "rfdetr",
+        "record_sha256": "3534b43fe39c42a84c8f5bb96c0eb7c669e6a6c83c4cd2c25f5a4de4b213befd",
+        "version": "1.11.2"
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "Transformer",
+      "id": "rf-detr-medium",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     },
+     {
+      "capabilities": {
+       "adapter_class": "RfdetrAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.rfdetr_adapter",
+       "backend": "rfdetr",
+       "default_baseline14": true,
+       "determinism_profile": "ptl_nondeterministic_rng_overlay",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for rf-detr-large in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for rf-detr-large in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": null,
+       "full_state_resume": {
+        "declared": "PARTIAL",
+        "detail": "restored natively by PTL from last.ckpt: FP32 model, EMA weights + update counter, optimizer, LR scheduler (per-step LambdaLR), precision plugin, loop counters (epoch/global_step), callback states. NOT restored by PTL: RNG and sampler/data order (seed_everything re-seeds at on_fit_start); MBNAS restores both: python/numpy/torch/CUDA RNG overlay at the first resumed epoch, and the train sampler draws from an explicit MBNAS torch.Generator whose state is saved per epoch (loader_generator_state), so the sampler order is continued. PTL deterministic=False (CUDA kernels), so weights are compared with a tolerance and bitwise equality is not claimed (see evidence)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "rfdetr.RFDETRLarge",
+       "inference_head": "native_no_nms",
+       "init_modes": [
+        "scratch",
+        "pretrained_native"
+       ],
+       "input_size_rule": {
+        "kind": "stride_ceil",
+        "square": true,
+        "stride": 32
+       },
+       "native_loss": "rfdetr SetCriterion (IA-BCE + L1 + GIoU, HungarianMatcher, group_detr 13)",
+       "native_recipe_init": "pretrained_native",
+       "pilot_representative": false,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "rfdetr.RFDETRLarge",
+       "notes": [
+        "DINOv2-windowed ViT encoder + LW-DETR decoder; scratch = pretrain_weights=None (true random init, PLAN §8.1); native recipe is pretrained_native (separate native_pretrained comparison group)"
+       ],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "kind": "pip",
+        "package": "rfdetr",
+        "record_sha256": "3534b43fe39c42a84c8f5bb96c0eb7c669e6a6c83c4cd2c25f5a4de4b213befd",
+        "version": "1.11.2"
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "Transformer",
+      "id": "rf-detr-large",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     },
+     {
+      "capabilities": {
+       "adapter_class": "RtdetrAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.ultralytics_adapter",
+       "backend": "ultralytics",
+       "default_baseline14": true,
+       "determinism_profile": "torch_default_nondeterministic_backward",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for rt-detr-l in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for rt-detr-l in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": null,
+       "full_state_resume": {
+        "declared": "EXACT_COUNTERS_TOLERANCE_WEIGHTS",
+        "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG); grid_sample backward is nondeterministic, so weights match only within tolerance even between two continuous runs",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "ultralytics.RTDETR",
+       "inference_head": "native",
+       "init_modes": [
+        "scratch",
+        "pretrained_native"
+       ],
+       "input_size_rule": {
+        "kind": "stride_ceil",
+        "stride": 32
+       },
+       "native_loss": "RTDETRDetectionLoss (VFL + L1 + GIoU, Hungarian matching, contrastive denoising)",
+       "native_recipe_init": "pretrained_native",
+       "pilot_representative": true,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32",
+        "fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "ultralytics.RTDETR",
+       "notes": [
+        "CNN backbone + Transformer decoder (hybrid); grid_sample backward is nondeterministic"
+       ],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "kind": "pip",
+        "package": "ultralytics",
+        "record_sha256": "b4545893dc3521f4aef5363b25e8c90be7205fbf6329fa3c232a3e7d641b47a3",
+        "version": "8.4.173"
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "Hybrid",
+      "id": "rt-detr-l",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     },
+     {
+      "capabilities": {
+       "adapter_class": "RtdetrAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.ultralytics_adapter",
+       "backend": "ultralytics",
+       "default_baseline14": true,
+       "determinism_profile": "torch_default_nondeterministic_backward",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for rt-detr-x in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for rt-detr-x in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": null,
+       "full_state_resume": {
+        "declared": "EXACT_COUNTERS_TOLERANCE_WEIGHTS",
+        "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG); grid_sample backward is nondeterministic, so weights match only within tolerance even between two continuous runs",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "ultralytics.RTDETR",
+       "inference_head": "native",
+       "init_modes": [
+        "scratch",
+        "pretrained_native"
+       ],
+       "input_size_rule": {
+        "kind": "stride_ceil",
+        "stride": 32
+       },
+       "native_loss": "RTDETRDetectionLoss (VFL + L1 + GIoU, Hungarian matching, contrastive denoising)",
+       "native_recipe_init": "pretrained_native",
+       "pilot_representative": false,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32",
+        "fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "ultralytics.RTDETR",
+       "notes": [
+        "CNN backbone + Transformer decoder (hybrid); grid_sample backward is nondeterministic"
+       ],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "kind": "pip",
+        "package": "ultralytics",
+        "record_sha256": "b4545893dc3521f4aef5363b25e8c90be7205fbf6329fa3c232a3e7d641b47a3",
+        "version": "8.4.173"
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "Hybrid",
+      "id": "rt-detr-x",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     },
+     {
+      "capabilities": {
+       "adapter_class": "EtriHybridAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.etri_hybrid.adapter",
+       "backend": "etri_hybrid",
+       "default_baseline14": true,
+       "determinism_profile": "deterministic_algorithms_warn_only_workers0",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for etri-controlled-cnn-transformer in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for etri-controlled-cnn-transformer in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": "ETRI controlled CNN+Transformer hybrid (not SOTA, not pure Transformer)",
+       "full_state_resume": {
+        "declared": "EXACT_BITWISE_TARGET",
+        "detail": "own loop restores model, EMA+updates, optimizer, LambdaLR, GradScaler, epoch, steps, samples, python/numpy/torch/CUDA RNG and the shuffle generator",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "mbnas_model_runtime.adapters.etri_hybrid.model.ControlledDetector",
+       "inference_head": "native",
+       "init_modes": [
+        "scratch"
+       ],
+       "input_size_rule": {
+        "kind": "fixed",
+        "shape": [
+         384,
+         384
+        ]
+       },
+       "native_loss": "SetCriterion-mbnas (ETRI notebook cell 12: Hungarian, CE + 5*L1 + 2*GIoU, eos 0.05)",
+       "native_recipe_init": "scratch",
+       "pilot_representative": true,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32",
+        "fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "mbnas_model_runtime.adapters.etri_hybrid.model.ControlledDetector",
+       "notes": [
+        "ETRI controlled CNN+Transformer hybrid (not SOTA, not pure Transformer); no official pretrained weights"
+       ],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "etri_audited_head": "1d3a459aa6356e11b43c0e58bc778030ba78f950",
+        "kind": "etri_notebook",
+        "notebook_blob_sha1": "629ce856b4c6ea337edc8943b9e65ed91ef60e27",
+        "notebook_cells": {
+         "boxes": 8,
+         "data": 6,
+         "loss": 12,
+         "model": 10,
+         "postprocess": 14
+        }
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "Hybrid",
+      "id": "etri-controlled-cnn-transformer",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     },
+     {
+      "capabilities": {
+       "adapter_class": "YoloDetectAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.ultralytics_adapter",
+       "backend": "ultralytics",
+       "default_baseline14": false,
+       "determinism_profile": "pilot_bitwise_workers0",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for yolo11n in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for yolo11n in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": null,
+       "full_state_resume": {
+        "declared": "EXACT_UNDER_PILOT_PROFILE",
+        "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "ultralytics.YOLO",
+       "inference_head": "native",
+       "init_modes": [
+        "scratch",
+        "pretrained_native"
+       ],
+       "input_size_rule": {
+        "kind": "stride_ceil",
+        "stride": 32
+       },
+       "native_loss": "v8DetectionLoss (CIoU + DFL + BCE, TAL topk 10)",
+       "native_recipe_init": "pretrained_native",
+       "pilot_representative": true,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32",
+        "fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "ultralytics.YOLO",
+       "notes": [],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "kind": "pip",
+        "package": "ultralytics",
+        "record_sha256": "b4545893dc3521f4aef5363b25e8c90be7205fbf6329fa3c232a3e7d641b47a3",
+        "version": "8.4.173"
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "YOLO11",
+      "id": "yolo11n",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     },
+     {
+      "capabilities": {
+       "adapter_class": "YoloDetectAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.ultralytics_adapter",
+       "backend": "ultralytics",
+       "default_baseline14": false,
+       "determinism_profile": "pilot_bitwise_workers0",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for yolo26n in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for yolo26n in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": null,
+       "full_state_resume": {
+        "declared": "EXACT_UNDER_PILOT_PROFILE",
+        "detail": "full FP32 state overlay (model, EMA+updates, optimizer, scaler, scheduler, epoch, optimizer steps, best fitness/stopper, mosaic buffer, loader generator + pending tail, python/numpy/torch/CUDA RNG, E2ELoss updates for YOLO26); bitwise when workers=0, gradient_accumulation=1, deterministic=True and no close_mosaic boundary falls strictly inside a resumed stage",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "ultralytics.YOLO",
+       "inference_head": "e2e_one2one_nms_false",
+       "init_modes": [
+        "scratch",
+        "pretrained_native"
+       ],
+       "input_size_rule": {
+        "kind": "stride_ceil",
+        "stride": 32
+       },
+       "native_loss": "E2ELoss (one2many v8DetectionLoss topk10 + one2one topk7/1, epoch-decayed one2many weight)",
+       "native_recipe_init": "pretrained_native",
+       "pilot_representative": true,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32",
+        "fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "ultralytics.YOLO",
+       "notes": [],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "kind": "pip",
+        "package": "ultralytics",
+        "record_sha256": "b4545893dc3521f4aef5363b25e8c90be7205fbf6329fa3c232a3e7d641b47a3",
+        "version": "8.4.173"
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "YOLO26",
+      "id": "yolo26n",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     },
+     {
+      "capabilities": {
+       "adapter_class": "RfdetrAdapter",
+       "adapter_module": "mbnas_model_runtime.adapters.rfdetr_adapter",
+       "backend": "rfdetr",
+       "default_baseline14": false,
+       "determinism_profile": "ptl_nondeterministic_rng_overlay",
+       "devices": {
+        "host-gpu-0": {
+         "evidence": null,
+         "kind": "host_gpu",
+         "name": "NVIDIA RTX A6000",
+         "reason": "no TensorRT engine build for rf-detr-nano in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+         "status": "NOT_RUN"
+        },
+        "jetson-agx-orin": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson AGX Orin",
+         "reason": "target 'jetson-agx-orin' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nano": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin Nano",
+         "reason": "target 'jetson-orin-nano' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        },
+        "jetson-orin-nx": {
+         "evidence": null,
+         "kind": "jetson",
+         "name": "NVIDIA Jetson Orin NX",
+         "reason": "target 'jetson-orin-nx' is not attached to this host; only ['host-gpu-0'] can be built and measured here. Engines built on the host GPU are not deployable to other GPUs/Jetson, and no proxy latency is substituted.",
+         "status": "UNAVAILABLE",
+         "tensorrt": null
+        }
+       },
+       "export_onnx": {
+        "error": null,
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "export_trt": {
+        "device": "host-gpu-0",
+        "evidence": null,
+        "method": "benchmark module (TensorRT python API from the exported ONNX)",
+        "reason": "no TensorRT engine build for rf-detr-nano in the benchmark evidence (bench_host_gpu_*.json, qa_etri_hybrid_tensorrt_record*.json); no family proxy is used",
+        "status": "NOT_RUN"
+       },
+       "family_label": null,
+       "full_state_resume": {
+        "declared": "PARTIAL",
+        "detail": "restored natively by PTL from last.ckpt: FP32 model, EMA weights + update counter, optimizer, LR scheduler (per-step LambdaLR), precision plugin, loop counters (epoch/global_step), callback states. NOT restored by PTL: RNG and sampler/data order (seed_everything re-seeds at on_fit_start); MBNAS restores both: python/numpy/torch/CUDA RNG overlay at the first resumed epoch, and the train sampler draws from an explicit MBNAS torch.Generator whose state is saved per epoch (loader_generator_state), so the sampler order is continued. PTL deterministic=False (CUDA kernels), so weights are compared with a tolerance and bitwise equality is not claimed (see evidence)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "gradient_accumulation": "must_be_1",
+       "import_class": "rfdetr.RFDETRNano",
+       "inference_head": "native_no_nms",
+       "init_modes": [
+        "scratch",
+        "pretrained_native"
+       ],
+       "input_size_rule": {
+        "kind": "stride_ceil",
+        "square": true,
+        "stride": 32
+       },
+       "native_loss": "rfdetr SetCriterion (IA-BCE + L1 + GIoU, HungarianMatcher, group_detr 13)",
+       "native_recipe_init": "pretrained_native",
+       "pilot_representative": true,
+       "precisions": [
+        "FP32",
+        "FP16"
+       ],
+       "train": {
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "train_precisions": [
+        "amp_fp16_fp32"
+       ],
+       "val": {
+        "evaluator": "mbnas-evaluator/1 (common)",
+        "evidence": null,
+        "status": "NOT_RUN"
+       },
+       "version": null
+      },
+      "evidence": {
+       "build": null,
+       "config_ref": null,
+       "import_class": "rfdetr.RFDETRNano",
+       "notes": [
+        "DINOv2-windowed ViT encoder + LW-DETR decoder; scratch = pretrain_weights=None (true random init, PLAN §8.1); native recipe is pretrained_native (separate native_pretrained comparison group)"
+       ],
+       "pretrained_load": null,
+       "probed_at": null,
+       "source": {
+        "kind": "pip",
+        "package": "rfdetr",
+        "record_sha256": "3534b43fe39c42a84c8f5bb96c0eb7c669e6a6c83c4cd2c25f5a4de4b213befd",
+        "version": "1.11.2"
+       },
+       "version": null,
+       "weights": null
+      },
+      "family": "Transformer",
+      "id": "rf-detr-nano",
+      "reason": "no probe evidence for this entry (run scripts/probe_registry.py)",
+      "status": "UNVERIFIED"
+     }
+    ],
+    "request_id": "smoke3-5ae1c49cb8d54d71",
+    "server_time": "2026-10-28T04:56:50.772562Z",
+    "source_tree": {
+     "algorithm": "mbnas-source-tree/2",
+     "files": 168,
+     "sha256": "sha256:cb40dc5147a65f97687df7dd991a0682e6e1119e0b25c7097c1a9a1f6bb037a0"
+    },
+    "status": "ok",
+    "versions": {
+     "api": "mbnas-core 0.1.0",
+     "environment_lock": {
+      "present": false
+     },
+     "packages": {
+      "PyYAML": "6.0.3",
+      "fastapi": "0.142.2",
+      "mbnas-contracts": "0.1.0",
+      "mbnas-core": "0.1.0",
+      "mbnas-model-runtime": "0.1.0",
+      "mbnas-runner": "0.1.0",
+      "mbnas-server": "0.1.0",
+      "numpy": "2.2.6",
+      "nvidia-ml-py": "13.615.71",
+      "onnx": "1.23.2",
+      "onnxruntime-gpu": "1.23.2",
+      "onnxsim": "0.7.3",
+      "opencv-python-headless": "5.0.0.93",
+      "pillow": "12.3.0",
+      "pydantic": "2.13.5",
+      "pydantic-settings": "2.15.0",
+      "rfdetr": "1.11.2",
+      "tensorrt_cu12": null,
+      "torch": "2.6.0+cu124",
+      "torchvision": "0.21.0+cu124",
+      "transformers": "5.18.0",
+      "ultralytics": "8.4.173",
+      "uvicorn": "0.54.0"
+     },
+     "python": "3.10.22"
+    },
+    "warnings": [],
+    "worker_count": 2
+   },
+   "ok": true,
+   "pid": 27383,
+   "port": 35037,
+   "spa_fallback_status": 200,
+   "step": "gateway-start",
+   "web_content_type": "text/html; charset=utf-8",
+   "web_dist": "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_web/dist",
+   "web_dist_kind": "built",
+   "web_status": 200
+  },
+  {
+   "candidate_id": "model-e98e29c8328f",
+   "duration_s": 8.67,
+   "jobs": [
+    {
+     "kind": "BASELINE_TRAIN",
+     "lease_owner": "smoke-runner-1",
+     "status": "SUCCEEDED"
+    }
+   ],
+   "ok": true,
+   "positive_control_stored_resolved_recipe_abs": {
+    "data": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/runner/work/runs/train-81bcd9df2fa6/data_view/2d3fb087c8875d9f/data.yaml",
+    "model": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/runner/work/runs/train-81bcd9df2fa6/candidates/model-e98e29c8328f/architecture.yaml",
+    "project": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/runner/work/runs/train-81bcd9df2fa6/candidates/model-e98e29c8328f/native",
+    "save_dir": "/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/f1/smoke_postfix_v2/runner/work/runs/train-81bcd9df2fa6/candidates/model-e98e29c8328f/native/stage_e0000_e0001"
+   },
+   "request_id": "smoke3-be71bf38da274c58",
+   "rows": [
+    {
+     "device_used": "cpu",
+     "id": "model-e98e29c8328f.TRAIN.eval",
+     "performance_status": "NOT_EVALUATED",
+     "reason_code": "EVALUATION_REQUIRES_CUDA",
+     "resolved_recipe_keys": 123,
+     "status": "SEARCH_COMPLETE",
+     "stored_abs_recipe_keys": [
+      "data",
+      "model",
+      "project",
+      "save_dir"
+     ],
+     "validation_enabled": true
+    }
+   ],
+   "run_id": "train-81bcd9df2fa6",
+   "run_status": "COMPLETED",
+   "step": "validation-on-training-run"
+  },
+  {
+   "duration_s": 0.59,
+   "http": {
+    "candidate_detail": 200,
+    "export": 200,
+    "snapshot": 200,
+    "sse_replay": 200
+   },
+   "last_seq": 12,
+   "ok": true,
+   "request_ids": [
+    "smoke3-c6cae042d46d4913",
+    "smoke3-ab6b4a175c204711",
+    "smoke3-44cf1e11a3ce42b6"
+   ],
+   "sse_events": 12,
+   "sse_events_with_raw_metrics": 1,
+   "step": "fetch-and-scan(expect=clean)",
+   "totals": {
+    "elsewhere": 23,
+    "raw_metrics": 0,
+    "recipe_values_verbatim": 0,
+    "text": 27
+   }
+  },
+  {
+   "duration_s": 1.31,
+   "exit_codes": {
+    "core": -15,
+    "gateway": -15,
+    "owner": 0,
+    "runner": 0
+   },
+   "ok": true,
+   "pids": {
+    "core": 27325,
+    "gateway": 27383,
+    "owner": 27349,
+    "runner": 27350
+   },
+   "step": "stop-own-processes",
+   "still_alive": []
+  },
+  {
+   "duration_s": 19.57,
+   "ok": true,
+   "own_compute_apps": [],
+   "samples_during_training": 4,
+   "step": "no-own-process-on-gpu"
+  }
+ ]
+}

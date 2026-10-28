@@ -1,5 +1,5 @@
 # MBNAS Research Console 0.1.0 - OWNER image (PRIVATE: contains mbnas_core; build and keep it on the owner host,
-# never push it to a public registry or hand it to a customer). DD-A31, WP-7 section 1b.
+# never push it to a public registry or hand it to a customer). Standard pip installation path.
 # Roles: core (core API, port 8700) | owner-worker (PROPOSE_GENERATION, CPU) | principal (token CLI) | core-doctor,
 # and for an all-in-one owner host also gateway (port 8710, web console) | runner | register | version.
 # Contents: Python 3.10 venv with requirements-owner.txt (the public third-party set + all five project wheels) and

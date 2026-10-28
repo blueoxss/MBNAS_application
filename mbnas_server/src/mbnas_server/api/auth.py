@@ -5,7 +5,7 @@
   is ``app.state.api_token`` (``GatewaySettings.api_token``, set by ``create_app``).
 
 The request-id middleware that used to live here is :class:`mbnas_contracts.asgi.RequestIdMiddleware` (shared by both hosts).
-``mbnas_core.api.auth`` carries its own copy of these two helpers (WP-2 replaces the core one with principals).
+``mbnas_core.api.auth`` carries its own copy of these two helpers (the core's copy checks scoped principals).
 """
 from __future__ import annotations
 

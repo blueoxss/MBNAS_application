@@ -1,0 +1,31 @@
+# started: 2026-10-28 13:58:48 KST
+# cwd: /home/mgjeong/Desktop/etri_hd/mbnas_application
+# env: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1
+# projection.py sha256: 7604d3f2cbea46f961e5de6aae069f32d21f3053fdb9599abca27d61c8bb056b
+# command: runtime/venv/bin/python -m pytest -p no:cacheprovider -m "not gpu and not live and not legacy_records and not host_data" tests/public/runner/test_official_evaluation_payload.py tests/public/runner/test_dd_a60_cpu_evaluation.py tests/public/runner/test_runner_device_used.py tests/owner/runner_protocol/test_device_used.py
+
+============================= test session starts ==============================
+platform linux -- Python 3.10.22, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/mgjeong/Desktop/etri_hd/mbnas_application
+configfile: pyproject.toml
+plugins: anyio-4.15.1, timeout-2.4.0
+timeout: 600.0s
+timeout method: signal
+timeout func_only: False
+collected 19 items
+
+tests/public/runner/test_official_evaluation_payload.py ....             [ 21%]
+tests/public/runner/test_dd_a60_cpu_evaluation.py .....                  [ 47%]
+tests/public/runner/test_runner_device_used.py ........                  [ 89%]
+tests/owner/runner_protocol/test_device_used.py ..                       [100%]
+
+=============================== warnings summary ===============================
+tests/owner/runner_protocol/test_device_used.py::test_search_run_records_raw_metrics_device_used_cpu
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 19 passed, 1 warning in 30.65s ========================
+
+# exit code: 0
+# finished: 2026-10-28 13:59:20 KST (wall 32 s)

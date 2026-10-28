@@ -1,12 +1,12 @@
-"""``mbnas-gateway-doctor``: pre-flight checks of a gateway installation (WP-3B).
+"""``mbnas-gateway-doctor``: pre-flight checks of a gateway installation.
 
 Checks (each ``{name, ok, detail}``; secrets are never printed):
 
 * ``config``         ``GatewaySettings.load()`` succeeds and ``api_token`` is set;
 * ``core_token``     the service token for core is set (warning only: an owner core may run without principals);
-* ``core_url``       DD-A41 (d): not plain ``http://`` to a non-loopback host unless ``core_allow_insecure_http`` is set
+* ``core_url``       not plain ``http://`` to a non-loopback host unless ``core_allow_insecure_http`` is set
                      (``CORE_URL_INSECURE``; the ``core`` check is then skipped so the token is never sent in clear);
-* ``core_tls``       C05 D5: the core TLS certificate is verified (``core_tls_verify``; warning only when it is off:
+* ``core_tls``       the core TLS certificate is verified (``core_tls_verify``; warning only when it is off:
                      ``CORE_TLS_VERIFY_DISABLED``);
 * ``core``           ``GET <core_url><core_prefix>/health`` answers 200 with the service token (TLS per settings);
 * ``store``          ``artifact_store`` (and ``uploads/``) is writable; ``log_dir`` writable (audit log);
@@ -54,7 +54,7 @@ def run_checks(settings: Any) -> list[dict[str, Any]]:
         {"name": "core_token", "ok": settings.core_token is not None, "warning": True,
          "detail": "core_token set" if settings.core_token is not None else "MBNAS_GW_CORE_TOKEN is not set"},
     ]
-    problem = settings.core_url_problem()  # DD-A41 (d)
+    problem = settings.core_url_problem()
     if problem is not None:
         url_detail = problem
     elif settings.core_url.startswith("https://"):
@@ -64,7 +64,7 @@ def run_checks(settings: Any) -> list[dict[str, Any]]:
     else:
         url_detail = "plain http to a non-loopback host, allowed explicitly (core_allow_insecure_http)"
     checks.append({"name": "core_url", "ok": problem is None, "warning": False, "detail": url_detail})
-    tls_problem = settings.core_tls_problem()  # C05 D5
+    tls_problem = settings.core_tls_problem()
     if tls_problem is not None:
         tls_detail = tls_problem
     elif not settings.core_url.startswith("https://"):

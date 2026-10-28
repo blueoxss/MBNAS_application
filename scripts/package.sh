@@ -17,8 +17,8 @@
 #         wheels build/wheels/; report build/package_reports/<profile>.json (every check with pass/warn/fail/not run,
 #         all findings) and build/package_reports/<profile>_wheels.txt (wheel member listing and package-data gate);
 #         the check table is printed ("[package] check <id> <STATUS> ..."). Every ZIP carries FILE_MANIFEST.jsonl,
-#         PACKAGE_CONTENTS.md (human-readable table of the manifest), BUILD_INFO.json and PACKAGE_PROFILE.json; the
-#         owner ZIP also carries its wheel listing (docs/internal/evidence/package_build/owner_wheels.txt).
+#         PACKAGE_CONTENTS.md (human-readable table of the manifest), BUILD_INFO.json and PACKAGE_PROFILE.json (the
+#         wheel listing stays in build/package_reports/; no bundle ships tests, docs/internal or a LICENSE file).
 # Exit: 0 built · 1 checks failed (nothing published) · 2 usage/configuration error · 3 build tool failure.
 # Needs the build venv runtime/venv (Python 3.10 with pip, setuptools, wheel and the mbnas packages); no network.
 set -u -o pipefail

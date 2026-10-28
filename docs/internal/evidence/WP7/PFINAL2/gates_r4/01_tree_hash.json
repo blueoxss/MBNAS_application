@@ -1,0 +1,37 @@
+{
+ "algorithm": "mbnas-source-tree/2",
+ "sha256": "sha256:8fc93f2a596891174c2884e1697fd6003377b713102c0b21b01eb45d3f6f7312",
+ "files": 221,
+ "roots": [
+  {
+   "label": "mbnas_contracts",
+   "path": "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_contracts/src/mbnas_contracts",
+   "present": true,
+   "files": 27
+  },
+  {
+   "label": "mbnas_model_runtime",
+   "path": "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_model_runtime/src/mbnas_model_runtime",
+   "present": true,
+   "files": 49
+  },
+  {
+   "label": "mbnas_core",
+   "path": "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_core/src/mbnas_core",
+   "present": true,
+   "files": 92
+  },
+  {
+   "label": "mbnas_runner",
+   "path": "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_runner/src/mbnas_runner",
+   "present": true,
+   "files": 23
+  },
+  {
+   "label": "mbnas_server",
+   "path": "/home/mgjeong/Desktop/etri_hd/mbnas_application/mbnas_server/src/mbnas_server",
+   "present": true,
+   "files": 30
+  }
+ ]
+}

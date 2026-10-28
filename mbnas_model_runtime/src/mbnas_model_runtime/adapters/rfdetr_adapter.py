@@ -29,7 +29,7 @@ full state. ``full_state_resume`` stays declared ``PARTIAL``: PTL itself restore
 runs with ``deterministic=False``, so weights match within a tolerance only; whether a staged run equals a continuous
 one is an empirical question answered by the evidence file, never assumed. The native checkpoint is a pickle
 (``torch.load(weights_only=False)``): resuming from it needs ``MBNAS_RUNNER_ALLOW_PICKLE_RESUME=1`` on the executing
-host (DD-A20; the owner worker sets it), otherwise the resume is ``ResumeBlocked("PICKLE_RESUME_DISABLED")`` and an
+host (the owner worker sets it), otherwise the resume is ``ResumeBlocked("PICKLE_RESUME_DISABLED")`` and an
 RF-DETR full-state resume is not available there.
 """
 from __future__ import annotations
@@ -56,18 +56,16 @@ REQUIRED_STATE = ("native_resume_ckpt", "native_resume_ckpt.path", "native_resum
                   "adapter_meta.samples_seen", "loader_generator_state")
 NATIVE_CKPT_KEYS = ("state_dict", "optimizer_states", "lr_schedulers", "loops", "callbacks", "epoch", "global_step")
 EVAL_DEFAULTS = {"conf": 0.001, "max_det": 300}
-#: environment switch for unpickling the native PTL checkpoint on resume (WP-1 contract §5 ``allow_pickle_resume``,
-#: DD-A20); read here because model_runtime does not import the runner's settings. Default: disabled.
+#: environment switch for unpickling the native PTL checkpoint on resume (runner setting ``allow_pickle_resume``);
+#: read here because model_runtime does not import the runner's settings. Default: disabled.
 PICKLE_RESUME_ENV = "MBNAS_RUNNER_ALLOW_PICKLE_RESUME"
 _ENABLED_VALUES = frozenset({"1", "true", "t", "yes", "y", "on"})
 NATIVE_PAYLOAD_GLOBS = ("*.ckpt", "*.pth")  # PTL/RF-DETR checkpoints in native/ (logs are kept)
 HOUSEKEEPING_LOG = "housekeeping.jsonl"
 
-# Static preset table for ``declared_config`` (DD-41): the defaults of ``rfdetr.config.RFDETR{Nano,Small,Medium,Large}Config`` in
-# rfdetr 1.11.2 for the fields in ``RfdetrAdapter._CONFIG_KEYS`` (values as observed in docs/integration_20261021/inv_I5_adapters.md
-# section 2.3 for Nano and in the WP-S8 extraction from the installed package for all four presets; ``num_classes`` is the library
-# default 90, a placeholder until a dataset fixes it). ``tests/api/test_registry_structure.py::test_rfdetr_preset_table_matches_installed_library``
-# compares this table with the installed package (in a CUDA-hidden subprocess) so a library upgrade cannot silently drift from it.
+# Static preset table for ``declared_config``: the defaults of ``rfdetr.config.RFDETR{Nano,Small,Medium,Large}Config``
+# in rfdetr 1.11.2 for the fields in ``RfdetrAdapter._CONFIG_KEYS`` (``num_classes`` is the library default 90, a
+# placeholder until a dataset fixes it).
 _RFDETR_COMMON = {"encoder": "dinov2_windowed_small", "out_feature_indexes": (3, 6, 9, 12), "projector_scale": ("P4",),
                   "hidden_dim": 256, "patch_size": 16, "num_windows": 2, "sa_nheads": 8, "ca_nheads": 16, "dec_n_points": 2,
                   "num_queries": 300, "two_stage": True, "bbox_reparam": True, "layer_norm": True, "group_detr": 13,
@@ -81,7 +79,7 @@ RFDETR_PRESETS: dict[str, dict[str, Any]] = {
 
 def default_rf_home(weights_dir: str | os.PathLike[str] | None = None) -> str:
     """Default ``RF_HOME`` (rfdetr's weights directory): ``<weights_dir>/rfdetr``, with ``weights_dir`` defaulting to
-    ``$MBNAS_HOME/weights`` (DD-A13; replaces the former host-fixed constant). Used with ``os.environ.setdefault``, so an
+    ``$MBNAS_HOME/weights``. Used with ``os.environ.setdefault``, so an
     ``RF_HOME`` set by the caller (the runner sets it from its configured ``weights_dir``) always wins."""
     return str(Path(default_weights_dir() if weights_dir is None else weights_dir) / "rfdetr")
 
@@ -245,7 +243,7 @@ class RfdetrAdapter:
         """Declared model configuration (preset defaults) from the static :data:`RFDETR_PRESETS` table.
 
         Never imports ``rfdetr``: importing ``rfdetr.config`` probes the accelerator (``torch.accelerator.is_available`` ->
-        CUDA lazy init) and so would initialise CUDA on a ``GET /registry/{id}/structure`` (DD-41; the GET is declaration only).
+        CUDA lazy init) and so would initialise CUDA on a ``GET /registry/{id}/structure`` (the GET is declaration only).
         ``rfdetr`` is imported only by :meth:`describe_structure` / :meth:`build` (explicit checks, training).
         """
         out: dict[str, Any] = {"class_name": self.class_name}

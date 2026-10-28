@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build an MBNAS Research Console distribution ZIP from an allowlist (WP-7 contract §1 ``package.sh`` row, §3, §4).
+"""Build an MBNAS Research Console distribution ZIP from an allowlist.
 
 Called by ``scripts/package.sh`` (the documented entry point); usable directly for a temporary tree (``--root``).
 
@@ -11,15 +11,15 @@ Pipeline (one pass)
     followed or copied) and copy them to ``<root>/build/staging/<profile>/mbnas_application/`` (modes normalised to
     0644/0755, ``*.sh`` executable);
  3. wheels: ``pip wheel --no-deps --no-index --no-build-isolation`` of each ``[wheels]`` package, built from a copy of
-    its *staged* tree, into ``<root>/build/wheels/`` and the staging ``wheels/``; then the wheel-contents gate (C09):
+    its *staged* tree, into ``<root>/build/wheels/`` and the staging ``wheels/``; then the wheel-contents gate:
     every wheel's members (``*.dist-info`` aside) must equal the staged ``<pkg>/src`` files byte for byte, and every
     file declared in ``[tool.setuptools.package-data]`` must exist in the staged sources and in the wheel with the same
     sha256. The member listing (wheel sha256, every member with bytes and sha256, the declared package-data) goes to
     ``<root>/build/package_reports/<profile>_wheels.txt``; a profile whose allowlist sets ``wheel_listing_member``
-    (owner) also ships it at that path (owner-only evidence area);
+    also ships it at that path;
  4. web: ``mbnas_web/dist/`` comes through the allowlist (prebuilt; this tool never runs npm). Missing ``index.html``
     = "web dist missing": a violation where the profile says ``web_dist = required`` unless ``--allow-missing-web``.
-    A staged dist must pass the WP-6A bundle hygiene gate ``node mbnas_web/scripts/check-bundle.mjs --dist <staged
+    A staged dist must pass the bundle hygiene gate ``node mbnas_web/scripts/check-bundle.mjs --dist <staged
     dist> --json`` (any hit, a missing script or no ``node`` on PATH = violation);
  6. checks: entry paths (absolute, ``..``, backslash, control characters), symbolic links / special files, duplicate
     and case- or Unicode-colliding entries, deny patterns, required / expected files, forbidden content (canary tokens
@@ -32,8 +32,8 @@ Pipeline (one pass)
     staged packages with ``source_tree_hash.py``'s algorithm, payload sha256, time, platform, tool versions, the
     checks that ran with their result; no git) and ``FILE_MANIFEST.jsonl`` (one JSON object per file: relpath, bytes,
     sha256, role, origin, licence; sorted; excludes itself). Registration: then ``docs/registration/FILE_LIST.md`` (the
-    owner-free file listing) is generated from that manifest by ``gen_registration_docs.py --only file-list`` (WP-7C)
-    and the manifest is written again. Every profile: then ``PACKAGE_CONTENTS.md`` (C10: the human-readable contents
+    owner-free file listing) is generated from that manifest by ``gen_registration_docs.py --only file-list``
+    and the manifest is written again. Every profile: then ``PACKAGE_CONTENTS.md`` (the human-readable contents
     table: ZIP name, version, profile, build id; path, bytes, sha256 prefix, role, licence; totals per role) is
     rendered from that manifest and the manifest is written a last time. Circularity rule: FILE_MANIFEST.jsonl lists
     every entry but itself; PACKAGE_CONTENTS.md lists every entry but itself and the manifest; FILE_LIST.md lists every
@@ -48,7 +48,7 @@ entries, sorted entries, normalised modes, content-derived build id; the whole p
 ``build/staging/<profile>.pass2``) and the two ZIP digests are compared; BUILD_INFO ``reproducibility`` records both
 digests and ``equal`` (only then the build is published; a mismatch is a violation).
 
-``--canary`` (T8 test build, SECURITY_BASELINE §5 / D9): copies the tree to ``<root>/build/canary/<profile>/tree`` and
+``--canary`` (leak-detection test build): copies the tree to ``<root>/build/canary/<profile>/tree`` and
 plants the canary tokens there (``canary_plant.py``; manifest ``<root>/docs/internal/canary/CANARY_MANIFEST.json``),
 builds the profile from that tree (outputs stay inside it; ``dist/`` and ``build/wheels`` are not touched), then
 scans the ZIP with ``canary_scan.py``: public/registration must hold no token, owner must hold every planted area
@@ -90,17 +90,17 @@ PROJECT_ROOT = DEV_DIR.parents[1]
 TOP = "mbnas_application"
 PROFILES = ("owner", "public", "registration")
 METADATA = ("BUILD_INFO.json", "PACKAGE_PROFILE.json", "FILE_MANIFEST.jsonl")
-# registration: owner-free file listing generated from the staged manifest by WP-7C's generator (contract §2)
+# registration: owner-free file listing generated from the staged manifest by gen_registration_docs.py
 FILE_LIST = "docs/registration/FILE_LIST.md"
 FILE_LIST_GENERATOR = "gen_registration_docs.py"
-# WP-6A bundle hygiene gate (forbidden policy embeds / host facts / removed client code in the web bundle); run on the
+# bundle hygiene gate (forbidden policy embeds / host facts / removed client code in the web bundle); run on the
 # staged mbnas_web/dist with node; exit 0 clean, 1 hits, 2 dist missing/empty
 WEB_GATE = "mbnas_web/scripts/check-bundle.mjs"
-# C10: human-readable contents table of every bundle, rendered from FILE_MANIFEST.jsonl (see the module docstring)
+# human-readable contents table of every bundle, rendered from FILE_MANIFEST.jsonl (see the module docstring)
 PACKAGE_CONTENTS = "PACKAGE_CONTENTS.md"
 LATE = (FILE_LIST, PACKAGE_CONTENTS)  # generated from FILE_MANIFEST; outside payload_sha256 and the build id seed
 # findings about source-tree files that never ship (the packager generates that path): kept in the build report, never
-# counted in BUILD_INFO.json, so that two trees differing only there build byte-identical bundles (C10 D5)
+# counted in BUILD_INFO.json, so that two trees differing only there build byte-identical bundles
 TREE_ONLY_CHECKS = frozenset({"generated_shadow"})
 MANIFEST_REL = "docs/internal/canary/CANARY_MANIFEST.json"
 NORMALIZED_EPOCH = 315532800  # 1980-01-01T00:00:00Z, earliest ZIP timestamp
@@ -113,11 +113,11 @@ RE_JS_IMPORT = re.compile(r"""(?:\bimport|\bexport)\s[^'"`;]*?\bfrom\s*['"]([^'"
                           r"""|\bimport\(\s*['"]([^'"]+)['"]\s*\)|\brequire\(\s*['"]([^'"]+)['"]\s*\)""")
 PROFILE_KEYS = {"name": None, "web_dist": ("required", "optional"), "private_package_check": ("strict", "off"),
                 "host_facts": ("fail", "report")}
-# optional [profile] keys. offline_install_evidence = <path relative to ROOT> of a WP-7V record (JSON) of an install of
+# optional [profile] keys. offline_install_evidence = <path relative to ROOT> of a record (JSON) of an install of
 # this profile with the network removed (`unshare -rn bash scripts/install.sh --profile <p> --offline ...`); only
-# then does PACKAGE_PROFILE.json say offline_install: true (WP-7 contract section 4).
-# wheel_listing_member = <path relative to the bundle root> (owner: docs/internal/evidence/...): the wheel member listing
-# of this build (C09) is also shipped at that path; it must be declared in [generated].
+# then does PACKAGE_PROFILE.json say offline_install: true.
+# wheel_listing_member = <path relative to the bundle root>: the wheel member listing of this build is also shipped at
+# that path; it must be declared in [generated].
 OPTIONAL_PROFILE_KEYS = {"offline_install_evidence": None, "wheel_listing_member": None}
 CORE = "mbnas_core"
 RE_PRIVATE_COMPONENT = re.compile(r"^mbnas[-_.]core(?:$|[-.])", re.I)
@@ -143,28 +143,20 @@ RE_PLACEHOLDER = re.compile(r"^(?:<[^>]*>|\$\{[^}]*\}|\$[A-Za-z_]\w*|[*x.]{3,}|"
                             r"set[-_ ]?at[-_ ]?install|todo|fill[-_ ]?in|redacted|secret_here|token_here).*)$", re.I)
 VERSION_RE = re.compile(r"^\d+\.\d+\.\d+(?:[-+.][0-9A-Za-z.]+)?$")
 # Licence column of FILE_MANIFEST.jsonl (also FILE_LIST.md / PACKAGE_CONTENTS.md). Every reference names a file that
-# ships in all three profiles (C10 D3): third-party-derived files point at THIRD_PARTY_NOTICES.md (Python side) or
-# THIRD_PARTY_NOTICES_WEB.md (npm code in the web bundle); the project's own files point at LICENSE (DD-A65 placeholder:
-# all rights reserved, licence undetermined). The owner-only review record LICENSE_STATUS.md is never referenced.
+# ships in all three profiles: third-party-derived files point at THIRD_PARTY_NOTICES.md (Python side) or
+# THIRD_PARTY_NOTICES_WEB.md (npm code in the web bundle); the project's own files are labelled "project" (no bundle
+# ships a licence file of the project).
 LICENCE_RULES: tuple[tuple[str, str], ...] = (
     ("**/mbnas_model_runtime/operators/parse_model_8_4_173.py",
-     "AGPL-3.0-derived (modified copy of ultralytics 8.4.173 parse_model; rights review pending; "
-     "THIRD_PARTY_NOTICES.md)"),
-    ("**/mbnas_model_runtime/operators/etri_mixed_blocks.py",
-     "ETRI-vendored (rights holder unconfirmed; rights review pending; THIRD_PARTY_NOTICES.md)"),
-    ("**/mbnas_model_runtime/adapters/etri_hybrid/**",
-     "ETRI-derived (rights holder unconfirmed; rights review pending; THIRD_PARTY_NOTICES.md)"),
-    ("examples/models/yolo11*.yaml",
-     "AGPL-3.0-derived (from the Ultralytics YOLO11 model definition, ultralytics 8.4.173; see the file header; "
-     "THIRD_PARTY_NOTICES.md)"),
+     "third-party-derived (AGPL-3.0; see THIRD_PARTY_NOTICES.md)"),
+    ("**/mbnas_model_runtime/operators/etri_mixed_blocks.py", "third-party-derived (see THIRD_PARTY_NOTICES.md)"),
+    ("**/mbnas_model_runtime/adapters/etri_hybrid/**", "third-party-derived (see THIRD_PARTY_NOTICES.md)"),
+    ("examples/models/yolo11*.yaml", "third-party-derived (AGPL-3.0; see THIRD_PARTY_NOTICES.md)"),
     ("wheels/mbnas_model_runtime-*.whl",
-     "project (licence undetermined; LICENSE) + AGPL-3.0-derived and ETRI-vendored modules (THIRD_PARTY_NOTICES.md)"),
-    ("mbnas_web/dist/**",
-     "project (licence undetermined; LICENSE) + bundled npm third-party code (THIRD_PARTY_NOTICES_WEB.md)"),
+     "project + third-party-derived modules (incl. AGPL-3.0; see THIRD_PARTY_NOTICES.md)"),
+    ("mbnas_web/dist/**", "project + bundled npm third-party code (see THIRD_PARTY_NOTICES_WEB.md)"),
     ("THIRD_PARTY_NOTICES*.md", "notice (third-party licence list)"),
-    ("LICENSE", "licence notice (placeholder: all rights reserved, licence undetermined)"),
-    ("LICENSE_STATUS.md", "licence review record (owner only)"),
-    ("**", "project (licence undetermined; LICENSE)"),
+    ("**", "project"),
 )
 ROLE_RULES: tuple[tuple[str, str], ...] = (
     ("wheels/*.whl", "wheel"), ("BUILD_INFO.json", "build-metadata"), ("PACKAGE_PROFILE.json", "build-metadata"),
@@ -173,7 +165,7 @@ ROLE_RULES: tuple[tuple[str, str], ...] = (
     ("mbnas_*/src/**", "package-source"), ("mbnas_web/index.html", "package-source"),  # the web entry page (source)
     ("mbnas_web/dist/**", "web-dist"), ("mbnas_web/package.json", "web-provenance"),
     ("mbnas_web/package-lock.json", "web-provenance"),
-    ("mbnas_web/tests/**", "test"), ("mbnas_web/e2e/**", "test"),  # C10 D7 (was "other")
+    ("mbnas_web/tests/**", "test"), ("mbnas_web/e2e/**", "test"),
     ("mbnas_web/playwright*.config.ts", "web-config"), ("mbnas_web/vite.config.ts", "web-config"),
     ("mbnas_web/tsconfig*.json", "web-config"), ("mbnas_web/scripts/**", "script"), ("mbnas_web/README*", "doc"),
     ("scripts/**", "script"),
@@ -184,7 +176,7 @@ ROLE_RULES: tuple[tuple[str, str], ...] = (
     ("VERSION", "version"), ("pyproject.toml", "workspace-config"), ("**", "other"),
 )
 
-# Every check of the packager (C10 D4: the report names each check that ran with its result, not only totals):
+# Every check of the packager (the report names each check that ran with its result, not only totals):
 # (id, what it verifies, the finding ``check`` names it emits). Status per build: fail (a violation), warn (a warning),
 # pass (ran, neither), not run (its precondition did not hold, e.g. private_package for private_package_check = off, or
 # the ZIP checks of a build that stopped earlier). Findings of an unknown name are reported under "other".
@@ -702,7 +694,7 @@ def build_wheels(opts: Options, al: Allowlist, top: Path, pass_no: int, epoch: i
                            "wheel": f"wheels/{whl.name}", "sha256": sha256_bytes(data), "bytes": len(data)})
 
 
-# --------------------------------------------------------------- wheel contents / package-data gate (C09 D3)
+# ------------------------------------------------------------------------- wheel contents / package-data gate
 RE_TOML_HEADER = re.compile(r"^\s*\[\[?\s*([A-Za-z0-9_\-]+(?:\s*\.\s*[A-Za-z0-9_\-]+)*)\s*\]\]?\s*(?:#.*)?$")
 
 
@@ -802,7 +794,7 @@ def declared_package_data(pyproject_text: str) -> dict[str, list[str]]:
 
 
 def check_wheel_contents(top: Path, res: PassResult) -> list[dict]:
-    """C09 package-data gate on every built wheel: the members (``*.dist-info/`` aside) are exactly the staged
+    """Package-data gate on every built wheel: the members (``*.dist-info/`` aside) are exactly the staged
     ``<pkg>/src`` files with equal sha256 (a data file that is not declared as package-data is therefore missing from
     the wheel and fails here), and every declared ``[tool.setuptools.package-data]`` glob matches at least one staged
     file. Returns the per-wheel listing (``res.meta["wheel_listing"]``)."""
@@ -871,7 +863,7 @@ def check_wheel_contents(top: Path, res: PassResult) -> list[dict]:
 def render_wheel_listing(profile: str, version: str, listing: list[dict]) -> bytes:
     """Text listing of the wheels of one build (deterministic: no clock, no build id, no host path)."""
     out = [f"# MBNAS Research Console {version} - wheel member listing, profile {profile}",
-           "# Written by scripts/dev/package_build.py (C09 package-data gate). One block per wheel: the wheel sha256,",
+           "# Written by scripts/dev/package_build.py (package-data gate). One block per wheel: the wheel sha256,",
            "# the gate verdict, the declared [tool.setuptools.package-data] files, then every member (dist-info aside)",
            "# as '<sha256>  <bytes>  <path>' ([data] = declared package-data). Gate: members == staged <pkg>/src files",
            "# with equal sha256, every declared package-data file present.", ""]
@@ -1094,7 +1086,7 @@ def check_content(opts: Options, al: Allowlist, top: Path, res: PassResult, scan
 
 
 def web_bundle_gate(root: Path, top: Path, res: PassResult) -> None:
-    """Run WP-6A's ``check-bundle.mjs`` on the staged ``mbnas_web/dist`` (the bytes that ship)."""
+    """Run ``check-bundle.mjs`` on the staged ``mbnas_web/dist`` (the bytes that ship)."""
     script, node = root / WEB_GATE, shutil.which("node")
     res.ran.add("web_bundle_gate")
     gate = {"tool": WEB_GATE, "status": "not run"}
@@ -1178,17 +1170,18 @@ def payload_digest(res: PassResult) -> str:
 
 
 def offline_install_doc(opts: Options, al: Allowlist) -> dict:
-    """``offline_install`` of PACKAGE_PROFILE.json: true only with a passing WP-7V record (see OPTIONAL_PROFILE_KEYS)."""
+    """``offline_install`` of PACKAGE_PROFILE.json: true only with a passing offline-install record (see
+    OPTIONAL_PROFILE_KEYS)."""
     rel = al.settings.get("offline_install_evidence")
     if not rel:
         return {"offline_install": False,
-                "offline_install_note": "not verified for this package (WP-7 §4: true only after an install "
+                "offline_install_note": "not verified for this package (true only after an install "
                                         "with the network removed succeeds)"}
     path = opts.root / rel
     if not path.is_file():  # e.g. a copied tree without the owner-side evidence: never claim, never fail the build
         return {"offline_install": False,
-                "offline_install_note": f"not claimed: the allowlist names the WP-7V record {rel}, which is not "
-                                        "present in this source tree"}
+                "offline_install_note": f"not claimed: the allowlist names the offline-install record {rel}, which "
+                                        "is not present in this source tree"}
     try:
         rec = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError) as exc:
@@ -1202,7 +1195,7 @@ def offline_install_doc(opts: Options, al: Allowlist) -> dict:
         raise UsageError(f"[profile] offline_install_evidence {rel}: not a passing record for profile "
                          f"{opts.profile} (fields {bad})")
     return {"offline_install": True,
-            "offline_install_note": (f"verified {rec['verified_at']} by WP-7V: `{rec['command']}` exited 0 with the "
+            "offline_install_note": (f"verified {rec['verified_at']}: `{rec['command']}` exited 0 with the "
                                      "network removed (unshare -rn) into a fresh path with spaces. The third-party "
                                      "wheels are NOT bundled in this ZIP: an offline install needs a wheelhouse of the "
                                      "pinned wheels (constraints.txt), passed with --wheelhouse <dir>; the project "
@@ -1237,11 +1230,11 @@ def package_profile_doc(opts: Options, al: Allowlist, version: str, ptag: str, b
             "python": f"CPython 3.10 (requires-python >=3.10,<3.11; build interpreter {platform.python_version()})",
             "os": f"{platform.system()} {platform.machine()} (build platform {ptag}; other platforms unverified)",
             "cuda": "GPU runner: NVIDIA driver supporting CUDA 12.4 (torch 2.6.0+cu124 wheels); CPU-only runners "
-                    "cover training, checkpoints, structure checks and generation, not latency (DD-A32)",
-            "node": ("not needed to run: the gateway serves the prebuilt mbnas_web/dist (DD-A30); Node.js is "
+                    "cover training, checkpoints, structure checks and generation, not latency",
+            "node": ("not needed to run: the gateway serves the prebuilt mbnas_web/dist; Node.js is "
                      "needed only to rebuild the web UI from the bundled mbnas_web sources (npm ci, npm run build)"
                      if any(r.startswith("mbnas_web/src/") for r in res.files) else
-                     "not needed to run: the gateway serves the prebuilt mbnas_web/dist (DD-A30); this package has no "
+                     "not needed to run: the gateway serves the prebuilt mbnas_web/dist; this package has no "
                      "web sources, so Node.js matters only for rebuilding the web UI from the source repository")},
         "core_connection_required": p != "owner", "core_included": p == "owner",
         "config": {"env_prefixes": prefixes, "example_files": examples},
@@ -1256,7 +1249,7 @@ def package_profile_doc(opts: Options, al: Allowlist, version: str, ptag: str, b
                      "note": "prebuilt mbnas_web/dist copied as-is" if res.web_present else
                      "missing at build time: the gateway has no web UI to serve"},
         "tested_platform": {"tag": ptag, "build_id": build_id,
-                            "note": "build platform; install/run verification is recorded separately (WP-7V)"},
+                            "note": "build platform; install/run verification is recorded separately"},
     }
 
 
@@ -1264,7 +1257,7 @@ def build_info_doc(opts: Options, al: Allowlist, version: str, ptag: str, build_
                    at_source: str, res: PassResult, tree_hash: dict, reproducibility: dict) -> dict:
     sev: dict[str, int] = {"violation": 0, "warning": 0, "info": 0}
     by_check: dict[str, int] = {}
-    shipped = [f for f in res.findings if f.check not in TREE_ONLY_CHECKS]  # see TREE_ONLY_CHECKS (C10 D5)
+    shipped = [f for f in res.findings if f.check not in TREE_ONLY_CHECKS]  # see TREE_ONLY_CHECKS
     for f in shipped:
         sev[f.severity] += 1
         by_check[f"{f.severity}:{f.check}"] = by_check.get(f"{f.severity}:{f.check}", 0) + 1
@@ -1329,7 +1322,7 @@ def _md(text: object) -> str:
 
 
 def render_package_contents(rows: list[dict], header: dict) -> bytes:
-    """PACKAGE_CONTENTS.md (C10): the human-readable table of FILE_MANIFEST.jsonl ``rows`` (every entry except the
+    """PACKAGE_CONTENTS.md: the human-readable table of FILE_MANIFEST.jsonl ``rows`` (every entry except the
     manifest and this file). ``header``: zip, version, profile, build_id, platform. Deterministic (no clock)."""
     rows = sorted((r for r in rows if r["relpath"] not in (PACKAGE_CONTENTS, "FILE_MANIFEST.jsonl")),
                   key=lambda r: r["relpath"])
@@ -1358,7 +1351,7 @@ def render_package_contents(rows: list[dict], header: dict) -> bytes:
            "읽는 사본이다. 순환을 피하려고 이 표는 자기 자신과 `FILE_MANIFEST.jsonl`을 넣지 않는다. "
            "`FILE_MANIFEST.jsonl`은 자기 자신만 빼고 이 파일까지 모두 나열한다. ZIP 파일 전체의 sha256은 ZIP 옆의 "
            "`<zip>.sha256` 파일에 있다. 빌드 정보와 검사 결과는 `BUILD_INFO.json`, 포함·제외 범위는 `PACKAGE_PROFILE.json`에 "
-           "있다. 라이선스 열은 자동 분류이며 법적 검토 결과가 아니다(`LICENSE`, `THIRD_PARTY_NOTICES.md`, "
+           "있다. 라이선스 열은 자동 분류이며 법적 검토 결과가 아니다(제3자 라이선스 목록: `THIRD_PARTY_NOTICES.md`, "
            "`THIRD_PARTY_NOTICES_WEB.md`).", "",
            "This file is generated from this ZIP's FILE_MANIFEST.jsonl (the authoritative, machine-readable manifest). "
            "It lists every entry except itself and FILE_MANIFEST.jsonl; the manifest lists every entry except itself. "
@@ -1418,7 +1411,7 @@ def write_metadata(opts: Options, al: Allowlist, version: str, ptag: str, top: P
 
 
 def generate_file_list(top: Path, epoch: int | None, res: PassResult) -> None:
-    """docs/registration/FILE_LIST.md of the staged tree, by WP-7C's generator, from FILE_MANIFEST.jsonl v1."""
+    """docs/registration/FILE_LIST.md of the staged tree, by gen_registration_docs.py, from FILE_MANIFEST.jsonl v1."""
     gen = DEV_DIR / FILE_LIST_GENERATOR
     if not gen.is_file():
         raise ToolError(f"{gen} not found: the registration file list cannot be generated")
@@ -1649,7 +1642,7 @@ def _write_report(opts: Options, report: dict) -> Path:
 
 
 def _write_wheel_listing(opts: Options, version: str, res: PassResult) -> Path | None:
-    """``build/package_reports/<profile>_wheels.txt`` (C09): same text as the owner bundle's shipped listing."""
+    """``build/package_reports/<profile>_wheels.txt``: same text as a listing shipped through wheel_listing_member."""
     listing = res.meta.get("wheel_listing")
     if not listing:
         return None
@@ -1780,7 +1773,7 @@ def build(opts: Options) -> int:
 
 
 def build_canary(opts: Options) -> int:
-    """T8 test build: copy + plant (canary_plant.py) -> build the profile in the copy -> scan the ZIP."""
+    """Canary test build: copy + plant (canary_plant.py) -> build the profile in the copy -> scan the ZIP."""
     plant_mod, scan_mod = _load("canary_plant"), _load("canary_scan")
     root = opts.root
     tree = root / "build" / "canary" / opts.profile / "tree"  # per profile: parallel profiles do not collide

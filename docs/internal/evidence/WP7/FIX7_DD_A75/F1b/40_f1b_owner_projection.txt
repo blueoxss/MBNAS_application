@@ -1,0 +1,41 @@
+# started: 2026-10-28 14:34:05 KST
+# cwd: /home/mgjeong/Desktop/etri_hd/mbnas_application
+# env: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1
+# projection.py sha256: b097bbbe27ffbc4616e230bab29503c662b9119b48021786eb161322f81320e6
+# command: runtime/venv/bin/python -m pytest -p no:cacheprovider -m "not gpu and not live and not legacy_records and not host_data" tests/owner/projection
+
+============================= test session starts ==============================
+platform linux -- Python 3.10.22, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/mgjeong/Desktop/etri_hd/mbnas_application
+configfile: pyproject.toml
+plugins: anyio-4.15.1, timeout-2.4.0
+timeout: 600.0s
+timeout method: signal
+timeout func_only: False
+collected 295 items
+
+tests/owner/projection/test_canary_projection.py ....................... [  7%]
+........................                                                 [ 15%]
+tests/owner/projection/test_config_revisions.py .........                [ 18%]
+tests/owner/projection/test_contract_150.py ............................ [ 28%]
+........................................................................ [ 52%]
+.........................................................                [ 72%]
+tests/owner/projection/test_dd_a75_raw_metrics_paths.py ...............  [ 77%]
+tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py ......... [ 80%]
+..........                                                               [ 83%]
+tests/owner/projection/test_owner_routes.py ..............               [ 88%]
+tests/owner/projection/test_public_golden.py ................            [ 93%]
+tests/owner/projection/test_runner_route_canary.py ..                    [ 94%]
+tests/owner/projection/test_t8_canary_scan.py ....                       [ 95%]
+tests/owner/projection/test_value_rules.py ............                  [100%]
+
+=============================== warnings summary ===============================
+tests/owner/projection/test_canary_projection.py::test_seeds_are_planted_where_the_core_reads_them
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 295 passed, 1 warning in 24.94s ========================
+
+# exit code: 0
+# finished: 2026-10-28 14:34:31 KST (wall 26 s)

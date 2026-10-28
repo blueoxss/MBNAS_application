@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # start.sh - start the processes of one MBNAS Research Console profile in the background (setsid nohup).
-# WP-7A; contract docs/internal/WORK_PACKAGES/WP-7_OPS_PACKAGING.md section 1, DD-A30 (gateway serves mbnas_web/dist).
+# The gateway serves mbnas_web/dist. Run with --help for the roles and options.
 set -u -o pipefail
 unset CDPATH
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -20,7 +20,7 @@ Options:
   --role <role>           core     core API (mbnas-core-api, port 8700) and owner worker
                                    (mbnas-core-owner-worker --owner); owner profile only
                           gateway  mbnas-gateway (port 8710): /api/v1 relay to the core + the web console from
-                                   mbnas_web/dist at / (DD-A30)
+                                   mbnas_web/dist at /
                           runner   mbnas-runner run: claims training/evaluation/benchmark jobs from the core
                           web      vite preview of mbnas_web/dist on 127.0.0.1:${MBNAS_WEB_PORT:-8720} (development
                                    / e2e only; needs Node.js and mbnas_web/node_modules)
@@ -336,7 +336,7 @@ for name in "${PROCS[@]}"; do
   [ -f "$envf" ] || { echo "start.sh: $envf missing - run: bash scripts/install.sh --profile $PROFILE" >&2; exit 1; }
 done
 
-# ---- clean environment of the role processes (C09 D1; T8: no caller cwd in a service environment) ---------------------
+# ---- clean environment of the role processes (no caller search path, no caller cwd in a service environment) --------
 # The roles run "<venv>/bin/python <entry>" without -I, so a PYTHONPATH / PYTHONHOME inherited from the caller would put
 # other directories before runtime/venv (a shadowing mbnas_* package would be imported); PYTHONSTARTUP and PYTHONUSERBASE
 # go too. OLDPWD would carry the caller's working directory: bash exports it after any cd, even when the caller had

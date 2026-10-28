@@ -1,0 +1,20 @@
+# _ABS_PATH = (?<![\w.~/:%@-])/(?![/\s])[^\s'\"`,;()\[\]{}<>|]+
+# kept prefixes = ['/api/v1/', '/api/v1'] ; host names scrubbed = ['dev1']
+{"case": "POSIX owner host path (T4 shape)", "in": "/home/mbnas-owner/datasets/pilot_smoke/data.yaml", "out": "<path>", "changed": true}
+{"case": "POSIX container path (T5 shape)", "in": "/work/runs/train-0123456789ab/model-0123456789ab/ultralytics/TRAIN", "out": "<path>", "changed": true}
+{"case": "path embedded in text", "in": "data=/home/x/data.yaml epochs=1", "out": "data=<path> epochs=1", "changed": true}
+{"case": "public API path (kept)", "in": "/api/v1/runs/train-0123456789ab/artifacts/art-1", "out": "/api/v1/runs/train-0123456789ab/artifacts/art-1", "changed": false}
+{"case": "relative path (kept)", "in": "weights/last.pt", "out": "weights/last.pt", "changed": false}
+{"case": "model file name (kept)", "in": "yolo11n.yaml", "out": "yolo11n.yaml", "changed": false}
+{"case": "precision label (kept)", "in": "FP16", "out": "FP16", "changed": false}
+{"case": "search space id with slash (kept)", "in": "mbnas-mixed-space/3", "out": "mbnas-mixed-space/3", "changed": false}
+{"case": "http URL (kept by design)", "in": "https://example.invalid/a/b", "out": "https://example.invalid/a/b", "changed": false}
+{"case": "Windows drive path, backslashes (NOT covered)", "in": "C:\\Users\\owner\\datasets\\data.yaml", "out": "C:\\Users\\owner\\datasets\\data.yaml", "changed": false}
+{"case": "Windows drive path, forward slashes (NOT covered)", "in": "C:/Users/owner/datasets/data.yaml", "out": "C:/Users/owner/datasets/data.yaml", "changed": false}
+{"case": "UNC path (NOT covered)", "in": "\\\\fileserver\\share\\data.yaml", "out": "\\\\fileserver\\share\\data.yaml", "changed": false}
+{"case": "file:// URL with absolute path (NOT covered)", "in": "file:///home/owner/data.yaml", "out": "file:///home/owner/data.yaml", "changed": false}
+{"case": "home-relative ~/ path (NOT covered)", "in": "~/datasets/data.yaml", "out": "~/datasets/data.yaml", "changed": false}
+{"case": "scp-style host:/path (path part NOT covered)", "in": "gpu-node:/srv/data.yaml", "out": "gpu-node:/srv/data.yaml", "changed": false}
+{"case": "pid text", "in": "worker pid=4242 done", "out": "worker pid=<pid> done", "changed": true}
+# scrub_deep on nested JSON (keys unchanged by design):
+{"a": ["<path>", {"/home/key/as/key": "<path>"}], "n": 1, "f": 0.5, "b": true, "z": null}

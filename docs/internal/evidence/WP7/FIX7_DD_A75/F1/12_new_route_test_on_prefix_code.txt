@@ -1,0 +1,191 @@
+# started: 2026-10-28 13:54:48 KST
+# cwd: /home/mgjeong/Desktop/etri_hd/mbnas_application
+# env: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1
+# projection.py sha256: 320398a0aaf4ebacd37c0146a75328e8ab3711d41f7f84cea6b951a3f46da430
+# command: runtime/venv/bin/python -m pytest -p no:cacheprovider -m "not gpu and not live and not legacy_records and not host_data" -q -rfE tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py
+
+.F2026-10-28T04:54:51.652Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-b05f6794cbb2/events?after_seq=0 status=200 request_id=0c2ca721fdb84bd381bbdc7fc0d04971 duration_ms=37.5 client=127.0.0.1:50000
+2026-10-28T04:54:51.653Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-b05f6794cbb2/events?after_seq=0 status=200 request_id=0c2ca721fdb84bd381bbdc7fc0d04971 duration_ms=44.7 client=127.0.0.1:53070
+FF                                                                     [100%]
+=================================== FAILURES ===================================
+____________ test_snapshot_and_candidate_detail_through_the_gateway ____________
+
+client = <starlette.testclient.TestClient object at 0x7f33e08a4bb0>
+seeded = ('run-c18ec7f358c4', 'run-c18ec7f358c4.base.yolo11n')
+
+    def test_snapshot_and_candidate_detail_through_the_gateway(client, seeded) -> None:
+        run_id, cid = seeded
+        snap = client.get(f"/api/v1/runs/{run_id}/snapshot", headers=auth())
+        assert snap.status_code == 200, snap.text  # contract_body validated the projected body (else 500)
+>       assert _check("snapshot", snap.json(), snap.text) >= 2  # candidates[] and events[].payload
+
+tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+where = 'snapshot'
+doc = {'run': {'id': 'run-c18ec7f358c4', 'status': 'QUEUED', 'protocol_hash': 'sha256:b7f2ad60e4cd6501eb18f27a7db9c3b03c601f...rchitecture_path': None, 'arm': 'Baseline', 'artifacts': [], ...}], 'generated_candidates': [], 'generations': [], ...}
+text = '{"run":{"id":"run-c18ec7f358c4","status":"QUEUED","protocol_hash":"sha256:b7f2ad60e4cd6501eb18f27a7db9c3b03c601fc5510...null,"training_seed":895284287,"training_status":"TRAINED"},"created_at":"2026-10-28T04:54:50.791970Z"}],"last_seq":4}'
+
+    def _check(where: str, doc: Any, text: str) -> int:
+        """F1 assertions on one public body; returns how many raw_metrics carried the planted recipe."""
+        planted = [r for r in _raw_metrics(doc) if isinstance(r.get("resolved_recipe"), dict)
+                   and set(RUNNER_PATHS) <= set(r["resolved_recipe"]) and r["resolved_recipe"].get("cfg_name") == "yolo11n.yaml"]
+        for raw in _raw_metrics(doc):
+>           assert _leaks(json.dumps(raw)) == [], (where, _leaks(json.dumps(raw)))
+E           AssertionError: ('snapshot', ['/home/mbnas-owner/datasets/pilot_smoke/data.yaml', '/work/runs/run-feedfacecafe/model-feedfacecafe/mode.../run-feedfacecafe/model-feedfacecafe/ultralytics', '/work/runs/run-feedfacecafe/model-feedfacecafe/ultralytics/TRAIN'])
+E           assert ['/home/mbnas...lytics/TRAIN'] == []
+E             
+E             Left contains 4 more items, first extra item: '/home/mbnas-owner/datasets/pilot_smoke/data.yaml'
+E             Use -v to get more diff
+
+tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py:66: AssertionError
+---------------------------- Captured stderr setup -----------------------------
+2026-10-28T04:54:50.696Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=cd22a90c7ab647a99c2b2c72ae899a58 duration_ms=92.1 client=127.0.0.1:50000
+2026-10-28T04:54:50.706Z INFO mbnas_server.access method=POST path=/api/v1/protocols/validate status=200 request_id=cd22a90c7ab647a99c2b2c72ae899a58 duration_ms=223.2 client=testclient:50000
+2026-10-28T04:54:50.786Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=cb711b11c45140599fe1d57bb6170400 duration_ms=57.9 client=127.0.0.1:50000
+2026-10-28T04:54:50.787Z INFO mbnas_server.access method=POST path=/api/v1/runs status=200 request_id=cb711b11c45140599fe1d57bb6170400 duration_ms=77.0 client=testclient:50000
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:180 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=cd22a90c7ab647a99c2b2c72ae899a58 duration_ms=92.1 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/protocols/validate status=200 request_id=cd22a90c7ab647a99c2b2c72ae899a58 duration_ms=223.2 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=cb711b11c45140599fe1d57bb6170400 duration_ms=57.9 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs status=200 request_id=cb711b11c45140599fe1d57bb6170400 duration_ms=77.0 client=testclient:50000
+----------------------------- Captured stderr call -----------------------------
+2026-10-28T04:54:50.815Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-c18ec7f358c4/snapshot status=200 request_id=0aba7a11d4944d13ba5e3d7f36a3f18b duration_ms=17.5 client=127.0.0.1:50000
+2026-10-28T04:54:50.816Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-c18ec7f358c4/snapshot status=200 request_id=0aba7a11d4944d13ba5e3d7f36a3f18b duration_ms=20.9 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-c18ec7f358c4/snapshot status=200 request_id=0aba7a11d4944d13ba5e3d7f36a3f18b duration_ms=17.5 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-c18ec7f358c4/snapshot status=200 request_id=0aba7a11d4944d13ba5e3d7f36a3f18b duration_ms=20.9 client=testclient:50000
+_____________________ test_sse_replay_through_the_gateway ______________________
+
+live = 'http://127.0.0.1:47601'
+client = <starlette.testclient.TestClient object at 0x7f33e04d61a0>
+seeded = ('run-b05f6794cbb2', 'run-b05f6794cbb2.base.yolo11n')
+api_settings = CoreSettings(api_token=SecretStr('**********'), artifact_signing_key=SecretStr('**********'), cors_origins=['http://lo...ile=1024, structure_check_fsize_bytes=67108864, structure_check_max_output_bytes=1048576, structure_check_unshare=True)
+
+    def test_sse_replay_through_the_gateway(live, client, seeded, api_settings) -> None:
+        run_id, _ = seeded
+        conn = connect(api_settings, init=False)
+        try:
+            last_seq = int(repo.get_run(conn, run_id)["last_seq"])
+        finally:
+            conn.close()
+        lines, seen = [], 0
+        deadline = time.monotonic() + 20
+        with httpx.Client(timeout=20) as c, c.stream("GET", f"{live}/api/v1/runs/{run_id}/events?after_seq=0",
+                                                     headers=auth()) as resp:
+            assert resp.status_code == 200
+            for line in resp.iter_lines():
+                lines.append(line)
+                if line.startswith("id: "):
+                    seen = max(seen, int(line[4:]))
+                if (line == "" and seen >= last_seq) or time.monotonic() > deadline:
+                    break
+        assert seen >= last_seq > 0, (seen, last_seq)
+        text = "\n".join(lines)
+        events = [json.loads(x[len("data: "):]) for x in lines if x.startswith("data: ")]
+>       assert _check("SSE replay", events, text) >= 1
+
+tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py:159: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+where = 'SSE replay'
+doc = [{'seq': 1, 'type': 'run.updated', 'run_id': 'run-b05f6794cbb2', 'payload': {'budget': {'arms': ['GA', 'IndependentRan... 'run-b05f6794cbb2', 'payload': {'ap': None, 'architecture_path': None, 'arm': 'Baseline', 'artifacts': [], ...}, ...}]
+text = 'retry: 3000\n\nid: 1\nevent: run.updated\ndata: {"seq":1,"type":"run.updated","run_id":"run-b05f6794cbb2","payload":{...aluation_id":null,"training_seed":895284287,"training_status":"TRAINED"},"created_at":"2026-10-28T04:54:51.552651Z"}\n'
+
+    def _check(where: str, doc: Any, text: str) -> int:
+        """F1 assertions on one public body; returns how many raw_metrics carried the planted recipe."""
+        planted = [r for r in _raw_metrics(doc) if isinstance(r.get("resolved_recipe"), dict)
+                   and set(RUNNER_PATHS) <= set(r["resolved_recipe"]) and r["resolved_recipe"].get("cfg_name") == "yolo11n.yaml"]
+        for raw in _raw_metrics(doc):
+>           assert _leaks(json.dumps(raw)) == [], (where, _leaks(json.dumps(raw)))
+E           AssertionError: ('SSE replay', ['/home/mbnas-owner/datasets/pilot_smoke/data.yaml', '/work/runs/run-feedfacecafe/model-feedfacecafe/mo.../run-feedfacecafe/model-feedfacecafe/ultralytics', '/work/runs/run-feedfacecafe/model-feedfacecafe/ultralytics/TRAIN'])
+E           assert ['/home/mbnas...lytics/TRAIN'] == []
+E             
+E             Left contains 4 more items, first extra item: '/home/mbnas-owner/datasets/pilot_smoke/data.yaml'
+E             Use -v to get more diff
+
+tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py:66: AssertionError
+---------------------------- Captured stderr setup -----------------------------
+2026-10-28T04:54:51.432Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=d0608d847cc548da8e922a811ad72ef0 duration_ms=85.6 client=127.0.0.1:50000
+2026-10-28T04:54:51.442Z INFO mbnas_server.access method=POST path=/api/v1/protocols/validate status=200 request_id=d0608d847cc548da8e922a811ad72ef0 duration_ms=220.3 client=testclient:50000
+2026-10-28T04:54:51.546Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=df1e9742301a407ebf6bdcc3b76824a9 duration_ms=83.3 client=127.0.0.1:50000
+2026-10-28T04:54:51.547Z INFO mbnas_server.access method=POST path=/api/v1/runs status=200 request_id=df1e9742301a407ebf6bdcc3b76824a9 duration_ms=101.1 client=testclient:50000
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:180 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=d0608d847cc548da8e922a811ad72ef0 duration_ms=85.6 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/protocols/validate status=200 request_id=d0608d847cc548da8e922a811ad72ef0 duration_ms=220.3 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=df1e9742301a407ebf6bdcc3b76824a9 duration_ms=83.3 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs status=200 request_id=df1e9742301a407ebf6bdcc3b76824a9 duration_ms=101.1 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-b05f6794cbb2/events?after_seq=0 status=200 request_id=0c2ca721fdb84bd381bbdc7fc0d04971 duration_ms=37.5 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-b05f6794cbb2/events?after_seq=0 status=200 request_id=0c2ca721fdb84bd381bbdc7fc0d04971 duration_ms=44.7 client=127.0.0.1:53070
+_______________________ test_export_through_the_gateway ________________________
+
+client = <starlette.testclient.TestClient object at 0x7f33e08a6ce0>
+seeded = ('run-18b2b64ace6c', 'run-18b2b64ace6c.base.yolo11n')
+
+    def test_export_through_the_gateway(client, seeded) -> None:
+        run_id, _ = seeded
+        r = client.get(f"/api/v1/runs/{run_id}/export", headers=auth())
+        assert r.status_code == 200, r.text[:400]
+        carried = 0
+        with zipfile.ZipFile(io.BytesIO(r.content)) as zf:
+            for name in zf.namelist():
+                data = zf.read(name).decode("utf-8", "replace")
+                if name.endswith(".json"):
+                    carried += _check(f"export {name}", json.loads(data), data)
+                elif name.endswith(".jsonl"):
+>                   carried += _check(f"export {name}", [json.loads(x) for x in data.splitlines() if x.strip()], data)
+
+tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py:173: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+where = 'export evaluations.jsonl'
+doc = [{'ap': None, 'architecture_path': None, 'arm': 'Baseline', 'artifacts': [], ...}]
+text = '{"ap": null, "architecture_path": null, "arm": "Baseline", "artifacts": [], "batch": 1, "blocks": [], "candidate_id":...tus": "SEARCH_COMPLETE", "supersedes_evaluation_id": null, "training_seed": 895284287, "training_status": "TRAINED"}\n'
+
+    def _check(where: str, doc: Any, text: str) -> int:
+        """F1 assertions on one public body; returns how many raw_metrics carried the planted recipe."""
+        planted = [r for r in _raw_metrics(doc) if isinstance(r.get("resolved_recipe"), dict)
+                   and set(RUNNER_PATHS) <= set(r["resolved_recipe"]) and r["resolved_recipe"].get("cfg_name") == "yolo11n.yaml"]
+        for raw in _raw_metrics(doc):
+>           assert _leaks(json.dumps(raw)) == [], (where, _leaks(json.dumps(raw)))
+E           AssertionError: ('export evaluations.jsonl', ['/home/mbnas-owner/datasets/pilot_smoke/data.yaml', '/work/runs/run-feedfacecafe/model-f.../run-feedfacecafe/model-feedfacecafe/ultralytics', '/work/runs/run-feedfacecafe/model-feedfacecafe/ultralytics/TRAIN'])
+E           assert ['/home/mbnas...lytics/TRAIN'] == []
+E             
+E             Left contains 4 more items, first extra item: '/home/mbnas-owner/datasets/pilot_smoke/data.yaml'
+E             Use -v to get more diff
+
+tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py:66: AssertionError
+---------------------------- Captured stderr setup -----------------------------
+2026-10-28T04:54:52.358Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=22a8497591df4a23a7882fa84251e6c3 duration_ms=91.8 client=127.0.0.1:50000
+2026-10-28T04:54:52.368Z INFO mbnas_server.access method=POST path=/api/v1/protocols/validate status=200 request_id=22a8497591df4a23a7882fa84251e6c3 duration_ms=225.0 client=testclient:50000
+2026-10-28T04:54:52.449Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=03c581cc8bac4e2cb517511800ec7247 duration_ms=57.9 client=127.0.0.1:50000
+2026-10-28T04:54:52.450Z INFO mbnas_server.access method=POST path=/api/v1/runs status=200 request_id=03c581cc8bac4e2cb517511800ec7247 duration_ms=77.8 client=testclient:50000
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:180 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=22a8497591df4a23a7882fa84251e6c3 duration_ms=91.8 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/protocols/validate status=200 request_id=22a8497591df4a23a7882fa84251e6c3 duration_ms=225.0 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=03c581cc8bac4e2cb517511800ec7247 duration_ms=57.9 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs status=200 request_id=03c581cc8bac4e2cb517511800ec7247 duration_ms=77.8 client=testclient:50000
+----------------------------- Captured stderr call -----------------------------
+2026-10-28T04:54:52.536Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-18b2b64ace6c/export-manifest status=200 request_id=9b7963cb561c4276a9dfbb335c9591ad duration_ms=59.7 client=127.0.0.1:50000
+2026-10-28T04:54:52.545Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-18b2b64ace6c/export status=200 request_id=9b7963cb561c4276a9dfbb335c9591ad duration_ms=86.3 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-18b2b64ace6c/export-manifest status=200 request_id=9b7963cb561c4276a9dfbb335c9591ad duration_ms=59.7 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-18b2b64ace6c/export status=200 request_id=9b7963cb561c4276a9dfbb335c9591ad duration_ms=86.3 client=testclient:50000
+=============================== warnings summary ===============================
+tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py::test_positive_control_stored_row_and_event_hold_the_runner_paths
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py::test_snapshot_and_candidate_detail_through_the_gateway
+FAILED tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py::test_sse_replay_through_the_gateway
+FAILED tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py::test_export_through_the_gateway
+3 failed, 1 passed, 1 warning in 4.55s
+
+# exit code: 1
+# finished: 2026-10-28 13:54:53 KST (wall 5 s)

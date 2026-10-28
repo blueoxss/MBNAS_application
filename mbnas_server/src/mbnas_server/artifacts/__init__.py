@@ -1,8 +1,8 @@
-"""Gateway artifact store, signed URLs and download helper (WP-5A; DD-A6, DD-A11, DD-A38, DD-A39).
+"""Gateway artifact store, signed URLs and download helper.
 
 * :mod:`mbnas_server.artifacts.store` - content-addressed store ``<root>/<sha256[:2]>/<sha256>`` (+ ``<sha256>.json``
   meta), verified atomic writes, idempotent re-put, size cap, key-only addressing;
-* :mod:`mbnas_server.artifacts.signing` - HMAC signed URLs and the contract ``Artifact`` view (ported, scheme unchanged);
+* :mod:`mbnas_server.artifacts.signing` - HMAC signed URLs and the contract ``Artifact`` view;
 * :mod:`mbnas_server.artifacts.download` - ``serve_artifact(store, record) -> (headers, body)`` with the digest re-check.
 
 No web framework is imported here. :class:`StoreError` and :class:`SignatureError` are

@@ -1,0 +1,14 @@
+2026-10-28T05:16:25Z
+== GPU_NODES=0: WORK=<W>/probe sbx_f2.sh /usr/bin/python3 -I /opt/harness/nvml_probe.py
+CUDA_VISIBLE_DEVICES=''
+dev nvidia nodes: []
+nvmlInit_v2 rc 9
+exit=0
+== GPU_NODES=1: WORK=<W>/probe sbx_f2.sh /usr/bin/python3 -I /opt/harness/nvml_probe.py
+CUDA_VISIBLE_DEVICES=''
+dev nvidia nodes: ['nvidia-modeset', 'nvidia-uvm', 'nvidia-uvm-tools', 'nvidia0', 'nvidia1', 'nvidiactl']
+nvmlInit_v2 rc 0
+nvmlDeviceGetCount_v2 rc 0 count 2
+ device 0 NVIDIA RTX A6000
+ device 1 NVIDIA RTX A6000
+exit=0

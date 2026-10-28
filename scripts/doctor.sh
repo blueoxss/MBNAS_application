@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # doctor.sh - pre-flight / health diagnostics of an installed MBNAS Research Console profile (no secret is printed).
-# WP-7A; contract docs/internal/WORK_PACKAGES/WP-7_OPS_PACKAGING.md section 1. Run with --help for the check list.
+# Run with --help for the check list.
 set -u -o pipefail
 unset CDPATH
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -347,7 +347,7 @@ for name in PROCS:
     elif name != "web":
         add(f"process:{name}", "PASS", "not running")
 
-# ---- environment of the running Python roles (C09 D1): no inherited search-path variables ---------------------------
+# ---- environment of the running Python roles: no inherited search-path variables -----------------------------------
 SHADOW_KEYS = ("PYTHONPATH", "PYTHONHOME")  # FAIL: imports could come from outside runtime/venv
 SCRUBBED_KEYS = ("PYTHONSTARTUP", "PYTHONUSERBASE", "OLDPWD")  # start.sh removes these too (noted, not blocking)
 for name in PROCS:
@@ -403,7 +403,7 @@ for name, host, port, severity in ports:
 # ---- gpu ----------------------------------------------------------------------------------------------------------------
 smi = shutil.which("nvidia-smi")
 if not smi:
-    add("gpu", "WARN", "nvidia-smi not found: CPU-only runner (training/checkpoints only; latency needs CUDA, DD-A32)")
+    add("gpu", "WARN", "nvidia-smi not found: CPU-only runner (training/checkpoints only; latency needs CUDA)")
 else:
     try:
         q = subprocess.run([smi, "--query-gpu=index,name,memory.used,memory.total,utilization.gpu",

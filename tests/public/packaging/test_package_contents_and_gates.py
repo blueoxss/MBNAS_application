@@ -27,6 +27,11 @@ TOP = "mbnas_application/"
 PB = load_dev("package_build")
 PROFILES = ("public", "registration", "owner")
 ROW = re.compile(r"^\| \d+ \| `")
+# generated text of a clean distribution (DD-A76): no licence-status word, no decision / work-package tag, no reference
+# to internal records, unshipped test folders or the repository-only licence review record
+STATUS_WORDS = re.compile(r"placeholder|undetermined|pending|unconfirmed")
+TRAIL = re.compile(r"DD-A\d|WP-\d|docs/internal|tests/(?:public|owner|_shared)|LICENSE_STATUS|REVIEW_CHECKLIST|"
+                   r"RIGHTS_REVIEW")
 
 
 def _read(z: Path, rel: str) -> bytes:
@@ -79,6 +84,17 @@ def test_package_contents_md_in_every_profile_matches_the_manifest(built: dict) 
         header = {"zip": z.name, "version": VERSION, "profile": profile, "build_id": info["build_id"],
                   "platform": info["platform"]["tag"]}
         assert PB.render_package_contents(list(man.values()), header) == data
+        assert "`LICENSE`" not in text and not STATUS_WORDS.search(text) and not TRAIL.search(text), profile
+
+
+def test_generated_metadata_carries_no_licence_status_or_process_trail(built: dict) -> None:
+    for profile in PROFILES:
+        z = zip_of(built["root"], profile)
+        names = ["BUILD_INFO.json", "PACKAGE_PROFILE.json", "FILE_MANIFEST.jsonl", "PACKAGE_CONTENTS.md"]
+        for name in names:
+            text = _read(z, name).decode()
+            assert not STATUS_WORDS.search(text) and not TRAIL.search(text), (profile, name, (
+                STATUS_WORDS.search(text) or TRAIL.search(text)).group(0))
 
 
 def test_payload_and_build_id_do_not_cover_the_manifest_rendered_documents(built: dict) -> None:
@@ -93,46 +109,53 @@ def test_manifest_licence_column_names_only_files_of_the_same_bundle(built: dict
         z = zip_of(built["root"], profile)
         rels, man = _rels(z), _manifest(z)
         for rel, e in man.items():
-            assert "LICENSE_STATUS" not in e["licence"], (profile, rel, e["licence"])
-            for ref in re.findall(r"\b(LICENSE|THIRD_PARTY_NOTICES(?:_WEB)?\.md)\b", e["licence"]):
+            assert "LICENSE" not in e["licence"] and not STATUS_WORDS.search(e["licence"]), (profile, rel, e["licence"])
+            for ref in re.findall(r"\bTHIRD_PARTY_NOTICES(?:_WEB)?\.md\b", e["licence"]):
                 assert ref in rels, (profile, rel, ref)
-        assert man["README.md"]["licence"] == "project (licence undetermined; LICENSE)"
-        assert "THIRD_PARTY_NOTICES_WEB.md" in man["mbnas_web/dist/index.html"]["licence"]
-        assert man["wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl"]["licence"].endswith("(THIRD_PARTY_NOTICES.md)")
-        assert man["LICENSE"]["role"] == man["THIRD_PARTY_NOTICES_WEB.md"]["role"] == "licence-notice"
-    assert "LICENSE_STATUS.md" in _rels(zip_of(built["root"], "owner"))  # still owner only (DD-A41 c)
-    for profile in ("public", "registration"):
-        assert "LICENSE_STATUS.md" not in _rels(zip_of(built["root"], profile))
+        assert man["README.md"]["licence"] == "project"
+        assert man["mbnas_web/dist/index.html"]["licence"] == (
+            "project + bundled npm third-party code (see THIRD_PARTY_NOTICES_WEB.md)")
+        assert man["wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl"]["licence"].endswith(
+            "see THIRD_PARTY_NOTICES.md)")
+        assert man["THIRD_PARTY_NOTICES.md"]["role"] == man["THIRD_PARTY_NOTICES_WEB.md"]["role"] == "licence-notice"
+        assert not {"LICENSE", "LICENSE_STATUS.md"} & rels, profile  # no licence file ships (DD-A76)
 
 
-@pytest.mark.parametrize("rel,ref", [
-    ("mbnas_model_runtime/src/mbnas_model_runtime/operators/parse_model_8_4_173.py", "THIRD_PARTY_NOTICES.md"),
-    ("mbnas_model_runtime/src/mbnas_model_runtime/operators/etri_mixed_blocks.py", "THIRD_PARTY_NOTICES.md"),
-    ("mbnas_model_runtime/src/mbnas_model_runtime/adapters/etri_hybrid/model.py", "THIRD_PARTY_NOTICES.md"),
-    ("examples/models/yolo11n_user.yaml", "THIRD_PARTY_NOTICES.md"),
-    ("examples/models/yolo11n_user_broken.yaml", "THIRD_PARTY_NOTICES.md"),
-    ("wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl", "THIRD_PARTY_NOTICES.md"),
-    ("mbnas_web/dist/assets/index-abc.js", "THIRD_PARTY_NOTICES_WEB.md"),
-    ("mbnas_server/src/mbnas_server/api/app.py", "LICENSE"),
-    ("docs/registration/FILE_LIST.md", "LICENSE"),
+@pytest.mark.parametrize("rel,label", [
+    ("mbnas_model_runtime/src/mbnas_model_runtime/operators/parse_model_8_4_173.py",
+     "third-party-derived (AGPL-3.0; see THIRD_PARTY_NOTICES.md)"),
+    ("mbnas_model_runtime/src/mbnas_model_runtime/operators/etri_mixed_blocks.py",
+     "third-party-derived (see THIRD_PARTY_NOTICES.md)"),
+    ("mbnas_model_runtime/src/mbnas_model_runtime/adapters/etri_hybrid/model.py",
+     "third-party-derived (see THIRD_PARTY_NOTICES.md)"),
+    ("examples/models/yolo11n_user.yaml", "third-party-derived (AGPL-3.0; see THIRD_PARTY_NOTICES.md)"),
+    ("examples/models/yolo11n_user_broken.yaml", "third-party-derived (AGPL-3.0; see THIRD_PARTY_NOTICES.md)"),
+    ("wheels/mbnas_model_runtime-0.1.0-py3-none-any.whl",
+     "project + third-party-derived modules (incl. AGPL-3.0; see THIRD_PARTY_NOTICES.md)"),
+    ("mbnas_web/dist/assets/index-abc.js", "project + bundled npm third-party code (see THIRD_PARTY_NOTICES_WEB.md)"),
+    ("THIRD_PARTY_NOTICES_WEB.md", "notice (third-party licence list)"),
+    ("mbnas_server/src/mbnas_server/api/app.py", "project"),
+    ("docs/registration/FILE_LIST.md", "project"),
 ])
-def test_licence_rules_send_third_party_derived_files_to_the_notices(rel: str, ref: str) -> None:
-    lic = PB.first_match(PB.LICENCE_RULES, rel)
-    assert ref in lic and "LICENSE_STATUS" not in lic, lic
-    if ref == "LICENSE":
-        assert lic == "project (licence undetermined; LICENSE)"
-    else:
-        assert "THIRD_PARTY_NOTICES" in lic
+def test_licence_rules_send_third_party_derived_files_to_the_notices(rel: str, label: str) -> None:
+    assert PB.first_match(PB.LICENCE_RULES, rel) == label
+
+
+def test_no_licence_label_names_a_licence_file_or_a_licence_status() -> None:
+    for pattern, label in PB.LICENCE_RULES:
+        assert "LICENSE" not in label and not STATUS_WORDS.search(label), (pattern, label)
 
 
 # ------------------------------------------------------------------------------------------------- C10 D7: roles
-def test_web_test_and_e2e_rows_have_role_test(built: dict) -> None:
+def test_no_bundle_has_test_rows_and_the_role_rules_still_classify_tests(built: dict) -> None:
     for profile in PROFILES:
         man = _manifest(zip_of(built["root"], profile))
-        web_tests = {r: e["role"] for r, e in man.items() if r.startswith(("mbnas_web/tests/", "mbnas_web/e2e/"))}
-        assert web_tests and set(web_tests.values()) == {"test"}, (profile, web_tests)
-    assert _manifest(zip_of(built["root"], "owner"))["mbnas_web/e2e/oracle.spec.ts"]["role"] == "test"
-    for rel, role in (("mbnas_web/playwright.config.ts", "web-config"), ("mbnas_web/tsconfig.json", "web-config"),
+        tests = {r: e["role"] for r, e in man.items()
+                 if e["role"] == "test" or r.startswith(("tests/", "mbnas_web/tests/", "mbnas_web/e2e/"))}
+        assert tests == {}, (profile, tests)  # clean distribution (DD-A76): no test file ships
+    for rel, role in (("mbnas_web/tests/a.test.ts", "test"), ("mbnas_web/e2e/oracle.spec.ts", "test"),
+                      ("tests/public/test_x.py", "test"),
+                      ("mbnas_web/playwright.config.ts", "web-config"), ("mbnas_web/tsconfig.json", "web-config"),
                       ("mbnas_web/vite.config.ts", "web-config"), ("mbnas_web/package-lock.json", "web-provenance"),
                       ("mbnas_web/scripts/check-bundle.mjs", "script"), ("PACKAGE_CONTENTS.md", "build-metadata"),
                       ("mbnas_web/index.html", "package-source"), ("mbnas_web/src/main.tsx", "package-source"),
@@ -172,7 +195,7 @@ def test_a_failing_check_is_named_fail_and_later_checks_not_run(tree: Path) -> N
 
 
 # ------------------------------------------------------------------------- C09 D3: wheel contents / package-data
-def test_wheel_contents_gate_passes_and_the_listing_ships_in_the_owner_bundle(built: dict) -> None:
+def test_wheel_contents_gate_passes_and_the_listing_stays_in_the_build_report(built: dict) -> None:
     root = built["root"]
     by = {w["wheel"].split("/")[-1].split("-")[0]: w for w in report(root, "owner")["wheel_contents"]}
     assert set(by) == set(PUBLIC_PKGS) | {CORE}
@@ -185,7 +208,8 @@ def test_wheel_contents_gate_passes_and_the_listing_ships_in_the_owner_bundle(bu
                                      "sha256": hashlib.sha256(src).hexdigest(), "in_wheel": True}]
     z = zip_of(root, "owner")
     listing = (root / "build" / "package_reports" / "owner_wheels.txt").read_bytes()
-    assert _read(z, "docs/internal/evidence/package_build/owner_wheels.txt") == listing  # same text, shipped (owner)
+    # no profile sets wheel_listing_member (DD-A76): the listing stays in the build report, no bundle ships it
+    assert not [r for r in _rels(z) if r.endswith("_wheels.txt") or r.startswith("docs/internal/")]
     text = listing.decode()
     assert f"[data] {CORE}/db/schema.sql" in text and text.count("gate: PASS") == 5 and str(root) not in text
     with zipfile.ZipFile(z) as zf:  # the listing names exactly the members of the shipped wheels
@@ -200,6 +224,22 @@ def test_wheel_contents_gate_passes_and_the_listing_ships_in_the_owner_bundle(bu
     for profile in ("public", "registration"):
         assert (root / "build" / "package_reports" / f"{profile}_wheels.txt").is_file()
         assert not [r for r in _rels(zip_of(root, profile)) if r.startswith("docs/internal/")]
+
+
+def test_wheel_listing_member_ships_the_listing_where_an_allowlist_asks(tree: Path) -> None:
+    """The optional [profile] key wheel_listing_member (no real allowlist sets it any more) ships the build's wheel
+    member listing at that path; it must be declared in [generated]."""
+    al = tree / "build" / "allowlists" / "owner.txt"
+    text = al.read_text(encoding="utf-8")
+    assert text.count("host_facts = report\n") == 1 and text.count("\nwheels/*.whl\n") == 1
+    al.write_text(text.replace("host_facts = report\n", "host_facts = report\nwheel_listing_member = wheels/WHEEL_LISTING.txt\n")
+                  .replace("\nwheels/*.whl\n", "\nwheels/*.whl\nwheels/WHEEL_LISTING.txt\n"), encoding="utf-8")
+    proc = run_build(tree, "--profile", "owner")
+    assert proc.returncode == 0, proc.stdout[-3000:]
+    z = zip_of(tree, "owner")
+    listing = (tree / "build" / "package_reports" / "owner_wheels.txt").read_bytes()
+    assert _read(z, "wheels/WHEEL_LISTING.txt") == listing and listing.decode().count("gate: PASS") == 5
+    assert _manifest(z)["wheels/WHEEL_LISTING.txt"]["origin"] == "generated:package_build"
 
 
 def test_wheel_contents_gate_fails_on_undeclared_and_on_missing_package_data(tree: Path) -> None:
@@ -282,21 +322,22 @@ def test_shipped_registration_file_list_regenerates_identically(built: dict, tmp
     assert f"목록 대상 항목 {listed}개" in text
     assert len([line for line in text.splitlines() if ROW.match(line)]) == listed
     assert "LICENSE_STATUS" not in text  # licence column follows the manifest (C11 D8)
+    assert "licence undetermined" not in text and "| project |" in text  # project files: "project" (DD-A76)
 
 
 # ------------------------------------------------------------------------------- allowlists of the source tree
-def test_real_allowlists_ship_licence_notices_and_contents_in_every_profile() -> None:
+def test_real_allowlists_ship_the_notices_and_contents_but_no_licence_file() -> None:
     if not (REPO / "build" / "allowlists" / "public.txt").is_file():
         pytest.skip("not a source tree: build/allowlists absent")
-    assert (REPO / "LICENSE").is_file()  # the LICENSE* include matches an existing file (DD-A65)
     assert (REPO / "THIRD_PARTY_NOTICES_WEB.md").is_file()  # npm notices (DD-A65); required by every allowlist
     als = {p: PB.load_allowlist(REPO / "build" / "allowlists" / f"{p}.txt", p) for p in PROFILES}
     for profile, al in als.items():
-        assert {"LICENSE", "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES_WEB.md"} <= set(al.required), profile
-        assert al.included("LICENSE") and al.included("THIRD_PARTY_NOTICES_WEB.md"), profile
+        assert {"THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES_WEB.md"} <= set(al.required), profile
+        assert not {"LICENSE", "LICENSE_STATUS.md", "pyproject.toml"} & set(al.required), profile
+        assert al.included("THIRD_PARTY_NOTICES.md") and al.included("THIRD_PARTY_NOTICES_WEB.md"), profile
         assert al.is_generated("PACKAGE_CONTENTS.md"), profile
-        assert al.included("LICENSE_STATUS.md") is (profile == "owner"), profile
-        assert al.included("scripts/dev/gen_npm_notices.py") is (profile == "owner"), profile
-    member = als["owner"].settings["wheel_listing_member"]
-    assert member.startswith("docs/internal/") and als["owner"].is_generated(member)
-    assert all("wheel_listing_member" not in als[p].settings for p in ("public", "registration"))
+        for rel in ("LICENSE", "LICENSE_STATUS.md", "pyproject.toml", "scripts/dev/gen_npm_notices.py",
+                    "scripts/package.sh", "docs/internal/DECISIONS.md", "tests/public/conftest.py"):
+            assert not al.included(rel), (profile, rel)  # clean distribution (DD-A76)
+        assert al.included("scripts/dev/wp3_three_process_smoke.py") is (profile == "owner"), profile
+        assert "wheel_listing_member" not in al.settings, profile  # the listing stays in build/package_reports

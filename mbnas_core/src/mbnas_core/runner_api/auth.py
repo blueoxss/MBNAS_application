@@ -1,4 +1,4 @@
-"""Scoped principals of the core (WP-2 contract section 1.3, design A3 section 11.1, DD-A18/DD-A20).
+"""Scoped principals of the core.
 
 * Table ``principals`` (schema v4): ``kind`` in server|runner|admin, ``runner_id`` (required for runner), the token
   ``token_prefix`` (8 hex, lookup key) and ``token_hash`` = sha256 hex of the 32-byte random secret (stored, never the

@@ -1,0 +1,155 @@
+{
+ "schema": "mbnas.doctor/1",
+ "root": "/r/s 1/mbnas_application",
+ "profile": "owner",
+ "ok": true,
+ "counts": {
+  "PASS": 25,
+  "WARN": 3,
+  "FAIL": 0
+ },
+ "blocking": [],
+ "checks": [
+  {
+   "name": "interpreter",
+   "status": "PASS",
+   "detail": "Python 3.10.22 venv /r/s 1/mbnas_application/runtime/venv"
+  },
+  {
+   "name": "package:mbnas-contracts",
+   "status": "PASS",
+   "detail": "0.1.0 from /r/s 1/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_contracts"
+  },
+  {
+   "name": "package:mbnas-model-runtime",
+   "status": "PASS",
+   "detail": "0.1.0 from /r/s 1/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_model_runtime"
+  },
+  {
+   "name": "package:mbnas-runner",
+   "status": "PASS",
+   "detail": "0.1.0 from /r/s 1/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_runner"
+  },
+  {
+   "name": "package:mbnas-server",
+   "status": "PASS",
+   "detail": "0.1.0 from /r/s 1/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_server"
+  },
+  {
+   "name": "package:mbnas-core",
+   "status": "PASS",
+   "detail": "0.1.0 from /r/s 1/mbnas_application/runtime/venv/lib/python3.10/site-packages/mbnas_core"
+  },
+  {
+   "name": "entry_points",
+   "status": "PASS",
+   "detail": "7 console scripts in runtime/venv/bin"
+  },
+  {
+   "name": "path_strings",
+   "status": "PASS",
+   "detail": "275 files scanned, no original-host path string"
+  },
+  {
+   "name": "config:core",
+   "status": "PASS",
+   "detail": "listen 127.0.0.1:8700, db /r/s 1/mbnas_application/runtime/core/db/mbnas.sqlite3; secrets set: MBNAS_CORE_API_TOKEN, MBNAS_CORE_ARTIFACT_SIGNING_KEY, MBNAS_CORE_TICKET_KEY"
+  },
+  {
+   "name": "config:gateway",
+   "status": "PASS",
+   "detail": "core_url http://127.0.0.1:8700, listen 127.0.0.1:8710; secrets set: MBNAS_GW_API_TOKEN, MBNAS_GW_ARTIFACT_SIGNING_KEY, MBNAS_GW_CORE_TOKEN"
+  },
+  {
+   "name": "config:runner",
+   "status": "PASS",
+   "detail": "core_url http://127.0.0.1:8700, runner_id runner-c268c294; secrets set: MBNAS_RUNNER_TOKEN|_TOKEN_FILE"
+  },
+  {
+   "name": "process:core",
+   "status": "PASS",
+   "detail": "not running"
+  },
+  {
+   "name": "process:owner-worker",
+   "status": "PASS",
+   "detail": "not running"
+  },
+  {
+   "name": "process:gateway",
+   "status": "PASS",
+   "detail": "not running"
+  },
+  {
+   "name": "process:runner",
+   "status": "PASS",
+   "detail": "not running"
+  },
+  {
+   "name": "port:core",
+   "status": "PASS",
+   "detail": "127.0.0.1:8700 free"
+  },
+  {
+   "name": "port:gateway",
+   "status": "PASS",
+   "detail": "127.0.0.1:8710 free"
+  },
+  {
+   "name": "port:web",
+   "status": "PASS",
+   "detail": "127.0.0.1:8720 free"
+  },
+  {
+   "name": "gpu",
+   "status": "WARN",
+   "detail": "nvidia-smi exit 9: no GPU listed"
+  },
+  {
+   "name": "gateway:core_url",
+   "status": "PASS",
+   "detail": "loopback http"
+  },
+  {
+   "name": "gateway:core_tls",
+   "status": "PASS",
+   "detail": "plain http core_url: no TLS on this connection (see core_url)"
+  },
+  {
+   "name": "core:gateway",
+   "status": "WARN",
+   "detail": "http://127.0.0.1:8700/core/v1/console/health unreachable: ConnectError (core not running: bash scripts/start.sh --profile owner --role core)"
+  },
+  {
+   "name": "gateway:store",
+   "status": "PASS",
+   "detail": "/r/s 1/mbnas_application/runtime/gateway/artifacts"
+  },
+  {
+   "name": "gateway:log_dir",
+   "status": "PASS",
+   "detail": "/r/s 1/mbnas_application/runtime/gateway/logs"
+  },
+  {
+   "name": "core:runner",
+   "status": "WARN",
+   "detail": "http://127.0.0.1:8700 unreachable (ConnectionRefusedError) (core not running: bash scripts/start.sh --profile owner --role core)"
+  },
+  {
+   "name": "core_doctor",
+   "status": "PASS",
+   "detail": "db present (schema 6); registry 17 entries (mbnas_core.registry.load_registry); free 72.2 GB"
+  },
+  {
+   "name": "disk",
+   "status": "PASS",
+   "detail": "72.2 GB free under runtime/"
+  },
+  {
+   "name": "web_dist",
+   "status": "PASS",
+   "detail": "mbnas_web/dist present (served by the gateway at /)"
+  }
+ ],
+ "at": "2026-10-28T06:34:29Z"
+}

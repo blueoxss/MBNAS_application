@@ -3,7 +3,7 @@
 ``collect()`` reads installed distribution versions via ``importlib.metadata`` (no heavy imports), imports torch
 only to read its CUDA/cuDNN build, and queries NVML (nvidia-ml-py) for the driver and each GPU. Anything that
 cannot be read is recorded as ``None`` with an ``errors`` entry instead of guessed. ``write_environment_lock``
-stores it atomically as ``$MBNAS_HOME/environment.lock.json`` (:data:`DEFAULT_LOCK_PATH`, DD-A13).
+stores it atomically as ``$MBNAS_HOME/environment.lock.json`` (:data:`DEFAULT_LOCK_PATH`).
 
 ``host_gpu_inventory()`` / ``validation_devices()`` give the device list the validator resolves
 ``console.benchmark.device`` against: ids ``host-gpu-<nvml index>``, plus the UUID, the product name and (only
@@ -24,9 +24,9 @@ from mbnas_contracts.util.home import mbnas_home
 from mbnas_contracts.util.time import utcnow_iso
 
 LOCK_SCHEMA = "mbnas.environment_lock/1"
-#: ``$MBNAS_HOME/environment.lock.json``, fixed when this module is imported (no installation-tree path, DD-A13)
+#: ``$MBNAS_HOME/environment.lock.json``, fixed when this module is imported (no installation-tree path)
 DEFAULT_LOCK_PATH: Path = mbnas_home() / "environment.lock.json"
-#: third-party distributions + the five MBNAS distributions of the package split (DD-A24)
+#: third-party distributions + the five MBNAS distributions
 DISTRIBUTIONS = ("torch", "torchvision", "ultralytics", "rfdetr", "tensorrt_cu12", "onnx", "onnxruntime-gpu",
                  "onnxsim", "fastapi", "uvicorn", "pydantic", "pydantic-settings", "numpy", "pillow",
                  "opencv-python-headless", "nvidia-ml-py", "transformers", "PyYAML", "mbnas-server",

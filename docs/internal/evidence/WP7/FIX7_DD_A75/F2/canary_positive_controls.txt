@@ -1,0 +1,8 @@
+# positive control 1: same needles over tree a's config/owner (holds the install secrets) -> must FAIL with SECRET hits
+scanned files=3 bytes=29581 containers=0 skipped=0 hits=14 failing=14 unmet=0
+canary_scan: FAIL
+exit=1
+# positive control 2: same needles over the RAW (unredacted) (a) integration_smoke.txt -> must FAIL with HOST_FACT hits
+scanned files=1 bytes=159705 containers=0 skipped=0 hits=20 failing=20 unmet=0
+canary_scan: FAIL
+exit=1

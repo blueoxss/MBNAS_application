@@ -3,9 +3,7 @@
  * the 409/422 answers of POST /runs/{id}/final-retrain, the frozen finalist list and the parent/child run facts.
  * A lower rung is never substituted for a missing L2 finalist (NO_FINALIST is reported as is).
  *
- * 재구현(2026-10-15), 원본 누락(리포 루트 .gitignore `lib/` 규칙으로 커밋되지 않음).
- * 근거 테스트: tests/final_retrain.test.tsx ('final retrain form and run kind helpers', 'parent / child runs', Final Retrain panel),
- * e2e/final.spec.ts, 사용처 src/screens/Server.tsx, src/screens/History.tsx, src/components/FinalRun.tsx, src/state/context.tsx.
+ * 사용처: src/screens/Server.tsx, src/screens/History.tsx, src/components/FinalRun.tsx, src/state/context.tsx.
  */
 import type { ApiError } from '../api/client';
 import type { ApiEvent, Finalist, FinalRetrainRequest, Run, RunKind } from '../api/types';

@@ -1,11 +1,14 @@
 """doctor.sh and verify.sh behaviour on a throw-away ROOT (WP-7 contract section 1): JSON report shapes, exit codes,
 --strict, statuses PASS / FAIL / NOT_APPLICABLE / BLOCKED_BY_ENV of the suites that do not need an installed stack
 (gpu through a fake nvidia-smi only, package manifest check, public integration without a core, unit via pytest on a
-stub test file), and that --pytest-args is split, never evaluated by a shell."""
+stub test file), and that --pytest-args is split, never evaluated by a shell. The throw-away ROOT has no tests/ folder
+and no root pyproject.toml, like a distribution (DD-A76): unit and gpu are NOT_APPLICABLE there; the tests that check
+the source-tree behaviour of those suites create tests/ first."""
 from __future__ import annotations
 
 import hashlib
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -37,6 +40,10 @@ def test_doctor_reports_root_and_strict_exit(ops_root: Path, ext_cwd: Path, tmp_
     assert by_name["process:runner"]["status"] == "WARN" and "stale" in by_name["process:runner"]["detail"]
     assert by_name["gpu"]["status"] == "PASS" and "Stub GPU" in by_name["gpu"]["detail"]
     assert "[FAIL] interpreter" in proc.stderr and not doc["ok"]
+    # a distribution has no tests/ folder and no root pyproject.toml: no check warns or fails about them
+    assert not (ops_root / "tests").exists() and not (ops_root / "pyproject.toml").exists()
+    assert not [c for c in doc["checks"] if c["status"] != "PASS"
+                and re.search(r"\btests\b|pyproject", f"{c['name']} {c['detail']}")]
     strict = run(ops_root, "doctor", "--profile", "public", "--strict", cwd=ext_cwd, env=env, timeout=300)
     assert strict.returncode == 1
 
@@ -52,6 +59,7 @@ def test_doctor_without_venv(tmp_path: Path, ext_cwd: Path) -> None:
 
 
 def test_gpu_suite_never_runs_on_a_busy_or_unapproved_gpu(ops_root: Path, ext_cwd: Path, tmp_path: Path) -> None:
+    (ops_root / "tests").mkdir()  # a source tree: the GPU gate decides
     proc, doc = _verify(ops_root, ext_cwd, tmp_path, "--suite", "gpu", gpu_mode="busy")
     assert proc.returncode == 3 and doc["status"] == "BLOCKED_BY_ENV" and "no idle GPU" in doc["reason"]
     proc, doc = _verify(ops_root, ext_cwd, tmp_path, "--suite", "gpu", gpu_mode="idle")
@@ -85,10 +93,12 @@ def test_public_integration_needs_a_core_url(ops_root: Path, ext_cwd: Path, tmp_
 
 
 def test_multi_suite_report_shape(ops_root: Path, ext_cwd: Path, tmp_path: Path) -> None:
+    (ops_root / "tests").mkdir()  # a source tree: gpu is gated by the (busy) GPU
     proc, doc = _verify(ops_root, ext_cwd, tmp_path, "--suite", "package,gpu")
     assert proc.returncode == 3
     assert doc["suite"] == "package,gpu" and doc["status"] == "BLOCKED_BY_ENV"
     assert doc["counts"] == {"PASS": 0, "FAIL": 0, "NOT_APPLICABLE": 1, "BLOCKED_BY_ENV": 1}
+    assert doc["not_applicable"] == ["package"]
     assert [r["suite"] for r in doc["results"]] == ["package", "gpu"]
     for r in doc["results"]:
         assert {"suite", "status", "counts", "evidence", "reason"} <= set(r)
@@ -96,6 +106,10 @@ def test_multi_suite_report_shape(ops_root: Path, ext_cwd: Path, tmp_path: Path)
 
 
 def test_unit_suite_runs_pytest_and_never_evaluates_arguments(ops_root: Path, ext_cwd: Path, tmp_path: Path) -> None:
+    proc, doc = _verify(ops_root, ext_cwd, tmp_path, "--suite", "unit")  # no tests/ folder: a distribution
+    assert proc.returncode == 0 and doc["status"] == "NOT_APPLICABLE", doc
+    assert doc["reason"] == "test suites are not shipped in this distribution"
+    (ops_root / "tests").mkdir()  # a source tree without its public tests is still a FAIL
     proc, doc = _verify(ops_root, ext_cwd, tmp_path, "--suite", "unit")
     assert proc.returncode == 1 and doc["status"] == "FAIL" and "tests/public" in doc["reason"]  # no test directory
     write(ops_root / "tests" / "public" / "test_stub.py", "def test_ok():\n    assert True\n")
@@ -108,6 +122,33 @@ def test_unit_suite_runs_pytest_and_never_evaluates_arguments(ops_root: Path, ex
     assert doc["status"] == "FAIL"  # pytest got the literal words as file names
     assert not marker.exists()
     assert f"$(touch" in " ".join(doc["command"]) and f"`touch {marker}`" in doc["command"]
+
+
+def test_unit_and_gpu_are_not_applicable_in_a_distribution_without_tests(ops_root: Path, ext_cwd: Path,
+                                                                        tmp_path: Path) -> None:
+    """No tests/ folder (a distribution): unit and gpu are NOT_APPLICABLE with the same reason - never FAIL, never
+    BLOCKED_BY_ENV, also on an idle GPU with --allow-gpu -, count neither as pass nor as fail, and the summary lists them
+    on a line of their own; next to a passing suite the run passes (exit 0)."""
+    assert not (ops_root / "tests").exists()
+    reason = "test suites are not shipped in this distribution"
+    proc, doc = _verify(ops_root, ext_cwd, tmp_path, "--suite", "unit,gpu", "--allow-gpu", gpu_mode="idle")
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert doc["status"] == "NOT_APPLICABLE" and doc["not_applicable"] == ["unit", "gpu"]
+    assert doc["counts"] == {"PASS": 0, "FAIL": 0, "NOT_APPLICABLE": 2, "BLOCKED_BY_ENV": 0}
+    for r in doc["results"]:
+        assert r["status"] == "NOT_APPLICABLE" and r["reason"] == reason and "command" not in r, r  # pytest never ran
+    good = write(ops_root / "docs" / "a.txt", "hello\n")
+    (ops_root / "FILE_MANIFEST.jsonl").write_text(json.dumps(
+        {"path": "docs/a.txt", "size": 6, "sha256": hashlib.sha256(good.read_bytes()).hexdigest()}) + "\n")
+    proc, doc = _verify(ops_root, ext_cwd, tmp_path, "--suite", "unit,package,gpu")
+    assert proc.returncode == 0 and doc["status"] == "PASS", doc
+    assert doc["counts"] == {"PASS": 1, "FAIL": 0, "NOT_APPLICABLE": 2, "BLOCKED_BY_ENV": 0}
+    assert [r["status"] for r in doc["results"]] == ["NOT_APPLICABLE", "PASS", "NOT_APPLICABLE"]
+    assert doc["not_applicable"] == ["unit", "gpu"]
+    lines = proc.stdout.splitlines()
+    na = [line for line in lines if line.startswith("[verify] not applicable")]
+    assert na == [f"[verify] not applicable (counted neither as pass nor as fail): unit - {reason}; gpu - {reason}"]
+    assert any(line.startswith("[verify] result: PASS ") for line in lines), proc.stdout[-2000:]
 
 
 def test_verify_never_stops_running_processes(tmp_path: Path, ext_cwd: Path) -> None:

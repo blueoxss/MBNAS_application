@@ -1,0 +1,135 @@
+{
+ "harness_request_ids": 101,
+ "echoed_by_gateway": 101,
+ "sources": {
+  "audit": {
+   "side": "gateway",
+   "ids_found": 7,
+   "sample": [
+    "t5a73-50b055c512384785b69f",
+    "t5a73-7dd447c651e94679b11b",
+    "t5a73-7e3cd29ccf344441935d",
+    "t5a73-8296746d713c4fc2b099"
+   ]
+  },
+  "gateway_container_log": {
+   "side": "gateway",
+   "ids_found": 101,
+   "sample": [
+    "t5a73-00e6cbffc07449f48d96",
+    "t5a73-087409087ab04de0906f",
+    "t5a73-093a9f1c076946b6bea9",
+    "t5a73-09fd712e570b4786a27b"
+   ]
+  },
+  "core_log": {
+   "side": "core",
+   "ids_found": 91,
+   "sample": [
+    "t5a73-00e6cbffc07449f48d96",
+    "t5a73-087409087ab04de0906f",
+    "t5a73-093a9f1c076946b6bea9",
+    "t5a73-09fd712e570b4786a27b"
+   ]
+  },
+  "owner_worker_log": {
+   "side": "core",
+   "ids_found": 0,
+   "sample": []
+  },
+  "core_db": {
+   "side": "core",
+   "ids_found": 5,
+   "by_table": {
+    "events": 5
+   },
+   "sample": [
+    "t5a73-087409087ab04de0906f",
+    "t5a73-a7a50a23505141b7b455",
+    "t5a73-d5012a27d4834c3aa119",
+    "t5a73-db22c49e6f594fa5bfb3"
+   ]
+  }
+ },
+ "error_bodies_carrying_the_same_request_id": [
+  {
+   "step": "core-down-degraded-503",
+   "request_id": "t5a73b-64f4db1efdb049c58bc8",
+   "code": "CORE_UNAVAILABLE",
+   "location": "core"
+  }
+ ],
+ "access_log_linkage": {
+  "gateway_access_lines_with_harness_ids": 101,
+  "core_access_lines_with_harness_ids": 101,
+  "ids_with_exactly_one_line_each_side": 81,
+  "ids_with_more_than_one_line_on_a_side": 10,
+  "ids_gateway_only (no core call, e.g. static web / gateway-local routes)": 10,
+  "harness_ids_missing_from_gateway_access_log": [],
+  "examples": [
+   {
+    "request_id": "t5a73-00e6cbffc07449f48d96",
+    "gateway_line": "2026-10-28T04:18:08.087Z INFO mbnas_server.access method=GET path=/api/v1/runs/train-be84e912c42c status=200 request_id=t5a73-00e6cbffc07449f48d96 duration_ms=15.8 client=127.0.0.1:43516",
+    "core_line": "2026-10-28T04:18:08.086Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/train-be84e912c42c status=200 request_id=t5a73-00e6cbffc07449f48d96 duration_ms=11.8 client=127.0.0.1:40286"
+   },
+   {
+    "request_id": "t5a73-087409087ab04de0906f",
+    "gateway_line": "2026-10-28T04:18:53.138Z INFO mbnas_server.access method=POST path=/api/v1/training-runs status=200 request_id=t5a73-087409087ab04de0906f duration_ms=390.9 client=127.0.0.1:40676",
+    "core_line": "2026-10-28T04:18:53.137Z INFO mbnas_core.access method=POST path=/core/v1/console/training-runs status=200 request_id=t5a73-087409087ab04de0906f duration_ms=355.5 client=127.0.0.1:46754"
+   },
+   {
+    "request_id": "t5a73-093a9f1c076946b6bea9",
+    "gateway_line": "2026-10-28T04:18:03.611Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-88c59d217e8f/snapshot status=200 request_id=t5a73-093a9f1c076946b6bea9 duration_ms=90.9 client=127.0.0.1:48584",
+    "core_line": "2026-10-28T04:18:03.609Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-88c59d217e8f/snapshot status=200 request_id=t5a73-093a9f1c076946b6bea9 duration_ms=85.3 client=127.0.0.1:40286"
+   },
+   {
+    "request_id": "t5a73-09fd712e570b4786a27b",
+    "gateway_line": "2026-10-28T04:19:15.625Z INFO mbnas_server.access method=GET path=/api/v1/runs/train-9bf2edcef48a status=200 request_id=t5a73-09fd712e570b4786a27b duration_ms=13.2 client=127.0.0.1:50898",
+    "core_line": "2026-10-28T04:19:15.623Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/train-9bf2edcef48a status=200 request_id=t5a73-09fd712e570b4786a27b duration_ms=6.8 client=127.0.0.1:33040"
+   },
+   {
+    "request_id": "t5a73-0a81f7c6c8bd4996ace7",
+    "gateway_line": "2026-10-28T04:18:24.430Z INFO mbnas_server.access method=GET path=/api/v1/runs/train-587eeb4e31be status=200 request_id=t5a73-0a81f7c6c8bd4996ace7 duration_ms=14.8 client=127.0.0.1:34168",
+    "core_line": "2026-10-28T04:18:24.427Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/train-587eeb4e31be status=200 request_id=t5a73-0a81f7c6c8bd4996ace7 duration_ms=7.7 client=127.0.0.1:40286"
+   }
+  ],
+  "multi_examples": [
+   {
+    "request_id": "t5a73-19168b18165e4d418b58",
+    "gateway_lines": 1,
+    "core_lines": 2
+   },
+   {
+    "request_id": "t5a73-509677e761054578be2e",
+    "gateway_lines": 1,
+    "core_lines": 2
+   },
+   {
+    "request_id": "t5a73-6c162a77922a44c9be8d",
+    "gateway_lines": 1,
+    "core_lines": 2
+   },
+   {
+    "request_id": "t5a73-70c1a4255cf848c98e59",
+    "gateway_lines": 1,
+    "core_lines": 2
+   },
+   {
+    "request_id": "t5a73-785c6f7c5e0944008b77",
+    "gateway_lines": 1,
+    "core_lines": 2
+   }
+  ]
+ },
+ "linked_gateway_and_core_records": {
+  "count": 91,
+  "sample": [
+   "t5a73-00e6cbffc07449f48d96",
+   "t5a73-087409087ab04de0906f",
+   "t5a73-093a9f1c076946b6bea9",
+   "t5a73-09fd712e570b4786a27b",
+   "t5a73-0a81f7c6c8bd4996ace7",
+   "t5a73-0bac327b0c8742bb8328"
+  ]
+ }
+}

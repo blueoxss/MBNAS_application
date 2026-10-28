@@ -1,0 +1,42 @@
+2026-10-28T05:10:15Z
+$ CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 runtime/venv/bin/python -B -m pytest -p no:cacheprovider -m 'not gpu and not live and not legacy_records and not host_data' -v tests/owner/runner_protocol/test_dd_a60_cpu_fleet.py tests/owner/runner_protocol/test_dd_a60_cpu_training_validation.py tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py tests/owner/api/test_dd_a62_device_source_local.py tests/public/runner/test_dd_a60_cpu_evaluation.py
+============================= test session starts ==============================
+platform linux -- Python 3.10.22, pytest-9.1.1, pluggy-1.6.0 -- <ROOT>/runtime/venv/bin/python
+rootdir: <ROOT>
+configfile: pyproject.toml
+plugins: anyio-4.15.1, timeout-2.4.0
+timeout: 600.0s
+timeout method: signal
+timeout func_only: False
+collecting ... collected 21 items
+
+tests/owner/runner_protocol/test_dd_a60_cpu_fleet.py::test_cpu_runners_form_one_cpu_device_entry_instead_of_being_left_out PASSED [  4%]
+tests/owner/runner_protocol/test_dd_a60_cpu_fleet.py::test_cpu_only_fleet_refuses_evaluation_on_and_validates_training_and_generation PASSED [  9%]
+tests/owner/runner_protocol/test_dd_a60_cpu_fleet.py::test_mixed_fleet_keeps_the_gpu_and_refuses_only_the_cpu_benchmark_device PASSED [ 14%]
+tests/owner/runner_protocol/test_dd_a60_cpu_fleet.py::test_empty_inventory_is_not_a_cpu_fleet PASSED [ 19%]
+tests/owner/runner_protocol/test_dd_a60_cpu_training_validation.py::test_cpu_training_with_validation_succeeds_not_evaluated_and_keeps_the_checkpoint PASSED [ 23%]
+tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py::test_explicit_training_with_validation_on_a_cpu_fleet_completes_not_evaluated PASSED [ 28%]
+tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py::test_requires_cuda_and_needs_cuda_rules PASSED [ 33%]
+tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py::test_cpu_runner_leaves_evaluation_on_jobs_to_the_gpu_runner_and_leases_what_it_can_run PASSED [ 38%]
+tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py::test_explicit_training_that_evaluates_goes_to_the_gpu_runner_while_one_is_online PASSED [ 42%]
+tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py::test_cpu_only_fleet_still_runs_explicit_training_with_validation PASSED [ 47%]
+tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py::test_gpu_runner_claims_are_unchanged PASSED [ 52%]
+tests/owner/runner_protocol/test_dd_a62_cpu_claim_and_commit.py::test_cpu_only_fleet_cpu_runner_still_takes_an_evaluation_on_job PASSED [ 57%]
+tests/owner/api/test_dd_a62_device_source_local.py::test_gpu_less_host_uses_the_registered_cpu_runner_entry PASSED [ 61%]
+tests/owner/api/test_dd_a62_device_source_local.py::test_a_local_gpu_list_is_used_unchanged PASSED [ 66%]
+tests/owner/api/test_dd_a62_device_source_local.py::test_gpu_runner_entries_are_not_merged_into_the_local_source PASSED [ 71%]
+tests/owner/api/test_dd_a62_device_source_local.py::test_gpu_less_host_without_runners_stays_device_unavailable PASSED [ 76%]
+tests/public/runner/test_dd_a60_cpu_evaluation.py::test_evaluate_checkpoint_on_cpu_is_not_evaluated_and_touches_no_cuda PASSED [ 80%]
+tests/public/runner/test_dd_a60_cpu_evaluation.py::test_a_corrupt_snapshot_on_cpu_still_fails_like_before PASSED [ 85%]
+tests/public/runner/test_dd_a60_cpu_evaluation.py::test_training_job_evaluation_step_on_cpu_returns_the_not_evaluated_payload_with_the_checkpoint PASSED [ 90%]
+tests/public/runner/test_dd_a60_cpu_evaluation.py::test_evaluate_job_on_cpu_succeeds_with_the_not_evaluated_payload PASSED [ 95%]
+tests/public/runner/test_dd_a60_cpu_evaluation.py::test_official_evaluation_on_cpu_succeeds_without_loading_weights PASSED [100%]
+
+=============================== warnings summary ===============================
+tests/owner/runner_protocol/test_dd_a60_cpu_fleet.py::test_cpu_runners_form_one_cpu_device_entry_instead_of_being_left_out
+  <ROOT>/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 21 passed, 1 warning in 26.75s ========================
+PYTEST_EXIT=0 seconds=28

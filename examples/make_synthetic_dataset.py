@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """Write the tiny SYNTHETIC YOLO dataset of the MBNAS examples (4 images per split, 1 class "drone").
 
-The generator is the one the WP-2/WP-3 smoke runs use (``tests/_shared/datasets.py::build_dataset``, called by
-``scripts/dev/wp2_two_process_smoke.py``): solid-colour 32x24 RGB PNG images whose colour comes from a running seed,
+The generator writes solid-colour 32x24 RGB PNG images whose colour comes from a running seed,
 one fixed box per image (label line ``0 0.5 0.5 0.25 0.25``) and a ``data.yaml``. The images carry no information:
 the dataset exercises validation, dataset manifests and a 1-epoch CPU training at 64 px, never accuracy.
 
-Differences from the smoke helper: ``data.yaml`` has no ``path`` key (the dataset root is the directory holding
+``data.yaml`` has no ``path`` key (the dataset root is the directory holding
 ``data.yaml`` - both MBNAS and ultralytics resolve it that way - so the folder can be moved or unpacked anywhere), and
 the default splits are train/val/test with 4 images each, so every split that ``data.yaml`` names exists.
 

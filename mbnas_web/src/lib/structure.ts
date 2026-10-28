@@ -14,7 +14,7 @@ export interface RepeatsDetail {
   scaled: number | null;
   /** O: read from the built module. null means "not observed", never a derived substitute. */
   observed: number | null;
-  /** What the counts count (WP-S2 native documents: e.g. "num_queries*group_detr", "len(embedding.layers)"); null when not recorded. */
+  /** What the counts count (native documents: e.g. "num_queries*group_detr", "len(embedding.layers)"); null when not recorded. */
   declaredBasis: string | null;
   observedBasis: string | null;
   /** Native repeated container this block belongs to (e.g. "embedding.layers"), with the block's index in it. */
@@ -28,8 +28,8 @@ type Camel<K extends string> = K extends `${infer H}_${infer T}` ? `${H}${Capita
 type CamelView<T> = { [K in keyof T as Camel<K & string>]: T[K] };
 
 /**
- * `blocks[].catalog` (DD-38) in camelCase: where the block's design comes from. Every field but `role` may be null
- * ("출처 미상"); nothing is guessed. Derived from the generated `BlockCatalog` component (WP-6C: no hand-written catalogue
+ * `blocks[].catalog` in camelCase: where the block's design comes from. Every field but `role` may be null
+ * ("출처 미상"); nothing is guessed. Derived from the generated `BlockCatalog` component (no hand-written catalogue
  * type), so a contract change of the catalogue keys is a compile error in `blockCatalogOf`. `reference` is a URL or a
  * repository path (ETRI sources); `sourcePath` is the class file inside the installed package (relative to
  * site-packages), only on explicitly checked documents.
@@ -60,7 +60,7 @@ export interface StructureNode {
   sectionBasis: string | null;
   connectionSource: ConnectionSource | null;
   repeatsDetail: RepeatsDetail;
-  /** `blocks[].catalog`; null when the document predates DD-38 (the catalog key is absent, which is not "unknown"). */
+  /** `blocks[].catalog`; null when the document predates the block catalog (the catalog key is absent, which is not "unknown"). */
   catalog: BlockCatalog | null;
   /** true for native_modules documents: the block has no gene / YAML row, so no YAML-position label may be shown. */
   native: boolean;

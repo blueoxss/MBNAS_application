@@ -1,10 +1,10 @@
-"""Settlement of one finished attempt (R5): the body of the former ``Worker._settle_job`` (owner_worker/main.py),
+"""Settlement of one finished attempt: the body of the former ``Worker._settle_job`` (owner_worker/main.py),
 extracted so the owner worker and the remote result endpoint (E8) run the same code inside their own transaction.
 
 ``settle_job(conn, job, result, exit_code, cancelled, stopping, started, finished, runner_id, device_uuid)``:
 
-* ``cancelled`` -> the result is replaced by ``CANCELLED/RUN_CANCELLED`` (with ``keep_discarded`` the replaced result
-  is kept as ``error.discarded_result``, DD-A18 option A for remote results);
+* ``cancelled`` -> the result is replaced by ``CANCELLED/RUN_CANCELLED`` (with ``keep_discarded``, used for remote
+  results, the replaced result is kept as ``error.discarded_result``);
 * no result -> ``WORKER_SHUTDOWN`` (``stopping``) or ``CHILD_EXIT_NO_RESULT``, both retryable;
 * SUCCEEDED -> ``finish_job`` + ``succeeded`` ledger row (inline timings) + ``engine.job_finished``;
 * BLOCKED -> failed ledger row + ``finish_job(FAILED)`` + ``job_finished`` (final, never retried);
@@ -13,7 +13,7 @@ extracted so the owner worker and the remote result endpoint (E8) run the same c
 * anything else -> ``finish_job(status)`` + ``job_finished``.
 
 ``runner_id`` replaces the worker's own id (lease owner), ``device_uuid`` its device, ``stopping`` its shutdown flag.
-``attempt`` (keyword) fences the job writes on the lease epoch (R1); None keeps the owner-worker behaviour.
+``attempt`` (keyword) fences the job writes on the lease epoch; None keeps the owner-worker behaviour.
 Must run inside the caller's transaction. Returns the final JobResult that was recorded.
 """
 from __future__ import annotations

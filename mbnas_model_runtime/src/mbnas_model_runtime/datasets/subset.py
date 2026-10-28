@@ -1,11 +1,5 @@
 """Deterministic PILOT_SMOKE subset writer (real images copied, disjoint roles, source dataset untouched).
 
-재구현(2026-10-15), 원본 누락, 근거: scripts/make_pilot_subset.py(docstring: "sort file names, random.Random(seed).sample,
-copies files (no symlinks), data.yaml + manifest.json with sha256 per file, class ids, seed, selection rule"),
-tests/unit/test_datasets.py::test_build_subset_deterministic / test_subset_cli_unchanged_interface,
-protocol/presets.py(pilot 경로 images/{train,search_val,final_eval}), tests/unit/test_datasets.py::
-test_pilot_manifest_matches_subset_manifest(manifest.json roles[role].samples[{sample_id,image_sha256,label_sha256,boxes}]).
-
 Source layout: ``images/{train,val,test}`` + ``labels/{train,val,test}``. Roles: ``train``←train, ``search_val``←val,
 ``final_eval``←test. Output: ``images/<role>``, ``labels/<role>``, ``data.yaml``, ``manifest.json`` (written last; its
 presence makes a second call a no-op).
@@ -56,8 +50,7 @@ def _label_rows(path: Path) -> int:
 def build_subset(spec: SubsetSpec, log: Callable[[str], None] = print) -> dict[str, Any] | None:
     """Build the subset and return its manifest dict, or None when ``out/manifest.json`` already exists (``[skip]``).
 
-    재구현(2026-10-15), 원본 누락, 근거: scripts/make_pilot_subset.py 가 기대하는 SubsetSpec/SubsetError/build_subset,
-    log 마지막 줄 ``data.yaml: <path>``, 부족 시 "not enough images" 오류.
+    The last log line is ``data.yaml: <path>``; too few source images raise :class:`SubsetError` ("not enough images").
     """
     source, out = Path(spec.source), Path(os.path.abspath(spec.out))
     if (out / "manifest.json").is_file() and (out / "data.yaml").is_file():

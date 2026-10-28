@@ -121,3 +121,45 @@ Blocker 0 · Critical 0 · Major 0 · Minor 2(감점 없음).
   세 파일은 현재 `mbnas_web/dist`와도, EVAL_2의 스크래치 빌드(현재 웹 소스)와도 바이트 동일하다(`diff` 무출력). 즉 두 ZIP에는 D1·D2 수정이 든 dist(`index-7f__3l0I.js`)가 들어 있고, EVAL_2 실스택 V4·probe가 돌린 바이트와 같다.
 - **D5: public·registration은 CLOSED.** owner ZIP(`dist/owner`, 11:27 빌드 `867cc577…`)은 DD-A73 재빌드 중이라 이 추록에서 보지 않았다 — 코디네이터가 sha를 주면 같은 3파일 대조로 닫는다(OPEN, owner만).
 - 참고: 추록 시점 tree hash(같은 도구) `sha256:1b4bd1a4a45196e3c558d62507f109301973eddc180df5968ed7014a72e6708c` — EVAL_2(`f00987be…`) 이후 core 변경(DD-A73)이며 웹 dist 3개 해시는 그대로다. C07 점수 100/100·통과는 변동 없음.
+
+## Owner addendum (DD-A73 ZIP 53e6a1f0…) — 2026-10-28 13:03 KST
+
+- ZIP 검증(직접 계산): `sha256sum dist/owner/mbnas_application-0.1.0-owner-private-runtime-linux_x86_64.zip` = `53e6a1f0cf100cb813ff500d4936a4dcf03feea623886b43879c51de572434c9` = `.zip.sha256` 사이드카; 82,702,282 B (12:28:53), `unzip -Z1` 멤버 3,246. 내부 `BUILD_INFO.json` `.source_tree.sha256` = `sha256:1b4bd1a4a45196e3c558d62507f109301973eddc180df5968ed7014a72e6708c` = 이 시각 `scripts/dev/source_tree_hash.py` 출력. public `bc0500bd…`·registration `dea510df…`는 이전 추록과 같은 sha(재계산).
+- 방법: 비어 있는 새 스크래치 디렉터리(`/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp3/c07r2/addendum_owner/`)에 `mbnas_web/dist/*`·`FILE_MANIFEST.jsonl`·`BUILD_INFO.json`만 `unzip -q`(exit 0), 읽기만.
+- `mbnas_web/dist/` 멤버는 정확히 3개:
+
+| 멤버 | owner ZIP sha256 · 크기 | 기대값 | public/registration ZIP 사본 | FILE_MANIFEST 행 |
+|---|---|---|---|---|
+| `mbnas_web/dist/index.html` | `9e8c8f761e7b56c7e66ecf90d563a2ff3a4118df75f49d9004423b1ea9897552` · 733 B | 일치 | 일치 | :2807 sha256·bytes 733 일치, role `web-dist`, origin `tree` |
+| `mbnas_web/dist/assets/index-7f__3l0I.js` | `df0d6b2d9ab5dce599cbb352062be2a2065634c5fe43a152b534f537664171a9` · 531,403 B | 일치 | 일치 | :2805 일치 |
+| `mbnas_web/dist/assets/index-CG8HuodM.css` | `1e0f94d5b6e2984c057f8522dde0a11beae25c1d5bdff42376f0211413c18da2` · 14,681 B | 일치 | 일치 | :2806 일치 |
+
+  owner FILE_MANIFEST(3,245행)의 `web-dist` 행은 이 3개뿐이며, public·registration ZIP의 FILE_MANIFEST `web-dist` 행 3개도 같은 sha·크기다. 세 파일은 현재 `mbnas_web/dist`와도 바이트 동일(`diff` 무출력).
+- **D5: owner도 CLOSED → D5 전체 CLOSED.** 세 배포 ZIP 모두 D1·D2 수정이 든 dist(`index-7f__3l0I.js`)를 싣고 있고, 이는 EVAL_2 실스택 V4·probe가 돌린 바이트와 같다.
+- 판정: 앵커 그대로 **100/100 유지, 통과**(Blocker 0 · Critical 0). 남은 항목: D3(새 dist 실스택 기록을 프로젝트 evidence에 남기는 일, Minor, 감점 0).
+- 확인 못 함: owner ZIP 압축 해제본의 설치·기동(T4/T6 범위), FILE_MANIFEST의 dist 외 행·payload_sha256 전체 재계산(C07 범위 밖).
+
+## Confirmation (DD-A75 ZIP 9f03c484…) — 2026-10-28 15:53–15:58 KST
+
+- ZIP 검증(직접 계산): `dist/owner/mbnas_application-0.1.0-owner-private-runtime-linux_x86_64.zip` sha256 `9f03c484bbc8c0a2227cc325658892e3efe286d08cca9a1978383158075c2f2a` = `.zip.sha256` 사이드카, 85,188,530 B (15:14), 멤버 3,693(`unzip -Z1`). 내부 `BUILD_INFO.json`: `build_id` `r-07c7cef95cd73775`, `source_tree.sha256` `sha256:8fc93f2a596891174c2884e1697fd6003377b713102c0b21b01eb45d3f6f7312`. public `bc0500bd…`·registration `dea510df…` 재계산 결과 불변(BUILD_INFO `r-6ada31a4db777349`/`r-63bd409df0a7d79a`, source_tree `9859adb2…`).
+- 방법: 비어 있는 새 스크래치 디렉터리에 세 ZIP의 `mbnas_web/dist/*`·`FILE_MANIFEST.jsonl`·`BUILD_INFO.json`만 `unzip -q`(exit 0), 읽기만; 확인 뒤 디렉터리 삭제.
+
+| 멤버 | owner ZIP sha256 · 크기 | 기대값 | public·registration 사본 | owner FILE_MANIFEST |
+|---|---|---|---|---|
+| `mbnas_web/dist/index.html` | `9e8c8f761e7b56c7e66ecf90d563a2ff3a4118df75f49d9004423b1ea9897552` · 733 B | 일치 | 일치 | 3249행, sha·bytes 일치, `web-dist`/`tree` |
+| `mbnas_web/dist/assets/index-7f__3l0I.js` | `df0d6b2d9ab5dce599cbb352062be2a2065634c5fe43a152b534f537664171a9` · 531,403 B | 일치 | 일치 | 3247행 일치 |
+| `mbnas_web/dist/assets/index-CG8HuodM.css` | `1e0f94d5b6e2984c057f8522dde0a11beae25c1d5bdff42376f0211413c18da2` · 14,681 B | 일치 | 일치 | 3248행 일치 |
+
+  `mbnas_web/dist/` 멤버는 정확히 3개, owner FILE_MANIFEST(3,692행)의 `web-dist` 행도 3개뿐(public 229–231행, registration 239–241행도 같은 sha·크기). 판정 근거는 기록된 digest와 public·registration ZIP 사본과의 대조다(DD-A76). 관찰(판정 근거 아님): 15:57 시점 작업 트리 `mbnas_web/dist` 3개도 같은 해시였다.
+
+**raw_metrics UI 메모 (DD-A75 F1/F1b)**
+- 내가 평가한 화면 중 `raw_metrics`를 그리는 곳은 후보 상세 "Metrics (raw, as measured)" 절 하나다: `mbnas_web/src/components/CandidateView.tsx:440`(`rec(c.raw_metrics)`), `:596`(키마다 `raw.<key>` 행, 값은 `fmtAny` → 문자열 그대로·객체는 `JSON.stringify`). `resolved_recipe` 값을 해석하거나 링크·파일 접근에 쓰는 코드는 없다(웹 소스 grep: `raw_metrics`는 이 한 곳, `resolved_recipe`는 0건). C07의 배지 판정(`isTrainedNotEvaluated`, `trainedNotEvaluatedTitle`, `isUntrainedUnevaluated`)은 raw_metrics를 읽지 않는다.
+- 실스택 확인(owner ZIP에서 꺼낸 dist를 gateway가 서빙: `GET /assets/index-7f__3l0I.js 200`; 백엔드는 15:54 시점 작업 트리 — 아래 DD-A76 메모): V4-01..06 **6 passed, exit 0**(axe serious/critical 0·전체 위반 0: server, settings, structure-check-dialog, monitor, candidate-dialog). validation OFF 학습 행의 raw_metrics에는 `resolved_recipe`가 없어(`raw.device_used`, `raw.validation_enabled`만) 추가로 **validation ON CPU 학습**을 UI로 만들었다(V4-04와 같은 단계, 검증만 ON): run `train-04c206b122f1` COMPLETED, 행 `SEARCH_COMPLETE`/`NOT_EVALUATED`/`EVALUATION_REQUIRES_CUDA`/`TRAINED`. 상세 Metrics 절에 `raw.*` 16행이 나오고 `raw.resolved_recipe`는 JSON 텍스트로 `"data":"<path>"` 등 `<path>` 4개(data·model·project·save_dir)를 보여 준다. 대화상자 텍스트에 스택 루트·절대경로 0, page error 0 — `"<path>"` 값으로도 UI 동작 이상 없음.
+- 같은 행에서 **D2의 미확인 실스택 경우도 확인**: Monitor 표와 상세의 "학습 완료 · 미평가" 배지 title이 같고 "…runner에 CUDA가 없습니다(reason_code EVALUATION_REQUIRES_CUDA …)" 문구다(EVAL_2 §8의 해당 '확인 못 함' 해소).
+- 원 출력: `/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/wp3/c07r2/a75/`(`e2e_v4_01_06.txt`, `e2e_steps.jsonl`, `raw_metrics_probe.json`, `validation_on_probe.json`, png; 스택 루트와 ZIP 추출본은 삭제, bearer는 가림). 스택 `stop-own-processes: PASS, still_alive: []`.
+
+**판정**: owner ZIP 웹 dist 3/3 일치 → D5 전체 CLOSED 유지. 앵커 그대로 **100/100 유지, 통과**(Blocker 0 · Critical 0). 남은 항목 D3(새 dist 실스택 기록을 프로젝트 evidence에 남기기, Minor, 감점 0).
+- 참고: 확인 시각 tree hash는 `8c3bfae2…`(15:53) → `308a1651…`(15:57)로 다른 에이전트 작업 중 이동했고 ZIP의 source_tree `8fc93f2a…`와 다르다. 웹 dist 3개 해시는 그대로이며 프로젝트 파일은 보고서 외 변경하지 않았다(15:13 사용자 커밋 `903f95fe1`로 `git status` 표시만 달라짐).
+- 확인 못 함: owner ZIP 설치·기동(T4/T6 범위), FILE_MANIFEST의 dist 외 행·`payload_sha256` 재계산, `8fc93f2a…` 이후 트리 변경분의 내용(C07 범위 밖).
+
+**DD-A76 메모(15:58 추가, 비교 기준)**: 15:40부터 다른 세션이 작업 트리를 편집 중이어서(검증된 릴리스 트리 `8fc93f2a…`) 위 웹 dist 판정은 ZIP 바이트끼리와 기록된 digest(`9e8c8f76…`/`df0d6b2d…`/`1e0f94d5…`)로만 했다: owner `9f03c484…` = public `bc0500bd…` 사본 = registration `dea510df…` 사본 = 기록값, 3/3. 작업 트리 비교는 관찰로만 남긴다. 관찰한 트리 해시: 15:53:24 `sha256:8c3bfae23ddd2495d0a902bccb3c43288bad7577e2fba9032fab47fbd3f73c12`, 15:57:32·15:58:34 `sha256:308a16519c04fdfffeedf0d70074e2756737514e82da39cec65f0acbd11fde7d`. raw_metrics 실스택 확인(스택 15:54:40–15:57:22 KST)은 UI 쪽은 owner ZIP의 dist 바이트로, 백엔드는 그때의 작업 트리(릴리스 트리 아님)로 돌았다. DD-A76에 기록된 C02 평가자 AST 비교(15:54)로는 그 편집이 docstring/주석뿐(코드 차이 0)이므로 `<path>` 렌더링 결과는 릴리스 트리 동작과 같다고 보되, 형식상 관찰로 분류한다. 이 구분은 C07 점수에 영향이 없다(100/100 유지).

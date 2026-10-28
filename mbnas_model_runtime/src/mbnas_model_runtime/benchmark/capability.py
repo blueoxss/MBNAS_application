@@ -5,7 +5,7 @@ Every entry is a declaration backed by the installed code (see STAGE_TRAINER_AUD
 index 0 of the host that runs this code) is measurable here; any other target (Jetson, other GPUs) is BLOCKED with a
 reason and never receives a proxy latency. The host GPU's display name is the product name read on this host
 (:func:`host_gpu_name`: NVML, else an already initialised torch CUDA context, else ``"unknown"``), never a fixed product
-name (DD-A49 c: the inherited table named the original host's GPU). :data:`DECLARED_TARGETS` resolves it on first
+name. :data:`DECLARED_TARGETS` resolves it on first
 access (PEP 562 module attribute), so importing this module probes nothing.
 """
 from __future__ import annotations
@@ -20,7 +20,7 @@ from mbnas_contracts.constants import DEFAULT_POSTPROCESS  # re-exported: single
 SUPPORTED_TARGETS: tuple[str, ...] = ("host-gpu-0",)
 #: Display name of a host GPU whose product name cannot be read here (no NVML, no CUDA context in this process).
 UNKNOWN_DEVICE_NAME = "unknown"
-#: Every deployment target MBNAS knows about (S3-F1): id -> display name / kind / aliases. ``name: None`` = a host GPU
+#: Every deployment target MBNAS knows about: id -> display name / kind / aliases. ``name: None`` = a host GPU
 #: named by :func:`host_gpu_name` (see :func:`declared_targets`).
 _TARGET_DECLARATIONS: dict[str, dict[str, Any]] = {
     "host-gpu-0": {"name": None, "kind": "host_gpu", "aliases": ["cuda:0"]},

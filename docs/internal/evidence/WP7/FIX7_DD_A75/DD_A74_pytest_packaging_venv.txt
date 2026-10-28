@@ -1,0 +1,6 @@
+2026-10-28 13:36:50 KST
+cmd: runtime/venv/bin/python -m pytest tests/public/packaging -q -p no:cacheprovider (CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1)
+...............................................................          [100%]
+63 passed in 107.27s (0:01:47)
+exit=0
+2026-10-28 13:38:38 KST

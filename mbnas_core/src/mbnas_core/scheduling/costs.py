@@ -1,4 +1,4 @@
-"""GPU-second cost ledger (PLAN §2 ``scheduling/costs.py``).
+"""GPU-second cost ledger.
 
 One ledger row per finished job attempt that occupied a GPU: ``gpu_seconds = (finished_at - started_at) x gpus``,
 always ``physical=1``. Row ``kind``: ``train`` (training work kept: success, a pause at a safe boundary, or the
@@ -9,7 +9,7 @@ another worker's reclaim extends that same row, :func:`record_lost_attempt`). GA
 also carry ``billed_arm`` (failed and retry included, profile excluded); Baseline and Final rows are never billed
 to a search arm. ``Run.costs`` is :func:`repo.aggregate_costs`: a key exists only once something was measured.
 
-Inline device profiling (S6-F1): training jobs and EVALUATE measure latency inside the same attempt
+Inline device profiling: training jobs and EVALUATE measure latency inside the same attempt
 (``outputs.evaluation.timings.profile_s``). The worker passes those timings to :func:`record_attempt`, which carves
 ``profile_s x gpus`` (clamped to the attempt interval) out of the ``train``/``retry``/``val`` row into a second row
 ``kind='profile'`` (same job/attempt/arm/candidate, ``billed_arm`` NULL, ``meta.source='inline_latency'``). The work
@@ -17,7 +17,7 @@ row keeps ``meta.attempt_gpu_seconds`` and ``meta.inline_profile_gpu_seconds``, 
 physical rows) is unchanged while the arm's billed seconds exclude profiling. Failed/cancelled/lost attempts stay one
 ``failed`` row. Runs recorded before this change keep their profiling inside the ``train`` rows (never rewritten).
 
-Budget overshoot (S6-F2): admission is estimate-based, so a rung can push consumption past its cap. ``Run.costs``
+Budget overshoot: admission is estimate-based, so a rung can push consumption past its cap. ``Run.costs``
 then carries ``overshoot_gpu_seconds.<arm>.seed_<seed>`` (search caps), ``overshoot_gpu_seconds.Baseline`` and
 ``overshoot_gpu_seconds.Final`` = ``max(0, consumed - cap)`` for every cap that exists and has consumption (a
 measured 0.0 when below the cap), plus their sum ``overshoot_gpu_seconds``; consumption is the arm/seed billed
@@ -118,7 +118,7 @@ def record_attempt(conn: sqlite3.Connection, job: dict[str, Any], *, outcome: st
 
 def record_lost_attempt(conn: sqlite3.Connection, job: dict[str, Any], *, started_at: str | None, finished_at: str,
                         device_uuid: str | None = None, reason_code: str = "LEASE_LOST") -> int | None:
-    """Bill an attempt whose owner found its lease lost when its child finished (S7-F2 / S6-F5).
+    """Bill an attempt whose owner found its lease lost when its child finished.
 
     When another worker already reclaimed the expired lease it billed the attempt as a ``failed`` row from its start
     to its last evidence of life. The owner's child really ran until ``finished_at``, so that row is *extended* in

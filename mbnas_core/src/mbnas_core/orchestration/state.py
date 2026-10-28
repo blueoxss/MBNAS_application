@@ -122,7 +122,7 @@ def _verify_full_state(conn: sqlite3.Connection, run: dict[str, Any], job: dict[
             return "FULL_STATE_FILE_MISSING"
         if os.path.getsize(ck["path"]) != ck["bytes"] or sha256_file(ck["path"]) != ck["sha256"].removeprefix("sha256:"):
             return "FULL_STATE_HASH_MISMATCH"
-    else:  # WP-2 section 1.5: remote payload -> record-level check, plus the bytes when a local store copy exists
+    else:  # remote payload -> record-level check, plus the bytes when a local store copy exists
         states = {loc["state"] for loc in locations}
         if states <= {"PRUNED"}:
             return "FULL_STATE_PRUNED"

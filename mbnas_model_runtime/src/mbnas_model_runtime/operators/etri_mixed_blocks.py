@@ -3,8 +3,8 @@
 Custom window attention is not an implementation of a named published model.
 The additive parser installer changes only this Python process, never vendor files.
 
-Vendored into MBNAS from ETRI_NAS ``yolo_ga_runtime/mixed_blocks.py`` (``VENDORED_FROM``; DD-A12, WP-1 contract
-§6.1). Everything is byte-identical to that file except this paragraph, the ``VENDORED_FROM`` constant and
+Vendored into MBNAS from ETRI_NAS ``yolo_ga_runtime/mixed_blocks.py`` (``VENDORED_FROM``). Everything is byte-identical
+to that file except this paragraph, the ``VENDORED_FROM`` constant and
 ``register_ultralytics_blocks``, which no longer compiles a patched copy of the installed ultralytics parser source:
 it checks that source's sha256 and installs the static copy
 :func:`mbnas_model_runtime.operators.parse_model_8_4_173.parse_model` (``OperatorsUnavailable`` on a mismatch).
@@ -223,7 +223,7 @@ def _extend_parser_source(source):
 def register_ultralytics_blocks() -> Dict:
     """Idempotently register classes and extend parse_model in this process only.
 
-    MBNAS (DD-A12): nothing is compiled. The installed ``parse_model`` source must hash to
+    MBNAS: nothing is compiled. The installed ``parse_model`` source must hash to
     ``parse_model_8_4_173.EXPECTED_PARSE_MODEL_SHA256``, else ``OperatorsUnavailable`` (no fallback); then the static
     copy (``base_modules`` +3, ``repeat_modules`` +2) replaces ``ultralytics.nn.tasks.parse_model``.
     """

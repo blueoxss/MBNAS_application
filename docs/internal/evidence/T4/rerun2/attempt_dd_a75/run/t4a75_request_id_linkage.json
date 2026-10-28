@@ -1,0 +1,111 @@
+{
+ "harness_request_ids": 48,
+ "echoed_by_gateway": 48,
+ "sources": {
+  "audit": {
+   "side": "gateway",
+   "ids_found": 3,
+   "sample": [
+    "t4a75_local-34498f86345a4cb0a57a",
+    "t4a75_local-65d18b5106ee4d0b8535",
+    "t4a75_local-ff2b6c7f1c85413783f6"
+   ]
+  },
+  "gateway_log": {
+   "side": "gateway",
+   "ids_found": 48,
+   "sample": [
+    "t4a75_local-0057fc64703e45c89278",
+    "t4a75_local-0fecce451f4c4ae2806b",
+    "t4a75_local-11873720d2064c028846",
+    "t4a75_local-195f8ad3871049c9b1e8"
+   ]
+  },
+  "core_log": {
+   "side": "core",
+   "ids_found": 46,
+   "sample": [
+    "t4a75_local-0057fc64703e45c89278",
+    "t4a75_local-0fecce451f4c4ae2806b",
+    "t4a75_local-11873720d2064c028846",
+    "t4a75_local-195f8ad3871049c9b1e8"
+   ]
+  },
+  "core_db": {
+   "side": "core",
+   "ids_found": 3,
+   "by_table": {
+    "events": 3
+   },
+   "sample": [
+    "t4a75_local-815c66bdeaab467c89ae",
+    "t4a75_local-dd4ffc6c4cd74e399b54",
+    "t4a75_local-faf0fff1e441495ca894"
+   ]
+  }
+ },
+ "error_bodies_carrying_the_same_request_id": [],
+ "access_log_linkage": {
+  "gateway_access_lines_with_harness_ids": 48,
+  "core_access_lines_with_harness_ids": 49,
+  "ids_with_exactly_one_line_each_side": 43,
+  "ids_with_more_than_one_line_on_a_side": 3,
+  "ids_gateway_only (no core call, e.g. static web / gateway-local routes)": 2,
+  "harness_ids_missing_from_gateway_access_log": [],
+  "examples": [
+   {
+    "request_id": "t4a75_local-0057fc64703e45c89278",
+    "gateway_line": "2026-10-28T06:30:06.666Z INFO mbnas_server.access method=GET path=/api/v1/health status=200 request_id=t4a75_local-0057fc64703e45c89278 duration_ms=46.0 client=127.0.0.1:38804",
+    "core_line": "2026-10-28T06:30:06.654Z INFO mbnas_core.access method=GET path=/core/v1/console/health status=200 request_id=t4a75_local-0057fc64703e45c89278 duration_ms=29.1 client=127.0.0.1:49260"
+   },
+   {
+    "request_id": "t4a75_local-0fecce451f4c4ae2806b",
+    "gateway_line": "2026-10-28T06:30:54.394Z INFO mbnas_server.access method=GET path=/api/v1/runs/train-2e67a621683a status=200 request_id=t4a75_local-0fecce451f4c4ae2806b duration_ms=15.1 client=127.0.0.1:50842",
+    "core_line": "2026-10-28T06:30:54.393Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/train-2e67a621683a status=200 request_id=t4a75_local-0fecce451f4c4ae2806b duration_ms=10.0 client=127.0.0.1:49260"
+   },
+   {
+    "request_id": "t4a75_local-11873720d2064c028846",
+    "gateway_line": "2026-10-28T06:30:43.827Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-be3b4fa4e912/candidates/run-be3b4fa4e912:RAND:s7:g00:c000/config-revisions/rev-b86f357e4398209c/yaml status=200 request_id=t4a75_local-11873720d2064c028846 duration_ms=15.2 client=127.0.0.1:42422",
+    "core_line": "2026-10-28T06:30:43.826Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-be3b4fa4e912/candidates/run-be3b4fa4e912:RAND:s7:g00:c000/config-revisions/rev-b86f357e4398209c/yaml status=200 request_id=t4a75_local-11873720d2064c028846 duration_ms=10.8 client=127.0.0.1:49260"
+   },
+   {
+    "request_id": "t4a75_local-195f8ad3871049c9b1e8",
+    "gateway_line": "2026-10-28T06:30:25.407Z INFO mbnas_server.access method=GET path=/api/v1/health status=200 request_id=t4a75_local-195f8ad3871049c9b1e8 duration_ms=29.4 client=127.0.0.1:42526",
+    "core_line": "2026-10-28T06:30:25.399Z INFO mbnas_core.access method=GET path=/core/v1/console/health status=200 request_id=t4a75_local-195f8ad3871049c9b1e8 duration_ms=18.0 client=127.0.0.1:49260"
+   },
+   {
+    "request_id": "t4a75_local-1adab06f7ed14bdf8bf7",
+    "gateway_line": "2026-10-28T06:30:43.754Z INFO mbnas_server.access method=GET path=/api/v1/runs/train-82ca4d37f96d/candidates/model-1b5fb38c809e/config-revisions status=200 request_id=t4a75_local-1adab06f7ed14bdf8bf7 duration_ms=18.2 client=127.0.0.1:42380",
+    "core_line": "2026-10-28T06:30:43.753Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/train-82ca4d37f96d/candidates/model-1b5fb38c809e/config-revisions status=200 request_id=t4a75_local-1adab06f7ed14bdf8bf7 duration_ms=13.2 client=127.0.0.1:49260"
+   }
+  ],
+  "multi_examples": [
+   {
+    "request_id": "t4a75_local-4d8f983a6c8b419d8b57",
+    "gateway_lines": 1,
+    "core_lines": 2
+   },
+   {
+    "request_id": "t4a75_local-ae6778ffbdb04b5bb2c3",
+    "gateway_lines": 1,
+    "core_lines": 2
+   },
+   {
+    "request_id": "t4a75_local-f7947292f8e1401fb726",
+    "gateway_lines": 1,
+    "core_lines": 2
+   }
+  ]
+ },
+ "linked_gateway_and_core_records": {
+  "count": 46,
+  "sample": [
+   "t4a75_local-0057fc64703e45c89278",
+   "t4a75_local-0fecce451f4c4ae2806b",
+   "t4a75_local-11873720d2064c028846",
+   "t4a75_local-195f8ad3871049c9b1e8",
+   "t4a75_local-1adab06f7ed14bdf8bf7",
+   "t4a75_local-214366272c0f4dc793af"
+  ]
+ }
+}

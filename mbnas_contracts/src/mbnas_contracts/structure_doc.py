@@ -5,9 +5,6 @@
 order; ``EVIDENCE_LEVELS`` is the evidence vocabulary and ``CHECK_EVIDENCE`` the evidence level of each check when it
 has a rule of its own. The rules themselves (the structure gate) are not here; both the YAML-genotype inspector and the
 native-backend observer emit reports with these constants.
-
-Source: ``mbnas_server.search.structure`` (L29-31, L38-44; monolithic package, snapshot HEAD 18c4815), moved per WP-1
-contract §4 / DD-A10; values unchanged.
 """
 
 SCHEMA = "mbnas-structure/2"

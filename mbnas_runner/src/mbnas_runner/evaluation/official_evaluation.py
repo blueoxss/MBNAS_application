@@ -1,12 +1,12 @@
 """Official-weights evaluation (``EVALUATE`` job of an explicit ``evaluate_only`` training run).
 
 ``run_official_evaluation(spec, emit_progress)`` evaluates verified official YOLO/RT-DETR weights directly on the
-``search_val`` split: no training, no export campaign, no fitness or gate (the core scores the raw metrics, DD-A15).
+``search_val`` split: no training, no export campaign, no fitness or gate (the core scores the raw metrics).
 It writes ``evaluations/<candidate id>/evaluation.json`` below the run directory and returns the ``JobResult`` the
-runner child reports. Moved from the core's ``training.selection`` (WP-1 contract §4): a refusal is a
+runner child reports. A refusal is a
 :class:`~mbnas_contracts.jobs_protocol.JobFailure` whose ``reason_code`` becomes the result's ``reason_code``.
 
-CPU device (DD-A32 / DD-A60 (4)): when the job's ``params.device`` is not a CUDA device (a CPU-only runner maps the
+CPU device: when the job's ``params.device`` is not a CUDA device (a CPU-only runner maps the
 core's ``cuda:0`` to ``cpu``), the weights are not loaded and nothing is measured: the job SUCCEEDS with the
 ``NOT_EVALUATED`` payload of :func:`mbnas_runner.evaluation.handlers.not_evaluated_payload` (``latency_source``
 ``pending``, metrics null) instead of failing on the first CUDA call.
@@ -42,7 +42,7 @@ def run_official_evaluation(spec: Any, emit_progress: Any, settings: Any = None)
 
         device = str(spec.params.get("device") or "cuda:0")
         problem = latency_device_problem(device)
-        if problem is not None:  # DD-A60 (4): a CPU runner evaluates nothing (no weights load, no CUDA call)
+        if problem is not None:  # a CPU runner evaluates nothing (no weights load, no CUDA call)
             size = max(proto["training"]["requested_input_size"])
             metric = not_evaluated_payload(reason=problem, device=device, device_entry=bench.get("device"),
                                            precision=bench["precision"],
@@ -73,7 +73,7 @@ def run_official_evaluation(spec: Any, emit_progress: Any, settings: Any = None)
             conf_thr=eval_cfg.recall_conf, n=2)
         lat = measure_latency(subject.adapter, subject.model, (size,size), bench["precision"], "cuda:0",
                               manifest.samples[0].image, bench, ["forward_and_postprocess"])
-        # DD-A49 (a): the same device evidence as a training evaluation payload (latency record with its device
+        # the same device evidence as a training evaluation payload (latency record with its device
         # manifest, device uuid/name, statistics and post-processing provenance), in the slots the contract declares
         lat["manifest"] = latency_manifest(ident, lat, precision=bench["precision"], input_shape=(size, size),
                                            device_entry=bench.get("device"))

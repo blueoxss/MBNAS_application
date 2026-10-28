@@ -1,0 +1,18 @@
+[verify] profile=owner root=<SP>/p2a75/t4work/t4 공백 rootX7kQ2/mbnas_application suites=integration,relocation,package evidence=runtime/logs/verify/20261028T063119Z-owner
+[verify] integration: running
+[verify] integration: PASS (steps=17 passed=17 failed=0)
+[verify] relocation: running
+[verify]   relocation: module __file__ under ROOT (cwd outside ROOT): ok - 215 modules (mbnas_contracts 24, mbnas_model_runtime 49, mbnas_runner 23, mbnas_server 30, mbnas_core 89), all under <SP>/p2a75/t4work/t4 공백 rootX7kQ2/mbnas_application
+[verify]   relocation: sys.prefix under ROOT: ok - <SP>/p2a75/t4work/t4 공백 rootX7kQ2/mbnas_application/runtime/venv
+[verify]   relocation: console scripts bound to runtime/venv inside ROOT: ok - ok
+[verify]   relocation: no original-host path strings: ok - 275 files scanned
+[verify]   relocation: doctor.sh from an external working directory: ok - exit 0; origin checks PASS
+[verify]   relocation: doctor.sh through a path with spaces: ok - exit 0; origin checks PASS
+[verify]   relocation: start/stop/install.sh --help through a path with spaces: ok - exit codes [0, 0, 0]
+[verify]   relocation: ROOT itself contains spaces: ok - <SP>/p2a75/t4work/t4 공백 rootX7kQ2/mbnas_application
+[verify]   relocation: per-module origins in runtime/logs/verify/20261028T063119Z-owner/relocation.json and runtime/logs/verify/20261028T063119Z-owner/relocation_origins.tsv; .pth files: coloredlogs.pth (1 line(s)), distutils-precedence.pth (1 line(s))
+[verify] relocation: PASS (checks=8 passed=8 failed=0)
+[verify] package: running
+[verify] package: PASS
+[verify] result: PASS PASS=3 (report runtime/logs/verify/20261028T063119Z-owner/verify.json)
+VERIFY_EXIT=0 seconds=52

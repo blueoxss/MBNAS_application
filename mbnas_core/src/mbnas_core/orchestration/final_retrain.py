@@ -176,7 +176,7 @@ def existing_child(conn: sqlite3.Connection, parent_id: str, req: FinalRetrainRe
 
 
 def check_preconditions(parent: dict[str, Any]) -> None:
-    # DD-4: an evaluation-free (generation-only) run has no evaluated finalists, whatever its status.
+    # an evaluation-free (generation-only) run has no evaluated finalists, whatever its status.
     search = (((parent.get("resolved_protocol") or {}).get("console") or {}).get("search") or {})
     if search.get("evaluation_enabled", True) is False:
         raise FinalRetrainError(409, "FINAL_RETRAIN_NOT_APPLICABLE",
@@ -270,7 +270,7 @@ def _insert_final_candidate(conn: sqlite3.Connection, parent: dict[str, Any], ch
         candidate_status="FINALIST", current_rung=engine.FINAL_STAGE,
         audit={k: v for k, v in audit.items() if v is not None})
     text = src.get("architecture_yaml")
-    if isinstance(text, str) and text:  # F5d: the finalist's configuration, derived from its source candidate's latest
+    if isinstance(text, str) and text:  # the finalist's configuration, derived from its source candidate's latest
         from mbnas_core.orchestration import config_revisions
 
         config_revisions.try_record(
@@ -288,7 +288,7 @@ def request_final_retrain(conn: sqlite3.Connection, parent_id: str, req: FinalRe
 
     Raises :class:`FinalRetrainError`. ``NO_FINALIST`` is logged on the parent in its own committed transaction
     before it is raised. ``on_child_dir(child_id)`` (optional) runs before the creating transaction (e.g. to write
-    the child's protocol files). ``check_fresh(parent)`` (optional, DD-A46) runs after the preconditions, before the
+    the child's protocol files). ``check_fresh(parent)`` (optional) runs after the preconditions, before the
     finalists are selected: it may raise (the console raises 409 STALE_VALIDATION when the gateway-measured host
     inputs no longer resolve the parent protocol to its hash).
     """

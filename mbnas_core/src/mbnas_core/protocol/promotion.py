@@ -11,7 +11,7 @@ computed with the *source rung's* named weights and from the same raw metrics. D
 
 The hard latency constraint is only certified by a trustworthy latency: the ``latency_source`` check passes for
 ``measured`` and, only when ``hard_constraints.proxy_may_certify_final_deployment is True``, for ``calibrated_proxy``;
-``unverified_proxy`` / ``pending`` / missing never pass (master prompt section 9: no uncalibrated proxy satisfies the
+``unverified_proxy`` / ``pending`` / missing never pass (no uncalibrated proxy satisfies the
 device constraint). This host has no calibrated proxy pipeline, so in practice only measured rows are promoted.
 
 Eligibility is not admission: budget admission and GPU allocation happen later in the scheduler.

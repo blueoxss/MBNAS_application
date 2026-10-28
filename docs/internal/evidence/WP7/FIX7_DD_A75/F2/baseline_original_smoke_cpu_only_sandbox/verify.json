@@ -1,0 +1,31 @@
+{
+ "suite": "integration",
+ "status": "FAIL",
+ "counts": {
+  "steps": 16,
+  "passed": 14,
+  "failed": 2
+ },
+ "evidence": [
+  "runtime/logs/verify/20261028T045517Z-owner/integration.log",
+  "runtime/logs/verify/20261028T045517Z-owner/integration_smoke.txt"
+ ],
+ "reason": "smoke exit 1",
+ "command": [
+  "<W>/dev/zip/mbnas_application/runtime/venv/bin/python",
+  "-B",
+  "<W>/dev/zip/mbnas_application/scripts/dev/wp3_three_process_smoke.py",
+  "--root",
+  "<W>/dev/zip/mbnas_application/runtime/logs/verify/20261028T045517Z-owner/integration_root",
+  "--evidence",
+  "<W>/dev/zip/mbnas_application/runtime/logs/verify/20261028T045517Z-owner/integration_smoke.txt"
+ ],
+ "exit_code": 1,
+ "duration_s": 34.1,
+ "driver": "scripts/dev/wp3_three_process_smoke.py",
+ "profile": "owner",
+ "schema": "mbnas.verify/1",
+ "root": "<W>/dev/zip/mbnas_application",
+ "started_at": "2026-10-28T04:55:17Z",
+ "finished_at": "2026-10-28T04:55:51Z"
+}

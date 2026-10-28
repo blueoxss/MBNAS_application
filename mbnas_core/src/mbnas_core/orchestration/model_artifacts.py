@@ -3,8 +3,8 @@
 Only the fixed candidate-local architecture.yaml is considered.  It is parsed as
 data, never executed, and an absent configuration stays absent.  This applies to
 baseline and explicit/source candidates without introducing a second builder.
-Each registered executed configuration is also recorded as a ``config_revisions`` row of kind ``executed`` (F5d;
-:mod:`mbnas_core.orchestration.config_revisions`; the same bytes re-reported at a later rung are not recorded twice).
+Each registered executed configuration is also recorded as a ``config_revisions`` row of kind ``executed``
+(:mod:`mbnas_core.orchestration.config_revisions`; the same bytes re-reported at a later rung are not recorded twice).
 """
 from __future__ import annotations
 
@@ -78,7 +78,7 @@ def _record_executed(conn: sqlite3.Connection, run: dict[str, Any], candidate: d
 
 def record_model_configuration_from_report(conn: sqlite3.Connection, run: dict[str, Any], candidate: dict[str, Any],
                                           report: dict[str, Any]) -> dict[str, Any]:
-    """WP-2 section 1.5 (R4): the executed configuration reported by a remote runner instead of read from this host.
+    """The executed configuration reported by a remote runner instead of read from this host.
 
     ``report`` = ``{yaml_text, yaml_hash, sha256, class_count, artifact_id}`` where ``artifact_id`` is the
     ``architecture`` artifact the runner pre-registered (E7, digest recomputed by the runner daemon). The text is parsed

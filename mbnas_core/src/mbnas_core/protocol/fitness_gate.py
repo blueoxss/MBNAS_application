@@ -1,9 +1,7 @@
-"""Source-rung fitness and the candidate-local gate decision of one evaluation payload (core policy, DD-A15).
+"""Source-rung fitness and the candidate-local gate decision of one evaluation payload (core policy).
 
-Moved verbatim from the former ``evaluation/handlers.py`` (snapshot sha256 dadf4a35501c87e3..., lines 169-194): the runner
-no longer computes fitness or gates (WP-1 contract section 8); ``orchestration.engine.commit_evaluation`` recomputes
-them on the core from the raw metrics. The functions are kept unchanged for the owner tests that pin them
-(``test_fitness_gate_integration``, ``test_protocol_promotion``).
+The runner does not compute fitness or gates; ``orchestration.engine.commit_evaluation`` recomputes
+them on the core from the raw metrics.
 """
 from __future__ import annotations
 

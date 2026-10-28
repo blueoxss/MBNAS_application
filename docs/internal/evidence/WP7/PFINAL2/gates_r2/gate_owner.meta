@@ -1,0 +1,3 @@
+owner start 2026-10-28T03:03:15Z cwd=/home/mgjeong/Desktop/etri_hd/mbnas_application interpreter=runtime/venv/bin/python tree=sha256:1b4bd1a4a45196e3c558d62507f109301973eddc180df5968ed7014a72e6708c
+exit=0 dur=965s end=2026-10-28T03:19:20Z
+tree after the gates: sha256:1b4bd1a4a45196e3c558d62507f109301973eddc180df5968ed7014a72e6708c

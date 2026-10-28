@@ -1,4 +1,4 @@
-"""Archive roots -> runs -> parsed run data, with mtime-keyed caching (design D3/D4).
+"""Archive roots -> runs -> parsed run data, with mtime-keyed caching.
 
 * A run is a direct sub-directory of a configured root whose name is a valid id and which contains one of the run
   markers (``search``, ``run.log``, ``final_summary.json``, ``protocol``). Other directories (e.g. ``*_cpugate_*`` with only

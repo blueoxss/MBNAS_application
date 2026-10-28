@@ -97,7 +97,7 @@ function useBlockCatalog(client: ApiClient | null): CatalogState {
   return state;
 }
 
-/** Module histogram of the candidate with the design-origin family beside each module (DD-38). */
+/** Module histogram of the candidate with the design-origin family beside each module. */
 function ModuleOrigins({ histogram, catalog }: { histogram: Record<string, number>; catalog: CatalogState }): JSX.Element | null {
   const rows = useMemo(() => Object.entries(histogram).filter(([, n]) => typeof n === 'number').sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])), [histogram]);
   if (rows.length === 0) return null;

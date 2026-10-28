@@ -8,6 +8,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import stat
 import sysconfig
 import zipfile
@@ -57,23 +58,26 @@ def test_public_zip_holds_exactly_the_public_parts(built: dict) -> None:
         assert f"wheels/{pkg}-{VERSION}-py3-none-any.whl" in rels
         assert f"{pkg}/src/{pkg}/__init__.py" in rels and f"{pkg}/pyproject.toml" in rels
     for rel in ("mbnas_web/dist/index.html", "mbnas_web/dist/assets/app.js", "mbnas_web/package.json",
-                "mbnas_web/src/main.ts", "mbnas_web/scripts/check-bundle.mjs",  # web sources ship (DD-A41)
-                "tests/public/test_synthetic.py", "tests/_shared/conftest_common.py",  # public tests (DD-A41)
+                "mbnas_web/src/main.ts", "mbnas_web/tsconfig.json",  # web sources ship (DD-A41)
+                "mbnas_web/scripts/check-bundle.mjs", "mbnas_web/scripts/gen-types.mjs",  # npm run build needs them
                 "config/examples/gateway.env.example", "config/examples/runner.env.example", "deploy/public/Dockerfile",
                 "docs/public/INSTALL.md", "examples/sample.txt", "scripts/install.sh", "scripts/verify.sh",
-                "README.md", "VERSION", "constraints.txt", "THIRD_PARTY_NOTICES.md", "requirements-public.txt",
-                "requirements-cpu.txt", "pyproject.toml",  # pytest configuration (DD-A43 follow-up)
-                ".dockerignore",  # docker build from the unpacked ZIP (WP-7B)
-                "BUILD_INFO.json", "PACKAGE_PROFILE.json", "FILE_MANIFEST.jsonl"):
+                "scripts/public/make_pilot_subset.py", "README.md", "VERSION", "constraints.txt",
+                "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES_WEB.md", "requirements-public.txt",
+                "requirements-cpu.txt", ".dockerignore",  # docker build from the unpacked ZIP (WP-7B)
+                "BUILD_INFO.json", "PACKAGE_PROFILE.json", "FILE_MANIFEST.jsonl", "PACKAGE_CONTENTS.md"):
         assert rel in rels, rel
     _no_private_component(rels)
-    forbidden_prefixes = ("tests/owner/", "docs/internal/", "docs/registration/", "deploy/owner/", "runtime/", "build/",
-                          "scripts/dev/")
+    # clean distribution (DD-A76): no tests, internal records, contract history, development or packaging tools
+    forbidden_prefixes = ("tests/", "docs/internal/", "docs/public/contracts/", "docs/registration/", "deploy/owner/",
+                          "runtime/", "build/", "scripts/dev/", "scripts/owner/", "scripts/runner/", "mbnas_web/tests/",
+                          "mbnas_web/e2e/")
     assert not [r for r in rels if r.startswith(forbidden_prefixes)]
     assert not [r for r in rels if "node_modules" in r or "__pycache__" in r or r.endswith((".pyc", ".env"))]
     assert not {"config/examples/core.env.example", "config/examples/owner-all-in-one.env.example",
-                "requirements-owner.txt", ".env", "LICENSE_STATUS.md",  # owner only (DD-A41)
-                "tests/public/infra/test_no_host_facts.py", "tests/_shared/harness.py"} & rels
+                "requirements-owner.txt", ".env",  # owner only
+                "LICENSE", "LICENSE_STATUS.md", "pyproject.toml", "scripts/package.sh",  # repository only (DD-A76)
+                "mbnas_web/playwright.config.ts"} & rels
 
 
 def test_shell_scripts_are_executable_and_modes_normalised(built: dict) -> None:
@@ -121,7 +125,9 @@ def test_build_info_and_package_profile(built: dict) -> None:
     assert prof["core_connection_required"] is True and prof["core_included"] is False
     assert prof["packages"]["included"] == list(PUBLIC_PKGS)
     noted = {e["pattern"]: e["reason"] for e in prof["exclusions_with_reason"]}
-    assert "host-fact" in noted["tests/public/infra/test_no_host_facts.py"] and "LICENSE_STATUS.md" in noted
+    assert noted["tests/**"] == "test suites are not shipped in this distribution"
+    assert {"LICENSE*", "pyproject.toml", "docs/public/contracts/**", "mbnas_web/tests/**", "mbnas_web/e2e/**"} <= set(noted)
+    assert prof["install"]["offline_install"] is True  # the passing record named by the allowlist (read, never shipped)
     for doc in (_read(z, "BUILD_INFO.json"), _read(z, "PACKAGE_PROFILE.json"), _read(z, "FILE_MANIFEST.jsonl")):
         text = doc.decode()
         assert str(root) not in text and "/home/" not in text  # no absolute host paths
@@ -133,13 +139,18 @@ def test_owner_zip_adds_the_private_parts_but_no_canary_or_snapshot(built: dict)
     assert z.name == f"mbnas_application-{VERSION}-owner-private-runtime-{TAG}.zip"
     rels = _rels(z)
     for rel in (f"wheels/{CORE}-{VERSION}-py3-none-any.whl", f"{CORE}/src/{CORE}/search/space.py",
-                "tests/owner/conftest.py", "tests/public/test_synthetic.py", "tests/_shared/harness.py",
-                "tests/public/infra/test_no_host_facts.py", "LICENSE_STATUS.md",
-                "docs/internal/DECISIONS.md", "deploy/owner/Dockerfile", "config/examples/core.env.example",
-                "requirements-owner.txt", "pyproject.toml", "scripts/dev/tool.py"):
+                "deploy/owner/Dockerfile", "config/examples/core.env.example", "requirements-owner.txt",
+                "scripts/owner/probe_registry.py", "scripts/runner/download_weights.py",
+                "scripts/public/make_pilot_subset.py", "scripts/verify.sh",
+                "scripts/dev/wp3_three_process_smoke.py"):  # the owner driver of verify.sh --suite integration
         assert rel in rels, rel
-    assert not [r for r in rels if r.startswith("docs/internal/canary/")]
-    assert "docs/internal/provenance/SOURCE_SNAPSHOT_MANIFEST.jsonl" not in rels
+    # clean distribution (DD-A76): the owner bundle ships no tests, internal records (canary manifest and snapshot
+    # provenance included), licence files, workspace settings, packager or test tools either
+    assert not [r for r in rels if r.startswith(("tests/", "docs/internal/", "docs/public/contracts/",
+                                                 "mbnas_web/tests/", "mbnas_web/e2e/"))]
+    assert [r for r in rels if r.startswith("scripts/dev/")] == ["scripts/dev/wp3_three_process_smoke.py"]
+    assert not {"LICENSE", "LICENSE_STATUS.md", "pyproject.toml", "scripts/package.sh", "scripts/owner/t2_compare.py",
+                "mbnas_web/playwright.config.ts"} & rels
     assert not [r for r in rels if r.startswith(("runtime/", "build/")) or r.endswith(".env") or "node_modules" in r]
     prof = json.loads(_read(z, "PACKAGE_PROFILE.json"))
     assert prof["core_included"] is True and CORE in prof["packages"]["included"]
@@ -149,10 +160,16 @@ def test_registration_zip_has_docs_and_generated_file_list(built: dict) -> None:
     z = zip_of(built["root"], "registration")
     assert z.name == f"mbnas_application-{VERSION}-registration-runtime-{TAG}.zip"
     rels = _rels(z)
-    assert "docs/registration/PROGRAM_OVERVIEW.md" in rels and "docs/registration/FILE_LIST.md" in rels
+    for rel in ("docs/registration/PROGRAM_OVERVIEW.md", "docs/registration/SYSTEM_STRUCTURE.md",
+                "docs/registration/INTERFACES.md", "docs/registration/KEY_CONTRIBUTIONS.md",
+                "docs/registration/SUBMISSION_SCOPE_TABLE.md", "docs/registration/diagrams/system_structure.mmd",
+                "docs/registration/FILE_LIST.md"):
+        assert rel in rels, rel
     _no_private_component(rels)
-    assert not [r for r in rels if r.startswith(("tests/owner/", "docs/internal/", "deploy/owner/"))]
-    assert "tests/public/test_synthetic.py" in rels and "LICENSE_STATUS.md" not in rels
+    assert not [r for r in rels if r.startswith(("tests/", "docs/internal/", "deploy/owner/", "scripts/dev/"))]
+    # the internal review records of docs/registration stay in the repository (DD-A76)
+    assert not {"docs/registration/REVIEW_CHECKLIST.md", "docs/registration/RIGHTS_REVIEW.md", "LICENSE",
+                "LICENSE_STATUS.md", "pyproject.toml"} & rels
     listing = _read(z, "docs/registration/FILE_LIST.md").decode()
     assert "mbnas_contracts/pyproject.toml" in listing and "docs/registration/PROGRAM_OVERVIEW.md" in listing
     assert CORE + "/" not in listing
@@ -162,17 +179,37 @@ def test_registration_zip_has_docs_and_generated_file_list(built: dict) -> None:
         _read(z, "docs/registration/FILE_LIST.md")).hexdigest()
 
 
-def test_web_tests_importing_the_fitness_oracle_stay_in_the_owner_bundle(built: dict) -> None:
+def test_no_profile_ships_web_tests_e2e_specs_or_playwright_configs(built: dict) -> None:
     root = built["root"]
+    for profile in ("public", "registration", "owner"):
+        rels = _rels(zip_of(root, profile))
+        assert not [r for r in rels if r.startswith(("mbnas_web/tests/", "mbnas_web/e2e/"))
+                    or re.fullmatch(r"mbnas_web/playwright[^/]*\.config\.ts", r)], profile
+        assert "mbnas_web/src/main.ts" in rels, profile
+        prof = json.loads(_read(zip_of(root, profile), "PACKAGE_PROFILE.json"))
+        assert not [e for e in prof["exclusions_with_reason"] if e.get("files")]  # no [deny-importers] rule left
+
+
+def test_deny_importers_drops_the_target_and_every_importer(tree: Path) -> None:
+    """The packager's [deny-importers] rule (no real allowlist uses it any more): an allowlist that ships the web tests
+    and denies the test-only fitness oracle loses the oracle and every file importing it, also transitively."""
+    al = tree / "build" / "allowlists" / "public.txt"
+    text = al.read_text(encoding="utf-8")
+    kept = [line for line in text.splitlines() if not line.startswith(("mbnas_web/tests/**", "mbnas_web/e2e/**"))]
+    text = "\n".join(kept) + "\n"
+    assert "[deny-importers]\n" in text
+    text = text.replace("[include]\n", "[include]\nmbnas_web/tests/**\nmbnas_web/e2e/**\n", 1).replace(
+        "[deny-importers]\n", "[deny-importers]\nmbnas_web/tests/fitness_oracle.ts :: test-only fitness formula\n", 1)
+    al.write_text(text, encoding="utf-8")
+    proc = run_build(tree, "--profile", "public")
+    assert proc.returncode == 0, proc.stdout[-3000:]
     oracle_users = {"mbnas_web/tests/fitness_oracle.ts", "mbnas_web/tests/fixtures.ts",
                     "mbnas_web/tests/uses_fixtures.test.ts", "mbnas_web/e2e/oracle.spec.ts"}
-    for profile in ("public", "registration"):
-        rels = _rels(zip_of(root, profile))
-        assert not oracle_users & rels and "mbnas_web/tests/standalone.test.ts" in rels, profile
-        prof = json.loads(_read(zip_of(root, profile), "PACKAGE_PROFILE.json"))
-        entry = [e for e in prof["exclusions_with_reason"] if e.get("files")]
-        assert entry and set(entry[0]["files"]) == oracle_users and "DD-A43" in entry[0]["reason"]
-    assert oracle_users <= _rels(zip_of(root, "owner"))
+    rels = _rels(zip_of(tree, "public"))
+    assert not oracle_users & rels and "mbnas_web/tests/standalone.test.ts" in rels
+    prof = json.loads(_read(zip_of(tree, "public"), "PACKAGE_PROFILE.json"))
+    entry = [e for e in prof["exclusions_with_reason"] if e.get("files")]
+    assert entry and set(entry[0]["files"]) == oracle_users and entry[0]["reason"] == "test-only fitness formula"
 
 
 def test_prose_mention_of_the_private_package_is_reported_not_failed(built: dict) -> None:
@@ -317,20 +354,56 @@ def test_real_allowlists_keep_the_profile_boundaries() -> None:
         pytest.skip("not a source tree: build/allowlists absent")
     pub, own, reg = (_sections(p) for p in ("public", "owner", "registration"))
     assert set(pub["include"]) <= set(own["include"]) and set(pub["include"]) <= set(reg["include"])
-    assert set(reg["include"]) - set(pub["include"]) == {"docs/registration/**"}
+    assert set(reg["include"]) - set(pub["include"]) == {
+        "docs/registration/PROGRAM_OVERVIEW.md", "docs/registration/SYSTEM_STRUCTURE.md",
+        "docs/registration/INTERFACES.md", "docs/registration/KEY_CONTRIBUTIONS.md",
+        "docs/registration/SUBMISSION_SCOPE_TABLE.md", "docs/registration/FILE_LIST.md",
+        "docs/registration/diagrams/**"}
     everywhere = {"runtime/**", "build/**", "dist/**", "**/node_modules/**", "**/__pycache__/**", "**/*.pyc",
                   "**/.env", "**/*.env", "docs/internal/canary/**"}
+    # clean distribution (DD-A76): repository-only material, denied by every profile
+    clean = {"tests/**", "docs/internal/**", "docs/public/contracts/**", "LICENSE*", "pyproject.toml",
+             "mbnas_web/tests/**", "mbnas_web/e2e/**", "mbnas_web/playwright*.config.ts", "scripts/package.sh",
+             "scripts/owner/t2_compare.py"}
     for sec in (pub, own, reg):
-        assert everywhere <= set(sec["deny"])
+        assert everywhere <= set(sec["deny"]) and clean <= set(sec["deny"])
+        assert not [g for g in sec["include"] if g.startswith(("tests/", "docs/internal", "LICENSE", "mbnas_web/tests",
+                                                                 "mbnas_web/e2e", "mbnas_web/playwright"))]
+        assert "pyproject.toml" not in sec["include"] and "docs/public/*.md" in sec["include"]
+        assert not sec.get("deny-importers")  # no profile ships the web tests, hence no test-only oracle (DD-A43 a)
+        assert ".dockerignore" in sec["include"] and ".dockerignore" in sec["required"]  # WP-7B docker context
+        assert not {"LICENSE", "LICENSE_STATUS.md", "pyproject.toml"} & set(sec["required"])
     for sec in (pub, reg):
-        assert {f"{CORE}/**", "tests/owner/**", "docs/internal/**", "deploy/owner/**", "requirements-owner.txt",
-                "LICENSE_STATUS.md", "tests/public/infra/test_no_host_facts.py", "tests/_shared/harness.py"} <= set(
-            sec["deny"])
-        assert "tests/public/**" in sec["include"] and "mbnas_web/src/**" in sec["include"]  # DD-A41
-        assert "pyproject.toml" in sec["include"]  # DD-A43 follow-up
-        assert sec["deny-importers"] == ["mbnas_web/tests/fitness_oracle.ts"]  # DD-A43 (a)
+        assert {f"{CORE}/**", "deploy/owner/**", "requirements-owner.txt", "scripts/dev/**"} <= set(sec["deny"])
+        assert "mbnas_web/src/**" in sec["include"]  # DD-A41
         assert CORE not in sec["wheels"] and set(sec["wheels"]) == set(PUBLIC_PKGS)
         assert "private_package_check = strict" in sec["profile"] and "host_facts = fail" in sec["profile"]
-    for sec in (pub, own, reg):
-        assert ".dockerignore" in sec["include"] and ".dockerignore" in sec["required"]  # WP-7B docker context
+    assert {"docs/registration/REVIEW_CHECKLIST.md", "docs/registration/RIGHTS_REVIEW.md"} <= set(reg["deny"])
     assert CORE in own["wheels"] and f"{CORE}/src/**" in own["include"]
+    assert [g for g in own["include"] if g.startswith("scripts/dev/")] == ["scripts/dev/wp3_three_process_smoke.py"]
+    assert "scripts/**" not in own["include"]
+
+
+@pytest.mark.parametrize("profile", ["public", "registration", "owner"])
+def test_real_tree_selection_holds_only_the_clean_program(profile: str) -> None:
+    """The packager's own file selection on this source tree (no build): no test, internal record, contract history,
+    licence file, workspace setting, packager, test or development tool (owner: the integration driver only)."""
+    if not (REPO / "build" / "allowlists" / f"{profile}.txt").is_file():
+        pytest.skip("not a source tree: build/allowlists absent")
+    pb = load_dev("package_build")
+    al = pb.load_allowlist(REPO / "build" / "allowlists" / f"{profile}.txt", profile)
+    res = pb.PassResult()
+    sel = pb.exclude_importers(REPO, al, pb.select_files(REPO, al, res), res)
+    bad = [r for r in sel if r.startswith(("tests/", "docs/internal/", "docs/public/contracts/", "mbnas_web/tests/",
+                                           "mbnas_web/e2e/", "build/", "dist/", "runtime/"))
+           or r in ("pyproject.toml", "scripts/package.sh", "scripts/owner/t2_compare.py",
+                    "docs/registration/REVIEW_CHECKLIST.md", "docs/registration/RIGHTS_REVIEW.md")
+           or any(part.startswith("LICENSE") for part in r.split("/"))
+           or re.fullmatch(r"mbnas_web/playwright[^/]*\.config\.ts", r)]
+    assert sel and bad == []
+    assert [r for r in sel if r.startswith("scripts/dev/")] == (
+        ["scripts/dev/wp3_three_process_smoke.py"] if profile == "owner" else [])
+    for rel in ("scripts/verify.sh", "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES_WEB.md", ".dockerignore",
+                "mbnas_web/scripts/gen-types.mjs", "mbnas_web/scripts/check-bundle.mjs", "docs/public/INSTALL.md"):
+        if (REPO / rel).is_file():
+            assert rel in sel, rel

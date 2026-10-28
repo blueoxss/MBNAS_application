@@ -1,4 +1,4 @@
-"""Lease fencing of job-scoped runner writes (R1, design P3): ``(job_id, runner_id, attempt)``.
+"""Lease fencing of job-scoped runner writes: ``(job_id, runner_id, attempt)``.
 
 :func:`fenced_job` reads the job row and answers 409 ``LEASE_LOST`` unless ``lease_owner == runner_id``, ``attempt``
 equals the request's attempt and the status is one of ``statuses`` (default LEASED/RUNNING). The SQL writes that follow

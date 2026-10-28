@@ -1,40 +1,40 @@
-"""``/core/v1/runner/*`` endpoints E1-E11 (WP-2 contract section 1.3; design A3 sections 3, 6.1, 7, 8; E11 = DD-A66) and
+"""``/core/v1/runner/*`` endpoints E1-E11 and
 the minimal ``/core/v1/owner/{runners,principals}`` reads.
 
 Wire models are :mod:`mbnas_contracts.runner_protocol` (``extra="forbid"``). Every route requires a principal of scope
 ``runner`` (runner or admin token; :func:`.auth.require_principal`), every body naming a ``runner_id`` is checked against
 the token's runner (403 ``RUNNER_MISMATCH``), and every job-scoped write carries ``(runner_id, attempt, ticket)``: the
 ticket is verified (403 ``TICKET_INVALID``) and the job row is fenced on ``(lease_owner, attempt, status)`` (409
-``LEASE_LOST``), with the same ``attempt`` condition on the SQL writes (R1). One endpoint = one short ``BEGIN IMMEDIATE``
+``LEASE_LOST``), with the same ``attempt`` condition on the SQL writes. One endpoint = one short ``BEGIN IMMEDIATE``
 transaction calling the existing repo/jobs/costs/engine functions; SSE subscribers are woken after commit.
 
-Result commit (E8, design 7): key ``(job_id, attempt)`` in ``idempotent_responses``; same digest -> stored response
+Result commit (E8): key ``(job_id, attempt)`` in ``idempotent_responses``; same digest -> stored response
 replayed (no DB change), other digest -> 409 ``RESULT_CONFLICT`` (+ error log). The ``PROCESSING`` insert, the fence,
 ``settle_job`` and the ``DONE`` update run in ONE transaction (nested ``tx`` = SAVEPOINT), so this route never commits a
 ``PROCESSING`` row - a crash or exception rolls the row back with everything else. The 202 + ``Retry-After: 2`` answer
 to a ``PROCESSING`` row (and the sweeper's 60 s orphan cleanup) is therefore a defensive path for rows left by an
-external or older writer only (design 7.2's "left behind by a crash mid-commit" does not occur with this single-tx
-implementation; fix round 1 C04-D3). A lost fence -> 409 ``LEASE_LOST`` after ``costs.record_lost_attempt`` (stored
+external or older writer only (a row "left behind by a crash mid-commit" does not occur with this single-tx
+implementation). A lost fence -> 409 ``LEASE_LOST`` after ``costs.record_lost_attempt`` (stored
 and replayed like a success); an exception rolls everything back -> 500 ``COMMIT_FAILED``. A result for a run in
 CANCEL_REQUESTED/CANCELLED (or with ``cancel_observed``) is accepted as ``CANCELLED/RUN_CANCELLED`` with the original
-kept in ``error.discarded_result`` (DD-A18 option A).
+kept in ``error.discarded_result``.
 
-Claim (E2) and the device (DD-A62 (d), mixed fleet): a runner registered as a CPU device (``device = "cpu"``, DD-A32)
+Claim (E2) and the device (mixed fleet): a runner registered as a CPU device (``device = "cpu"``)
 does not lease a job whose result needs a CUDA measurement (:func:`requires_cuda`: any job of an evaluation-ON search /
 final-retrain run, a BENCHMARK, an explicit training job that evaluates) while an ONLINE non-CPU runner offers that job
 kind (:func:`needs_cuda`): such a job is skipped - never leased, it stays QUEUED for the CUDA runner - and the claim
 answers 204 when nothing else is leasable. On a CPU-only fleet (no such runner) the CPU runner leases exactly as before
-(``repo.acquire_lease``) and an evaluation it cannot measure is committed NOT_EVALUATED with its reason (DD-A62 (a)).
+(``repo.acquire_lease``) and an evaluation it cannot measure is committed NOT_EVALUATED with its reason.
 GPU runners always lease through ``repo.acquire_lease`` unchanged.
 
-Claim (E2) and expired leases (DD-A64, C04 N1): both lease paths also take a LEASED/RUNNING job whose lease expired, so
+Claim (E2) and expired leases: both lease paths also take a LEASED/RUNNING job whose lease expired, so
 every claim iteration first runs the core sweeper's reclaim (:func:`.sweeper.reclaim`) at the same ``now`` - the owner
 worker's rule (reclaim right before leasing). A dead RUNNING attempt is therefore billed ``failed``/lost from
 ``started_at`` to its last heartbeat (``LEASE_EXPIRED``), the job is requeued (or failed when no attempt is left) and
 the next attempt is billed ``retry`` - the same accounting as when the sweeper's own pass comes first. The reclaim also
 precedes the re-delivery of this runner's own LEASED job (E2(a)), so an expired lease is never handed out again.
 
-Retention prune round trip (DD-A66; WP-5 section 2 R11; T3-34; runner protocol 1.1.0): E6 records a checkpoint and, in
+Retention prune round trip (runner protocol 1.1.0): E6 records a checkpoint and, in
 the same transaction, ``engine.checkpoint_registered`` plans the run's retention policy over the candidate's runner-held
 full states (``prune_requests`` rows; never the latest full state, never a checkpoint an evaluation row references).
 E4 hands the open requests of the calling runner out as ``control.prune`` orders - each at most once per lease (job,
@@ -87,7 +87,7 @@ log = logging.getLogger("mbnas_core.runner_api")
 
 RUNNER_PREFIX = "/core/v1/runner"
 OWNER_PREFIX = "/core/v1/owner"
-ALLOWED_KINDS = jobs.GPU_KINDS  # DD-A4
+ALLOWED_KINDS = jobs.GPU_KINDS
 MAX_BATCH_MESSAGES = 100
 PROGRESS_INTERVAL_S = 1.0
 KILL_GRACE_S = 10.0
@@ -96,7 +96,7 @@ PROGRESS_KEYS = ("epoch", "epoch_target_total", "global_step", "samples_seen", "
 ID_RE = re.compile(tickets.ID_PATTERN)
 CLAIM_ATTEMPTS = 5
 CPU_DEVICE = "cpu"
-"""``runners.device`` of a CPU-only runner (DD-A32; same spelling as ``protocol.validator.CPU_DEVICE``)."""
+"""``runners.device`` of a CPU-only runner (same spelling as ``protocol.validator.CPU_DEVICE``)."""
 
 router = APIRouter(dependencies=[Depends(require_principal("runner"))])
 owner_router = APIRouter(dependencies=[Depends(require_principal("admin"))])
@@ -225,20 +225,20 @@ def register(body: RegisterRequest, request: Request, conn: sqlite3.Connection =
 
 # -- E2 claim --------------------------------------------------------------------------------------------------------
 def cpu_runner(runner: dict[str, Any] | None) -> bool:
-    """DD-A32: a runner registered with device ``cpu`` (CPU-only; its daemon maps the assigned ``cuda:0`` to ``cpu``)."""
+    """A runner registered with device ``cpu`` (CPU-only; its daemon maps the assigned ``cuda:0`` to ``cpu``)."""
     return str((runner or {}).get("device") or "").strip().lower() == CPU_DEVICE
 
 
 def requires_cuda(resolved: Any, kind: str) -> bool:
-    """DD-A62 (d): True when a job of ``kind`` of a run with protocol ``resolved`` is only complete with a measurement
-    on a CUDA device (latency is measured on CUDA only, DD-A32):
+    """True when a job of ``kind`` of a run with protocol ``resolved`` is only complete with a measurement
+    on a CUDA device (latency is measured on CUDA only):
 
     * ``BENCHMARK``: a latency measurement;
     * any job of an evaluation-ON search or final-retrain run (``console.search.evaluation_enabled`` not false, no
       explicit training): its inline / explicit evaluation measures latency and the fitness needs it;
     * an explicit training job (``console.extra.training.enabled``) that evaluates (``validation_enabled`` or
       ``evaluate_only``).
-    Explicit training without validation and evaluation-OFF runs never do (DD-A32 maps ``cuda:0`` to ``cpu``)."""
+    Explicit training without validation and evaluation-OFF runs never do (a CPU runner maps ``cuda:0`` to ``cpu``)."""
     if kind == JobKind.BENCHMARK.value:
         return True
     console = resolved.get("console") if isinstance(resolved, dict) else None
@@ -251,9 +251,9 @@ def requires_cuda(resolved: Any, kind: str) -> bool:
 
 
 def needs_cuda(resolved: Any, kind: str, cuda_kinds: frozenset[str] | set[str]) -> bool:
-    """DD-A62 (d): a CPU runner leaves this job to a CUDA runner - the job :func:`requires_cuda` and an ONLINE non-CPU
+    """A CPU runner leaves this job to a CUDA runner - the job :func:`requires_cuda` and an ONLINE non-CPU
     runner offers its ``kind`` (``cuda_kinds``, :func:`_cuda_runner_kinds`; a mixed fleet). With no such runner (a
-    CPU-only fleet) the CPU runner takes it and an evaluation it cannot measure is committed NOT_EVALUATED (DD-A62 (a))
+    CPU-only fleet) the CPU runner takes it and an evaluation it cannot measure is committed NOT_EVALUATED
     instead of leaving the run QUEUED forever."""
     return kind in cuda_kinds and requires_cuda(resolved, kind)
 
@@ -275,13 +275,13 @@ def _cuda_runner_kinds(conn: sqlite3.Connection) -> frozenset[str]:
 
 def _lease_for_cpu_runner(conn: sqlite3.Connection, runner_id: str, now: str, ttl_s: float,
                           kinds: list[str]) -> dict[str, Any] | None:
-    """``repo.acquire_lease`` for a CPU runner (DD-A62 (d)). Without an ONLINE non-CPU runner (CPU-only fleet) it IS
+    """``repo.acquire_lease`` for a CPU runner. Without an ONLINE non-CPU runner (CPU-only fleet) it IS
     ``repo.acquire_lease``. Otherwise: the first job leasable under the same conditions and in the same order (QUEUED or
     lease expired, attempts left, run in a runnable status, a requested kind; ``priority, created_at, id``) that does
     not :func:`needs_cuda`; a job that does is skipped and stays as it is. Each lease is one conditional ``UPDATE ...
     RETURNING`` that re-checks those conditions (a concurrent claimer makes it miss and the next candidate is tried);
     leasing increments ``attempt`` as ``acquire_lease`` does. The claim reclaims expired leases at the same ``now``
-    right before (DD-A64), so the expired-lease condition, kept for parity with ``acquire_lease``, finds nothing
+    right before, so the expired-lease condition, kept for parity with ``acquire_lease``, finds nothing
     unbilled."""
     cuda_kinds = _cuda_runner_kinds(conn).intersection(kinds)
     if not cuda_kinds:
@@ -316,7 +316,7 @@ def _lease_for_cpu_runner(conn: sqlite3.Connection, runner_id: str, now: str, tt
 
 
 def _fail_unrunnable(conn: sqlite3.Connection, job: dict[str, Any], runner_id: str, fail: JobFailure) -> None:
-    """A leased job the core cannot hand out (baseline not AVAILABLE, DD-A16): final failure, nothing billed."""
+    """A leased job the core cannot hand out (baseline not AVAILABLE): final failure, nothing billed."""
     with tx(conn):
         result = JobResult(job_id=job["id"], status=JobStatus.FAILED, attempt=max(1, job["attempt"]),
                            reason_code=fail.reason_code, message=fail.message, finished_at=utcnow_iso())
@@ -333,18 +333,18 @@ def claim(body: ClaimRequest, request: Request, conn: sqlite3.Connection = Depen
     if outside:
         raise ApiError(400, "KIND_NOT_ALLOWED", f"runners may not claim {outside}; allowed: {sorted(ALLOWED_KINDS)}")
     settings = _settings(request)
-    cpu_only = cpu_runner(_registered(conn, body.runner_id))  # DD-A62 (d): mixed fleet -> CUDA jobs to the GPU
+    cpu_only = cpu_runner(_registered(conn, body.runner_id))  # mixed fleet -> CUDA jobs to the GPU
     if conn.execute("SELECT 1 FROM jobs WHERE lease_owner = ? AND status = 'RUNNING'", (body.runner_id,)).fetchone():
         raise ApiError(429, "RUNNER_BUSY", "this runner already runs a job (one job per runner)")
     for _ in range(CLAIM_ATTEMPTS):
         now = utcnow_iso()
-        # DD-A64 (C04 N1): reclaim right before leasing, at the same ``now`` (owner worker rule, owner_worker/main.py
+        # reclaim right before leasing, at the same ``now`` (owner worker rule, owner_worker/main.py
         # tick): both lease paths below also take expired leases, which reclaim must bill first (lost row,
         # LEASE_EXPIRED, the next attempt billed as retry); one BEGIN IMMEDIATE transaction, serialised with the sweeper
         # and the owner worker, so a lease is never billed twice
         for reclaimed_id in sweeper.reclaim(conn, settings, now):
             _notify(request, (repo.get_job(conn, reclaimed_id) or {}).get("run_id"))
-        # (a) re-delivery of a lease whose claim response was lost (design E2(a) / F7)
+        # (a) re-delivery of a lease whose claim response was lost (E2(a))
         row = conn.execute("SELECT id FROM jobs WHERE lease_owner = ? AND status = 'LEASED' "
                            "ORDER BY updated_at, id LIMIT 1", (body.runner_id,)).fetchone()
         if row is not None:
@@ -403,7 +403,7 @@ def control_for(run_status: str) -> dict[str, Any]:
 
 
 def _prune_orders(conn: sqlite3.Connection, runner_id: str, job_id: str, attempt: int, now: str) -> list[dict[str, Any]]:
-    """DD-A66: the prune orders of this heartbeat (``retention.deliver_prune_orders``, in a SAVEPOINT of the caller's
+    """The prune orders of this heartbeat (``retention.deliver_prune_orders``, in a SAVEPOINT of the caller's
     transaction). A failure is logged and answers no orders - it never costs the runner its lease renewal."""
     try:
         with tx(conn):
@@ -457,7 +457,7 @@ def progress(job_id: str, body: ProgressBatch, request: Request,
         job = fenced_job(conn, job_id, body.runner_id, body.attempt, ("RUNNING",))
         now = utcnow_iso()
         repo.touch_job(conn, job_id, body.runner_id, now, attempt=body.attempt)  # liveness for lost-work billing
-        for entry in logs:  # e.g. CHECKPOINT_REPORT_REJECTED by the runner daemon (design 6.3)
+        for entry in logs:  # e.g. CHECKPOINT_REPORT_REJECTED by the runner daemon
             extra = {k: v for k, v in entry.items() if k in ("reason_code", "path", "reported_sha256", "computed_sha256")}
             engine.log(conn, job["run_id"], str(entry.get("message") or entry.get("reason_code") or "runner log")[:500],
                        level=str(entry.get("level") or "error"), job_id=job_id, **extra)
@@ -511,7 +511,7 @@ def _checkpoint_sync(request: Request, job_id: str, body: CheckpointReport) -> J
                 run_id=job["run_id"], runner_id=body.runner_id, store="runner_local", relpath=body.relpath,
                 uri=body.uri, sha256=body.sha256, bytes=body.bytes, verified_by=f"runner:{body.runner_id}",
                 job_id=job_id, attempt=body.attempt)
-            # DD-A66: older runner-held full states the run's policy deletes get their prune requests now
+            # older runner-held full states the run's policy deletes get their prune requests now
             engine.checkpoint_registered(conn, job, {"id": body.checkpoint_id, "candidate_id": body.candidate_id},
                                          default_policy=_settings(request).full_state_retention)
         return JSONResponse({"checkpoint_id": body.checkpoint_id, "location_id": loc["id"], "state": "PRESENT"})
@@ -612,9 +612,9 @@ def result(job_id: str, body: ResultCommit, request: Request,
                 raise ApiError(404, "JOB_NOT_FOUND", f"job {job_id} not found")
             runner = _registered(conn, body.runner_id)
             if not owns(current, body.runner_id, body.attempt):
-                if parse_iso(body.started_at) > parse_iso(now):  # design 7.2: started_at must not lie ahead of core time
+                if parse_iso(body.started_at) > parse_iso(now):  # started_at must not lie ahead of core time
                     raise ApiError(422, "VALIDATION_FAILED", "started_at lies in the future")
-                # one physical row per (job, attempt): complements the sweeper's failed row (S7-F2)
+                # one physical row per (job, attempt): complements the sweeper's failed row
                 costs.record_lost_attempt(conn, current | {"attempt": body.attempt}, started_at=body.started_at,
                                           finished_at=body.finished_at, reason_code="LEASE_LOST",
                                           device_uuid=body.device_uuid)
@@ -660,7 +660,7 @@ class _Retry(Exception):
     """Internal: another request inserted the idempotency row first."""
 
 
-# -- E11 checkpoint pruned (DD-A66) ---------------------------------------------------------------------------------
+# -- E11 checkpoint pruned ------------------------------------------------------------------------------------------
 @router.post("/checkpoints/{checkpoint_id}/pruned")
 def checkpoint_pruned(checkpoint_id: str, body: PruneReport, request: Request,
                       conn: sqlite3.Connection = Depends(principal_db)) -> JSONResponse:

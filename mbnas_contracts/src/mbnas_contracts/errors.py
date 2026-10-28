@@ -5,10 +5,6 @@ Framework-free part shared by the FastAPI hosts: :class:`ApiError` (raise from a
 ``code`` for framework HTTP exceptions). The exception handlers (``install(app)``) and ``error_response`` need FastAPI,
 which this package does not import (contracts import only pydantic/PyYAML), so each host package keeps its own copy and
 raises/handles the one :class:`ApiError` class defined here.
-
-Source: ``mbnas_server.api.errors`` (monolithic package, snapshot HEAD 18c4815), split per WP-1 contract §4 / DD-A10.
-``ApiError``, ``_HTTP_CODES`` and the ``_pydantic_errors`` body are unchanged; only the parameter annotation of
-``_pydantic_errors`` no longer names FastAPI's ``RequestValidationError``.
 """
 from __future__ import annotations
 

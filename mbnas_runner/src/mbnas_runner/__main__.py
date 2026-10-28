@@ -4,15 +4,15 @@
   register with the core, replay the journal, claim -> start -> heartbeat -> progress -> result -> ack;
 * ``mbnas-runner register [--env-file F]`` - register once and print the negotiated configuration (no job runs);
 * ``mbnas-runner --spec-file JSON`` - run one job from a JobSpec file, exactly what ``python -m mbnas_runner.child``
-  does (kept from WP-1).
+  does.
 
 A ``core_url`` that is plain ``http://`` to a non-loopback host is refused before anything starts (exit 2, code
 ``CORE_URL_INSECURE``). The guard matters: an import walk (``pkgutil.walk_packages``) imports this module as
-``mbnas_runner.__main__``, and an unguarded ``main()`` call would start work on import (set-2 review incident S2-R1).
+``mbnas_runner.__main__``, and an unguarded ``main()`` call would start work on import.
 Heavy modules (the daemon, httpx, torch) are imported only inside the chosen command.
 
-``run`` and ``register`` install the shared log redaction before anything talks to the core (C05 D10,
-:func:`install_redaction`): no ``token``/``access_token``/``sig``/``exp`` query value and no ``Authorization`` value in
+``run`` and ``register`` install the shared log redaction before anything talks to the core
+(:func:`install_redaction`): no ``token``/``access_token``/``sig``/``exp`` query value and no ``Authorization`` value in
 a log record of the runner process. The daemon's own progress lines are written without secrets (job ids and error
 codes only).
 """
@@ -27,7 +27,7 @@ REDACTED_LOGGERS = ("httpx", "httpcore", "mbnas_runner", "")
 
 
 def install_redaction() -> None:
-    """C05 D10: :func:`mbnas_contracts.util.log_redact.install_log_redaction` on :data:`REDACTED_LOGGERS` (filters on
+    """Run :func:`mbnas_contracts.util.log_redact.install_log_redaction` on :data:`REDACTED_LOGGERS` (filters on
     those loggers and their current handlers), plus the same filter on :data:`logging.lastResort`, which writes the
     records of every logger when no handler is configured (the runner configures none; a filter on a logger does not
     see the records its child loggers propagate). Idempotent; the filter never drops a record."""
@@ -69,7 +69,7 @@ def main(argv: list[str] | None = None) -> int:
         return child_main(["--spec-file", args.spec_file])
     if args.command is None:
         parser.error("a command (run | register) or --spec-file is required")
-    install_redaction()  # C05 D10: before the settings, the client or the daemon exist
+    install_redaction()  # before the settings, the client or the daemon exist
     from mbnas_runner.client import CoreError, CoreUnavailable, RunnerConfigError
 
     try:

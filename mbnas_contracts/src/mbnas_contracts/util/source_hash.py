@@ -9,21 +9,17 @@ string instead of being followed. Excluded inside directory roots: directories `
 ``*.egg-info`` and ``*.pyc`` files. A missing root contributes
 ``<label>\\0missing`` (it changes the digest) instead of failing.
 
-There are no default roots: every caller names the trees it hashes (WP-1 contract §4), e.g. a host passes the
-directories of the packages it has installed. :func:`package_roots` builds such ``(label, directory)`` pairs with the
+There are no default roots: every caller names the trees it hashes, e.g. a host passes the directories of the
+packages it has installed. :func:`package_roots` builds such ``(label, directory)`` pairs with the
 import name as label, so the digest does not depend on where the packages are installed. Digests over different root
 sets are not comparable.
 
-``/1`` → ``/2`` (2026-10-07, criterion set 1 finding S1-F6): ``/1`` hashed only server ``src scripts contracts config
+``/1`` → ``/2``: ``/1`` hashed only server ``src scripts contracts config
 tests`` and web ``src``, so a change to a lock file, a build config or the web tests left ``artifact_ref`` unchanged.
 ``/1`` and ``/2`` digests are not comparable.
 
-Source: ``mbnas_server.provenance.source_hash`` (monolithic package, snapshot HEAD 18c4815), split per WP-1 contract
-§4 / DD-A10. The walk and the digest formula (``_entries``, ``_file_digest``, the exclusions, the result document) are
-unchanged. Removed: ``default_roots()`` and the monorepo layout it encoded (checkout-relative default server/web roots,
-``SERVER_DIRS``/``SERVER_FILES``/``WEB_DIRS``/``WEB_FILES``, ``NOT_HASHED``). Changed: ``roots`` is a required argument
-of :func:`compute_source_tree_hash` (``(label, path)`` pairs, or paths with a parallel ``labels`` list). New:
-:func:`package_roots`.
+``roots`` is a required argument of :func:`compute_source_tree_hash`: ``(label, path)`` pairs, or paths with a
+parallel ``labels`` list.
 """
 from __future__ import annotations
 

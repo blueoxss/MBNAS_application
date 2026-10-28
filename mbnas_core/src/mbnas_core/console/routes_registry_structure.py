@@ -5,9 +5,9 @@
   ``<output_root>/registry_structure/<model_id>/<architecture_hash>.json``.
 * ``POST /structure-check``                     explicit CPU check of a user YAML from an allowed server root, or of the
   YAML text the gateway carries (``model_yaml_text`` + ``source_sha256``); not stored.
-* ``GET  /structure/block-catalog``             the static block design-origin table (DD-38); no import, no model.
+* ``GET  /structure/block-catalog``             the static block design-origin table; no import, no model.
 
-Contract: openapi 1.5.0. Responses are projected onto ``StructureReport`` / ``BlockCatalogTable`` (WP-4) and validated
+Contract: openapi 1.5.0. Responses are projected onto ``StructureReport`` / ``BlockCatalogTable`` and validated
 with their pydantic mirrors (:func:`mbnas_core.console.deps.contract_json`).
 """
 from __future__ import annotations

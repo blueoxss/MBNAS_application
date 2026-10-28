@@ -1,0 +1,70 @@
+# F2 (DD-A75, fix round 7) - exact commands, in order, with exit codes. 2026-10-28 (UTC). CPU only: CUDA_VISIBLE_DEVICES=""
+# everywhere, no /data, nothing under etri_nas, no git state change, no dist/ edit. Placeholders (P2 copy_redacted scheme):
+# <ROOT> = TARGET_ROOT (mbnas_application), <SP> = session scratchpad, <W> = <SP>/f2, <PY310_ENV> = conda env mbnas310,
+# <HOME> / <user> = the host home / user name. Sandbox launcher: harness/sbx_f2.sh = P2's <ROOT>/runtime/test_root/t4t5/
+# harness/sbx2.sh with the same bwrap flags (diff: harness/sbx2_vs_sbx_f2.diff) + GPU_NODES=1 adds --dev-bind /dev/nvidia*.
+
+## 0. hashed package roots before (04:41:48Z)
+runtime/venv/bin/python -B scripts/dev/source_tree_hash.py [--manifest]        # exit 0: sha256:1b4bd1a4a45196e3...708c (221 files)
+
+## 1. inputs (04:53:30Z)
+cp -p <ROOT>/dist/owner/mbnas_application-0.1.0-owner-private-runtime-linux_x86_64.zip <W>/zips/
+echo "53e6a1f0cf100cb813ff500d4936a4dcf03feea623886b43879c51de572434c9  <zip>" | sha256sum -c -     # OK
+for d in dev a b: mkdir <W>/$d/zip (empty) && (cd <W>/$d/zip && unzip -q <W>/zips/<zip>)        # exit 0 x3
+
+## 2. NVML visibility per sandbox variant (read-only nvmlInit/count/name; harness/nvml_probe_output.txt, re-run 05:16:25Z)
+WORK=<W>/probe GPU_NODES=0 sbx_f2.sh /usr/bin/python3 -I /opt/harness/nvml_probe.py   # no /dev/nvidia*: nvmlInit rc 9 (driver not loaded)
+WORK=<W>/probe GPU_NODES=1 sbx_f2.sh /usr/bin/python3 -I /opt/harness/nvml_probe.py   # 6 nodes: nvmlInit rc 0, 2 x RTX A6000
+
+## 3. installs (each in its own sandbox, offline, as T4 COMMANDS.txt step 1)
+WORK=<W>/dev GPU_NODES=0 sbx_f2.sh bash zip/mbnas_application/scripts/install.sh --profile owner --offline --wheelhouse /opt/wheelhouse --python <PY310_ENV>/bin/python3.10
+                                                     # 04:53:41Z exit 0, 88 s (dev tree: baseline + iterations)
+WORK=<W>/a   GPU_NODES=0 sbx_f2.sh bash zip/mbnas_application/scripts/install.sh ...same...   # 05:01:48Z exit 0, 91 s
+WORK=<W>/b   GPU_NODES=1 sbx_f2.sh bash zip/mbnas_application/scripts/install.sh ...same...   # 05:03:19Z exit 0, 89 s
+
+## 4. baseline: ORIGINAL smoke (sha256 90558be1...afc, as shipped) in the no-GPU sandbox (dev tree, first run after install)
+WORK=<W>/dev GPU_NODES=0 sbx_f2.sh /bin/bash -c 'cd /tmp; bash $WORK/zip/mbnas_application/scripts/verify.sh --profile owner --suite integration --json $WORK/verify_dev_baseline.json'
+                                                     # 04:55:17Z exit 1, 34 s: integration FAIL steps=16 passed=14 failed=2 (= T4)
+                                                     # -> baseline_original_smoke_cpu_only_sandbox/
+
+## 5. development runs on the dev tree (pre-final version a5a0cfb3...: the final file differs only by one reflowed docstring paragraph, 5 -> 6 lines)
+same verify command, GPU_NODES=0                     # 04:56:06Z exit 0, 48 s: PASS 17/17, fleet mode CPU-only
+same verify command, GPU_NODES=1                     # 04:57:19Z exit 0, 48 s: PASS 17/17, fleet mode GPU
+WORK=<W>/dev GPU_NODES=0 sbx_f2.sh /bin/bash /opt/harness/mutation_control.sh   # ~05:00Z: 4 mutations of the smoke, each caught
+                                                     # by the new unit tests (pytest/mutation_control.txt); script restored
+
+## 6. project files written (05:01:28Z): scripts/dev/wp3_three_process_smoke.py (sha256 0b127874...713c), new
+##    tests/owner/qa/test_wp3_smoke_fleet_mode.py (sha256 7847dff4...cc33) - diff: F2.diff
+
+## 7. (a) final: fresh tree a, ONLY the smoke replaced (a_cpu_only_sandbox/swap.txt: 90558be1... -> 0b127874...)
+WORK=<W>/a GPU_NODES=0 sbx_f2.sh /bin/bash -c 'cd /tmp; bash $WORK/zip/mbnas_application/scripts/verify.sh --profile owner --suite integration --json $WORK/verify_a.json'
+                                                     # 05:05:28Z exit 0, 49 s: integration PASS steps=17 passed=17 failed=0, fleet mode CPU-only
+
+## 8. (b) final: fresh tree b, ONLY the smoke replaced, sandbox WITH /dev/nvidia* (CUDA_VISIBLE_DEVICES="")
+harness/gpu_monitor.sh <stopfile> &                  # 05:06:47Z..05:07:41Z, 49 one-second samples of nvidia-smi --query-compute-apps
+WORK=<W>/b GPU_NODES=1 sbx_f2.sh /bin/bash -c 'cd /tmp; bash $WORK/zip/mbnas_application/scripts/verify.sh --profile owner --suite integration --json $WORK/verify_b.json'
+                                                     # 05:06:49Z exit 0, 50 s: integration PASS steps=17 passed=17 failed=0, fleet mode GPU
+                                                     # monitor: F2_process_entries_on_a_GPU=0 (only the 4 pre-existing campaign pids)
+pgrep -af 'scratchpad/f2/'; ss -ltnp (owners)        # after all runs: no process, no listener (the smoke's ports lived in the
+                                                     # sandbox's own network namespace)
+
+## 9. unit tests (project tree, <ROOT>/runtime/venv/bin/python, CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1, -p no:cacheprovider,
+##    -m "not gpu and not live and not legacy_records and not host_data")
+pytest -v tests/owner/qa/test_wp3_smoke_fleet_mode.py                         # 05:05:06Z exit 0: 40 passed      (pytest/P1_*)
+pytest -v tests/public/ops   (verify/doctor/start/stop/install/static/role_env) # 05:09:15Z exit 0: 65 passed, 2 deselected (P2_*)
+pytest -v <5 DD-A60/A62 CPU-semantics files>                                 # 05:10:15Z exit 0: 21 passed      (P3_*)
+pytest -q tests/owner/qa     (the directory of the new test)                 # 05:10:53Z exit 0: 313 passed, 1 skipped, 5 deselected (P4_*)
+
+## 10. hashed package roots after (05:14:16Z)
+runtime/venv/bin/python -B scripts/dev/source_tree_hash.py [--manifest|--diff before after]
+                                                     # exit 0: sha256:26e02259...de13; --diff: changed = [mbnas_core/console/projection.py]
+                                                     # only (220 unchanged, 0 added/removed) - NOT an F2 write: that file was
+                                                     # modified at 04:55:10Z by the concurrent DD-A75 F1 work; F2 wrote only
+                                                     # the two files of step 6, both outside the five hashed roots
+
+## 11. evidence copy + leak scan
+/usr/bin/python3 -I harness/assemble_evidence.py     # copies with the placeholders above; GPU uuids never copied
+runtime/venv/bin/python -B -I scripts/dev/canary_scan.py --manifest docs/internal/canary/CANARY_MANIFEST.json \
+  --secrets-env <(cat <W>/{dev,a,b}/.../config/owner/{core,gateway,runner}.env) --needles-file <(cat <5 smoke runner tokens>) \
+  --min-files 30 docs/internal/evidence/WP7/FIX7_DD_A75/F2      # host facts on, no profile = any hit fails: see canary_scan.txt
+  positive controls (canary_positive_controls.txt): tree a config/owner -> FAIL 14 secret hits; raw (a) smoke evidence -> FAIL 20 host-fact hits

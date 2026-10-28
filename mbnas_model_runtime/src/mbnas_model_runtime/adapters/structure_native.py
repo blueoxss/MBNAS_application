@@ -417,7 +417,7 @@ def _run_hooks(model: Any, blocks: list[_Block], zeros: Any) -> dict[str, Any]:
 
 
 def _fx_record(model: Any) -> dict[str, Any]:
-    """``torch.fx`` is not used (WP text): the constant comes from the I5 inventory, not from a trace run here."""
+    """``torch.fx`` is not used: ``fx_traceable`` is a fixed value, not the result of a trace run here."""
     return {"fx_traceable": False,
             "fx_basis": "torch.fx is not used; value taken from docs/integration_20261021/inv_I5_adapters.md (not traceable), not re-measured"}
 
@@ -491,7 +491,7 @@ def observe_native_structure(backend: str, model: Any, *, input_size: int | None
         doc = _observe(backend, model, input_size, model_id, config, torch, structural_hash)
     finally:
         model.train(was_training)
-    # DD-38: design-origin catalog of every block (this is an explicit check, so source_path may be resolved)
+    # design-origin catalog of every block (this is an explicit check, so source_path may be resolved)
     doc["catalog_summary"] = block_catalog.attach_native_catalog(doc.get("blocks") or [], backend, resolve_source=True)
     return doc
 

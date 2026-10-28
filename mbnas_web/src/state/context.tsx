@@ -2,7 +2,7 @@
  * Application model: connection (origin + in-memory token), server data (health/presets/runs),
  * the experiment policy editor with Validate -> Run flow, and the loaded run (snapshot + SSE).
  *
- * Policy source (DD-A8 / DD-A21): the editor starts empty; no template is embedded in the bundle. `connect()` checks
+ * Policy source: the editor starts empty; no template is embedded in the bundle. `connect()` checks
  * health, loads the server presets and, while the editor is still untouched (nothing typed, no preset chosen, no run
  * loaded), applies the server preset DEFAULT_BASELINE14 with the visible label "server preset DEFAULT_BASELINE14
  * (design example)". The connection reports ready only after that step, so Validate never runs on a half-initialised editor.
@@ -31,7 +31,7 @@ export const SCREENS: readonly Screen[] = ['archive', 'compare', 'monitor', 'set
 /** Screens that read the read-only NAS archive API (their `run` hash parameter is an archive run id, not a console run). */
 export const ARCHIVE_SCREENS: readonly Screen[] = ['archive', 'compare'];
 
-/** Poll period of a running archive run (design D7; no SSE). */
+/** Poll period of a running archive run (no SSE). */
 export const ARCHIVE_POLL_MS = 10_000;
 
 export interface ArchivePoll {
@@ -106,9 +106,9 @@ export interface ControlState {
   message: string | null;
 }
 
-/** Server preset applied automatically after the first successful connection while the editor is untouched (DD-A21). */
+/** Server preset applied automatically after the first successful connection while the editor is untouched. */
 export const DEFAULT_PRESET_ID = 'DEFAULT_BASELINE14';
-/** Visible label of the automatically applied preset (DD-A21 wording). */
+/** Visible label of the automatically applied preset. */
 export const AUTO_PRESET_LABEL = `server preset ${DEFAULT_PRESET_ID} (design example)`;
 /** Label of the empty editor before any policy was loaded. */
 export const NO_POLICY_LABEL = 'no policy loaded';
@@ -261,9 +261,9 @@ export function AppProvider({ children, initialToken = '' }: { children: ReactNo
     const url = new URL(window.location.href);
     const qi = url.hash.indexOf('?');
     const qs = new URLSearchParams(qi < 0 ? '' : url.hash.slice(qi + 1));
-    // I4-#12: block / model_tab belong to one candidate. Switching to a different candidate must not inherit them
+    // block / model_tab belong to one candidate. Switching to a different candidate must not inherit them
     // (restoring the same cid after a reload keeps them).
-    // DD-32: the boot restore (opts.restore) re-opens the same candidate after setScreen() dropped cid from the hash, so it must keep them.
+    // the boot restore (opts.restore) re-opens the same candidate after setScreen() dropped cid from the hash, so it must keep them.
     if (!opts?.restore && qs.get('cid') !== candidate.candidate_id) { url.searchParams.delete('block'); url.searchParams.delete('model_tab'); }
     if (rsRef.current.runId) qs.set('run', rsRef.current.runId);
     qs.set('cid', candidate.candidate_id);
@@ -276,7 +276,7 @@ export function AppProvider({ children, initialToken = '' }: { children: ReactNo
     const qi = url.hash.indexOf('?');
     const qs = new URLSearchParams(qi < 0 ? '' : url.hash.slice(qi + 1));
     qs.delete('cid');
-    // I4-#12: the tab and selected block are per-candidate view state (real query string and, defensively, the hash query).
+    // the tab and selected block are per-candidate view state (real query string and, defensively, the hash query).
     url.searchParams.delete('block'); url.searchParams.delete('model_tab');
     qs.delete('block'); qs.delete('model_tab');
     url.hash = `${qi < 0 ? url.hash : url.hash.slice(0, qi)}${qs.size ? `?${qs}` : ''}`;
@@ -353,7 +353,7 @@ export function AppProvider({ children, initialToken = '' }: { children: ReactNo
       setHealth({ status: 'error', data: null, error: describeError(e) });
       return;
     }
-    // DD-A21: presets are loaded automatically on a successful connection; DEFAULT_BASELINE14 fills an untouched editor.
+    // presets are loaded automatically on a successful connection; DEFAULT_BASELINE14 fills an untouched editor.
     const list = await fetchPresets(c);
     const preset = list?.find((p) => p.id === DEFAULT_PRESET_ID);
     if (preset && pristineRef.current && !lockedRef.current && !rsRef.current.runId) {

@@ -5,7 +5,7 @@
  * checked by `npm run check:types`). Do not hand-write response shapes here. The only local additions are
  * refinements for places where the contract deliberately leaves an object open (`metrics`, `final_val` rows,
  * `archive_entries`, `arm`, `confirm`): they type the keys the UI reads and are intersected with the generated type.
- * Every number may be null; the UI renders a missing value as the dash and never fills it with 0 (design D9).
+ * Every number may be null; the UI renders a missing value as the dash and never fills it with 0.
  */
 import type { components } from '../api/types.gen';
 

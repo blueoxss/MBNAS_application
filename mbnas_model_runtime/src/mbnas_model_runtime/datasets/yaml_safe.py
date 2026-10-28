@@ -1,8 +1,5 @@
 """Safe parsing of an ultralytics-style ``data.yaml`` (never executes anything).
 
-재구현(2026-10-15), 원본 누락, 근거: tests/unit/test_datasets.py(yaml 케이스), tests/qa/test_security_negatives.py
-(python 태그 거부, 2 MiB 초과 거부, download 키 무시), protocol/validator.py(dy.root/splits/names/nc/ignored_keys 사용).
-
 Rules: file ≤ 1 MiB; ``yaml.safe_load`` only (python tags are an error); top level must be a mapping; ``train`` and
 ``val`` are required plain strings (``test`` optional); ``path`` (optional string) is the dataset root, default = the
 yaml's directory; relative split entries are joined to the root; ``names`` (list or {int: str}, contiguous from 0)
@@ -71,10 +68,7 @@ def _names(raw: Any, nc: Any) -> dict[int, str]:
 
 
 def load_dataset_yaml(path: str, *, required_splits: tuple[str, ...] = ("train", "val")) -> DatasetYaml:
-    """Parse and validate ``path``; raises :class:`DatasetYamlError` for every problem.
-
-    재구현(2026-10-15), 원본 누락, 근거: tests/unit/test_datasets.py::test_yaml_* 와 qa/test_security_negatives.py.
-    """
+    """Parse and validate ``path``; raises :class:`DatasetYamlError` for every problem."""
     try:
         size = os.stat(path).st_size
         if size > MAX_YAML_BYTES:

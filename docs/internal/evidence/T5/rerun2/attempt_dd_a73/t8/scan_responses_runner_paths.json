@@ -1,0 +1,138 @@
+{
+ "schema": "mbnas.canary_scan/1",
+ "targets": [
+  "<W>/t5/dump"
+ ],
+ "profile": null,
+ "expect_present": false,
+ "manifest": {
+  "path": "docs/internal/canary/CANARY_MANIFEST.json",
+  "sha256": "2fd0b0491784a1668946c195c68ecdd0ef05e1686f4dfd830475f427eeaa5ca5",
+  "areas": [
+   "CORE_STATE",
+   "FITNESS",
+   "MANIFEST_SELF",
+   "OWNER_DEPLOY",
+   "OWNER_DOC",
+   "OWNER_SECRET",
+   "OWNER_TEST",
+   "POLICY_PRIOR",
+   "POLICY_REPAIR"
+  ]
+ },
+ "host_facts": false,
+ "needle_count": 72,
+ "scanned": {
+  "files": 6927,
+  "bytes": 328430638,
+  "containers": 7,
+  "min_files": 1,
+  "skipped": []
+ },
+ "hits": [
+  {
+   "label": "NEEDLE#1",
+   "kind": "extra",
+   "variant": "raw",
+   "location": "<W>/t5/dump/t5a73_0077_GET_api_v1_runs_train-554acdd5b4ea_snapshot_200.bin:1",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "NEEDLE#1",
+   "kind": "extra",
+   "variant": "raw",
+   "location": "<W>/t5/dump/t5a73_0077_GET_api_v1_runs_train-554acdd5b4ea_snapshot_200.bin:1",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "NEEDLE#1",
+   "kind": "extra",
+   "variant": "raw",
+   "location": "<W>/t5/dump/t5a73_0077_GET_api_v1_runs_train-554acdd5b4ea_snapshot_200.bin:1",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "NEEDLE#1",
+   "kind": "extra",
+   "variant": "raw",
+   "location": "<W>/t5/dump/t5a73_0077_GET_api_v1_runs_train-554acdd5b4ea_snapshot_200.bin:1",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "NEEDLE#1",
+   "kind": "extra",
+   "variant": "raw",
+   "location": "<W>/t5/dump/t5a73_0077_GET_api_v1_runs_train-554acdd5b4ea_snapshot_200.bin:1",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "NEEDLE#1",
+   "kind": "extra",
+   "variant": "raw",
+   "location": "<W>/t5/dump/t5a73_0077_GET_api_v1_runs_train-554acdd5b4ea_snapshot_200.bin:1",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "NEEDLE#1",
+   "kind": "extra",
+   "variant": "raw",
+   "location": "<W>/t5/dump/t5a73_0077_GET_api_v1_runs_train-554acdd5b4ea_snapshot_200.bin:1",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "NEEDLE#1",
+   "kind": "extra",
+   "variant": "raw",
+   "location": "<W>/t5/dump/t5a73_0077_GET_api_v1_runs_train-554acdd5b4ea_snapshot_200.bin:1",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "NEEDLE#1",
+   "kind": "extra",
+   "variant": "raw",
+   "location": "<W>/t5/dump/t5a73_0078_GET_api_v1_runs_train-554acdd5b4ea_candidates_model-3b3f6e4649d9_200.bin:1",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "NEEDLE#1",
+   "kind": "extra",
+   "variant": "raw",
+   "location": "<W>/t5/dump/t5a73_0078_GET_api_v1_runs_train-554acdd5b4ea_candidates_model-3b3f6e4649d9_200.bin:1",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "NEEDLE#1",
+   "kind": "extra",
+   "variant": "raw",
+   "location": "<W>/t5/dump/t5a73_0078_GET_api_v1_runs_train-554acdd5b4ea_candidates_model-3b3f6e4649d9_200.bin:1",
+   "area": null,
+   "failing": true
+  },
+  {
+   "label": "NEEDLE#1",
+   "kind": "extra",
+   "variant": "raw",
+   "location": "<W>/t5/dump/t5a73_0078_GET_api_v1_runs_train-554acdd5b4ea_candidates_model-3b3f6e4649d9_200.bin:1",
+   "area": null,
+   "failing": true
+  }
+ ],
+ "hits_by_label": {
+  "NEEDLE#1": 12
+ },
+ "expectations": [],
+ "failing_hits": 12,
+ "unmet_expectations": 0,
+ "too_few_files": false,
+ "status": "FAIL"
+}

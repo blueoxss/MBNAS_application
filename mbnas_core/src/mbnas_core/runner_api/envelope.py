@@ -1,25 +1,25 @@
-"""DB rows -> JobEnvelope v1 (WP-2 contract section 1.3, design A3 section 4) and the job-context helpers moved here
-from ``owner_worker.child`` (``search_arch``, ``baseline_arch``, ``native_params``, ``latest_live_full_state``,
-``load_context``; bodies unchanged, R7).
+"""DB rows -> JobEnvelope v1 and the job-context helpers it shares with
+``owner_worker.child`` (``search_arch``, ``baseline_arch``, ``native_params``, ``latest_live_full_state``,
+``load_context``).
 
 The owner worker child (PROPOSE_GENERATION, and stub-handler test runs) still builds its JobSpec with
 :func:`load_context` from a read-only DB connection. A remote runner never sees the DB: ``claim`` answers with
 :func:`build_envelope`, which reads the same rows (job, run, candidate, checkpoints) inside the caller's read
 transaction and serialises them as :class:`mbnas_contracts.runner_protocol.JobEnvelope`:
 
-* ``job.spec`` is the stored JobSpec without ``attempt`` and with ``params`` filtered (design 4.3): sent keys are
+* ``job.spec`` is the stored JobSpec without ``attempt`` and with ``params`` filtered: sent keys are
   ``candidate, evaluate_inline, stage{id, epoch_target_total, epochs_added}, baseline, eval_split, final,
   training_job_id`` (+ ``arch``, below); ``admission``, ``stage.fitness_weights`` and ``training_outputs`` are never
-  sent (DD-A1(a)/DD-A5). A BENCHMARK job (not created by the core today) keeps its params minus those three keys.
-* DD-A16: for a ``Baseline``-arm candidate the core resolves the registry entry (``BASELINE_UNKNOWN`` /
+  sent. A BENCHMARK job (not created by the core today) keeps its params minus those three keys.
+* For a ``Baseline``-arm candidate the core resolves the registry entry (``BASELINE_UNKNOWN`` /
   ``BASELINE_UNAVAILABLE`` unless AVAILABLE) and injects ``params.arch`` = ``arch_spec(...)``; the runner never reads
   the core registry. Explicit-training runs and the official ``evaluate_only`` path keep their protocol ArchSpec
   (native_params decides, exactly as in the child).
-* ``resume`` mirrors the child's D4/D5/D6 reads (``recorded_latest`` = latest ``training_full`` incl. PRUNED,
+* ``resume`` mirrors the child's resume reads (``recorded_latest`` = latest ``training_full`` incl. PRUNED,
   ``live_latest`` = latest non-PRUNED ``training_full``, ``eval_ema``); ``path`` is the runner-local location the
-  registering runner reported. ``resume.location`` names the runner holding the bytes (affinity is not applied, D5).
+  registering runner reported. ``resume.location`` names the runner holding the bytes (affinity is not applied).
 * ``data_refs`` copies the protocol's ``console.paths`` roots and frozen manifest hashes (the runner re-maps them with
-  its ``dataset_mounts``); ids are the internal ids (design 4.4 / D1).
+  its ``dataset_mounts``); ids are the internal ids.
 """
 from __future__ import annotations
 
@@ -66,7 +66,7 @@ def search_arch(cand: dict[str, Any]) -> dict[str, Any]:
 
 
 def baseline_arch(out: dict[str, Any], cand: dict[str, Any] | None, settings: Any = None) -> dict[str, Any]:
-    """DD-A16 (WP-1 contract section 7): ``out`` with ``arch`` = the registry ArchSpec of ``out["adapter_id"]`` when the
+    """``out`` with ``arch`` = the registry ArchSpec of ``out["adapter_id"]`` when the
     candidate is a ``Baseline``-arm candidate without an ``arch``; otherwise ``out`` unchanged.
 
     The registry status is checked first (messages of the former runner ``training.context.resolve_model``): an
@@ -201,7 +201,7 @@ def _ck_ref(ck: dict[str, Any] | None) -> dict[str, Any] | None:
 
 
 def checkpoint_location(conn: sqlite3.Connection, checkpoint_id: str) -> dict[str, Any] | None:
-    """Most recent ``artifact_locations`` row of a checkpoint (None for owner-local rows registered before WP-2)."""
+    """Most recent ``artifact_locations`` row of a checkpoint (None for owner-local rows: they have no location)."""
     row = conn.execute("SELECT * FROM artifact_locations WHERE object_kind = 'checkpoint' AND object_id = ? "
                        "ORDER BY created_at DESC, id DESC LIMIT 1", (checkpoint_id,)).fetchone()
     return dict(row) if row is not None else None
@@ -244,7 +244,7 @@ def build_envelope(conn: sqlite3.Connection, job: dict[str, Any], *, runner_id: 
     cand = repo.get_candidate(conn, cid) if cid else None
     raw_params = dict(job["spec"].get("params") or {})
     params = filter_params(job["kind"], raw_params)
-    # DD-A16: the core resolves a registry baseline (same decision as native_params/baseline_arch in the child)
+    # the core resolves a registry baseline (same decision as native_params/baseline_arch in the child)
     if cand is not None and cand.get("arm") == "Baseline" and job["kind"] != JobKind.BENCHMARK.value:
         training_cfg = ((run.get("resolved_protocol") or {}).get("console", {}).get("extra") or {}).get("training") or {}
         explicit = training_cfg.get("enabled") is True

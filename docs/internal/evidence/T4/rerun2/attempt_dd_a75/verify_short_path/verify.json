@@ -1,0 +1,25 @@
+{
+ "suite": "relocation",
+ "status": "PASS",
+ "counts": {
+  "checks": 8,
+  "passed": 8,
+  "failed": 0
+ },
+ "evidence": [
+  "runtime/logs/verify/20261028T063427Z-owner/relocation.json",
+  "runtime/logs/verify/20261028T063427Z-owner/relocation_doctor_external_cwd.log",
+  "runtime/logs/verify/20261028T063427Z-owner/relocation_doctor_external_cwd.json",
+  "runtime/logs/verify/20261028T063427Z-owner/relocation_doctor_spaced_path.log",
+  "runtime/logs/verify/20261028T063427Z-owner/relocation_doctor_spaced_path.json",
+  "runtime/logs/verify/20261028T063427Z-owner/relocation_help_spaced.log",
+  "runtime/logs/verify/20261028T063427Z-owner/relocation_origins.tsv"
+ ],
+ "reason": "",
+ "duration_s": 3.5,
+ "profile": "owner",
+ "schema": "mbnas.verify/1",
+ "root": "/r/s 1/mbnas_application",
+ "started_at": "2026-10-28T06:34:27Z",
+ "finished_at": "2026-10-28T06:34:31Z"
+}

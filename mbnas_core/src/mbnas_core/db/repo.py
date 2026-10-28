@@ -412,7 +412,7 @@ def acquire_lease(conn: sqlite3.Connection, worker_id: str, now: str, ttl: float
 
 
 def _attempt_sql(attempt: int | None) -> tuple[str, tuple[Any, ...]]:
-    """R1 fencing (WP-2 contract section 1.2): ``AND attempt = ?`` when an attempt (lease epoch) is given."""
+    """Lease fencing: ``AND attempt = ?`` when an attempt (lease epoch) is given."""
     return ("", ()) if attempt is None else (" AND attempt = ?", (int(attempt),))
 
 
@@ -442,7 +442,7 @@ def touch_job(conn: sqlite3.Connection, job_id: str, worker_id: str, now: str, *
 
 def mark_job_running(conn: sqlite3.Connection, job_id: str, worker_id: str, now: str | None = None, *,
                      attempt: int | None = None) -> bool:
-    """LEASED -> RUNNING for the lease owner (sets started_at); ``attempt`` fences on the lease epoch (R1)."""
+    """LEASED -> RUNNING for the lease owner (sets started_at); ``attempt`` fences on the lease epoch."""
     now = now or utcnow_iso()
     a_sql, a_arg = _attempt_sql(attempt)
     cur = conn.execute(
@@ -454,7 +454,7 @@ def mark_job_running(conn: sqlite3.Connection, job_id: str, worker_id: str, now:
 def finish_job(conn: sqlite3.Connection, job_id: str, worker_id: str, status: str, *,
                result: dict[str, Any] | None = None, error: dict[str, Any] | None = None,
                now: str | None = None, attempt: int | None = None) -> bool:
-    """Close a job held by ``worker_id`` (at ``attempt`` when given, R1) as SUCCEEDED/FAILED/CANCELLED; False if the
+    """Close a job held by ``worker_id`` (at ``attempt`` when given) as SUCCEEDED/FAILED/CANCELLED; False if the
     lease was lost."""
     if status not in ("SUCCEEDED", "FAILED", "CANCELLED"):
         raise ValueError(f"finish_job status must be terminal, got {status}")
@@ -525,7 +525,7 @@ def list_workers(conn: sqlite3.Connection, run_id: str | None = None) -> list[di
 
 
 def list_workers_for_run(conn: sqlite3.Connection, run_id: str, since: str) -> list[dict[str, Any]]:
-    """Workers a run snapshot shows (S7-F4): attached to ``run_id`` (any age), or not ``offline`` with a heartbeat at
+    """Workers a run snapshot shows: attached to ``run_id`` (any age), or not ``offline`` with a heartbeat at
     or after ``since`` (alive, or recently lost — readers mark a stale row ``lost``). Historical rows are hidden."""
     return _rows(conn.execute(
         "SELECT * FROM workers WHERE run_id = ? OR (status != 'offline' AND heartbeat_at >= ?) ORDER BY id",
@@ -619,7 +619,7 @@ def update_artifact(conn: sqlite3.Connection, run_id: str, artifact_id: str, *, 
 
 def link_artifact(conn: sqlite3.Connection, run_id: str, artifact_id: str, *, evaluation_id: str | None = None,
                   candidate_id: str | None = None, now: str | None = None) -> dict[str, Any]:
-    """Attach a pre-registered artifact (WP-2 E7) to its evaluation/candidate (None = unchanged)."""
+    """Attach a pre-registered artifact (runner route E7) to its evaluation/candidate (None = unchanged)."""
     values: dict[str, Any] = {"updated_at": now or utcnow_iso()}
     if evaluation_id is not None:
         values["evaluation_id"] = evaluation_id
@@ -630,13 +630,13 @@ def link_artifact(conn: sqlite3.Connection, run_id: str, artifact_id: str, *, ev
     return _must(get_artifact(conn, run_id, artifact_id), artifact_id)
 
 
-# -- artifact locations (schema v4, WP-2) --------------------------------------------------------------------------
+# -- artifact locations (schema v4) --------------------------------------------------------------------------------
 def insert_artifact_location(conn: sqlite3.Connection, *, id: str, object_kind: str, object_id: str, run_id: str,
                              store: str, relpath: str, sha256: str, bytes: int, verified_by: str,
                              runner_id: str | None = None, uri: str | None = None, state: str = "PRESENT",
                              job_id: str | None = None, attempt: int | None = None,
                              now: str | None = None) -> dict[str, Any]:
-    """Where the bytes of an artifact/checkpoint row live (design A3 section 12)."""
+    """Where the bytes of an artifact/checkpoint row live."""
     now = now or utcnow_iso()
     _insert(conn, "artifact_locations", {
         "id": id, "object_kind": object_kind, "object_id": object_id, "run_id": run_id, "runner_id": runner_id,
@@ -666,7 +666,7 @@ def append_cost(conn: sqlite3.Connection, *, run_id: str, arm: str, kind: str, g
 
 
 def find_cost(conn: sqlite3.Connection, job_id: str, attempt: int, kind: str) -> dict[str, Any] | None:
-    """The first ledger row of ``(job_id, attempt, kind)`` (S7-F2: one physical row per lost attempt)."""
+    """The first ledger row of ``(job_id, attempt, kind)`` (one physical row per lost attempt)."""
     row = conn.execute("SELECT * FROM cost_ledger WHERE job_id = ? AND attempt = ? AND kind = ? ORDER BY id LIMIT 1",
                        (job_id, attempt, kind)).fetchone()
     return _row(row) if row is not None else None

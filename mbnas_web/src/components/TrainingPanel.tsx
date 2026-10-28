@@ -41,7 +41,7 @@ const numberAt = (p: Policy, k: string, fallback: number): number => typeof getI
 
 /**
  * The source of a new training run chosen in the panel (no fixed source): a baseline registry id, an uploaded user YAML
- * (1.5.0 default: `upload_id` + `model_name`, F5a) or, behind the "advanced: server path" toggle, a legacy server
+ * (1.5.0 default: `upload_id` + `model_name`) or, behind the "advanced: server path" toggle, a legacy server
  * `model_path` (owner-local deployments). The three are exclusive (contract TrainingRequest.source).
  */
 export function chosenSource(kind: 'baseline' | 'user', model: string, upload: UploadedModel | null, serverPath: boolean): TrainingSource | null {

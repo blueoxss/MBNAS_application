@@ -68,7 +68,7 @@ def sample(index: int) -> dict[str, Any]:
     return out
 
 
-# -- device occupancy (S7-F1) ------------------------------------------------------------------------------------
+# -- device occupancy --------------------------------------------------------------------------------------------
 def compute_pids(index: int) -> list[int] | None:
     """pids NVML lists as compute processes on GPU ``index``; None when NVML is unavailable (nothing to wait on).
 

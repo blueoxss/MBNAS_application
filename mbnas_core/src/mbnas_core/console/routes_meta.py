@@ -30,7 +30,7 @@ def _capabilities(entries: list[dict[str, Any]], svc: AppServices, source: str) 
     from mbnas_core.search.mixed_pool.bridge import PROBE_CHECKED, probe_mixed_pool
 
     probe = probe_mixed_pool()
-    # vendored pool (DD-A12): no external root; ``checked`` names what the torch-free probe verified
+    # vendored pool: no external root; ``checked`` names what the torch-free probe verified
     search_space = {"variant": "etri_mixed" if probe["available"] else "unavailable", "root": None,
                     "reason": probe["reason"], "checked": PROBE_CHECKED,
                     "fallback_policy": "opt-in: console.search.allow_native_fallback=true resolves to native_fallback; "

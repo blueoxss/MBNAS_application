@@ -1,0 +1,2 @@
+# device discovery (lines of integration_smoke.txt: evidence header + step log)
+(none: the original smoke has no device discovery)

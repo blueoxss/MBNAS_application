@@ -1,8 +1,7 @@
-"""Artifact bytes, signed-URL refresh, the export zip and the configuration revisions of the gateway (WP-5B; DD-A6,
-DD-A38, DD-A39; WP-5 contract sections 1-2; W4 wiring notes).
+"""Artifact bytes, signed-URL refresh, the export zip and the configuration revisions of the gateway.
 
 Runner-produced bytes live in the gateway's content-addressed artifact store (``app.state.artifact_store``,
-:class:`mbnas_server.artifacts.store.ArtifactStore`, written by the runner's ``local`` transfer, WP-5C); the core only
+:class:`mbnas_server.artifacts.store.ArtifactStore`, written by the runner's ``local`` transfer); the core only
 knows ids, digests and locations. The core answers the run-scoped record (``GET <core>/runs/{run}/artifacts/{id}/record``:
 artifact or checkpoint of the run, digest, size, media type, public metadata, ``origin`` runner|core, ``state``).
 
@@ -28,7 +27,7 @@ artifact or checkpoint of the run, digest, size, media type, public metadata, ``
 store. ``GET /api/v1/runs/{run_id}/export`` assembles the zip from the core's export manifest (the text members) plus
 the bytes of every architecture YAML (``architectures/<artifact id>.yaml``; images too with ``?include=images``) taken
 from the store or, for core objects, from the core; ``export_objects.json`` lists every object with its digest and
-whether it was included; the split manifests the core does not hold (validated on this host, DD-A34/DD-A46) are added
+whether it was included; the split manifests the core does not hold (validated on this host) are added
 from the gateway's manifest cache (``<manifest_cache_root>/manifests/<hex>.json``, only for the run's own split hashes)
 in the public export form of the core (``export.bundle._public_manifest``: no ``roots``, samples without image/label
 paths, issue texts without absolute paths);

@@ -7,7 +7,7 @@ body) without reading it. A body without a trustworthy length (chunked) is count
 it; once the limit is crossed the remaining input is cut off, the application's own answer is discarded and the 413
 is sent instead. Legitimate bodies (a protocol JSON of a few KB) are far below the 1 MiB default.
 
-The 413 body names the component that refused the request in ``location`` (C05 D3; contract ``Error.location``,
+The 413 body names the component that refused the request in ``location`` (contract ``Error.location``,
 :class:`mbnas_contracts.errors.ErrorLocation`): the host passes ``location`` (``gateway`` / ``core``) or, when it does
 not, :func:`body_limit_location` derives it from the request path. Runner and owner protocol paths
 (:data:`PROTOCOL_PREFIXES`) never get one: their ``ErrorBody`` has no ``location`` field and core answers its errors
@@ -16,9 +16,7 @@ there unchanged (``mbnas_core.api.errors``).
 :class:`RequestIdMiddleware` (pure ASGI, safe for streaming responses) accepts a well-formed ``X-Request-ID``
 or creates one, stores it on ``request.state.request_id`` and echoes it on the response.
 
-Source: ``mbnas_server.api.limits`` (whole module) and ``RequestIdMiddleware``/``_REQUEST_ID`` of
-``mbnas_server.api.auth`` (monolithic package, snapshot HEAD 18c4815), moved per WP-1 contract §4 / DD-A10; code
-unchanged except the 413 ``location`` (C05 D3). The bearer checks of ``api.auth`` stay with each host package.
+Bearer-token checks are not part of this module: each host package keeps its own.
 """
 from __future__ import annotations
 

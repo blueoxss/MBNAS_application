@@ -1,0 +1,33 @@
+{
+ "t5a73_0078_GET_api_v1_runs_train-554acdd5b4ea_candidates_model-3b3f6e4649d9_200.bin": {
+  "fragments": {
+   "runner_wr_dirs": {
+    "client_echo": 0,
+    "other": 4
+   }
+  },
+  "abs_path_regex": {
+   "client_echo": 0,
+   "other": 4
+  },
+  "recipe_values": {
+   "data": [
+    "<NOT REPLACED>"
+   ],
+   "model": [
+    "<NOT REPLACED>"
+   ],
+   "project": [
+    "<NOT REPLACED>"
+   ],
+   "save_dir": [
+    "<NOT REPLACED>"
+   ]
+  },
+  "raw_body_grep": {
+   "install_root_token": 0,
+   "runner_wr_dirs": 4
+  }
+ }
+}
+detector positive control: PASS (pre-fix leak detected)

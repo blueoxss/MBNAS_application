@@ -6,7 +6,7 @@ stop-request and pause constants, the outputs the orchestrator consumes) lives i
 ``mbnas_runner.contract`` is where the original ``worker.contract`` was imported from. Nothing in this module touches
 the DB.
 
-A runner runs exactly five job kinds (DD-A4): the three training kinds, ``EVALUATE`` and ``BENCHMARK``.
+A runner runs exactly five job kinds: the three training kinds, ``EVALUATE`` and ``BENCHMARK``.
 ``PROPOSE_GENERATION`` is owner work (core host) and has no runner handler; it resolves only through the stub override.
 """
 from __future__ import annotations

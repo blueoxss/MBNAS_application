@@ -1,0 +1,6 @@
+mbnas_contracts/src/mbnas_contracts/__pycache__
+mbnas_contracts/src/mbnas_contracts/__pycache__/__init__.cpython-310.pyc
+mbnas_contracts/src/mbnas_contracts/util/__pycache__
+mbnas_contracts/src/mbnas_contracts/util/__pycache__/__init__.cpython-310.pyc
+mbnas_contracts/src/mbnas_contracts/util/__pycache__/source_hash.cpython-310.pyc
+deleted the 3 .pyc files and 2 __pycache__ dirs listed above (2026-10-28T05:12:21Z)

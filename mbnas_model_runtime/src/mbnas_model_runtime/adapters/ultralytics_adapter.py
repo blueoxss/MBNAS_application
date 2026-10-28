@@ -19,7 +19,7 @@
   evaluation snapshot and the FP16 weights-only size artifact. Native ``last.pt``/``best.pt`` (FP16 EMA, FP16
   optimizer) are never a resume source and are deleted after the stage unless ``keep_native_weights=True``.
 
-Classes (S3-F2): :class:`UltralyticsAdapter` is the shared ultralytics base (recipe, fixed-horizon stage, full-state
+Classes: :class:`UltralyticsAdapter` is the shared ultralytics base (recipe, fixed-horizon stage, full-state
 capture/overlay, predict/latency plumbing). :class:`YoloDetectAdapter` (YOLO11 + YOLO26) and :class:`RtdetrAdapter`
 (RT-DETR) are the family adapters; each owns its model class, trainer, preprocessing, decode/postprocess, resume
 profile and capability declaration. ``UltralyticsAdapter(family, variant)`` is kept as a constructor that returns
@@ -272,7 +272,7 @@ class UltralyticsAdapter:
         # Record that same executed class count rather than a registry template's nc=80.
         recorded_cfg["nc"] = len(ctx.data.names)
         text = prefix + yaml.safe_dump(recorded_cfg, sort_keys=False)
-        # DD-12: an architecture.yaml written by an older serialization (key order, flow/block style, comments) is
+        # an architecture.yaml written by an older serialization (key order, flow/block style, comments) is
         # the same executed configuration; compare the parsed dicts and rewrite only when the configuration differs.
         if path.is_file():
             try:

@@ -3,15 +3,13 @@
  *
  * - The editor starts EMPTY. Policies come from the server: `GET /api/v1/protocols/presets` (the console applies the
  *   server preset DEFAULT_BASELINE14 automatically after a successful connection, see state/context.tsx), a loaded run's
- *   resolved protocol, or the user's own edits. No template, handoff example or host path is embedded in the bundle
- *   (DD-A8 / DD-A21); the server validator and presets are authoritative.
+ *   resolved protocol, or the user's own edits. No template, example protocol or host path is embedded in the
+ *   bundle; the server validator and presets are authoritative.
  * - derived values are never typed: added epochs = cumulative target minus the previous one, the fixed scheduler horizon
  *   = the last rung's cumulative target, effective batch = batch x accumulation x GPUs.
  * - `setIn` / `unsetIn` are immutable; an optional contract field is REMOVED (never set to null).
  *
- * 근거 테스트: tests/validate.test.ts ('derived values'), tests/final_retrain.test.tsx ('policy helpers for optional fields'),
- * tests/app.test.tsx, tests/preset_auto_apply.test.tsx, e2e/console.spec.ts (Settings); 사용처 src/screens/Settings.tsx,
- * src/state/context.tsx, src/components/CandidateView.tsx.
+ * 사용처: src/screens/Settings.tsx, src/state/context.tsx, src/components/CandidateView.tsx.
  */
 
 /** The policy is a free-form JSON object; the server validator is authoritative. */
@@ -194,7 +192,7 @@ const EQUAL_WEIGHTS: Record<WeightKey, number> = { ap: 0.25, recall: 0.25, laten
 
 /**
  * Append a rung after the last one: +ceil(last/3) epochs, weights of the last rung (equal weights for the first rung),
- * thresholds of the previous promotion (default score >= 0.5, AP >= 0.05; editor convenience values, DD-A21 kept).
+ * thresholds of the previous promotion (default score >= 0.5, AP >= 0.05; editor convenience values).
  */
 export function addRung(p: Policy): Policy {
   const rungs = clone(rungsOf(p));

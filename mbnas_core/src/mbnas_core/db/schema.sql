@@ -233,7 +233,7 @@ CREATE TABLE IF NOT EXISTS checkpoints (
 );
 CREATE INDEX IF NOT EXISTS checkpoints_candidate ON checkpoints(candidate_id, kind, epoch);
 
--- v4 (WP-2 remote runner protocol, design A3 section 12; additive, no public_ids table per DD-A19) ------------------
+-- v4 (remote runner protocol; additive, no public_ids table) --------------------------------------------------------
 CREATE TABLE IF NOT EXISTS runners (
   id TEXT PRIMARY KEY,
   status TEXT NOT NULL CHECK (status IN ('REGISTERED','ONLINE','LOST','OFFLINE')),
@@ -285,7 +285,7 @@ CREATE TABLE IF NOT EXISTS artifact_locations (
 CREATE INDEX IF NOT EXISTS artifact_locations_object ON artifact_locations(object_kind, object_id);
 CREATE INDEX IF NOT EXISTS artifact_locations_run ON artifact_locations(run_id, relpath);
 
--- v5 (WP-4 configuration revisions, F5d / DD-A23; additive) ------------------------------------------------------------
+-- v5 (configuration revisions; additive) -------------------------------------------------------------------------------
 -- One row per recorded revision of a candidate model configuration: original (the uploaded / registered file), selected
 -- (bound by an explicit training selection), executed (what the trainer ran), generated (written by the proposer).
 -- ``source_sha256`` is the sha256 of the stored bytes (``text`` when core holds them; an ``original`` upload's bytes are
@@ -308,7 +308,7 @@ CREATE TABLE IF NOT EXISTS config_revisions (
 );
 CREATE INDEX IF NOT EXISTS config_revisions_candidate ON config_revisions(run_id, candidate_id, created_at);
 
--- v6 (DD-A66 / WP-5 section 2 R11, T3-34; additive) --------------------------------------------------------------------
+-- v6 (prune requests; additive) ----------------------------------------------------------------------------------------
 -- Retention prune round trip of runner-held checkpoints: orchestration.retention plans a deletion -> one row here
 -- (``id`` = prq-<sha of the checkpoint id>: the idempotency key; one request per checkpoint) -> the heartbeat of the
 -- holding runner carries it as ``control.prune`` (at most once per lease: delivered_job_id / delivered_attempt) -> the

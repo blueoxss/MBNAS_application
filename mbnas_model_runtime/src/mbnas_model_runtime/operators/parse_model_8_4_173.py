@@ -2,13 +2,12 @@
 #   ultralytics/nn/tasks.py:parse_model of the installed ultralytics==8.4.173 wheel (lines 2030-2243).
 # modified: +3 base, +2 repeat (base_modules += NASPatchMerge, NASWindowTransformer, NASGlobalTransformer;
 #   repeat_modules += NASWindowTransformer, NASGlobalTransformer), module-global names read through `_tasks`.
-# MBNAS WP-1 contract §6.2 / DD-A12. This is a modified copy of AGPL-3.0 code; its license obligations are part of the
-# DD-A9 review ("parse_model 복제·수정").
+# This is a modified copy of AGPL-3.0 code (see THIRD_PARTY_NOTICES.md).
 """Static, exec-free ``parse_model`` for ultralytics 8.4.173 with the three ETRI mixed-pool operators.
 
 The ETRI mixed pool extended ``ultralytics.nn.tasks.parse_model`` by compiling an AST-patched copy of the installed
-source with ``exec`` (``etri_mixed_blocks._extend_parser_source``). MBNAS ships the patched function as source instead
-(DD-A12): :func:`parse_model` is the installed 8.4.173 function with exactly these differences, each keeping its
+source with ``exec`` (``etri_mixed_blocks._extend_parser_source``). MBNAS ships the patched function as source instead:
+:func:`parse_model` is the installed 8.4.173 function with exactly these differences, each keeping its
 behaviour:
 
 * ``base_modules`` gains ``NASPatchMerge, NASWindowTransformer, NASGlobalTransformer`` and ``repeat_modules`` gains
@@ -43,8 +42,7 @@ from mbnas_model_runtime.operators.etri_mixed_blocks import NASGlobalTransformer
 
 ULTRALYTICS_VERSION = "8.4.173"
 #: ``hashlib.sha256(inspect.getsource(ultralytics.nn.tasks.parse_model).encode()).hexdigest()`` of the installed
-#: ultralytics 8.4.173, measured with runtime/venv/bin/python on 2026-10-23 (WP-1C); equal to the value derived
-#: statically from the wheel in ETRI_RUNTIME_SCOPE §4.2.
+#: ultralytics 8.4.173.
 EXPECTED_PARSE_MODEL_SHA256 = "7da6bb14102890302fd9c8708a9f7d0fbb38e94e8f511c0434fc41c0fcff5f6d"
 #: how the parser is extended: ``static_copy`` (this module); the contract's fallback would be ``ast_patch_exec``
 PARSE_MODEL_EXTENSION_MODE = "static_copy"

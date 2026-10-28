@@ -1,6 +1,6 @@
-"""What the runner daemon verifies and reports about files its child wrote (A3 sections 6.3 and 9.3).
+"""What the runner daemon verifies and reports about files its child wrote.
 
-The daemon is the supervising process (not the child), so the DD-8 trust boundary stays where the owner worker had it:
+The daemon is the supervising process (not the child), so the trust boundary stays where the owner worker had it:
 
 * :func:`verify_checkpoint` - the owner worker's ``_checkpoint`` checks (inside the run dir, regular file, size equals
   the reported ``bytes``, kind in the four checkpoint kinds, a candidate) plus a streaming ``sha256_file`` recompute
@@ -53,7 +53,7 @@ def verify_checkpoint(p: dict[str, Any], run_dir: str | Path, candidate_id: str 
 
     ``uri`` is the runner-local ABSOLUTE path of the file (its realpath on this host). The core stores it in its DB
     (``checkpoints.path``, ``artifact_locations.uri``) for the owner only and echoes it back to this runner as
-    ``resume.*.path``; it is never projected into a public response (C08 EVAL_1 D3). ``relpath`` (run-relative) is the
+    ``resume.*.path``; it is never projected into a public response. ``relpath`` (run-relative) is the
     key both sides share."""
     path = os.path.realpath(str(p.get("path", "")))
     rel = relpath_in(path, run_dir)
@@ -187,7 +187,7 @@ def native_images(run_dir: str | Path, candidate_id: str | None) -> list[dict[st
 
 
 def runtime_manifest() -> dict[str, Any]:
-    """R6 runtime manifest for ``POST /register`` (versions, torch/cuda/python, operator and parser digests)."""
+    """Runtime manifest for ``POST /register`` (versions, torch/cuda/python, operator and parser digests)."""
     import hashlib
     import inspect
     import platform

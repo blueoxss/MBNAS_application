@@ -1,0 +1,3 @@
+{"time":"2026-10-28T06:30:13.049737Z","token_id":"0848f92777abe358","route":"candidate_detail","method":"GET","target":{"run_id":"run-be3b4fa4e912","candidate_id":"run-be3b4fa4e912:RAND:s7:g00:c000"},"status":200,"request_id":"t4a75_local-65d18b5106ee4d0b8535"}
+{"time":"2026-10-28T06:30:54.548247Z","token_id":"0848f92777abe358","route":"candidate_detail","method":"GET","target":{"run_id":"train-2e67a621683a","candidate_id":"model-cc0aef553752"},"status":200,"request_id":"t4a75_local-ff2b6c7f1c85413783f6"}
+{"time":"2026-10-28T06:30:55.347716Z","token_id":"0848f92777abe358","route":"candidate_detail","method":"GET","target":{"run_id":"train-2e67a621683a","candidate_id":"model-cc0aef553752"},"status":200,"request_id":"t4a75_local-34498f86345a4cb0a57a"}

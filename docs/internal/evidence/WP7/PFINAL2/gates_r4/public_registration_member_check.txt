@@ -1,0 +1,7 @@
+Member check on the DD-A75 F1b tree (5-package sha256:8fc93f2a596891174c2884e1697fd6003377b713102c0b21b01eb45d3f6f7312; public 4-package sha256:9859adb218145b9feccb1c0be8c1c6a51eaed90dfe575a0b5e1b10dd63aff4a3)
+  public (mbnas_application-0.1.0-public-runtime-linux_x86_64.zip, sha256 bc0500bdfa43ddf5…): 475 rows: identical 468, generated/wheels 7, differing 0
+  registration (mbnas_application-0.1.0-registration-runtime-linux_x86_64.zip, sha256 dea510dfb54dd85d…): 485 rows: identical 477, generated/wheels 8, differing 0
+Files changed since 1b4bd1a4… — membership in the public/registration ZIPs:
+  public: changed files that are members: ['mbnas_contracts/src/mbnas_contracts/runner_protocol.py']; members under mbnas_core/, tests/owner/, scripts/dev/, docs/internal/: []
+  registration: changed files that are members: ['mbnas_contracts/src/mbnas_contracts/runner_protocol.py']; members under mbnas_core/, tests/owner/, scripts/dev/, docs/internal/: []
+note: mbnas_contracts/src/mbnas_contracts/runner_protocol.py was listed as a candidate because the F1b announcement mentioned a docstring note there; it is a public/registration member but it is NOT changed: source sha256 278aa9bf1cf769b18ad1840f166f645005b63d85aced938d30e64e63c3dce332 == public ZIP member sha256 278aa9bf1cf769b18ad1840f166f645005b63d85aced938d30e64e63c3dce332 (equal); mtime 2026-10-28 08:49:53; the public 4-package hash 9859adb2… is unchanged.

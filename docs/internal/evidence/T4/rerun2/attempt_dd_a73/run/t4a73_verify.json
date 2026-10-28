@@ -1,0 +1,101 @@
+{
+ "suite": "integration,relocation,package",
+ "status": "FAIL",
+ "counts": {
+  "PASS": 1,
+  "FAIL": 2,
+  "NOT_APPLICABLE": 0,
+  "BLOCKED_BY_ENV": 0
+ },
+ "evidence": [
+  "runtime/logs/verify/20261028T041221Z-owner"
+ ],
+ "results": [
+  {
+   "suite": "integration",
+   "status": "FAIL",
+   "counts": {
+    "steps": 16,
+    "passed": 14,
+    "failed": 2
+   },
+   "evidence": [
+    "runtime/logs/verify/20261028T041221Z-owner/integration.log",
+    "runtime/logs/verify/20261028T041221Z-owner/integration_smoke.txt"
+   ],
+   "reason": "smoke exit 1",
+   "command": [
+    "<W>/t4/zip/mbnas_application/runtime/venv/bin/python",
+    "-B",
+    "<W>/t4/zip/mbnas_application/scripts/dev/wp3_three_process_smoke.py",
+    "--root",
+    "<W>/t4/zip/mbnas_application/runtime/logs/verify/20261028T041221Z-owner/integration_root",
+    "--evidence",
+    "<W>/t4/zip/mbnas_application/runtime/logs/verify/20261028T041221Z-owner/integration_smoke.txt"
+   ],
+   "exit_code": 1,
+   "duration_s": 38.3,
+   "driver": "scripts/dev/wp3_three_process_smoke.py",
+   "profile": "owner"
+  },
+  {
+   "suite": "relocation",
+   "status": "FAIL",
+   "counts": {
+    "checks": 7,
+    "passed": 4,
+    "failed": 3
+   },
+   "evidence": [
+    "runtime/logs/verify/20261028T041221Z-owner/relocation.json",
+    "runtime/logs/verify/20261028T041221Z-owner/relocation_doctor_external_cwd.log",
+    "runtime/logs/verify/20261028T041221Z-owner/relocation_doctor_external_cwd.json",
+    "runtime/logs/verify/20261028T041221Z-owner/relocation_doctor_spaced_path.log",
+    "runtime/logs/verify/20261028T041221Z-owner/relocation_doctor_spaced_path.json",
+    "runtime/logs/verify/20261028T041221Z-owner/relocation_help_spaced.log",
+    "runtime/logs/verify/20261028T041221Z-owner/relocation_origins.tsv"
+   ],
+   "reason": "a relocation check failed",
+   "duration_s": 3.7,
+   "profile": "owner"
+  },
+  {
+   "suite": "package",
+   "status": "PASS",
+   "counts": {
+    "manifest": {
+     "entries": 3245,
+     "ok": 3245,
+     "missing": 0,
+     "mismatch": 0,
+     "invalid": 0
+    },
+    "canary_scan": {
+     "exit_code": 0,
+     "scanner": "<W>/t4/zip/mbnas_application/scripts/dev/canary_scan.py",
+     "expect_present": false,
+     "host_facts": false,
+     "needle_count": 7,
+     "hits": 0,
+     "failing_hits": 0,
+     "unmet_expectations": 0,
+     "too_few_files": false,
+     "status": "PASS"
+    }
+   },
+   "evidence": [
+    "runtime/logs/verify/20261028T041221Z-owner/package_manifest.json",
+    "runtime/logs/verify/20261028T041221Z-owner/package_canary.log",
+    "runtime/logs/verify/20261028T041221Z-owner/package_canary.json"
+   ],
+   "reason": "",
+   "duration_s": 2.7,
+   "profile": "owner"
+  }
+ ],
+ "schema": "mbnas.verify/1",
+ "root": "<W>/t4/zip/mbnas_application",
+ "profile": "owner",
+ "started_at": "2026-10-28T04:12:21Z",
+ "finished_at": "2026-10-28T04:13:05Z"
+}

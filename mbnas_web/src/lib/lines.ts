@@ -6,9 +6,7 @@
  *  - solid representative line: representatives of CONSECUTIVE complete generations of one arm/seed/rung, broken by any
  *    gap, open generation or undrawn representative. Lines are never called a Pareto frontier.
  *
- * 재구현(2026-10-15), 원본 누락(리포 루트 .gitignore `lib/` 규칙으로 커밋되지 않음).
- * 근거 테스트: tests/cohort_lines.test.ts ('generation completeness', 'lines'), tests/s0910_fix1.test.tsx (S9-F1 skipped help),
- * tests/components.test.tsx (선 개수), 사용처 src/screens/Monitor.tsx, src/components/Scatter.tsx, src/state/reducer.ts (generationKey).
+ * 사용처: src/screens/Monitor.tsx, src/components/Scatter.tsx, src/state/reducer.ts (generationKey).
  */
 import type { Generation } from '../api/types';
 import type { PlotPoint } from './cohort';

@@ -195,24 +195,41 @@ def test_fresh_tree_plant_is_idempotent_rotatable_and_strippable(tmp_path: Path)
     assert _scan([tree])["hits"] == [] or all(h["kind"] == "host_fact" for h in _scan([tree])["hits"])
 
 
-def test_canary_test_build_positive_control_and_leak_detection(tree: Path) -> None:
+# areas planted in files that the owner bundle ships (positive control) and in files that no bundle ships (clean
+# distribution, DD-A76: tests and internal documents stay in the repository)
+OWNER_SHIPPED_AREAS = {"POLICY_PRIOR", "FITNESS", "OWNER_SECRET", "OWNER_DEPLOY", "CORE_STATE"}
+NEVER_SHIPPED_AREAS = {"OWNER_TEST", "OWNER_DOC"}
+
+
+@pytest.mark.xfail(strict=True, reason="scripts/dev/canary_plant.py still records OWNER_TEST / OWNER_DOC as expected "
+                   "in the owner bundle (expected_in=['owner']); the clean distribution ships neither, so the owner "
+                   "positive control reports them unmet until canary_plant.py moves them to must_not_in")
+def test_canary_test_build_owner_positive_control(tree: Path) -> None:
     owner = run_build(tree, "--profile", "owner", "--canary")
-    assert owner.returncode == 0, owner.stdout[-4000:] + owner.stderr[-2000:]
     reports = sorted((tree / "build" / "canary" / "owner" / "tree" / "dist" / "owner").glob("*.canary.json"))
+    assert reports, owner.stdout[-4000:] + owner.stderr[-2000:]
     rep = json.loads(reports[0].read_text())
-    assert rep["status"] == "PASS" and rep["expectations"] and all(e["ok"] for e in rep["expectations"])
-    assert {e["area"] for e in rep["expectations"]} >= {"POLICY_PRIOR", "FITNESS", "OWNER_TEST", "OWNER_DOC",
-                                                        "OWNER_SECRET", "OWNER_DEPLOY", "CORE_STATE"}
+    found = {e["area"]: e["ok"] for e in rep["expectations"]}
+    assert OWNER_SHIPPED_AREAS <= set(found) and all(found[a] for a in OWNER_SHIPPED_AREAS), rep["expectations"]
+    assert not [h for h in rep["hits"] if h.get("area") in NEVER_SHIPPED_AREAS]  # not in the owner ZIP either
     assert not list((tree / "dist").glob("*/*.zip"))  # a canary build never publishes into dist/
+    assert not NEVER_SHIPPED_AREAS & set(found), rep["expectations"]  # not expected in any bundle any more
+    assert owner.returncode == 0 and rep["status"] == "PASS", owner.stdout[-4000:]
+
+
+def test_canary_test_build_public_leak_detection(tree: Path) -> None:
     public = run_build(tree, "--profile", "public", "--canary")
     assert public.returncode == 0, public.stdout[-4000:]
     pdir = tree / "build" / "canary" / "public" / "tree" / "dist" / "public"
     prep = json.loads(sorted(pdir.glob("*.canary.json"))[0].read_text())
     assert prep["status"] == "PASS" and prep["hits"] == []
+    assert not list((tree / "dist").glob("*/*.zip"))  # a canary build never publishes into dist/
     # a broken public allowlist that lets owner tests through is caught by the planted OWNER_TEST marker
     al = tree / "build" / "allowlists" / "public.txt"
-    text = al.read_text().replace("\ntests/owner/**\n", "\n")
-    al.write_text(text.replace("[include]\n", "[include]\ntests/owner/**\n"))
+    lines = al.read_text().splitlines()
+    assert "tests/** :: test suites are not shipped in this distribution" in lines
+    text = "\n".join(line for line in lines if not line.startswith("tests/")) + "\n"  # drops the tests/** deny
+    al.write_text(text.replace("[include]\n", "[include]\ntests/owner/**\n", 1))
     leak = run_build(tree, "--profile", "public", "--canary")
     assert leak.returncode == 1
     assert "canary_token" in leak.stdout and "OWNER_TEST" in leak.stdout

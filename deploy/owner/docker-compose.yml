@@ -1,8 +1,8 @@
-# MBNAS Research Console 0.1.0 - OWNER deployment (PRIVATE; DD-A31, WP-7 section 1b): core API (port 8700) + owner
+# MBNAS Research Console 0.1.0 - OWNER deployment (PRIVATE): core API (port 8700) + owner
 # worker (PROPOSE_GENERATION jobs, CPU). Optional profiles turn the owner host into an all-in-one host:
 #   all-in-one : gateway (user API /api/v1 + web console, port 8710)
 #   gpu        : runner on GPU ${MBNAS_RUNNER_GPU:-0} (NVIDIA Container Toolkit)
-#   cpu        : runner on the CPU (CUDA_VISIBLE_DEVICES set and empty, DD-A32)
+#   cpu        : runner on the CPU (CUDA_VISIBLE_DEVICES set and empty)
 #
 # Files, relative to the unpacked OWNER ZIP root (the build context); per-role env files, mode 0600:
 #   config/owner/core.env     from config/examples/core.env.example (MBNAS_CORE_API_TOKEN, _ARTIFACT_SIGNING_KEY,
@@ -56,7 +56,7 @@ x-runner-env: &runner-env
   MBNAS_RUNNER_ARTIFACT_TRANSFER: local     # same-host store shared with the gateway (same runtime/ volume)
   MBNAS_RUNNER_ARTIFACT_STORE_DIR: /srv/mbnas/runtime/gateway/artifacts
   MBNAS_RUNNER_ARTIFACT_STORE_MODE: same-uid  # gateway and runner run as the same uid (`user:` above)
-  MBNAS_RUNNER_ALLOW_PICKLE_RESUME: "true"   # owner profile (DD-A20): the owner's own RF-DETR checkpoints
+  MBNAS_RUNNER_ALLOW_PICKLE_RESUME: "true"   # owner profile: the owner's own RF-DETR checkpoints
 
 services:
   core:

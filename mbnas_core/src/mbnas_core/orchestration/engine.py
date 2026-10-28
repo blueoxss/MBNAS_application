@@ -1,4 +1,4 @@
-"""Deterministic run state machine driven by job results (PLAN §2, master prompt §7–§8).
+"""Deterministic run state machine driven by job results.
 
 Every public function runs inside the caller's DB transaction and emits its events there (published after
 commit). The same inputs always produce the same jobs: jobs are keyed ``run|kind|candidate|rung|extra``
@@ -22,14 +22,14 @@ one stage ``FINAL`` (scratch, the pinned final epochs/horizon): admission agains
 display, no gate) -> ``FINAL_COMPLETE``. Search/baseline rows that report the final split hash, and final rows that
 report any other split, become EVAL_FAILED (``FINAL_SPLIT_LEAK`` / ``FINAL_SPLIT_MISMATCH``).
 
-DD-A62 (a): an evaluation payload that declares itself ``NOT_EVALUATED`` (a runner whose job device is not a CUDA
-device, DD-A32 / DD-A60 (4)) is committed by :func:`commit_not_evaluated` - trained, not evaluated, the reason code
-recorded, no metric, no fitness, no gate, no promotion - instead of an EVAL_FAILED row with METRIC_MISSING. DD-A62 (c): the
-evaluation-free generation of a split deployment keeps its journal and YAMLs in the core-local run directory
-(DD-A60 (2)); :func:`_recover_generation` reads the journal there too and :func:`register_generated_architecture`
+An evaluation payload that declares itself ``NOT_EVALUATED`` (a runner whose job device is not a CUDA
+device) is committed by :func:`commit_not_evaluated` - trained, not evaluated, the reason code
+recorded, no metric, no fitness, no gate, no promotion - instead of an EVAL_FAILED row with METRIC_MISSING. The
+evaluation-free generation of a split deployment keeps its journal and YAMLs in the core-local run directory;
+:func:`_recover_generation` reads the journal there too and :func:`register_generated_architecture`
 registers those YAMLs as ``architecture`` artifacts (``meta.location = core_local``).
 
-DD-A66 (retention prune round trip of runner-held checkpoints): :func:`checkpoint_registered` (called by the runner route
+Retention prune round trip of runner-held checkpoints: :func:`checkpoint_registered` (called by the runner route
 E6 after it recorded a checkpoint) and the end of :func:`job_finished` (after the job's outcome / evaluation commit)
 plan the run's retention policy over the candidate's runner-held full states and enqueue prune requests
 (``orchestration.retention.request_remote_prunes``; the latest full state and evaluation-referenced checkpoints are never
@@ -73,7 +73,7 @@ FAILURE_STATUS = {"RESUME_BLOCKED": "RESUME_BLOCKED", "BUILD_INVALID": "INVALID"
 PENDING_ROW_STATUSES = ("QUEUED", "TRAINING", "EVALUATING", "PAUSED", "PROMOTION_ADMITTED")
 NOT_EVALUATED = "NOT_EVALUATED"
 EVALUATION_REQUIRES_CUDA = "EVALUATION_REQUIRES_CUDA"
-"""DD-A60 (4) / DD-A62 (a): reason code of a snapshot the runner could not evaluate (latency is CUDA-only)."""
+"""Reason code of a snapshot the runner could not evaluate (latency is CUDA-only)."""
 _REASON_CODE = re.compile(r"[A-Z][A-Z0-9_]{2,63}")
 
 
@@ -231,7 +231,7 @@ def base_row(ctx: RunContext, cand: dict[str, Any], stage: Stage, status: str, *
     req_shape, res_shape = _shapes(ctx, cand)
     meta = planner.orchestration_audit(cand)
     training = (ctx.console.get("extra") or {}).get("training") or {}
-    # DD-31: an explicit evaluate_only run trains no epochs: its rows say epochs=0 and carry no epoch target (the
+    # an explicit evaluate_only run trains no epochs: its rows say epochs=0 and carry no epoch target (the
     # CandidateEvaluation contract allows only >= 1 or null there; the explicit 0 is console.extra.training.epoch_target_total).
     evaluate_only = training.get("enabled") is True and training.get("mode") == "evaluate_only"
     epochs, epoch_target = (0, None) if evaluate_only else (stage.target, stage.target)
@@ -459,7 +459,7 @@ def job_finished(conn: sqlite3.Connection, job: dict[str, Any], result: JobResul
         )
         report = (result.outputs or {}).get("execution_configuration")
         try:
-            if isinstance(report, dict):  # WP-2 section 1.5 (R4): a remote runner reported it; DB update only
+            if isinstance(report, dict):  # a remote runner reported it; DB update only
                 record_model_configuration_from_report(conn, ctx.run, repo.get_candidate(conn, job["candidate_id"]),
                                                        report)
             else:
@@ -499,7 +499,7 @@ def job_finished(conn: sqlite3.Connection, job: dict[str, Any], result: JobResul
 
 def request_prunes(conn: sqlite3.Connection, run_id: str, candidate_id: str | None, *,
                    default_policy: str = "keep_all", planned_by: str = "engine") -> list[dict[str, Any]]:
-    """DD-A66: plan the run's retention policy over the candidate's runner-held full states and enqueue the prune
+    """Plan the run's retention policy over the candidate's runner-held full states and enqueue the prune
     requests (``orchestration.retention.request_remote_prunes``) inside the caller's transaction, in a SAVEPOINT; an
     error is logged (``PRUNE_PLANNING_FAILED``), never raised. A run without runner-held checkpoints plans nothing."""
     if not candidate_id:
@@ -546,7 +546,7 @@ def _register_artifacts(conn: sqlite3.Connection, ctx: RunContext, cand: dict[st
                         items: list[Any]) -> tuple[list[dict[str, Any]], list[str]]:
     views, problems = [], []
     for item in items:
-        if isinstance(item, dict) and item.get("artifact_id"):  # WP-2 section 1.5 (R3): pre-registered by a runner
+        if isinstance(item, dict) and item.get("artifact_id"):  # pre-registered by a runner
             art = repo.get_artifact(conn, ctx.run["id"], str(item["artifact_id"]))
             if art is None:
                 problems.append(f"{item.get('kind')}: artifact {item['artifact_id']} is not registered for this run")
@@ -595,7 +595,7 @@ def _normalise_evaluation(ev: dict[str, Any]) -> dict[str, Any]:
 
 
 def with_device_used(ev: dict[str, Any], outputs: dict[str, Any] | None) -> dict[str, Any]:
-    """DD-A32: a result that reports ``outputs.device_used`` (a CPU-only runner mapped ``cuda:0`` to ``cpu``) records it
+    """A result that reports ``outputs.device_used`` (a CPU-only runner mapped ``cuda:0`` to ``cpu``) records it
     in the evaluation row's ``raw_metrics.device_used``; ``ev`` is returned unchanged otherwise."""
     used = (outputs or {}).get("device_used") if isinstance(outputs, dict) else None
     if not used:
@@ -611,7 +611,7 @@ def commit_evaluation(conn: sqlite3.Connection, ctx: RunContext, job: dict[str, 
                       outputs: dict[str, Any] | None = None) -> dict[str, Any]:
     """Fitness + gate with the source stage weights, immutable row, candidate.evaluated, then advance.
 
-    DD-A62 (a): a payload that declares itself NOT_EVALUATED (:func:`is_not_evaluated`) is committed by
+    A payload that declares itself NOT_EVALUATED (:func:`is_not_evaluated`) is committed by
     :func:`commit_not_evaluated` (``outputs``: the job result's outputs - rung result, trained architecture hash)."""
     cand = repo.get_candidate(conn, job["candidate_id"])
     idx, stage = _stage(ctx, cand, job["rung"])
@@ -652,7 +652,7 @@ def commit_evaluation(conn: sqlite3.Connection, ctx: RunContext, job: dict[str, 
     split_reason = _split_violation(ctx, cand, row.get("split_hash"))
     if split_reason is not None:
         reason = split_reason
-    # DD-10 / G4: the trained architecture must be the proposed one; a mismatch invalidates the measurement.
+    # the trained architecture must be the proposed one; a mismatch invalidates the measurement.
     if verify_architecture_hash(conn, ctx, cand, extra.get("architecture_hash")) is False:
         reason = ARCHITECTURE_HASH_MISMATCH
     if reason is not None:
@@ -670,8 +670,8 @@ def commit_evaluation(conn: sqlite3.Connection, ctx: RunContext, job: dict[str, 
 
 
 def is_not_evaluated(ev: Any) -> bool:
-    """DD-A62 (a): ``ev`` is an evaluation payload that declares its snapshot NOT evaluated (``evaluation_status`` or
-    ``performance_status`` NOT_EVALUATED; DD-A60 (4): the runner's job device is not a CUDA device, so no latency - and
+    """``ev`` is an evaluation payload that declares its snapshot NOT evaluated (``evaluation_status`` or
+    ``performance_status`` NOT_EVALUATED: the runner's job device is not a CUDA device, so no latency - and
     therefore no fitness - was measured)."""
     return isinstance(ev, dict) and NOT_EVALUATED in (ev.get("evaluation_status"), ev.get("performance_status"))
 
@@ -692,7 +692,7 @@ def _first_count(*values: Any, default: int) -> int:
 
 def commit_not_evaluated(conn: sqlite3.Connection, ctx: RunContext, job: dict[str, Any], ev: dict[str, Any],
                          outputs: dict[str, Any] | None = None) -> dict[str, Any]:
-    """DD-A62 (a): commit a NOT_EVALUATED payload (:func:`is_not_evaluated`) without inventing a measurement.
+    """Commit a NOT_EVALUATED payload (:func:`is_not_evaluated`) without inventing a measurement.
 
     The row of the job's stage is ``SEARCH_COMPLETE`` with ``performance_status`` NOT_EVALUATED and the payload's reason
     code (EVALUATION_REQUIRES_CUDA): ``ap``/``recall``/``latency_ms``/``size_mb``/``fitness`` null (a value the payload
@@ -702,7 +702,7 @@ def commit_not_evaluated(conn: sqlite3.Connection, ctx: RunContext, job: dict[st
     event, no promotion, no next stage; a committed (immutable) EVALUATED row is never replaced.
 
     * explicit training run (``console.extra.training``): the candidate is ``SEARCH_COMPLETE`` and its rung state
-      ``evaluated`` with ``performance_status`` NOT_EVALUATED - the DD-5 shape of a validation-off run - so the run
+      ``evaluated`` with ``performance_status`` NOT_EVALUATED - the shape of a validation-off run - so the run
       COMPLETES (instead of FAILED / MODEL_RUN_FAILED); the row keeps ``source_kind`` / ``training_mode`` and
       ``raw_metrics.validation_enabled``;
     * every other arm (GA / IndependentRandom / Baseline / Final): the candidate stays unevaluated - ``SEARCH_COMPLETE``,
@@ -710,7 +710,7 @@ def commit_not_evaluated(conn: sqlite3.Connection, ctx: RunContext, job: dict[st
       ``evaluated`` for measured rows only and a GA never takes it as a parent (:func:`_parent_pool` reads EVALUATED
       rows only).
 
-    A trained architecture hash that differs from the candidate's (DD-10) is flagged as for a measurement: the explicit
+    A trained architecture hash that differs from the candidate's is flagged as for a measurement: the explicit
     row's ``reason_code`` becomes ARCHITECTURE_HASH_MISMATCH, any other arm ends EVAL_FAILED with that reason.
     """
     cand = repo.get_candidate(conn, job["candidate_id"])
@@ -756,7 +756,7 @@ def commit_not_evaluated(conn: sqlite3.Connection, ctx: RunContext, job: dict[st
         return _evaluation_failed(conn, ctx, cand, stage, row, {k: None for k in ("ap", "recall", "latency_ms", "size_mb")},
                                   ARCHITECTURE_HASH_MISMATCH)
     if mismatch:
-        extra["reason_code"] = ARCHITECTURE_HASH_MISMATCH  # DD-10: flagged, never silent (the cause stays in raw)
+        extra["reason_code"] = ARCHITECTURE_HASH_MISMATCH  # flagged, never silent (the cause stays in raw)
     row = _json_safe(base_row(ctx, cand, stage, "SEARCH_COMPLETE", **extra))
     for key in ("batch", "resolved_input_shape", "requested_input_shape"):
         if not _valid_cohort_value(row.get(key)):
@@ -793,7 +793,7 @@ def _same_hash(a: Any, b: Any) -> bool:
 
 def verify_architecture_hash(conn: sqlite3.Connection, ctx: RunContext, cand: dict[str, Any],
                              reported: Any) -> bool | None:
-    """Cross-check the candidate's architecture hash with the trainer-reported one (DD-10 / G4).
+    """Cross-check the candidate's architecture hash with the trainer-reported one.
 
     ``True``/``False`` when both exist and match/differ; ``None`` when either side is missing (not verifiable, never
     reported as verified). A mismatch is logged as an error event with reason ``ARCHITECTURE_HASH_MISMATCH``. For an
@@ -911,7 +911,7 @@ def _mark_failed(conn: sqlite3.Connection, ctx: RunContext, cand: dict[str, Any]
 def _refresh_generations(conn: sqlite3.Connection, ctx: RunContext, cand: dict[str, Any]) -> None:
     """Recompute every rung row of the candidate's generation and push changes; maybe propose the next one.
 
-    Contract 1.2.9 (S9-F3): an open row that changed (new row, counts, planning_closed, representative) is pushed as
+    Contract 1.2.9: an open row that changed (new row, counts, planning_closed, representative) is pushed as
     ``generation.updated``; the transition to complete is pushed once as ``generation.completed`` (and not also as
     an update); an unchanged row and an already complete row push nothing.
     """
@@ -1007,7 +1007,7 @@ def _insert_proposal(conn: sqlite3.Connection, ctx: RunContext, job: dict[str, A
 
 def record_generated_revision(conn: sqlite3.Connection, run_id: str, cand: dict[str, Any], *,
                               yaml_hash: str | None = None, artifact_id: str | None = None) -> None:
-    """F5d: the configuration the proposer wrote for ``cand`` (revision kind ``generated``; never blocks a proposal)."""
+    """The configuration the proposer wrote for ``cand`` (revision kind ``generated``; never blocks a proposal)."""
     from mbnas_core.orchestration import config_revisions
 
     text = cand.get("architecture_yaml")
@@ -1067,7 +1067,7 @@ def settle_run(conn: sqlite3.Connection, run_id: str) -> dict[str, Any]:
 
 
 def generation_shortfall(run: dict[str, Any]) -> str | None:
-    """DD-3: reason_code of a COMPLETED evaluation-free run that produced fewer candidates than requested.
+    """The reason_code of a COMPLETED evaluation-free run that produced fewer candidates than requested.
 
     ``GENERATION_EMPTY`` when no seed generated any candidate, ``GENERATION_PARTIAL`` when at least one seed fell short
     of its requested count, ``None`` when every seed is complete. Reads the per-seed ``budget.generation_results``
@@ -1198,9 +1198,9 @@ def _recover_generation(ctx: RunContext, job: dict[str, Any], conn: sqlite3.Conn
 
     This reads only the fixed journal name ``generation-<seed>.json`` of this run/seed and verifies immutable identities
     (run id, protocol hash, seed); it cannot follow arbitrary API paths or import source from the journal. Atomic journal
-    replacement makes a concurrent read safe. DD-A62 (c): the journal lives in ``run_dir(run)/architectures`` when the
+    replacement makes a concurrent read safe. The journal lives in ``run_dir(run)/architectures`` when the
     run's directory is usable on the core host (owner all-in-one), else in the core-local run directory where the owner
-    worker wrote it (DD-A60 (2)); both are tried (:func:`_generation_journal_paths`), the first journal with this run's
+    worker wrote it; both are tried (:func:`_generation_journal_paths`), the first journal with this run's
     identity wins.
     """
     import json
@@ -1220,7 +1220,7 @@ def _recover_generation(ctx: RunContext, job: dict[str, Any], conn: sqlite3.Conn
 
 
 def _generation_journal_paths(ctx: RunContext, seed: int, conn: sqlite3.Connection | None) -> list[Path]:
-    """Candidate locations of the generation journal of ``seed`` (DD-A62 (c)), in this order:
+    """Candidate locations of the generation journal of ``seed``, in this order:
 
     1. ``run_dir(run)/architectures`` (owner all-in-one; the former only location);
     2. ``core_run_dir(<core settings>)/architectures`` with the core settings of this process's environment
@@ -1253,7 +1253,7 @@ def _generation_journal_paths(ctx: RunContext, seed: int, conn: sqlite3.Connecti
 
 
 def _core_run_dir_from_settings(run_id: str) -> Path | None:
-    """``core_run_dir(CoreSettings.load(), run)`` (DD-A60 (2) layout) or None when the settings cannot be loaded."""
+    """``core_run_dir(CoreSettings.load(), run)`` (core-local layout) or None when the settings cannot be loaded."""
     try:
         from mbnas_core.config import CoreSettings
         from mbnas_core.owner_worker.paths import core_run_dir
@@ -1264,7 +1264,7 @@ def _core_run_dir_from_settings(run_id: str) -> Path | None:
 
 
 def core_local_run_dir(run: dict[str, Any], cand: dict[str, Any]) -> Path | None:
-    """DD-A62 (c): the core-local run directory that holds ``cand``'s generated YAML file, or None.
+    """The core-local run directory that holds ``cand``'s generated YAML file, or None.
 
     Accepted only when the candidate's recorded ``architecture_path`` is an absolute
     ``<root>/<run id>/architectures/<candidate id>.yaml`` (the layout of the owner worker's PROPOSE_GENERATION, a ``:`` of
@@ -1296,9 +1296,9 @@ def register_generated_architecture(conn: sqlite3.Connection, run: dict[str, Any
                                     meta: dict[str, Any] | None = None) -> dict[str, Any]:
     """Register a generated candidate's YAML file (evaluation-free generation) as its ``architecture`` artifact.
 
-    A file inside ``run_dir(run)`` is registered relative to it, as before (owner all-in-one). DD-A62 (c): in a split
+    A file inside ``run_dir(run)`` is registered relative to it, as before (owner all-in-one). In a split
     deployment ``console.paths.output_root`` is a customer-host path and the owner worker writes the YAMLs to the
-    core-local run directory (DD-A60 (2)); a file outside the run directory is then registered relative to the
+    core-local run directory; a file outside the run directory is then registered relative to the
     core-local run directory that :func:`core_local_run_dir` verified, with ``meta.location = core_local`` (the core
     resolves its bytes there; the relpath stays ``architectures/<file>``). Raises :class:`ArtifactError` like
     :func:`register_file` when neither applies."""

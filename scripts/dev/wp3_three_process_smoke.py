@@ -7,7 +7,7 @@ Processes (all started here, all stopped here; only their own pids are signalled
 * core: ``uvicorn --factory mbnas_core.api.app:app_from_env`` on 127.0.0.1:<ephemeral>, ``MBNAS_CORE_EXPOSE_LEGACY_API
   =false`` (no ``/api/v1`` on core);
 * owner worker: ``python -m mbnas_core.owner_worker --owner``;
-* runner daemon: ``python -m mbnas_runner run`` (CPU, its own work root and dataset mount; WP-5C local transfer:
+* runner daemon: ``python -m mbnas_runner run`` (CPU, its own work root and dataset mount; local transfer:
   ``MBNAS_RUNNER_ARTIFACT_TRANSFER=local`` with ``MBNAS_RUNNER_ARTIFACT_STORE_DIR`` = the gateway's artifact store);
 * gateway: ``uvicorn --factory mbnas_server.api.app:app_from_env`` on 127.0.0.1:<ephemeral> with the server-scope
   principal as ``MBNAS_GW_CORE_TOKEN`` and ``MBNAS_GW_WEB_DIST`` = ``mbnas_web/dist`` (when built).
@@ -23,12 +23,12 @@ Steps (each recorded with UTC time, request id, HTTP status, duration):
  4. upload the user YAML -> ``POST /api/v1/structure-check {upload_id}`` -> PASS;
  5. upload the bad YAML -> structure-check -> FAIL / BLOCK_UNSUPPORTED with a precise diagnostic (row + module);
  6. ``POST /api/v1/protocols/validate`` with a dataset-bearing PILOT_SMOKE protocol (3-split synthetic dataset under the
-    gateway's dataset root) -> the gateway computes path checks + per-split manifests (DD-A34/DD-A37) and core answers
+    gateway's dataset root) -> the gateway computes path checks + per-split manifests and core answers
     ``capabilities.validation_host = "gateway"`` with no dataset/path errors; then the generation-only OFF policy -> valid;
  7. OFF generation run -> COMPLETED (``/api/v1/runs``, polling ``/api/v1/runs/{id}``);
  8. candidate detail ``GET /api/v1/runs/{id}/candidates/{cid}`` and the run's export zip through the gateway
     (``X-Bundle-Sha256`` = sha256 of the body, a readable zip with ``SHA256SUMS``);
- 9. a runner-produced artifact from the gateway store (WP-5, DD-A39): the uploaded user model trained by the REAL runner
+ 9. a runner-produced artifact from the gateway store: the uploaded user model trained by the REAL runner
     (``POST /api/v1/training-runs {upload_id}``, 1 epoch, 64 px, validation off, CPU) -> the runner registered its files
     and put them into the gateway store (local transfer); one artifact id the runner registered, listed by the candidate
     detail, is downloaded with ``GET /api/v1/runs/{id}/artifacts/{artifact_id}`` (user bearer): sha256(body) ==
@@ -38,7 +38,32 @@ Steps (each recorded with UTC time, request id, HTTP status, duration):
     = 503 ``CORE_UNAVAILABLE`` (no local fallback);
 11. stop everything started here; verify exit.
 
-Exit 0 only when every step passed. Evidence: ``--evidence`` (default docs/internal/evidence/WP3/three_process_smoke.txt).
+Fleet mode. Two steps depend on the core's validation device inventory -
+``validate-dataset-manifests-via-gateway`` (step 6, an evaluation-ON PILOT_SMOKE protocol) and
+``runner-training-via-gateway`` (step 9, explicit training) - so right before step 6 the smoke asks the running stack
+which devices exist (``GET /api/v1/health`` through the gateway with the user bearer: ``devices``, the inventory
+``console.benchmark.device`` is resolved against) and records the mode and why in the evidence header and the step log
+(:func:`fleet_mode`):
+
+* GPU - the inventory holds a CUDA device (default ``MBNAS_CORE_DEVICE_SOURCE=local``: NVML of the core host, which
+  ``CUDA_VISIBLE_DEVICES`` does not hide): every step runs exactly as before with the preset device ``host-gpu-0``.
+  Nothing executes on a GPU: step 6 only validates and the runner is CPU-only (``CUDA_VISIBLE_DEVICES=""``);
+* CPU-only - every entry is the CPU entry (a core host without an NVML GPU plus CPU runners; or
+  ``--device-source runners`` with this CPU runner): the SAME steps run with ``console.benchmark.device`` = that CPU
+  entry and assert the CPU-only fleet semantics as PASS-by-design. Step 6: the evaluation-ON protocol is refused
+  at validate with exactly EVALUATION_REQUIRES_CUDA (no resolution claim, no validation stored) while the dataset part
+  still holds - the gateway checked the paths and computed the three per-split manifests (hashes read back from its
+  manifest cache) and core used them (``validation_host = gateway``, per-split counts, no path/dataset error), see
+  :func:`cpu_refusal_checks`. Step 9: explicit training validates on the CPU entry and the CPU runner trains it; its
+  assertions (and those of the artifact download after it) are the GPU-mode ones, unchanged;
+* UNKNOWN - no readable or an empty inventory (an empty inventory is not a CPU-only fleet either): the GPU-mode steps
+  run unchanged and fail on their own.
+
+The step list, its order and every GPU-mode assertion are the same in every mode; no step is skipped and every step
+ends PASS or FAIL.
+
+Exit 0 only when every step passed. Evidence: the step report written to ``--evidence`` (``scripts/verify.sh``
+passes its own path).
 No GPU, no network beyond 127.0.0.1, never ports 8000-8002 / 5173-5175.
 """
 from __future__ import annotations
@@ -74,6 +99,94 @@ head:
   - [-1, 1, Detect, [nc]]
 """
 
+GPU_MODE, CPU_MODE, UNKNOWN_MODE = "GPU", "CPU-only", "UNKNOWN"
+#: the 3-split synthetic dataset of step validate-dataset-manifests-via-gateway (dataset YAML splits train/val/test) and
+#: the same image counts per validator role, as core reports them in ``capabilities.dataset.counts``
+SPLIT3 = {"train": 3, "val": 2, "test": 2}
+SPLIT3_IMAGES = {"train": 3, "search_val": 2, "final_eval": 2}
+#: the only validate error of an evaluation-ON protocol whose ``console.benchmark.device`` is the CPU entry of
+#: a CPU-only inventory (``mbnas_core.protocol.validator._Run.evaluation_device``)
+CPU_EVALUATION_REFUSAL = (("EVALUATION_REQUIRES_CUDA", "console.search.evaluation_enabled"),)
+CPU_BY_DESIGN = ("PASS-by-design (DD-A60 (1) / DD-A62, CPU-only fleet): an evaluation-ON protocol is refused at validate "
+                 "with EVALUATION_REQUIRES_CUDA (latency is measured on CUDA only), so core makes no resolution claim and "
+                 "stores no validation; the gateway's path checks and per-split manifests are still computed and used")
+
+
+def is_cpu_device(entry: Any) -> bool:
+    """True for the CPU entry of the core's validation inventory as ``GET /api/v1/health`` lists it (``devices``): kind
+    ``cpu``, or the id ``cpu`` without a public ``device_id``. The rule of ``mbnas_core.protocol.validator.is_cpu_device``
+    on the projected entry (the projection drops ``uuid`` and adds ``device_id`` only for a uuid-bearing, i.e. NVML /
+    CUDA, device)."""
+    return isinstance(entry, dict) and (entry.get("kind") == "cpu" or (
+        not entry.get("device_id") and str(entry.get("id") or "").lower() == "cpu"))
+
+
+def fleet_mode(http: int | None, health: Any, preset_device: str) -> dict[str, Any]:
+    """Mode of the device-dependent steps (module docstring, "Fleet mode") from a ``GET /api/v1/health`` answer:
+    ``{mode, why, benchmark_device, <inventory summary>}``. GPU when the inventory holds at least one non-CPU device (the
+    steps use ``preset_device``, exactly as before); CPU-only when it is non-empty and every entry is the CPU entry (the
+    validator's CPU-only fleet; the steps use that entry); UNKNOWN otherwise (the GPU-mode steps run unchanged)."""
+    body = health if isinstance(health, dict) else {}
+    devices = body.get("devices") if http == 200 else None
+    inventory = [d for d in devices if isinstance(d, dict)] if isinstance(devices, list) else []
+    cuda = [d for d in inventory if not is_cpu_device(d)]
+    cpu = [d for d in inventory if is_cpu_device(d)]
+    caps = body.get("capabilities") if isinstance(body.get("capabilities"), dict) else {}
+    preset = next((t for t in caps.get("device_targets") or [] if isinstance(t, dict) and t.get("id") == preset_device),
+                  None)
+    preset_target = {k: preset.get(k) for k in ("status", "name", "reason")} if preset else None
+    in_inventory = any(preset_device in {d.get("id"), d.get("name"), *(d.get("aliases") or [])} for d in inventory)
+    info = {"http": http, "inventory": [{k: d[k] for k in ("id", "kind", "name", "device_id", "runners", "worker_id")
+                                         if k in d} for d in inventory],
+            "cuda_device_ids": [d.get("id") for d in cuda], "cpu_device_ids": [d.get("id") for d in cpu],
+            "preset_device": preset_device, "preset_device_in_inventory": in_inventory, "preset_target": preset_target}
+    if cuda:
+        return {"mode": GPU_MODE, "benchmark_device": preset_device, **info, "why": (
+            f"the core's validation device inventory holds CUDA device(s) {info['cuda_device_ids']}: the steps run "
+            f"exactly as before with the preset console.benchmark.device {preset_device!r} (in the inventory: "
+            f"{in_inventory}); nothing executes on a GPU (step 6 only validates, the runner is CPU-only)")}
+    if cpu:
+        device = cpu[0].get("id")
+        status, reason = (preset_target or {}).get("status"), (preset_target or {}).get("reason")
+        return {"mode": CPU_MODE, "benchmark_device": device, **info, "why": (
+            f"the core's validation device inventory holds only the CPU entry {info['cpu_device_ids']}, no CUDA device "
+            f"(preset target {preset_device}: {status} - {reason}): the same steps run with console.benchmark.device "
+            f"{device!r} and assert the DD-A60 (1) / DD-A62 CPU semantics - explicit training validates and trains on "
+            f"the CPU runner, the evaluation-ON protocol is refused at validate with EVALUATION_REQUIRES_CUDA "
+            f"(PASS-by-design)")}
+    return {"mode": UNKNOWN_MODE, "benchmark_device": preset_device, **info, "why": (
+        f"no usable device inventory (HTTP {http}, devices {devices!r}): neither a CUDA device nor a CPU-only fleet is "
+        f"established, so the GPU-mode steps run unchanged with the preset device {preset_device!r}")}
+
+
+def cpu_refusal_checks(http: int | None, answer: Any, *, device: str, rows_before: Any, rows_after: Any,
+                       gateway_manifests: Any, expected_images: dict[str, int] | None = None) -> dict[str, bool]:
+    """CPU-only mode of ``validate-dataset-manifests-via-gateway`` (PASS-by-design): named checks that must
+    ALL hold. ``answer``: the gateway's validate answer for the evaluation-ON PILOT_SMOKE protocol whose
+    ``console.benchmark.device`` is the CPU entry ``device``; ``rows_before`` / ``rows_after``: the core's validation rows
+    around that request; ``gateway_manifests``: what the gateway's manifest cache holds for the three split roots."""
+    expected = SPLIT3_IMAGES if expected_images is None else expected_images
+    body = answer if isinstance(answer, dict) else {}
+    errors = [e for e in body.get("errors") or [] if isinstance(e, dict)]
+    caps = body.get("capabilities") if isinstance(body.get("capabilities"), dict) else {}
+    dataset = caps.get("dataset") if isinstance(caps.get("dataset"), dict) else {}
+    counts = dataset.get("counts") if isinstance(dataset.get("counts"), dict) else {}
+    images = {role: c.get("images") if isinstance(c, dict) else None for role, c in counts.items()}
+    resolved_device = caps.get("device") if isinstance(caps.get("device"), dict) else {}
+    gm = gateway_manifests if isinstance(gateway_manifests, dict) else {}
+    return {
+        "http_200": http == 200,
+        "refused_at_validate": body.get("valid") is False,
+        "only_error_is_EVALUATION_REQUIRES_CUDA":
+            tuple((e.get("code"), e.get("field")) for e in errors) == CPU_EVALUATION_REFUSAL,
+        "cpu_entry_resolved": bool(device) and resolved_device.get("id") == device,
+        "no_resolution_claim": (body.get("resolved") is None and not body.get("protocol_hash")
+                                and not body.get("validation_id")),
+        "no_validation_stored": isinstance(rows_before, int) and rows_before == rows_after,
+        "validation_host_gateway": caps.get("validation_host") == "gateway",
+        "core_used_the_3_split_manifests": images == expected,
+        "gateway_split_hashes_set": gm.get("all_split_hashes_set") is True and gm.get("images") == expected,
+    }
 
 
 def _script_display() -> str:
@@ -91,6 +204,7 @@ class Smoke3(wp2.Smoke):
             args.root = str(test_root / "wp3_smoke" / stamp)
         super().__init__(args)
         self.user_token = "smoke-user-token-" + uuid.uuid4().hex
+        self.fleet: dict[str, Any] | None = None  # discover_fleet(): fleet mode
         self.gw_port = args.gw_port or self._free_port()
         while self.gw_port == self.port:
             self.gw_port = self._free_port()
@@ -99,7 +213,7 @@ class Smoke3(wp2.Smoke):
         self.web_dist_kind = "built"
         if not (self.web_dist / "index.html").is_file():
             # mbnas_web/dist is not built on this host: serve a SYNTHETIC bundle (index.html + one hashed asset) so the
-            # real gateway process still proves static serving, SPA fallback and the asset cache header (DD-A30).
+            # real gateway process still proves static serving, SPA fallback and the asset cache header.
             # The evidence records web_dist_kind = "synthetic"; the real bundle is "확인 못 함" until it is built.
             self.web_dist = Path(args.root) / "web_dist"
             (self.web_dist / "assets").mkdir(parents=True, exist_ok=True)
@@ -115,7 +229,7 @@ class Smoke3(wp2.Smoke):
 
     def runner_env(self, name: str = "runner", runner_id: str = "smoke-runner-1") -> dict[str, str]:
         env = super().runner_env(name, runner_id)
-        # WP-5C local transfer (same host): every file the runner registers goes into the gateway's artifact store
+        # local transfer (same host): every file the runner registers goes into the gateway's artifact store
         env.update({"MBNAS_RUNNER_ARTIFACT_TRANSFER": "local",
                     "MBNAS_RUNNER_ARTIFACT_STORE_DIR": str(self.root / "gateway" / "artifacts")})
         return env
@@ -278,21 +392,29 @@ class Smoke3(wp2.Smoke):
 
     def step_validate_dataset_manifests(self) -> bool:
         """Validate a dataset-bearing protocol through the gateway: the GATEWAY computes path checks + per-split
-        manifests on its host (DD-A34, DD-A37 wire format) and core records ``capabilities.validation_host=gateway``.
-        A 3-split synthetic dataset (3 train / 2 val / 2 test PNG) under the gateway's dataset root."""
+        manifests on its host (gateway-inputs wire format) and core records ``capabilities.validation_host=gateway``.
+        A 3-split synthetic dataset (3 train / 2 val / 2 test PNG) under the gateway's dataset root.
+
+        CPU-only fleet (module docstring "Fleet mode"): the protocol names the CPU entry and the step asserts
+        :func:`cpu_refusal_checks` (the EVALUATION_REQUIRES_CUDA refusal plus the dataset part) instead of a valid
+        result; the GPU-mode assertion is unchanged."""
         from mbnas_core.protocol.presets import pilot_smoke_protocol
 
         t0 = time.monotonic()
         spec = importlib.util.spec_from_file_location("wp3_smoke_datasets", ROOT / "tests" / "_shared" / "datasets.py")
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)  # type: ignore[union-attr]
-        ds = mod.build_dataset(self.root / "core_data", "smoke3split", counts={"train": 3, "val": 2, "test": 2})
+        ds = mod.build_dataset(self.root / "core_data", "smoke3split", counts=dict(SPLIT3))
         paths = {k: ds[k] for k in ("dataset_yaml", "train_root", "search_val_root", "final_eval_root")}
         paths["output_root"] = str(self.root / "core" / "runs")
         proto = pilot_smoke_protocol(paths)
         for b in proto["console"].get("baselines") or []:  # registry entries are UNVERIFIED on a fresh smoke home
             b["enabled"] = False
         proto["console"]["baseline_override_reason"] = "wp3 smoke: dataset-manifest validation only (no baseline run)"
+        cpu = self.cpu_fleet()
+        if cpu:  # the CPU entry of the CPU-only inventory instead of the preset host-gpu-0
+            proto["console"]["benchmark"]["device"] = self.fleet["benchmark_device"]  # type: ignore[index]
+            rows_before = self._validation_count()
         code, v, rid, _ = self.gw("POST", "/api/v1/protocols/validate", {"protocol": proto})
         caps = (v or {}).get("capabilities") if isinstance(v, dict) else None
         errors = (v or {}).get("errors") if isinstance(v, dict) else v
@@ -300,13 +422,94 @@ class Smoke3(wp2.Smoke):
                        and str(e.get("field", "")).startswith(("console.paths", "dataset"))]
         host = (caps or {}).get("validation_host")
         db_row = self._validation_manifests((v or {}).get("validation_id") if isinstance(v, dict) else None)
+        if cpu:
+            rows_after = self._validation_count()
+            gateway = self._gateway_split_manifests({"train": ds["train_root"], "search_val": ds["search_val_root"],
+                                                     "final_eval": ds["final_eval_root"]})
+            checks = cpu_refusal_checks(code, v, device=proto["console"]["benchmark"]["device"],
+                                        rows_before=rows_before, rows_after=rows_after, gateway_manifests=gateway)
+            return self.step("validate-dataset-manifests-via-gateway", bool(checks) and all(checks.values()), t0,
+                             http=code, request_id=rid, fleet_mode=CPU_MODE,
+                             benchmark_device=proto["console"]["benchmark"]["device"], expected=CPU_BY_DESIGN,
+                             cpu_checks=checks, valid=(v or {}).get("valid") if isinstance(v, dict) else None,
+                             validation_host=host, data_errors=data_errors,
+                             other_errors=[e for e in (errors or []) if e not in data_errors][:10],
+                             capabilities_device=(caps or {}).get("device"),
+                             dataset_counts=((caps or {}).get("dataset") or {}).get("counts"),
+                             gateway_split_manifests=gateway,
+                             validation_rows={"before": rows_before, "after": rows_after}, db_row=db_row)
         ok = (code == 200 and host == "gateway" and not data_errors and isinstance(v, dict) and v.get("valid") is True
               and isinstance(db_row, dict) and db_row.get("validation_host") == "gateway"
               and db_row.get("all_split_hashes_set") is True)
         return self.step("validate-dataset-manifests-via-gateway", bool(ok), t0, http=code, request_id=rid,
                          valid=(v or {}).get("valid") if isinstance(v, dict) else None, validation_host=host,
                          data_errors=data_errors, other_errors=[e for e in (errors or []) if e not in data_errors][:10],
-                         db_row=db_row)
+                         db_row=db_row, fleet_mode=self.fleet_label(),
+                         benchmark_device=proto["console"]["benchmark"]["device"])
+
+    # -- fleet mode ------------------------------------------------------------------------------------------------
+    def discover_fleet(self) -> dict[str, Any]:
+        """Ask the running stack which devices exist (module docstring, "Fleet mode"): ``GET /api/v1/health`` through
+        the gateway (user bearer). Not a step (the step list stays as before); an unreadable answer is the UNKNOWN mode,
+        recorded like the others in the step log and the evidence header."""
+        from mbnas_core.protocol.presets import pilot_smoke_protocol
+
+        preset = pilot_smoke_protocol()["console"]["benchmark"]["device"]
+        try:
+            code, health, rid, _ = self.gw("GET", "/api/v1/health")
+        except Exception as exc:  # noqa: BLE001 - recorded as the UNKNOWN mode
+            code, health, rid = None, {"error": f"{type(exc).__name__}: {exc}"[:300]}, None
+        self.fleet = {**fleet_mode(code, health, preset), "request_id": rid,
+                      "source": "GET /api/v1/health through the gateway (user bearer): devices",
+                      "core_device_source": self.args.device_source}
+        self.note(f"FLEET MODE {self.fleet['mode']}: {self.fleet['why']}")
+        self.note("device discovery " + json.dumps({k: v for k, v in self.fleet.items() if k != "why"}, sort_keys=True,
+                                                   default=str, ensure_ascii=False))
+        return self.fleet
+
+    def cpu_fleet(self) -> bool:
+        return (self.fleet or {}).get("mode") == CPU_MODE
+
+    def fleet_label(self) -> str:
+        return str((self.fleet or {}).get("mode") or "not determined")
+
+    def _validation_count(self) -> Any:
+        """Rows of the core's validation table (read-only, verification only) or a "확인 못 함" string."""
+        try:
+            tables = {r["name"] for r in self.db_rows("SELECT name FROM sqlite_master WHERE type='table'")}
+            for t in ("validations", "protocol_validations"):
+                if t in tables:
+                    return int(self.db_rows(f"SELECT COUNT(*) AS n FROM {t}")[0]["n"])
+            return "확인 못 함 (no validation table)"
+        except Exception as exc:  # noqa: BLE001
+            return f"확인 못 함 ({type(exc).__name__})"
+
+    def _gateway_split_manifests(self, split_roots: dict[str, str]) -> Any:
+        """Read-only look at the gateway's manifest cache (``MBNAS_GW_MANIFEST_CACHE_ROOT``/manifests, written by
+        validate_prep through DatasetService: ``_index/<signature>.json`` = ``{split_hash, root}``, ``<hex>.json`` = the
+        manifest) for the per-split manifests the gateway computed for ``split_roots`` (verification only)."""
+        cache = self.root / "gateway" / "cache" / "manifests"
+        try:
+            by_root: dict[str, set[str]] = {}
+            for f in sorted((cache / "_index").glob("*.json")):
+                doc = json.loads(f.read_text())
+                by_root.setdefault(os.path.realpath(doc["root"]), set()).add(doc["split_hash"])
+            splits: dict[str, Any] = {}
+            for role, root in split_roots.items():
+                hashes = sorted(by_root.get(os.path.realpath(root), ()))
+                if len(hashes) != 1:
+                    splits[role] = {"split_hashes": hashes}
+                    continue
+                m = json.loads((cache / f"{hashes[0].split(':', 1)[1]}.json").read_text())
+                splits[role] = {"split_hash": m.get("split_hash"), "class_mapping_hash": m.get("class_mapping_hash"),
+                                "images": (m.get("counts") or {}).get("images")}
+            mappings = {s.get("class_mapping_hash") for s in splits.values()}
+            all_set = (set(splits) == set(split_roots) and len(mappings) == 1 and all(
+                s.get("split_hash") and s.get("class_mapping_hash") for s in splits.values()))
+            return {"cache": str(cache), "splits": splits, "images": {r: s.get("images") for r, s in splits.items()},
+                    "all_split_hashes_set": all_set}
+        except Exception as exc:  # noqa: BLE001
+            return f"확인 못 함 ({type(exc).__name__}: {exc})"[:300]
 
     def _validation_manifests(self, validation_id: str | None) -> Any:
         """Read-only look at the core DB for what the gateway attached (verification only)."""
@@ -378,12 +581,15 @@ class Smoke3(wp2.Smoke):
         policy["training"].update(requested_input_size=[64, 64], batch_per_gpu=2, workers=0, precision="fp32",
                                   warmup_epochs=0, optimizer="SGD", lr_initial=0.001, close_mosaic_epochs=0)
         policy["console"]["training"] = {"epoch_target_total": 1, "seed": 41, "native_image_artifacts": True}
+        if self.cpu_fleet():  # explicit training validates on the CPU entry of the inventory
+            policy["console"]["benchmark"]["device"] = self.fleet["benchmark_device"]  # type: ignore[index]
+        mode = {"fleet_mode": self.fleet_label(), "benchmark_device": policy["console"]["benchmark"]["device"]}
         up = self.upload("yolo11n.yaml")  # the same bytes as step 4: the same content-addressed upload id
         body = {"source": {"kind": "user", "upload_id": up["upload_id"]}, "protocol": policy, "mode": "scratch",
                 "validation_enabled": False, "idempotency_key": "wp3-train-" + uuid.uuid4().hex[:8]}
         code, created, rid_c, _ = self.gw("POST", "/api/v1/training-runs", body)
         if code != 200 or not isinstance(created, dict):
-            return self.step("runner-training-via-gateway", False, t0, http=code, body=created, request_id=rid_c)
+            return self.step("runner-training-via-gateway", False, t0, http=code, body=created, request_id=rid_c, **mode)
         run_id, cid = created["run_id"], created["candidate_id"]
         run = self.wait(f"run {run_id} terminal", lambda: (lambda r: r if r and r.get("status") in TERMINAL else None)(
             self.run_status(run_id)), timeout=self.args.timeout, interval=2.0)
@@ -393,7 +599,7 @@ class Smoke3(wp2.Smoke):
         a = self.step("runner-training-via-gateway", run["status"] == "COMPLETED" and bool(runner_arts), t0,
                       run_id=run_id, candidate_id=cid, run_status=run["status"], upload_id=up["upload_id"],
                       runner_artifacts=[{k: loc[k] for k in ("object_id", "store", "relpath")} for loc in runner_arts],
-                      request_id=rid_c)
+                      request_id=rid_c, **mode)
         t1 = time.monotonic()
         code, detail, rid_d, _ = self.gw("GET", f"/api/v1/runs/{run_id}/candidates/{cid}")
         listed = {x.get("id"): x for x in ((detail or {}).get("artifacts") or [])} if isinstance(detail, dict) else {}
@@ -480,13 +686,17 @@ class Smoke3(wp2.Smoke):
     def write_evidence(self, ok: bool, started: str, dur: float) -> None:
         out = Path(self.args.evidence)
         out.parent.mkdir(parents=True, exist_ok=True)
-        script = _script_display()  # the program actually run (e.g. web_real_stack.py drives this stack: C07 D4)
+        script = _script_display()  # the program actually run (e.g. web_real_stack.py drives this stack)
         title = ("WP-3 three-process smoke" if script.endswith("wp3_three_process_smoke.py")
                  else f"{script} on the WP-3 three-process stack")
         lines = [f"# {title} ({started} .. {now()}, {dur:.1f} s) result={'PASS' if ok else 'FAIL'}",
                  f"# command: {PY} -B {script} {' '.join(sys.argv[1:])}",
                  f"# cwd: {ROOT}  interpreter: {PY}  CUDA_VISIBLE_DEVICES=''  core: {self.base}  gateway: {self.gw_base}",
-                 f"# smoke root: {self.root}  process logs: {self.root / 'logs'}", "# steps:"]
+                 f"# smoke root: {self.root}  process logs: {self.root / 'logs'}"]
+        fleet = self.fleet or {"mode": "not determined", "why": "no device discovery (no device-dependent step ran)"}
+        lines += [f"# fleet mode: {fleet['mode']} - {fleet['why']}",
+                  "# device discovery: " + json.dumps({k: v for k, v in fleet.items() if k != "why"}, sort_keys=True,
+                                                      default=str, ensure_ascii=False), "# steps:"]
         lines += ["  " + json.dumps(s, sort_keys=True, default=str, ensure_ascii=False) for s in self.steps]
         lines += ["# step log:"] + ["  " + line for line in self.log]
         for name in ("core", "owner", "runner", "gateway"):
@@ -512,6 +722,7 @@ class Smoke3(wp2.Smoke):
             self.start_workers()
             ok = self.start_gateway()
             ok = self.step_structure() and ok
+            self.discover_fleet()  # before the first device-dependent step (not a step of its own)
             ok = self.step_validate_dataset_manifests() and ok
             gen_ok, run_id = self.step_validate_and_generate(ds)
             ok = ok and gen_ok
@@ -537,7 +748,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--root", default=None, help="smoke root (default $MBNAS_TEST_ROOT/wp3_smoke/<stamp>)")
     p.add_argument("--timeout", type=float, default=600, help="seconds for the run to reach a terminal state")
     p.add_argument("--web-dist", default=None, help="built web bundle (default mbnas_web/dist)")
-    p.add_argument("--device-source", choices=("local", "runners"), default="local")
+    p.add_argument("--device-source", choices=("local", "runners"), default="local",
+                   help="core MBNAS_CORE_DEVICE_SOURCE (local = NVML of this host, runners = registered runners); the "
+                        "device-dependent steps follow the fleet mode the running stack reports (module docstring)")
     p.add_argument("--evidence", default=str(ROOT / "docs" / "internal" / "evidence" / "WP3" / "three_process_smoke.txt"))
     args = p.parse_args(argv)
     if args.port in RESERVED or args.gw_port in RESERVED:

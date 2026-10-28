@@ -14,6 +14,13 @@ from opstest_support import REPO, SCRIPTS
 ROOT_LINE = 'ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"'
 IDENTITY_START = "# ---- process identity (same block in start.sh and stop.sh)"
 IDENTITY_END = "# ---- end of the shared block"
+# shipped in every bundle (clean distribution, DD-A76): the five scripts, deploy/** and .dockerignore carry no decision /
+# work-package / criterion / test-run tag and name no internal record or unshipped test folder
+SHIPPED_OPS = [f"scripts/{n}.sh" for n in SCRIPTS] + sorted(
+    p.relative_to(REPO).as_posix() for p in (REPO / "deploy").rglob("*") if p.is_file()) + [".dockerignore"]
+TRAIL = re.compile(r"DD-A\d|WP-\d|\bC(?:0\d|1\d)\b|\bT[2-8]\b|fix round|\bround \d|라운드|설계자|\bdesigner\b|"
+                   r"snapshot HEAD|source snapshot|docs/internal|tests/(?:public|owner|_shared)|REVIEW_CHECKLIST|"
+                   r"RIGHTS_REVIEW|LICENSE_STATUS")
 
 
 def _text(name: str) -> str:
@@ -116,6 +123,13 @@ def test_no_original_host_strings(name: str) -> None:
     needles = ("/root" + "/detection", "/etri" + "_nas/", "/data/" + "mg" + "jeong", "mg" + "jeong", "pc" + "2300",
                "147.46" + ".114.253")
     assert [n for n in needles if n in text] == []
+
+
+@pytest.mark.parametrize("rel", SHIPPED_OPS)
+def test_no_process_trail_in_the_shipped_ops_files(rel: str) -> None:
+    text = (REPO / rel).read_text(encoding="utf-8")
+    hits = [f"{n}: {line.strip()[:120]}" for n, line in enumerate(text.splitlines(), 1) if TRAIL.search(line)]
+    assert hits == []
 
 
 def test_profiles_and_roles_are_validated(tmp_path: Path) -> None:

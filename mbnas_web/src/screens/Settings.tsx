@@ -4,7 +4,7 @@
  * Derived values (added epochs, fixed horizon, effective batch, weight sums) are read-only.
  * While a loaded run is non-terminal everything is locked (policy is immutable) with a fork action.
  * The policy comes from the server (presets / a loaded run); before connecting the editor is empty and a banner says
- * so (DD-A21). No protocol template is embedded in the bundle.
+ * so. No protocol template is embedded in the bundle.
  */
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Badge, Banner, Card, CellNumber, CheckField, IntListField, KV, NumberField, SelectField, TextField } from '../components/ui';
@@ -69,7 +69,7 @@ export function PolicyLabel({ app }: { app: AppModel }): JSX.Element {
   );
 }
 
-/** Before a connection there is no policy to edit: say where it comes from (DD-A21). */
+/** Before a connection there is no policy to edit: say where it comes from. */
 export function ConnectFirstBanner({ app }: { app: AppModel }): JSX.Element | null {
   if (app.health.status === 'ok') {
     if (!isEmptyPolicy(app.policy) || app.rs.run) return null;
@@ -157,7 +157,7 @@ function PathsCard({ app, issues }: { app: AppModel; issues: Issue[] }): JSX.Ele
       </Banner>
       <div className="stack">
         {PATH_FIELDS.map((f) => {
-          // DD-17: with evaluation OFF the evaluation-only paths stay visible, disabled, with their preserved values.
+          // with evaluation OFF the evaluation-only paths stay visible, disabled, with their preserved values.
           const preserved = !evaluated && f !== 'output_root';
           return (
             <fieldset key={f} className="lock" disabled={preserved} data-testid={`path-${f}-group`} data-preserved={String(preserved)}>

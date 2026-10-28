@@ -3,7 +3,7 @@
 Stored evaluation rows are immutable; the served view overlays the *current* mutable ``candidate_status`` and
 renders each artifact from the registry with a fresh signed URL (``artifacts.registry.artifact_view``).
 
-WP-5B locations (:mod:`mbnas_core.artifacts.locations`): a runner-registered artifact is shown with its effective
+Recorded locations (:mod:`mbnas_core.artifacts.locations`): a runner-registered artifact is shown with its effective
 state (NOT_READY - so no signed URL - until the gateway verified its bytes in the store; LOAD_FAILED / MISSING when the
 gateway reported that), and a runner-registered checkpoint with the state of its recorded locations instead of a
 core-local file check (:func:`artifact_overlay`, :func:`checkpoint_state`).
@@ -26,7 +26,7 @@ def signing_key(svc: AppServices) -> bytes | None:
 
 
 def checkpoint_state(path: str | None, pruned_paths: set[str], located: dict[str, str] | None = None) -> str | None:
-    """S10-F4: PRESENT (file exists), PRUNED (gone; the run's checkpoints table records the retention deletion),
+    """PRESENT (file exists), PRUNED (gone; the run's checkpoints table records the retention deletion),
     MISSING (gone without a record) or None (no checkpoint_path). A view overlay; stored rows are not rewritten.
     ``located``: ``{checkpoint path: state}`` of the runner-registered checkpoints (recorded locations win over a
     core-local file check, which cannot see a runner's disk)."""

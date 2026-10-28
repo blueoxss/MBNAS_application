@@ -1,0 +1,148 @@
+{
+ "snapshot": {
+  "http": 200,
+  "request_id": "t4a75_local-9b39e015b3a94e9aa193",
+  "fragments": {
+   "install_root_token": {
+    "client_echo": 9,
+    "other": 0
+   },
+   "install_root_unicode": {
+    "client_echo": 9,
+    "other": 0
+   }
+  },
+  "other_samples": [],
+  "abs_path_regex": {
+   "client_echo": 9,
+   "other": 0
+  },
+  "abs_samples": [],
+  "recipe_values": {
+   "data": [
+    "<path>"
+   ],
+   "model": [
+    "<path>"
+   ],
+   "project": [
+    "<path>"
+   ],
+   "save_dir": [
+    "<path>"
+   ]
+  },
+  "raw_body_grep": {
+   "install_root_token": 9,
+   "install_root_unicode": 9,
+   "runner_wr_token": 0,
+   "runner_wr_unicode": 0
+  }
+ },
+ "candidate_detail": {
+  "http": 200,
+  "request_id": "t4a75_local-34498f86345a4cb0a57a",
+  "fragments": {},
+  "other_samples": [],
+  "abs_path_regex": {
+   "client_echo": 0,
+   "other": 0
+  },
+  "abs_samples": [],
+  "recipe_values": {
+   "data": [
+    "<path>"
+   ],
+   "model": [
+    "<path>"
+   ],
+   "project": [
+    "<path>"
+   ],
+   "save_dir": [
+    "<path>"
+   ]
+  },
+  "raw_body_grep": {
+   "install_root_token": 0,
+   "install_root_unicode": 0,
+   "runner_wr_token": 0,
+   "runner_wr_unicode": 0
+  }
+ },
+ "sse_replay": {
+  "http": 200,
+  "request_id": "t4a75_local-e4bfa0434e214109bdb7",
+  "events": 16,
+  "data_payloads": 16,
+  "fragments": {},
+  "other_samples": [],
+  "abs_path_regex": {
+   "client_echo": 0,
+   "other": 0
+  },
+  "abs_samples": [],
+  "recipe_values": {
+   "data": [
+    "<path>"
+   ],
+   "model": [
+    "<path>"
+   ],
+   "project": [
+    "<path>"
+   ],
+   "save_dir": [
+    "<path>"
+   ]
+  },
+  "raw_body_grep": {
+   "install_root_token": 0,
+   "install_root_unicode": 0,
+   "runner_wr_token": 0,
+   "runner_wr_unicode": 0
+  }
+ },
+ "export": {
+  "http": 200,
+  "request_id": "t4a75_local-4d8f983a6c8b419d8b57",
+  "members": 22,
+  "sha_match": true,
+  "fragments": {
+   "install_root_token": {
+    "client_echo": 14,
+    "other": 0
+   },
+   "install_root_unicode": {
+    "client_echo": 14,
+    "other": 0
+   }
+  },
+  "other_samples": [],
+  "abs_path_regex": {
+   "client_echo": 14,
+   "other": 0
+  },
+  "abs_samples": [],
+  "recipe_values": {
+   "data": [
+    "<path>"
+   ],
+   "model": [
+    "<path>"
+   ],
+   "project": [
+    "<path>"
+   ],
+   "save_dir": [
+    "<path>"
+   ]
+  },
+  "raw_body_grep": {
+   "install_root_token": 14,
+   "install_root_unicode": 14,
+   "runner_wr_token": 0,
+   "runner_wr_unicode": 0
+  }
+ }
+}

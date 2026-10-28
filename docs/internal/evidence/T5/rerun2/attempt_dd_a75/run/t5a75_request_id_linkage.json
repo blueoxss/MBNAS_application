@@ -1,0 +1,130 @@
+{
+ "harness_request_ids": 60,
+ "echoed_by_gateway": 60,
+ "sources": {
+  "audit": {
+   "side": "gateway",
+   "ids_found": 5,
+   "sample": [
+    "t5a75-1385ea5ea1814b8f86c8",
+    "t5a75-803de4e12c8145dea4e0",
+    "t5a75-9c06443e57fa49d186d5",
+    "t5a75-e33057b2303c4bb49d7d"
+   ]
+  },
+  "gateway_container_log": {
+   "side": "gateway",
+   "ids_found": 60,
+   "sample": [
+    "t5a75-01a725520b3a4674bd37",
+    "t5a75-01b97ade97fe4741bcc1",
+    "t5a75-01dfe83ce69d4e7db45e",
+    "t5a75-08103ead54f844ec8348"
+   ]
+  },
+  "core_log": {
+   "side": "core",
+   "ids_found": 55,
+   "sample": [
+    "t5a75-01a725520b3a4674bd37",
+    "t5a75-01b97ade97fe4741bcc1",
+    "t5a75-01dfe83ce69d4e7db45e",
+    "t5a75-08103ead54f844ec8348"
+   ]
+  },
+  "core_db": {
+   "side": "core",
+   "ids_found": 4,
+   "by_table": {
+    "events": 4
+   },
+   "sample": [
+    "t5a75-1f48ea1ad3c64cf8bd2a",
+    "t5a75-41af8c1ff7b64d588d77",
+    "t5a75-9122c1e2b63a46918675",
+    "t5a75-ae790a4f39954915906e"
+   ]
+  }
+ },
+ "error_bodies_carrying_the_same_request_id": [
+  {
+   "step": "core-down-degraded-503",
+   "request_id": "t5a75b-6e197dcfd25f405d96ef",
+   "code": "CORE_UNAVAILABLE",
+   "location": "core"
+  }
+ ],
+ "access_log_linkage": {
+  "gateway_access_lines_with_harness_ids": 60,
+  "core_access_lines_with_harness_ids": 60,
+  "ids_with_exactly_one_line_each_side": 50,
+  "ids_with_more_than_one_line_on_a_side": 5,
+  "ids_gateway_only (no core call, e.g. static web / gateway-local routes)": 5,
+  "harness_ids_missing_from_gateway_access_log": [],
+  "examples": [
+   {
+    "request_id": "t5a75-01a725520b3a4674bd37",
+    "gateway_line": "2026-10-28T06:38:43.398Z INFO mbnas_server.access method=GET path=/api/v1/runs/train-873e4bee8b4a/candidates/model-26683b7b15e2/config-revisions/rev-66668eea1aff4eb7/yaml status=200 request_id=t5a75-01a725520b3a4674bd37 duration_ms=22.5 client=127.0.0.1:45986",
+    "core_line": "2026-10-28T06:38:43.396Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/train-873e4bee8b4a/candidates/model-26683b7b15e2/config-revisions/rev-66668eea1aff4eb7/yaml status=200 request_id=t5a75-01a725520b3a4674bd37 duration_ms=12.9 client=127.0.0.1:39128"
+   },
+   {
+    "request_id": "t5a75-01b97ade97fe4741bcc1",
+    "gateway_line": "2026-10-28T06:38:28.749Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-deebc3bc4031/snapshot status=200 request_id=t5a75-01b97ade97fe4741bcc1 duration_ms=67.8 client=127.0.0.1:38612",
+    "core_line": "2026-10-28T06:38:28.747Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-deebc3bc4031/snapshot status=200 request_id=t5a75-01b97ade97fe4741bcc1 duration_ms=61.4 client=127.0.0.1:39128"
+   },
+   {
+    "request_id": "t5a75-01dfe83ce69d4e7db45e",
+    "gateway_line": "2026-10-28T06:38:43.462Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-deebc3bc4031/candidates/run-deebc3bc4031:RAND:s7:g00:c000/config-revisions/rev-c3b911b26dd09a2d/yaml status=200 request_id=t5a75-01dfe83ce69d4e7db45e duration_ms=18.5 client=127.0.0.1:46004",
+    "core_line": "2026-10-28T06:38:43.460Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-deebc3bc4031/candidates/run-deebc3bc4031:RAND:s7:g00:c000/config-revisions/rev-c3b911b26dd09a2d/yaml status=200 request_id=t5a75-01dfe83ce69d4e7db45e duration_ms=11.9 client=127.0.0.1:39128"
+   },
+   {
+    "request_id": "t5a75-08103ead54f844ec8348",
+    "gateway_line": "2026-10-28T06:38:29.013Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-deebc3bc4031/snapshot status=200 request_id=t5a75-08103ead54f844ec8348 duration_ms=36.6 client=127.0.0.1:38646",
+    "core_line": "2026-10-28T06:38:29.011Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-deebc3bc4031/snapshot status=200 request_id=t5a75-08103ead54f844ec8348 duration_ms=30.8 client=127.0.0.1:39128"
+   },
+   {
+    "request_id": "t5a75-0fb45312863042c194ac",
+    "gateway_line": "2026-10-28T06:38:43.418Z INFO mbnas_server.access method=GET path=/api/v1/runs/train-873e4bee8b4a/candidates/model-26683b7b15e2/config-revisions/rev-086065a788f29892/yaml status=200 request_id=t5a75-0fb45312863042c194ac duration_ms=17.9 client=127.0.0.1:45992",
+    "core_line": "2026-10-28T06:38:43.416Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/train-873e4bee8b4a/candidates/model-26683b7b15e2/config-revisions/rev-086065a788f29892/yaml status=200 request_id=t5a75-0fb45312863042c194ac duration_ms=10.8 client=127.0.0.1:39128"
+   }
+  ],
+  "multi_examples": [
+   {
+    "request_id": "t5a75-53d356f02ca34075ac72",
+    "gateway_lines": 1,
+    "core_lines": 2
+   },
+   {
+    "request_id": "t5a75-5cbda886a82c458d9b78",
+    "gateway_lines": 1,
+    "core_lines": 2
+   },
+   {
+    "request_id": "t5a75-8dceea7220c3468490a2",
+    "gateway_lines": 1,
+    "core_lines": 2
+   },
+   {
+    "request_id": "t5a75-acc2d1eab6104a5080a0",
+    "gateway_lines": 1,
+    "core_lines": 2
+   },
+   {
+    "request_id": "t5a75-fd90fefb35804c048279",
+    "gateway_lines": 1,
+    "core_lines": 2
+   }
+  ]
+ },
+ "linked_gateway_and_core_records": {
+  "count": 55,
+  "sample": [
+   "t5a75-01a725520b3a4674bd37",
+   "t5a75-01b97ade97fe4741bcc1",
+   "t5a75-01dfe83ce69d4e7db45e",
+   "t5a75-08103ead54f844ec8348",
+   "t5a75-0fb45312863042c194ac",
+   "t5a75-135c85f786bc43208f96"
+  ]
+ }
+}

@@ -1,7 +1,6 @@
 # systemd unit EXAMPLE - MBNAS gateway (public profile): user API /api/v1 + the built web console on 127.0.0.1:8710.
-# Adapted from the MBNAS_server mbnas-api.service.example of the source snapshot (split architecture, gateway role).
 #
-# Assumes the pip install path (DD-A31) in /opt/mbnas = the unpacked ZIP root:
+# Assumes the pip install path in /opt/mbnas = the unpacked ZIP root:
 #   cd /opt/mbnas && python3.10 -m venv .venv && .venv/bin/python -m pip install -r requirements-public.txt
 # and /opt/mbnas/config/public/gateway.env (from config/examples/gateway.env.example, owner mbnas, mode 0600).
 # Replace /opt/mbnas and the service user, then:

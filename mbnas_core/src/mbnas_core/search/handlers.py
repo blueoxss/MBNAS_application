@@ -151,7 +151,7 @@ def _candidate(spec: JobSpec, prop: Any, space: Any, desc: dict[str, Any], gener
     ``structure`` is an already computed structure report of this very proposal (the generation-only path checks it
     before accepting a draw); it is reused instead of checking again. Otherwise ``check_structure`` runs once with the
     proposer's ``BuildReport`` (``report=prop.report``), which it reuses when the input size matches, so the model is
-    never built a second time on the CPU. A non-PASS report makes the candidate INVALID (DD-1) and records
+    never built a second time on the CPU. A non-PASS report makes the candidate INVALID and records
     ``reason_code`` (STRUCTURE_FAILED, or STRUCTURE_UNVERIFIED when the check could not run) next to the diagnostics
     inside ``audit.structure``.
     """

@@ -139,3 +139,65 @@ Blocker 0, Critical 0, Major 0, Minor 3. 실패로 판정한 시험은 없다(E9
 결함 갱신: **D3 → 증거로 해결**(T5 rerun2가 학습 중 job 자식 env를 캡처·스캔, 0건; `SECURITY_MODEL.md:34,109`의 "T8에서 캡처하지 않음"은 T8 §2에 대해서는 사실이므로 결함 아님 — T5 rerun2 근거를 덧붙이면 더 정확). **D6 → FIXED**(`docs/internal/ACCEPTANCE_MATRIX.md` 11:3x 날짜 갱신, ADMIN 행 `:13` "BLOCKED_BY_ENV — 미충족"이 VALIDATION_REPORT ADMIN 행을 인용, 10-23 표는 `## 이력` 아래로). **D8 → OPEN**(Minor, `tests/owner/projection/test_runner_route_canary.py` 08:39 이후 변경 없음; 1.1.0 heartbeat·E11 경로는 평가자 E17로만 확인).
 
 판정: **점수 유지 — 100/100 PASS**(Blocker 0, Critical 0). 남은 결함은 D8(Minor) 하나.
+
+## Addendum (DD-A75 F1) — 2026-10-28 14:2x KST
+
+트리 `sha256:26e02259bb83eca0cf56e7e11bd9e216d383361a57fd70082f2ff9c0c346de13`(1b4bd1a4… 대비 `mbnas_core/src/mbnas_core/console/projection.py`만 변경, sha `7604d3f2…`; 14:13·14:21 재확인). 산출물 `$S/e3/out/`, probe `$S/e3/probe_space/`, 실기동 `$S/e3/live3/`(본문 0600).
+
+**먼저 정정**: EVAL_2의 100은 그 트리(`f00987be…`)에 대해 성립하지 않는다. 그때 이미 F1(공개 `raw_metrics.resolved_recipe`에 runner 절대경로, Major)이 있었고, 내 E17 probe는 stub runner를 썼는데 그 결과에는 `resolved_recipe`가 없어 F1을 볼 수 없었다. result_limits 25(및 "runner 절대경로는 공개 0" 판정)는 근거가 부족했다.
+
+| # | 확인 | exit | 결과 |
+|---|---|---|---|
+| F1-1 | diff 열람 `docs/internal/evidence/WP7/FIX7_DD_A75/F1/20_projection_py.diff`: `_raw_metrics`가 device id 매핑 뒤 `scrub_deep(raw)` 반환(`projection.py:289-299`), 규칙은 기존 `_ABS_PATH`(`:99`) → `<path>`, `/api/v1` 유지, pid·호스트 이름 scrub, 키는 그대로 | — | 확인 |
+| F1-2 | pytest `tests/owner/projection/test_dd_a75_raw_metrics_paths.py tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py`; pytest `tests/owner/projection` | 0 / 0 | 19 passed(15 + 4); projection 276 passed (`a75.*`, `projection.*`) |
+| F1-3 | **실기동 전체 공개 표면 probe** `$S/e3/tools/live3_surfaces.py`: dev venv(현재 트리)로 core + owner worker + `start.sh --profile public`, **모든 경로에 공백**("pub root", "own home", "data dir", "out dir"); T5 harness 사본으로 학습 2건(검증 OFF, **검증 ON → NOT_EVALUATED**) 뒤 gateway로 health·presets·registry·block-catalog·runs, run마다 run·snapshot·candidate detail·config-revisions(+YAML)·SSE replay(`events?after_seq=0`)·export(기본·`?profile=public`, 멤버 전부) 29개 본문 수집 → `$S/e3/tools/analyze_surfaces.py`가 모든 문자열 값(JSON pointer)을 표지별로 분류 | 0 | core 홈 표지(`own home`) **0건**(모든 표면). 절대경로는 사용자 입력 메아리(`resolved_protocol.console.paths`, `resolution.paths.*.requested`, export `protocol/*`), health의 gateway 자기 루트, preset 자리표시, export README의 경로 이름(`/runs/`, `/export`, `/core/v1/owner/runs/`)뿐 — 모두 설계상 허용. **runner 경로는 `raw_metrics` 안에만 남는데, `<path> root/runtime/runner/runs/runs/train-…/data_view/…/data.yaml` 형태의 꼬리로 남는다**: 검증 ON run의 `resolved_recipe.{data,model,project,save_dir}` 4값 × 8 표면(snapshot `candidates[]`·`events[].payload`, candidate detail `evaluations[]`, SSE frame, export 2종의 `evaluations.jsonl`·`events.jsonl`). 로그 payload·worker·generations·config revisions·jobs.json·artifacts.json·checkpoints.json·csv에는 runner 표지 0 (`live3_surfaces.txt`, `analyze_surfaces.txt`) |
+| F1-4 | 투영 단위 probe `$S/e3/probe_space/test_c02_spaced_path_probe.py`: DD-A75 시험의 fixture에 공백 포함 runner 경로(`/srv/mbnas public r2/…`, `/home/John Smith/…`)를 넣어 4 표면 투영 | 0 | 4 표면 모두 `"<path> public r2/mbnas_application/runtime/runner/runs/…"`, `"<path> Smith/mbnas/runtime/…"`가 남음(snapshot 12, detail 4, SSE 8, export 4건). 같은 본문에 DD-A75 시험의 검출기(`_ABS_PATH` 재사용 + 전체 경로 문자열 비교)는 **0건** — scrubber와 같은 정규식을 써서 이 꼬리를 볼 수 없다 (`spaced_path_probe.txt`) |
+
+(2) `CandidateEvaluation`/`raw_metrics`를 싣는 공개 component와 확인 결과: Snapshot `candidates[]`·`events[].payload`(candidate.updated/evaluated), CandidateDetail `evaluations[]`, SSE `candidate.*` frame, export `evaluations.jsonl`·`events.jsonl`(`evaluations.csv`에는 runner 표지 없음) — 모두 F1 수정이 적용되고 위 꼬리 문제만 있다. 그 밖에 runner가 보고한 문자열이 닿는 곳: worker(`device`·`device_name` scrub, id는 runner id/opaque), 로그 payload(`message`·`message_detail`·`checks` scrub, `path`는 owner 전용으로 제거), checkpoint 보기(id만), prune 기록(공개 키만) — F1-3에서 runner 표지 0. 로그 payload·`CandidateDetail.lineage.recipe`·`audit.orchestration.final.recipe`·`StructureReport.lineage.recipe`의 `recipe`는 core가 프로토콜 값으로 만든 최종 재학습 recipe(`orchestration/final_retrain.py:125-145`: epoch·horizon·init·rung·group, 경로 없음)라 runner 경로가 들어갈 경로가 없다(최종 재학습은 GPU 판정 경로라 실행으로는 확인 못 함).
+
+(3) `22_scrub_rule_probe.txt`의 미처리 형태 판정(0.1.0): Windows 드라이브·UNC — 검증 플랫폼이 Linux x86_64뿐(`docs/public/COMPATIBILITY.md:9`)이라 해당 없음(정보). `file://`, `~/`, `host:/path`, 사전 키 — runner는 realpath로 만든 POSIX 절대경로를 보고하고 실제 run(F1-3)에서 이런 형태·경로 키가 나오지 않았다(정보, 심층 방어 항목). **목록에 없던 실제 공백**: 공백이 든 경로는 첫 공백 앞까지만 `<path>`가 되고 나머지가 남는다 — 공백 포함 설치 경로는 T6가 검증한 지원 배치(`docs/public/INSTALL.md:3`)이므로 0.1.0 결함(D9, Minor; 아래). `//server/share`도 미처리(Linux runner가 만들지 않음, 정보).
+
+(4) 문장 판정: `mbnas_contracts/src/mbnas_contracts/runner_protocol.py:6-14`("never projects them into a public response")와 `docs/public/SECURITY_MODEL.md:96`("공개 응답에는 투영되지 않는다")는 **공백 없는 경로에 대해서는 이제 참**(F1-2, 프로젝트 실프로세스 smoke `31_real_process_postfix_v2_values.txt`: raw_metrics 일치 0, 값 `<path>`)이지만, **공백이 든 경로에 대해서는 참이 아니다**(첫 공백 뒤 경로 조각이 투영됨, F1-3·F1-4). 또 runner_protocol.py의 저장 위치 목록(`checkpoints.path`, `artifact_locations.uri`, `jobs.result_json`)에는 resolved recipe가 공개 멤버인 평가 행 `raw_metrics.resolved_recipe`에도 복사된다는 사실(지금은 scrub됨)이 빠져 있다.
+
+결함 갱신:
+| ID | 심각도 | 기준 | 소유 / 파일 | 내용 | 수정안 |
+|---|---|---|---|---|---|
+| F1 (DD-A75) | Major → **FIXED**(공백 없는 경로) | result_limits | `mbnas_core/src/mbnas_core/console/projection.py:289-299` | 위 F1-1~F1-3 | — |
+| D9 (신규) | Minor | result_limits | `projection.py:99`(`_ABS_PATH`), `:289-299`; 시험 `tests/owner/projection/test_dd_a75_raw_metrics_paths.py:56-59`, `tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py:43` | 공백이 든 runner 경로는 꼬리(호스트 디렉터리 이름·run 구조)가 공개 `raw_metrics`에 남는다(실기동 8 표면, 투영 4 표면). DD-A75 시험 검출기는 scrubber와 같은 정규식이라 이를 볼 수 없다. 사람 이름이 든 홈 경로라면 이름 일부가 남는다. 경계 넘는 owner 비밀은 아님(분리 배치에서 runner 경로는 고객 자신의 것) | `raw_metrics`(최소 `resolved_recipe`)의 문자열 값이 `/`로 시작하면(`/api/v1` 제외) 값 **전체**를 `<path>`로 바꾸거나 run 상대경로로 바꾼다(또는 경로 키 허용목록); 시험 fixture에 공백·유니코드 경로를 넣고 검출기를 비순환으로(심은 경로의 디렉터리 이름 조각이 본문에 없음을 단언); runner_protocol.py 6-14와 SECURITY_MODEL §8-6을 실제 동작에 맞춘다 |
+| D8 | Minor | customer_root | (EVAL_2와 같음) | 열림 | (EVAL_2와 같음) |
+
+채점(현재 트리 `26e02259…`): customer_root 25(변화 없음 — runner 경로는 고객 쪽 정보이고 core 비밀·owner 경로는 공개 표면 0, F1-3), core_boundary 25(변화 없음), **result_limits 20**(F1 수정은 실행 증거로 확인, 그러나 지원 배치에서 경로 조각이 남고 새 시험이 그것을 볼 수 없음 = 사소한 누락), admin_subject 25 → **95/100 PASS**(90 초과, Blocker 0, Critical 0). **EVAL_2의 100은 유지되지 않는다.** 남은 결함: D9 Minor, D8 Minor.
+
+확인 못 함: owner ZIP 재빌드본과 P2 T4/T5 재확인(진행 중 — 공백 없는 경로라면 "검증 ON 응답에 절대경로 0"을 기대하지만 공백 경로 꼬리는 그 점검 방식으로도 보이지 않을 수 있다), 최종 재학습 recipe 로그의 실제 실행(GPU 경로), 다중 고객이 core 하나를 공유할 때의 run 격리(0.1.0 범위 밖으로 보임).
+
+## Confirmation (DD-A75 F1b, ZIP 9f03c484…) — 2026-10-28 15:5x KST
+
+검증 대상: owner ZIP `dist/owner/…owner-private-runtime-linux_x86_64.zip` sha256 `9f03c484bbc8c0a2227cc325658892e3efe286d08cca9a1978383158075c2f2a`(재계산 일치), BUILD_INFO `r-07c7cef95cd73775`, source tree `8fc93f2a…`. ZIP을 `$S/e4/ownerzip/`에 풀고 `PYTHONPATH=<ZIP의 5개 패키지 src>`로 실행하면 모듈이 ZIP 쪽에서 로드되고(`projection.__file__` 확인) `source_tree_hash.py`가 `sha256:8fc93f2a596891174c2884e1697fd6003377b713102c0b21b01eb45d3f6f7312`, 공개 4패키지 `sha256:9859adb2…`(= 최종 public/registration ZIP 원천)을 낸다. 아래 시험·probe는 모두 이 ZIP 코드에서 돌렸다.
+
+**주의 — 작업 트리가 평가 중에 바뀌고 있었다**: 15:43–15:54 사이 다른 세션이 소스·문서의 docstring을 정리하고 있었다(내부 참조 제거; 트리 해시 15:45 `4a1b9e3c…` → 15:53 `8c3bfae2…`, 공개 4패키지 `cc9291b4…` → `f13233e4…`). 15:54:14에 ZIP 코드와 작업 트리를 AST로 비교하면(모든 docstring 문 제거) 111개 파일의 텍스트가 다르지만 **코드 차이는 0**이다(`$S/e4/out/ast_compare_zip_vs_tree3.txt`). 따라서 아래 판정은 동작상 현재 트리에도 해당한다. 다만 공개 패키지 텍스트가 이미 출하된 public/registration ZIP(`9859adb2…` 원천)과 달라지므로, 정리가 끝나면 ZIP과 소스의 대응을 다시 맞춰야 한다(C02 결함 아님, 기록만).
+
+| # | 확인 | exit | 결과 |
+|---|---|---|---|
+| B1 | ZIP의 `mbnas_core/src/mbnas_core/console/projection.py` 열람 | — | `_path_values`(`:291-302`): raw_metrics의 문자열 값 중 첫 공백 아닌 문자가 `/`인 것(`/api/v1` 제외)을 깊이와 상관없이 값 전체 `<path>`로 바꾸고 키는 그대로 둔다. `_raw_metrics`는 `scrub_deep(_path_values(raw))`를 반환(`:319`). docstring `:18-23`, `:306-312`에 규칙과 resolved recipe의 raw_metrics 사본이 적혀 있다 |
+| B2 | ZIP의 pytest `tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py tests/owner/api/test_dd_a75b_raw_metrics_path_values_routes.py` | 0 | **23 passed**(19 + 4). 검출기는 심은 조각 9개(공백·유니코드·NBSP 등, `:49`)를 문자 그대로와 JSON `\u` 이스케이프로 찾는다 — scrubber 정규식과 무관한 **비순환** 검출기. 양성 대조: 원래 pass-through는 9개 모두, F1 정규식만 쓰면 꼬리가 남는다(`:147-168`) (`$S/e4/out/f1b.*`) |
+| B3 | ZIP의 pytest DD-A75 시험 2개 파일; ZIP의 `tests/owner/projection` 전체 | 0 / 0 | 19 passed; **295 passed** (`f1.*`, `projection.*`) |
+| B4 | 평가자 단위 probe(EVAL_2 F1-4와 같은 공백 경로 fixture, ZIP 코드) | 0 | 4 표면(snapshot, detail, SSE, export) 모두 `data/model/project/save_dir` = `<path>`, 꼬리 0, 전체 경로 0 (`spaced_path_probe_f1b.txt`) |
+| B5 | **평가자 실기동 probe**(F1-3 방식, ZIP 코드로 core·owner worker·gateway·runner를 직접 기동; 경로에 공백과 유니코드: `pub 루트 dir`, `own home 홈`, `data dir`, `out dir`); 검증 OFF·ON 학습 뒤 공개 본문 29개 | 0 | runner 표지(`pub 루트 dir`, `루트 dir`, `runtime/runner`) **0**, core 표지(`own home`, `홈/core`, `core/runs`, `core/db`) **0**, `<path> …` 꼬리 0. 검증 ON 행의 `resolved_recipe` 4값은 `<path>`. 남은 절대경로는 모두 허용 범주(사용자 프로토콜 메아리, health의 gateway 자기 루트, preset 자리표시, export README의 경로 이름) (`live4_surfaces.txt`, `analyze_live4.txt`) |
+| B6 | P2 증거 열람 `docs/internal/evidence/T4/rerun2/attempt_dd_a75/`, `T5/rerun2/attempt_dd_a75/` | — | 둘 다 ZIP `9f03c484…` 사용(`zips_sha256_used.txt`). `pathcheck-validation-on-run` PASS: snapshot·detail·SSE replay·export에서 `fragment_other` 0, `runner_fragment_raw_bytes_hits` 0, `abs_path_other` 0, recipe 키 `<path>`(T4는 클라이언트 메아리 18건을 따로 셈). T5 t8: responses 5123 files·logs·proc(gateway, runner, core host) 0 hits, 양성 대조 검출 |
+
+판정:
+- **D9 → FIXED**(구조화된 경로 값): 원래 보고한 결함(raw_metrics의 공백 경로 꼬리 + 순환 검출기)은 B1–B6으로 해결이 확인됐다.
+- **D9b (Minor, 열림)**: 자유 텍스트 안의 공백 경로. 기존 `_ABS_PATH` scrub은 그대로라 `scrub_text("FileNotFoundError: /srv/mbnas pub r2/runtime/runner/runs/x.pt")` → `"FileNotFoundError: <path> pub r2/runtime/runner/runs/x.pt"`가 된다. raw_metrics 안에서도 `/`로 시작하지 않는 문장 속 경로는 마찬가지다(ZIP 코드로 재현). 이 텍스트가 실제로 공개되는 통로가 있다: 실패한 제안 job의 로그 `message_detail`(`mbnas_core/orchestration/engine.py:953`, owner worker 실패 문구 — core 호스트 경로라면 owner→고객 방향의 경로 조각)과 그 밖의 scrub 대상 문구. 성공 run(B5, P2)에서는 나오지 않았고 실패 경로는 실행하지 않았다. 프로젝트도 이를 기록했다: `docs/internal/evidence/WP7/FIX7_DD_A75/F1b/52_security_model_96_verdict.txt`("NOT unconditionally true", 1.5.1), 이월 #14. 그러나 출하된 공개 문서 `docs/public/SECURITY_MODEL.md:96`은 여전히 단서 없이 "공개 응답에는 투영되지 않는다"고 적는다.
+- **D8 (Minor, 열림, 변화 없음)**: `tests/owner/projection/test_runner_route_canary.py:62-64`의 필수 경로에 heartbeat·E11 경로가 여전히 없다(ZIP 사본 동일).
+- `runner_protocol.py:6-14`의 저장 위치 목록 누락은 이월 #14(공개 패키지라 편집 보류)로, D9b와 같은 문서 정정 대상이다.
+
+채점(ZIP `9f03c484…` = 트리 `8fc93f2a…`, 동작상 현재 트리와 동일):
+| 기준 | 점수 | 앵커 |
+|---|---|---|
+| customer_root | 25 | 변화 없음(B5·B6: owner·core 경로, 비밀 0) |
+| core_boundary | 25 | 변화 없음 |
+| result_limits | **20** | 구조화된 결과 값의 경로 투영은 비순환 시험·두 실기동(P2, 평가자)으로 증명됨. 다만 신뢰 한계 절의 공개 문장 1건(§8-6)이 D9b를 반영하지 않아 무조건적 주장으로 남았다 = "문서 1건·라벨" — 그 문장에 단서를 달거나(공개 문서 재빌드 필요) 자유 텍스트 규칙을 고치면 25 |
+| admin_subject | 25 | 변화 없음 |
+| **합계** | **95/100** | |
+
+판정: **PASS**(총점 > 90, Blocker 0, Critical 0). 남은 결함: D9b Minor, D8 Minor. 확인 못 함: 공백 경로가 든 **실패** 경로(제안 job 실패 등)의 실제 공개 본문, 정리 세션이 끝난 뒤의 최종 소스와 출하 ZIP의 대응.

@@ -1,0 +1,10 @@
+{
+ "old_sha256": "sha256:1b4bd1a4a45196e3c558d62507f109301973eddc180df5968ed7014a72e6708c",
+ "new_sha256": "sha256:26e02259bb83eca0cf56e7e11bd9e216d383361a57fd70082f2ff9c0c346de13",
+ "added": [],
+ "removed": [],
+ "changed": [
+  "mbnas_core/console/projection.py"
+ ],
+ "unchanged": 220
+}

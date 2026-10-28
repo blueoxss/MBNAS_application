@@ -75,7 +75,7 @@ def split_record(manifest: Any) -> dict[str, Any]:
     """The record's ``split`` block: ``roots`` (every image root of the manifest, :class:`~mbnas_model_runtime.datasets.
     manifest.Manifest` ``roots``), ``root`` (the single root, or None for a multi-root manifest: the
     ``mbnas-benchmark/1`` key that record readers such as ``scripts/runner/bench_host_gpu.py`` render), ``split_hash``
-    and the image count. (The inherited ``manifest.root`` attribute does not exist on the manifest model, DD-A49 c.)"""
+    and the image count. (The manifest model has no ``root`` attribute.)"""
     roots = [str(r) for r in manifest.roots]
     return {"roots": roots, "root": roots[0] if len(roots) == 1 else None, "split_hash": manifest.split_hash,
             "images": len(manifest.samples)}

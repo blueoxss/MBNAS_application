@@ -1,10 +1,10 @@
 """Core (owner host) settings (pydantic-settings, environment prefix ``MBNAS_CORE_``).
 
-WP-1 contract section 5 / DD-A13: the core owns the DB, the run output roots, the dataset/weights allowlists, the
-transitional owner worker and the WP-1 console app (``/api/v1``). Gateway and runner have their own classes
+The core owns the DB, the run output roots, the dataset/weights allowlists, the
+transitional owner worker and the core console app (``/api/v1``). Gateway and runner have their own classes
 (``mbnas_server.config.GatewaySettings`` / ``mbnas_runner.config.RunnerSettings``); the only thing shared at runtime
 is the common root ``MBNAS_HOME`` (:func:`mbnas_contracts.util.home.mbnas_home`), under which every default path lives.
-The former ETRI checkout root setting (the ETRI mixed pool is vendored, DD-A12), the ``archive_*`` settings (gateway)
+The former ETRI checkout root setting (the ETRI mixed pool is vendored), the ``archive_*`` settings (gateway)
 and the source-tree-relative ``SERVER_ROOT`` are gone.
 
 Secrets (``MBNAS_CORE_API_TOKEN``, ``MBNAS_CORE_ARTIFACT_SIGNING_KEY``) are optional at load time so the worker, tests
@@ -13,7 +13,7 @@ artifact service :meth:`CoreSettings.require_signing_key` at startup. An explici
 List settings accept JSON (``["a","b"]``) or comma-separated values (items may also be ``os.PathLike`` when passed as
 keyword arguments). CORS origins must be exact origins (``scheme://host[:port]``), never ``*`` or a path.
 ``output_roots`` defaults to ``[output_root]``; user model YAMLs are accepted from ``model_yaml_roots`` together with
-``output_roots`` only (WP-3 contract section 1.6; ``weights_dir`` is a checkpoint root, not a YAML root).
+``output_roots`` only (``weights_dir`` is a checkpoint root, not a YAML root).
 """
 from __future__ import annotations
 
@@ -75,7 +75,7 @@ class CoreSettings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix=ENV_PREFIX, extra="ignore", case_sensitive=False)
 
     api_token: SecretStr | None = None
-    """Bearer token of the WP-1 core console app (``/api/v1``); WP-2 replaces it with scoped principals."""
+    """Bearer token of the core console app (``/api/v1``); the ``/core/v1`` routes use scoped principals."""
     artifact_signing_key: SecretStr | None = None
     cors_origins: StrList = Field(default_factory=list)
     db_path: str = Field(default_factory=_home_default("core", "db", "mbnas.sqlite3"))
@@ -104,33 +104,33 @@ class CoreSettings(BaseSettings):
     placeholders, see :func:`mbnas_core.protocol.presets.preset_paths`)."""
     preset_output_root: str | None = None
     """Directory under which the preset example ``console.paths.output_root`` values are placed (unset: placeholder)."""
-    # -- WP-2 remote runner protocol (contract section 1.8) --------------------------------------------------------
+    # -- remote runner protocol ------------------------------------------------------------------------------------
     ticket_key: SecretStr | None = None
     """HMAC-SHA256 key of the per-claim job tickets (``mbnas_core.runner_api.tickets``). Unset: the app derives a random
     per-process key at startup (tickets then do not survive a core restart; set it in production)."""
     runner_body_limit_bytes: int = Field(default=32 << 20, gt=0)
-    """Request body limit of the ``/core/v1/runner`` routes (DD-A18 / design D6: 32 MiB); other routes keep
+    """Request body limit of the ``/core/v1/runner`` routes (32 MiB); other routes keep
     ``max_request_body_bytes``."""
     device_source: Literal["local", "runners"] = "local"
-    """Validation device inventory: ``local`` = NVML of this host (WP-1 behaviour), ``runners`` = devices of the
+    """Validation device inventory: ``local`` = NVML of this host, ``runners`` = devices of the
     registered runners (``protocol.validator.devices_from_runners``). Env ``MBNAS_CORE_DEVICE_SOURCE``."""
     remote_retention_policy: RetentionPolicy = "keep_all"
-    """DEPRECATED, ignored since runner protocol 1.1.0 (DD-A66): remote runs apply their own policy through the prune
+    """DEPRECATED, ignored since runner protocol 1.1.0: remote runs apply their own policy through the prune
     round trip (``orchestration.retention``). Kept only so existing env files (``MBNAS_CORE_REMOTE_RETENTION_POLICY``)
-    still load; formerly the policy forced on runs executed by remote runners (WP-5, design D7)."""
+    still load; formerly the policy forced on runs executed by remote runners."""
     sweeper_enabled: bool = True
     """Run the core sweeper thread (lease reclaim, runner liveness, idempotency orphans) inside the API process."""
     ticket_ttl_s: int = Field(default=7 * 24 * 3600, gt=0)
     """Lifetime of a claim ticket (it must outlive the longest attempt; the fence still bounds what it can do)."""
-    # -- WP-3A console split, structure-check sandbox, YAML limits (WP-3 contract section 1) -------------------------
+    # -- console split, structure-check sandbox, YAML limits ---------------------------------------------------------
     expose_legacy_api: bool = False
     """Also mount the console routes at ``/api/v1`` behind the static ``api_token`` (owner-mode local debugging only;
     env ``MBNAS_CORE_EXPOSE_LEGACY_API``). The canonical console mount is ``/core/v1/console`` (scope server|admin)."""
     structure_check_max_input: int = Field(default=1280, ge=32)
     """Largest ``input_size`` an explicit structure check accepts (larger: 422 ``INPUT_SIZE_INVALID``)."""
     structure_sandbox: bool = True
-    """Run explicit console structure checks in the ``mbnas_core.structure.check_worker`` subprocess sandbox
-    (REMOTE_PROTOCOL_DESIGN 10.2). False keeps the in-process check (library/test use only)."""
+    """Run explicit console structure checks in the ``mbnas_core.structure.check_worker`` subprocess sandbox.
+    False keeps the in-process check (library/test use only)."""
     sandbox_in_proposer: bool = False
     """Also sandbox ``SearchSpace.inspect`` inside the PROPOSE_GENERATION child (already an isolated child process)."""
     structure_check_timeout_s: float = Field(default=300.0, gt=0)
@@ -140,8 +140,8 @@ class CoreSettings(BaseSettings):
     structure_check_cpu_s: int = Field(default=900, gt=0)
     """RLIMIT_CPU (CPU seconds summed over all threads) of the sandbox."""
     structure_check_as_bytes: int = Field(default=8 << 30, gt=0)
-    """RLIMIT_AS of the sandbox (8 GiB). Measured on the owner host (WP-3A evidence ``3A/sandbox_rlimit_as.txt``,
-    sandboxed worker, OMP_NUM_THREADS=4): torch + ultralytics import alone maps ~5.3 GiB of address space; the
+    """RLIMIT_AS of the sandbox (8 GiB). Measured on the owner host (sandboxed
+    worker, OMP_NUM_THREADS=4): torch + ultralytics import alone maps ~5.3 GiB of address space; the
     heaviest registry checks at the largest accepted input (yolo11x / rt-detr-x at 1280) fail at 5 GiB and pass at
     6 GiB, rf-detr-large passes at 5 GiB, the ETRI hybrid at 4 GiB. 8 GiB = measured need + ~33 % headroom."""
     structure_check_nofile: int = Field(default=1024, gt=16)

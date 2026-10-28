@@ -1,10 +1,10 @@
 /**
  * Named fitness weights on the Settings screen: input hygiene only.
  *
- * The fitness value, its rewards and the gate decision are computed by the server and only displayed here (DD-A8: the
+ * The fitness value, its rewards and the gate decision are computed by the server and only displayed here (the
  * client never recomputes fitness). What stays is the weight-sum check of the user's own input, which mirrors the
  * public contract error code WEIGHTS_SUM_NOT_ONE: |sum - 1| <= 1e-6, never auto-normalised.
- * 근거 테스트: tests/fitness_weights.test.ts; 사용처 src/lib/validate.ts, src/screens/Settings.tsx.
+ * 사용처: src/lib/validate.ts, src/screens/Settings.tsx.
  */
 
 export const WEIGHT_TOLERANCE = 1e-6;

@@ -1,0 +1,51 @@
+2026-10-28T05:10:53Z
+$ CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 runtime/venv/bin/python -B -m pytest -p no:cacheprovider -m 'not gpu and not live and not legacy_records and not host_data' -q tests/owner/qa
+......................s................................................. [ 22%]
+........................................................................ [ 45%]
+...............................2026-10-28T05:13:47.874Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-3325d21a53d5/events?after_seq=151 status=200 request_id=1d5bb1a62aaf43868d339bc79475a2c6 duration_ms=35.2 client=127.0.0.1:50000
+2026-10-28T05:13:47.875Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-3325d21a53d5/events?after_seq=151 status=200 request_id=1d5bb1a62aaf43868d339bc79475a2c6 duration_ms=41.2 client=127.0.0.1:50226
+.2026-10-28T05:13:50.045Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-5e35c60d9dfb/events?after_seq=151 status=200 request_id=4e6e510c84034252b1c9b8c6591b99d9 duration_ms=28.1 client=127.0.0.1:50000
+2026-10-28T05:13:50.046Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-5e35c60d9dfb/events?after_seq=151 status=200 request_id=4e6e510c84034252b1c9b8c6591b99d9 duration_ms=31.2 client=127.0.0.1:57582
+.2026-10-28T05:13:52.260Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-1497836906ee/events?after_seq=151 status=200 request_id=7a896f1688ad455484811a3abaaa63ad duration_ms=34.3 client=127.0.0.1:50000
+.2026-10-28T05:13:54.693Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-932bce900529/events?after_seq=151 status=200 request_id=466805d6b56247de896d9ba530649d16 duration_ms=30.5 client=127.0.0.1:50000
+2026-10-28T05:13:54.694Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-932bce900529/events?after_seq=151 status=200 request_id=466805d6b56247de896d9ba530649d16 duration_ms=34.3 client=127.0.0.1:50388
+.2026-10-28T05:13:56.834Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-2e2074f11b88/events?after_seq=151 status=200 request_id=fe73f8e38e154c178f0f8f124e6d3568 duration_ms=30.8 client=127.0.0.1:50000
+2026-10-28T05:13:56.834Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-2e2074f11b88/events?after_seq=151 status=200 request_id=fe73f8e38e154c178f0f8f124e6d3568 duration_ms=34.4 client=127.0.0.1:46366
+.2026-10-28T05:13:59.032Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-1b53c8376d95/events?after_seq=151 status=200 request_id=6629397017f44ee98c021dced9661e4c duration_ms=20.3 client=127.0.0.1:38546
+.2026-10-28T05:14:01.119Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-f49e1a9cdbe6/events?after_seq=151 status=200 request_id=58e93dad8f504609acf52d805ff55c7a duration_ms=28.6 client=127.0.0.1:50000
+2026-10-28T05:14:01.120Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-f49e1a9cdbe6/events?after_seq=151 status=200 request_id=58e93dad8f504609acf52d805ff55c7a duration_ms=32.1 client=127.0.0.1:55966
+.2026-10-28T05:14:03.255Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-4f5e0609eff2/events status=200 request_id=f6401ca3cbc645c38a76afedb3af4d02 duration_ms=31.1 client=127.0.0.1:50000
+2026-10-28T05:14:03.255Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-4f5e0609eff2/events status=200 request_id=f6401ca3cbc645c38a76afedb3af4d02 duration_ms=34.6 client=127.0.0.1:51612
+.2026-10-28T05:14:05.371Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-581cc5c1125c/events status=200 request_id=5167802a14de42508f980d53427cc62a duration_ms=30.9 client=127.0.0.1:50000
+2026-10-28T05:14:05.372Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-581cc5c1125c/events status=200 request_id=5167802a14de42508f980d53427cc62a duration_ms=34.5 client=127.0.0.1:45130
+.2026-10-28T05:14:07.476Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-49256cb16fad/events?after_seq=9999999999999999999999999999999999999999 status=200 request_id=997a74f9b9a946bfadf61e80296e648c duration_ms=32.7 client=127.0.0.1:50000
+2026-10-28T05:14:07.477Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-49256cb16fad/events?after_seq=9999999999999999999999999999999999999999 status=200 request_id=997a74f9b9a946bfadf61e80296e648c duration_ms=36.6 client=127.0.0.1:51978
+.2026-10-28T05:14:10.499Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-d94f6ad53196/events?after_seq=178 status=200 request_id=3f30147e52544ee5914a44b0f0bb72fb duration_ms=422.7 client=127.0.0.1:50000
+2026-10-28T05:14:10.500Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-d94f6ad53196/events?after_seq=178 status=200 request_id=3f30147e52544ee5914a44b0f0bb72fb duration_ms=425.7 client=127.0.0.1:51258
+..2026-10-28T05:14:15.571Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-4834c102e60e/events?after_seq=148 status=200 request_id=f624cea905ee458eba8ec884f5e8bf3e duration_ms=375.7 client=127.0.0.1:50000
+2026-10-28T05:14:15.571Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-4834c102e60e/events?after_seq=148 status=200 request_id=f624cea905ee458eba8ec884f5e8bf3e duration_ms=401.2 client=127.0.0.1:52306
+.2026-10-28T05:14:22.007Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-2ab3a340d6e6/events status=200 request_id=dad392da2e924d47b874618a5efc45e1 duration_ms=1257.3 client=127.0.0.1:59282
+.2026-10-28T05:14:24.228Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-5bacff292c76/events?after_seq=153 status=200 request_id=f19f9fd6bd9245f1a445c54d77f78674 duration_ms=33.3 client=127.0.0.1:50000
+2026-10-28T05:14:24.229Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-5bacff292c76/events?after_seq=153 status=200 request_id=f19f9fd6bd9245f1a445c54d77f78674 duration_ms=37.4 client=127.0.0.1:53216
+........................... [ 68%]
+........................................................................ [ 91%]
+..........................                                               [100%]
+=============================== warnings summary ===============================
+tests/owner/qa/test_api_matrix.py::test_lost_response_retries_never_duplicate_runs_jobs_or_events
+  <ROOT>/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/health]
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/registry]
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/runs]
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/runs/run-x/snapshot]
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/runs/run-x/events]
+tests/owner/qa/test_security_negatives.py::test_token_in_url_or_cookie_is_never_accepted[/api/v1/runs/run-x/export]
+  <ROOT>/runtime/venv/lib/python3.10/site-packages/starlette/testclient.py:463: DeprecationWarning: Setting per-request cookies=<...> is being deprecated, because the expected behaviour on cookie persistence is ambiguous. Set cookies directly on the client instance instead.
+    return super().request(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/owner/qa/test_benchmark_evidence.py:152: no blocked-target evidence
+313 passed, 1 skipped, 5 deselected, 7 warnings in 240.87s (0:04:00)
+PYTEST_EXIT=0 seconds=243

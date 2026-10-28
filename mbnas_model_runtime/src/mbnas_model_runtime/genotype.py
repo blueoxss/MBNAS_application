@@ -8,7 +8,7 @@ Contract:
 * :func:`inspect_genotype` builds the model on CPU with ultralytics ``DetectionModel`` (which also runs its own
   stride forward), then runs one reference forward at the protocol ``imgsz`` with forward hooks, giving per-row
   input/output channels, spatial size and stride. Any exception is captured as ``ok=False`` with the reason.
-* Per top-level layer the reference forward also records (mbnas-structure/2, WP-S1): the shapes that actually
+* Per top-level layer the reference forward also records (mbnas-structure/2): the shapes that actually
   reached the layer per source (pre-hook ``inputs``), every tensor it produced (``outputs``), the observed repeat
   count (``len(m.m | m.blocks | Sequential)``), the ``nn.Sequential`` wrapper ultralytics builds for a non-repeat
   module with n>1, detection-head ``stride``/``nl``/``end2end`` and the per-block ``named_modules()`` listing in which
@@ -147,7 +147,7 @@ class Genotype:
         return canonical_sha256(self.yaml)
 
 
-# -- declared-YAML allowlist and argument schema (SECURITY_BASELINE R5, WP-3 contract section 1.5) -----------------
+# -- declared-YAML allowlist and argument schema -------------------------------------------------------------------
 @dataclass(frozen=True)
 class DeclaredLimits:
     """Bounds of a declared model YAML checked by :func:`validate_declared` before anything is built."""

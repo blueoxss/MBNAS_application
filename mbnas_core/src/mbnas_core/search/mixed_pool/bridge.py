@@ -1,4 +1,4 @@
-"""Bridge between the search space and the vendored ETRI mixed operator pool (DD-A12; WP-1 contract section 6.4).
+"""Bridge between the search space and the vendored ETRI mixed operator pool.
 
 Replaces the former bridge to an external ``ETRI_NAS`` checkout: nothing is put on ``sys.path``, no ``.git`` is read
 and no environment gate (``ETRI_NAS_MIXED``) is set. The pool consists of three vendored files whose installed bytes

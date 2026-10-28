@@ -13,7 +13,7 @@ rejected as ``FORMAT_UNKNOWN``.
 Verdict: PASS = counters/LR/optimizer/RNG exact and weights bitwise; TOLERANCE = counters/LR exact, weights differ
 (max-abs reported; e.g. RT-DETR's nondeterministic grid_sample backward); FAIL otherwise.
 
-Paths are parameters (never fixed host paths; WP-G2 G2-3 adaptation for the split tree):
+Paths are parameters (never fixed host paths):
 
 * ``--data-root`` (env ``MBNAS_RESUME_DATA_ROOT``, required): a PILOT-layout dataset directory with ``data.yaml``
   (``names``) and the train / search-validation image directories ``--train-dir`` / ``--val-dir`` (relative to the data
@@ -76,7 +76,7 @@ def _setup(workdir: Path, protocol_json: str, data_root: str | os.PathLike[str],
     from mbnas_model_runtime.datasets.yolo_view import build_yolo_view
 
     view = build_yolo_view(workdir / "data_view", {"train": train, "val": val}, names)
-    proto = json.loads(Path(protocol_json).read_text(encoding="utf-8"))  # WP-1 §11: owner-generated file
+    proto = json.loads(Path(protocol_json).read_text(encoding="utf-8"))  # owner-generated file
     return DataSpec(names, train, val, view_root=view.parent), names, proto, {}, canonical_sha256(proto)
 
 

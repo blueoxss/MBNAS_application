@@ -1,12 +1,11 @@
-"""Where the bytes of an artifact or checkpoint live, as the core records it (WP-5B; DD-A6, DD-A38, DD-A39; WP-5 contract
-section 2; SECURITY_BASELINE R8).
+"""Where the bytes of an artifact or checkpoint live, as the core records it.
 
 The core never holds runner bytes; ``artifact_locations`` rows (schema v4) say where they are:
 
 * ``runner_local`` - written by the runner routes E6 (checkpoints) / E7 (artifacts) when a runner registers a file of
   its run directory (``verified_by = runner:<id>``). "Present on the runner's disk" never makes anything downloadable;
 * ``server_store`` - written by :func:`report_server_store` when the GATEWAY reports that it found the bytes in its
-  content-addressed store (``<store>/<sha256[:2]>/<sha256>``, DD-A39) and re-computed their SHA-256 (``verified_by =
+  content-addressed store (``<store>/<sha256[:2]>/<sha256>``) and re-computed their SHA-256 (``verified_by =
   store``, route ``POST /core/v1/console/artifacts/{id}/locations``). One row per object, updated in place
   (``relpath`` = the store key ``<sha256[:2]>/<sha256>``);
 * no location row at all - the core registered a file of its own run directory itself
@@ -15,7 +14,7 @@ The core never holds runner bytes; ``artifact_locations`` rows (schema v4) say w
 
 :func:`gateway_record` is the run-scoped record the gateway downloads by (``GET
 /core/v1/console/runs/{run_id}/artifacts/{id}/record``): an artifact id of the run first, else a checkpoint id of the
-same run (checkpoints have no ``artifacts`` row; the WP-5C store meta records the checkpoint id as ``artifact_id``).
+same run (checkpoints have no ``artifacts`` row; the store meta records the checkpoint id as ``artifact_id``).
 ``state`` follows the locations: a runner object is READY only when a ``server_store`` row is PRESENT for the record's
 digest (LOAD_FAILED / MISSING when the gateway reported that, else NOT_READY); a core object keeps its registry state.
 The record carries no path, no runner id and only the public metadata keys of the ``Artifact`` view.
@@ -95,7 +94,7 @@ def _checkpoint_row(conn: sqlite3.Connection, run_id: str, checkpoint_id: str) -
 
 def is_runner_object(locations: Sequence[Mapping[str, Any]]) -> bool:
     """True when a runner registered the object (a ``runner_local`` location exists): its bytes are not the core's own,
-    so the core must neither serve nor judge them from its own disk (DD-A39; T7 finding f2)."""
+    so the core must neither serve nor judge them from its own disk."""
     return any(loc.get("store") == RUNNER_LOCAL for loc in locations)
 
 
@@ -169,7 +168,7 @@ def effective_states(conn: sqlite3.Connection, run_id: str) -> dict[str, str]:
 
 def checkpoint_states(conn: sqlite3.Connection, run_id: str) -> dict[str, str]:
     """``{checkpoint id: PRESENT | PRUNED | MISSING}`` from the recorded locations, for the checkpoints of a run that
-    have location rows (registered by a runner, E6). DD-A34 leftover: a core-local ``os.path.isfile`` (the view of
+    have location rows (registered by a runner, E6). A core-local ``os.path.isfile`` (the view of
     ``orchestration.retention.checkpoint_views``) cannot see a runner's disk or the gateway store. PRUNED = the row
     records the retention deletion and no verified store copy exists; PRESENT = a location is PRESENT (``runner_local``:
     the runner holds it, resumable there; ``server_store``: verified in the gateway store, downloadable); MISSING =

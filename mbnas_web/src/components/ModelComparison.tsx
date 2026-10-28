@@ -8,7 +8,7 @@ import { DataTable, type Column } from './DataTable';
 import { SelectField } from './ui';
 
 /**
- * DD-45: the recorded run conditions of one evaluation row, so that two candidates of a console run are compared with their
+ * The recorded run conditions of one evaluation row, so that two candidates of a console run are compared with their
  * conditions beside them. Every value is read from the row (or, for the dataset yaml, from the run protocol both rows share);
  * a missing value is null ("기록 없음"), never inferred, and a null on either side is not compared.
  */
@@ -98,7 +98,7 @@ export function ModelComparison({ c, blocks, all, client, runId, structure, data
     { key: 'left', header: c.name, cell: (row) => <span className="mono wrap-any">{config(row.position, 'a')}</span> },
     { key: 'right', header: other?.name ?? '비교 모델', cell: (row) => <span className="mono wrap-any">{config(row.position, 'b')}</span> },
   ];
-  // DD-45: left = the row shown, right = the row the model list shows for the other candidate (else its latest evaluation row of the detail)
+  // left = the row shown, right = the row the model list shows for the other candidate (else its latest evaluation row of the detail)
   const otherRow = otherId ? (options.find((candidate) => candidate.candidate_id === otherId) ?? (other?.evaluations ?? []).slice(-1)[0] ?? null) as Candidate | null : null;
   const recorded = useMemo(() => {
     if (!other) return null;

@@ -1,0 +1,148 @@
+{
+ "schema": "mbnas.snapshot_compare/1",
+ "generated_at": "2026-10-28T05:47:41.239457+00:00",
+ "tool": {
+  "python": "3.10.22",
+  "script": "scripts/dev/snapshot_compare.py",
+  "sha256": "49caebe7944109393ba807217e9774fd6beff627e01f475f0496cbed08cb699e",
+  "snapshot_copy_sha256": "da589d04886070673a1e0334be08047e657feaee8b38f7cfbdb176bce47e901e"
+ },
+ "inputs_sha256": {
+  "docs/internal/provenance/SOURCE_SNAPSHOT_MANIFEST.jsonl": "c756c9873bae9fc8587d3cb082047d4cf92a69a20a1106e3d7c71f2523bcbbe2",
+  "docs/internal/provenance/SOURCE_SNAPSHOT_SUMMARY.json": "a552c1596e7894a353212c23e043260204689184c52eea4900f93b9a2a9fae89",
+  "docs/internal/provenance/SOURCE_SNAPSHOT_DELTA_20261023T220106.jsonl": "d612385cbd5062fb1d2b76eea61686ea49714e2efc6680c9c5a127088dc45386",
+  "docs/internal/provenance/SOURCE_SNAPSHOT_DELTA_20261026T194059.jsonl": "c7832a914e31e53b4777ff2783e6d1ee4af601a16703a8ae52191e84951a9624"
+ },
+ "manifest_rows": 603,
+ "snapshot": {
+  "rows": 603,
+  "match": 603,
+  "differ": 0,
+  "missing": 0,
+  "extra_files": 0,
+  "pyc_files": 0,
+  "pycache_dirs": 0,
+  "differ_paths": [],
+  "missing_paths": [],
+  "extra_paths": [],
+  "ok": true
+ },
+ "delta_chain": {
+  "delta_files": [
+   "SOURCE_SNAPSHOT_DELTA_20261023T220106.jsonl",
+   "SOURCE_SNAPSHOT_DELTA_20261026T194059.jsonl"
+  ],
+  "delta_rows": 57,
+  "paths": 51,
+  "last_row_equals_manifest": 51,
+  "last_row_differs": 0,
+  "supersedes_links_ok": 6,
+  "supersedes_links_bad": 0,
+  "rows_superseded_by_a_later_delta": 6,
+  "rows_without_supersedes(new files)": 6,
+  "summary_deltas_listing_mismatch": [],
+  "differ_paths": [],
+  "bad_link_paths": [],
+  "ok": true
+ },
+ "summary": {
+  "manifest_counts": {
+   "files": 603,
+   "bytes": 10373926,
+   "by_status": {
+    "tracked_clean": 416,
+    "tracked_modified": 93,
+    "untracked": 94
+   },
+   "by_role_group": {
+    "application-docs(owner)": 62,
+    "application-readme": 1,
+    "archive-design(owner)": 2,
+    "config-examples": 4,
+    "contracts": 35,
+    "deploy-examples": 3,
+    "etri-full-runtime(reference)": 10,
+    "etri-mixed-pool-runtime": 10,
+    "handoff-docs(owner)": 11,
+    "paper-manifest(owner reference)": 1,
+    "paper-manuscript(owner reference)": 1,
+    "server-docs": 35,
+    "server-env-example": 1,
+    "server-envlock": 1,
+    "server-lock": 1,
+    "server-manifest": 1,
+    "server-readme": 1,
+    "server-scripts": 14,
+    "server-source": 147,
+    "server-tests": 131,
+    "stack-script": 1,
+    "web-e2e": 11,
+    "web-e2e-config": 3,
+    "web-entry": 1,
+    "web-lock": 1,
+    "web-manifest": 1,
+    "web-readme": 1,
+    "web-scripts": 1,
+    "web-source": 63,
+    "web-tests": 46,
+    "web-tsconfig": 1,
+    "web-vite-config": 1
+   }
+  },
+  "summary_counts": {
+   "files": 603,
+   "bytes": 10373926,
+   "by_status": {
+    "tracked_clean": 416,
+    "tracked_modified": 93,
+    "untracked": 94
+   },
+   "by_role_group": {
+    "application-docs(owner)": 62,
+    "application-readme": 1,
+    "archive-design(owner)": 2,
+    "config-examples": 4,
+    "contracts": 35,
+    "deploy-examples": 3,
+    "etri-full-runtime(reference)": 10,
+    "etri-mixed-pool-runtime": 10,
+    "handoff-docs(owner)": 11,
+    "paper-manifest(owner reference)": 1,
+    "paper-manuscript(owner reference)": 1,
+    "server-docs": 35,
+    "server-env-example": 1,
+    "server-envlock": 1,
+    "server-lock": 1,
+    "server-manifest": 1,
+    "server-readme": 1,
+    "server-scripts": 14,
+    "server-source": 147,
+    "server-tests": 131,
+    "stack-script": 1,
+    "web-e2e": 11,
+    "web-e2e-config": 3,
+    "web-entry": 1,
+    "web-lock": 1,
+    "web-manifest": 1,
+    "web-readme": 1,
+    "web-scripts": 1,
+    "web-source": 63,
+    "web-tests": 46,
+    "web-tsconfig": 1,
+    "web-vite-config": 1
+   }
+  },
+  "differences": {},
+  "ok": true
+ },
+ "ok": true,
+ "elapsed_s": 0.05,
+ "command": [
+  "python",
+  "-I",
+  "scripts/dev/snapshot_compare.py",
+  "--json-out",
+  "docs/internal/evidence/WP7/PFINAL2/gates_r4/snapshot_compare.json"
+ ],
+ "exit_code": 0
+}

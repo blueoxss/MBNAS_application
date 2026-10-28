@@ -1,0 +1,116 @@
+FIX7 / DD-A75 F1 (core only) - the public projection never sends a host absolute path in raw_metrics.
+Commands actually run and their results; written 2026-10-28 14:01 KST (times KST = UTC+9 unless marked Z).
+Brief: <scratchpad>/wp3/fix7_f1.txt; decision docs/internal/DECISIONS.md DD-A75 (line 92). This file is the index of
+docs/internal/evidence/WP7/FIX7_DD_A75/F1/ (there is no SUMMARY.md on purpose).
+
+cwd TARGET_ROOT = /home/mgjeong/Desktop/etri_hd/mbnas_application; interpreter runtime/venv/bin/python (3.10; the five
+packages are editable installs of this source tree). Every suite / process: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1;
+pytest -p no:cacheprovider -m "not gpu and not live and not legacy_records and not host_data" (pyproject addopts add
+-ra --import-mode=importlib, timeout 600). Suites were run by a scratchpad wrapper (run_suite.sh) that writes into each
+NN_*.txt: start time, env, the sha256 of projection.py at start, the exact command, the full pytest output, the exit
+code and the wall time. Not touched: runner, gateway, mbnas_contracts, mbnas_web, docs/public, dist/, git state, GPU,
+/data, /home/mgjeong/Desktop/etri_hd/etri_nas.
+
+1. Cause (read-only confirmation)
+   contract 1.5.0: raw_metrics is declared only at CandidateEvaluation.properties.raw_metrics (closed allowlist; its
+   member resolved_recipe has the empty schema {}, so the walk copies it verbatim). CandidateEvaluation is referenced by
+   Snapshot.candidates[], CandidateDetail.evaluations[] and Event.allOf[0].then.payload (types candidate.updated |
+   candidate.evaluated); Snapshot.events[] -> Event.
+   code paths (line numbers of the fixed file):
+     snapshot          console/routes_runs.py:332 contract_json("Snapshot") -> console/deps.py:64 project_public
+     candidate detail  console/routes_runs.py:367 contract_json("CandidateDetail") -> console/deps.py:64
+     SSE frames        console/routes_stream.py:32 format_event -> project_public("Event"); projection._event (:401)
+                       leaves candidate.* payloads to the schema walk -> allOf if/then -> $ref CandidateEvaluation
+     export bundle     export/bundle.py:252 (CandidateEvaluation rows), :261 (CandidateDetail), :283 (events.jsonl)
+   all of them reach projection._evaluation (:318) -> _raw_metrics (:327), which before the fix only mapped device
+   uuids. Core emits candidate rows only as candidate.updated (engine.put_row default) / candidate.evaluated
+   (engine.py:665); no other event type or component carries raw_metrics. Origin (left as is):
+   mbnas_runner/training/handlers.py:212 resolved_recipe -> engine.commit_not_evaluated copies every payload member
+   except RAW_EXCLUDED into the stored raw_metrics.
+
+2. Fix  (diff -> 20_projection_py.diff; sha256 320398a0aaf4... -> 7604d3f2cbea...)
+   mbnas_core/src/mbnas_core/console/projection.py:299  _raw_metrics returns scrub_deep(raw) after the device-id mapping
+   (was: return raw); :290-292 its docstring; :19-21 the module docstring's scrub rule names raw_metrics (DD-A75).
+   scrub_deep (:141) read first: str -> scrub_text, recurses dicts and lists, keys unchanged, non-strings unchanged, new
+   objects (stored rows untouched). scrub_text (:129): _ABS_PATH -> <path> (strings starting /api/v1 kept),
+   pid=<n> -> pid=<pid>, this host's name (dev1) -> <host>. Behaviour table: 22_scrub_rule_probe.txt.
+
+3. New tests (tests/owner only; tests/public untouched)
+   tests/owner/projection/test_dd_a75_raw_metrics_paths.py   15 tests, projection level, contract-valid synthetic row:
+     (a) Snapshot candidates[] + events[].payload, (b) CandidateDetail evaluations[], (c) SSE frames of
+     routes_stream.format_event, + export row: no _ABS_PATH match outside /api/v1 in the JSON text; (d) /api/v1, non-path
+     strings (yolo11n.yaml, FP16, mbnas-mixed-space/3, weights/last.pt), numbers/bool/null, keys, device_id mapping
+     kept, stored row unchanged, bodies contract-valid; (e) the fixture holds the 6 paths + the pre-DD-A75 _raw_metrics
+     (monkeypatched) leaks them on all 4 surfaces.
+   tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py   4 tests, route level: a run created through the gateway,
+     a validation-ON NOT_EVALUATED row stored by engine.put_row (also emits candidate.updated), then gateway snapshot,
+     candidate detail, SSE replay (real uvicorn) and export: raw_metrics free of _ABS_PATH matches, planted runner paths
+     absent from the whole body, values <path>; positive control: stored row and stored event still hold the paths.
+   on the PRE-fix code   11_new_test_on_prefix_code.txt          8 failed, 7 passed  ((a)-(d) x 4 surfaces fail; controls pass)
+                         12_new_route_test_on_prefix_code.txt    3 failed, 1 passed  (positive control passes)
+   on the fixed code     21_new_tests_on_fixed_code.txt         19 passed
+
+4. Suites (pre-fix baseline 13:42-13:53, projection.py 320398a0...; post-fix from 13:59, projection.py 7604d3f2...)
+   suite                                                   pre-fix (10_*)                        post-fix (4N_*)
+   tests/owner/projection                                  261 passed                            276 passed (+15 new)
+   tests/public/runner/{test_official_evaluation_payload,  19 passed                             19 passed
+     test_dd_a60_cpu_evaluation,test_runner_device_used}
+     + tests/owner/runner_protocol/test_device_used.py
+   tests/owner/api                                         215 passed                            219 passed (+4 new)
+   tests/owner/console                                     not present in this tree              not present
+   tests/public (full)                                     1190 passed, 1 skipped, 44 deselected 1190 passed, 1 skipped, 44 deselected
+   failed / errors: 0 in every run, pre-fix and post-fix (the 1 skip is tests/public/server/test_routes.py:306
+   "mini run absent", the same before and after). No existing test expected the old pass-through; none
+   was changed, deselected or weakened.
+
+5. Real process (CPU only; core + owner worker + REAL ultralytics runner + gateway, 127.0.0.1 ephemeral ports;
+   f1_raw_metrics_paths_smoke.py reusing the unchanged FIX5/WP3 smoke classes; --device-source runners, so the core
+   never queried this host's GPUs; benchmark.device = cpu; smoke roots in the session scratchpad, not in the repo)
+   POST /api/v1/training-runs (uploaded yolo11n, 1 epoch, 64 px, validation_enabled=true) -> COMPLETED, 1 BASELINE_TRAIN
+   job SUCCEEDED on smoke-runner-1, row SEARCH_COMPLETE / NOT_EVALUATED / EVALUATION_REQUIRES_CUDA, device_used cpu;
+   stored raw_metrics.resolved_recipe (123 keys) holds absolute data, model, project, save_dir (positive control).
+   Bodies through the gateway: snapshot, candidate detail, SSE replay seq 1..12, export zip (default profile).
+     run (script)        code       raw_metrics _ABS_PATH matches   stored recipe paths verbatim   result
+     prefix  (v1) 13:52  pre-fix    24 (snapshot 8, detail 4, SSE 4, export evaluations.jsonl 4 + events.jsonl 4)
+                                                                     20                            PASS (expect leak)
+     postfix (v1) 13:55  fixed       0                               0                             PASS (expect clean)
+     postfix_v2   13:56  fixed       0                               0; the 4 keys present = <path> in every body
+                                                                                                   PASS (expect clean)
+   evidence: 30_real_process_prefix.txt, 30_real_process_postfix.txt, 31_real_process_postfix_v2_values.txt (+ _console).
+   v2 of the script (f1_raw_metrics_paths_smoke.py, sha256 ed716679...) = v1 (f1_raw_metrics_paths_smoke.v1.py,
+   sha256 a5f572c7..., used for prefix and postfix) + one reporting field (projected values of those keys); same scan
+   and verdict logic. GPU: nvidia-smi compute apps sampled during each run: no process of this tree (step
+   no-own-process-on-gpu). Matches OUTSIDE raw_metrics, identical before and after (not F1, not judged here): 23 = the
+   client-provided path echo snapshot run.resolved_protocol.console.paths.* / resolution.paths.*.requested (9) and the
+   export protocol/requested.json (5) + protocol/resolved.json (9) (P2 T4 classified this class separately), plus 4
+   regex hits in the export README.txt that are the static route names /runs/, /export, /core/v1/owner/runs/, /export.
+
+6. Source tree hash (scripts/dev/source_tree_hash.py, mbnas-source-tree/2, five packages; __pycache__/*.pyc excluded)
+   before 13:37  sha256:1b4bd1a4a45196e3c558d62507f109301973eddc180df5968ed7014a72e6708c (221 files; = PFINAL2 gates_r2)
+   after         sha256:26e02259bb83eca0cf56e7e11bd9e216d383361a57fd70082f2ff9c0c346de13 (221 files; 14:09, after all suites)
+   manifest diff (--diff 00_tree_manifest_before.json 50_tree_manifest_after.json -> 51_tree_manifest_diff.json):
+   changed [mbnas_core/console/projection.py], added [], removed [], unchanged 220.
+
+7. Other checks
+   23_placement_coverage_readonly.txt  placement_coverage --format text: 221/221, exit 0, sha drift (informational) 43
+     (projection.py now drifts; F1 may not edit docs/internal/provenance/PLACEMENT_MANIFEST.jsonl, so no "modified"
+     row was appended - left to the coordinator; the manifest is byte-unchanged).
+   build/allowlists/public.txt:131-133 and registration.txt:130-132 list mbnas_core/**, tests/owner/**, docs/internal/**
+     as owner-only parts that never ship: no file changed here is a public/registration member (read, not rebuilt).
+
+8. Incident (corrected)
+   Several early read-only inspection commands of this session ran the interpreter without PYTHONDONTWRITEBYTECODE/-B;
+   two of them wrote 19 bytecode files into mbnas_contracts/src and mbnas_core/src (13:37:39: the first contract
+   inspection; 13:53:08-09: an import of mbnas_core.export.bundle for the README check). They were removed
+   (and the 7 __pycache__ directories they had created, then empty); the tree hash excludes __pycache__/*.pyc, so no
+   hash was affected. mbnas_contracts/src/mbnas_contracts/__pycache__/__init__.cpython-310.pyc (13:36:50) predates the
+   first interpreter call of this session and was left in place. Every later call used -B.
+
+9. Not verified / limits
+   - T4 (bwrap) and T5 (docker + host core) themselves were not re-run here (P2 re-runs them); no EVALUATED GPU row was
+     produced in a real process (no GPU allowed) - the same _raw_metrics code handles it (unit tests cover any row).
+   - The existing rule does not touch Windows drive / UNC paths, file:// URLs, ~/ paths, host:/path, or dict KEYS
+     (22_scrub_rule_probe.txt); the F1 values (ultralytics vars(tr.args) on Linux runners) are POSIX absolute strings.
+   - log payload member "recipe" (Event log allowlist) is still copied unscrubbed; today it only carries the final
+     retrain recipe (epochs / horizon / init scalars, final_retrain.final_recipe), so no path - observation only.
+   - Public/registration ZIP byte-identity is inferred from the allowlists; no package was rebuilt.

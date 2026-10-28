@@ -1,4 +1,4 @@
-/** Server-capability views (S3-F7): device targets, registry export_trt / host-gpu-0 status, search-space state. */
+/** Server-capability views: device targets, registry export_trt / host-gpu-0 status, search-space state. */
 import { DataTable, type Column } from './DataTable';
 import { Badge } from './ui';
 import type { Run } from '../api/types';

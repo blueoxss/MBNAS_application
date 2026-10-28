@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # verify.sh - run the verification suites of an installed MBNAS Research Console profile and report
-# {suite, status, counts, evidence}. WP-7A; contract docs/internal/WORK_PACKAGES/WP-7_OPS_PACKAGING.md section 1.
+# {suite, status, counts, evidence}. Run with --help for the suite list.
 set -u -o pipefail
 unset CDPATH
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -11,21 +11,23 @@ Usage: bash scripts/verify.sh --profile owner|public --suite <suite>[,<suite>...
                               [--pytest-args "<args>"] [--allow-gpu] [-- <pytest args>...]
 
 Runs verification suites against the tree that holds this scripts/ folder (ROOT) and its runtime/venv. Every suite
-ends with one status: PASS, FAIL, NOT_APPLICABLE (the suite has nothing to check here) or BLOCKED_BY_ENV (this host
-lacks what the suite needs). Logs and evidence go to runtime/logs/verify/<UTC stamp>-<profile>/.
+ends with one status: PASS, FAIL, NOT_APPLICABLE (the suite has nothing to check here; counted neither as pass nor as
+fail and listed separately in the summary) or BLOCKED_BY_ENV (this host lacks what the suite needs). Logs and
+evidence go to runtime/logs/verify/<UTC stamp>-<profile>/.
 
 Options:
   --profile owner|public  (required) profile under test.
   --suite <list>          (required) comma-separated suites, or all (= unit,integration,relocation,package,gpu):
-     unit         pytest -m "not gpu and not live and not legacy_records and not host_data" over tests/public
-                  (public) or tests/owner + tests/public (owner), with CUDA_VISIBLE_DEVICES=''. BLOCKED_BY_ENV when
-                  pytest is not installed in runtime/venv. The result's scope lists tests/owner as NOT_APPLICABLE
-                  for the public profile (owner-only tests). Without ROOT/pyproject.toml (its pytest settings) the
-                  suite adds --import-mode=importlib -o timeout=600 itself.
+     unit         pytest -m "not gpu and not live and not legacy_records and not host_data" over the test suites
+                  of a source tree (public: the public tests; owner: the owner and the public tests), with
+                  CUDA_VISIBLE_DEVICES=''. NOT_APPLICABLE when ROOT has no tests/ folder (test suites are not
+                  shipped in this distribution); BLOCKED_BY_ENV when pytest is not installed in runtime/venv. The
+                  result's scope lists the owner tests as not applicable for the public profile. Without
+                  ROOT/pyproject.toml (its pytest settings) the suite adds --import-mode=importlib -o timeout=600.
      integration  owner: scripts/dev/wp3_three_process_smoke.py (real core + owner worker + runner + gateway
                   processes on ephemeral ports driven through the gateway /api/v1, CPU only, ~40 s), or
-                  scripts/dev/wp2_two_process_smoke.py when the WP-3 smoke is absent; the driver writes its own
-                  smoke root and evidence below the verify evidence directory.
+                  scripts/dev/wp2_two_process_smoke.py when the three-process smoke is absent; the driver writes
+                  its own smoke root and evidence below the verify evidence directory.
                   public: needs a live core - MBNAS_CORE_URL (else BLOCKED_BY_ENV); checks the core through
                   mbnas-gateway-doctor, the runner registration
                   (mbnas-runner register; skipped when this tree's runner daemon is running) and, when this tree's
@@ -36,20 +38,20 @@ Options:
                   console scripts bound to the venv inside ROOT, no original-host path strings in the installed
                   packages / entry points / config/<profile>/*.env / scripts/*.sh, and scripts/doctor.sh re-invoked
                   from an external working directory and through a symlinked path containing spaces (its own ROOT
-                  detection and quoting); a copy of the tree to a new path is the T6 packaging test. No suite
-                  starts or stops a process of this tree.
+                  detection and quoting). No suite starts or stops a process of this tree.
      package      for an extracted package (FILE_MANIFEST.jsonl present; else NOT_APPLICABLE: a source tree):
                   every manifest entry exists with its size and sha256 (no absolute or .. path, no self entry),
-                  then the T8 leak scan scripts/dev/canary_scan.py (or the scanner named by $MBNAS_CANARY_SCAN)
-                  over the tree except runtime/ (--min-files 50; with docs/internal/canary/CANARY_MANIFEST.json:
-                  --manifest + --profile; owner without a manifest: --no-host-facts). Without a scanner only the
-                  manifest is checked and the reason says so.
-     gpu          read-only nvidia-smi query; BLOCKED_BY_ENV when there is no nvidia-smi or no idle GPU (no compute
-                  process, utilization < 10 %). On an idle GPU the GPU-marked tests (pytest -m gpu) run only with
-                  --allow-gpu (DD-A7: GPU work needs explicit approval), else BLOCKED_BY_ENV.
+                  then the leak scan scripts/dev/canary_scan.py (or the scanner named by $MBNAS_CANARY_SCAN)
+                  over the tree except runtime/ (--min-files 50; with a canary manifest in the tree: --manifest +
+                  --profile; owner without a manifest: --no-host-facts). Without a scanner only the manifest is
+                  checked and the reason says so.
+     gpu          NOT_APPLICABLE when ROOT has no tests/ folder (test suites are not shipped in this distribution);
+                  else a read-only nvidia-smi query: BLOCKED_BY_ENV when there is no nvidia-smi or no idle GPU (no
+                  compute process, utilization < 10 %). On an idle GPU the GPU-marked tests (pytest -m gpu) run only
+                  with --allow-gpu (GPU work needs explicit approval), else BLOCKED_BY_ENV.
   --json <file>|-         write the result as JSON (`-` = stdout; the text report then goes to stderr). One suite:
                           {suite, status, counts, evidence, reason, ...}; several: {suite, status (worst), counts
-                          (statuses), evidence, results: [...]}.
+                          (statuses), evidence, not_applicable (suites), results: [...]}.
   --pytest-args "<args>"  extra pytest arguments for unit/gpu, split like a shell command line (no evaluation);
                           may be repeated. When an argument names an existing path (relative to ROOT, optionally
                           with ::node), the default test directories are not added. A later -m replaces the default
@@ -137,7 +139,10 @@ NEEDLES = ("/etri" + "_nas/", "/root" + "/detection")  # composed: this file mus
 MODS = ["mbnas_contracts", "mbnas_model_runtime", "mbnas_runner", "mbnas_server"] + (["mbnas_" + "core"] if profile == "owner" else [])
 ENTRY = ["mbnas-gateway", "mbnas-gateway-doctor", "mbnas-runner"] + (
     ["mbnas-core-api", "mbnas-core-owner-worker", "mbnas-core-doctor", "mbnas-core-principal"] if profile == "owner" else [])
-TEST_DIRS = (["tests/owner"] if profile == "owner" else []) + ["tests/public"]
+OWNER_TESTS, PUBLIC_TESTS = os.path.join("tests", "owner"), os.path.join("tests", "public")
+TEST_DIRS = ([OWNER_TESTS] if profile == "owner" else []) + [PUBLIC_TESTS]
+HAVE_TESTS = os.path.isdir(os.path.join(root, "tests"))  # a distribution ships no test suites
+NOT_SHIPPED = "test suites are not shipped in this distribution"
 requested = []
 for s in suites_arg.split(","):
     for name in (ORDER if s == "all" else [s]):
@@ -248,7 +253,7 @@ def run_pytest(suite, markers, extra_env):
     counts = pytest_counts(junit, log)
     info = {"command": cmd, "exit_code": rc, "duration_s": round(time.monotonic() - t0, 1),
             "scope": {"test_dirs": [] if explicit else TEST_DIRS, "markers": markers,
-                      "not_applicable": [] if profile == "owner" else ["tests/owner: owner-only tests (public profile)"]}}
+                      "not_applicable": [] if profile == "owner" else [f"{OWNER_TESTS}: owner-only tests (public profile)"]}}
     if rc == 0:
         return rc, result(suite, "PASS", counts, [log, junit], "", **info)
     reason = "no tests collected (exit 5)" if rc == 5 else f"pytest exit {rc}"
@@ -258,6 +263,8 @@ def run_pytest(suite, markers, extra_env):
 
 
 def suite_unit():
+    if not HAVE_TESTS:
+        return result("unit", "NOT_APPLICABLE", reason=NOT_SHIPPED)
     return run_pytest("unit", MARKERS, {"CUDA_VISIBLE_DEVICES": ""})[1]
 
 
@@ -285,8 +292,8 @@ def suite_integration():
     if not have_venv:
         return result("integration", "BLOCKED_BY_ENV", reason="runtime/venv missing (bash scripts/install.sh)")
     if profile == "owner":
-        # the WP-3 multi-process smoke (core + owner worker + runner + gateway, driven through the gateway /api/v1) is
-        # preferred; the WP-2 smoke polls core /api/v1/health, which a WP-3 core no longer exposes by default
+        # the three-process smoke (core + owner worker + runner + gateway, driven through the gateway /api/v1) is
+        # preferred; the two-process smoke polls core /api/v1/health, which the current core no longer exposes by default
         drivers = [os.path.join(root, "scripts", "dev", n) for n in ("wp3_three_process_smoke.py", "wp2_two_process_smoke.py")]
         driver = next((d for d in drivers if os.path.isfile(d)), None)
         if driver is None:
@@ -690,6 +697,8 @@ def suite_package():
 
 # ---- gpu ------------------------------------------------------------------------------------------------------------------
 def suite_gpu():
+    if not HAVE_TESTS:
+        return result("gpu", "NOT_APPLICABLE", reason=NOT_SHIPPED)
     smi = shutil.which("nvidia-smi")
     if not smi:
         return result("gpu", "BLOCKED_BY_ENV", reason="nvidia-smi not found (no NVIDIA driver on this host)")
@@ -725,7 +734,7 @@ def suite_gpu():
         return result("gpu", "BLOCKED_BY_ENV", counts, [report], "no idle GPU: " + "; ".join(desc))
     if not allow_gpu:
         return result("gpu", "BLOCKED_BY_ENV", counts, [report], f"idle GPU {','.join(idle)} found but GPU work needs "
-                      "explicit approval: --allow-gpu (DD-A7)")
+                      "explicit approval: --allow-gpu")
     rc, res = run_pytest("gpu", "gpu", {"CUDA_VISIBLE_DEVICES": idle[0]})
     res["counts"].update(counts)
     res["evidence"].insert(0, rel(report))
@@ -754,12 +763,14 @@ for name in requested:
 
 tally = {s: sum(1 for r in results if r["status"] == s) for s in ("PASS", "FAIL", "NOT_APPLICABLE", "BLOCKED_BY_ENV")}
 worst = "FAIL" if tally["FAIL"] else "BLOCKED_BY_ENV" if tally["BLOCKED_BY_ENV"] else "PASS" if tally["PASS"] else "NOT_APPLICABLE"
+not_applicable = [r for r in results if r["status"] == "NOT_APPLICABLE"]  # counted neither as pass nor as fail
 meta = {"schema": "mbnas.verify/1", "root": root, "profile": profile, "started_at": started,
         "finished_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
 if len(results) == 1:
     doc = {**results[0], **meta}
 else:
-    doc = {"suite": ",".join(requested), "status": worst, "counts": tally, "evidence": [rel(EVID)], "results": results, **meta}
+    doc = {"suite": ",".join(requested), "status": worst, "counts": tally, "evidence": [rel(EVID)],
+           "not_applicable": [r["suite"] for r in not_applicable], "results": results, **meta}
 with open(os.path.join(EVID, "verify.json"), "w", encoding="utf-8") as fh:
     json.dump(doc, fh, indent=1)
 if json_out == "-":
@@ -768,6 +779,9 @@ elif json_out:
     os.makedirs(os.path.dirname(json_out) or ".", exist_ok=True)
     with open(json_out, "w", encoding="utf-8") as fh:
         json.dump(doc, fh, indent=1)
+if not_applicable:
+    say("not applicable (counted neither as pass nor as fail): "
+        + "; ".join(r["suite"] + (f" - {r['reason']}" if r["reason"] else "") for r in not_applicable))
 say(f"result: {worst} " + " ".join(f"{k}={v}" for k, v in tally.items() if v) + f" (report {rel(os.path.join(EVID, 'verify.json'))})")
 sys.exit(1 if tally["FAIL"] else 3 if tally["BLOCKED_BY_ENV"] else 0)
 PY

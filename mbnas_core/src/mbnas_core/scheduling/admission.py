@@ -1,4 +1,4 @@
-"""Budget admission (PLAN §2 ``scheduling/admission.py``; protocol ``allocation`` section).
+"""Budget admission (protocol ``allocation`` section).
 
 Budgets are frozen at run creation in GPU-seconds (:func:`frozen_budget`): one cap **per search arm per search
 seed** (``console.search.budget_gpu_hours``), a separate Baseline cap (``console.baseline_budget_gpu_hours``) and

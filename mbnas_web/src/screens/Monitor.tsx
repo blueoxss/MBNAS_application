@@ -75,7 +75,7 @@ function PointsTable({ points, xMode, onOpen }: { points: PlotPoint[]; xMode: XM
   return <DataTable caption="Evaluated points (same rows as the charts)" columns={cols} rows={points} rowKey={(p) => p.id} maxHeight empty="No evaluated points in the selected cohort." testId="points-table" />;
 }
 
-/** Generation progress. The representative is the server's (Generation.representative_*); the client does not recompute it (R6/DD-A21). */
+/** Generation progress. The representative is the server's (Generation.representative_*); the client does not recompute it. */
 function GenerationTable({ gens }: { gens: Generation[] }): JSX.Element {
   const cols: Column<Generation>[] = [
     { key: 'arm', header: 'Arm', cell: (g) => g.arm, sort: (g) => g.arm },
@@ -104,7 +104,7 @@ function GenerationTable({ gens }: { gens: Generation[] }): JSX.Element {
 
 export { isTrainedNotEvaluated, TRAINED_NOT_EVALUATED };
 
-/** DD-3: run-level reason_code of an evaluation-OFF generation run that ended with zero / fewer candidates than requested. */
+/** Run-level reason_code of an evaluation-OFF generation run that ended with zero / fewer candidates than requested. */
 export const GENERATION_REASON_TEXT: Record<string, string> = {
   GENERATION_EMPTY: '모든 seed에서 유효 후보가 0개입니다(reason_code GENERATION_EMPTY). run 상태는 부분 결과 종료(COMPLETED)이며 성공한 생성을 뜻하지 않습니다. 구조 검사 실패·중복·시도 상한을 확인하세요.',
   GENERATION_PARTIAL: '일부 seed가 요청 후보 수에 못 미쳤습니다(reason_code GENERATION_PARTIAL). 저장된 유효 후보는 유지됩니다. seed별 요약에서 미달 seed를 확인하세요.',
@@ -137,7 +137,7 @@ export function GeneratedTable({ rows, onOpen }: { rows: GeneratedCandidate[]; o
     {
       key: 'evaluation',
       header: '학습 · 성능 평가',
-      // DD-A23: training_status / evaluation_status of the row (a 1.4.x row has no training_status: generation never trains)
+      // training_status / evaluation_status of the row (a 1.4.x row has no training_status: generation never trains)
       cell: (c) =>
         isUntrainedUnevaluated(c) ? (
           <>
@@ -179,13 +179,13 @@ export function WorkerStatus({ status }: { status: string }): JSX.Element {
 export function WorkerTable({ workers }: { workers: Worker[] }): JSX.Element {
   const cols: Column<Worker>[] = [
     { key: 'id', header: 'Worker', cell: (w) => <span className="mono">{w.id}</span> },
-    // contract 1.5.0 core-issued runner / device ids (DD-A19); an older server does not send them: dash
+    // contract 1.5.0 core-issued runner / device ids; an older server does not send them: dash
     { key: 'runner', header: 'Runner ID', cell: (w) => <span className="mono wrap-any">{str(rec(w).runner_id) ?? DASH}</span>, sort: (w) => str(rec(w).runner_id) },
     { key: 'devid', header: 'Device ID', cell: (w) => <span className="mono wrap-any">{str(rec(w).device_id) ?? DASH}</span>, sort: (w) => str(rec(w).device_id) },
     { key: 'dev', header: 'Device', cell: (w) => w.device_name ?? w.device },
     { key: 'st', header: 'Status', cell: (w) => <WorkerStatus status={w.status} />, sort: (w) => w.status },
     { key: 'util', header: 'Utilization [%]', cell: (w) => (typeof w.utilization_percent === 'number' ? w.utilization_percent.toFixed(0) : DASH), num: true },
-    // I4-#9: contract Worker telemetry. null / missing is a dash, never 0.
+    // contract Worker telemetry. null / missing is a dash, never 0.
     { key: 'vram', header: 'VRAM [MB]', cell: (w) => fmtNum(w.vram_mb, 0), sort: (w) => w.vram_mb ?? null, num: true },
     { key: 'pw', header: 'Power [W]', cell: (w) => fmtNum(w.power_w, 1), sort: (w) => w.power_w ?? null, num: true },
     { key: 'clk', header: 'SM clock [MHz]', cell: (w) => fmtNum(w.sm_clock_mhz, 0), sort: (w) => w.sm_clock_mhz ?? null, num: true },

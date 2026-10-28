@@ -2,8 +2,6 @@
 
 **MBNAS 모듈형 신경망 구조 탐색·실험 통합관리 프로그램** — 객체 검출 모델의 신경망 구조 탐색(NAS) 실험을 설계·실행·관리하는 웹 콘솔과 서버. 실험 프로토콜 검증, 후보 구조 생성과 CPU 구조 검사, 학습·평가 작업의 원격 실행·일시정지·재개, 후보 구조 상세(gene 구성도·블록 표·구성 YAML)와 비교, 산출물 관리를 제공한다.
 
-> 상태(2026-10-28): v0.1.0 초판. 구성요소별 시험 묶음은 CPU에서 통과했고, 실제 GPU 경로는 검증 판정 YES(한계: TensorRT 미검증, 벤치마크는 owner 스크립트, 이후 변경은 CPU로만 확인)다. 최종 배포본으로 독립 설치·실행(owner T4, public T5), 새 경로 재배치(T6, 3종), 누출 검사(T8: 배포 ZIP과 런타임 응답·로그·프로세스 환경)를 다시 실행해 모두 통과했다. 그 뒤 추가된 변경(작업 임대 때 만료 lease 회수, 원격 prune 왕복, 문서·웹·운영 스크립트·패키저 보강)은 시험으로 확인했고, 배포 ZIP 재빌드와 그 재확인이 남아 있다. 별도 관리 주체 호스트 배치와 호스트 사이 TLS는 검증하지 않았다. 기능별 상태: [`docs/public/FEATURES.md`](docs/public/FEATURES.md).
-
 ## 구성 (Components)
 
 | 패키지 | 배포 이름 | 역할 | 공개 여부 |
@@ -30,7 +28,7 @@
 - Linux x86_64, Python **3.10**, 학습·평가용 NVIDIA GPU(CUDA 12.4 빌드 PyTorch 2.6.0). CPU 전용 runner는 학습·checkpoint·구조 생성까지(평가 완료 판정 없음).
 - 고정 버전: ultralytics 8.4.173, torch 2.6.0(cu124), torchvision 0.21.0 — 전체 핀은 `constraints.txt`.
 - Docker 설치 시 Docker Compose(+ GPU 컨테이너용 NVIDIA Container Toolkit).
-- 온라인 설치는 `pypi.org`, `files.pythonhosted.org`, `download.pytorch.org`, `download-r2.pytorch.org`, `pypi.nvidia.com`에 접속한다. Node.js는 웹을 다시 빌드할 때(와 배포 ZIP을 만들 때) 필요하다.
+- 온라인 설치는 `pypi.org`, `files.pythonhosted.org`, `download.pytorch.org`, `download-r2.pytorch.org`, `pypi.nvidia.com`에 접속한다. Node.js는 웹을 다시 빌드할 때만 필요하다.
 - 기본 포트: core 8700, gateway 8710, 웹 preview 8720(개발용).
 - 운영 스크립트(`scripts/*.sh`)는 Linux 전용이며 bash 4 이상이 필요하다.
 
@@ -47,7 +45,7 @@ docker compose -f deploy/public/docker-compose.yml build
 docker compose -f deploy/public/docker-compose.yml up -d        # gateway(127.0.0.1:8710) + GPU runner
 ```
 
-컨테이너 안의 데이터 경로는 `/srv/mbnas/data`(= `data/`)이고 이미지는 uid 10001로 실행된다. CPU 이미지·compose는 개발 단계 시험에서 실행 확인되었고, CUDA 이미지는 GPU 인식만 확인했다(**compose GPU runner의 실제 작업 실행은 미검증**). CPU 전용 호스트, owner compose, 토큰 발급, compose 변수는 [`docs/public/INSTALL.md`](docs/public/INSTALL.md) §1과 [`docs/public/OPERATIONS.md`](docs/public/OPERATIONS.md) §12.
+컨테이너 안의 데이터 경로는 `/srv/mbnas/data`(= `data/`)이고 이미지는 uid 10001로 실행된다. CPU 전용 호스트, owner compose, 토큰 발급, compose 변수는 [`docs/public/INSTALL.md`](docs/public/INSTALL.md) §1과 [`docs/public/OPERATIONS.md`](docs/public/OPERATIONS.md) §11.
 
 **② pip requirements (표준 경로)**
 
@@ -75,33 +73,10 @@ bash scripts/doctor.sh --profile public       # 점검: PASS / WARN / FAIL (비�
 bash scripts/start.sh  --profile public       # gateway + runner (owner 프로필: core + owner worker + gateway + runner)
 # 브라우저에서 http://127.0.0.1:8710/ 을 열고 서버 연결 화면에 콘솔 토큰(MBNAS_GW_API_TOKEN)을 입력
 bash scripts/stop.sh   --profile public       # 이 트리의 pid 파일에 있는 프로세스만 정지
-bash scripts/verify.sh --profile public --suite relocation     # 검증 묶음: unit, integration, relocation, package, gpu, all
+bash scripts/verify.sh --profile public --suite relocation     # 검증 묶음: integration, relocation, package, gpu, all
 ```
 
 옵션 전체는 각 스크립트의 `--help`와 [`docs/public/OPERATIONS.md`](docs/public/OPERATIONS.md)에 있다.
-
-## 배포 ZIP 만들기 (Packaging; 소스 트리·owner 전용)
-
-`scripts/package.sh`는 공개 배포본에 들어 있지 않다(소스 트리와 owner 배포본 전용).
-
-```bash
-bash scripts/package.sh --profile owner|public|registration [--platform auto|<tag>] [--reproducible] \
-                        [--allow-missing-web] [--canary]
-```
-
-| 옵션 | 뜻 |
-|---|---|
-| `--profile owner\|public\|registration` | (필수) owner = core 포함 비공개, public = 고객용 런타임, registration = public + 등록 문서 |
-| `--platform auto\|<tag>` | ZIP 이름의 플랫폼 표기(기본 auto: 이 호스트, 예 `linux_x86_64`) |
-| `--reproducible` | 시각·순서·권한을 고정해 두 번 빌드하고 digest 비교 결과를 `BUILD_INFO.json`에 기록 |
-| `--allow-missing-web` | `mbnas_web/dist`가 없어도 public·registration을 빌드(그 사실을 `BUILD_INFO.json`에 기록) |
-| `--canary` | 누출 검사(T8)용 시험 빌드: 트리를 `build/canary/<profile>/tree`로 복사해 표식을 심고 빌드·검사(`dist/`는 건드리지 않음) |
-
-- 출력: `dist/<profile>/mbnas_application-0.1.0-<profile>-runtime-<platform>.zip`(owner는 `mbnas_application-0.1.0-owner-private-runtime-<platform>.zip`)과 같은 이름의 `.sha256`, 보고서 `build/package_reports/<profile>.json`(검사별 PASS/FAIL 표 포함; 같은 표가 화면에도 출력된다), wheel 내용 목록 `build/package_reports/<profile>_wheels.txt`.
-- ZIP의 최상위 폴더 `mbnas_application/`에는 파일별 sha256·크기·역할·라이선스를 담은 `FILE_MANIFEST.jsonl`과 같은 내용을 사람이 읽는 표로 만든 `PACKAGE_CONTENTS.md`가 들어간다. 루트 `LICENSE`와 `THIRD_PARTY_NOTICES_WEB.md`가 없으면 빌드가 실패한다.
-- `mbnas_web/dist`를 담는 빌드는 번들 위생 검사(`node mbnas_web/scripts/check-bundle.mjs`)를 통과해야 하므로 **`node`가 PATH에 있어야 한다**(없으면 검사 실패로 처리).
-- 빌드용 venv(`runtime/venv`)가 필요하고 네트워크는 쓰지 않는다.
-- 종료 코드: 0 빌드 완료, 1 검사 실패(아무것도 내보내지 않음), 2 사용법·설정 오류, 3 빌드 도구 실패.
 
 ## 문서 (Documentation)
 
@@ -109,13 +84,12 @@ bash scripts/package.sh --profile owner|public|registration [--platform auto|<ta
 |---|---|
 | [`docs/public/INSTALL.md`](docs/public/INSTALL.md) | 설치 방법 ①②③, 설정 파일 |
 | [`docs/public/OPERATIONS.md`](docs/public/OPERATIONS.md) | 프로세스·포트·디렉터리, 기동·정지, 자격 관리, 원격 배치, 백업 |
-| [`docs/public/FEATURES.md`](docs/public/FEATURES.md) | 기능과 구현·검증 상태, 지원 한계 |
+| [`docs/public/FEATURES.md`](docs/public/FEATURES.md) | 기능과 지원 범위 |
 | [`docs/public/API.md`](docs/public/API.md) | 공개 API 요약(계약 1.5.0), 업로드, 구성 개정, SSE, 1.4.3 대비 변경 |
 | [`docs/public/SECURITY_MODEL.md`](docs/public/SECURITY_MODEL.md) | 신뢰 영역, 자격, 입력 경계, 위협 모델과 신뢰 한계 |
 | [`docs/public/COMPATIBILITY.md`](docs/public/COMPATIBILITY.md) | 지원 플랫폼, 계약 버전, 연산자 확장, hook 문자열, 탐색 공간 hash, 과거 checkpoint |
 | [`docs/public/TROUBLESHOOTING.md`](docs/public/TROUBLESHOOTING.md) | 오류 코드별 원인과 조치 |
-| [`docs/public/contracts/history/`](docs/public/contracts/history/) | 공개 API 계약 이력(1.0.0–1.5.0)과 migrate 스크립트 |
-| `docs/registration/` | 등록 문서(개요, 구조도, 인터페이스 표, 파일 목록, 핵심 기여, 범위표, 확인 목록, 권리 검토) — registration 배포본에만 포함 |
+| `docs/registration/` | 등록 문서(개요, 구조도, 인터페이스 표, 파일 목록, 핵심 기여, 범위표) — registration 배포본에만 포함 |
 
 ## 보안 요약 (Security summary)
 
@@ -124,9 +98,10 @@ bash scripts/package.sh --profile owner|public|registration [--platform auto|<ta
 - owner 관리 API(`/core/v1/owner/*`)는 admin 토큰을 요구하지만 요청한 주소는 검사하지 않는다. core를 원격에 열 때는 앞단 proxy가 이 경로를 차단한다(예시: `deploy/public/nginx.example.conf` 끝의 owner 호스트용 블록).
 - 고객 호스트의 root는 공개 구성요소와 그 결과를 모두 읽고 바꿀 수 있으며, 고객 측 측정값의 진실성은 증명되지 않는다. 정책 비공개는 core가 별도 관리 영역에 있을 때만 성립한다. 자세한 신뢰 한계: [`docs/public/SECURITY_MODEL.md`](docs/public/SECURITY_MODEL.md) §8.
 
-## 라이선스 상태 (License status)
+## 라이선스 (Licenses)
 
-자체 코드의 라이선스는 **정해지지 않았다**. 루트 `LICENSE`는 결정 전까지의 자리표시(권리 유보, 라이선스 부여 없음)다. 의존 구성요소 중 ultralytics(AGPL-3.0)를 포함한 Python 제3자 라이선스 목록은 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)(자동 수집, 법적 검토 아님), 웹 번들의 npm 패키지 목록은 `THIRD_PARTY_NOTICES_WEB.md`에 있고, 설치와 관련된 라이선스 안내는 [`docs/public/INSTALL.md`](docs/public/INSTALL.md) §8, 권리 검토 질문 목록은 registration 배포본의 `docs/registration/RIGHTS_REVIEW.md`에 있다. 검토가 끝나기 전에는 공개·제출하지 않는다.
+- Python 의존 패키지의 제3자 라이선스 목록은 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md), 웹 번들에 들어가는 npm 패키지 목록은 [`THIRD_PARTY_NOTICES_WEB.md`](THIRD_PARTY_NOTICES_WEB.md)에 있다.
+- ultralytics 8.4.173은 AGPL-3.0이며, 모델 런타임(`mbnas_model_runtime`)이 실행 시 import한다.
 
 ## 버전 (Version)
 

@@ -1,0 +1,170 @@
+# source: <T>/final/t4/mbnas_application/runtime/core/db/mbnas.sqlite3 (T4 FINAL re-run DB, owner ZIP 79cce02a..., schema 5); copied with sqlite3 -readonly .backup (WAL was empty)
+# source sha256 before: dc3eef8da41119d57b194461a9a1c990d9a54761c961e301ec7bf4f06f87ae54
+# backup exit=0
+{
+ "schema_version_target": "6",
+ "before": {
+  "schema_version": "5",
+  "integrity": "ok",
+  "tables": {
+   "artifact_locations": 37,
+   "artifacts": 27,
+   "candidates": 7,
+   "checkpoints": 12,
+   "config_revisions": 13,
+   "cost_ledger": 4,
+   "evaluations": 3,
+   "events": 80,
+   "generations": 0,
+   "idempotent_responses": 4,
+   "jobs": 5,
+   "meta": 2,
+   "principals": 2,
+   "runners": 1,
+   "runs": 5,
+   "sqlite_sequence": 1,
+   "validations": 2,
+   "workers": 3
+  }
+ },
+ "copy_A_migrate_added": [
+  "table:prune_requests"
+ ],
+ "copy_A_second_migrate_added": [],
+ "copy_A_compare": {
+  "pre_existing_tables": 18,
+  "pre_existing_tables_changed": [
+   "meta"
+  ],
+  "new_tables": [
+   "prune_requests"
+  ],
+  "new_table_rows": {
+   "prune_requests": 0
+  },
+  "schema_version": [
+   "5",
+   "6"
+  ],
+  "integrity": [
+   "ok",
+   "ok"
+  ],
+  "meta_other_keys_unchanged": true,
+  "rows_total": [
+   208,
+   208
+  ]
+ },
+ "copy_B_startup_path_compare": {
+  "pre_existing_tables": 18,
+  "pre_existing_tables_changed": [
+   "meta"
+  ],
+  "new_tables": [
+   "prune_requests"
+  ],
+  "new_table_rows": {
+   "prune_requests": 0
+  },
+  "schema_version": [
+   "5",
+   "6"
+  ],
+  "integrity": [
+   "ok",
+   "ok"
+  ],
+  "meta_other_keys_unchanged": true,
+  "rows_total": [
+   208,
+   208
+  ]
+ },
+ "verdict": "FAIL"
+}
+# migration check exit=1
+# source sha256 after (untouched): dc3eef8da41119d57b194461a9a1c990d9a54761c961e301ec7bf4f06f87ae54
+
+# ---- rerun with corrected criterion (first run above flagged 'meta' as changed although only schema_version changed: its other keys were compared equal; criterion fixed to exclude meta from the table-content comparison) on FRESH copies C/D
+# backup exit=0
+{
+ "schema_version_target": "6",
+ "before": {
+  "schema_version": "5",
+  "integrity": "ok",
+  "tables": {
+   "artifact_locations": 37,
+   "artifacts": 27,
+   "candidates": 7,
+   "checkpoints": 12,
+   "config_revisions": 13,
+   "cost_ledger": 4,
+   "evaluations": 3,
+   "events": 80,
+   "generations": 0,
+   "idempotent_responses": 4,
+   "jobs": 5,
+   "meta": 2,
+   "principals": 2,
+   "runners": 1,
+   "runs": 5,
+   "sqlite_sequence": 1,
+   "validations": 2,
+   "workers": 3
+  }
+ },
+ "copy_A_migrate_added": [
+  "table:prune_requests"
+ ],
+ "copy_A_second_migrate_added": [],
+ "copy_A_compare": {
+  "pre_existing_tables": 18,
+  "pre_existing_tables_changed": [],
+  "new_tables": [
+   "prune_requests"
+  ],
+  "new_table_rows": {
+   "prune_requests": 0
+  },
+  "schema_version": [
+   "5",
+   "6"
+  ],
+  "integrity": [
+   "ok",
+   "ok"
+  ],
+  "meta_other_keys_unchanged": true,
+  "rows_total": [
+   208,
+   208
+  ]
+ },
+ "copy_B_startup_path_compare": {
+  "pre_existing_tables": 18,
+  "pre_existing_tables_changed": [],
+  "new_tables": [
+   "prune_requests"
+  ],
+  "new_table_rows": {
+   "prune_requests": 0
+  },
+  "schema_version": [
+   "5",
+   "6"
+  ],
+  "integrity": [
+   "ok",
+   "ok"
+  ],
+  "meta_other_keys_unchanged": true,
+  "rows_total": [
+   208,
+   208
+  ]
+ },
+ "verdict": "PASS"
+}
+# migration check (corrected) exit=0
+# source sha256 after (untouched): dc3eef8da41119d57b194461a9a1c990d9a54761c961e301ec7bf4f06f87ae54

@@ -1,5 +1,5 @@
 /**
- * 모델 계보 (Lineage): pick a candidate (an evaluated row or, F14, a generated candidate that was never trained or
+ * 모델 계보 (Lineage): pick a candidate (an evaluated row or a generated candidate that was never trained or
  * evaluated), see parents A/B, operation (2/1/0 parents), the public block source kinds, the architecture / checkpoint
  * files by id + sha256 (contract 1.5.0: no host path) and the ancestry chain. Generated candidates carry the
  * "UNTRAINED · UNEVALUATED" badge so they are never read as measured rows.
@@ -50,7 +50,7 @@ export function lineageRows(evaluated: readonly Candidate[], generated: readonly
   return [...evaluated, ...generated.filter((g) => !known.has(g.candidate_id)).map(generatedAsCandidate)];
 }
 
-/** Status cell: "UNTRAINED · UNEVALUATED" for a generated candidate (DD-A23), the DD-5 badge, else the evaluation row status. */
+/** Status cell: "UNTRAINED · UNEVALUATED" for a generated candidate, the "학습 완료 · 미평가" badge, else the evaluation row status. */
 export function LineageStatus({ c, run }: { c: Candidate; run: Parameters<typeof isTrainedNotEvaluated>[1] }): JSX.Element {
   if (isUntrainedUnevaluated(c)) {
     const r = rec(c);

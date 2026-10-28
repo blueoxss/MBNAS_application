@@ -1,0 +1,7 @@
+[t6r2-owner-d 2026-10-28T06:16:47Z] mbnas owner r2d <- 9f03c484bbc8c0a2227cc325658892e3efe286d08cca9a1978383158075c2f2a
+[t6r2-owner-d 2026-10-28T06:18:17Z] install_owner: exit=0
+configured core.env: ['MBNAS_CORE_PORT'] (values not printed)
+configured gateway.env: ['MBNAS_GW_CORE_URL', 'MBNAS_GW_PORT'] (values not printed)
+configured runner.env: ['MBNAS_RUNNER_CORE_URL'] (values not printed)
+[t6r2-owner-d 2026-10-28T06:18:31Z] start_owner: exit=0
+[t6r2-owner-d 2026-10-28T06:18:33Z] doctor_owner_strict: exit=0

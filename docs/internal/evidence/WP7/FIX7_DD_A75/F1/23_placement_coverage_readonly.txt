@@ -1,0 +1,6 @@
+# 2026-10-28 13:59:36 KST  CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 runtime/venv/bin/python -B scripts/dev/placement_coverage.py --format text   (read-only check; the manifest is NOT edited by F1)
+manifest docs/internal/provenance/PLACEMENT_MANIFEST.jsonl (669 rows, sha256 b7557c57d974...)
+package files 221 (py 215, data 6) {'mbnas_contracts': 27, 'mbnas_model_runtime': 49, 'mbnas_core': 92, 'mbnas_runner': 23, 'mbnas_server': 30}
+covered 221/221 (py 215/215); missing 0, deleted but present 0, unrecorded deletions 0, row errors 0; recorded deletions 1; sha drift (informational) 43
+ok
+# exit code: 0

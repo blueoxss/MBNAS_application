@@ -4,9 +4,9 @@ The source run is immutable. A selected baseline, user YAML or search/generated 
 with a frozen source binding. Pausing/resuming continues this trial through the existing full-state machinery;
 selecting weights for transfer is never described as full-state resume.
 
-WP-4 / DD-A46: when the gateway sent its host inputs (``gateway``: :class:`mbnas_core.protocol.gateway_inputs.GatewayInputs`)
+When the gateway sent its host inputs (``gateway``: :class:`mbnas_core.protocol.gateway_inputs.GatewayInputs`)
 the dataset YAML path check, the dataset YAML summary and the split manifests come from them instead of the core
-filesystem (a split deployment keeps the data and ``output_root`` on the customer host). F5d: the new trial records its
+filesystem (a split deployment keeps the data and ``output_root`` on the customer host). The new trial records its
 configuration revisions (``original`` for a user YAML, ``selected`` for the bound configuration;
 :mod:`mbnas_core.orchestration.config_revisions`).
 """
@@ -50,7 +50,7 @@ class TrainingSource(BaseModel):
     baseline_id: str | None = None
     model_path: str | None = None
     model_yaml_text: str | None = None
-    """WP-3 section 2.5: the uploaded YAML text the gateway carries instead of a core-host path (with ``source_sha256``)."""
+    """The uploaded YAML text the gateway carries instead of a core-host path (with ``source_sha256``)."""
     source_sha256: str | None = None
     model_name: str | None = None
 
@@ -90,7 +90,7 @@ def explicit_training(run: dict[str, Any]) -> dict[str, Any] | None:
 
 
 def _path(path: str, settings: Any, *, yaml_only: bool = False) -> Path:
-    """A server file: user YAMLs from ``model_yaml_roots`` + ``output_roots`` only (WP-3 section 1.6); checkpoints also
+    """A server file: user YAMLs from ``model_yaml_roots`` + ``output_roots`` only; checkpoints also
     from ``weights_dir``."""
     roots = [*settings.model_yaml_roots, *settings.output_roots] if yaml_only else \
         [*settings.output_roots, settings.weights_dir, *settings.model_yaml_roots]
@@ -146,10 +146,10 @@ def resolve_source(conn: sqlite3.Connection, req: TrainingRunRequest, svc: Any) 
                 except (OSError, UnicodeDecodeError) as exc:
                     raise TrainingSelectionError("MODEL_CONFIG_INVALID", "invalid detector YAML configuration") from exc
                 stem, file_sha = p.stem, sha256_file(p)
-            original = {"text": raw_text, "sha256": file_sha,  # F5d: the bytes the user gave (revision kind original)
+            original = {"text": raw_text, "sha256": file_sha,  # the bytes the user gave (revision kind original)
                         "artifact_id": f"upl-{file_sha}" if src.model_yaml_text is not None else None,
                         "model_name": name if src.model_yaml_text is not None else Path(src.model_path).name}
-            pre = text_diagnostics(text)  # size / alias bounds before the YAML is constructed (R5)
+            pre = text_diagnostics(text)  # size / alias bounds before the YAML is constructed
             if pre:
                 code = "MODEL_CONFIG_INVALID" if any(d["code"] == "MODEL_CONFIG_INVALID" for d in pre) else "STRUCTURE_INVALID"
                 raise TrainingSelectionError(code, "invalid detector YAML configuration", errors=pre)
@@ -198,7 +198,7 @@ def prepare_protocol(req: TrainingRunRequest, source: dict[str, Any], svc: Any,
                      gateway: Any = None) -> tuple[dict[str, Any], dict[str, Any]]:
     """Validate the training recipe/data independently of the original candidate-generation evaluation switch.
 
-    ``gateway`` (DD-A46): the gateway's host inputs; the dataset YAML path check and summary and the validation then
+    ``gateway``: the gateway's host inputs; the dataset YAML path check and summary and the validation then
     use them instead of the core filesystem. The dataset class count is kept in ``source["dataset_class_count"]``."""
     requested = copy.deepcopy(req.protocol)
     if req.mode == "resume":
@@ -221,7 +221,7 @@ def prepare_protocol(req: TrainingRunRequest, source: dict[str, Any], svc: Any,
     ds_path = c["paths"].get("dataset_yaml")
     measured = gateway.check_path("dataset_yaml", ds_path) if gateway is not None and gateway.path_checks is not None else None
     if measured is not None and (measured[0] or measured[2] not in ("PATH_CHECK_MISSING", "PATH_CHECK_MISMATCH")):
-        ok, ds_real, code, message = measured  # DD-A46: checked on the gateway (customer) host
+        ok, ds_real, code, message = measured  # checked on the gateway (customer) host
         if not ok:
             raise TrainingSelectionError(code or "PATH_INVALID", message or "dataset YAML path rejected by the gateway host")
     else:
@@ -247,7 +247,7 @@ def prepare_protocol(req: TrainingRunRequest, source: dict[str, Any], svc: Any,
         cfg = copy.deepcopy((c.get("extra") or {}).get("training") or {})
     provided = cfg.get("epoch_target_total", c.get("baseline_epoch_target"))
     if req.mode == "evaluate_only":
-        # DD-31: official evaluation creates no training epochs. No epoch target is required; whatever was given is
+        # official evaluation creates no training epochs. No epoch target is required; whatever was given is
         # ignored, the run records target 0 and keeps the supplied value only as provenance. The protocol validator
         # still needs a positive rung target/horizon, so the validated protocol carries the structural value 1 below.
         target = horizon = 0
@@ -289,7 +289,7 @@ def prepare_protocol(req: TrainingRunRequest, source: dict[str, Any], svc: Any,
     if not req.validation_enabled and source["arch"]["backend"] != "ultralytics":
         raise TrainingSelectionError("VALIDATION_DISABLED_UNSUPPORTED", "validation-disabled training is implemented for the ultralytics backend only")
     requested["console"].setdefault("extra", {})["training"] = copy.deepcopy(metadata)
-    # the gateway inputs (DD-A46) only when sent: duck-typed services keep the zero-argument call
+    # the gateway inputs only when sent: duck-typed services keep the zero-argument call
     result = validate(requested, svc.validation_context() if gateway is None else
                       svc.validation_context(gateway, local_fallback=True))
     if not result.valid:
@@ -308,10 +308,10 @@ def prepare_protocol(req: TrainingRunRequest, source: dict[str, Any], svc: Any,
 def bind_structure(source: dict[str, Any], resolved: dict[str, Any], mode: str) -> None:
     """Persist the actual executable detector YAML and the structure-check result for every supported source."""
     if source["arch"]["backend"] != "ultralytics":
-        # RF-DETR / ETRI hybrid have no YAML genes: record the native-module observation (WP-S2) at the backend's own
+        # RF-DETR / ETRI hybrid have no YAML genes: record the native-module observation at the backend's own
         # resolution (training may request another size; that is the adapter's decision, not a structure property).
         # One CPU build happens here; architecture_hash of the source is deliberately left as the registry recorded it
-        # (the trainer's hash is built at the training resolution, DD-10 must not compare against this one).
+        # (the trainer's hash is built at the training resolution; the hash check must not compare against this one).
         from mbnas_core.console.model_services import native_structure_for_arch
         from mbnas_model_runtime.datasets.yaml_safe import load_dataset_yaml
         try:
@@ -343,7 +343,7 @@ def bind_structure(source: dict[str, Any], resolved: dict[str, Any], mode: str) 
             from mbnas_core.console.model_services import derive_model_scale
             config_name = config
             config = yaml_model_load(config_name)
-            # DD-30: a registry config file name decides the scale like ultralytics' guess_model_scale (rt-detr-l -> 'l').
+            # a registry config file name decides the scale like ultralytics' guess_model_scale (rt-detr-l -> 'l').
             config, scale_source = derive_model_scale(config, str(config_name))
         except (ImportError, ModuleNotFoundError, OSError):
             # API-only installations can queue a verified registry model; the worker writes its executed YAML.
@@ -359,17 +359,17 @@ def bind_structure(source: dict[str, Any], resolved: dict[str, Any], mode: str) 
     if source["kind"] != "baseline" and config.get("nc") != nc:
         raise TrainingSelectionError("CLASS_COUNT_MISMATCH", "model configuration nc differs from the selected dataset")
     from mbnas_model_runtime.genotype import validate_declared
-    declared = validate_declared(config)  # R5 allowlist / argument schema before anything is built
+    declared = validate_declared(config)  # allowlist / argument schema before anything is built
     if declared:
         raise TrainingSelectionError("STRUCTURE_INVALID", "selected model failed its structural check", errors=declared)
     genotype = Genotype.from_yaml_dict(config, family=source["family"], template_id=source.get("baseline_id") or source["name"])
     from mbnas_core.console.model_services import MIXED_NAMES
     names = {str(row[2]).rsplit(".", 1)[-1] for row in genotype.rows()}
     if names.intersection(MIXED_NAMES):
-        # DD-A73: search/generated candidates carry the ETRI mixed blocks. Register them in this process exactly as the
+        # search/generated candidates carry the ETRI mixed blocks. Register them in this process exactly as the
         # explicit candidate check does (model_services.run_structure_check, in-process or in the sandbox worker);
-        # without this the parser raises KeyError for the block and the selection was wrongly rejected as
-        # STRUCTURE_INVALID in the API process (T5 rerun2 genconfig-create, 2026-10-28).
+        # without this the parser raises KeyError for the block and the selection would be wrongly rejected as
+        # STRUCTURE_INVALID in the API process.
         try:
             from mbnas_core.search.mixed_pool.bridge import load_etri_mixed
 
@@ -399,7 +399,7 @@ def bind_structure(source: dict[str, Any], resolved: dict[str, Any], mode: str) 
 def create_training_run(conn: sqlite3.Connection, req: TrainingRunRequest, svc: Any,
                         request_id: str | None = None, gateway: Any = None) -> tuple[dict[str, Any], bool, str]:
     """Caller holds a transaction; idempotency is checked before current source/registry lookups. ``gateway``: the
-    gateway's host inputs (DD-A46; never part of the idempotency payload)."""
+    gateway's host inputs (never part of the idempotency payload)."""
     from mbnas_core.orchestration import engine
     key = "training|" + req.idempotency_key
     payload = canonical_sha256(req.model_dump(mode="json"))
@@ -431,7 +431,7 @@ def create_training_run(conn: sqlite3.Connection, req: TrainingRunRequest, svc: 
             atomic_write_bytes(path, source["architecture_yaml"].encode("utf-8"))
             arch_path = str(path)
     except OSError:
-        # DD-A46: with gateway host inputs the output_root is a customer-host path this core host may not be able to
+        # with gateway host inputs the output_root is a customer-host path this core host may not be able to
         # create; the database keeps the protocols and the selected configuration (config revision) instead
         if gateway is None:
             raise
@@ -464,7 +464,7 @@ def create_training_run(conn: sqlite3.Connection, req: TrainingRunRequest, svc: 
 
 def _record_revisions(conn: sqlite3.Connection, run_id: str, cid: str, req: TrainingRunRequest, source: dict[str, Any],
                       selected_artifact: dict[str, Any] | None) -> None:
-    """F5d: ``original`` (a user YAML: the bytes as given) and ``selected`` (the configuration bound to the new trial;
+    """``original`` (a user YAML: the bytes as given) and ``selected`` (the configuration bound to the new trial;
     derived from the original, or from the source candidate's latest revision for a search/generated source)."""
     from mbnas_core.orchestration import config_revisions, engine
 
@@ -515,10 +515,10 @@ def plan_training_run(conn: sqlite3.Connection, run_id: str) -> list[dict[str, A
 
 
 def on_training_result(conn: sqlite3.Connection, job: dict[str, Any], result: JobResult) -> None:
-    """Commit a finished explicit-training job. DD-5: ``SEARCH_COMPLETE`` + ``performance_status=NOT_EVALUATED`` on a
+    """Commit a finished explicit-training job. ``SEARCH_COMPLETE`` + ``performance_status=NOT_EVALUATED`` on a
     row with ``training_mode`` means "explicit training finished; no metrics measured": either validation_enabled=false,
-    or (DD-A62 (a)) validation_enabled=true on a runner that could not evaluate - its payload says NOT_EVALUATED
-    (DD-A60 (4): a CPU-only runner, latency is measured on CUDA only). That row also carries ``reason_code``
+    or validation_enabled=true on a runner that could not evaluate - its payload says NOT_EVALUATED
+    (a CPU-only runner: latency is measured on CUDA only). That row also carries ``reason_code``
     EVALUATION_REQUIRES_CUDA, ``latency_source`` pending, null metrics/fitness and the trained ``checkpoint_path``, and
     the run COMPLETES (:func:`engine.commit_not_evaluated`) instead of failing MODEL_RUN_FAILED on METRIC_MISSING."""
     from mbnas_core.orchestration import engine
@@ -538,7 +538,7 @@ def on_training_result(conn: sqlite3.Connection, job: dict[str, Any], result: Jo
             cand = engine.set_candidate(conn, cand["id"], "SEARCH_COMPLETE", "TRAIN")
             rr = result.outputs.get("rung_result") or {}
             trained_hash = result.outputs.get("architecture_hash")
-            mismatch = engine.verify_architecture_hash(conn, ctx, cand, trained_hash) is False  # DD-10: flag, never silent
+            mismatch = engine.verify_architecture_hash(conn, ctx, cand, trained_hash) is False  # flag, never silent
             extra = {"reason_code": engine.ARCHITECTURE_HASH_MISMATCH} if mismatch else {}
             engine.put_row(conn, ctx, engine.base_row(ctx, cand, stage, "SEARCH_COMPLETE",
                 epochs=int(result.outputs.get("epochs_done", stage.target)), checkpoint_path=rr.get("rung_end_training_ckpt"),

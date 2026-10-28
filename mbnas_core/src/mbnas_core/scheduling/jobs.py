@@ -1,4 +1,4 @@
-"""Job creation and lease life cycle on top of ``db.repo`` (PLAN §2 ``scheduling/jobs.py``).
+"""Job creation and lease life cycle on top of ``db.repo``.
 
 * :func:`ensure_job` queues a job once per idempotent key ``run|kind|candidate|rung|extra``; asking again
   returns the existing job unchanged (so replaying a result can never create a duplicate CUDA job).
@@ -67,7 +67,7 @@ def ensure_job(conn: sqlite3.Connection, *, run_id: str, kind: str, protocol_has
 
 def start_attempt(conn: sqlite3.Connection, job_id: str, worker_id: str, now: str | None = None, *,
                   attempt: int | None = None) -> bool:
-    """LEASED -> RUNNING for the lease owner; ``started_at`` = start of this attempt. ``attempt`` (R1) additionally
+    """LEASED -> RUNNING for the lease owner; ``started_at`` = start of this attempt. ``attempt`` additionally
     fences on the lease epoch; None keeps the owner-worker behaviour."""
     now = now or utcnow_iso()
     a_sql, a_arg = ("", ()) if attempt is None else (" AND attempt = ?", (int(attempt),))
@@ -80,7 +80,7 @@ def start_attempt(conn: sqlite3.Connection, job_id: str, worker_id: str, now: st
 def requeue(conn: sqlite3.Connection, job_id: str, worker_id: str, *, error: dict[str, Any],
             pause: bool = False, now: str | None = None, attempt: int | None = None) -> bool:
     """Return an owned job to QUEUED (retry, or pause at a safe boundary when ``pause``); ``attempt`` fences on the
-    lease epoch (R1)."""
+    lease epoch."""
     now = now or utcnow_iso()
     a_sql, a_arg = ("", ()) if attempt is None else (" AND attempt = ?", (int(attempt),))
     cur = conn.execute(

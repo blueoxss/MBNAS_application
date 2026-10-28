@@ -1,0 +1,34 @@
+# git diff -- mbnas_core/src/mbnas_core/console/projection.py (2026-10-28 13:55:26 KST); HEAD 8722e3062
+# sha256 before 320398a0aaf4ebacd37c0146a75328e8ab3711d41f7f84cea6b951a3f46da430  after 7604d3f2cbea46f961e5de6aae069f32d21f3053fdb9599abca27d61c8bb056b
+diff --git a/mbnas_core/src/mbnas_core/console/projection.py b/mbnas_core/src/mbnas_core/console/projection.py
+index b5c186998..e2edaec2b 100644
+--- a/mbnas_core/src/mbnas_core/console/projection.py
++++ b/mbnas_core/src/mbnas_core/console/projection.py
+@@ -16,7 +16,8 @@ module. Stored rows are never rewritten: every function here works on the respon
+ Before a value is copied, the component's value rules (``x-public-projection.value_rules``) are applied to a copy:
+ 
+ * **scrub** - free text (error and validation messages, warnings, registry reasons, log ``message`` /
+-  ``message_detail`` / ``checks``, structure diagnostics, ``audit.fallback_reason``, evidence errors): absolute paths
++  ``message_detail`` / ``checks``, structure diagnostics, ``audit.fallback_reason``, evidence errors) and every string
++  of ``CandidateEvaluation.raw_metrics`` (DD-A75: e.g. the runner paths of ``resolved_recipe``): absolute paths
+   become ``<path>``, ``pid=<n>`` becomes ``pid=<pid>``, this host's name becomes ``<host>`` (:func:`scrub_text`);
+ * **ids** - an owner-worker ``hostname:pid`` id becomes an opaque ``wrk-<hex>`` id, a runner row keeps its core-issued
+   runner id (``runner_id``), every device UUID becomes the core-issued ``device_id`` (``dev-<hex>``; HMAC with the
+@@ -286,13 +287,16 @@ def _worker(v: dict[str, Any], ctx: _Ctx) -> dict[str, Any]:
+ 
+ 
+ def _raw_metrics(raw: dict[str, Any]) -> dict[str, Any]:
++    """Public ``raw_metrics``: device uuids become ``device_id``, then every string member at any depth is scrubbed
++    (:func:`scrub_deep`, keys unchanged). DD-A75 F1: the runner's absolute paths of a validation-ON training row
++    (``resolved_recipe.data`` / ``model`` / ``project`` / ``save_dir``) become ``<path>``; ``/api/v1`` paths stay."""
+     raw = dict(raw)
+     uuid = raw.pop("device_uuid", None)
+     if uuid and not raw.get("device_id"):
+         raw["device_id"] = public_ids().device_id(uuid)
+     if isinstance(raw.get("latency"), dict):
+         raw["latency"] = _uuid_to_device_id(raw["latency"])
+-    return raw
++    return scrub_deep(raw)
+ 
+ 
+ def _uuid_to_device_id(value: Any) -> Any:

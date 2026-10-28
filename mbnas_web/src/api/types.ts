@@ -1,7 +1,7 @@
 /**
  * Aliases over the generated contract types (types.gen.ts is produced by `npm run gen:types` from the canonical
  * mbnas_contracts openapi.json and must not be edited). Contract 1.5.0: every alias is a generated component as is; there
- * are no hand-written field augmentations (WP-6C). Fields a view reads from a row that the contract does not declare on
+ * are no hand-written field augmentations. Fields a view reads from a row that the contract does not declare on
  * that component (e.g. the GeneratedCandidate fields of a generated candidate shown through the candidate view) are read
  * through `rec()` as `unknown`, never typed by hand.
  *
@@ -92,7 +92,7 @@ export type RegistryStructure = paths['/api/v1/registry/{model_id}/structure']['
 /** Body of POST /structure-check (1.5.0: exactly one of upload_id, model_yaml_text + source_sha256, model_path). */
 export type StructureCheckRequest = paths['/api/v1/structure-check']['post']['requestBody']['content']['application/json'];
 
-/** Contract 1.5.0 (F5a / F5d): the answer of POST /uploads/model-config and the configuration revisions of a candidate. */
+/** Contract 1.5.0: the answer of POST /uploads/model-config and the configuration revisions of a candidate. */
 export type UploadResponse = S['UploadResponse'];
 export type ModelConfigRevision = S['ModelConfigRevision'];
 export type ModelConfigRevisionList = S['ModelConfigRevisionList'];

@@ -1,7 +1,7 @@
 /**
  * Download of one registered run artifact BY ID (contract 1.5.0: files are referenced by artifact / checkpoint id + sha256,
  * never by a host path). GET /runs/{run_id}/artifacts/{artifact_id} streams the store bytes; the browser hashes them and
- * compares with the recorded sha256. A failure is shown by its Error.code (DD-A39: 404 ARTIFACT_NOT_READY = not stored yet,
+ * compares with the recorded sha256. A failure is shown by its Error.code (404 ARTIFACT_NOT_READY = not stored yet,
  * 409 LOAD_FAILED = the stored bytes no longer match their sha256), the HTTP status decides only for an unknown code.
  */
 import { useState } from 'react';

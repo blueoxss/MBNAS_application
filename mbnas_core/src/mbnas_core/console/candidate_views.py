@@ -11,7 +11,7 @@ from mbnas_core.console.views import artifact_overlay, render_artifact, signing_
 
 def candidate_artifacts(conn: sqlite3.Connection, run_id: str, candidate_id: str, *,
                         base_url: str, svc: AppServices, overlay: dict[str, str] | None = None) -> list[dict[str, Any]]:
-    """``Artifact`` views of a candidate's registry rows with their effective state (WP-5B locations: a runner object
+    """``Artifact`` views of a candidate's registry rows with their effective state (recorded locations: a runner object
     is NOT_READY, without a signed URL, until the gateway verified it in its store)."""
     overlay = artifact_overlay(conn, run_id) if overlay is None else overlay
     return [render_artifact(a, overlay, base_url=base_url, key=signing_key(svc), ttl_s=svc.settings.signed_url_ttl_s)
@@ -37,8 +37,8 @@ def generation_candidates(conn: sqlite3.Connection, run_id: str, *, base_url: st
                     'attempt': generation.get('attempt'), 'seed': generation.get('seed', cand.get('search_seed')),
                     'requested_method': generation.get('requested_method'),
                     'effective_method': generation.get('effective_method', 'RandomGeneration'),
-                    'duplicate_scope': generation.get('duplicate_scope', 'per_seed'),  # DD-2 (policy that always applied)
-                    'execution': generation.get('execution'),  # DD-6: 'CPU' for every generation job; null before it was recorded
+                    'duplicate_scope': generation.get('duplicate_scope', 'per_seed'),  # the policy that always applied
+                    'execution': generation.get('execution'),  # 'CPU' for every generation job; null before it was recorded
                     'parameters': structure.get('parameters'),
                     'ap': None, 'recall': None, 'latency_ms': None, 'fitness': None,
                     'artifacts': candidate_artifacts(conn, run_id, cand['id'], base_url=base_url, svc=svc,

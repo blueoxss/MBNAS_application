@@ -5,7 +5,7 @@ Source: a YOLO-format dataset with images/{train,val,test} and labels/{train,val
 subset directory with images/labels per role (train, search_val, final_eval), data.yaml and manifest.json (sha256 per
 file, class ids, seed, selection rule). Selection: sort file names, random.Random(seed).sample. Copies files (no symlinks).
 The logic lives in mbnas_model_runtime.datasets.subset; this CLI is a thin wrapper with unchanged options and output.
---source and --out are required: there are no host-specific default paths (DD-A59 (b)). Example:
+--source and --out are required: there are no host-specific default paths. Example:
 
     python scripts/public/make_pilot_subset.py --source /ABSOLUTE/PATH/TO/dataset --out /ABSOLUTE/PATH/TO/subset
 """

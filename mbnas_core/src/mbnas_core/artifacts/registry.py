@@ -1,8 +1,4 @@
-"""Artifact registry (reimplementation 2026-10-15; the original module was never committed).
-
-재구현(2026-10-15), 원본 누락, 근거: api/routes_files.py (resolve_file / verify_signature / artifact_view 사용),
-orchestration/engine.py (register_file / artifact_path), worker·api (run_dir), tests/api/test_artifacts_export.py
-(접근 매트릭스), contracts/openapi.json (Artifact 스키마, "Never accepts filesystem paths").
+"""Artifact registry.
 
 Rules implemented here:
 
@@ -11,7 +7,7 @@ Rules implemented here:
   regular file below the run directory, which itself must sit below one of the server's output roots.
 * ``register_file`` hashes the file, guesses its MIME type and stores the row as READY. Paths with ``..`` segments,
   paths outside the run directory and symlinks that leave it are refused with :class:`ArtifactError`.
-* DD-A62 (c): a row with ``meta.location = core_local`` (:data:`CORE_LOCAL`; a generated architecture YAML that the
+* A row with ``meta.location = core_local`` (:data:`CORE_LOCAL`; a generated architecture YAML that the
   owner worker of a split deployment wrote to the core-local run directory ``<core output_root>/<run id>``) is resolved
   against that directory only, with the registration guards (:func:`resolve_file`).
 * Signed URLs carry ``exp`` (unix seconds) and ``sig`` = hex HMAC-SHA256(key, ``"<artifact_id>.<exp>"``). The
@@ -39,7 +35,7 @@ from mbnas_contracts.util.time import format_iso
 API_PREFIX = "/api/v1"
 CORE_LOCAL = "core_local"
 """``meta.location`` of an artifact registered relative to the core-local run directory ``<core output_root>/<run id>``
-(``owner_worker.paths.core_run_dir``) instead of ``run_dir(run)`` (DD-A62 (c),
+(``owner_worker.paths.core_run_dir``) instead of ``run_dir(run)`` (registered by
 ``orchestration.engine.register_generated_architecture``); not a public metadata key."""
 CORE_LOCAL_MAX_BYTES = 1024 * 1024
 """Size bound of a core-local generated YAML, at registration and when it is served."""
@@ -54,9 +50,7 @@ PUBLIC_META_KEYS = ("origin", "category", "filename", "stage", "candidate_id", "
 
 class ArtifactError(Exception):
     """An artifact cannot be registered or served. ``code`` is one of NOT_READY, LOAD_FAILED, MISSING,
-    ACCESS_DENIED (routes_files.STATUS maps these to HTTP statuses); ``message`` is safe to show to the client.
-
-    재구현(2026-10-15), 원본 누락, 근거: routes_files.py(``exc.code``/``exc.message``), engine._register_artifacts."""
+    ACCESS_DENIED (routes_files.STATUS maps these to HTTP statuses); ``message`` is safe to show to the client."""
 
     def __init__(self, code: str, message: str) -> None:
         super().__init__(message)
@@ -67,8 +61,7 @@ class ArtifactError(Exception):
 def run_dir(run: Mapping[str, Any]) -> Path:
     """``<console.paths.output_root>/<run id>`` of a run row (or a ``{"id", "resolved_protocol"}`` shell).
 
-    재구현(2026-10-15), 원본 누락, 근거: tests/api/test_artifacts_export.py::_file_of 가 같은 식으로 경로를
-    계산하고, routes_runs.py 가 run 생성 전에 shell 매핑으로 호출한다. 디렉터리는 만들지 않는다.
+    routes_runs.py 가 run 생성 전에 shell 매핑으로 호출한다. 디렉터리는 만들지 않는다.
     """
     try:
         out = run["resolved_protocol"]["console"]["paths"]["output_root"]
@@ -83,18 +76,13 @@ def run_dir(run: Mapping[str, Any]) -> Path:
 def artifact_path(run_id: str, artifact_id: str) -> str:
     """API path of an artifact (no host, no query).
 
-    재구현(2026-10-15), 원본 누락, 근거: engine._register_artifacts 가 view 의 ``url`` 로 저장하고, 테스트가
-    ``/api/v1/runs/{run_id}/artifacts/{artifact_id}`` 로 요청한다.
+    engine._register_artifacts 가 view 의 ``url`` 로 저장한다.
     """
     return f"{API_PREFIX}/runs/{run_id}/artifacts/{artifact_id}"
 
 
 def sign(key: bytes, artifact_id: str, exp: int) -> str:
-    """Hex HMAC-SHA256 of ``"<artifact_id>.<exp>"``.
-
-    재구현(2026-10-15), 원본 누락, 근거: tests/api/test_artifacts_export.py 가 ``sign(SIGNING_KEY.encode(), id, exp)``
-    로 만료된 정상 서명을 만들어 410 EXPIRED 를 기대한다(64자 hex 위조 서명은 403).
-    """
+    """Hex HMAC-SHA256 of ``"<artifact_id>.<exp>"``."""
     return hmac.new(key, f"{artifact_id}.{int(exp)}".encode("utf-8"), hashlib.sha256).hexdigest()
 
 
@@ -103,7 +91,7 @@ def verify_signature(key: bytes, artifact_id: str, exp: Any, sig: Any, *, now: f
 
     The signature is checked first so a forged signature is never reported as merely expired.
 
-    재구현(2026-10-15), 원본 누락, 근거: routes_files._authorize (invalid→403 ACCESS_DENIED, expired→410 EXPIRED).
+    routes_files._authorize: invalid→403 ACCESS_DENIED, expired→410 EXPIRED.
     """
     if exp is None or sig is None:
         return "invalid"
@@ -112,7 +100,7 @@ def verify_signature(key: bytes, artifact_id: str, exp: Any, sig: Any, *, now: f
     except ValueError:
         return "invalid"
     # bytes, not str: hmac.compare_digest(str, str) raises TypeError for non-ASCII input (e.g. ``sig=%C3%A9``), which
-    # reached the client as HTTP 500 instead of 403 (found by verification 2026-10-15)
+    # would reach the client as HTTP 500 instead of 403
     try:
         sig_b = str(sig).encode("utf-8")
     except UnicodeEncodeError:  # lone surrogate from a malformed percent-escape
@@ -147,9 +135,6 @@ def register_file(conn: sqlite3.Connection, run: Mapping[str, Any], *, kind: str
     disagrees with the bytes (LOAD_FAILED) or an unknown ``kind`` (ValueError). The id is derived from
     (run, relpath, evaluation), so registering the same file again for the same evaluation updates that row.
     Must be called inside the caller's transaction.
-
-    재구현(2026-10-15), 원본 누락, 근거: engine._register_artifacts(호출·예외 처리), test_missing_modified_symlink_
-    and_not_ready (심링크 탈출·`../../etc/passwd` 거부), db.repo.insert_artifact (relpath 규칙).
     """
     if kind not in ARTIFACT_KINDS:
         raise ValueError(f"unknown artifact kind {kind!r}")
@@ -208,12 +193,11 @@ def resolve_file(run: Mapping[str, Any], row: Mapping[str, Any], output_roots: S
 
     NOT_READY rows are refused before the disk is touched; the run directory must lie below an output root; the
     file must resolve below the run directory (symlink escape → ACCESS_DENIED) and exist (else MISSING).
-    DD-A62 (c): a ``meta.location = core_local`` row is resolved against ``<core_output_root>/<run id>`` ONLY (never
+    A ``meta.location = core_local`` row is resolved against ``<core_output_root>/<run id>`` ONLY (never
     ``run_dir(run)``; without ``core_output_root`` it is MISSING), with the same checks plus the registration guards
     (:func:`_core_local_guards`); every other row is resolved against ``run_dir(run)`` only, as before.
 
-    재구현(2026-10-15), 원본 누락, 근거: routes_files.get_artifact (STATUS 매핑)과 tests/api/test_artifacts_export.py
-    (a-pending→409 NOT_READY, 삭제→404 MISSING, 심링크→403 이고 본문에 secret 없음).
+    routes_files.get_artifact maps these codes to HTTP (NOT_READY→409, MISSING→404, ACCESS_DENIED→403).
     """
     if row.get("state") == "NOT_READY":
         raise ArtifactError("NOT_READY", "artifact is not ready yet")
@@ -243,9 +227,6 @@ def artifact_view(row: Mapping[str, Any], *, base_url: str, key: bytes | None, t
 
     READY artifacts with a signing key get ``auth_mode=signed_url`` (``?exp=&sig=``, ``expires_at`` = now + ttl,
     ``refresh_url``); everything else is ``bearer_fetch`` with the bare API path.
-
-    재구현(2026-10-15), 원본 누락, 근거: api/views.evaluation_views, routes_files.refresh_artifact,
-    contracts/openapi.json Artifact(auth_mode, expires_at, refresh_url, matching), test_signed_and_bearer_access.
     """
     t = time.time() if now is None else now
     path = artifact_path(str(row["run_id"]), str(row["id"]))

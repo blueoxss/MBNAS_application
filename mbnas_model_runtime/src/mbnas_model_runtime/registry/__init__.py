@@ -1,4 +1,4 @@
-"""Model registry declarations shared by every host (WP-1 contract §4, DD-A11).
+"""Model registry declarations shared by every host.
 
 * :mod:`.specs` — the static ``ModelSpec`` declarations (baseline14 + PILOT_SMOKE representatives); ``SPEC_BY_ID`` is
   re-exported here;
@@ -44,7 +44,7 @@ def arch_spec(model_id: str, weights_dir: str | None = None,
     """ArchSpec for a registry baseline (weights path/sha from the entry evidence when given).
 
     ``weights_dir`` (the host's configured weights directory) defaults to ``$MBNAS_HOME/weights``
-    (:func:`~mbnas_model_runtime.adapters.base.default_weights_dir`, DD-A13); it is read only when the path is not
+    (:func:`~mbnas_model_runtime.adapters.base.default_weights_dir`); it is read only when the path is not
     taken from the entry evidence and the model has an official weights file.
     """
     from mbnas_model_runtime.adapters.base import ArchSpec, default_weights_dir

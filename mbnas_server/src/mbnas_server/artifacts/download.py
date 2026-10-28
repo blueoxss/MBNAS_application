@@ -1,4 +1,4 @@
-"""Framework-agnostic download of a stored artifact (WP-5 contract section 1; DD-A39).
+"""Framework-agnostic download of a stored artifact.
 
 ``serve_artifact(store, record) -> (headers, body)``: ``record`` is the artifact record core returns for
 ``(run_id, artifact_id)`` (``artifact_id`` or ``id``, ``sha256``, ``bytes``, ``mime_type``, ``run_id``). The gateway route

@@ -1,4 +1,4 @@
-"""Model-config uploads (F5a, WP-3 contract section 2.5) and the resolution of ``upload_id`` / ``model_path`` to YAML text.
+"""Model-config uploads and the resolution of ``upload_id`` / ``model_path`` to YAML text.
 
 ``POST /api/v1/uploads/model-config`` accepts either a raw body (``Content-Type`` anything but multipart; the file name
 comes from ``X-Filename`` or ``?filename=``) or ``multipart/form-data`` with one file part (field ``file``, or the first
@@ -6,13 +6,13 @@ part that has a filename). Rules: file name ending ``.yaml``/``.yml`` (else 422 
 1..``upload_max_bytes`` bytes (default 1 MiB; else 413 ``PAYLOAD_TOO_LARGE`` / 422 ``UPLOAD_EMPTY``), UTF-8 text (422
 ``UPLOAD_NOT_UTF8``). The original bytes are stored unchanged at ``<artifact_store>/uploads/<sha256>.yaml`` (content
 addressed, written atomically, an identical re-upload is a no-op) and the answer is ``{upload_id, source_sha256, bytes}``
-with ``upload_id = "upl-<sha256 hex>"``; the server path is not returned (R1: no host paths to the browser).
+with ``upload_id = "upl-<sha256 hex>"``; the server path is not returned (no host paths to the browser).
 
 :func:`carry_model_source` rewrites a ``POST /structure-check`` body or a ``user`` training source for core: an
 ``upload_id`` (gateway feature: 422 ``UPLOAD_ID_INVALID``, 404 ``UPLOAD_NOT_FOUND``, 409 ``UPLOAD_CORRUPT``) or a
 legacy absolute ``model_path`` under ``model_yaml_roots`` / ``output_roots`` (read on this host) becomes
 ``model_yaml_text`` + ``source_sha256`` (+ ``model_name``): core never receives a path for a translated request.
-DD-A44 (d) error-code rule: gateway codes only for the gateway's own features; a legacy ``model_path`` keeps the codes
+Error-code rule: gateway codes only for the gateway's own features; a legacy ``model_path`` keeps the codes
 core used before the split (the shared path-check codes ``PATH_*``, and 422 ``MODEL_CONFIG_INVALID`` for a file that is
 not ``.yaml``/``.yml``, larger than ``upload_max_bytes`` or not UTF-8), and a body problem (not an object, unknown key,
 empty / relative / non-string ``model_path``, no or several model sources without ``upload_id``) is not pre-validated:
@@ -95,7 +95,7 @@ async def upload_model_config(request: Request) -> JSONResponse:
         filename = request.headers.get("x-filename") or request.query_params.get("filename") or ""
         data = body
     name = os.path.basename(filename.replace("\\", "/"))
-    if not name.lower().endswith(YAML_EXT):  # DD-A44 (d): 422 (the 1.5.0 draft lists 415; see the WP-3B report)
+    if not name.lower().endswith(YAML_EXT):  # 422 (the 1.5.0 draft lists 415)
         raise _bad("UPLOAD_TYPE_UNSUPPORTED", "model config must be a .yaml or .yml file (give its file name)")
     if len(data) > settings.upload_max_bytes:
         raise _bad("PAYLOAD_TOO_LARGE", f"model config larger than {settings.upload_max_bytes} bytes", 413)
@@ -182,7 +182,7 @@ def carry_model_source(settings: GatewaySettings, obj: dict[str, Any], core_keys
       ``VALIDATION_FAILED``, the gateway's own field); replaced by the upload's text and sha256;
     * else a legacy request whose keys are all known to core (``core_keys``) and whose ``model_path`` is an absolute
       string without ``model_yaml_text``: the file is read here (:func:`text_from_model_path`); a caller's
-      ``model_name`` is kept unchanged (DD-A45). DD-A47 (d): a gateway without ``model_yaml_roots`` and
+      ``model_name`` is kept unchanged. A gateway without ``model_yaml_roots`` and
       ``output_roots`` (owner all-in-one) has no roots to check the path against, so it forwards the request unchanged
       and core checks the path against its own roots (the same fallback as validate without ``dataset_roots``);
     * anything else is a body problem (or a text core reads itself): ``None``.
@@ -199,7 +199,7 @@ def carry_model_source(settings: GatewaySettings, obj: dict[str, Any], core_keys
     base = {k: v for k, v in obj.items() if k != "upload_id"}  # upload_id: null = absent (core does not know the key)
     path = base.get("model_path")
     if set(base) <= core_keys and present == {"model_path"} and isinstance(path, str) and os.path.isabs(path):
-        if not (settings.model_yaml_roots or settings.output_roots):  # DD-A47 (d): core checks its own roots
+        if not (settings.model_yaml_roots or settings.output_roots):  # core checks its own roots
             return base if len(base) != len(obj) else None
         out = {k: v for k, v in base.items() if k not in MODEL_SOURCES}
         carried = text_from_model_path(settings, path, prefix + "model_path")

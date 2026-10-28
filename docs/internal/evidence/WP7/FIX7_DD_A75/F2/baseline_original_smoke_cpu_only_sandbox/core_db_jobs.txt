@@ -1,0 +1,4 @@
+# read-only facts of the smoke's core DB (integration_root/core/db/mbnas.sqlite3); GPU uuids not copied
+job PROPOSE_GENERATION SUCCEEDED lease_owner=smoke-owner-1 device_used=None
+run run-ae0968d158ce console.benchmark.device=None device_resolved=None
+runner id=smoke-runner-1 device=cpu device_uuid=None

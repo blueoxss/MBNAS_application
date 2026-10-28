@@ -1,20 +1,21 @@
 # MBNAS Research Console — owner-private-runtime ZIP allowlist (WP-7D; read by scripts/dev/package_build.py)
 #
 # Format: see public.txt (same syntax and sections).
-# Scope: public-runtime (public.txt [include], DD-A41) + the private core package and wheel, requirements-owner.txt,
-# deploy/owner, owner tests and all of tests/_shared, the root pyproject.toml (pytest configuration), all scripts
-# (owner/dev/runner/public tools), LICENSE_STATUS.md and the internal documents except the canary manifest
-# (docs/internal/canary/, denied everywhere) and the source-snapshot provenance manifests (the snapshot itself is
-# build/source_snapshot, denied with build/). Private to the owner: host facts are reported, not failed, and there is
-# no private-package check (the web bundle gate and the canary/secret checks still apply).
+# Scope (clean distribution, DD-A76): public-runtime (public.txt [include]) + the private core package and wheel,
+# requirements-owner.txt, deploy/owner, the owner tools (scripts/owner: probe_registry.py, search_dry_run.py,
+# smoke_end_to_end.py), scripts/runner and the owner driver of `scripts/verify.sh --suite integration`
+# (scripts/dev/wp3_three_process_smoke.py, the only scripts/dev file shipped). Tests, internal records, contract
+# history, the licence placeholder and the workspace pytest settings stay in the repository (see [deny]). Private to
+# the owner: host facts are reported, not failed, and there is no private-package check (the web bundle gate and the
+# canary/secret checks still apply).
 
 [profile]
 name = owner
 web_dist = optional
 private_package_check = off
 host_facts = report
-# C09: the wheel member listing of this build also ships here (owner-only evidence area; declared in [generated])
-wheel_listing_member = docs/internal/evidence/package_build/owner_wheels.txt
+# no wheel_listing_member (DD-A76): the wheel member listing of the build stays in
+# build/package_reports/owner_wheels.txt (docs/internal is not shipped)
 
 [wheels]
 mbnas_contracts
@@ -41,18 +42,8 @@ mbnas_web/package.json
 mbnas_web/package-lock.json
 mbnas_web/vite.config.ts
 mbnas_web/tsconfig*.json
-mbnas_web/playwright*.config.ts
-mbnas_web/tests/**
-mbnas_web/e2e/**
 mbnas_web/scripts/**
 mbnas_web/dist/**
-tests/public/**
-tests/_shared/conftest_common.py
-tests/_shared/datasets.py
-tests/_shared/gpu_guard.py
-tests/_shared/fake_core.py
-tests/_shared/stub_core.py
-tests/_shared/stub_handlers.py
 requirements-public.txt
 requirements-cpu.txt
 constraints.txt
@@ -61,36 +52,34 @@ scripts/doctor.sh
 scripts/start.sh
 scripts/stop.sh
 scripts/verify.sh
-# public tools (DD-A59 b): host-default-free CLIs shipped with the bundle (make_pilot_subset.py; its interface test
-# tests/public/model_runtime/test_datasets.py::test_subset_cli_unchanged_interface runs from the bundle)
+# public tools (DD-A59 b): host-default-free CLIs shipped with the bundle (make_pilot_subset.py)
 scripts/public/**
 config/examples/**
 deploy/public/**
-docs/public/**
+# user documents only; docs/public/contracts/ (contract history) is denied below (DD-A76)
+docs/public/*.md
 examples/**
 README.md
 VERSION
-# root LICENSE: DD-A65 placeholder (all rights reserved, licence undetermined)
-LICENSE*
 THIRD_PARTY_NOTICES.md
 # npm licences of the web bundle (DD-A65, scripts/dev/gen_npm_notices.py)
 THIRD_PARTY_NOTICES_WEB.md
 # docker build from the unpacked ZIP: only the files the Dockerfiles COPY reach the builder (WP-7B probe)
 .dockerignore
 # --- owner-only part ---
-LICENSE_STATUS.md
 mbnas_core/pyproject.toml
 mbnas_core/src/**
 requirements-owner.txt
 deploy/owner/**
-tests/owner/**
-tests/_shared/**
-pyproject.toml
-scripts/**
-docs/internal/**
+scripts/owner/probe_registry.py
+scripts/owner/search_dry_run.py
+scripts/owner/smoke_end_to_end.py
+scripts/runner/**
+# the owner driver of scripts/verify.sh --suite integration (DD-A76: the only scripts/dev file shipped)
+scripts/dev/wp3_three_process_smoke.py
 
 [deny]
-# --- everywhere (as in public.txt / registration.txt, except that evidence logs under docs/internal stay) ---
+# --- everywhere (same block in public.txt / registration.txt) ---
 runtime/**
 build/**
 dist/**
@@ -125,23 +114,22 @@ docs/internal/canary/**
 **/*.safetensors
 **/*.onnx
 **/*.engine
-# logs: everywhere except docs/internal (evidence logs are owner documents)
-mbnas_*/**/*.log
-tests/**/*.log
-scripts/**/*.log
-config/**/*.log
-deploy/**/*.log
-examples/**/*.log
-docs/public/**/*.log
-*.log
+**/*.log
 **/.DS_Store
 mbnas_web/runtime/**
-# --- owner: no source-snapshot provenance manifests ---
-docs/internal/provenance/SOURCE_SNAPSHOT_* :: snapshot provenance of the original checkout stays on the build host
-# --- owner: no T8 owner static-scan dumps (DD-A74, C10 D8): tens of MB of host-fact match listings that grow with
-# every scan cycle because each owner ZIP scan re-matches the dumps of the previous one; the summaries stay in SUMMARY.md
-# and in the t8 README; the dumps stay on the build host under docs/internal/evidence/ ---
-docs/internal/evidence/**/t8/zip_leak_scan_owner.* :: T8 owner static-scan dumps stay on the build host (DD-A74)
+# --- clean distribution (DD-A76; same block in public.txt / registration.txt). The text after ' :: ' is copied into
+# the shipped PACKAGE_PROFILE.json (exclusions_with_reason), so it names no decision or record. docs/internal/** also
+# keeps the source-snapshot provenance manifests and the static-scan dumps (DD-A74) out of the owner bundle ---
+tests/** :: test suites are not shipped in this distribution
+docs/internal/**
+docs/public/contracts/** :: contract history stays in the repository
+LICENSE* :: no licence file is shipped until the rights holder decides
+pyproject.toml :: workspace pytest settings (repository only)
+mbnas_web/tests/** :: web test suites are not shipped in this distribution
+mbnas_web/e2e/** :: web end-to-end tests are not shipped in this distribution
+mbnas_web/playwright*.config.ts :: configuration of the web end-to-end tests
+scripts/package.sh
+scripts/owner/t2_compare.py
 
 [generated]
 BUILD_INFO.json
@@ -150,24 +138,19 @@ FILE_MANIFEST.jsonl
 # human-readable contents table rendered from FILE_MANIFEST.jsonl (C10)
 PACKAGE_CONTENTS.md
 wheels/*.whl
-# wheel member listing of this build (C09; [profile] wheel_listing_member)
-docs/internal/evidence/package_build/owner_wheels.txt
 
 [required]
 VERSION
 .dockerignore
 constraints.txt
-LICENSE
 THIRD_PARTY_NOTICES.md
 THIRD_PARTY_NOTICES_WEB.md
-LICENSE_STATUS.md
 mbnas_contracts/pyproject.toml
 mbnas_model_runtime/pyproject.toml
 mbnas_runner/pyproject.toml
 mbnas_server/pyproject.toml
 mbnas_core/pyproject.toml
 mbnas_web/package.json
-pyproject.toml
 
 [expected]
 README.md
@@ -191,5 +174,3 @@ docs/public/INSTALL.md
 examples/**
 mbnas_web/package-lock.json
 mbnas_web/src/**
-tests/public/conftest.py
-tests/_shared/conftest_common.py

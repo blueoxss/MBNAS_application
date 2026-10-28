@@ -1,6 +1,6 @@
 /**
- * Model configuration revisions (contract 1.5.0, F5d/F5e): labels, the default diff pair, the line diff of two revisions'
- * stored YAML bytes and the hash verdict of downloaded bytes. Pure functions (unit-tested in tests/config_revisions.test.tsx).
+ * Model configuration revisions (contract 1.5.0): labels, the default diff pair, the line diff of two revisions'
+ * stored YAML bytes and the hash verdict of downloaded bytes. Pure functions.
  *
  * Hash vocabulary (never mixed up in the UI):
  *  - source_sha256    sha256 of the stored BYTES (the upload / file bytes; what a download must hash to);
@@ -31,7 +31,7 @@ export function parentLabel(revisions: readonly ModelConfigRevision[], parentId:
 }
 
 /**
- * The pair the diff opens with: the selected and the executed revision when both exist (WP-6 §1-6: 선택본↔실행본), otherwise
+ * The pair the diff opens with: the selected and the executed revision when both exist (선택본↔실행본), otherwise
  * the last two revisions (older left), otherwise the only one against itself. Null for an empty list.
  */
 export function defaultDiffPair(revisions: readonly ModelConfigRevision[]): [string, string] | null {

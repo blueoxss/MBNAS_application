@@ -38,9 +38,8 @@ Outputs the orchestrator consumes:
   accepted). Extra per-candidate keys (genotype, yaml_hash, params, flops) are kept in ``audit.proposal``; GA
   parent pools are built from them. ``search_state`` is handed back as ``params.previous_search_state``.
 
-Source: ``mbnas_server.worker.contract`` (monolithic package, snapshot HEAD 18c4815), split per WP-1 contract §4 /
-DD-A10. This module keeps the handler-protocol types only (``JobFailure``, ``JobPaused``, ``Emitter``, ``Handler``,
-``STOP_ENV``, ``PAUSED_REASON``, ``PAUSE_REASONS``, ``HANDLERS_ENV``; code unchanged). The handler table and its
+This module holds the handler-protocol types only (``JobFailure``, ``JobPaused``, ``Emitter``, ``Handler``,
+``STOP_ENV``, ``PAUSED_REASON``, ``PAUSE_REASONS``, ``HANDLERS_ENV``). The handler table and its
 resolution (``DEFAULT_HANDLERS``, ``resolve_handler``, ``handler_override``, ``_load``) live with the processes that run
 handlers: ``mbnas_runner.contract`` (runner job kinds) and the owner worker of the core host.
 """

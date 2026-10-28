@@ -1,5 +1,5 @@
 /**
- * "구성" tab of the candidate view (contract 1.5.0, F5d/F5e/F5g): the configuration revisions of one candidate
+ * "구성" tab of the candidate view (contract 1.5.0): the configuration revisions of one candidate
  * (GET .../config-revisions), a line diff between any two revisions of their STORED BYTES (GET .../config-revisions/{id}/yaml,
  * both sha256 shown and checked), and the download of the exact bytes of a revision. The displayed / canonical text download
  * of the structure section is a different thing and is labelled as such there.

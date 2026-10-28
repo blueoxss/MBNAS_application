@@ -1,0 +1,44 @@
+........................................................................ [  6%]
+........................................................................ [ 12%]
+........................................................................ [ 18%]
+........................................................................ [ 24%]
+........................................................................ [ 30%]
+........................................................................ [ 36%]
+........................................................................ [ 42%]
+........................................................................ [ 48%]
+........................................................................ [ 54%]
+........................................................................ [ 60%]
+........................................................................ [ 66%]
+........................................................................ [ 72%]
+..........................................s............................. [ 78%]
+........................................................................ [ 84%]
+........................................................................ [ 90%]
+........................................................................ [ 96%]
+.......................................                                  [100%]
+=============================== warnings summary ===============================
+runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/public/runner/test_benchmark_unit.py::test_export_ultralytics_raw_head_and_restores_pt_path
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/ultralytics/nn/modules/head.py:222: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+    if self.dynamic or self.shape != shape:
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================= slowest 15 durations =============================
+30.23s call     tests/public/packaging/test_package_contents_and_gates.py::test_registration_build_does_not_depend_on_the_file_list_placeholder
+18.91s call     tests/public/packaging/test_package_build.py::test_reproducible_build_is_identical_twice_and_across_invocations
+16.01s setup    tests/public/packaging/test_package_contents_and_gates.py::test_package_contents_md_in_every_profile_matches_the_manifest
+15.44s setup    tests/public/packaging/test_package_build.py::test_public_zip_name_layout_and_sha256_file
+10.92s call     tests/public/packaging/test_canary_tools.py::test_canary_test_build_positive_control_and_leak_detection
+10.58s call     tests/public/packaging/test_package_build.py::test_web_dist_missing_fails_public_unless_allowed
+8.45s call     tests/public/runner/test_runner_device_used.py::test_child_env_pins_cuda_device_order_to_nvml_pci_bus_order
+7.10s call     tests/public/runner/test_transfer_local.py::test_heartbeat_kicks_a_background_retry
+6.86s call     tests/public/ops/test_ops_start_stop.py::test_stop_escalates_to_sigkill_and_reaps_descendants
+6.85s call     tests/public/ops/test_ops_stop_identity.py::test_sigkill_reaches_a_descendant_outside_the_process_group
+6.84s call     tests/public/ops/test_ops_role_env.py::test_start_removes_the_callers_python_variables_and_oldpwd
+6.41s call     tests/public/runner/test_runner_daemon_unit.py::test_happy_path_claim_start_heartbeat_progress_result_ack
+6.21s call     tests/public/packaging/test_package_contents_and_gates.py::test_wheel_contents_gate_fails_on_undeclared_and_on_missing_package_data
+5.54s call     tests/public/ops/test_ops_install.py::test_offline_install_and_configuration
+5.36s call     tests/public/runner/test_runner_daemon_unit.py::test_pause_control_writes_stop_file_and_commits_paused
+1190 passed, 1 skipped, 44 deselected, 2 warnings in 367.35s (0:06:07)

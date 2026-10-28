@@ -46,8 +46,8 @@ from mbnas_contracts.constants import DEFAULT_POSTPROCESS
 
 _log = logging.getLogger(__name__)
 
-LATENCY_VERSION = "mbnas-latency/4"  # /3: scopes interleaved round-robin per repeat (2026-10-07); /4: derived
-#                                      preprocess_ms, explicit throughput_fps=null, NVML power/clock sampling (S8-F4/F6)
+LATENCY_VERSION = "mbnas-latency/4"  # /3: scopes interleaved round-robin per repeat; /4: derived
+#                                      preprocess_ms, explicit throughput_fps=null, NVML power/clock sampling
 THROUGHPUT_NOTE = "not measured (batch 1 only)"
 PREPROCESS_DEFINITION = ("p50(end_to_end) - p50(forward_and_postprocess), both timed in the same round-robin repeats; "
                          "preprocessing is not timed on its own, timing noise can make it slightly negative")

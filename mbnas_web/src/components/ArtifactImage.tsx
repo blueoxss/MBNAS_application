@@ -71,7 +71,7 @@ export function useArtifact(artifact: Artifact, runId: string, client: ApiClient
   return { result, retry: () => setNonce((n) => n + 1), onImgError };
 }
 
-/** DD-44 zoom steps (multiples of the natural size); 'fit' scales down to the dialog width. */
+/** Zoom steps (multiples of the natural size); 'fit' scales down to the dialog width. */
 export const LIGHTBOX_SCALES: readonly number[] = [0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4];
 export type LightboxScale = 'fit' | number;
 
@@ -83,7 +83,7 @@ export function stepScale(current: LightboxScale, direction: 1 | -1): number {
 }
 
 /**
- * In-page viewer for one already-loaded diagnostic image (DD-44, REQ-9.03). It shows the same src the card shows
+ * In-page viewer for one already-loaded diagnostic image. It shows the same src the card shows
  * (the real artifact URL or its Blob URL): no re-inference, no second fetch, no mock. Esc / backdrop / 닫기 close it
  * (Modal returns the focus to the opener); the new-tab original link and the recorded sha256 stay available.
  */

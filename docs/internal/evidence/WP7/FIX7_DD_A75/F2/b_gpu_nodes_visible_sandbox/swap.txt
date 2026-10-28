@@ -1,0 +1,3 @@
+# swap (only file changed in the installed copy):
+90558be1e741f8c26d9ef6495336b0014a9296a8c06c1eb2d0c5496424501afc  <W>/b/zip/mbnas_application/scripts/dev/wp3_three_process_smoke.py
+0b127874307bd1f2ceae792cb708fb71f9a14227bd867df86e5a20962f9e713c  <W>/b/zip/mbnas_application/scripts/dev/wp3_three_process_smoke.py

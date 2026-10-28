@@ -1,8 +1,8 @@
-"""Runner daemon: the owner worker's ``execute/_monitor/_handle_line/_heartbeat`` loop over HTTP (A3 sections 5-8).
+"""Runner daemon: the owner worker's ``execute/_monitor/_handle_line/_heartbeat`` loop over HTTP.
 
 Loop (one job at a time on one device)::
 
-    register (runtime manifest R6) -> replay the journal (A3 section 5.5)
+    register (runtime manifest) -> replay the journal
     -> wait (bounded) for foreign compute pids to leave the GPU -> POST /claim {kinds}
     -> journal envelope.json -> derive the child's JobSpec (mbnas_runner.envelope) -> spec.json,
        <run_dir>/protocol/resolved.json, <run_dir>/control/
@@ -17,23 +17,23 @@ Loop (one job at a time on one device)::
     -> child JSONL: progress merged and sent as one batch at most every progress_interval_s; checkpoint lines
        verified by this process (run_dir containment, size, kind, sha256 recompute) before POST /checkpoints, a
        rejected one becomes a CHECKPOINT_REPORT_REJECTED log message of the next batch; log/metric lines stay in the
-       stderr log (D10)
+       stderr log
     -> lease-expiry watchdog: with kill_on_lease_expiry (default on) a lease that ran out on the core's clock without a
-       renewal stops the child (F15)
-    -> result: training and EVALUATE results carry ``outputs.device_used`` (``cpu`` on a CPU-only runner, DD-A32;
-       else the CUDA device the child ran on) and ``outputs.device_uuid`` (DD-A49 a; :meth:`RunnerDaemon._with_device`);
+       renewal stops the child
+    -> result: training and EVALUATE results carry ``outputs.device_used`` (``cpu`` on a CPU-only runner;
+       else the CUDA device the child ran on) and ``outputs.device_uuid`` (:meth:`RunnerDaemon._with_device`);
        evaluation artifacts (and the executed architecture.yaml / trainer plots of training kinds) are
        pre-registered with POST /artifacts and carry their artifact_id; result.json is frozen with payload_digest;
        POST /result -> response.json -> POST /ack -> acked.
 
-Artifact transfer (WP-5C, ``artifact_transfer=local``; :mod:`mbnas_runner.transfer`): right after the core accepted a
+Artifact transfer (``artifact_transfer=local``; :mod:`mbnas_runner.transfer`): right after the core accepted a
 registration (E6 checkpoint, E7 batch) the daemon copies those files into the artifact store directory (hard link first,
 byte copy otherwise, digest verified by re-reading, journalled under ``transfers/``) and before the commit it adds
 ``outputs.artifact_transfer = {mode, ok, transferred, failed}`` to the result. A transfer failure never fails or holds
 back the job; failed items are retried on the heartbeat (background thread) and in the idle loop, bounded by
 ``artifact_transfer_max_tries``. With ``artifact_transfer=none`` (default) none of this happens.
 
-Retention prune orders (DD-A66; runner protocol 1.1.0; T3-34): a heartbeat answer's ``control.prune`` lists checkpoints
+Retention prune orders (runner protocol 1.1.0): a heartbeat answer's ``control.prune`` lists checkpoints
 this runner registered that the run's retention policy deletes (never the latest full state, never one an evaluation
 references - the core decides). They are queued for a background thread (:meth:`RunnerDaemon.submit_prunes`; a deletion
 must never delay a lease renewal) and each is carried out by :func:`execute_prune_order` - only the named payload
@@ -51,7 +51,7 @@ store copy is never touched.
 
 SIGTERM/SIGINT set ``stopping``: the running child gets a cancel stop file and SIGTERM (SIGKILL after kill_grace_s),
 the result is committed with ``runner_shutting_down=true`` (the core settles it as WORKER_SHUTDOWN: requeued without
-consuming a retry, F14), then the runner deregisters. The core is the only judge of cancellation, pause, lease loss and
+consuming a retry), then the runner deregisters. The core is the only judge of cancellation, pause, lease loss and
 budgets; the runner reports observations (``cancel_observed``, ``started_at``, ``runner_shutting_down``).
 
 The daemon never imports ``mbnas_core`` or ``mbnas_server``.
@@ -100,7 +100,7 @@ LOCK_FD_ENV = "MBNAS_GPU_LOCK_FD"
 CUDA_DEVICE_ORDER = "PCI_BUS_ID"
 _PR_SET_PDEATHSIG = 1
 _TRAINING = {k.value for k in TRAINING_KINDS}
-#: kinds whose results carry ``outputs.device_used`` / ``device_uuid`` (DD-A32, DD-A49 a; RunnerDaemon._with_device)
+#: kinds whose results carry ``outputs.device_used`` / ``device_uuid`` (RunnerDaemon._with_device)
 DEVICE_RESULT_KINDS = frozenset({*_TRAINING, JobKind.EVALUATE.value})
 PROGRESS_KEYS = ("epoch", "epoch_target_total", "global_step", "samples_seen", "learning_rate")
 #: a full-state payload whose RF-DETR native companion ``native_e<same digits>.ckpt`` goes with it (retention rule)
@@ -309,11 +309,11 @@ class RunnerDaemon:
                                               flush=True))
         self._spawn_fn = spawn
         self._child_pid: int | None = None
-        self._gpu_ignored: set[int] = set()  # live foreign pids that outlasted a full wait (S7-F1: waited for once)
+        self._gpu_ignored: set[int] = set()  # live foreign pids that outlasted a full wait (waited for once)
         self.transfer = ArtifactTransfer(settings, log=self._log)  # disabled unless artifact_transfer=local
         self._retry_thread: threading.Thread | None = None
         self._next_retry_check = 0.0  # monotonic; the idle loop scans for transfers to retry at most once per heartbeat
-        # DD-A66 retention prune orders: journal (outbox), queue and one background worker thread
+        # retention prune orders: journal (outbox), queue and one background worker thread
         self.prunes = PruneJournal(settings.work_root)
         self._prune_lock = threading.Lock()
         self._prune_queue: list[dict[str, Any]] = []
@@ -355,7 +355,7 @@ class RunnerDaemon:
         return utcnow().timestamp() + self.clock_offset_s
 
     def register(self) -> dict[str, Any]:
-        """E1 with the device and the runtime manifest (R6); keeps the negotiated configuration."""
+        """E1 with the device and the runtime manifest; keeps the negotiated configuration."""
         import socket
 
         mounts = {root: os.path.isdir(local) for root, local in self.settings.dataset_mounts.items()}
@@ -435,7 +435,7 @@ class RunnerDaemon:
         return own
 
     def wait_gpu_clear(self) -> dict[str, Any]:
-        """S7-F1 (moved from the owner worker): bounded, logged wait until NVML lists no foreign compute pid. A
+        """Bounded, logged wait until NVML lists no foreign compute pid. A
         *live* foreign pid still listed after a full wait is remembered and not waited for again; a dead or zombie
         pid is always waited for."""
         if self.cpu_only:
@@ -446,7 +446,7 @@ class RunnerDaemon:
             self._gpu_ignored.update(p for p in out["foreign"] if gpu.proc_state(p) not in (None, "Z"))
         return out
 
-    # -- restart replay (A3 section 5.5) -----------------------------------------------------------------------
+    # -- restart replay ----------------------------------------------------------------------------------------
     def replay(self) -> list[tuple[str, int, str]]:
         """Close every open journal attempt; returns ``(job_id, attempt, what was done)``."""
         done: list[tuple[str, int, str]] = []
@@ -570,7 +570,7 @@ class RunnerDaemon:
         return spec.model_copy(update={"params": params})
 
     def _with_device(self, result: JobResult, params: Any) -> JobResult:
-        """DD-A32 / DD-A49 (a): ``outputs.device_used`` + ``outputs.device_uuid`` on the result of an attempt whose child
+        """``outputs.device_used`` + ``outputs.device_uuid`` on the result of an attempt whose child
         ran on this runner (the core copies ``device_used`` into ``raw_metrics.device_used``).
 
         A CPU-only runner (registered as ``device=cpu``) reports ``cpu`` and no uuid, whatever was assigned. A GPU
@@ -673,7 +673,7 @@ class RunnerDaemon:
     def _last_beat(self, fence: JobFence, live: _Live) -> None:
         """One more heartbeat once the child has exited and before the result commit (the lease is still held): it
         collects the ``control.prune`` orders the core planned from this job's last checkpoint registrations, which
-        the beat thread may not have seen yet (DD-A66). Its action flags are not applied (the child is gone); a lost
+        the beat thread may not have seen yet. Its action flags are not applied (the child is gone); a lost
         lease or an unreachable core changes nothing here (the result commit decides)."""
         with live.lock:
             if live.lease_lost:
@@ -687,7 +687,7 @@ class RunnerDaemon:
         self._note_server_time(body)
         self.submit_prunes((body.get("control") or {}).get("prune"))
 
-    # -- retention prune orders (DD-A66) -------------------------------------------------------------------------------
+    # -- retention prune orders ----------------------------------------------------------------------------------------
     def submit_prunes(self, orders: Any) -> int:
         """Queue the prune orders of a heartbeat answer for the background worker (a request id that is already queued
         or running is skipped); returns how many were queued."""
@@ -822,7 +822,7 @@ class RunnerDaemon:
 
     def apply_control(self, control: dict[str, Any], live: _Live, stop: Path) -> None:
         """Materialise ``control.action`` as the child's stop file (pause/cancel) or withdraw a pause (null); queue
-        ``control.prune`` orders for the prune worker (DD-A66)."""
+        ``control.prune`` orders for the prune worker."""
         self.submit_prunes(control.get("prune"))
         action = control.get("action")
         with live.lock:
@@ -1052,7 +1052,7 @@ class RunnerDaemon:
             outputs["runner_artifact_problems"] = problems
         return result.model_copy(update={"outputs": outputs}), ids
 
-    # -- design D6 / F20: result bodies above the core's runner body limit ------------------------------------------
+    # -- result bodies above the core's runner body limit -----------------------------------------------------------
     @staticmethod
     def _body_bytes(commit: dict[str, Any]) -> int:
         return len(json.dumps(commit, separators=(",", ":"), default=str).encode("utf-8"))
@@ -1115,7 +1115,7 @@ class RunnerDaemon:
         self._log(f"result of {fence.job_id} above the body budget: moved {sorted(detail)} to {path.name}")
         return result.model_copy(update={"outputs": outputs}), ids
 
-    # -- artifact transfer (WP-5C) ---------------------------------------------------------------------------------
+    # -- artifact transfer -----------------------------------------------------------------------------------------
     @staticmethod
     def _journal_run_id(j: AttemptJournal) -> str:
         return str(claim_envelope(j.claim or {})["run"]["run_id"])

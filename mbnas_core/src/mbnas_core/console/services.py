@@ -4,7 +4,7 @@
   — if that call fails, the bundled package data ``mbnas_core/registry/model_registry.example.json`` *unchanged*
   (every entry UNVERIFIED) plus a health warning. Cached for ``registry_ttl_s``.
 * ``devices()``: validation devices from NVML (``provenance.env_lock.validation_devices``), cached briefly;
-  ``MBNAS_CORE_DEVICE_SOURCE=runners``: the registered runners' devices instead. DD-A62 (b): with the default ``local``
+  ``MBNAS_CORE_DEVICE_SOURCE=runners``: the registered runners' devices instead. With the default ``local``
   source a host without a GPU (empty NVML list) uses the registered CPU runners' ``cpu`` entry.
 * ``versions()``: installed distribution versions (``importlib.metadata``, no torch import in the API process)
   plus the recorded ``environment.lock.json`` summary.
@@ -37,10 +37,10 @@ log = logging.getLogger(__name__)
 
 REGISTRY_SOURCE = "mbnas_core.registry.load_registry"
 EXAMPLE_REGISTRY = resources.files("mbnas_core.registry").joinpath("model_registry.example.json")
-"""Bundled example registry (package data; contract section 4 last row)."""
+"""Bundled example registry (package data)."""
 MBNAS_DISTRIBUTIONS = ("mbnas-contracts", "mbnas-model-runtime", "mbnas-core", "mbnas-runner", "mbnas-server")
 SOURCE_PACKAGES = ("mbnas_core", "mbnas_contracts", "mbnas_model_runtime")
-"""Installed packages whose directories form the core's source-tree hash (contract section 4)."""
+"""Installed packages whose directories form the core's source-tree hash."""
 
 
 def _entries(value: Any) -> list[dict[str, Any]]:
@@ -130,9 +130,9 @@ class AppServices:
     def _default_devices_fn(self) -> Callable[[], list[dict[str, Any]]]:
         """``MBNAS_CORE_DEVICE_SOURCE``: ``local`` = NVML of this host (default), ``runners`` = registered runners.
 
-        DD-A62 (b): with ``local``, a core host without a GPU has an empty NVML list, so every training validation was
-        DEVICE_UNAVAILABLE even with a CPU runner registered (T4/T5 owner host). When the local list is empty, the
-        registered CPU runners' ``cpu`` entry (:func:`mbnas_core.protocol.validator.devices_from_runners`, DD-A60 (1)) is
+        With ``local``, a core host without a GPU has an empty NVML list, so every training validation would be
+        DEVICE_UNAVAILABLE even with a CPU runner registered. When the local list is empty, the
+        registered CPU runners' ``cpu`` entry (:func:`mbnas_core.protocol.validator.devices_from_runners`) is
         used instead: explicit training validates on it and an evaluation-ON search is refused with
         EVALUATION_REQUIRES_CUDA. A non-empty local list is returned unchanged, and GPU runner entries are never merged
         into ``local`` (that inventory is ``MBNAS_CORE_DEVICE_SOURCE=runners``)."""
@@ -182,7 +182,7 @@ class AppServices:
 
     def validation_context(self, gateway: Any = None, *, local_fallback: bool = False) -> ValidationContext:
         """``gateway``: host-side inputs of a validate request (``protocol.gateway_inputs.GatewayInputs``) or None;
-        ``local_fallback``: paths the gateway did not measure are checked on this host (explicit training, DD-A46)."""
+        ``local_fallback``: paths the gateway did not measure are checked on this host (explicit training)."""
         return ValidationContext(settings=self.settings, registry_lookup=self.registry_lookup, devices=self.devices(),
                                  dataset_service=DatasetService.from_settings(self.settings), gateway=gateway,
                                  gateway_local_fallback=local_fallback)

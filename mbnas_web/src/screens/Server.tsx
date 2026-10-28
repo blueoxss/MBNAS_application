@@ -2,8 +2,8 @@
  * 서버 연결·실행 검토 (Server): API origin + in-memory bearer token, Health, presets, Validate with
  * requested/resolved diff and immutable hash, Run (idempotent), run list / load by id, pause/resume/cancel,
  * and export download.
- * API origin: empty = same origin. In production the gateway (mbnas_server, port 8710) serves this bundle itself
- * (DD-A30), so same origin is the gateway; in development the Vite dev proxy forwards /api to 127.0.0.1:8710.
+ * API origin: empty = same origin. In production the gateway (mbnas_server, port 8710) serves this bundle itself,
+ * so same origin is the gateway; in development the Vite dev proxy forwards /api to 127.0.0.1:8710.
  */
 import { useState } from 'react';
 import { DeviceTargetsTable, RegistryCapsTable, ResolvedVariantBadge, SearchSpaceState } from '../components/Capabilities';
@@ -182,7 +182,7 @@ function ValidateCard({ app }: { app: AppModel }): JSX.Element {
           </div>
           {r.errors.length > 0 && <DataTable caption={`Errors (${r.errors.length})`} columns={issueCols} rows={r.errors} rowKey={(e) => `${e.field}:${e.code}:${e.message}`} testId="validate-errors" />}
           {(r.warnings?.length ?? 0) > 0 && <DataTable caption={`Warnings (${r.warnings?.length})`} columns={issueCols.map((c) => (c.key === 'code' ? { ...c, cell: (e: { code?: string }) => <Badge tone="warn">{e.code ?? DASH}</Badge> } : c))} rows={r.warnings ?? []} rowKey={(e) => `${e.field}:${e.code}:${e.message}`} />}
-          {/* S4-F4: an INVALID result makes no resolution claim, so the diff is shown only for a valid result */}
+          {/* an INVALID result makes no resolution claim, so the diff is shown only for a valid result */}
           {r.valid && (r.resolved_diff?.length ?? 0) > 0 && <DataTable caption="Requested vs resolved" columns={diffCols} rows={r.resolved_diff ?? []} rowKey={(d) => d.field} testId="resolved-diff" />}
           <KV rows={[['capabilities', <span className="mono wrap-any" key="c">{json(r.capabilities)}</span>]]} />
         </div>

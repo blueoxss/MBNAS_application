@@ -1,6 +1,6 @@
 """GPU-lock guardian: ``python -m mbnas_runner.gpu_guard --lock <path> [--gpu-index N] -- <worker argv>``.
 
-Replaces ``flock -w 3600 <lock> <worker>`` in ``scripts/dev_stack.py`` (S7-F1). ``flock(1)`` releases the lock the
+Replaces ``flock -w 3600 <lock> <worker>`` in ``scripts/dev_stack.py``. ``flock(1)`` releases the lock the
 moment the worker exits; a SIGKILLed worker's training child dies with it (PDEATHSIG) but NVML keeps listing the
 child's CUDA context for ~150 ms more, so another lock user could start on a device that is still being freed.
 The guardian holds the lock for the job's full GPU occupancy:

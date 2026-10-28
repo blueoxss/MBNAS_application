@@ -1,0 +1,119 @@
+# started: 2026-10-28 14:03:11 KST
+# cwd: /home/mgjeong/Desktop/etri_hd/mbnas_application
+# env: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1
+# projection.py sha256: 7604d3f2cbea46f961e5de6aae069f32d21f3053fdb9599abca27d61c8bb056b
+# command: runtime/venv/bin/python -m pytest -p no:cacheprovider -m "not gpu and not live and not legacy_records and not host_data" tests/public
+
+============================= test session starts ==============================
+platform linux -- Python 3.10.22, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/mgjeong/Desktop/etri_hd/mbnas_application
+configfile: pyproject.toml
+plugins: anyio-4.15.1, timeout-2.4.0
+timeout: 600.0s
+timeout method: signal
+timeout func_only: False
+collected 1235 items / 44 deselected / 1191 selected
+
+tests/public/contracts/test_contract_history.py ........................ [  2%]
+.............                                                            [  3%]
+tests/public/contracts/test_log_redact.py ..............                 [  4%]
+tests/public/contracts/test_runner_protocol.py ......................... [  6%]
+........................................................................ [ 12%]
+...................                                                      [ 14%]
+tests/public/contracts/test_schemas_jobs.py ....                         [ 14%]
+tests/public/contracts/test_source_tree_manifest.py ..                   [ 14%]
+tests/public/contracts/test_util_canon_atomic_time.py ..............     [ 15%]
+tests/public/contracts/test_util_paths.py ................               [ 17%]
+tests/public/infra/test_argv_only_invariant.py ......................... [ 19%]
+.                                                                        [ 19%]
+tests/public/infra/test_gpu_lock_guard.py .....                          [ 19%]
+tests/public/infra/test_import_closure.py ..........                     [ 20%]
+tests/public/infra/test_import_safety.py .........                       [ 21%]
+tests/public/infra/test_no_host_facts.py ........                        [ 21%]
+tests/public/infra/test_placement_coverage.py .......                    [ 22%]
+tests/public/model_runtime/test_adapters_cpu.py .......                  [ 23%]
+tests/public/model_runtime/test_benchmark_capability_names.py ....       [ 23%]
+tests/public/model_runtime/test_checkpoint.py ..................         [ 24%]
+tests/public/model_runtime/test_coco_convert.py ..                       [ 25%]
+tests/public/model_runtime/test_datasets.py ............................ [ 27%]
+...                                                                      [ 27%]
+tests/public/model_runtime/test_evaluator_images.py .......              [ 28%]
+tests/public/model_runtime/test_latency_nvml_uuid.py ........            [ 28%]
+tests/public/model_runtime/test_latency_operating_point.py ......        [ 29%]
+tests/public/model_runtime/test_latency_record_fields.py ......          [ 29%]
+tests/public/model_runtime/test_matching.py .......                      [ 30%]
+tests/public/model_runtime/test_parse_model_gate.py .....                [ 30%]
+tests/public/model_runtime/test_provenance.py ........                   [ 31%]
+tests/public/model_runtime/test_rfdetr_sampler_generator.py ...          [ 31%]
+tests/public/model_runtime/test_weights_manifest_message.py ..           [ 32%]
+tests/public/ops/test_ops_doctor_verify.py ........                      [ 32%]
+tests/public/ops/test_ops_install.py ........                            [ 33%]
+tests/public/ops/test_ops_relocation_origins.py .                        [ 33%]
+tests/public/ops/test_ops_role_env.py ..                                 [ 33%]
+tests/public/ops/test_ops_start_stop.py ...........                      [ 34%]
+tests/public/ops/test_ops_static.py ................................     [ 37%]
+tests/public/ops/test_ops_stop_identity.py ...                           [ 37%]
+tests/public/packaging/test_canary_tools.py ..............               [ 38%]
+tests/public/packaging/test_package_build.py ........................... [ 40%]
+.                                                                        [ 41%]
+tests/public/packaging/test_package_contents_and_gates.py .............. [ 42%]
+.......                                                                  [ 42%]
+tests/public/runner/test_bench_host_gpu_script.py ......                 [ 43%]
+tests/public/runner/test_benchmark_pipeline_cpu.py ..                    [ 43%]
+tests/public/runner/test_benchmark_rfdetr.py ...........                 [ 44%]
+tests/public/runner/test_benchmark_unit.py ........                      [ 45%]
+tests/public/runner/test_child_spec_file.py ......                       [ 45%]
+tests/public/runner/test_dd_a60_cpu_evaluation.py .....                  [ 46%]
+tests/public/runner/test_official_evaluation_payload.py ....             [ 46%]
+tests/public/runner/test_prune_control.py ..............                 [ 47%]
+tests/public/runner/test_resume_equivalence_script.py .                  [ 47%]
+tests/public/runner/test_runner_daemon_unit.py ......................    [ 49%]
+tests/public/runner/test_runner_device_used.py ........                  [ 50%]
+tests/public/runner/test_runner_entrypoint_redaction.py .....            [ 50%]
+tests/public/runner/test_runner_settings_no_db.py .......                [ 51%]
+tests/public/runner/test_stage_trainer.py ...................            [ 52%]
+tests/public/runner/test_tls_private_ca.py ....                          [ 53%]
+tests/public/runner/test_transfer_local.py ...................           [ 54%]
+tests/public/server/test_analysis.py ...................                 [ 56%]
+tests/public/server/test_artifact_download.py .......................... [ 58%]
+.......                                                                  [ 59%]
+tests/public/server/test_artifact_routes.py ............................ [ 61%]
+.                                                                        [ 61%]
+tests/public/server/test_artifact_store.py ............................. [ 63%]
+........................................                                 [ 67%]
+tests/public/server/test_auth_cors_gateway.py ...............            [ 68%]
+tests/public/server/test_campaign_adapter.py ...................         [ 70%]
+tests/public/server/test_compare_conditions.py ..                        [ 70%]
+tests/public/server/test_dd_a60_access_log_gateway.py ...                [ 70%]
+tests/public/server/test_gateway_skeleton.py ........................... [ 72%]
+.......                                                                  [ 73%]
+tests/public/server/test_health_allowlists_split.py ..                   [ 73%]
+tests/public/server/test_perf.py ..                                      [ 73%]
+tests/public/server/test_routes.py ............................s         [ 76%]
+tests/public/server/test_scanner.py ...................                  [ 77%]
+tests/public/server/test_security.py ................................... [ 80%]
+........................................................................ [ 86%]
+............................................................             [ 91%]
+tests/public/server/test_tls_private_ca.py ......                        [ 92%]
+tests/public/server/test_wp3_gateway_relay.py .......................... [ 94%]
+.................                                                        [ 95%]
+tests/public/server/test_wp3_streaming_transport.py ..                   [ 96%]
+tests/public/server/test_wp3b_gateway_fixes.py ......................... [ 98%]
+......................                                                   [100%]
+
+=============================== warnings summary ===============================
+runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/public/runner/test_benchmark_unit.py::test_export_ultralytics_raw_head_and_restores_pt_path
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/ultralytics/nn/modules/head.py:222: TracerWarning: Converting a tensor to a Python boolean might cause the trace to be incorrect. We can't record the data flow of Python values, so this value will be treated as a constant in the future. This means that the trace might not generalize to other inputs!
+    if self.dynamic or self.shape != shape:
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/public/server/test_routes.py:306: mini run absent
+==== 1190 passed, 1 skipped, 44 deselected, 2 warnings in 369.59s (0:06:09) ====
+
+# exit code: 0
+# finished: 2026-10-28 14:09:23 KST (wall 372 s)

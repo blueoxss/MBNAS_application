@@ -1,0 +1,4 @@
+# 2026-10-28T05:19:18Z runtime/venv/bin/python -B -I scripts/dev/canary_scan.py --manifest docs/internal/canary/CANARY_MANIFEST.json --secrets-env <(cat 9 install env files of <W>/{dev,a,b}: 21 secret-like values) --needles-file <(cat 5 smoke runner tokens) --min-files 30 docs/internal/evidence/WP7/FIX7_DD_A75/F2   (host facts on, no profile = any hit fails)
+scanned files=45 bytes=682531 containers=0 skipped=0 hits=0 failing=0 unmet=0
+canary_scan: PASS
+# exit=0

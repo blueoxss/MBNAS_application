@@ -1,0 +1,40 @@
+{
+ "schema": "mbnas.canary_scan/1",
+ "targets": [
+  "<W>/t5/proc_capture/t5a73-gw_during_train3.txt",
+  "<W>/t5/proc_capture/t5a73-gw_idle.txt"
+ ],
+ "profile": null,
+ "expect_present": false,
+ "manifest": {
+  "path": "docs/internal/canary/CANARY_MANIFEST.json",
+  "sha256": "2fd0b0491784a1668946c195c68ecdd0ef05e1686f4dfd830475f427eeaa5ca5",
+  "areas": [
+   "CORE_STATE",
+   "FITNESS",
+   "MANIFEST_SELF",
+   "OWNER_DEPLOY",
+   "OWNER_DOC",
+   "OWNER_SECRET",
+   "OWNER_TEST",
+   "POLICY_PRIOR",
+   "POLICY_REPAIR"
+  ]
+ },
+ "host_facts": true,
+ "needle_count": 112,
+ "scanned": {
+  "files": 2,
+  "bytes": 7286,
+  "containers": 0,
+  "min_files": 1,
+  "skipped": []
+ },
+ "hits": [],
+ "hits_by_label": {},
+ "expectations": [],
+ "failing_hits": 0,
+ "unmet_expectations": 0,
+ "too_few_files": false,
+ "status": "PASS"
+}

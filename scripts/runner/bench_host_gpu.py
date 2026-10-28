@@ -3,7 +3,7 @@
 latency per scope and accuracy delta on a PILOT-layout search_val split, through the BENCHMARK job handler.
 
 This owner script is how BENCHMARK evidence is produced in 0.1.0: the console queue does not create BENCHMARK jobs (the
-core has no BENCHMARK job API; DD-A49 c). The handler runs in this process (``run_benchmark_job``). TensorRT is not in
+core has no BENCHMARK job API). The handler runs in this process (``run_benchmark_job``). TensorRT is not in
 the offline wheelhouse: without an importable ``tensorrt`` the engines are BLOCKED, the evidence says
 ``tensorrt.status = BLOCKED_BY_ENV`` and no TensorRT number is produced or substituted.
 
@@ -298,7 +298,7 @@ def _fmt(v: Any, nd: int = 3, signed: bool = False) -> str:
 
 
 def _split_roots(split: dict[str, Any]) -> str:
-    """The split's image root(s): ``roots`` (records since DD-A49 c) or the single ``root`` of older records."""
+    """The split's image root(s): ``roots`` (newer records) or the single ``root`` of older records."""
     roots = split.get("roots") or ([split["root"]] if split.get("root") else [])
     return ", ".join(str(r) for r in roots) or "not recorded"
 

@@ -1,0 +1,11 @@
+## t5a75-gw: import mbnas_core
+ModuleNotFoundError: No module named 'mbnas_core'
+exit=1
+## t5a75-runner: import mbnas_core
+ModuleNotFoundError: No module named 'mbnas_core'
+exit=1
+## runner id runner-4a98f8bc format_ok=1 contains_host_name=0
+## runner work root inside the container: /srv/mbnas/runtime/rw 작업 Zq9mT4
+/srv/mbnas/runtime/rw 작업 Zq9mT4/runs/train-3a7f264f6761
+/srv/mbnas/runtime/rw 작업 Zq9mT4/runs/train-873e4bee8b4a
+/srv/mbnas/runtime/rw 작업 Zq9mT4/runs/train-e37622a0a7cb

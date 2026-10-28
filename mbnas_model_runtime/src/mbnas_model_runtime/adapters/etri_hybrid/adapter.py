@@ -120,8 +120,9 @@ class EtriHybridAdapter:
 
     # -- structure (mbnas-structure/2, native_modules) --------------------------------------------------------------
     def declared_config(self, arch: ArchSpec | None = None, num_classes: int = 1) -> dict[str, Any]:
-        """Declared kwargs (``MODEL_DEFAULTS`` + ``arch.config`` + ``num_classes``): plain data, no torch import and no build (DD-41:
-        ``GET /registry/{id}/structure`` calls this, so it must stay import-light; ``describe_structure`` is the observing path)."""
+        """Declared kwargs (``MODEL_DEFAULTS`` + ``arch.config`` + ``num_classes``): plain data, no torch import and no
+        build (``GET /registry/{id}/structure`` calls this, so it must stay import-light; ``describe_structure`` is the
+        observing path)."""
         return self.model_kwargs(arch or ArchSpec("etri", "Hybrid", self.backend, MODEL_DEFAULTS), num_classes)
 
     def describe_structure(self, arch: ArchSpec, num_classes: int, input_size: int | None = None) -> dict[str, Any]:

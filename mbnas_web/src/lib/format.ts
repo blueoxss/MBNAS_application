@@ -1,10 +1,7 @@
 /**
  * Display formatting shared by all screens. A missing or non-finite value is ALWAYS the dash, never 0.
  *
- * 재구현(2026-10-15), 원본 누락(리포 루트 .gitignore `lib/` 규칙으로 커밋되지 않음).
- * 근거 테스트: tests/components.test.tsx ('1.500 GPU-h' + raw seconds title, 미측정은 '—'),
  * 사용처 시그니처: src/screens/*.tsx, src/components/*.tsx (fmtNum/fmtPct/fmtMs/fmtMb/fmtAny/fmtTime/fmtShape/fmtSeconds/fmtGpuHours/latencyToFps).
- * 추측한 세부(자릿수, 단위 표기)는 테스트가 허용하는 가장 단순한 형태로 둔다.
  */
 
 export const DASH = '—';

@@ -1,4 +1,4 @@
-"""Public projection of everything the core console sends out (WP-4 contract section 2; DD-A19, DD-A20, DD-A42).
+"""Public projection of everything the core console sends out.
 
 The public contract ``mbnas_contracts/openapi/openapi.json`` (1.5.0) is the only authority on what leaves core through
 ``/core/v1/console/*`` (and the ``/api/v1`` owner debug mount), its SSE events and the public export bundle. Owner audit
@@ -16,8 +16,11 @@ module. Stored rows are never rewritten: every function here works on the respon
 Before a value is copied, the component's value rules (``x-public-projection.value_rules``) are applied to a copy:
 
 * **scrub** - free text (error and validation messages, warnings, registry reasons, log ``message`` /
-  ``message_detail`` / ``checks``, structure diagnostics, ``audit.fallback_reason``, evidence errors): absolute paths
-  become ``<path>``, ``pid=<n>`` becomes ``pid=<pid>``, this host's name becomes ``<host>`` (:func:`scrub_text`);
+  ``message_detail`` / ``checks``, structure diagnostics, ``audit.fallback_reason``, evidence errors) and every string
+  of ``CandidateEvaluation.raw_metrics``: absolute paths become ``<path>``, ``pid=<n>`` becomes ``pid=<pid>``, this
+  host's name becomes ``<host>`` (:func:`scrub_text`); in ``raw_metrics``, where the runner's resolved recipe paths are
+  kept, a string value that is a path (first non-blank ``/``, not ``/api/v1``) becomes ``<path>`` whole, blanks and
+  unicode included (:func:`_raw_metrics`);
 * **ids** - an owner-worker ``hostname:pid`` id becomes an opaque ``wrk-<hex>`` id, a runner row keeps its core-issued
   runner id (``runner_id``), every device UUID becomes the core-issued ``device_id`` (``dev-<hex>``; HMAC with the
   per-database salt :data:`mbnas_core.db.core.PUBLIC_ID_SALT_KEY`, :func:`configure`) and ``device_uuid`` is omitted;
@@ -27,9 +30,9 @@ Before a value is copied, the component's value rules (``x-public-projection.val
 * **repair** - a block row whose ``source_kind`` / ``operation`` says ``repair`` is folded into the source it was
   repaired from (``parent_a`` / ``parent_b`` when the source is a parent, else ``random``; operation ``inherit``);
 * **labels** - ``RegistryList.source`` / ``capabilities.registry_source`` become ``live`` or ``example``;
-* **derived** - ``training_status`` (UNTRAINED|TRAINED, DD-A23) is filled in where the contract declares it.
+* **derived** - ``training_status`` (UNTRAINED|TRAINED) is filled in where the contract declares it.
 
-``principal_scope`` is accepted for call-site compatibility and ignored: since WP-4 an admin principal on the console
+``principal_scope`` is accepted for call-site compatibility and ignored: an admin principal on the console
 mount gets the same projected bodies as the gateway (raw payloads exist only under ``/core/v1/owner/*``).
 """
 from __future__ import annotations
@@ -230,7 +233,7 @@ def evaluation_training_status(row: dict[str, Any]) -> str:
 
 
 def fold_block(block: Any, parents: list[Any]) -> Any:
-    """A block row with its repair folded into the source it was repaired from (DD-A19 D1)."""
+    """A block row with its repair folded into the source it was repaired from."""
     if not isinstance(block, dict) or (block.get("source_kind") != "repair" and block.get("operation") != "repair"):
         return block
     out = dict(block)
@@ -285,14 +288,35 @@ def _worker(v: dict[str, Any], ctx: _Ctx) -> dict[str, Any]:
     return v
 
 
+def _path_values(value: Any) -> Any:
+    """``value`` with every string that IS a path - first non-blank character ``/``, not a public ``/api/v1`` path -
+    replaced whole by ``<path>`` (blanks, unicode whitespace and unicode names included), in dict values and list items
+    at any depth; keys and every other value unchanged (used for ``raw_metrics`` only)."""
+    if isinstance(value, str):
+        head = value.lstrip()
+        return "<path>" if head.startswith("/") and not head.startswith(_PUBLIC_PATH_PREFIXES) else value
+    if isinstance(value, list):
+        return [_path_values(v) for v in value]
+    if isinstance(value, dict):
+        return {k: _path_values(v) for k, v in value.items()}
+    return value
+
+
 def _raw_metrics(raw: dict[str, Any]) -> dict[str, Any]:
+    """Public ``raw_metrics``. The core keeps the runner's evaluation payload here, including the runner's
+    resolved recipe (``resolved_recipe.data`` / ``model`` / ``project`` / ``save_dir`` are runner-local absolute paths;
+    this copy in the evaluation row is not named in the storage list of ``mbnas_contracts.runner_protocol``), so this
+    is where those values would reach a public response. Device uuids become ``device_id``; a string value that is a
+    path becomes ``<path>`` whole (:func:`_path_values`: no tail of a path with blanks or unicode); every other
+    string gets :func:`scrub_text` (:func:`scrub_deep`: a path inside longer text follows ``_ABS_PATH``). Dict
+    values and list items at any depth; keys unchanged; the stored row is not modified."""
     raw = dict(raw)
     uuid = raw.pop("device_uuid", None)
     if uuid and not raw.get("device_id"):
         raw["device_id"] = public_ids().device_id(uuid)
     if isinstance(raw.get("latency"), dict):
         raw["latency"] = _uuid_to_device_id(raw["latency"])
-    return raw
+    return scrub_deep(_path_values(raw))
 
 
 def _uuid_to_device_id(value: Any) -> Any:

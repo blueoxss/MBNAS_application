@@ -1,9 +1,5 @@
 """Manifest → COCO json / RF-DETR directory layout (source ids preserved; source files never modified).
 
-재구현(2026-10-15), 원본 누락, 근거: tests/adapters/test_coco_convert.py, tests/unit/test_datasets.py::test_manifest_to_coco,
-evaluation/evaluator.py(``manifest_to_coco(m, category_id_offset=0)``, images[].sample_id/id), adapters/rfdetr_adapter.py
-(``write_coco_layout({"train": ..., "valid": ...}, parent)``), docs/orchestration/PLAN.md.
-
 COCO boxes are ``[x, y, w, h]`` in **source pixels**; image ids are 1-based in sample order; category ids are class ids
 plus ``category_id_offset`` in class order; the ``supercategory`` is a fixed placeholder that never equals a class name.
 """
@@ -37,10 +33,7 @@ def _file_name(sample_id: str, image: str) -> str:
 
 
 def manifest_to_coco(manifest: Manifest, *, category_id_offset: int = 0) -> dict[str, Any]:
-    """COCO detection dict of a manifest (``info.split_hash`` ties it to the manifest).
-
-    재구현(2026-10-15), 원본 누락, 근거: test_manifest_to_coco / test_round_trip_boxes_and_categories / evaluator.
-    """
+    """COCO detection dict of a manifest (``info.split_hash`` ties it to the manifest)."""
     sup = _supercategory(manifest.names)
     images, annotations = [], []
     ann_id = 1
@@ -61,10 +54,7 @@ def manifest_to_coco(manifest: Manifest, *, category_id_offset: int = 0) -> dict
 
 
 def write_coco_json(manifest: Manifest, path: str | os.PathLike[str], *, category_id_offset: int = 0) -> Path:
-    """Write :func:`manifest_to_coco` atomically to ``path`` and return it.
-
-    재구현(2026-10-15), 원본 누락, 근거: tests/unit/test_datasets.py::test_manifest_to_coco.
-    """
+    """Write :func:`manifest_to_coco` atomically to ``path`` and return it."""
     return atomic_write_json(path, manifest_to_coco(manifest, category_id_offset=category_id_offset), indent=None)
 
 
@@ -73,9 +63,6 @@ def write_coco_layout(manifests: Mapping[str, Manifest], parent: str | os.PathLi
 
     The key is derived from the split names and hashes, so an identical call reuses the finished directory.
     Image files are symlinks to the manifest's real source files (never copied or edited).
-
-    재구현(2026-10-15), 원본 누락, 근거: tests/adapters/test_coco_convert.py::test_layout_symlinks_and_reuse,
-    adapters/rfdetr_adapter._layout.
     """
     key = canonical_sha256({k: m.split_hash for k, m in sorted(manifests.items())}).split(":", 1)[1][:16]
     parent = Path(parent)

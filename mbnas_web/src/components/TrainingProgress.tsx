@@ -17,7 +17,7 @@ export function progressScalars(progress: unknown): Record<string, number> {
 export interface RecordedCheckpoint { id: string | null; path: string | null; state: string; epoch: number | null; sha256: string | null }
 
 /**
- * DD-27: the latest `training_full` row of the candidate detail's `checkpoints` list (state PRESENT or PRUNED; a MISSING row is
+ * The latest `training_full` row of the candidate detail's `checkpoints` list (state PRESENT or PRUNED; a MISSING row is
  * used only when nothing else exists, and is shown as MISSING). A row is usable when it names the file: by checkpoint `id`
  * (contract 1.5.0) or, from an older server, by `path`. Nothing is guessed: no row, no reference, no value.
  */
@@ -58,7 +58,7 @@ export function TrainingProgress({ candidates, events, onOpen, client: clientPro
   const [recordedError, setRecordedError] = useState('');
   const needsRecord = !!selected && !selected.checkpoint_path;
   const progressEpoch = num(rec(selected?.progress).epoch);
-  // DD-27: PAUSED / unevaluated rows carry no checkpoint_path; the checkpoint rows of the candidate detail do.
+  // PAUSED / unevaluated rows carry no checkpoint_path; the checkpoint rows of the candidate detail do.
   useEffect(() => {
     let live = true;
     setRecorded(null); setRecordedError('');

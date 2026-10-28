@@ -1,4 +1,4 @@
-# MBNAS Research Console 0.1.0 - PUBLIC runtime image, CUDA 12.4 (DD-A31, WP-7 section 1b).
+# MBNAS Research Console 0.1.0 - PUBLIC runtime image, CUDA 12.4 (standard pip installation path).
 # One image, two roles: `gateway` (user API /api/v1 + the built web console, port 8710) and `runner` (GPU job daemon).
 # Contents: Python 3.10 venv with requirements-public.txt (pinned third-party set + the four public project wheels)
 # and mbnas_web/dist. It holds no private core package and no secrets: tokens and keys come from env files at run time.

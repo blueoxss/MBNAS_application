@@ -1,0 +1,19 @@
+# started: 2026-10-28 13:55:26 KST
+# cwd: /home/mgjeong/Desktop/etri_hd/mbnas_application
+# env: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1
+# projection.py sha256: 7604d3f2cbea46f961e5de6aae069f32d21f3053fdb9599abca27d61c8bb056b
+# command: runtime/venv/bin/python -m pytest -p no:cacheprovider -m "not gpu and not live and not legacy_records and not host_data" -q -rfE tests/owner/projection/test_dd_a75_raw_metrics_paths.py tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py
+
+.................2026-10-28T04:55:29.508Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-7bfd9b439a81/events?after_seq=0 status=200 request_id=f1b48d9fc9974d2a974539389f28137c duration_ms=35.3 client=127.0.0.1:50000
+2026-10-28T04:55:29.509Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-7bfd9b439a81/events?after_seq=0 status=200 request_id=f1b48d9fc9974d2a974539389f28137c duration_ms=42.3 client=127.0.0.1:50906
+..                                                      [100%]
+=============================== warnings summary ===============================
+tests/owner/api/test_dd_a75_raw_metrics_paths_routes.py::test_positive_control_stored_row_and_event_hold_the_runner_paths
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+19 passed, 1 warning in 3.65s
+
+# exit code: 0
+# finished: 2026-10-28 13:55:30 KST (wall 4 s)

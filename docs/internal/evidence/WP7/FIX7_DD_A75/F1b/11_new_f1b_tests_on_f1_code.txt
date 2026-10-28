@@ -1,0 +1,335 @@
+# started: 2026-10-28 14:29:41 KST
+# cwd: /home/mgjeong/Desktop/etri_hd/mbnas_application
+# env: CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1
+# projection.py sha256: 7604d3f2cbea46f961e5de6aae069f32d21f3053fdb9599abca27d61c8bb056b
+# command: runtime/venv/bin/python -m pytest -p no:cacheprovider -m "not gpu and not live and not legacy_records and not host_data" -q -rfE tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py tests/owner/api/test_dd_a75b_raw_metrics_path_values_routes.py
+
+..........FFFFFFFF..F2026-10-28T05:29:44.998Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-eb25c491a833/events?after_seq=0 status=200 request_id=d14f02eaacb642c894faa83ba189a5e7 duration_ms=40.1 client=127.0.0.1:50000
+2026-10-28T05:29:44.999Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-eb25c491a833/events?after_seq=0 status=200 request_id=d14f02eaacb642c894faa83ba189a5e7 duration_ms=47.8 client=127.0.0.1:37970
+FF                                                  [100%]
+=================================== FAILURES ===================================
+___________ test_no_planted_fragment_in_any_public_surface[snapshot] ___________
+
+surface = 'snapshot'
+
+    @pytest.mark.parametrize("surface", SURFACES)
+    def test_no_planted_fragment_in_any_public_surface(surface: str) -> None:
+        _, texts, raws = project_surfaces(stored_row())[surface]
+>       assert fragment_hits(*texts) == [], (surface, fragment_hits(*texts))
+E       AssertionError: ('snapshot', ['owner r2c', '김철수', 'train-x', 'f1b 샌드박스 root', '샌드박스', '작업'])
+E       assert ['owner r2c',... '샌드박스', '작업'] == []
+E         
+E         Left contains 6 more items, first extra item: 'owner r2c'
+E         Use -v to get more diff
+
+tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py:172: AssertionError
+_______ test_no_planted_fragment_in_any_public_surface[candidate_detail] _______
+
+surface = 'candidate_detail'
+
+    @pytest.mark.parametrize("surface", SURFACES)
+    def test_no_planted_fragment_in_any_public_surface(surface: str) -> None:
+        _, texts, raws = project_surfaces(stored_row())[surface]
+>       assert fragment_hits(*texts) == [], (surface, fragment_hits(*texts))
+E       AssertionError: ('candidate_detail', ['owner r2c', '김철수', 'train-x', 'f1b 샌드박스 root', '샌드박스', '작업'])
+E       assert ['owner r2c',... '샌드박스', '작업'] == []
+E         
+E         Left contains 6 more items, first extra item: 'owner r2c'
+E         Use -v to get more diff
+
+tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py:172: AssertionError
+_____________ test_no_planted_fragment_in_any_public_surface[sse] ______________
+
+surface = 'sse'
+
+    @pytest.mark.parametrize("surface", SURFACES)
+    def test_no_planted_fragment_in_any_public_surface(surface: str) -> None:
+        _, texts, raws = project_surfaces(stored_row())[surface]
+>       assert fragment_hits(*texts) == [], (surface, fragment_hits(*texts))
+E       AssertionError: ('sse', ['owner r2c', '김철수', 'train-x', 'f1b 샌드박스 root', '샌드박스', '작업'])
+E       assert ['owner r2c',... '샌드박스', '작업'] == []
+E         
+E         Left contains 6 more items, first extra item: 'owner r2c'
+E         Use -v to get more diff
+
+tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py:172: AssertionError
+____________ test_no_planted_fragment_in_any_public_surface[export] ____________
+
+surface = 'export'
+
+    @pytest.mark.parametrize("surface", SURFACES)
+    def test_no_planted_fragment_in_any_public_surface(surface: str) -> None:
+        _, texts, raws = project_surfaces(stored_row())[surface]
+>       assert fragment_hits(*texts) == [], (surface, fragment_hits(*texts))
+E       AssertionError: ('export', ['owner r2c', '김철수', 'train-x', 'f1b 샌드박스 root', '샌드박스', '작업'])
+E       assert ['owner r2c',... '샌드박스', '작업'] == []
+E         
+E         Left contains 6 more items, first extra item: 'owner r2c'
+E         Use -v to get more diff
+
+tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py:172: AssertionError
+______ test_path_values_become_path_token_and_the_rest_survives[snapshot] ______
+
+surface = 'snapshot'
+
+    @pytest.mark.parametrize("surface", SURFACES)
+    def test_path_values_become_path_token_and_the_rest_survives(surface: str) -> None:
+        row = stored_row()
+        stored = copy.deepcopy(row)
+        _, _, raws = project_surfaces(row)[surface]
+        assert row == stored, "the stored row is never rewritten by the projection"
+        recipe = stored["raw_metrics"]["resolved_recipe"]
+        for raw in raws:
+            rr = raw["resolved_recipe"]
+            assert set(rr) == set(recipe), "keys unchanged"
+>           assert {k: rr[k] for k in RECIPE_PATHS} == {k: "<path>" for k in RECIPE_PATHS}
+E           AssertionError: assert {'data': '<pa...rain-x/TRAIN'} == {'data': '<pa...ir': '<path>'}
+E             
+E             Omitting 1 identical items, use -vv to show
+E             Differing items:
+E             {'save_dir': '<path> user/김철수/runtime/runner/runs/runs/train-x/TRAIN'} != {'save_dir': '<path>'}
+E             {'data': '<path> owner r2c/runtime/runner/runs/runs/train-x/data.yaml'} != {'data': '<path>'}
+E             {'project': '  <path> sandbox/f1b 샌드박스 root/runtime/runner/runs/runs/train-x'} != {'project': '<path>'}
+E             Use -v to get more diff
+
+tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py:186: AssertionError
+__ test_path_values_become_path_token_and_the_rest_survives[candidate_detail] __
+
+surface = 'candidate_detail'
+
+    @pytest.mark.parametrize("surface", SURFACES)
+    def test_path_values_become_path_token_and_the_rest_survives(surface: str) -> None:
+        row = stored_row()
+        stored = copy.deepcopy(row)
+        _, _, raws = project_surfaces(row)[surface]
+        assert row == stored, "the stored row is never rewritten by the projection"
+        recipe = stored["raw_metrics"]["resolved_recipe"]
+        for raw in raws:
+            rr = raw["resolved_recipe"]
+            assert set(rr) == set(recipe), "keys unchanged"
+>           assert {k: rr[k] for k in RECIPE_PATHS} == {k: "<path>" for k in RECIPE_PATHS}
+E           AssertionError: assert {'data': '<pa...rain-x/TRAIN'} == {'data': '<pa...ir': '<path>'}
+E             
+E             Omitting 1 identical items, use -vv to show
+E             Differing items:
+E             {'save_dir': '<path> user/김철수/runtime/runner/runs/runs/train-x/TRAIN'} != {'save_dir': '<path>'}
+E             {'data': '<path> owner r2c/runtime/runner/runs/runs/train-x/data.yaml'} != {'data': '<path>'}
+E             {'project': '  <path> sandbox/f1b 샌드박스 root/runtime/runner/runs/runs/train-x'} != {'project': '<path>'}
+E             Use -v to get more diff
+
+tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py:186: AssertionError
+________ test_path_values_become_path_token_and_the_rest_survives[sse] _________
+
+surface = 'sse'
+
+    @pytest.mark.parametrize("surface", SURFACES)
+    def test_path_values_become_path_token_and_the_rest_survives(surface: str) -> None:
+        row = stored_row()
+        stored = copy.deepcopy(row)
+        _, _, raws = project_surfaces(row)[surface]
+        assert row == stored, "the stored row is never rewritten by the projection"
+        recipe = stored["raw_metrics"]["resolved_recipe"]
+        for raw in raws:
+            rr = raw["resolved_recipe"]
+            assert set(rr) == set(recipe), "keys unchanged"
+>           assert {k: rr[k] for k in RECIPE_PATHS} == {k: "<path>" for k in RECIPE_PATHS}
+E           AssertionError: assert {'data': '<pa...rain-x/TRAIN'} == {'data': '<pa...ir': '<path>'}
+E             
+E             Omitting 1 identical items, use -vv to show
+E             Differing items:
+E             {'save_dir': '<path> user/김철수/runtime/runner/runs/runs/train-x/TRAIN'} != {'save_dir': '<path>'}
+E             {'data': '<path> owner r2c/runtime/runner/runs/runs/train-x/data.yaml'} != {'data': '<path>'}
+E             {'project': '  <path> sandbox/f1b 샌드박스 root/runtime/runner/runs/runs/train-x'} != {'project': '<path>'}
+E             Use -v to get more diff
+
+tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py:186: AssertionError
+_______ test_path_values_become_path_token_and_the_rest_survives[export] _______
+
+surface = 'export'
+
+    @pytest.mark.parametrize("surface", SURFACES)
+    def test_path_values_become_path_token_and_the_rest_survives(surface: str) -> None:
+        row = stored_row()
+        stored = copy.deepcopy(row)
+        _, _, raws = project_surfaces(row)[surface]
+        assert row == stored, "the stored row is never rewritten by the projection"
+        recipe = stored["raw_metrics"]["resolved_recipe"]
+        for raw in raws:
+            rr = raw["resolved_recipe"]
+            assert set(rr) == set(recipe), "keys unchanged"
+>           assert {k: rr[k] for k in RECIPE_PATHS} == {k: "<path>" for k in RECIPE_PATHS}
+E           AssertionError: assert {'data': '<pa...rain-x/TRAIN'} == {'data': '<pa...ir': '<path>'}
+E             
+E             Omitting 1 identical items, use -vv to show
+E             Differing items:
+E             {'save_dir': '<path> user/김철수/runtime/runner/runs/runs/train-x/TRAIN'} != {'save_dir': '<path>'}
+E             {'data': '<path> owner r2c/runtime/runner/runs/runs/train-x/data.yaml'} != {'data': '<path>'}
+E             {'project': '  <path> sandbox/f1b 샌드박스 root/runtime/runner/runs/runs/train-x'} != {'project': '<path>'}
+E             Use -v to get more diff
+
+tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py:186: AssertionError
+____________ test_snapshot_and_candidate_detail_through_the_gateway ____________
+
+client = <starlette.testclient.TestClient object at 0x7f8c60217850>
+seeded = ('run-d8c4dc4ca883', 'run-d8c4dc4ca883.base.yolo11n')
+
+    def test_snapshot_and_candidate_detail_through_the_gateway(client, seeded) -> None:
+        run_id, cid = seeded
+        snap = client.get(f"/api/v1/runs/{run_id}/snapshot", headers=auth())
+        assert snap.status_code == 200, snap.text
+>       assert _check("snapshot", snap.json(), snap.content.decode("utf-8")) >= 2  # candidates[] + events[].payload
+
+tests/owner/api/test_dd_a75b_raw_metrics_path_values_routes.py:118: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+where = 'snapshot'
+doc = {'run': {'id': 'run-d8c4dc4ca883', 'status': 'QUEUED', 'protocol_hash': 'sha256:77f91d1bf1e009d5105ff299a94e8443e0245c...rchitecture_path': None, 'arm': 'Baseline', 'artifacts': [], ...}], 'generated_candidates': [], 'generations': [], ...}
+text = '{"run":{"id":"run-d8c4dc4ca883","status":"QUEUED","protocol_hash":"sha256:77f91d1bf1e009d5105ff299a94e8443e0245c42223...null,"training_seed":895284287,"training_status":"TRAINED"},"created_at":"2026-10-28T05:29:44.218175Z"}],"last_seq":4}'
+
+    def _check(where: str, doc: Any, text: str) -> int:
+        """F1b assertions on one public body; returns how many raw_metrics carried the planted recipe."""
+>       assert fragment_hits(text, json.dumps(doc, ensure_ascii=False)) == [], (where, fragment_hits(text))
+E       AssertionError: ('snapshot', ['owner r2c', '김철수', 'train-x', 'f1b 샌드박스 root', '샌드박스', '작업'])
+E       assert ['owner r2c',... '샌드박스', '작업'] == []
+E         
+E         Left contains 6 more items, first extra item: 'owner r2c'
+E         Use -v to get more diff
+
+tests/owner/api/test_dd_a75b_raw_metrics_path_values_routes.py:61: AssertionError
+---------------------------- Captured stderr setup -----------------------------
+2026-10-28T05:29:44.120Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=eda21c8a80bc48e88053ac98e1507b55 duration_ms=86.2 client=127.0.0.1:50000
+2026-10-28T05:29:44.131Z INFO mbnas_server.access method=POST path=/api/v1/protocols/validate status=200 request_id=eda21c8a80bc48e88053ac98e1507b55 duration_ms=239.7 client=testclient:50000
+2026-10-28T05:29:44.212Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=c419924ca2a6473ab4a425d4adb2bca6 duration_ms=57.9 client=127.0.0.1:50000
+2026-10-28T05:29:44.212Z INFO mbnas_server.access method=POST path=/api/v1/runs status=200 request_id=c419924ca2a6473ab4a425d4adb2bca6 duration_ms=78.0 client=testclient:50000
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:180 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=eda21c8a80bc48e88053ac98e1507b55 duration_ms=86.2 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/protocols/validate status=200 request_id=eda21c8a80bc48e88053ac98e1507b55 duration_ms=239.7 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=c419924ca2a6473ab4a425d4adb2bca6 duration_ms=57.9 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs status=200 request_id=c419924ca2a6473ab4a425d4adb2bca6 duration_ms=78.0 client=testclient:50000
+----------------------------- Captured stderr call -----------------------------
+2026-10-28T05:29:44.243Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-d8c4dc4ca883/snapshot status=200 request_id=13287f02d8ba49b3949dcbac836aa92a duration_ms=18.1 client=127.0.0.1:50000
+2026-10-28T05:29:44.244Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-d8c4dc4ca883/snapshot status=200 request_id=13287f02d8ba49b3949dcbac836aa92a duration_ms=22.2 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-d8c4dc4ca883/snapshot status=200 request_id=13287f02d8ba49b3949dcbac836aa92a duration_ms=18.1 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-d8c4dc4ca883/snapshot status=200 request_id=13287f02d8ba49b3949dcbac836aa92a duration_ms=22.2 client=testclient:50000
+_____________________ test_sse_replay_through_the_gateway ______________________
+
+live = 'http://127.0.0.1:60427'
+client = <starlette.testclient.TestClient object at 0x7f8c64872020>
+seeded = ('run-eb25c491a833', 'run-eb25c491a833.base.yolo11n')
+api_settings = CoreSettings(api_token=SecretStr('**********'), artifact_signing_key=SecretStr('**********'), cors_origins=['http://lo...ile=1024, structure_check_fsize_bytes=67108864, structure_check_max_output_bytes=1048576, structure_check_unshare=True)
+
+    def test_sse_replay_through_the_gateway(live, client, seeded, api_settings) -> None:
+        run_id, _ = seeded
+        conn = connect(api_settings, init=False)
+        try:
+            last_seq = int(repo.get_run(conn, run_id)["last_seq"])
+        finally:
+            conn.close()
+        lines, seen = [], 0
+        deadline = time.monotonic() + 20
+        with httpx.Client(timeout=20) as c, c.stream("GET", f"{live}/api/v1/runs/{run_id}/events?after_seq=0",
+                                                     headers=auth()) as resp:
+            assert resp.status_code == 200
+            for line in resp.iter_lines():
+                lines.append(line)
+                if line.startswith("id: "):
+                    seen = max(seen, int(line[4:]))
+                if (line == "" and seen >= last_seq) or time.monotonic() > deadline:
+                    break
+        assert seen >= last_seq > 0, (seen, last_seq)
+        events = [json.loads(x[len("data: "):]) for x in lines if x.startswith("data: ")]
+>       assert _check("SSE replay", events, "\n".join(lines)) >= 1
+
+tests/owner/api/test_dd_a75b_raw_metrics_path_values_routes.py:159: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+where = 'SSE replay'
+doc = [{'seq': 1, 'type': 'run.updated', 'run_id': 'run-eb25c491a833', 'payload': {'budget': {'arms': ['GA', 'IndependentRan... 'run-eb25c491a833', 'payload': {'ap': None, 'architecture_path': None, 'arm': 'Baseline', 'artifacts': [], ...}, ...}]
+text = 'retry: 3000\n\nid: 1\nevent: run.updated\ndata: {"seq":1,"type":"run.updated","run_id":"run-eb25c491a833","payload":{...aluation_id":null,"training_seed":895284287,"training_status":"TRAINED"},"created_at":"2026-10-28T05:29:44.854655Z"}\n'
+
+    def _check(where: str, doc: Any, text: str) -> int:
+        """F1b assertions on one public body; returns how many raw_metrics carried the planted recipe."""
+>       assert fragment_hits(text, json.dumps(doc, ensure_ascii=False)) == [], (where, fragment_hits(text))
+E       AssertionError: ('SSE replay', ['owner r2c', '김철수', 'train-x', 'f1b 샌드박스 root', '샌드박스', '작업'])
+E       assert ['owner r2c',... '샌드박스', '작업'] == []
+E         
+E         Left contains 6 more items, first extra item: 'owner r2c'
+E         Use -v to get more diff
+
+tests/owner/api/test_dd_a75b_raw_metrics_path_values_routes.py:61: AssertionError
+---------------------------- Captured stderr setup -----------------------------
+2026-10-28T05:29:44.755Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=472c6043e0b04c239df172d6291e9720 duration_ms=82.9 client=127.0.0.1:50000
+2026-10-28T05:29:44.768Z INFO mbnas_server.access method=POST path=/api/v1/protocols/validate status=200 request_id=472c6043e0b04c239df172d6291e9720 duration_ms=226.8 client=testclient:50000
+2026-10-28T05:29:44.848Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=cf4dd5a505724db3b272ac125c98b463 duration_ms=57.2 client=127.0.0.1:50000
+2026-10-28T05:29:44.849Z INFO mbnas_server.access method=POST path=/api/v1/runs status=200 request_id=cf4dd5a505724db3b272ac125c98b463 duration_ms=76.8 client=testclient:50000
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:180 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=472c6043e0b04c239df172d6291e9720 duration_ms=82.9 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/protocols/validate status=200 request_id=472c6043e0b04c239df172d6291e9720 duration_ms=226.8 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=cf4dd5a505724db3b272ac125c98b463 duration_ms=57.2 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs status=200 request_id=cf4dd5a505724db3b272ac125c98b463 duration_ms=76.8 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-eb25c491a833/events?after_seq=0 status=200 request_id=d14f02eaacb642c894faa83ba189a5e7 duration_ms=40.1 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-eb25c491a833/events?after_seq=0 status=200 request_id=d14f02eaacb642c894faa83ba189a5e7 duration_ms=47.8 client=127.0.0.1:37970
+_______________________ test_export_through_the_gateway ________________________
+
+client = <starlette.testclient.TestClient object at 0x7f8c50292f80>
+seeded = ('run-7e355093190b', 'run-7e355093190b.base.yolo11n')
+
+    def test_export_through_the_gateway(client, seeded) -> None:
+        run_id, _ = seeded
+        r = client.get(f"/api/v1/runs/{run_id}/export", headers=auth())
+        assert r.status_code == 200, r.text[:400]
+        carried = 0
+        with zipfile.ZipFile(io.BytesIO(r.content)) as zf:
+            for name in zf.namelist():
+                data = zf.read(name).decode("utf-8", "replace")
+>               assert fragment_hits(data) == [], (name, fragment_hits(data))  # every member, JSON or not
+E               AssertionError: ('evaluations.jsonl', ['owner r2c', '김철수', 'train-x', 'f1b 샌드박스 root', '샌드박스', '작업'])
+E               assert ['owner r2c',... '샌드박스', '작업'] == []
+E                 
+E                 Left contains 6 more items, first extra item: 'owner r2c'
+E                 Use -v to get more diff
+
+tests/owner/api/test_dd_a75b_raw_metrics_path_values_routes.py:170: AssertionError
+---------------------------- Captured stderr setup -----------------------------
+2026-10-28T05:29:45.758Z INFO mbnas_core.access method=POST path=/core/v1/console/protocols/validate status=200 request_id=a49c3a6af1f741cc8fe13b749134ca8a duration_ms=102.5 client=127.0.0.1:50000
+2026-10-28T05:29:45.769Z INFO mbnas_server.access method=POST path=/api/v1/protocols/validate status=200 request_id=a49c3a6af1f741cc8fe13b749134ca8a duration_ms=245.4 client=testclient:50000
+2026-10-28T05:29:45.854Z INFO mbnas_core.access method=POST path=/core/v1/console/runs status=200 request_id=8b3ef92c99744e2a9b06e663e14c5728 duration_ms=57.6 client=127.0.0.1:50000
+2026-10-28T05:29:45.855Z INFO mbnas_server.access method=POST path=/api/v1/runs status=200 request_id=8b3ef92c99744e2a9b06e663e14c5728 duration_ms=83.0 client=testclient:50000
+------------------------------ Captured log setup ------------------------------
+WARNING  mbnas_core.api:app.py:180 MBNAS_CORE_TICKET_KEY is not set: using a random per-process ticket key (tickets of leased jobs become invalid when the core restarts)
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/protocols/validate status=200 request_id=a49c3a6af1f741cc8fe13b749134ca8a duration_ms=102.5 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/protocols/validate status=200 request_id=a49c3a6af1f741cc8fe13b749134ca8a duration_ms=245.4 client=testclient:50000
+INFO     mbnas_core.access:app.py:151 method=POST path=/core/v1/console/runs status=200 request_id=8b3ef92c99744e2a9b06e663e14c5728 duration_ms=57.6 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=POST path=/api/v1/runs status=200 request_id=8b3ef92c99744e2a9b06e663e14c5728 duration_ms=83.0 client=testclient:50000
+----------------------------- Captured stderr call -----------------------------
+2026-10-28T05:29:45.944Z INFO mbnas_core.access method=GET path=/core/v1/console/runs/run-7e355093190b/export-manifest status=200 request_id=d6bf340a3c8b421f957cea46be7e3c68 duration_ms=64.4 client=127.0.0.1:50000
+2026-10-28T05:29:45.953Z INFO mbnas_server.access method=GET path=/api/v1/runs/run-7e355093190b/export status=200 request_id=d6bf340a3c8b421f957cea46be7e3c68 duration_ms=90.4 client=testclient:50000
+------------------------------ Captured log call -------------------------------
+INFO     mbnas_core.access:app.py:151 method=GET path=/core/v1/console/runs/run-7e355093190b/export-manifest status=200 request_id=d6bf340a3c8b421f957cea46be7e3c68 duration_ms=64.4 client=127.0.0.1:50000
+INFO     mbnas_server.access:app.py:152 method=GET path=/api/v1/runs/run-7e355093190b/export status=200 request_id=d6bf340a3c8b421f957cea46be7e3c68 duration_ms=90.4 client=testclient:50000
+=============================== warnings summary ===============================
+tests/owner/api/test_dd_a75b_raw_metrics_path_values_routes.py::test_positive_control_stored_row_and_event_hold_every_fragment
+  /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/venv/lib/python3.10/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py::test_no_planted_fragment_in_any_public_surface[snapshot]
+FAILED tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py::test_no_planted_fragment_in_any_public_surface[candidate_detail]
+FAILED tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py::test_no_planted_fragment_in_any_public_surface[sse]
+FAILED tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py::test_no_planted_fragment_in_any_public_surface[export]
+FAILED tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py::test_path_values_become_path_token_and_the_rest_survives[snapshot]
+FAILED tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py::test_path_values_become_path_token_and_the_rest_survives[candidate_detail]
+FAILED tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py::test_path_values_become_path_token_and_the_rest_survives[sse]
+FAILED tests/owner/projection/test_dd_a75b_raw_metrics_path_values.py::test_path_values_become_path_token_and_the_rest_survives[export]
+FAILED tests/owner/api/test_dd_a75b_raw_metrics_path_values_routes.py::test_snapshot_and_candidate_detail_through_the_gateway
+FAILED tests/owner/api/test_dd_a75b_raw_metrics_path_values_routes.py::test_sse_replay_through_the_gateway
+FAILED tests/owner/api/test_dd_a75b_raw_metrics_path_values_routes.py::test_export_through_the_gateway
+11 failed, 12 passed, 1 warning in 4.98s
+
+# exit code: 1
+# finished: 2026-10-28 14:29:47 KST (wall 6 s)

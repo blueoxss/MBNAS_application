@@ -1,0 +1,28 @@
+{
+ "note": "re-read of the train3 candidate detail AFTER the prunecheck downloaded the two PRUNED checkpoints from the gateway store",
+ "request_id": "t5a73c-7b3fa6cc22734000",
+ "public_full_states_now": [
+  {
+   "id": "ck-3fd9bf2c24683e51",
+   "epoch": 1,
+   "state": "PRESENT",
+   "artifact_id": "ck-3fd9bf2c24683e51"
+  },
+  {
+   "id": "ck-ddef2816b32a615c",
+   "epoch": 2,
+   "state": "PRESENT",
+   "artifact_id": "ck-ddef2816b32a615c"
+  },
+  {
+   "id": "ck-89f2897dc355b8ed",
+   "epoch": 3,
+   "state": "PRESENT",
+   "artifact_id": "ck-89f2897dc355b8ed"
+  }
+ ]
+}
+ck-3fd9bf2c24683e51|1|PRUNED
+ck-ddef2816b32a615c|2|PRUNED
+ck-89f2897dc355b8ed|3|PRESENT
+DONE|5

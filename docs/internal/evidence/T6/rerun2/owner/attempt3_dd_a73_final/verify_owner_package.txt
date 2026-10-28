@@ -1,0 +1,6 @@
+$ (cwd=/tmp/claude-1001/-home-mgjeong-Desktop-etri-hd/8da2e29b-07e2-48e6-bf6a-07622ebcfa6c/scratchpad/pfinal2/t6r2) bash /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/mbnas_application/scripts/verify.sh --profile owner --suite package --json /home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/evidence/verify_owner_package.json
+[verify] profile=owner root=/home/mgjeong/Desktop/etri_hd/mbnas_application/runtime/test_root/t6/rerun2/mbnas owner r2c/mbnas_application suites=package evidence=runtime/logs/verify/20261028T035804Z-owner
+[verify] package: running
+[verify] package: PASS
+[verify] result: PASS PASS=1 (report runtime/logs/verify/20261028T035804Z-owner/verify.json)
+exit=0

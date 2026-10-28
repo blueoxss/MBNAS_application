@@ -1,9 +1,6 @@
-"""Signed artifact URLs and the contract ``Artifact`` view of the gateway (WP-5 contract section 1; DD-A11).
+"""Signed artifact URLs and the contract ``Artifact`` view of the gateway.
 
-Ported from the original single-host artifact registry (``artifacts/registry.py`` of the source snapshot, HEAD 18c4815;
-origin path and sha256 in docs/internal/provenance/PLACEMENT_MANIFEST.jsonl): :func:`artifact_path`, :func:`sign`,
-:func:`verify_signature` and :func:`artifact_view`. The HMAC scheme is unchanged, so a URL signed with the same key by
-the previous code verifies here:
+:func:`artifact_path`, :func:`sign`, :func:`verify_signature` and :func:`artifact_view` implement the HMAC scheme:
 
 * ``sig`` = hex HMAC-SHA256(key, ``"<artifact_id>.<exp>"``), ``exp`` = unix seconds. The signature binds the artifact id
   and the expiry only (artifact ids are unique across runs; the download route still looks the id up inside the run
@@ -13,8 +10,8 @@ the previous code verifies here:
 * The key is ``GatewaySettings.artifact_signing_key`` (``MBNAS_GW_ARTIFACT_SIGNING_KEY``, :func:`signing_key`). Without a
   key every view is ``bearer_fetch`` and every signed query is refused.
 
-Gateway additions: :func:`artifact_view` also accepts the record core returns once artifacts are id-based (WP-5
-contract section 2: ``metadata`` instead of ``meta``, top-level ``matching``, no URL and possibly no ``run_id``, which the
+:func:`artifact_view` also accepts the record core returns once artifacts are id-based
+(``metadata`` instead of ``meta``, top-level ``matching``, no URL and possibly no ``run_id``, which the
 caller then passes as ``run_id=``); :func:`require_valid_signature` raises the route errors (403 ACCESS_DENIED,
 410 EXPIRED) as :class:`SignatureError`, an :class:`mbnas_contracts.errors.ApiError` with ``location="gateway"``.
 """

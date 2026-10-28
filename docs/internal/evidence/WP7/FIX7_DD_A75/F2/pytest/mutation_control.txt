@@ -1,0 +1,5 @@
+[M1_contains_instead_of_exact] 2 failed, 38 passed, 1 warning in 3.31s
+[M2_ignore_device_id] 1 failed, 39 passed, 1 warning in 3.35s
+[M3_empty_inventory_is_cpu] 7 failed, 33 passed, 1 warning in 3.19s
+[M4_drop_gateway_hash_check] 3 failed, 37 passed, 1 warning in 3.47s
+a5a0cfb36c7ffa360803ba6374c04201083f35234a1b5c105a4f977f5c6fdfbe  <W>/dev/zip/mbnas_application/scripts/dev/wp3_three_process_smoke.py

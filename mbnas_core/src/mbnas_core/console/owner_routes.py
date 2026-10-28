@@ -1,4 +1,4 @@
-"""Owner audit routes (``/core/v1/owner/*``, principal scope ``admin``; WP-4 section 2, DD-A3, DD-A19).
+"""Owner audit routes (``/core/v1/owner/*``, principal scope ``admin``).
 
 The console mount (``/core/v1/console/*``) answers only the public projection, whatever the principal kind. The raw,
 owner-only payloads live here and nowhere else:
@@ -13,10 +13,10 @@ owner-only payloads live here and nowhere else:
 * ``GET /core/v1/owner/runs/{run_id}/export`` - the raw (``owner`` profile) export bundle
   (:func:`mbnas_core.export.bundle.bundle_files`), ``X-Bundle-Sha256``; 404 RUN_NOT_FOUND.
 * ``GET /core/v1/owner/registry`` - the raw registry entries (evidence paths, probe file, build traces), the raw
-  ``source`` / ``warning`` and the DD-26 diagnostic ``registry_roots_skipped`` (``[{path, reason}]`` of the registry
+  ``source`` / ``warning`` and the diagnostic ``registry_roots_skipped`` (``[{path, reason}]`` of the registry
   roots this process cannot read), which contract 1.5.0 removed from the public ``RegistryList``.
 
-The WP-2 owner reads ``/core/v1/owner/{runners,principals}`` stay in :mod:`mbnas_core.runner_api.routes`.
+The owner reads ``/core/v1/owner/{runners,principals}`` stay in :mod:`mbnas_core.runner_api.routes`.
 """
 from __future__ import annotations
 
@@ -78,7 +78,7 @@ def owner_registry(svc: AppServices = Depends(services)) -> JSONResponse:
     entries, source, warning = svc.registry()
     try:
         skipped = roots_skipped(svc.settings.output_root)
-    except Exception as exc:  # noqa: BLE001 - a diagnostic never breaks the route (DD-26 convention)
+    except Exception as exc:  # noqa: BLE001 - a diagnostic never breaks the route
         skipped = [{"path": svc.settings.output_root, "reason": f"{type(exc).__name__}: {exc}"}]
     return JSONResponse({"registry": entries, "source": source, "warning": warning, "registry_roots_skipped": skipped},
                         headers={"Cache-Control": "no-store"})

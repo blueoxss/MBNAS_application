@@ -1,6 +1,6 @@
-"""HTTP client of the core's runner control plane ``/core/v1/runner/*`` (A3 section 3, WP-2 contract §2.1).
+"""HTTP client of the core's runner control plane ``/core/v1/runner/*``.
 
-* transport security (A3 section 11.2, DD-A18): ``core_url`` must be ``https://`` unless its host is a loopback address
+* transport security: ``core_url`` must be ``https://`` unless its host is a loopback address
   (``127.0.0.0/8``, ``::1``, ``localhost``); anything else is refused at construction with
   :class:`RunnerConfigError` code ``CORE_URL_INSECURE``. TLS verification uses ``ca_file`` when configured, else the
   system store (``verify=True``); it is never switched off;
@@ -11,7 +11,7 @@
   exponential backoff (``Retry-After`` honoured) up to ``request_retries`` times, then raised as
   :class:`CoreUnavailable`; any other 4xx is raised at once as :class:`CoreError` with the core's error ``code``
   (``LEASE_LOST``, ``RESULT_CONFLICT``, ``KIND_NOT_ALLOWED``, ``RUNNER_MISMATCH``, ``VERSION_MISMATCH``,
-  ``TICKET_INVALID``, ...). Retrying is safe because every write is fenced or idempotent (A3 sections 5.6/7).
+  ``TICKET_INVALID``, ...). Retrying is safe because every write is fenced or idempotent.
 """
 from __future__ import annotations
 
